@@ -1,12 +1,27 @@
+---
+repository: "https://github.com/turbot/steampipe-mod-azure-compliance"
+---
+
 # Azure Compliance Mod
+
+Run individual configuration, compliance and security controls or full `CIS` compliance benchmarks across all your Azure subscriptions. 
+
+## References
+[Azure](https://azure.microsoft.com) provides on-demand cloud computing platforms and APIs to authenticated customers on a metered pay-as-you-go basis.
+
+[CIS Azure Benchmarks](https://www.cisecurity.org/benchmark/azure/) provide a predefined set of compliance and security best-practice checks for Microsoft Azure usage.
+
+[PCI DSS](https://www.pcisecuritystandards.org) provides security standards for the payment card industry.
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
-[Azure](https://azure.amazon.com/) provides on-demand cloud computing platforms and APIs to authenticated customers on a metered pay-as-you-go basis. 
+[Steampipe Mods](https://steampipe.io/docs/steampipe-mods/) are collections of `named queries`, and codified `controls` that can be used to test current configuration of your cloud resources against a desired configuration.
+
 
 ## Documentation
 
-Each benchmark should have its own documentation in its `docs` directory.
+- **[Benchmarks and controls →](https://hub.steampipe.io/mods/turbot/azure_compliance/controls)**
+- **[Named queries →](https://hub.steampipe.io/mods/turbot/azure_compliance/queries)**
 
 ## Get started
 
@@ -19,6 +34,11 @@ Clone:
 ```sh
 git clone git@github.com:turbot/steampipe-mod-azure-compliance
 cd steampipe-mod-azure-compliance
+```
+
+Run all benchmarks:
+```shell
+steampipe check all
 ```
 
 Run a benchmark:
@@ -41,5 +61,5 @@ No extra configuration is required.
 
 ## Get involved
 
-* Open source: https://github.com/turbot/steampipe-mod-azure-compliance
+* Contribute: [GitHub Repo](https://github.com/turbot/steampipe-mod-aws-compliance)
 * Community: [Slack Channel](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)

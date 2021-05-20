@@ -1,6 +1,6 @@
 select
   -- Required Columns
-  id as resource,
+  s.id as resource,
   case
     when server_azure_ad_administrator is null then 'alarm'
     else 'ok'
@@ -11,6 +11,7 @@ select
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  sub.display_name
 from
-  azure_sql_server;
+  azure_sql_server s
+  join azure_subscription sub on sub.subscription_id = s.subscription_id;

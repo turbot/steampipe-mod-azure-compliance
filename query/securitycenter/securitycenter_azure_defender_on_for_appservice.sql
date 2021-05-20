@@ -15,4 +15,4 @@ from
   azure_security_center_subscription_pricing sub_pricing
   right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id
 where
-  name = 'VirtualMachines'
+  name = 'AppServices';

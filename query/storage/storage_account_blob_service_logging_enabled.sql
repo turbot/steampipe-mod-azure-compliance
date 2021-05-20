@@ -1,25 +1,26 @@
 select
   -- Required Columns
-  id as resource,
+  sa.id as resource,
   case
-    when not (blob_service_logging ->> 'Read') :: boolean
-    or not (blob_service_logging ->> 'Write') :: boolean
-    or not (blob_service_logging ->> 'Delete') :: boolean then 'alarm'
+    when not (sa.blob_service_logging ->> 'Read') :: boolean
+    or not (sa.blob_service_logging ->> 'Write') :: boolean
+    or not (sa.blob_service_logging ->> 'Delete') :: boolean then 'alarm'
     else 'ok'
   end as status,
   case
-    when not (blob_service_logging ->> 'Read') :: boolean
-    or not (blob_service_logging ->> 'Write') :: boolean
-    or not (blob_service_logging ->> 'Delete') :: boolean then name || ' blob service logging not enabled for ' ||
+    when not (sa.blob_service_logging ->> 'Read') :: boolean
+    or not (sa.blob_service_logging ->> 'Write') :: boolean
+    or not (sa.blob_service_logging ->> 'Delete') :: boolean then name || ' blob service logging not enabled for ' ||
       concat_ws(', ',
-        case when not (blob_service_logging ->> 'Write') :: boolean then 'write' end,
-        case when not (blob_service_logging ->> 'Read') :: boolean then 'read' end,
-        case when not (blob_service_logging ->> 'Delete') :: boolean then 'delete' end
+        case when not (sa.blob_service_logging ->> 'Write') :: boolean then 'write' end,
+        case when not (sa.blob_service_logging ->> 'Read') :: boolean then 'read' end,
+        case when not (sa.blob_service_logging ->> 'Delete') :: boolean then 'delete' end
       ) || ' requests.'
     else name || ' blob service logging enabled for read, write, delete requests.'
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  coalesce(sub.display_name, split_part(sa.subscription_id, '-', 5)) as subscription
 from
-  azure_storage_account;
+  azure_storage_account sa
+  join azure_subscription sub on sub.subscription_id = sa.subscription_id;

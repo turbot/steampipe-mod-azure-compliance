@@ -11,9 +11,9 @@ select
     else account.name || ' container ' || container.name || ' doesn''t allow anonymous access.'
   end as reason,
   -- Additional Dimensions
-
   container.resource_group,
-  split_part(container.subscription_id, '-', 5) as subscription_id
+  coalesce(sub.display_name, split_part(container.subscription_id, '-', 5)) as subscription
 from
   azure_storage_container container
-  join azure_storage_account account on container.account_name = account.name;
+  join azure_storage_account account on container.account_name = account.name
+  join azure_subscription sub on sub.subscription_id = account.subscription_id;

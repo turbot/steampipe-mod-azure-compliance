@@ -12,7 +12,7 @@ select
   end as reason,
   -- Additional Dimensions
   container.resource_group,
-  sub.display_name as subscription,
+  sub.display_name as subscription
 from
   azure_storage_container container
   join azure_storage_account account on container.account_name = account.name

@@ -17,6 +17,8 @@ benchmark "cis_v130_2" {
     control.cis_v130_2_6,
     control.cis_v130_2_7,
     control.cis_v130_2_8,
+    control.cis_v130_2_9,
+    control.cis_v130_2_10,
     control.cis_v130_2_11,
     control.cis_v130_2_12
   ]
@@ -130,6 +132,34 @@ control "cis_v130_2_8" {
 
   tags = merge(local.cis_v130_2_common_tags, {
     cis_item_id  = "2.8"
+    cis_type     = "manual"
+    cis_level    = "2"
+    cis_controls = "8"
+  })
+}
+
+control "cis_v130_2_9" {
+  title       = "2.9 Ensure that Windows Defender ATP (WDATP) integration with Security Center is selected"
+  description = "This setting enables Windows Defender ATP (WDATP) integration with Security Center."
+  sql         = query.securitycenter_wdatp_integration.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_9.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id  = "2.9"
+    cis_type     = "manual"
+    cis_level    = "2"
+    cis_controls = "8"
+  })
+}
+
+control "cis_v130_2_10" {
+  title       = "2.10 Ensure that Microsoft Cloud App Security (MCAS) integration with Security Center is selected"
+  description = "This setting enables Microsoft Cloud App Security (MCAS) integration with Security Center."
+  sql         = query.securitycenter_mcas_integration.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_10.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id  = "2.10"
     cis_type     = "manual"
     cis_level    = "2"
     cis_controls = "8"

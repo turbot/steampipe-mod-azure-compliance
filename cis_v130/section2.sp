@@ -24,8 +24,6 @@ benchmark "cis_v130_2" {
   ]
 }
 
-
-
 control "cis_v130_2_1" {
   title       = "2.1 Ensure that Azure Defender is set to On for Servers"
   description = "Turning on Azure Defender enables threat detection for Server, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center."

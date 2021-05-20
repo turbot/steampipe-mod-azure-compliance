@@ -1,6 +1,6 @@
 select
   -- Required Columns
-  loc.name resource,
+  loc.id resource,
   case
     when watcher.id is null then 'alarm'
     else 'ok'
@@ -10,6 +10,7 @@ select
     else 'Network watcher enabled in ' || loc.name || '.'
   end as reason,
   -- Additional Dimensions
+  loc.name,
   sub.display_name as subscription
 from
   azure_location loc

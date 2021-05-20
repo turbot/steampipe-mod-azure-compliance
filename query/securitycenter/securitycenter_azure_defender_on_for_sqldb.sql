@@ -10,7 +10,7 @@ select
     else 'Azure Defender off for SQL database servers.'
   end as reason,
   -- Additional Dimension
-  coalesce(display_name, split_part(sub_pricing.subscription_id, '-', 5)) as subscription
+  sub.display_name as subscription
 from
   azure_security_center_subscription_pricing sub_pricing
   right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id

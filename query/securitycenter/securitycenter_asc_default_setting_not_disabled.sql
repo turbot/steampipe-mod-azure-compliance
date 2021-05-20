@@ -1,4 +1,4 @@
-with policy_assignment_parametes as (
+with policy_assignment_parameters as (
   select
     id,
     name,
@@ -13,7 +13,7 @@ with policy_assignment_parametes as (
 )
 select
   -- Required Columns
-  pol_ass.id as resource,
+  sub.id as resource,
   case
     when count(value = 'Disabled') > 0 then 'alarm'
     else 'ok'
@@ -23,11 +23,11 @@ select
     else 'Settings enabled for all the parameters.'
   end as reason,
   -- Additional Dimensions
-  coalesce(sub.display_name, split_part(pol_ass.subscription_id, '-', 5)) as subscription
+  sub.display_name as subscription
 from
-  policy_assignment_parametes pol_ass
-  right join azure_subscription sub on pol_ass.subscription_id = sub.subscription_id
+  policy_assignment_parameters pol_assignment
+  right join azure_subscription sub on pol_assignment.subscription_id = sub.subscription_id
 group by
-  pol_ass.id,
-  pol_ass.subscription_id,
+  pol_assignment.id,
+  pol_assignment.subscription_id,
   sub.display_name;

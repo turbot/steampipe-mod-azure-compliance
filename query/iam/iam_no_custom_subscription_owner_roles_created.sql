@@ -15,7 +15,7 @@ with owner_custom_roles as (
 )
 select
   -- Required columns
-  subscription_id as resource,
+  cr.subscription_id as resource,
   case
     when count(*) > 0 then 'alarm'
     else 'ok'
@@ -26,8 +26,10 @@ select
     else  'There are no custom owner roles.'
   end as reason,
   -- Additional Dimensions
-  split_part(subscription_id, '-', 5) as subscription_id
+  coalesce(sub.display_name, split_part(cr.subscription_id, '-', 5)) as subscription
 from
-  owner_custom_roles
+  owner_custom_roles cr
+  join azure_subscription sub on sub.subscription_id = cr.subscription_id
 group by
-  subscription_id;
+  cr.subscription_id,
+  sub.display_name;

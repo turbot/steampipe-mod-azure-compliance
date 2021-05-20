@@ -4,11 +4,12 @@ mod "azure_compliance" {
   description    = "Steampipe Mod for Azure Compliance"
   color          = "#0089D6"
   documentation  = file("./docs/index.md")
-  icon           = "/images/plugins/turbot/azure.svg"
+  icon           = "/images/mods/turbot/azure-compliance.svg"
   categories     = ["Azure", "CIS", "Compliance", "Public Cloud", "Security"]
 
   opengraph {
     title         = "Steampipe Mod for Azure Compliance"
-    description   = "Compliance and audit reports, queries, and actions for Azure. Open source CLI. No DB required."
+    description   = "Run individual configuration, compliance and security controls or full compliance benchmarks for CIS across all your Azure subscriptions using Steampipe."
+    #image         = "/images/mods/turbot/azure-compliance-social-graphic.png"
   }
 }

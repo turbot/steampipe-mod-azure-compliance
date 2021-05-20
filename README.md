@@ -1,4 +1,4 @@
-![image](https://hub.steampipe.io/public/images/mods/turbot/azure-compliance-social-graphic.png)
+![image](https://hub.steampipe.io/images/mods/turbot/azure-compliance-social-graphic.png)
 
 # Azure Compliance Mod for Steampipe
 

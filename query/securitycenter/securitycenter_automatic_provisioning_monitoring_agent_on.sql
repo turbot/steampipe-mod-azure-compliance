@@ -6,8 +6,8 @@ select
     else 'alarm'
   end as status,
   case
-    when auto_provision = 'On' then 'Automatic provisioning of monitoring agent is ''On''.'
-    else 'Automatic provisioning of monitoring agent is ''Off''.'
+    when auto_provision = 'On' then 'Automatic provisioning of monitoring agent is on.'
+    else 'Automatic provisioning of monitoring agent is off.'
   end as reason,
   -- Additional Dimensions
   coalesce(sub.display_name, split_part(sc_prov.subscription_id, '-', 5)) as subscription

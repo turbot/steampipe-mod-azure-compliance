@@ -6,8 +6,8 @@ select
     else 'alarm'
   end as status,
   case
-    when pricing_tier = 'Standard' then 'Azure Defender ''On'' for Key Vaults.'
-    else 'Azure Defender ''Off'' for Key Vaults.'
+    when pricing_tier = 'Standard' then 'Azure Defender on for Key Vaults.'
+    else 'Azure Defender off for Key Vaults.'
   end as reason,
   -- Additional Dimension
   coalesce(display_name, split_part(sub_pricing.subscription_id, '-', 5)) as subscription

@@ -7,8 +7,8 @@ select
   end as status,
   case
     when public_access != 'None'
-      then account_name || ' container ''insights-operational-logs'' storing activity logs publicly accessible.'
-    else account_name || ' container ''insights-operational-logs'' storing activity logs not publicly accessible.'
+      then account_name || ' container insights-operational-logs storing activity logs publicly accessible.'
+    else account_name || ' container insights-operational-logs storing activity logs not publicly accessible.'
   end as reason,
   -- Additional Dimensions
   resource_group,

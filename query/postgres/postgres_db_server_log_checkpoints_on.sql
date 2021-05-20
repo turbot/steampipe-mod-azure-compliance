@@ -6,8 +6,8 @@ select
     else 'ok'
   end as status,
   case
-    when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then name || ' server parameter "log_disconnections" off.'
-    else name || ' server parameter "log_disconnections" on.'
+    when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then s.name || ' server parameter log_checkpoints off.'
+    else s.name || ' server parameter log_checkpoints on.'
   end as reason,
   -- Additional Dimensions
   resource_group,
@@ -17,5 +17,5 @@ from
   jsonb_array_elements(server_configurations) config,
   azure_subscription sub
 where
-  config ->> 'Name' = 'log_disconnections'
+  config ->> 'Name' = 'log_checkpoints'
   and sub.subscription_id = s.subscription_id;

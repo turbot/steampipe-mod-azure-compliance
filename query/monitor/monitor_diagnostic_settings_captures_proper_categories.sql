@@ -30,7 +30,7 @@ select
     when valid_category_count = 4
       then name || ' logs enabled for required categories administrative, security, alert and policy.'
     when valid_category_count > 0
-      then sett.name || ' logs enabled for ' || valid_categories || ' out of required categories.'
+      then sett.name || ' logs enabled for ' || valid_categories || ' categories.'
       else sett.name || ' logs not enabled for categories administrative, security, alert and policy.'
   end as reason,
   -- Additional Dimensions

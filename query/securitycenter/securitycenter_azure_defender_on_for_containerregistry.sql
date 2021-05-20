@@ -6,8 +6,8 @@ select
     else 'alarm'
   end as status,
   case
-    when pricing_tier = 'Standard' then 'Azure Defender ''On'' for Container Registry.'
-    else 'Azure Defender ''Off'' for Container Registry.'
+    when pricing_tier = 'Standard' then 'Azure Defender on for Container Registry.'
+    else 'Azure Defender off for Container Registry.'
   end as reason,
   -- Additional Dimension
   coalesce(display_name, split_part(sub_pricing.subscription_id, '-', 5)) as subscription

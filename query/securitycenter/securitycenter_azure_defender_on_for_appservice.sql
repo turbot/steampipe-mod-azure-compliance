@@ -6,8 +6,8 @@ select
     else 'alarm'
   end as status,
   case
-    when pricing_tier = 'Standard' then 'Azure Defender on for App Services.'
-    else 'Azure Defender off for App Services.'
+    when pricing_tier = 'Standard' then 'Azure Defender ''on'' for App Services.'
+    else 'Azure Defender ''off'' for App Services.'
   end as reason,
   -- Additional Dimension
   coalesce(display_name, split_part(sub_pricing.subscription_id, '-', 5)) as subscription

@@ -14,7 +14,8 @@ select
   end as reason,
   -- Additional Dimensions
   sg.resource_group,
-  split_part(sg.subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
   azure_network_security_group sg
-  left join azure_network_watcher_flow_log fl on sg.id = fl.target_resource_id;
+  left join azure_network_watcher_flow_log fl on sg.id = fl.target_resource_id
+  join azure_subscription sub on sub.subscription_id = sg.subscription_id;

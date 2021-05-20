@@ -28,7 +28,10 @@ select
   end as reason,
   -- Additional Dimensions
   v.resource_group,
-  split_part(v.subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
-  azure_key_vault as v,
-  logging_details as l;
+  azure_key_vault v,
+  logging_details l,
+  azure_subscription sub
+where
+  sub.subscription_id = v.subscription_id;

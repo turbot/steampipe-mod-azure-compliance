@@ -1,6 +1,6 @@
 select
   -- Required Columns
-  id as resource,
+  sc.id as resource,
   case
     when public_access != 'None' then 'alarm'
     else 'ok'
@@ -12,8 +12,10 @@ select
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
-  azure_storage_container
+  azure_storage_container sc,
+  azure_subscription sub
 where
-  name = 'insights-operational-logs';
+  name = 'insights-operational-logs'
+  and sub.subscription_id = sc.subscription_id;

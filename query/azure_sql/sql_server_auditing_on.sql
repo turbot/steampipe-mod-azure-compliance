@@ -1,6 +1,6 @@
 select
   -- Required Columns
-  id as resource,
+  s.id as resource,
   case
     when audit -> 'properties' ->> 'state' = 'Disabled' then 'alarm'
     else 'ok'
@@ -11,7 +11,10 @@ select
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
-  azure_sql_server,
-  jsonb_array_elements(server_audit_policy) as audit;
+  azure_sql_server s,
+  jsonb_array_elements(server_audit_policy) audit,
+  azure_subscription sub
+where
+  sub.subscription_id = s.subscription_id;

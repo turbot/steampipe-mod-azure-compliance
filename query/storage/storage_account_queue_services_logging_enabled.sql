@@ -1,14 +1,14 @@
 select
   -- Required Columns
-  id as resource,
+  sa.id as resource,
   case
     when queue_logging_read and queue_logging_write and queue_logging_delete then 'ok'
     else 'alarm'
   end as status,
   case
     when queue_logging_read and queue_logging_write and queue_logging_delete
-      then name || ' queue service logging enabled for read, write, delete requests.'
-    else name || ' queue service logging not enabled for: ' ||
+      then sa.name || ' queue service logging enabled for read, write, delete requests.'
+    else sa.name || ' queue service logging not enabled for: ' ||
       concat_ws(', ',
         case when not queue_logging_write then 'write' end,
         case when not queue_logging_read then 'read' end,
@@ -17,6 +17,9 @@ select
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
-  azure_storage_account;
+  azure_storage_account sa,
+  azure_subscription sub
+where
+  sub.subscription_id = sa.subscription_id;

@@ -1,19 +1,20 @@
 select
   -- required Columns
-  id as resource,
+  s.id as resource,
   case
     when security -> 'properties' ->> 'state' = 'Disabled' then 'alarm'
     else 'ok'
   end as status,
   case
-    when security -> 'properties' ->> 'state' = 'Disabled' then name || ' Azure defender disabled.'
-    else name || ' Azure defender enabled.'
+    when security -> 'properties' ->> 'state' = 'Disabled' then s.name || ' Azure defender disabled.'
+    else s.name || ' Azure defender enabled.'
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
-  azure_sql_server,
-  jsonb_array_elements(server_security_alert_policy) as
-  security;
-
+  azure_sql_server s,
+  jsonb_array_elements(server_security_alert_policy) security,
+  azure_subscription sub
+where
+  sub.subscription_id = s.subscription_id;

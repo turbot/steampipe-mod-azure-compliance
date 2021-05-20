@@ -12,10 +12,12 @@ select
   end as reason,
   -- Additional Dimensions
   c.resource_group,
-  split_part(c.subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
   azure_storage_container c,
-  azure_storage_account a
+  azure_storage_account a,
+  azure_subscription sub
 where
   c.name = 'insights-operational-logs'
-  and c.account_name = a.name;
+  and c.account_name = a.name
+  and sub.subscription_id = a.subscription_id;

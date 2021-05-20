@@ -1,16 +1,19 @@
 select
   -- Required Columns
-  id as resource,
+  sa.id as resource,
   case
     when not blob_soft_delete_enabled then 'alarm'
     else 'ok'
   end as status,
   case
-    when not blob_soft_delete_enabled then name || ' blobs soft delete disabled.'
-    else name || ' blobs soft delete enabled.'
+    when not blob_soft_delete_enabled then sa.name || ' blobs soft delete disabled.'
+    else sa.name || ' blobs soft delete enabled.'
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
-  azure_storage_account;
+  azure_storage_account sa,
+  azure_subscription sub
+where
+  sub.subscription_id = sa.subscription_id;

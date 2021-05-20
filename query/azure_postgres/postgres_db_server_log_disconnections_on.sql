@@ -1,6 +1,6 @@
 select
   -- Required Columns
-  id as resource,
+  s.id as resource,
   case
     when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then 'alarm'
     else 'ok'
@@ -11,9 +11,11 @@ select
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
-  azure_postgresql_server,
-  jsonb_array_elements(server_configurations) as config
+  azure_postgresql_server s,
+  jsonb_array_elements(server_configurations) config,
+  azure_subscription sub
 where
-  config ->> 'Name' = 'log_disconnections';
+  config ->> 'Name' = 'log_disconnections'
+  and sub.subscription_id = s.subscription_id;

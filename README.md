@@ -2,8 +2,8 @@
 
 # Azure Compliance Mod for Steampipe
 
-Run individual configuration, compliance and security controls 
-or full compliance benchmarks for CIS and PCI across all your Azure subscriptions. 
+Run individual configuration, compliance and security controls
+or full compliance benchmarks for CIS and PCI across all your Azure subscriptions.
 
 * **[Get started →](https://hub.steampipe.io/mods/turbot/azure-compliance)**
 * Documentation: [Controls](https://hub.steampipe.io/mods/turbot/azure-compliance/controls)
@@ -40,9 +40,9 @@ steampipe check control.cis_v130_4_3_5
 
 ## Developing
 
-Have an idea but aren't sure how to get started? 
-**[Join our Slack community →](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)**
-**[Mod developer guide →](https://steampipe.io/docs/steampipe-mods/writing-mods.md)**
+Have an idea but aren't sure how to get started?
+- **[Join our Slack community →](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)**
+- **[Mod developer guide →](https://steampipe.io/docs/steampipe-mods/writing-mods.md)**
 
 **Prerequisites**:
 - [Steampipe installed](https://steampipe.io/downloads)
@@ -68,11 +68,11 @@ steampipe query "select resource_name from steampipe_control;"
 
 ```sql
 steampipe query
-> select 
-    resource_name 
-  from 
-    steampipe_benchmark 
-  order by 
+> select
+    resource_name
+  from
+    steampipe_benchmark
+  order by
     resource_name;
 ```
 

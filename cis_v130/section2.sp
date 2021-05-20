@@ -13,6 +13,8 @@ benchmark "cis_v130_2" {
     control.cis_v130_2_2,
     control.cis_v130_2_3,
     control.cis_v130_2_4,
+    control.cis_v130_2_5,
+    control.cis_v130_2_6,
     control.cis_v130_2_11,
     control.cis_v130_2_12
   ]
@@ -70,6 +72,34 @@ control "cis_v130_2_4" {
 
   tags = merge(local.cis_v130_2_common_tags, {
     cis_item_id  = "2.4"
+    cis_type     = "manual"
+    cis_level    = "2"
+    cis_controls = "8"
+  })
+}
+
+control "cis_v130_2_5" {
+  title       = "2.5 Ensure that Azure Defender is set to On for Storage"
+  description = "Turning on Azure Defender enables threat detection for Storage, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center."
+  sql         = query.securitycenter_azure_defender_on_for_storage.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_6.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id  = "2.5"
+    cis_type     = "manual"
+    cis_level    = "2"
+    cis_controls = "8"
+  })
+}
+
+control "cis_v130_2_6" {
+  title       = "2.6 Ensure that Azure Defender is set to On for Kubernetes"
+  description = "Turning on Azure Defender enables threat detection for Kubernetes, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center."
+  sql         = query.securitycenter_azure_defender_on_for_k8s.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_6.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id  = "2.6"
     cis_type     = "manual"
     cis_level    = "2"
     cis_controls = "8"

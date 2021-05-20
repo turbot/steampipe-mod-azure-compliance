@@ -6,8 +6,8 @@ select
     else 'alarm'
   end as status,
   case
-    when pricing_tier = 'Standard' then 'Azure Defender ''on'' for SQL servers on machines.'
-    else 'Azure Defender ''off'' for SQL servers on machines.'
+    when pricing_tier = 'Standard' then 'Azure Defender ''On'' for SQL servers on machines.'
+    else 'Azure Defender ''Off'' for SQL servers on machines.'
   end as reason,
   -- Additional Dimension
   coalesce(display_name, split_part(sub_pricing.subscription_id, '-', 5)) as subscription

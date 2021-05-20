@@ -16,6 +16,4 @@ from
   azure_sql_database db,
   azure_subscription sub
 where
-  sub.subscription_id = db.subscription_id
-order by
-  status desc;
+  sub.subscription_id = db.subscription_id;

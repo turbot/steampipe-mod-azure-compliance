@@ -10,7 +10,7 @@ select
     else 'Network watcher enabled in ' || loc.name || '.'
   end as reason,
   -- Additional Dimensions
-  coalesce(sub.display_name, split_part(loc.subscription_id, '-', 5)) as subscription
+  sub.display_name as subscription
 from
   azure_location loc
   left join azure_network_watcher watcher on watcher.region = loc.name

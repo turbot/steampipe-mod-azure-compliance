@@ -34,7 +34,7 @@ select
   end as reason,
   -- Additional Dimensions
   sg.resource_group,
-  coalesce(sub.display_name, split_part(sg.subscription_id, '-', 5)) as subscription
+  sub.display_name as subscription
 from
   azure_network_security_group sg
   left join network_sg nsg on nsg.sg_name = sg.name

@@ -34,7 +34,6 @@ control "cis_v130_2_1" {
     cis_item_id  = "2.1"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -48,7 +47,6 @@ control "cis_v130_2_2" {
     cis_item_id  = "2.2"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -62,7 +60,6 @@ control "cis_v130_2_3" {
     cis_item_id  = "2.3"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -76,7 +73,6 @@ control "cis_v130_2_4" {
     cis_item_id  = "2.4"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -90,7 +86,6 @@ control "cis_v130_2_5" {
     cis_item_id  = "2.5"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -104,7 +99,6 @@ control "cis_v130_2_6" {
     cis_item_id  = "2.6"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -118,7 +112,6 @@ control "cis_v130_2_7" {
     cis_item_id  = "2.7"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -132,7 +125,6 @@ control "cis_v130_2_8" {
     cis_item_id  = "2.8"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -146,7 +138,6 @@ control "cis_v130_2_9" {
     cis_item_id  = "2.9"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -160,7 +151,6 @@ control "cis_v130_2_10" {
     cis_item_id  = "2.10"
     cis_type     = "manual"
     cis_level    = "2"
-    cis_controls = "8"
   })
 }
 
@@ -174,7 +164,6 @@ control "cis_v130_2_11" {
     cis_item_id  = "2.11"
     cis_type     = "automated"
     cis_level    = "1"
-    cis_controls = "3.1"
   })
 }
 
@@ -188,6 +177,5 @@ control "cis_v130_2_12" {
     cis_item_id  = "2.11"
     cis_type     = "automated"
     cis_level    = "1"
-    cis_controls = "3.1"
   })
 }

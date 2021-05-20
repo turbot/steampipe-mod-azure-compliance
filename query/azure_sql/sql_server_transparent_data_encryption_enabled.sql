@@ -13,6 +13,4 @@ select
   resource_group,
   split_part(subscription_id, '-', 5) as subscription_id
 from
-  azure_sql_database
-order by
-  status desc;
+  azure_sql_database;

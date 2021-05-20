@@ -15,6 +15,4 @@ select
 from
   azure_sql_server,
   jsonb_array_elements(server_security_alert_policy) as security,
-  jsonb_array_elements(server_vulnerability_assessment) as assessment
-order by
-  status desc;
+  jsonb_array_elements(server_vulnerability_assessment) as assessment;

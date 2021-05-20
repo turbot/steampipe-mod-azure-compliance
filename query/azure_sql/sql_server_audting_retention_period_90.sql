@@ -14,6 +14,4 @@ select
   split_part(subscription_id, '-', 5) as subscription_id
 from
   azure_sql_server,
-  jsonb_array_elements(server_audit_policy) as audit
-order by
-  status desc;
+  jsonb_array_elements(server_audit_policy) as audit;

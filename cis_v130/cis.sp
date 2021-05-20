@@ -13,6 +13,7 @@ benchmark "cis_v130" {
   tags          = local.cis_v130_common_tags
   children = [
     benchmark.cis_v130_1,
+    benchmark.cis_v130_2,
     benchmark.cis_v130_3,
     benchmark.cis_v130_4,
     benchmark.cis_v130_5,

@@ -11,9 +11,10 @@ select
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
-  azure_compute_disk disk
-  join azure_subscription sub on sub.subscription_id = disk.subscription_id
+  azure_compute_disk disk,
+  azure_subscription sub
 where
-  disk_state = 'Attached';
+  disk_state = 'Attached'
+  and sub.subscription_id = disk.subscription_id;

@@ -11,7 +11,9 @@ select
   end as reason,
   -- Additional Dimensions
   resource_group,
-  coalesce(sub.display_name, split_part(vm.subscription_id, '-', 5)) as subscription
+  sub.display_name as subscription
 from
-  azure_compute_virtual_machine vm
-  join azure_subscription sub on sub.subscription_id = vm.subscription_id
+  azure_compute_virtual_machine vm,
+  azure_subscription sub
+where
+  sub.subscription_id = vm.subscription_id;

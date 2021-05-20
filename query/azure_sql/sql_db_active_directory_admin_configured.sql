@@ -13,5 +13,7 @@ select
   resource_group,
   sub.display_name
 from
-  azure_sql_server s
-  join azure_subscription sub on sub.subscription_id = s.subscription_id;
+  azure_sql_server s,
+  azure_subscription sub
+where
+  sub.subscription_id = s.subscription_id;

@@ -13,8 +13,10 @@ select
   resource_group,
   sub.display_name as subscription
 from
-  azure_sql_server s
-  cross join jsonb_array_elements(server_audit_policy) audit
-  join azure_subscription sub on sub.subscription_id = s.subscription_id
+  azure_sql_server s,
+  jsonb_array_elements(server_audit_policy) audit,
+  azure_subscription sub
+where
+  sub.subscription_id = s.subscription_id
 order by
   status desc;

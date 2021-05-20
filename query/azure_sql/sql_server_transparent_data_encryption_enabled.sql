@@ -13,7 +13,9 @@ select
   resource_group,
   sub.display_name as subscription
 from
-  azure_sql_database db
-  join azure_subscription sub on sub.subscription_id = db.subscription_id
+  azure_sql_database db,
+  azure_subscription sub
+where
+  sub.subscription_id = db.subscription_id
 order by
   status desc;

@@ -13,6 +13,8 @@ select
   resource_group,
   sub.display_name
 from
-  azure_sql_server s
-  cross join jsonb_array_elements(encryption_protector) encryption
-  join azure_subscription sub on sub.subscription_id = s.subscription_id;
+  azure_sql_server s,
+  jsonb_array_elements(encryption_protector) encryption,
+  azure_subscription sub
+where
+  sub.subscription_id = s.subscription_id;

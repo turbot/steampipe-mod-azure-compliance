@@ -14,7 +14,7 @@ select
   resource_group,
   sub.display_name as subscription
 from
-  azure_storage_container sc
+  azure_storage_container sc,
   azure_subscription sub
 where
   name = 'insights-operational-logs'

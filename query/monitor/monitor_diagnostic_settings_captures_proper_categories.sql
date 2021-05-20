@@ -35,7 +35,9 @@ select
   end as reason,
   -- Additional Dimensions
   resource_group,
-  coalesce(sub.display_name, split_part(sett.subscription_id, '-', 5)) as subscription
+  sub.display_name as subscription
 from
-  enabled_settings sett
-  join azure_subscription sub on sub.subscription_id = sett.subscription_id;
+  enabled_settings sett,
+  azure_subscription sub
+where
+  sub.subscription_id = sett.subscription_id;

@@ -13,9 +13,11 @@ select
   resource_group,
   sub.display_name as subscription
 from
-  azure_sql_server s
-  cross join jsonb_array_elements(server_security_alert_policy) security
-  cross join jsonb_array_elements(server_vulnerability_assessment) assessment
-  join azure_subscription sub on sub.subscription_id = s.subscription_id
+  azure_sql_server s,
+  jsonb_array_elements(server_security_alert_policy) security,
+  jsonb_array_elements(server_vulnerability_assessment) assessment,
+  azure_subscription sub
+where
+  sub.subscription_id = s.subscription_id
 order by
   status desc;

@@ -1,6 +1,6 @@
 select
   -- Required Columns
-  id as resource,
+  s.id as resource,
   case
     when ssl_enforcement = 'Disabled' then 'alarm'
     else 'ok'
@@ -11,6 +11,9 @@ select
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(subscription_id, '-', 5) as subscription_id
+  sub.display_name as subscription
 from
-  azure_postgresql_server;
+  azure_postgresql_server s,
+  azure_subscription sub
+where
+  sub.subscription_id = s.subscription_id;

@@ -12,11 +12,12 @@ select
   end as reason,
   -- Additional Dimensions
   c.resource_group,
-  coalesce(sub.display_name, split_part(a.subscription_id, '-', 5)) as subscription
+  sub.display_name as subscription
 from
   azure_storage_container c,
-  azure_storage_account a
-  join azure_subscription sub on sub.subscription_id = a.subscription_id
+  azure_storage_account a,
+  azure_subscription sub
 where
   c.name = 'insights-operational-logs'
-  and c.account_name = a.name;
+  and c.account_name = a.name
+  and sub.subscription_id = a.subscription_id;

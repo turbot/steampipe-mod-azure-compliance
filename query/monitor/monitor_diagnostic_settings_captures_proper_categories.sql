@@ -21,7 +21,7 @@ with enabled_settings as (
 )
 select
   -- Required Columns
-  id as resource,
+  sett.id as resource,
   case
     when valid_category_count = 4 then 'ok'
     else 'alarm'
@@ -30,11 +30,12 @@ select
     when valid_category_count = 4
       then name || ' logs enabled for required categories administrative, security, alert and policy.'
     when valid_category_count > 0
-      then name || ' logs enabled for ' || valid_categories || ' out of required categories.'
-      else name || ' logs not enabled for categories administrative, security, alert and policy.'
+      then sett.name || ' logs enabled for ' || valid_categories || ' out of required categories.'
+      else sett.name || ' logs not enabled for categories administrative, security, alert and policy.'
   end as reason,
   -- Additional Dimensions
   resource_group,
-  split_part(v.subscription_id, '-', 5) as subscription_id
+  coalesce(sub.display_name, split_part(sett.subscription_id, '-', 5)) as subscription
 from
-  enabled_settings;
+  enabled_settings sett
+  join azure_subscription sub on sub.subscription_id = sett.subscription_id;

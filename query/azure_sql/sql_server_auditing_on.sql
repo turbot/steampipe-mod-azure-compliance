@@ -15,4 +15,4 @@ select
 from
   azure_sql_server s
   cross join jsonb_array_elements(server_audit_policy) audit
-  join azure_subscription sub on sub.subscription_id = s.subscription_id
+  join azure_subscription sub on sub.subscription_id = s.subscription_id;

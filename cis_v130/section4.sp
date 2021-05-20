@@ -291,7 +291,7 @@ control "cis_v130_4_4" {
 }
 
 control "cis_v130_4_5" {
-  title       = "4.5 Ensure SQL server's TDE protector is encrypted with Customer- managed key"
+  title       = "4.5 Ensure SQL server's TDE protector is encrypted with Customer-managed key"
   description = "Based on business needs or criticality of data/databases hosted a SQL server, it is recommended that the TDE protector is encrypted by a key that is managed by the data owner (Customer-managed key)"
   sql         = query.sql_server_tde_protector_cmk_encrypted.sql
   # documentation = file("./cis_v130/docs/cis_v130_4_5.md")

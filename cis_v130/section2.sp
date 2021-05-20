@@ -33,6 +33,20 @@ control "cis_v130_2_1" {
 }
 
 control "cis_v130_2_2" {
+  title       = "2.2 Ensure that Azure Defender is set to On for App Service"
+  description = "Turning on Azure Defender enables threat detection for App Service, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center."
+  sql         = query.securitycenter_azure_defender_on_for_appservice.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_2.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id  = "2.2"
+    cis_type     = "manual"
+    cis_level    = "2"
+    cis_controls = "8"
+  })
+}
+
+control "cis_v130_2_3" {
   title       = "2.1 Ensure that Azure Defender is set to On for App Service"
   description = "Turning on Azure Defender enables threat detection for App Service, providing threat intelligence, anomaly detection, and behavior analytics in the Azure Security Center."
   sql         = query.securitycenter_azure_defender_on_for_appservice.sql

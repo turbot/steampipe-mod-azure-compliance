@@ -5,8 +5,8 @@
 Run individual configuration, compliance and security controls
 or full compliance benchmarks for CIS and PCI across all your Azure subscriptions.
 
-* **[Get started →](https://hub.steampipe.io/mods/turbot/azure-compliance)**
-* Documentation: [Controls](https://hub.steampipe.io/mods/turbot/azure-compliance/controls)
+* **[Get started →](https://hub.steampipe.io/mods/turbot/azure_compliance)**
+* Documentation: [Controls](https://hub.steampipe.io/mods/turbot/azure_compliance/controls)
 * Community: [Slack Channel](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)
 * Get involved: [Issues](https://github.com/turbot/steampipe-mod-azure-compliance/issues)
 

@@ -1,4 +1,5 @@
 select
+  -- Required Columns
   kv.id as resource,
   case
     when soft_delete_enabled and purge_protection_enabled then 'ok'

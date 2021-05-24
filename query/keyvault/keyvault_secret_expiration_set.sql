@@ -1,4 +1,5 @@
 select
+  -- Required Columns
   kvs.id as resource,
   case
     when enabled and expires_at is null then 'alarm'

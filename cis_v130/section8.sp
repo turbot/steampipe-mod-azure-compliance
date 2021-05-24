@@ -9,13 +9,25 @@ benchmark "cis_v130_8" {
   documentation = file("./cis_v130/docs/cis_v130_8.md")
   tags          = local.cis_v130_8_common_tags
   children = [
+    control.cis_v130_8_1,
     control.cis_v130_8_2,
     control.cis_v130_8_3,
     control.cis_v130_8_4
   ]
 }
 
-# TODO 8.1 Ensure that the expiration date is set on all keys
+control "cis_v130_8_1" {
+  title       = "8.1 Ensure that the expiration date is set on all keys"
+  description = "Ensure that all keys in Azure Key Vault have an expiration time set."
+  sql         = query.keyvault_key_expiration_set.sql
+  # documentation = file("./cis_v130/docs/cis_v130_8_1.md")
+
+  tags = merge(local.cis_v130_8_common_tags, {
+    cis_item_id = "8.1"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
+}
 
 control "cis_v130_8_2" {
   title       = "8.2 Ensure that the expiration date is set on all Secrets"
@@ -25,7 +37,7 @@ control "cis_v130_8_2" {
 
   tags = merge(local.cis_v130_8_common_tags, {
     cis_item_id = "8.2"
-    cis_level   = "2"
+    cis_level   = "1"
     cis_type    = "automated"
   })
 }

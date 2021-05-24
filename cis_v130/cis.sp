@@ -18,6 +18,7 @@ benchmark "cis_v130" {
     benchmark.cis_v130_4,
     benchmark.cis_v130_5,
     benchmark.cis_v130_6,
-    benchmark.cis_v130_7
+    benchmark.cis_v130_7,
+    benchmark.cis_v130_9
   ]
 }

@@ -71,7 +71,7 @@ control "cis_v130_8_4" {
 
 control "cis_v130_8_5" {
   title       = "8.5 Enable role-based access control (RBAC) within Azure Kubernetes Services"
-  description = "Ensure that RBAC is enabled on all Azure Kubernetes Services Instances"
+  description = "Ensure that RBAC is enabled on all Azure Kubernetes Services Instances."
   sql         = query.keyvault_vault_recoverable.sql
   # documentation = file("./cis_v130/docs/cis_v130_8_5.md")
 

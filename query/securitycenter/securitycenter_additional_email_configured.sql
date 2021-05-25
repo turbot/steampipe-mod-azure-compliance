@@ -25,7 +25,5 @@ select
   -- Additional Dimension
   sub.display_name as subscription
 from
-  contact_info ci,
   azure_subscription sub
-where
-  sub.subscription_id = ci.subscription_id;
+  left join contact_info ci on sub.subscription_id = ci.subscription_id;

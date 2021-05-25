@@ -1,6 +1,6 @@
 select
   -- Required Column
-  id as resource,
+  app.id as resource,
   case
     when identity = '{}' then 'alarm'
     else 'ok'

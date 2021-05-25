@@ -1,6 +1,6 @@
 select
   -- Required Column
-  id as resource,
+  app.id as resource,
   case
     when not client_cert_enabled then 'alarm'
     else 'ok'

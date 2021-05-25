@@ -15,8 +15,8 @@ select
     else 'alarm'
   end as status,
   case
-    when notification_alert_count > 0 then 'Notify about alerts with the following severity set to High.'
-    else 'Notify about alerts with the following severity not set to High.'
+    when notification_alert_count > 0 then '"Notify about alerts with the following severity" set to High.'
+    else '"Notify about alerts with the following severity" not set to High.'
   end as reason,
   -- Additional Dimension
   sub.display_name as subscription

@@ -1,6 +1,6 @@
 with contact_info as (
   select
-    count(*) filter (where alert_notifications = 'On') as notification_alert_count,
+    count(*) filter (where alerts_to_admins = 'On') as admin_alert_count,
     subscription_id
   from
     azure_security_center_contact
@@ -11,12 +11,12 @@ with contact_info as (
 select
   sub.subscription_id as resource,
   case
-    when notification_alert_count > 0 then 'ok'
+    when admin_alert_count > 0 then 'ok'
     else 'alarm'
   end as status,
   case
-    when notification_alert_count > 0 then 'Notify about alerts with the following severity set to High.'
-    else 'Notify about alerts with the following severity not set to High.'
+    when admin_alert_count > 0 then '"All users with the following roles" set to Owner'
+    else '"All users with the following roles" not set to Owner.'
   end as reason,
   -- Additional Dimension
   sub.display_name as subscription

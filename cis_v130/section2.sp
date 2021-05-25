@@ -22,7 +22,8 @@ benchmark "cis_v130_2" {
     control.cis_v130_2_11,
     control.cis_v130_2_12,
     control.cis_v130_2_13,
-    control.cis_v130_2_14
+    control.cis_v130_2_14,
+    control.cis_v130_2_15
   ]
 }
 
@@ -203,6 +204,19 @@ control "cis_v130_2_14" {
 
   tags = merge(local.cis_v130_2_common_tags, {
     cis_item_id = "2.14"
+    cis_type    = "automated"
+    cis_level   = "1"
+  })
+}
+
+control "cis_v130_2_15" {
+  title       = "2.15 Ensure that 'All users with the following roles' is set to 'Owner'"
+  description = "Enable security alert emails to subscription owners."
+  sql         = query.securitycenter_security_alerts_to_owner_enabled.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_15.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id = "2.15"
     cis_type    = "automated"
     cis_level   = "1"
   })

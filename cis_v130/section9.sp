@@ -18,7 +18,8 @@ benchmark "cis_v130_9" {
     control.cis_v130_9_7,
     control.cis_v130_9_8,
     control.cis_v130_9_9,
-    control.cis_v130_9_10
+    control.cis_v130_9_10,
+    control.cis_v130_9_11
   ]
 }
 
@@ -149,5 +150,18 @@ control "cis_v130_9_10" {
     cis_item_id = "9.10"
     cis_level   = "1"
     cis_type    = "automated"
+  })
+}
+
+control "cis_v130_9_11" {
+  title       = "9.11 Ensure Azure Keyvaults are used to store secrets"
+  description = "Encryption keys, Certificate thumbprints and Managed Identity Credentials can be coded into the APP service, this renders them visible as part of the configuration, to maintain security of these keys it is better to store in an Azure Keyvault and reference them from the Keyvault."
+  sql         = query.manual_control.sql
+  # documentation = file("./cis_v130/docs/cis_v130_9_11.md")
+
+  tags = merge(local.cis_v130_9_common_tags, {
+    cis_item_id = "9.10"
+    cis_level   = "2"
+    cis_type    = "manual"
   })
 }

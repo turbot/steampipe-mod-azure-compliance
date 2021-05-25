@@ -17,7 +17,8 @@ benchmark "cis_v130_9" {
     control.cis_v130_9_6,
     control.cis_v130_9_7,
     control.cis_v130_9_8,
-    control.cis_v130_9_9
+    control.cis_v130_9_9,
+    control.cis_v130_9_10
   ]
 }
 
@@ -135,5 +136,18 @@ control "cis_v130_9_9" {
     cis_item_id = "9.9"
     cis_level   = "1"
     cis_type    = "manual"
+  })
+}
+
+control "cis_v130_9_10" {
+  title       = "9.10 Ensure FTP deployments are disabled"
+  description = "By default, Azure Functions, Web and API Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Service Apps and Functions."
+  sql         = query.appservice_ftp_deployment_disabled.sql
+  # documentation = file("./cis_v130/docs/cis_v130_9_10.md")
+
+  tags = merge(local.cis_v130_9_common_tags, {
+    cis_item_id = "9.10"
+    cis_level   = "1"
+    cis_type    = "automated"
   })
 }

@@ -13,7 +13,11 @@ benchmark "cis_v130_9" {
     control.cis_v130_9_2,
     control.cis_v130_9_3,
     control.cis_v130_9_4,
-    control.cis_v130_9_5
+    control.cis_v130_9_5,
+    control.cis_v130_9_6,
+    control.cis_v130_9_7,
+    control.cis_v130_9_8,
+    control.cis_v130_9_9
   ]
 }
 
@@ -72,12 +76,64 @@ control "cis_v130_9_4" {
 control "cis_v130_9_5" {
   title       = "9.5 Ensure that Register with Azure Active Directory is enabled on App Service"
   description = "Managed service identity in App Service makes the app more secure by eliminating secrets from the app, such as credentials in the connection strings. When registering with Azure Active Directory in the app service, the app will connect to other Azure services securely without the need of username and passwords."
-  sql         = query.appservice_register_with_active_directory_enabled.sql
+  sql         = query.appservice_web_app_register_with_active_directory_enabled.sql
   # documentation = file("./cis_v130/docs/cis_v130_9_5.md")
 
   tags = merge(local.cis_v130_9_common_tags, {
     cis_item_id = "9.5"
     cis_level   = "1"
     cis_type    = "automated"
+  })
+}
+
+control "cis_v130_9_6" {
+  title       = "9.6 Ensure that 'PHP version' is the latest, if used to run the web app"
+  description = "Periodically newer versions are released for PHP software either due to security flaws or to include additional functionality. Using the latest PHP version for web apps is recommended in order to take advantage of security fixes, if any, and/or additional functionalities of the newer version."
+  sql         = query.manual_control.sql
+  # documentation = file("./cis_v130/docs/cis_v130_9_6.md")
+
+  tags = merge(local.cis_v130_9_common_tags, {
+    cis_item_id = "9.6"
+    cis_level   = "1"
+    cis_type    = "manual"
+  })
+}
+
+control "cis_v130_9_7" {
+  title       = "9.7 Ensure that 'Python version' is the latest, if used to run the web app"
+  description = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest Python version for web apps is recommended in order to take advantage of security fixes, if any, and/or additional functionalities of the newer version."
+  sql         = query.manual_control.sql
+  # documentation = file("./cis_v130/docs/cis_v130_9_7.md")
+
+  tags = merge(local.cis_v130_9_common_tags, {
+    cis_item_id = "9.7"
+    cis_level   = "1"
+    cis_type    = "manual"
+  })
+}
+
+control "cis_v130_9_8" {
+  title       = "9.8 Ensure that 'Java version' is the latest, if used to run the web app"
+  description = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the newer version."
+  sql         = query.manual_control.sql
+  # documentation = file("./cis_v130/docs/cis_v130_9_8.md")
+
+  tags = merge(local.cis_v130_9_common_tags, {
+    cis_item_id = "9.8"
+    cis_level   = "1"
+    cis_type    = "manual"
+  })
+}
+
+control "cis_v130_9_9" {
+  title       = "9.9 Ensure that 'HTTP Version' is the latest, if used to run the web app"
+  description = "Periodically, newer versions are released for HTTP either due to security flaws or to include additional functionality. Using the latest HTTP version for web apps to take advantage of security fixes, if any, and/or new functionalities of the newer version."
+  sql         = query.appservice_web_app_latest_http_version.sql
+  # documentation = file("./cis_v130/docs/cis_v130_9_9.md")
+
+  tags = merge(local.cis_v130_9_common_tags, {
+    cis_item_id = "9.9"
+    cis_level   = "1"
+    cis_type    = "manual"
   })
 }

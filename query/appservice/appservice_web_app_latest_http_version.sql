@@ -2,12 +2,13 @@ select
   -- Required Columns
   app.id as resource,
   case
-    when not (auth_settings -> 'properties' ->> 'enabled') :: boolean then 'alarm'
+    when not (configuration -> 'properties' ->> 'http20Enabled') :: boolean then 'alarm'
     else 'ok'
   end as status,
   case
-    when not (auth_settings -> 'properties' ->> 'enabled') :: boolean then name || ' authentication not set.'
-    else name || ' authentication set.'
+    when not (configuration -> 'properties' ->> 'http20Enabled') :: boolean
+      then name || ' HTTP version not latest.'
+    else name || ' HTTP version is latest.'
   end as reason,
   -- Additional Dimensions
   resource_group,

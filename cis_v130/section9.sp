@@ -59,11 +59,24 @@ control "cis_v130_9_4" {
   title       = "9.4 Ensure the web app has 'Client Certificates (Incoming client certificates)' set to 'On'"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
   sql         = query.appservice_web_app_incoming_client_cert_on.sql
-  # documentation = file("./cis_v130/docs/cis_v130_9_3.md")
+  # documentation = file("./cis_v130/docs/cis_v130_9_4.md")
 
   tags = merge(local.cis_v130_9_common_tags, {
     cis_item_id = "9.4"
     cis_level   = "2"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_9_5" {
+  title       = "9.5 Ensure the web app has 'Client Certificates (Incoming client certificates)' set to 'On'"
+  description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
+  sql         = query.appservice_register_with_active_directory_enabled.sql
+  # documentation = file("./cis_v130/docs/cis_v130_9_5.md")
+
+  tags = merge(local.cis_v130_9_common_tags, {
+    cis_item_id = "9.5"
+    cis_level   = "1"
     cis_type    = "automated"
   })
 }

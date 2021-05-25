@@ -12,7 +12,6 @@ with contact_info as (
 )
 select
   sub.subscription_id as resource,
-  jsonb_array_length(default_email),
   case
     when non_default_count > 1 then 'ok'
     when default_count = 1 and jsonb_array_length(default_email) != 0 then 'ok'

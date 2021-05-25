@@ -13,12 +13,12 @@ with contact_info as (
 select
   sub.subscription_id as resource,
   case
-    when non_default_count > 1 then 'ok'
+    when non_default_count > 0 then 'ok'
     when default_count = 1 and jsonb_array_length(default_email) != 0 then 'ok'
     else 'alarm'
   end as status,
   case
-    when non_default_count > 1 then 'Additional email addresses configured.'
+    when non_default_count > 0 then 'Additional email addresses configured.'
     when default_count = 1 and default_email is not null then'Additional email addresses configured.'
     else 'Additional email addresses not configured.'
   end as reason,

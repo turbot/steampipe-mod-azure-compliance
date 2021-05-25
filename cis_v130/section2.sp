@@ -21,7 +21,8 @@ benchmark "cis_v130_2" {
     control.cis_v130_2_10,
     control.cis_v130_2_11,
     control.cis_v130_2_12,
-    control.cis_v130_2_13
+    control.cis_v130_2_13,
+    control.cis_v130_2_14
   ]
 }
 
@@ -193,3 +194,17 @@ control "cis_v130_2_13" {
     cis_level   = "1"
   })
 }
+
+control "cis_v130_2_14" {
+  title       = "2.14 Ensure that 'Notify about alerts with the following severity' is set to 'High'"
+  description = "Enables emailing security alerts to the subscription owner or other designated security contact."
+  sql         = query.securitycenter_notify_alerts_configured.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_14.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id = "2.14"
+    cis_type    = "automated"
+    cis_level   = "1"
+  })
+}
+

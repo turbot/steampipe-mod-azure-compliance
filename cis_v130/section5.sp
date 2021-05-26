@@ -41,6 +41,9 @@ benchmark "cis_v130_5_2" {
   title         = "5.2 Monitoring using Activity Log Alerts"
   documentation = file("./cis_v130/docs/cis_v130_5_2.md")
   tags          = local.cis_v130_5_2_common_tags
+  children = [
+    control.cis_v130_5_2_1
+  ]
 }
 
 control "cis_v130_5_1_1" {
@@ -103,6 +106,19 @@ control "cis_v130_5_1_5" {
 
   tags = merge(local.cis_v130_5_1_common_tags, {
     cis_item_id = "5.1.5"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_5_2_1" {
+  title       = "5.2.1 Ensure that Activity Log Alert exists for Create Policy Assignment"
+  description = "Create an activity log alert for the Create Policy Assignment event."
+  sql         = query.log_alert_exist_create_policy_assignment.sql
+  # documentation = file("./cis_v130/docs/cis_v130_5_2_1.md")
+
+  tags = merge(local.cis_v130_5_1_common_tags, {
+    cis_item_id = "5.2.1"
     cis_level   = "1"
     cis_type    = "automated"
   })

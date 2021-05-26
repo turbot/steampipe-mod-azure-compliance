@@ -28,6 +28,7 @@ from
   policy_assignment_parameters pol_assignment
   right join azure_subscription sub on pol_assignment.subscription_id = sub.subscription_id
 group by
+  sub.id,
   pol_assignment.id,
   pol_assignment.subscription_id,
   sub.display_name;

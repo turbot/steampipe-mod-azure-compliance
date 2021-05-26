@@ -20,7 +20,10 @@ benchmark "cis_v130_2" {
     control.cis_v130_2_9,
     control.cis_v130_2_10,
     control.cis_v130_2_11,
-    control.cis_v130_2_12
+    control.cis_v130_2_12,
+    control.cis_v130_2_13,
+    control.cis_v130_2_14,
+    control.cis_v130_2_15
   ]
 }
 
@@ -31,9 +34,9 @@ control "cis_v130_2_1" {
   # documentation = file("./cis_v130/docs/cis_v130_2_1.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.1"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.1"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -44,9 +47,9 @@ control "cis_v130_2_2" {
   # documentation = file("./cis_v130/docs/cis_v130_2_2.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.2"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.2"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -57,9 +60,9 @@ control "cis_v130_2_3" {
   # documentation = file("./cis_v130/docs/cis_v130_2_3.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.3"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.3"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -70,9 +73,9 @@ control "cis_v130_2_4" {
   # documentation = file("./cis_v130/docs/cis_v130_2_4.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.4"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.4"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -83,9 +86,9 @@ control "cis_v130_2_5" {
   # documentation = file("./cis_v130/docs/cis_v130_2_5.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.5"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.5"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -96,9 +99,9 @@ control "cis_v130_2_6" {
   # documentation = file("./cis_v130/docs/cis_v130_2_6.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.6"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.6"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -109,9 +112,9 @@ control "cis_v130_2_7" {
   # documentation = file("./cis_v130/docs/cis_v130_2_7.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.7"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.7"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -122,9 +125,9 @@ control "cis_v130_2_8" {
   # documentation = file("./cis_v130/docs/cis_v130_2_8.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.8"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.8"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -135,9 +138,9 @@ control "cis_v130_2_9" {
   # documentation = file("./cis_v130/docs/cis_v130_2_9.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.9"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.9"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -148,9 +151,9 @@ control "cis_v130_2_10" {
   # documentation = file("./cis_v130/docs/cis_v130_2_10.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.10"
-    cis_type     = "manual"
-    cis_level    = "2"
+    cis_item_id = "2.10"
+    cis_type    = "manual"
+    cis_level   = "2"
   })
 }
 
@@ -161,9 +164,9 @@ control "cis_v130_2_11" {
   # documentation = file("./cis_v130/docs/cis_v130_2_11.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.11"
-    cis_type     = "automated"
-    cis_level    = "1"
+    cis_item_id = "2.11"
+    cis_type    = "automated"
+    cis_level   = "1"
   })
 }
 
@@ -174,8 +177,48 @@ control "cis_v130_2_12" {
   # documentation = file("./cis_v130/docs/cis_v130_2_11.md")
 
   tags = merge(local.cis_v130_2_common_tags, {
-    cis_item_id  = "2.11"
-    cis_type     = "automated"
-    cis_level    = "1"
+    cis_item_id = "2.12"
+    cis_type    = "automated"
+    cis_level   = "1"
   })
 }
+
+control "cis_v130_2_13" {
+  title       = "2.13 Ensure 'Additional email addresses' is configured with a security contact email"
+  description = "Security Center emails the subscription owners whenever a high-severity alert is triggered for their subscription. You should provide a security contact email address as an additional email address."
+  sql         = query.securitycenter_additional_email_configured.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_13.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id = "2.13"
+    cis_type    = "automated"
+    cis_level   = "1"
+  })
+}
+
+control "cis_v130_2_14" {
+  title       = "2.14 Ensure that 'Notify about alerts with the following severity' is set to 'High'"
+  description = "Enables emailing security alerts to the subscription owner or other designated security contact."
+  sql         = query.securitycenter_notify_alerts_configured.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_14.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id = "2.14"
+    cis_type    = "automated"
+    cis_level   = "1"
+  })
+}
+
+control "cis_v130_2_15" {
+  title       = "2.15 Ensure that 'All users with the following roles' is set to 'Owner'"
+  description = "Enable security alert emails to subscription owners."
+  sql         = query.securitycenter_security_alerts_to_owner_enabled.sql
+  # documentation = file("./cis_v130/docs/cis_v130_2_15.md")
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    cis_item_id = "2.15"
+    cis_type    = "automated"
+    cis_level   = "1"
+  })
+}
+

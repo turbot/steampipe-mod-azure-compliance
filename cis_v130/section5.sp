@@ -29,6 +29,7 @@ benchmark "cis_v130_5_1" {
   documentation = file("./cis_v130/docs/cis_v130_5_1.md")
   tags          = local.cis_v130_5_1_common_tags
   children = [
+    control.cis_v130_5_1_1,
     control.cis_v130_5_1_2,
     control.cis_v130_5_1_3,
     control.cis_v130_5_1_4,
@@ -40,6 +41,19 @@ benchmark "cis_v130_5_2" {
   title         = "5.2 Monitoring using Activity Log Alerts"
   documentation = file("./cis_v130/docs/cis_v130_5_2.md")
   tags          = local.cis_v130_5_2_common_tags
+}
+
+control "cis_v130_5_1_1" {
+  title         = "5.1.1 Ensure that a 'Diagnostics Setting' exists"
+  description   = "Enable Diagnostic settings for exporting activity logs. Diagnostic setting are available for each individual resources within a subscription. Settings should be configured for all appropriate resources for your environment."
+  sql           = query.manual_control.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_1_1.md")
+
+  tags = merge(local.cis_v130_5_1_common_tags, {
+    cis_item_id = "5.1.1"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
 }
 
 control "cis_v130_5_1_2" {

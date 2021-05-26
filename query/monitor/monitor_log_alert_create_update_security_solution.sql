@@ -36,7 +36,7 @@ select
   end as status,
   case
     when count(a.subscription_id) > 0 then 'Activity log alert exists for create or update Security Solution event.'
-    else 'Activity log alert does not exists for create or update Security Solution  event.'
+    else 'Activity log alert does not exists for create or update Security Solution event.'
   end as reason,
   -- Additional Dimensions
   sub.display_name as subscription

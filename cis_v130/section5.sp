@@ -42,7 +42,8 @@ benchmark "cis_v130_5_2" {
   documentation = file("./cis_v130/docs/cis_v130_5_2.md")
   tags          = local.cis_v130_5_2_common_tags
   children = [
-    control.cis_v130_5_2_1
+    control.cis_v130_5_2_1,
+    control.cis_v130_5_2_2
   ]
 }
 
@@ -117,8 +118,21 @@ control "cis_v130_5_2_1" {
   sql         = query.monitor_log_alert_exist_create_policy_assignment.sql
   # documentation = file("./cis_v130/docs/cis_v130_5_2_1.md")
 
-  tags = merge(local.cis_v130_5_1_common_tags, {
+  tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.1"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_5_2_2" {
+  title       = "5.2.2 Ensure that Activity Log Alert exists for Delete Policy Assignment"
+  description = "Create an activity log alert for the Delete Policy Assignment event."
+  sql         = query.monitor_log_alert_exist_delete_policy_assignment.sql
+  # documentation = file("./cis_v130/docs/cis_v130_5_2_2.md")
+
+  tags = merge(local.cis_v130_5_2_common_tags, {
+    cis_item_id = "5.2.2"
     cis_level   = "1"
     cis_type    = "automated"
   })

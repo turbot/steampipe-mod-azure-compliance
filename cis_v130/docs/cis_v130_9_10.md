@@ -1,0 +1,28 @@
+## Description
+
+By default, Azure Functions, Web and API Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Service Apps and Functions. Azure FTP deployment endpoints are public.
+
+An attacker listening to traffic on a wifi network used by a remote employee or a corporate network could see login traffic in clear- text which would then grant them full control of the code base of the app or service. This finding is more severe if User Credentials for deployment are set at the subscription level rather than using the default Application Credentials which are unique per App.
+
+## Remediation
+
+### From Console
+
+For Web Apps:
+
+1. Login to Azure Portal and go to `App Services`.
+2. Click on each App.
+3. Under `Settings` section, click on `Configuration`.
+4. Go to `General settings` tab.
+5. Under `Platform settings`, select `FTP state` to `Disabled` or `FTPS only`.
+6. Click `Save`.
+
+For Function Apps:
+
+1. Login to Azure Portal and go to `Function App`.
+2. Click on each App.
+3. Under `Settings` section, click on `Configuration`.
+4. Go to `General settings` tab.
+5. Under `Platform settings`, select `FTP state` to `Disabled` or `FTPS only`.
+6. Click `Save`.
+

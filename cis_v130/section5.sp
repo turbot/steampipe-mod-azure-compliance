@@ -47,7 +47,9 @@ benchmark "cis_v130_5_2" {
     control.cis_v130_5_2_3,
     control.cis_v130_5_2_4,
     control.cis_v130_5_2_5,
-    control.cis_v130_5_2_6
+    control.cis_v130_5_2_6,
+    control.cis_v130_5_2_7,
+    control.cis_v130_5_2_8
   ]
 }
 
@@ -188,7 +190,33 @@ control "cis_v130_5_2_6" {
   # documentation = file("./cis_v130/docs/cis_v130_5_2_6.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
-    cis_item_id = "5.2.5"
+    cis_item_id = "5.2.6"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_5_2_7" {
+  title       = "5.2.7 Ensure that Activity Log Alert exists for Create or Update Security Solution"
+  description = "Create an activity log alert for the Create or Update Security Solution event."
+  sql         = query.monitor_log_alert_create_update_security_solution.sql
+  # documentation = file("./cis_v130/docs/cis_v130_5_2_7.md")
+
+  tags = merge(local.cis_v130_5_2_common_tags, {
+    cis_item_id = "5.2.7"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_5_2_8" {
+  title       = "5.2.8 Ensure that Activity Log Alert exists for Delete Security Solution"
+  description = "Create an activity log alert for the Delete Security Solution event."
+  sql         = query.monitor_log_alert_delete_security_solution.sql
+  # documentation = file("./cis_v130/docs/cis_v130_5_2_8.md")
+
+  tags = merge(local.cis_v130_5_2_common_tags, {
+    cis_item_id = "5.2.8"
     cis_level   = "1"
     cis_type    = "automated"
   })

@@ -43,7 +43,9 @@ benchmark "cis_v130_5_2" {
   tags          = local.cis_v130_5_2_common_tags
   children = [
     control.cis_v130_5_2_1,
-    control.cis_v130_5_2_2
+    control.cis_v130_5_2_2,
+    control.cis_v130_5_2_3,
+    control.cis_v130_5_2_4
   ]
 }
 
@@ -115,7 +117,7 @@ control "cis_v130_5_1_5" {
 control "cis_v130_5_2_1" {
   title       = "5.2.1 Ensure that Activity Log Alert exists for Create Policy Assignment"
   description = "Create an activity log alert for the Create Policy Assignment event."
-  sql         = query.monitor_log_alert_exist_create_policy_assignment.sql
+  sql         = query.monitor_log_alert_create_policy_assignment.sql
   # documentation = file("./cis_v130/docs/cis_v130_5_2_1.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
@@ -128,11 +130,37 @@ control "cis_v130_5_2_1" {
 control "cis_v130_5_2_2" {
   title       = "5.2.2 Ensure that Activity Log Alert exists for Delete Policy Assignment"
   description = "Create an activity log alert for the Delete Policy Assignment event."
-  sql         = query.monitor_log_alert_exist_delete_policy_assignment.sql
+  sql         = query.monitor_log_alert_delete_policy_assignment.sql
   # documentation = file("./cis_v130/docs/cis_v130_5_2_2.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.2"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_5_2_3" {
+  title       = "5.2.3 Ensure that Activity Log Alert exists for Create or Update Network Security Group"
+  description = "Create an Activity Log Alert for the \"Create\" or \"Update Network Security Group\" event."
+  sql         = query.monitor_log_alert_create_update_nsg.sql
+  # documentation = file("./cis_v130/docs/cis_v130_5_2_3.md")
+
+  tags = merge(local.cis_v130_5_2_common_tags, {
+    cis_item_id = "5.2.3"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_5_2_4" {
+  title       = "5.2.4 Ensure that Activity Log Alert exists for Delete Network Security Group"
+  description = "Create an activity log alert for the Delete Network Security Group event."
+  sql         = query.monitor_log_alert_delete_nsg.sql
+  # documentation = file("./cis_v130/docs/cis_v130_5_2_4.md")
+
+  tags = merge(local.cis_v130_5_2_common_tags, {
+    cis_item_id = "5.2.4"
     cis_level   = "1"
     cis_type    = "automated"
   })

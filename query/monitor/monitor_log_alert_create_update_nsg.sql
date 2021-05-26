@@ -12,9 +12,19 @@ with alert_rule as (
     alert.location = 'Global'
     and alert.enabled
     and sc = '/subscriptions/' || alert.subscription_id
-    and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-    and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
-    and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networkSecurityGroups/write"}]'
+    and (
+      (
+        alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networkSecurityGroups/write"}]'
+      )
+      or
+      (
+        alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
+        and jsonb_array_length(alert.condition -> 'allOf') = 2
+      )
+    )
   limit 1
 )
 select

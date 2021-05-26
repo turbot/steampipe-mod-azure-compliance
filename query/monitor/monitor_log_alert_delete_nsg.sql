@@ -4,7 +4,8 @@ with alert_rule as (
     alert.name as alert_name,
     alert.enabled,
     alert.location,
-    alert.subscription_id
+    alert.subscription_id,
+    jsonb_array_length(alert.condition -> 'allOf')
   from
     azure_log_alert as alert,
     jsonb_array_elements_text(scopes) as sc
@@ -12,27 +13,37 @@ with alert_rule as (
     alert.location = 'Global'
     and alert.enabled
     and sc = '/subscriptions/' || alert.subscription_id
-    and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-    and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
-    and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networkSecurityGroups/delete"}]'
+    and (
+      (
+        alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networkSecurityGroups/delete"}]'
+      )
+      or
+      (
+        alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
+        and jsonb_array_length(alert.condition -> 'allOf') = 2
+      )
+    )
   limit 1
 )
-select
-  -- Required Columns
-  sub.subscription_id as resource,
-  case
-    when count(a.subscription_id) > 0 then 'ok'
-    else 'alarm'
-  end as status,
-  case
-    when count(a.subscription_id) > 0 then 'Activity log alert exists for delete Network Security Group event.'
-    else 'Activity log alert does not exists for delete Network Security Group event.'
-  end as reason,
-  -- Additional Dimensions
-  sub.display_name as subscription
-from
-  azure_subscription sub
-  left join alert_rule a on sub.subscription_id = a.subscription_id
-group by
-  sub.subscription_id,
-  sub.display_name;
+  select
+    -- Required Columns
+    sub.subscription_id as resource,
+    case
+      when count(a.subscription_id) > 0 then 'ok'
+      else 'alarm'
+    end as status,
+    case
+      when count(a.subscription_id) > 0 then 'Activity log alert exists for delete Network Security Group event.'
+      else 'Activity log alert does not exists for delete Network Security Group event.'
+    end as reason,
+    -- Additional Dimensions
+    sub.display_name as subscription
+  from
+    azure_subscription sub
+    left join alert_rule a on sub.subscription_id = a.subscription_id
+  group by
+    sub.subscription_id,
+    sub.display_name;

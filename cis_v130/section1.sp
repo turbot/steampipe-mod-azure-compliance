@@ -30,6 +30,7 @@ benchmark "cis_v130_1" {
     control.cis_v130_1_19,
     control.cis_v130_1_20,
     control.cis_v130_1_21,
+    control.cis_v130_1_22,
     control.cis_v130_1_23
   ]
 }
@@ -303,6 +304,19 @@ control "cis_v130_1_21" {
   tags = merge(local.cis_v130_1_common_tags, {
     cis_item_id = "1.21"
     cis_level   = "2"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_1_22" {
+  title         = "1.22 Ensure Security Defaults is enabled on Azure Active Directory"
+  description   = "Security defaults in Azure Active Directory (Azure AD) make it easier to be secure and help protect your organization. Security defaults contain preconfigured security settings for common attacks."
+  sql           = query.ad_manual_control.sql
+  documentation = file("./cis_v130/docs/cis_v130_1_22.md")
+
+  tags = merge(local.cis_v130_1_common_tags, {
+    cis_item_id = "1.22"
+    cis_level   = "1"
     cis_type    = "automated"
   })
 }

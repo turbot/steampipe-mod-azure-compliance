@@ -15,6 +15,7 @@ with alert_rule as (
     and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
     and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.authorization/policyassignments"}]'
     and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Authorization/policyAssignments/write"}]'
+  limit 1
 )
 select
   -- Required Columns

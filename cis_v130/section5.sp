@@ -45,7 +45,9 @@ benchmark "cis_v130_5_2" {
     control.cis_v130_5_2_1,
     control.cis_v130_5_2_2,
     control.cis_v130_5_2_3,
-    control.cis_v130_5_2_4
+    control.cis_v130_5_2_4,
+    control.cis_v130_5_2_5,
+    control.cis_v130_5_2_6
   ]
 }
 
@@ -161,6 +163,32 @@ control "cis_v130_5_2_4" {
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.4"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_5_2_5" {
+  title       = "5.2.5 Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
+  description = "Create an activity log alert for the Create or Update Network Security Group Rule event."
+  sql         = query.monitor_log_alert_create_update_nsg_rule.sql
+  # documentation = file("./cis_v130/docs/cis_v130_5_2_5.md")
+
+  tags = merge(local.cis_v130_5_2_common_tags, {
+    cis_item_id = "5.2.5"
+    cis_level   = "1"
+    cis_type    = "automated"
+  })
+}
+
+control "cis_v130_5_2_6" {
+  title       = "5.2.6 Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
+  description = "Create an activity log alert for the Create or Update Network Security Group Rule event."
+  sql         = query.monitor_log_alert_delete_nsg_rule.sql
+  # documentation = file("./cis_v130/docs/cis_v130_5_2_6.md")
+
+  tags = merge(local.cis_v130_5_2_common_tags, {
+    cis_item_id = "5.2.5"
     cis_level   = "1"
     cis_type    = "automated"
   })

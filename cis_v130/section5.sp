@@ -121,10 +121,10 @@ control "cis_v130_5_1_5" {
 }
 
 control "cis_v130_5_2_1" {
-  title       = "5.2.1 Ensure that Activity Log Alert exists for Create Policy Assignment"
-  description = "Create an activity log alert for the Create Policy Assignment event."
-  sql         = query.monitor_log_alert_create_policy_assignment.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_2_1.md")
+  title         = "5.2.1 Ensure that Activity Log Alert exists for Create Policy Assignment"
+  description   = "Create an activity log alert for the Create Policy Assignment event."
+  sql           = query.monitor_log_alert_create_policy_assignment.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_2_1.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.1"
@@ -134,10 +134,10 @@ control "cis_v130_5_2_1" {
 }
 
 control "cis_v130_5_2_2" {
-  title       = "5.2.2 Ensure that Activity Log Alert exists for Delete Policy Assignment"
-  description = "Create an activity log alert for the Delete Policy Assignment event."
-  sql         = query.monitor_log_alert_delete_policy_assignment.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_2_2.md")
+  title         = "5.2.2 Ensure that Activity Log Alert exists for Delete Policy Assignment"
+  description   = "Create an activity log alert for the Delete Policy Assignment event."
+  sql           = query.monitor_log_alert_delete_policy_assignment.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_2_2.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.2"
@@ -147,10 +147,10 @@ control "cis_v130_5_2_2" {
 }
 
 control "cis_v130_5_2_3" {
-  title       = "5.2.3 Ensure that Activity Log Alert exists for Create or Update Network Security Group"
-  description = "Create an Activity Log Alert for the \"Create\" or \"Update Network Security Group\" event."
-  sql         = query.monitor_log_alert_create_update_nsg.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_2_3.md")
+  title         = "5.2.3 Ensure that Activity Log Alert exists for Create or Update Network Security Group"
+  description   = "Create an Activity Log Alert for the \"Create\" or \"Update Network Security Group\" event."
+  sql           = query.monitor_log_alert_create_update_nsg.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_2_3.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.3"
@@ -160,10 +160,10 @@ control "cis_v130_5_2_3" {
 }
 
 control "cis_v130_5_2_4" {
-  title       = "5.2.4 Ensure that Activity Log Alert exists for Delete Network Security Group"
-  description = "Create an activity log alert for the Delete Network Security Group event."
-  sql         = query.monitor_log_alert_delete_nsg.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_2_4.md")
+  title         = "5.2.4 Ensure that Activity Log Alert exists for Delete Network Security Group"
+  description   = "Create an activity log alert for the Delete Network Security Group event."
+  sql           = query.monitor_log_alert_delete_nsg.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_2_4.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.4"
@@ -173,10 +173,10 @@ control "cis_v130_5_2_4" {
 }
 
 control "cis_v130_5_2_5" {
-  title       = "5.2.5 Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
-  description = "Create an activity log alert for the Create or Update Network Security Group Rule event."
-  sql         = query.monitor_log_alert_create_update_nsg_rule.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_2_5.md")
+  title         = "5.2.5 Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
+  description   = "Create an activity log alert for the Create or Update Network Security Group Rule event."
+  sql           = query.monitor_log_alert_create_update_nsg_rule.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_2_5.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.5"
@@ -186,10 +186,10 @@ control "cis_v130_5_2_5" {
 }
 
 control "cis_v130_5_2_6" {
-  title       = "5.2.6 Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
-  description = "Create an activity log alert for the Create or Update Network Security Group Rule event."
-  sql         = query.monitor_log_alert_delete_nsg_rule.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_2_6.md")
+  title         = "5.2.6 Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
+  description   = "Create an activity log alert for the Create or Update Network Security Group Rule event."
+  sql           = query.monitor_log_alert_delete_nsg_rule.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_2_6.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.6"
@@ -199,10 +199,10 @@ control "cis_v130_5_2_6" {
 }
 
 control "cis_v130_5_2_7" {
-  title       = "5.2.7 Ensure that Activity Log Alert exists for Create or Update Security Solution"
-  description = "Create an activity log alert for the Create or Update Security Solution event."
-  sql         = query.monitor_log_alert_create_update_security_solution.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_2_7.md")
+  title         = "5.2.7 Ensure that Activity Log Alert exists for Create or Update Security Solution"
+  description   = "Create an activity log alert for the Create or Update Security Solution event."
+  sql           = query.monitor_log_alert_create_update_security_solution.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_2_7.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.7"
@@ -212,10 +212,10 @@ control "cis_v130_5_2_7" {
 }
 
 control "cis_v130_5_2_8" {
-  title       = "5.2.8 Ensure that Activity Log Alert exists for Delete Security Solution"
-  description = "Create an activity log alert for the Delete Security Solution event."
-  sql         = query.monitor_log_alert_delete_security_solution.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_2_8.md")
+  title         = "5.2.8 Ensure that Activity Log Alert exists for Delete Security Solution"
+  description   = "Create an activity log alert for the Delete Security Solution event."
+  sql           = query.monitor_log_alert_delete_security_solution.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_2_8.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.8"
@@ -225,10 +225,10 @@ control "cis_v130_5_2_8" {
 }
 
 control "cis_v130_5_2_9" {
-  title       = "5.2.9 Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule"
-  description = "Create an activity log alert for the Create or Update or Delete SQL Server Firewall Rule event."
-  sql         = query.monitor_log_alert_sql_firewall_rule.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_2_9.md")
+  title         = "5.2.9 Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule"
+  description   = "Create an activity log alert for the Create or Update or Delete SQL Server Firewall Rule event."
+  sql           = query.monitor_log_alert_sql_firewall_rule.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_2_9.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.2.9"

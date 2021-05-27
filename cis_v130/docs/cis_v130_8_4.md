@@ -1,0 +1,29 @@
+## Description
+
+The key vault contains object keys, secrets and certificates. Accidental unavailability of a key vault can cause immediate data loss or loss of security functions (authentication, validation, verification etc.) supported by the key vault objects.
+
+It is recommended that the key vault be made recoverable by enabling the *Do Not Purge* and *Soft Delete* functions. This is in order to prevent loss of encrypted data including storage accounts, SQL databases, and/or dependent services provided by key vault objects , as may happen in the case of accidental deletion by a user or from disruptive activity by a malicious user.
+
+There are 2 key vault properties that plays role in permanent unavailability of a key vault.
+   - enableSoftDelete: Setting this parameter to true for a key vault ensures that even if key vault is deleted, Key vault itself or its objects remain recoverable for next 90days.
+   - enablePurgeProtection: Setting enablePurgeProtection to *true* ensures that the key vault and its objects cannot be purged.
+
+## Remediation
+
+### From Console
+
+1. Login and go to `Key vaults`.
+2. Go to `Settings` section and click on `Properties`.
+3. Select `Enable purge protection` and `Save`.
+
+As default `Soft-delete` is enabled for a key vault.
+
+### From Command Line
+
+Command to enabled *Do Not Purge* and *Soft Delete* for a Key Vault
+
+```bash
+az resource update --id /subscriptions/xxxxxx-xxxx-xxxx-xxxx- xxxxxxxxxxxx/resourceGroups/<resourceGroupName>/providers/Microsoft.KeyVault /vaults/<keyVaultName> --set properties.enablePurgeProtection=true properties.enableSoftDelete=true
+```
+
+**Note** Once purge-protection and soft-delete is enabled for a key vault, the action is irreversible.

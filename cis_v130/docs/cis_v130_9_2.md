@@ -1,0 +1,24 @@
+## Description
+
+Azure Web Apps allows sites to run under both HTTP and HTTPS by default. Web apps can be accessed by anyone using non-secure HTTP links by default. Non-secure HTTP requests can be restricted and all HTTP requests redirected to the secure HTTPS port. It is recommended to enforce HTTPS-only traffic.
+
+Enabling HTTPS-only traffic will redirect all non-secure HTTP request to HTTPS ports. HTTPS uses the SSL/TLS protocol to provide a secure connection, which is both encrypted and authenticated. So it is important to support HTTPS for the security benefits.
+
+As default, HTTPS-only feature is disabled.
+
+## Remediation
+
+### From Console
+
+1. Login to Azure Portal and go to `App Services`.
+2. Click on each App.
+3. Under `Settings` section, click on `TLS/SSL settings`.
+4. Under `Protocol Settings`, set `HTTPS Only` to `On`.
+
+### From Command Line
+
+To set HTTPS-only traffic value for an existing app, run the following command:
+
+```bash
+az webapp update --resource-group <RESOURCE_GROUP_NAME> --name <APP_NAME> -- set httpsOnly=true
+```

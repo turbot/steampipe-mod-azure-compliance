@@ -238,10 +238,10 @@ control "cis_v130_5_2_9" {
 }
 
 control "cis_v130_5_3" {
-  title       = "5.3 Ensure that Diagnostic Logs are enabled for all services which support it"
-  description = "Diagnostic Logs capture activity to the data access plane while the Activity log is a subscription-level log for the control plane. Resource-level diagnostic logs provide insight into operations that were performed within that resource itself. It is crucial that logging systems are correctly configured to log all relevant activities and retain those logs for a sufficient length of time."
-  sql         = query.manual_control.sql
-  # documentation = file("./cis_v130/docs/cis_v130_5_3.md")
+  title         = "5.3 Ensure that Diagnostic Logs are enabled for all services which support it"
+  description   = "Diagnostic Logs capture activity to the data access plane while the Activity log is a subscription-level log for the control plane. Resource-level diagnostic logs provide insight into operations that were performed within that resource itself. It is crucial that logging systems are correctly configured to log all relevant activities and retain those logs for a sufficient length of time."
+  sql           = query.manual_control.sql
+  documentation = file("./cis_v130/docs/cis_v130_5_3.md")
 
   tags = merge(local.cis_v130_5_2_common_tags, {
     cis_item_id = "5.3"

@@ -1,0 +1,24 @@
+## Description
+
+Enable automatic provisioning of the monitoring agent to collect security data. When this agent is turned on, Azure Security Center provisions the Microsoft Monitoring Agent on all existing supported Azure virtual machines and any new ones that are created.
+
+The Microsoft Monitoring Agent scans for various security-related configurations and events such as system updates, OS vulnerabilities, endpoint protection, and provides alerts.
+
+## Remediation
+
+### From Console
+
+Perform the following action to check Defender for Endpoint to access my data is enabled:
+
+1. Login to Azure console and navigate to [Security Center](https://portal.azure.com/#blade/Microsoft_Azure_Security/SecurityMenuBlade/0).
+2. Select `Pricing & settings` blade under Management.
+3. Click on the subscription name, select `Auto provisioning`.
+4. Ensure `Enable all extensions` is On.
+
+Perform the following action to enable Defender for Endpoint to access my data:
+
+1. Login to Azure console and navigate to [Security Center](https://portal.azure.com/#blade/Microsoft_Azure_Security/SecurityMenuBlade/0).
+2. Select `Pricing & settings` blade under Management.
+3. Click on the subscription name, select `Auto provisioning`.
+4. Click on `Enable all extensions`.
+5. Click **Save**.

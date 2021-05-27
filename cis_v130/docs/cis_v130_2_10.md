@@ -1,0 +1,24 @@
+## Description
+
+This setting enables Microsoft Cloud App Security (MCAS) integration with Security Center. Security Center offers an additional layer of protection by using Azure Resource Manager events, which is considered to be the control plane for Azure.
+
+By analyzing the Azure Resource Manager records, Security Center detects unusual or potentially harmful operations in the Azure subscription environment. Several of the preceding analytics are powered by Microsoft Cloud App Security. To benefit from these analytics, subscription must have a Cloud App Security license. MCAS works only with Standard Tier subscriptions.
+
+## Remediation
+
+### From Console
+
+Perform the following action to check Defender for Endpoint to access my data is enabled:
+
+1. Login to Azure console and navigate to [Security Center](https://portal.azure.com/#blade/Microsoft_Azure_Security/SecurityMenuBlade/0).
+2. Select `Pricing & settings` blade under Management.
+3. Click on the subscription name, select `Threat Detection`.
+4. Ensure setting `Allow Microsoft Cloud App Security to access my data` is selected.
+
+Perform the following action to enable Defender for Endpoint to access my data:
+
+1. Login to Azure console and navigate to [Security Center](https://portal.azure.com/#blade/Microsoft_Azure_Security/SecurityMenuBlade/0).
+2. Select `Pricing & settings` blade under Management.
+3. Click on the subscription name, select `Threat Detection`.
+4. Select `Allow Microsoft Cloud App Security to access my data`.
+5. Click **Save**.

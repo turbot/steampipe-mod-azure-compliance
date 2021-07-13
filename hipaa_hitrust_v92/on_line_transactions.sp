@@ -11,7 +11,7 @@ benchmark "hipaa_hitrust_v92_on_line_transactions" {
 }
 
 benchmark "hipaa_hitrust_v92_0943_09y1organizational_1_09_y" {
-  title         = "0943.09y1Organizational.1 - 09.y "
+  title         = "0943.09y1Organizational.1 - 09.y"
   description   = "The organization verifies every ninety (90) days for each extract of covered information recorded that the data is erased or its use is still required."
   children = [
     control.hipaa_hitrust_v92_0943_09y1organizational_1_09_y_1,
@@ -47,7 +47,7 @@ control "hipaa_hitrust_v92_0947_09y2organizational_2_09_y_1" {
 }
 
 benchmark "hipaa_hitrust_v92_0948_09y2organizational_3_09_y" {
-  title         = "0948.09y2Organizational.3 - 09.y "
+  title         = "0948.09y2Organizational.3 - 09.y"
   description   = "TWhere a trusted authority is used (e.g., for the purposes of issuing and maintaining digital signatures and/or digital certificates), security is integrated and embedded throughout the entire end-to-end certificate/signature management process."
   children = [
     control.hipaa_hitrust_v92_0948_09y2organizational_3_09_y_1,

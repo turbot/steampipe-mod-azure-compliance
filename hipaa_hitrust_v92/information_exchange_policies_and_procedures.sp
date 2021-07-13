@@ -12,7 +12,7 @@ benchmark "hipaa_hitrust_v92_information_exchange_policies_and_procedures" {
 }
 
 benchmark "hipaa_hitrust_v92_0662_09scsporganizational_2_09_s" {
-  title         = "0662.09sCSPOrganizational.2 - 09.s "
+  title         = "0662.09sCSPOrganizational.2 - 09.s"
   description   = "Cloud service providers use an industry-recognized virtualization platform and standard virtualization formats (e.g., Open Virtualization Format, OVF) to help ensure interoperability, and has documented custom changes made to any hypervisor in use and all solution-specific virtualization hooks available for customer review."
   children = [
     control.hipaa_hitrust_v92_0662_09scsporganizational_2_09_s_1,

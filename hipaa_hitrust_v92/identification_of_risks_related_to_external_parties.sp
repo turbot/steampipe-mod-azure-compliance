@@ -49,7 +49,7 @@ control "hipaa_hitrust_v92_1403_05i1organizational_67_05_i_1" {
 }
 
 benchmark "hipaa_hitrust_v92_1418_05i1organizational_8_05_i" {
-  title         = "1418.05i1Organizational.8 - 05.i "
+  title         = "1418.05i1Organizational.8 - 05.i"
   description   = "The identification of risks related to external party access takes into account a minimal set of specifically defined issues."
   children = [
     control.hipaa_hitrust_v92_1418_05i1organizational_8_05_i_1,

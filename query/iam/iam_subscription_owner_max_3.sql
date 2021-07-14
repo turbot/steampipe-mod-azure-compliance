@@ -1,13 +1,18 @@
 with owner_roles as (
   select
-    role_name,
-    role_type, name,
-    title,
-    subscription_id
+    d.role_name,
+    d.role_type,
+    d.name,
+    d.title,
+    d.subscription_id,
+    a.principal_id as principal_id,
+    u.user_principal_name
   from
-    azure_role_definition
+    azure_role_definition as d
+    left join azure_role_assignment as a on d.id = a.role_definition_id
+    left join azure_ad_user as u on u.object_id = a.principal_id
   where
-    role_name = 'Owner'
+    d.role_name = 'Owner'
 )
 select
   -- Required columns

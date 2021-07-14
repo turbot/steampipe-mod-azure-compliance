@@ -42,7 +42,6 @@ control "hipaa_hitrust_v92_0886_09n2Organizational_4_09_n_1" {
   title         = "Network Watcher should be enabled"
   description   = "Network Watcher is a regional service that enables you to monitor and diagnose conditions at a network scenario level in, to, and from Azure. Scenario level monitoring enables you to diagnose problems at an end to end network level view. It is required to have a network watcher resource group to be created in every region where a virtual network is present. An alert is enabled if a network watcher resource group is not available in a particular region.."
   sql           = query.network_watcher_enabled.sql
-  #documentation = file("./cis_v100/docs/cis_v100_1_1.md")
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
@@ -61,7 +60,6 @@ control "hipaa_hitrust_v92_0888_09n2Organizational_6_09_n_1" {
   title         = "Network Watcher should be enabled"
   description   = "Network Watcher is a regional service that enables you to monitor and diagnose conditions at a network scenario level in, to, and from Azure. Scenario level monitoring enables you to diagnose problems at an end to end network level view. It is required to have a network watcher resource group to be created in every region where a virtual network is present. An alert is enabled if a network watcher resource group is not available in a particular region.."
   sql           = query.network_watcher_enabled.sql
-  #documentation = file("./cis_v100/docs/cis_v100_1_1.md")
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }

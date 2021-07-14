@@ -22,7 +22,6 @@ control "hipaa_hitrust_v92_1213_09ab2system_128_09_ab_1" {
   title         = "Auto provisioning of the Log Analytics agent should be enabled on your subscription"
   description   = "To monitor for security vulnerabilities and threats, Azure Security Center collects data from your Azure virtual machines. Data is collected by the Log Analytics agent, formerly known as the Microsoft Monitoring Agent (MMA), which reads various security-related configurations and event logs from the machine and copies the data to your Log Analytics workspace for analysis. We recommend enabling auto provisioning to automatically deploy the agent to all supported Azure VMs and any new ones that are created."
   sql           = query.securitycenter_automatic_provisioning_monitoring_agent_on.sql
-  #documentation = file("./cis_v100/docs/cis_v100_1_1.md")
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
@@ -41,7 +40,6 @@ control "hipaa_hitrust_v92_1220_09ab3system_56_09_ab_1" {
   title         = "Auto provisioning of the Log Analytics agent should be enabled on your subscription"
   description   = "To monitor for security vulnerabilities and threats, Azure Security Center collects data from your Azure virtual machines. Data is collected by the Log Analytics agent, formerly known as the Microsoft Monitoring Agent (MMA), which reads various security-related configurations and event logs from the machine and copies the data to your Log Analytics workspace for analysis. We recommend enabling auto provisioning to automatically deploy the agent to all supported Azure VMs and any new ones that are created."
   sql           = query.securitycenter_automatic_provisioning_monitoring_agent_on.sql
-  #documentation = file("./cis_v100/docs/cis_v100_1_1.md")
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }

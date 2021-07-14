@@ -21,7 +21,6 @@ control "hipaa_hitrust_v92_1211_09aa3system_4_09_aa_3" {
   title         = "Resource logs in Key Vault should be enabled"
   description   = "Audit enabling of resource logs. This enables you to recreate activity trails to use for investigation purposes when a security incident occurs or when your network is compromised."
   sql           = query.keyvault_logging_enabled.sql
-  #documentation = file("./cis_v100/docs/cis_v100_1_1.md")
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }

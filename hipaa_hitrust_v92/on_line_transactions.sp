@@ -68,9 +68,18 @@ benchmark "hipaa_hitrust_v92_0949_09y2organizational_5_09_y" {
   title         = "0949.09y2Organizational.5 - 09.y"
   description   = "The protocols used for communications are enhanced to address any new vulnerability, and the updated versions of the protocols are adopted as soon as possible."
   children = [
+    control.hipaa_hitrust_v92_0949_09y2organizational_5_09_y_4,
     control.hipaa_hitrust_v92_0949_09y2organizational_5_09_y_5,
     control.hipaa_hitrust_v92_0949_09y2organizational_5_09_y_6
   ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+control "hipaa_hitrust_v92_0949_09y2organizational_5_09_y_4" {
+  title         = "Latest TLS version should be used in your Function App"
+  description   = "Upgrade to the latest TLS version."
+  sql           = query.appservice_function_app_latest_tls_version.sql
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }

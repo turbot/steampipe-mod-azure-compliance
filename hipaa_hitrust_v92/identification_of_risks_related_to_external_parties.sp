@@ -24,7 +24,6 @@ control "hipaa_hitrust_v92_1401_05i1organizational_1239_05_i_1" {
   title         = "Secure transfer to storage accounts should be enabled"
   description   = "Audit requirement of Secure transfer in your storage account. Secure transfer is an option that forces your storage account to accept requests only from secure connections (HTTPS). Use of HTTPS ensures authentication between the server and the service and protects data in transit from network layer attacks such as man-in-the-middle, eavesdropping, and session-hijacking."
   sql           = query.storage_account_secure_transfer_required_enabled.sql
-  #documentation = file("./cis_v100/docs/cis_v100_1_1.md")
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
@@ -43,7 +42,6 @@ control "hipaa_hitrust_v92_1403_05i1organizational_67_05_i_1" {
   title         = "Web Application should only be accessible over HTTPS"
   description   = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
   sql           = query.appservice_web_app_use_https.sql
-  #documentation = file("./cis_v100/docs/cis_v100_1_1.md")
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
@@ -81,7 +79,6 @@ control "hipaa_hitrust_v92_1450_05i2organizational_2_05_i_1" {
   title         = "Enforce SSL connection should be enabled for PostgreSQL database servers"
   description   = "Azure Database for PostgreSQL supports connecting your Azure Database for PostgreSQL server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
   sql           = query.postgres_sql_ssl_enabled.sql
-  #documentation = file("./cis_v100/docs/cis_v100_1_1.md")
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }

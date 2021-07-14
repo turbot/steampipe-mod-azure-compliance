@@ -17,9 +17,10 @@ benchmark "hipaa_hitrust_v92_0809_01n2organizational_1234_01_n" {
   children = [
     control.hipaa_hitrust_v92_0809_01n2organizational_1234_01_n_3,
     control.hipaa_hitrust_v92_0809_01n2organizational_1234_01_n_4,
+    control.hipaa_hitrust_v92_0809_01n2organizational_1234_01_n_8,
     control.hipaa_hitrust_v92_0809_01n2organizational_1234_01_n_9,
     control.hipaa_hitrust_v92_0809_01n2organizational_1234_01_n_11,
-    control.hipaa_hitrust_v92_0809_01n2organizational_1234_01_n_14
+    control.hipaa_hitrust_v92_0809_01n2organizational_1234_01_n_14,
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -37,6 +38,14 @@ control "hipaa_hitrust_v92_0809_01n2organizational_1234_01_n_4" {
   title         = "Enforce SSL connection should be enabled for PostgreSQL database servers"
   description   = "Azure Database for PostgreSQL supports connecting your Azure Database for PostgreSQL server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server.	Audit, Disabled."
   sql           = query.postgres_sql_ssl_enabled.sql
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+control "hipaa_hitrust_v92_0809_01n2organizational_1234_01_n_8" {
+  title         = "Latest TLS version should be used in your Function App"
+  description   = "Upgrade to the latest TLS version."
+  sql           = query.appservice_function_app_latest_tls_version.sql
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
@@ -71,6 +80,7 @@ benchmark "hipaa_hitrust_v92_0810_01n2organizational_5_01_n" {
   children = [
     control.hipaa_hitrust_v92_0810_01n2organizational_5_01_n_3,
     control.hipaa_hitrust_v92_0810_01n2organizational_5_01_n_4,
+    control.hipaa_hitrust_v92_0810_01n2organizational_5_01_n_8,
     control.hipaa_hitrust_v92_0810_01n2organizational_5_01_n_9,
     control.hipaa_hitrust_v92_0810_01n2organizational_5_01_n_11,
     control.hipaa_hitrust_v92_0810_01n2organizational_5_01_n_14
@@ -91,6 +101,14 @@ control "hipaa_hitrust_v92_0810_01n2organizational_5_01_n_4" {
   title         = "Enforce SSL connection should be enabled for PostgreSQL database servers"
   description   = "Azure Database for PostgreSQL supports connecting your Azure Database for PostgreSQL server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
   sql           = query.postgres_sql_ssl_enabled.sql
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+control "hipaa_hitrust_v92_0810_01n2organizational_5_01_n_8" {
+  title         = "Latest TLS version should be used in your Function App"
+  description   = "Upgrade to the latest TLS version."
+  sql           = query.appservice_function_app_latest_tls_version.sql
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
@@ -125,6 +143,7 @@ benchmark "hipaa_hitrust_v92_0811_01n2organizational_6_01_n" {
   children = [
     control.hipaa_hitrust_v92_0811_01n2organizational_6_01_n_3,
     control.hipaa_hitrust_v92_0811_01n2organizational_6_01_n_4,
+    control.hipaa_hitrust_v92_0811_01n2organizational_6_01_n_8,
     control.hipaa_hitrust_v92_0811_01n2organizational_6_01_n_9,
     control.hipaa_hitrust_v92_0811_01n2organizational_6_01_n_11,
     control.hipaa_hitrust_v92_0811_01n2organizational_6_01_n_14
@@ -145,6 +164,14 @@ control "hipaa_hitrust_v92_0811_01n2organizational_6_01_n_4" {
   title         = "Enforce SSL connection should be enabled for PostgreSQL database servers"
   description   = "Azure Database for PostgreSQL supports connecting your Azure Database for PostgreSQL server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
   sql           = query.postgres_sql_ssl_enabled.sql
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+control "hipaa_hitrust_v92_0811_01n2organizational_6_01_n_8" {
+  title         = "Latest TLS version should be used in your Function App"
+  description   = "Upgrade to the latest TLS version."
+  sql           = query.appservice_function_app_latest_tls_version.sql
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
@@ -179,6 +206,7 @@ benchmark "hipaa_hitrust_v92_0812_01n2organizational_8_01_n" {
   children = [
     control.hipaa_hitrust_v92_0812_01n2organizational_8_01_n_3,
     control.hipaa_hitrust_v92_0812_01n2organizational_8_01_n_4,
+    control.hipaa_hitrust_v92_0812_01n2organizational_8_01_n_8,
     control.hipaa_hitrust_v92_0812_01n2organizational_8_01_n_9,
     control.hipaa_hitrust_v92_0812_01n2organizational_8_01_n_11,
     control.hipaa_hitrust_v92_0812_01n2organizational_8_01_n_14
@@ -199,6 +227,14 @@ control "hipaa_hitrust_v92_0812_01n2organizational_8_01_n_4" {
   title         = "Enforce SSL connection should be enabled for PostgreSQL database servers"
   description   = "Azure Database for PostgreSQL supports connecting your Azure Database for PostgreSQL server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
   sql           = query.postgres_sql_ssl_enabled.sql
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+control "hipaa_hitrust_v92_0812_01n2organizational_8_01_n_8" {
+  title         = "Latest TLS version should be used in your Function App"
+  description   = "Upgrade to the latest TLS version."
+  sql           = query.appservice_function_app_latest_tls_version.sql
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
@@ -233,6 +269,7 @@ benchmark "hipaa_hitrust_v92_0814_01n1organizational_12_01_n" {
   children = [
     control.hipaa_hitrust_v92_0814_01n1organizational_12_01_n_3,
     control.hipaa_hitrust_v92_0814_01n1organizational_12_01_n_4,
+    control.hipaa_hitrust_v92_0814_01n1organizational_12_01_n_8,
     control.hipaa_hitrust_v92_0814_01n1organizational_12_01_n_9,
     control.hipaa_hitrust_v92_0814_01n1organizational_12_01_n_11,
     control.hipaa_hitrust_v92_0814_01n1organizational_12_01_n_14
@@ -253,6 +290,14 @@ control "hipaa_hitrust_v92_0814_01n1organizational_12_01_n_4" {
   title         = "Enforce SSL connection should be enabled for PostgreSQL database servers"
   description   = "Azure Database for PostgreSQL supports connecting your Azure Database for PostgreSQL server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
   sql           = query.postgres_sql_ssl_enabled.sql
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+control "hipaa_hitrust_v92_0814_01n1organizational_12_01_n_8" {
+  title         = "Latest TLS version should be used in your Function App"
+  description   = "Upgrade to the latest TLS version."
+  sql           = query.appservice_function_app_latest_tls_version.sql
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }

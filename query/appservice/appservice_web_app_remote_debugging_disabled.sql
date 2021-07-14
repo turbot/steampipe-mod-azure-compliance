@@ -2,8 +2,8 @@ select
   -- Required Columns
   app.id as resource,
   case
-    when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'true' then 'alarm'
-    else 'ok'
+    when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then 'ok'
+    else 'alarm'
   end as status,
   case
     when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then name || ' remote debugging disabled.'

@@ -5,12 +5,10 @@ with owner_roles as (
     d.name,
     d.title,
     d.subscription_id,
-    a.principal_id as principal_id,
-    u.user_principal_name
+    a.principal_id as principal_id
   from
     azure_role_definition as d
     left join azure_role_assignment as a on d.id = a.role_definition_id
-    left join azure_ad_user as u on u.object_id = a.principal_id
   where
     d.role_name = 'Owner'
 )

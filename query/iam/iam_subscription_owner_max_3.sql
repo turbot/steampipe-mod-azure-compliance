@@ -13,13 +13,10 @@ select
   -- Required columns
   owner.subscription_id as resource,
   case
-    when count(*) >= 3 then 'ok'
+    when count(*) <= 3 then 'ok'
     else 'alarm'
   end as status,
-  case
-    when count(*) = 1 then 'There is 1 owner.'
-    when count(*) > 1 then 'There are ' || count(*) || ' owners.'
-  end as reason,
+  count(*) || ' owner(s) associated.' as reason,
   -- Additional Dimensions
   sub.display_name as subscription
 from

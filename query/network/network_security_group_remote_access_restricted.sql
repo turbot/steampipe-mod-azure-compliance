@@ -15,8 +15,16 @@ with network_sg as (
       dport in ('22', '3389', '*')
       or (
         dport like '%-%'
-        and split_part(dport, '-', 1) :: integer <= 3389
-        and split_part(dport, '-', 2) :: integer >= 3389
+        and (
+          (
+            split_part(dport, '-', 1) :: integer <= 3389
+            and split_part(dport, '-', 2) :: integer >= 3389
+          )
+          or (
+            split_part(dport, '-', 1) :: integer <= 22
+            and split_part(dport, '-', 2) :: integer >= 22
+          )
+        )
       )
     )
 )
@@ -28,8 +36,7 @@ select
     else 'alarm'
   end as status,
   case
-    when nsg.sg_name is null
-      then sg.title || ' restricts Remote access from internet.'
+    when nsg.sg_name is null then sg.title || ' restricts Remote access from internet.'
     else sg.title || ' allows Remote access from internet.'
   end as reason,
   -- Additional Dimensions

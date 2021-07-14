@@ -1,4 +1,3 @@
-
 select
   -- Required Columns
   app.id as resource,

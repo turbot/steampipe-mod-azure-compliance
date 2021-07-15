@@ -64,3 +64,14 @@ control "appservice_web_app_latest_tls_version" {
   })
 }
 
+control "appservice_function_app_only_https_accessible" {
+  title       = "Function App should only be accessible over HTTPS"
+  description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
+  sql         = query.appservice_function_app_only_https_accessible.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+

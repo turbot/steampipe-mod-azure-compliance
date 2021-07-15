@@ -4,7 +4,8 @@ benchmark "hipaa_hitrust_v92_identification_of_risks_related_to_external_parties
     benchmark.hipaa_hitrust_v92_1401_05i1organizational_1239_05_i,
     benchmark.hipaa_hitrust_v92_1403_05i1organizational_67_05_i,
     benchmark.hipaa_hitrust_v92_1418_05i1organizational_8_05_i,
-    benchmark.hipaa_hitrust_v92_1450_05i2organizational_2_05_i
+    benchmark.hipaa_hitrust_v92_1450_05i2organizational_2_05_i,
+    benchmark.hipaa_hitrust_v92_1402_05i1organizational_45_05_i,
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -15,6 +16,16 @@ benchmark "hipaa_hitrust_v92_1401_05i1organizational_1239_05_i" {
   description   = "Access to the organizations information and systems by external parties is not permitted until due diligence has been conducted, the appropriate controls have been implemented, and a contract/agreement reflecting the security requirements is signed acknowledging they understand and accept their obligations."
   children = [
     control.storage_account_secure_transfer_required_enabled,
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1402_05i1organizational_45_05_i" {
+  title         = "1402.05i1Organizational.45 - 05.i"
+  description   = "ARemote access connections between the organization and external parties are encrypted."
+  children = [
+    control.appservice_function_app_only_https_accessible,
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

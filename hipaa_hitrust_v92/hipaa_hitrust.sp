@@ -23,7 +23,8 @@ benchmark "hipaa_hitrust_v92" {
     benchmark.hipaa_hitrust_v92_remote_diagnostic_and_configuration_port_protection,
     benchmark.hipaa_hitrust_v92_back_up,
     benchmark.hipaa_hitrust_v92_business_continuity_and_risk_assessment,
-    benchmark.hipaa_hitrust_v92_user_identification_and_authentication
+    benchmark.hipaa_hitrust_v92_user_identification_and_authentication,
+    benchmark.hipaa_hitrust_v92_segregation_in_networks,
   ]
   tags = local.hipaa_hitrust_v92_common_tags
 }

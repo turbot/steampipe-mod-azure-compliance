@@ -45,6 +45,7 @@ benchmark "hipaa_hitrust_v92_0949_09y2organizational_5_09_y" {
   description   = "The protocols used for communications are enhanced to address any new vulnerability, and the updated versions of the protocols are adopted as soon as possible."
   children = [
     control.appservice_function_app_latest_tls_version,
+    control.appservice_function_app_only_https_accessible,
     control.appservice_web_app_latest_tls_version,
     control.appservice_web_app_use_https,
   ]

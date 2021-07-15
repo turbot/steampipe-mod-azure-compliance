@@ -2,11 +2,11 @@ select
   -- Required Column
   app.id as resource,
   case
-    when not https_only then 'ok'
+    when https_only then 'ok'
     else 'alarm'
   end as status,
   case
-    when not https_only then name || ' https-only accessible enabled.'
+    when https_only then name || ' https-only accessible enabled.'
     else name || ' https-only accessible disabled.'
   end as reason,
   -- Additional Dimensions

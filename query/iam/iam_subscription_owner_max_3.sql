@@ -4,8 +4,7 @@ with owner_roles as (
     d.role_type,
     d.name,
     d.title,
-    d.subscription_id,
-    a.principal_id as principal_id
+    d.subscription_id
   from
     azure_role_definition as d
     left join azure_role_assignment as a on d.id = a.role_definition_id

@@ -7,7 +7,7 @@ select
   end as status,
   case
     when geo_redundant_backup = 'Enabled' then name || ' Geo-redundant backup enabled.'
-    else  name || ' Geo-redundant backup disabled.'
+    else name || ' Geo-redundant backup disabled.'
   end as reason,
   -- Additional Dimensions
   resource_group,

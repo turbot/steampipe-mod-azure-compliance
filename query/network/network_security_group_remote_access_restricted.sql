@@ -36,8 +36,8 @@ select
     else 'alarm'
   end as status,
   case
-    when nsg.sg_name is null then sg.title || ' restricts Remote access from internet.'
-    else sg.title || ' allows Remote access from internet.'
+    when nsg.sg_name is null then sg.title || ' restricts remote access from internet.'
+    else sg.title || ' allows remote access from internet.'
   end as reason,
   -- Additional Dimensions
   sg.resource_group,

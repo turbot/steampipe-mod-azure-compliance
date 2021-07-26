@@ -2,14 +2,14 @@ select
   -- Required Columns
   subnet.id resource,
   case
-    when nat_gateway_id is null then 'skip'
-    when nat_gateway_id is not null and network_security_group_id is not null then 'alarm'
-    else 'ok'
+    when subnet.name = 'GatewaySubnet' and network_security_group_id is not null then 'alarm'
+    when subnet.name = 'GatewaySubnet' and network_security_group_id is null then 'ok'
+    else 'skip'
   end as status,
   case
-    when nat_gateway_id is null then subnet.id || ' gateway not configured.'
-    when nat_gateway_id is not null and network_security_group_id is not null then subnet.id || ' not associated to network security group.'
-    else subnet.id || ' associated to ' || network_security_group_id || '.'
+    when subnet.name = 'GatewaySubnet' and network_security_group_id is not null then 'Gateway subnet configured with network security group.'
+    when subnet.name = 'GatewaySubnet' and network_security_group_id is null then 'Gateway subnet not configured with network security group.'
+    else 'Not Gateway subnet.'
   end as reason,
   -- Additional Dimensions
   resource_group,

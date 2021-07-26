@@ -7,7 +7,8 @@ with storage_account_subnet as (
     jsonb_array_elements(virtual_network_rules) as rule,
     azure_subnet as subnet,
     jsonb_array_elements(service_endpoints) as endpoints
-  where endpoints ->> 'service'  like '%Microsoft.Storage%'
+  where
+    endpoints ->> 'service'  like '%Microsoft.Storage%'
 )
 select
   -- Required Columns

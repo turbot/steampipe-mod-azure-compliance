@@ -1,5 +1,4 @@
-with compute as
-    (
+with compute as(
   select
     title,
     interface ->> 'id' as interface_id
@@ -8,7 +7,7 @@ with compute as
     jsonb_array_elements(network_interfaces) as interface
   where
     public_ips is not null
-    ),
+),
 vm as (
 select
   network_security_group_id

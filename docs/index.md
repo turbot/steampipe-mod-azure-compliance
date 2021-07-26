@@ -61,5 +61,5 @@ No extra configuration is required.
 
 ## Get involved
 
-* Contribute: [GitHub Repo](https://github.com/turbot/steampipe-mod-aws-compliance)
+* Contribute: [GitHub Repo](https://github.com/turbot/steampipe-mod-azure-compliance)
 * Community: [Slack Channel](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)

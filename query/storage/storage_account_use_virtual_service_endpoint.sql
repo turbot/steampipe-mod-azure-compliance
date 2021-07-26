@@ -14,12 +14,14 @@ select
   -- Required Columns
   distinct a.name as resource,
   case
-    when s.name is not null and network_rule_default_action = 'Deny' then 'ok'
-    else 'alarm'
+    when network_rule_default_action <> 'Deny' then 'alarm'
+    when s.name is null then 'alarm'
+    else 'ok'
   end as status,
   case
-    when s.name is not null and network_rule_default_action = 'Deny' then a.name ||  ' configured with virtual service endpoint.'
-    else a.name || ' not configured with virtual service endpoint.'
+    when network_rule_default_action <> 'Deny' then a.name ||  ' not configured with virtual service endpoint.'
+    when s.name is null then a.name ||  ' not configured with virtual service endpoint.'
+    else a.name || ' configured with virtual service endpoint.'
   end as reason,
   -- Additional Dimensions
   a.resource_group,

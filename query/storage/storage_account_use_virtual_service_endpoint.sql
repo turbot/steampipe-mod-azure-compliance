@@ -8,7 +8,7 @@ with storage_account_subnet as (
     azure_subnet as subnet,
     jsonb_array_elements(service_endpoints) as endpoints
   where
-    endpoints ->> 'service'  like '%Microsoft.Storage%'
+    endpoints ->> 'service' like '%Microsoft.Storage%'
 )
 select
   -- Required Columns
@@ -19,8 +19,8 @@ select
     else 'ok'
   end as status,
   case
-    when network_rule_default_action <> 'Deny' then a.name ||  ' not configured with virtual service endpoint.'
-    when s.name is null then a.name ||  ' not configured with virtual service endpoint.'
+    when network_rule_default_action <> 'Deny' then a.name || ' not configured with virtual service endpoint.'
+    when s.name is null then a.name || ' not configured with virtual service endpoint.'
     else a.name || ' configured with virtual service endpoint.'
   end as reason,
   -- Additional Dimensions

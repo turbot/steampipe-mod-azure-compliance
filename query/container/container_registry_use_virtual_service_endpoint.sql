@@ -17,7 +17,7 @@ select
   end as status,
   case
     when network_rule_set ->> 'defaultAction' <> 'Deny' then a.name || ' not configured with virtual service endpoint.'
-    when s.name is null then a.name ||  ' not configured with virtual service endpoint.'
+    when s.name is null then a.name || ' not configured with virtual service endpoint.'
     else a.name || ' configured with virtual service endpoint.'
   end as reason,
   -- Additional Dimensions

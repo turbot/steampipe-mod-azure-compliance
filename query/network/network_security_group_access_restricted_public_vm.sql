@@ -63,7 +63,7 @@ select
   end as status,
   case
     when nsg.sg_name is null then sg.title || ' associated to ' || compute.title || ' protects protential threats.'
-    else sg.title || ' associated to '  || compute.title || ' allows protential threats.'
+    else sg.title || ' associated to ' || compute.title || ' allows protential threats.'
   end as reason,
   -- Additional Dimensions
   sg.resource_group,

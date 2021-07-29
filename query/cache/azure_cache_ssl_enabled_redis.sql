@@ -1,4 +1,5 @@
 select
+  -- Required Columns
   redis.id as resource,
   case
     when enable_non_ssl_port then 'alarm'
@@ -8,6 +9,7 @@ select
     when enable_non_ssl_port then redis.name || ' secure connections disabled.'
     else redis.name || ' secure connections enabled.'
   end as reason,
+  -- Additional Dimensions
   redis.resource_group,
   sub.display_name as subscription
 from

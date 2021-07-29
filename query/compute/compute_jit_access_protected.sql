@@ -12,6 +12,7 @@ where
   vm.subscription_id = sub.subscription_id
 )
 select
+  -- Required Columns
   distinct vm.id as resource,
   case
     when lower(vm.id) = lower(vms ->> 'id') then 'ok'
@@ -21,6 +22,7 @@ select
     when lower(vms ->> 'id') = lower(vm.id) then vm.name || ' JIT protected.'
     else vm.name || ' not JIT protected.'
   end as reason,
+  -- Additional Dimensions
   vm.resource_group,
   sub.display_name as subscription
 from

@@ -14,7 +14,7 @@ select
     when image_publisher = 'center-for-internet-security-inc' and image_offer like 'cis-windows-server-201%' then 'ok'
     when image_publisher = 'pivotal' and image_offer like 'bosh-windows-server%' then 'ok'
     when image_publisher = 'cloud-infrastructure-services' and image_offer like 'ad%' then 'ok'
-    when os_type like 'Windows%' and (image_sku is null or ( image_sku not like '2008%'and image_offer not like 'SQL2008%')) then 'ok'
+    when (os_type like 'Windows%' or provision_vm_agent_windows) and (image_sku is null or ( image_sku not like '2008%'and image_offer not like 'SQL2008%')) then 'ok'
     else 'alarm'
   end as status,
   case
@@ -30,7 +30,7 @@ select
     when image_publisher = 'center-for-internet-security-inc' and image_offer like 'cis-windows-server-201%' then vm.title || ' meet requirements for system audit policies - detailed tracking.'
     when image_publisher = 'pivotal' and image_offer like 'bosh-windows-server%' then vm.title || ' meet requirements for system audit policies - detailed tracking.'
     when image_publisher = 'cloud-infrastructure-services' and image_offer like 'ad%' then vm.title || ' meet requirements for system audit policies - detailed tracking.'
-    when os_type like 'Windows%' and (image_sku is null or (image_sku not like '2008%'and image_offer not like 'SQL2008%')) then vm.title || ' meet requirements for system audit policies - detailed tracking.'
+    when (os_type like 'Windows%' or provision_vm_agent_windows) and (image_sku is null or (image_sku not like '2008%'and image_offer not like 'SQL2008%')) then vm.title || ' meet requirements for system audit policies - detailed tracking.'
     else vm.title || ' does not meet requirements for system audit policies - detailed tracking.'
   end as reason,
   -- Additional Dimensions

@@ -2,6 +2,7 @@ select
   -- Required Columns
   vm.id as resource,
   case
+    when os_type = 'Linux' then 'skip'
     when image_publisher = 'MicrosoftWindowsServer' and image_offer = 'WindowsServer' and image_sku = any(ARRAY
       ['2008-R2-SP1', '2008-R2-SP1-smalldisk', '2012-Datacenter', '2012-Datacenter-smalldisk', '2012-R2-Datacenter', '2012-R2-Datacenter-smalldisk','2016-Datacenter', '2016-Datacenter-Server-Core', '2016-Datacenter-Server-Core-smalldisk', '2016-Datacenter-smalldisk', '2016-Datacenter-with-Containers', '2016-Datacenter-with-RDSH', '2019-Datacenter', '2019-Datacenter-Core', '2019-Datacenter-Core-smalldisk', '2019-Datacenter-Core-with-Containers', '2019-Datacenter-Core-with-Containers-smalldisk', '2019-Datacenter-smalldisk', '2019-Datacenter-with-Containers', '2019-Datacenter-with-Containers-smalldisk', '2019-Datacenter-zhcn'])
     then 'ok'
@@ -17,6 +18,7 @@ select
     else 'alarm'
   end as status,
   case
+    when os_type = 'Linux' then vm.title || ' is ' || os_type || ' virtual machine.'
     when image_publisher = 'MicrosoftWindowsServer' and image_offer = 'WindowsServer' and image_sku = any(ARRAY
       ['2008-R2-SP1', '2008-R2-SP1-smalldisk', '2012-Datacenter', '2012-Datacenter-smalldisk', '2012-R2-Datacenter', '2012-R2-Datacenter-smalldisk','2016-Datacenter', '2016-Datacenter-Server-Core', '2016-Datacenter-Server-Core-smalldisk', '2016-Datacenter-smalldisk', '2016-Datacenter-with-Containers', '2016-Datacenter-with-RDSH', '2019-Datacenter', '2019-Datacenter-Core', '2019-Datacenter-Core-smalldisk', '2019-Datacenter-Core-with-Containers', '2019-Datacenter-Core-with-Containers-smalldisk', '2019-Datacenter-smalldisk', '2019-Datacenter-with-Containers', '2019-Datacenter-with-Containers-smalldisk', '2019-Datacenter-zhcn'])
     then vm.title || ' has network traffic data collection agent installed.'

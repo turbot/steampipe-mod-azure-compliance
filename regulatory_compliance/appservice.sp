@@ -74,4 +74,13 @@ control "appservice_function_app_only_https_accessible" {
   })
 }
 
+control "appservice_web_app_use_virtual_service_endpoint" {
+  title       = "App Service should use a virtual network service endpoint"
+  description = "This policy audits any App Service not configured to use a virtual network service endpoint."
+  sql         = query.appservice_web_app_use_virtual_service_endpoint.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
 

@@ -37,11 +37,33 @@ control "network_watcher_enabled" {
 
 control "network_security_group_subnet_associated" {
   title       = "Subnets should be associated with a Network Security Group"
-  description = "Protect your subnet from potential threats by restricting access to it with a Network Security Group (NSG). NSGs contain a list of Access Control List (ACL) rules that allow or deny network traffic to your subnet."
+  description = "This policy denies if a gateway subnet is configured with a network security group. Assigning a network security group to a gateway subnet will cause the gateway to stop functioning."
   sql         = query.network_security_group_subnet_associated.sql
 
   tags = merge(local.conformance_pack_network_common_tags, {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "network_security_group_not_configured_gateway_subnets" {
+  title       = "Gateway subnets should not be configured with a network security group"
+  description = "Protect your subnet from potential threats by restricting access to it with a Network Security Group (NSG). NSGs contain a list of Access Control List (ACL) rules that allow or deny network traffic to your subnet."
+  sql         = query.network_security_group_not_configured_gateway_subnets.sql
+
+  tags = merge(local.conformance_pack_network_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "network_security_group_access_restricted_public_vm" {
+  title       = "Internet-facing virtual machines should be protected with network security groups"
+  description = "Protect your virtual machines from potential threats by restricting access to them with network security groups (NSG). Learn more about controlling traffic with NSGs at https://aka.ms/nsg-doc"
+  sql         = network_security_group_access_restricted_public_vm.sql
+
+  tags = merge(local.conformance_pack_network_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+
 

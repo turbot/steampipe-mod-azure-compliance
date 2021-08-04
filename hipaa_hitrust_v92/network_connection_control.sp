@@ -23,6 +23,9 @@ benchmark "hipaa_hitrust_v92_0809_01n2organizational_1234_01_n" {
     control.mysql_ssl_enabled,
     control.postgres_sql_ssl_enabled,
     control.storage_account_secure_transfer_required_enabled,
+    control.compute_vm_remote_access_restricted,
+    control.appservice_api_app_use_https,
+    control.network_security_group_access_restricted_public_vm
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -40,6 +43,11 @@ benchmark "hipaa_hitrust_v92_0810_01n2organizational_5_01_n" {
     control.mysql_ssl_enabled,
     control.postgres_sql_ssl_enabled,
     control.storage_account_secure_transfer_required_enabled,
+    control.compute_vm_remote_access_restricted,
+    control.appservice_api_app_use_https,
+    control.appservice_function_app_only_https_accessible,
+    control.network_security_group_access_restricted_public_vm,
+
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -57,6 +65,9 @@ benchmark "hipaa_hitrust_v92_0811_01n2organizational_6_01_n" {
     control.mysql_ssl_enabled,
     control.postgres_sql_ssl_enabled,
     control.storage_account_secure_transfer_required_enabled,
+    control.compute_vm_remote_access_restricted,
+    control.appservice_api_app_use_https,
+    control.network_security_group_access_restricted_public_vm
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -66,14 +77,17 @@ benchmark "hipaa_hitrust_v92_0812_01n2organizational_8_01_n" {
   title         = "0812.01n2Organizational.8 - 01.n"
   description   = "Remote devices establishing a non-remote connection are not allowed to communicate with external (remote) resources."
   children = [
+    control.appservice_api_app_use_https,
     control.appservice_function_app_latest_tls_version,
     control.appservice_function_app_only_https_accessible,
     control.appservice_web_app_latest_tls_version,
     control.appservice_web_app_use_https,
-    control.network_security_group_subnet_associated,
+    control.compute_vm_remote_access_restricted,
     control.mysql_ssl_enabled,
+    control.network_security_group_access_restricted_public_vm,
+    control.network_security_group_subnet_associated,
     control.postgres_sql_ssl_enabled,
-    control.storage_account_secure_transfer_required_enabled,
+    control.storage_account_secure_transfer_required_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -83,14 +97,17 @@ benchmark "hipaa_hitrust_v92_0814_01n1organizational_12_01_n" {
   title         = "0814.01n1Organizational.12 - 01.n"
   description   = "The ability of users to connect to the internal network is restricted using a deny-by-default and allow-by-exception policy at managed interfaces according to the access control policy and the requirements of clinical and business applications."
   children = [
+    control.appservice_api_app_use_https,
     control.appservice_function_app_latest_tls_version,
     control.appservice_function_app_only_https_accessible,
     control.appservice_web_app_latest_tls_version,
     control.appservice_web_app_use_https,
-    control.network_security_group_subnet_associated,
+    control.compute_vm_remote_access_restricted,
     control.mysql_ssl_enabled,
+    control.network_security_group_access_restricted_public_vm,
+    control.network_security_group_subnet_associated,
     control.postgres_sql_ssl_enabled,
-    control.storage_account_secure_transfer_required_enabled,
+    control.storage_account_secure_transfer_required_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

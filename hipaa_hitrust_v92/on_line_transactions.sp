@@ -48,6 +48,7 @@ benchmark "hipaa_hitrust_v92_0949_09y2organizational_5_09_y" {
     control.appservice_function_app_only_https_accessible,
     control.appservice_web_app_latest_tls_version,
     control.appservice_web_app_use_https,
+    control.appservice_api_app_use_https
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

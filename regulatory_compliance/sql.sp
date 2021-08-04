@@ -24,3 +24,13 @@ control "sql_server_transparent_data_encryption_enabled" {
   })
 }
 
+control "sql_server_auditing_on" {
+  title       = "Auditing on SQL server should be enabled"
+  description = "Auditing on your SQL Server should be enabled to track database activities across all databases on the server and save them in an audit log."
+  sql         = query.sql_server_auditing_on.sql
+
+  tags = merge(local.conformance_pack_sql_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+

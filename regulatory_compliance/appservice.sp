@@ -84,3 +84,22 @@ control "appservice_web_app_use_virtual_service_endpoint" {
   })
 }
 
+control "appservice_api_app_use_https" {
+  title       = "API App should only be accessible over HTTPS"
+  description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
+  sql         = query.appservice_api_app_use_https.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "appservice_api_app_remote_debugging_disabled" {
+  title       = "Remote debugging should be turned off for API Apps"
+  description = "Remote debugging requires inbound ports to be opened on API apps. Remote debugging should be turned off."
+  sql         = query.appservice_api_app_remote_debugging_disabled.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

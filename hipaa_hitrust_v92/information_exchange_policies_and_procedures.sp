@@ -5,7 +5,8 @@ benchmark "hipaa_hitrust_v92_information_exchange_policies_and_procedures" {
     benchmark.hipaa_hitrust_v92_0912_09s1organizational_4_09_s,
     benchmark.hipaa_hitrust_v92_0915_09s2organizational_2_09_s,
     benchmark.hipaa_hitrust_v92_0913_09s1organizational_5_09_s,
-    benchmark.hipaa_hitrust_v92_1325_09s1organizational_3_09_s
+    benchmark.hipaa_hitrust_v92_1325_09s1organizational_3_09_s,
+    benchmark.hipaa_hitrust_v92_0914_09s1organizational_6_09_s
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -46,6 +47,16 @@ benchmark "hipaa_hitrust_v92_0913_09s1organizational_5_09_s" {
   description   = "Strong cryptography protocols are used to safeguard covered information during transmission over less trusted / open public networks."
   children = [
     control.appservice_function_app_remote_debugging_disabled,
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0914_09s1organizational_6_09_s" {
+  title         = "0914.09s1Organizational.6 - 09.s"
+  description   = "The organization ensures that communication protection requirements, including the security of exchanges of information, is the subject of policy development and compliance audits."
+  children = [
+    control.appservice_api_app_remote_debugging_disabled,
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

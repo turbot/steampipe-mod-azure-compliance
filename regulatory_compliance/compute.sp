@@ -23,10 +23,21 @@ control "compute_unattached_disk_encrypted_with_cmk" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
 control "compute_vm_attached_with_network" {
   title       = "Virtual machines should be connected to an approved virtual network"
   description   = "This policy audits any virtual machine connected to a virtual network that is not approved."
   sql         = query.compute_vm_attached_with_network.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_remote_access_restricted" {
+  title       = "Adaptive network hardening recommendations should be applied on internet facing virtual machines"
+  description   = "Azure Security Center analyzes the traffic patterns of Internet facing virtual machines and provides Network Security Group rule recommendations that reduce the potential attack surface."
+  sql         = query.compute_vm_remote_access_restricted.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"

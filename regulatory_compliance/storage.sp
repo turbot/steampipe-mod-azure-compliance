@@ -27,7 +27,7 @@ control "storage_account_default_network_access_rule_denied" {
 control "storage_account_use_virtual_service_endpoint" {
   title       = "Storage Accounts should use a virtual network service endpoint"
   description = "This policy audits any Storage Account not configured to use a virtual network service endpoint."
-  sql         = storage_account_use_virtual_service_endpoint.sql
+  sql         = query.storage_account_use_virtual_service_endpoint.sql
 
   tags = merge(local.conformance_pack_storage_common_tags, {
     hipaa_hitrust_v92 = "true"

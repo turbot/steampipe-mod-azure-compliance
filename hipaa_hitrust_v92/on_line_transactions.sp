@@ -44,11 +44,11 @@ benchmark "hipaa_hitrust_v92_0949_09y2organizational_5_09_y" {
   title         = "0949.09y2Organizational.5 - 09.y"
   description   = "The protocols used for communications are enhanced to address any new vulnerability, and the updated versions of the protocols are adopted as soon as possible."
   children = [
+    control.appservice_api_app_use_https,
     control.appservice_function_app_latest_tls_version,
     control.appservice_function_app_only_https_accessible,
     control.appservice_web_app_latest_tls_version,
-    control.appservice_web_app_use_https,
-    control.appservice_api_app_use_https
+    control.appservice_web_app_use_https
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

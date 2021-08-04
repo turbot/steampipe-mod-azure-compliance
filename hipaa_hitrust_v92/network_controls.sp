@@ -30,7 +30,7 @@ benchmark "hipaa_hitrust_v92_0867_09m3organizational_17_09_m" {
   title         = "0867.09m3Organizational.17 - 09.m"
   description   = "Wireless access points are placed in secure areas and shut down when not in use (e.g. nights, weekends)."
   children = [
-    control.storage_account_use_virtual_service_endpoint.sql
+    control.storage_account_use_virtual_service_endpoint
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

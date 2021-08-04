@@ -55,14 +55,5 @@ control "network_security_group_not_configured_gateway_subnets" {
   })
 }
 
-control "network_security_group_access_restricted_public_vm" {
-  title       = "Internet-facing virtual machines should be protected with network security groups"
-  description = "Protect your virtual machines from potential threats by restricting access to them with network security groups (NSG). Learn more about controlling traffic with NSGs at https://aka.ms/nsg-doc."
-  sql         = network_security_group_access_restricted_public_vm.sql
-
-  tags = merge(local.conformance_pack_network_common_tags, {
-    hipaa_hitrust_v92 = "true"
-  })
-}
 
 

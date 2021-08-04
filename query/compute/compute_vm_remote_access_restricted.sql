@@ -31,7 +31,7 @@ with network_sg as (
 )
 select
   -- Required Columns
-  vm.id resource,
+  vm.vm_id as resource,
   case
     when sg.sg_name is null then 'ok'
     else 'alarm'

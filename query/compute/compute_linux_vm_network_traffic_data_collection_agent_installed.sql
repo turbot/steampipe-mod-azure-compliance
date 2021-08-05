@@ -1,6 +1,6 @@
 select
   -- Required Columns
-  vm.id as resource,
+  vm.vm_id as resource,
   case
     when os_type = 'Windows' then 'skip'
     when image_publisher = 'Canonical' and image_offer = 'UbuntuServer' and image_sku = any(array

@@ -1,6 +1,6 @@
 select
   -- Required Columns
-  vm.id as resource,
+  vm.vm_id as resource,
   case
     when image_publisher = any(ARRAY
       ['esri', 'incredibuild', 'MicrosoftDynamicsAX', 'MicrosoftSharepoint', 'MicrosoftVisualStudio', 'MicrosoftWindowsDesktop',

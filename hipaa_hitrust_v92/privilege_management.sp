@@ -1,15 +1,27 @@
 benchmark "hipaa_hitrust_v92_privilege_management" {
   title         = "Privilege Management"
   children = [
+    benchmark.hipaa_hitrust_v92_11180_01c3system_6_01_c,
     benchmark.hipaa_hitrust_v92_1143_01c1system_23_01_c,
     benchmark.hipaa_hitrust_v92_1144_01c1system_4_01_c,
     benchmark.hipaa_hitrust_v92_1145_01c2system_1_01_c,
+    benchmark.hipaa_hitrust_v92_1147_01c2system_456_01_c,
     benchmark.hipaa_hitrust_v92_1149_01c2system_9_01_c,
     benchmark.hipaa_hitrust_v92_1150_01c2system_10_01_c,
-    benchmark.hipaa_hitrust_v92_1153_01c3system_35_01_c,
     benchmark.hipaa_hitrust_v92_1151_01c3system_1_01_c,
     benchmark.hipaa_hitrust_v92_1152_01c3system_2_01_c,
-    benchmark.hipaa_hitrust_v92_1154_01c3system_4_01_c
+    benchmark.hipaa_hitrust_v92_1153_01c3system_35_01_c,
+    benchmark.hipaa_hitrust_v92_1154_01c3system_4_01_c,
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_11180_01c3system_6_01_c" {
+  title         = "11180.01c3System.6 - 01.c"
+  description   = "Access to management functions or administrative consoles for systems hosting virtualized systems are restricted to personnel based upon the principle of least privilege and supported through technical controls."
+  children = [
+    control.compute_vm_jit_access_protected
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -50,6 +62,16 @@ benchmark "hipaa_hitrust_v92_1150_01c2system_10_01_c" {
   description   = "Access to management functions or administrative consoles for systems hosting virtualized systems are restricted to personnel based upon the principle of least privilege and supported through technical controls."
   children = [
     control.network_security_group_remote_access_restricted
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1147_01c2system_456_01_c" {
+  title         = "1147.01c2System.456 - 01.c"
+  description   = "Elevated privileges are assigned to a different user ID from those used for normal business use, all users access privileged services in a single role, and such privileged access is minimized."
+  children = [
+    control.iam_deprecated_account_with_owner_roles
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

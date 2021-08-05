@@ -55,5 +55,15 @@ control "network_security_group_not_configured_gateway_subnets" {
   })
 }
 
+control "network_watcher_in_regions_with_virtual_network" {
+  title       = "Deploy network watcher when virtual networks are created"
+  description = "This policy creates a network watcher resource in regions with virtual networks. You need to ensure existence of a resource group named networkWatcherRG, which will be used to deploy network watcher instances."
+  sql         = query.network_watcher_in_regions_with_virtual_network.sql
+
+  tags = merge(local.conformance_pack_network_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
 
 

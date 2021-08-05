@@ -34,3 +34,22 @@ control "sql_server_auditing_on" {
   })
 }
 
+control "sql_server_use_virtual_service_endpoint" {
+  title       = "SQL Server should use a virtual network service endpoint"
+  description = "This policy audits any SQL Server not configured to use a virtual network service endpoint."
+  sql         = query.sql_server_use_virtual_service_endpoint.sql
+
+  tags = merge(local.conformance_pack_sql_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "sql_server_tde_protector_cmk_encrypted" {
+  title       = "SQL servers should use customer-managed keys to encrypt data at rest"
+  description = "Implementing Transparent Data Encryption (TDE) with your own key provides increased transparency and control over the TDE Protector, increased security with an HSM-backed external service, and promotion of separation of duties. This recommendation applies to organizations with a related compliance requirement."
+  sql         = query.sql_server_tde_protector_cmk_encrypted.sql
+
+  tags = merge(local.conformance_pack_sql_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

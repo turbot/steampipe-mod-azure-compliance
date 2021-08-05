@@ -1,16 +1,29 @@
 benchmark "hipaa_hitrust_v92_network_controls" {
   title         = "Network Controls"
   children = [
-    benchmark.hipaa_hitrust_v92_0866_09m3organizational_1516_09_m,
+    benchmark.hipaa_hitrust_v92_0858_09m1organizational_4_09_m,
     benchmark.hipaa_hitrust_v92_0859_09m1organizational_78_09_m,
     benchmark.hipaa_hitrust_v92_0861_09m2organizational_67_09_m,
+    benchmark.hipaa_hitrust_v92_0862_09m2organizational_8_09_m,
+    benchmark.hipaa_hitrust_v92_0863_09m2organizational_910_09_m,
     benchmark.hipaa_hitrust_v92_0864_09m2organizational_12_09_m,
+    benchmark.hipaa_hitrust_v92_0865_09m2organizational_13_09_m,
+    benchmark.hipaa_hitrust_v92_0866_09m3organizational_1516_09_m,
     benchmark.hipaa_hitrust_v92_0867_09m3organizational_17_09_m,
     benchmark.hipaa_hitrust_v92_0868_09m3organizational_18_09_m,
     benchmark.hipaa_hitrust_v92_0869_09m3organizational_19_09_m,
     benchmark.hipaa_hitrust_v92_0870_09m3organizational_20_09_m,
-    benchmark.hipaa_hitrust_v92_0871_09m3organizational_22_09_m
+    benchmark.hipaa_hitrust_v92_0871_09m3organizational_22_09_m,
+  ]
 
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0858_09m1organizational_4_09_m" {
+  title         = "0858.09m1Organizational.4 - 09.m"
+  description   = "The organization monitors for all authorized and unauthorized wireless access to the information system and prohibits installation of wireless access points (WAPs) unless explicitly authorized in writing by the CIO or his/her designated representative."
+  children = [
+    control.compute_vm_jit_access_protected,
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -41,6 +54,36 @@ benchmark "hipaa_hitrust_v92_0868_09m3organizational_18_09_m" {
   description   = "The organization builds a firewall configuration to restrict inbound and outbound traffic to that which is necessary for the covered data environment."
   children = [
     control.container_registry_use_virtual_service_endpoint
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0862_09m2organizational_8_09_m" {
+  title         = "0862.09m2Organizational.8 - 09.m"
+  description   = "The organization ensures information systems protect the confidentiality and integrity of transmitted information, including during preparation for transmission and during reception."
+  children = [
+    control.sql_server_use_virtual_service_endpoint
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0863_09m2organizational_910_09_m" {
+  title         = "0863.09m2Organizational.910 - 09.m"
+  description   = "The organization builds a firewall configuration that restricts connections between un-trusted networks and any system components in the covered information environment; and any changes to the firewall configuration are updated in the network diagram."
+  children = [
+    control.eventhub_namespace_use_virtual_service_endpoint
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0865_09m2organizational_13_09_m" {
+  title         = "0863.09m2Organizational.910 - 09.m"
+  description   = "The organization (i) authorizes connections from the information system to other information systems outside of the organization through the use of interconnection security agreements or other formal agreement; (ii) documents each connection, the interface characteristics, security requirements, and the nature of the information communicated; (iii) employs a deny all, permit by exception policy for allowing connections from the information system to other information systems outside of the organization; and (iv) applies a default-deny rule that drops all traffic via host-based firewalls or port filtering tools on its endpoints (workstations, servers, etc.), except those services and ports that are explicitly allowed."
+  children = [
+    control.keyvault_vault_use_virtual_service_endpoint
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

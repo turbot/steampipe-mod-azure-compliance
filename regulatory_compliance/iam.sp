@@ -33,3 +33,13 @@ control "iam_no_custom_subscription_owner_roles_created" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "iam_deprecated_account_with_owner_roles" {
+  title       = "Deprecated accounts with owner permissions should be removed from your subscription"
+  description = "Deprecated accounts with owner permissions should be removed from your subscription. Deprecated accounts are accounts that have been blocked from signing in."
+  sql         = query.iam_deprecated_account_with_owner_roles.sql
+
+  tags = merge(local.conformance_pack_iam_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

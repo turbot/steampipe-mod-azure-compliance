@@ -30,7 +30,7 @@ benchmark "hipaa_hitrust_v92_0886_09n2Organizational_4_09_n" {
 }
 
 benchmark "hipaa_hitrust_v92_0888_09n2Organizational_6_09_n" {
-  title         = "0888.09n2Organizational.6 - 09.n "
+  title         = "0888.09n2Organizational.6 - 09.n"
   description   = "The contract with the external/outsourced service provider includes the specification that the service provider is responsible for the protection of covered information shared."
   children = [
     control.network_watcher_enabled

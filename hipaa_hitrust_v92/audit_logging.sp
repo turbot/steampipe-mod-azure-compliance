@@ -2,6 +2,7 @@ benchmark "hipaa_hitrust_v92_audit_logging" {
   title         = "Audit Logging"
   children = [
     benchmark.hipaa_hitrust_v92_1211_09aa3system_4_09_aa,
+    benchmark.hipaa_hitrust_v92_1209_09aa3system_2_09_aa
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -17,3 +18,14 @@ benchmark "hipaa_hitrust_v92_1211_09aa3system_4_09_aa" {
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
+
+benchmark "hipaa_hitrust_v92_1209_09aa3system_2_09_aa" {
+  title         = "1209.09aa3System.2 - 09.aa"
+  description   = "The information system generates audit records containing the following detailed information: (i) filename accessed; (ii) program or command used to initiate the event; and (iii) source and destination addresses."
+  children = [
+    control.appservice_web_app_diagnostic_logs_enabled
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+

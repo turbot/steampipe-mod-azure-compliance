@@ -103,3 +103,55 @@ control "appservice_api_app_remote_debugging_disabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "appservice_api_app_latest_tls_version" {
+  title       = "Latest TLS version should be used in your API App"
+  description = "Upgrade to the latest TLS version."
+  sql         = query.appservice_api_app_latest_tls_version.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "appservice_web_app_diagnostic_logs_enabled" {
+  title       = "Diagnostic logs in App Services should be enabled"
+  description = "Audit enabling of diagnostic logs on the app. This enables you to recreate activity trails for investigation purposes if a security incident occurs or your network is compromised."
+  sql         = query.appservice_web_app_diagnostic_logs_enabled.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "appservice_web_app_cors_no_star" {
+  title       = "CORS should not allow every resource to access your Web Applications"
+  description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your web application. Allow only required domains to interact with your web app."
+  sql         = query.appservice_web_app_cors_no_star.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "appservice_function_app_cors_no_star" {
+  title       = "CORS should not allow every resource to access your Function Apps"
+  description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your Function app. Allow only required domains to interact with your Function app."
+  sql         = query.appservice_function_app_cors_no_star.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "appservice_api_app_cors_no_star" {
+  title       = "CORS should not allow every resource to access your API App"
+  description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your API app. Allow only required domains to interact with your API app."
+  sql         = query.appservice_api_app_cors_no_star.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+

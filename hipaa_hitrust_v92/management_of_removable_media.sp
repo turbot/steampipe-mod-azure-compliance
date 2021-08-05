@@ -3,7 +3,8 @@ benchmark "hipaa_hitrust_v92_management_of_removable_media" {
   children = [
     benchmark.hipaa_hitrust_v92_0301_09o1organizational_123_09_o,
     benchmark.hipaa_hitrust_v92_0302_09o2organizational_1_09_o,
-    benchmark.hipaa_hitrust_v92_0303_09o2organizational_2_09_o
+    benchmark.hipaa_hitrust_v92_0303_09o2organizational_2_09_o,
+    benchmark.hipaa_hitrust_v92_0304_09o3organizational_1_09_o
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -34,6 +35,16 @@ benchmark "hipaa_hitrust_v92_0303_09o2organizational_2_09_o" {
   description   = "Formal agreements with external information system providers include specific obligations for security and privacy."
   children = [
     control.compute_unattached_disk_encrypted_with_cmk
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0304_09o3organizational_1_09_o" {
+  title         = "0304.09o3Organizational.1 - 09.o"
+  description   = "The organization restricts the use of writable removable media and personally-owned removable media in organizational systems."
+  children = [
+    control.sql_server_tde_protector_cmk_encrypted
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

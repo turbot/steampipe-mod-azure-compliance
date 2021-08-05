@@ -23,3 +23,13 @@ control "keyvault_logging_enabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "keyvault_vault_use_virtual_service_endpoint" {
+  title       = "Key Vault should use a virtual network service endpoint"
+  description = "This policy audits any Key Vault not configured to use a virtual network service endpoint."
+  sql         = query.keyvault_vault_use_virtual_service_endpoint.sql
+
+  tags = merge(local.conformance_pack_keyvault_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

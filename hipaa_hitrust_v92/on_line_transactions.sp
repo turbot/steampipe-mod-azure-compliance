@@ -2,9 +2,10 @@ benchmark "hipaa_hitrust_v92_on_line_transactions" {
   title         = "On-line Transactions"
   children = [
     benchmark.hipaa_hitrust_v92_0943_09y1organizational_1_09_y,
+    benchmark.hipaa_hitrust_v92_0946_09y2organizational_14_09_y,
     benchmark.hipaa_hitrust_v92_0947_09y2organizational_2_09_y,
     benchmark.hipaa_hitrust_v92_0948_09y2organizational_3_09_y,
-    benchmark.hipaa_hitrust_v92_0949_09y2organizational_5_09_y
+    benchmark.hipaa_hitrust_v92_0949_09y2organizational_5_09_y,
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -15,6 +16,16 @@ benchmark "hipaa_hitrust_v92_0943_09y1organizational_1_09_y" {
   description   = "The organization verifies every ninety (90) days for each extract of covered information recorded that the data is erased or its use is still required."
   children = [
     control.storage_account_secure_transfer_required_enabled,
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0946_09y2organizational_14_09_y" {
+  title         = "0946.09y2Organizational.14 - 09.y"
+  description   = "The organization requires the use of encryption between, and the use of electronic signatures by, each of the parties involved in the transaction."
+  children = [
+    control.azure_redis_cache_ssl_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -44,6 +55,7 @@ benchmark "hipaa_hitrust_v92_0949_09y2organizational_5_09_y" {
   title         = "0949.09y2Organizational.5 - 09.y"
   description   = "The protocols used for communications are enhanced to address any new vulnerability, and the updated versions of the protocols are adopted as soon as possible."
   children = [
+    control.appservice_api_app_latest_tls_version,
     control.appservice_api_app_use_https,
     control.appservice_function_app_latest_tls_version,
     control.appservice_function_app_only_https_accessible,

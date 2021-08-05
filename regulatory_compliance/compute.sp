@@ -46,8 +46,18 @@ control "compute_vm_remote_access_restricted" {
 
 control "compute_vm_tcp_udp_access_restricted_internet" {
   title       = "Internet-facing virtual machines should be protected with network security groups"
-  description = "Protect your virtual machines from potential threats by restricting access to them with network security groups (NSG). Learn more about controlling traffic with NSGs at https://aka.ms/nsg-doc."
+  description = "Protect your virtual machines from potential threats by restricting access to them with network security groups (NSG)."
   sql         = query.compute_vm_tcp_udp_access_restricted_internet.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_jit_access_protected" {
+  title       = "Management ports of virtual machines should be protected with just-in-time network access control"
+  description = "Possible network Just In Time (JIT) access will be monitored by Azure Security Center as recommendations"
+  sql         = query.compute_vm_jit_access_protected.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"

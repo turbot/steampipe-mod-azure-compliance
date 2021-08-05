@@ -55,9 +55,19 @@ control "compute_vm_tcp_udp_access_restricted_internet" {
 }
 
 control "compute_vm_jit_access_protected" {
-  title       = "Management ports of virtual machines should be protected with just-in-time network access control"
+  title       = "Management ports of virtual machines should be protected with just-in-time network access control."
   description = "Possible network Just In Time (JIT) access will be monitored by Azure Security Center as recommendations"
   sql         = query.compute_vm_jit_access_protected.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_log_analytics_agent_installed" {
+  title       = "The Log Analytics agent should be installed on virtual machines"
+  description = "This policy audits any Windows/Linux virtual machines if the Log Analytics agent is not installed."
+  sql         = query.compute_vm_log_analytics_agent_installed.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"

@@ -4,7 +4,9 @@ benchmark "hipaa_hitrust_v92_monitoring_system_use" {
     benchmark.hipaa_hitrust_v92_1213_09ab2system_128_09_ab,
     benchmark.hipaa_hitrust_v92_1220_09ab3system_56_09_ab,
     benchmark.hipaa_hitrust_v92_1212_09ab1system_1_09_ab,
-    benchmark.hipaa_hitrust_v92_1219_09ab3system_10_09_ab
+    benchmark.hipaa_hitrust_v92_1219_09ab3system_10_09_ab,
+    benchmark.hipaa_hitrust_v92_12100_09ab2system_15_09_ab,
+    benchmark.hipaa_hitrust_v92_1215_09ab2system_7_09_ab
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -45,6 +47,26 @@ benchmark "hipaa_hitrust_v92_1219_09ab3system_10_09_ab" {
   description   = "The information system is able to automatically process audit records for events of interest based on selectable criteria."
   children = [
     control.monitor_log_profile_enabled_for_all_categories
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_12100_09ab2system_15_09_ab" {
+  title         = "12100.09ab2System.15 - 09.ab"
+  description   = "The organization monitors the information system to identify irregularities or anomalies that are indicators of a system malfunction or compromise and help confirm the system is functioning in an optimal, resilient and secure state."
+  children = [
+    control.compute_vm_log_analytics_agent_installed
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1215_09ab2system_7_09_ab" {
+  title         = "1215.09ab2System.7 - 09.ab"
+  description   = "Auditing and monitoring systems employed by the organization support audit reduction and report generation."
+  children = [
+    control.compute_vm_log_analytics_agent_installed
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

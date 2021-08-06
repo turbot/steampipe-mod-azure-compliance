@@ -44,6 +44,7 @@ benchmark "hipaa_hitrust_v92_0304_09o3organizational_1_09_o" {
   title         = "0304.09o3Organizational.1 - 09.o"
   description   = "The organization restricts the use of writable removable media and personally-owned removable media in organizational systems."
   children = [
+    control.datalake_store_account_encryption_enabled,
     control.sql_server_tde_protector_cmk_encrypted
   ]
 

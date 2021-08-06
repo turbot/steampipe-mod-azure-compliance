@@ -4,7 +4,8 @@ benchmark "hipaa_hitrust_v92_segregation_of_duties" {
     benchmark.hipaa_hitrust_v92_1229_09c1organizational_1_09_c,
     benchmark.hipaa_hitrust_v92_1232_09c3organizational_12_09_c,
     benchmark.hipaa_hitrust_v92_1276_09c2organizational_2_09_c,
-    benchmark.hipaa_hitrust_v92_1278_09c2organizational_56_09_c
+    benchmark.hipaa_hitrust_v92_1278_09c2organizational_56_09_c,
+    benchmark.hipaa_hitrust_v92_1230_09c2organizational_1_09_c
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -50,3 +51,12 @@ benchmark "hipaa_hitrust_v92_1278_09c2organizational_56_09_c" {
   tags          = local.hipaa_hitrust_v92_common_tags
 }
 
+benchmark "hipaa_hitrust_v92_1230_09c2organizational_1_09_c" {
+  title         = "1230.09c2Organizational.1 - 09.c"
+  description   = "No single person is able to access, modify, or use information systems without authorization or detection."
+  children = [
+    control.iam_no_custom_role
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}

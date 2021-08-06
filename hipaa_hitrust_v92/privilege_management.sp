@@ -12,6 +12,7 @@ benchmark "hipaa_hitrust_v92_privilege_management" {
     benchmark.hipaa_hitrust_v92_1152_01c3system_2_01_c,
     benchmark.hipaa_hitrust_v92_1153_01c3system_35_01_c,
     benchmark.hipaa_hitrust_v92_1154_01c3system_4_01_c,
+    benchmark.hipaa_hitrust_v92_1148_01c2system_78_01_c
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -122,6 +123,16 @@ benchmark "hipaa_hitrust_v92_1154_01c3system_4_01_c" {
   description   = "Contractors are provided with minimal system and physical access only after the organization assesses the contractor's ability to comply with its security requirements and the contractor agrees to comply."
   children = [
     control.iam_subscription_owner_max_3
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1148_01c2system_78_01_c" {
+  title         = "1148.01c2System.78 - 01.c"
+  description   = "The organization restricts access to privileged functions and all security-relevant information."
+  children = [
+    control.iam_no_custom_role
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

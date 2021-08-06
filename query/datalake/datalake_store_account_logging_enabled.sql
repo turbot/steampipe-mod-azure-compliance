@@ -9,8 +9,7 @@ with logging_details as (
     diagnostic_settings is not null
     and (
       (
-        setting -> 'properties' ->> 'storageAccountId' <> ''
-        and (log ->> 'enabled') :: boolean
+        (log ->> 'enabled') :: boolean
         and (log -> 'retentionPolicy' ->> 'enabled') :: boolean
         and (log -> 'retentionPolicy') :: JSONB ? 'days'
       )
@@ -18,7 +17,7 @@ with logging_details as (
       (
         (log ->> 'enabled') :: boolean
         and (
-          not (log -> 'retentionPolicy' ->> 'enabled') :: boolean
+          log -> 'retentionPolicy' ->> 'enabled' <> 'true'
           or setting -> 'properties' ->> 'storageAccountId' = ''
         )
       )
@@ -41,8 +40,8 @@ select
   a.resource_group,
   sub.display_name as subscription
 from
-  azure_data_lake_store a,
-  logging_details l,
+  azure_data_lake_store a
+  left join logging_details as l on a.account_id = l.account_id,
   azure_subscription sub
 where
   sub.subscription_id = a.subscription_id;

@@ -6,10 +6,22 @@ with logging_details as (
     jsonb_array_elements(diagnostic_settings) setting,
     jsonb_array_elements(setting -> 'properties' -> 'logs') log
   where
-    diagnostic_settings is not null
-    and setting -> 'properties' ->> 'storageAccountId' <> ''
-    and (log ->> 'enabled') :: boolean
-    and (log -> 'retentionPolicy') :: JSONB ? 'days'
+   diagnostic_settings is not null
+    and (
+      (
+        (log ->> 'enabled') :: boolean
+        and (log -> 'retentionPolicy' ->> 'enabled') :: boolean
+        and (log -> 'retentionPolicy') :: JSONB ? 'days'
+      )
+      or
+      (
+        (log ->> 'enabled') :: boolean
+        and (
+          log -> 'retentionPolicy' ->> 'enabled' <> 'true'
+          or setting -> 'properties' ->> 'storageAccountId' = ''
+        )
+      )
+    )
 )
 select
   -- Required Columns

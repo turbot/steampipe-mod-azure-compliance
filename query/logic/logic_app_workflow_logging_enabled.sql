@@ -1,8 +1,8 @@
 with logging_details as (
   select
-    distinct name as namespace_name
+    distinct id as workflow_id
   from
-    azure_servicebus_namespace,
+    azure_logic_app_workflow,
     jsonb_array_elements(diagnostic_settings) setting,
     jsonb_array_elements(setting -> 'properties' -> 'logs') log
   where
@@ -25,23 +25,23 @@ with logging_details as (
 )
 select
   -- Required Columns
-  v.id as resource,
+  a.id as resource,
   case
-    when v.diagnostic_settings is null then 'alarm'
-    when l.namespace_name is null then 'alarm'
-    else 'ok'
+    when a.diagnostic_settings is null then 'alarm'
+    when l.workflow_id is not null then 'ok'
+    else 'alarm'
   end as status,
   case
-    when v.diagnostic_settings is null then v.name || ' logging not enabled.'
-    when l.namespace_name not like concat('%', v.name, '%') then v.name || ' logging not enabled.'
-    else v.name || ' logging enabled.'
+    when a.diagnostic_settings is null then a.name || ' logging disabled.'
+    when l.workflow_id is not null then a.name || ' logging enabled.'
+    else a.name || ' logging disabled.'
   end as reason,
   -- Additional Dimensions
-  v.resource_group,
+  a.resource_group,
   sub.display_name as subscription
 from
-  azure_servicebus_namespace as v
-  left join logging_details as l on v.name = l.namespace_name,
-  azure_subscription as sub
+  azure_logic_app_workflow a
+  left join logging_details as l on a.id = l.workflow_id,
+  azure_subscription sub
 where
-  sub.subscription_id = v.subscription_id;
+  sub.subscription_id = a.subscription_id;

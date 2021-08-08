@@ -4,7 +4,8 @@ benchmark "hipaa_hitrust_v92_audit_logging" {
     benchmark.hipaa_hitrust_v92_1211_09aa3system_4_09_aa,
     benchmark.hipaa_hitrust_v92_1209_09aa3system_2_09_aa,
     benchmark.hipaa_hitrust_v92_1202_09aa1system_1_09_aa,
-    benchmark.hipaa_hitrust_v92_1203_09aa1system_2_09_aa
+    benchmark.hipaa_hitrust_v92_1203_09aa1system_2_09_aa,
+    benchmark.hipaa_hitrust_v92_1204_09aa1system_3_09_aa
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -46,6 +47,16 @@ benchmark "hipaa_hitrust_v92_1203_09aa1system_2_09_aa" {
   description   = "Audit records include the unique user ID, unique data subject ID, function performed, and date/time the event was performed."
   children = [
     control.logic_app_workflow_logging_enabled
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1204_09aa1system_3_09_aa" {
+  title         = "1204.09aa1System.3 - 09.aa"
+  description   = "The activities of privileged users (administrators, operators, etc.) include the success/failure of the event, time the event occurred, the account involved, the processes involved, and additional information about the event."
+  children = [
+    control.iot_hub_logging_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

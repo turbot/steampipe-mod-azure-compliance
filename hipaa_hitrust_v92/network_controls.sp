@@ -23,8 +23,7 @@ benchmark "hipaa_hitrust_v92_0858_09m1organizational_4_09_m" {
   title         = "0858.09m1Organizational.4 - 09.m"
   description   = "The organization monitors for all authorized and unauthorized wireless access to the information system and prohibits installation of wireless access points (WAPs) unless explicitly authorized in writing by the CIO or his/her designated representative."
   children = [
-    control.compute_vm_jit_access_protected,
-    control.compute_vm_tcp_udp_access_restricted_internet
+    control.compute_vm_jit_access_protected
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

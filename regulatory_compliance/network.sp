@@ -65,5 +65,12 @@ control "network_watcher_in_regions_with_virtual_network" {
   })
 }
 
+control "compute_vm_remote_access_restricted_all_ports" {
+  title       = "All network ports should be restricted on network security groups associated to your virtual machine"
+  description = "Azure Security Center has identified some of your network security groups' inbound rules to be too permissive. Inbound rules should not allow access from 'Any' or 'Internet' ranges. This can potentially enable attackers to target your resources."
+  sql         = query.compute_vm_remote_access_restricted_all_ports.sql
 
-
+  tags = merge(local.conformance_pack_network_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

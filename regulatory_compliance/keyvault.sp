@@ -43,3 +43,13 @@ control "keyvault_managed_hms_purge_protection_enabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "keyvault_managed_hms_logging_enabled" {
+  title       = "Resource logs in Azure Key Vault Managed HSM should be enabled"
+  description = "To recreate activity trails for investigation purposes when a security incident occurs or when your network is compromised, you may want to audit by enabling resource logs on Managed HSMs."
+  sql         = query.keyvault_managed_hms_logging_enabled.sql
+
+  tags = merge(local.conformance_pack_keyvault_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

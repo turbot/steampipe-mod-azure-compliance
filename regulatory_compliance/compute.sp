@@ -73,3 +73,13 @@ control "compute_vm_log_analytics_agent_installed" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_vm_log_analytics_agent_installed_windows" {
+  title       = "Audit Windows machines on which the Log Analytics agent is not connected as expected"
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the agent is not installed, or if it is installed but the COM object AgentConfigManager.MgmtSvcCfg returns that it is registered to a workspace other than the ID specified in the policy parameter."
+  sql         = query.compute_vm_log_analytics_agent_installed_windows.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

@@ -1,12 +1,13 @@
 benchmark "hipaa_hitrust_v92_monitoring_system_use" {
   title         = "Monitoring System Use"
   children = [
-    benchmark.hipaa_hitrust_v92_1213_09ab2system_128_09_ab,
-    benchmark.hipaa_hitrust_v92_1220_09ab3system_56_09_ab,
-    benchmark.hipaa_hitrust_v92_1212_09ab1system_1_09_ab,
-    benchmark.hipaa_hitrust_v92_1219_09ab3system_10_09_ab,
     benchmark.hipaa_hitrust_v92_12100_09ab2system_15_09_ab,
-    benchmark.hipaa_hitrust_v92_1215_09ab2system_7_09_ab
+    benchmark.hipaa_hitrust_v92_1212_09ab1system_1_09_ab,
+    benchmark.hipaa_hitrust_v92_1213_09ab2system_128_09_ab,
+    benchmark.hipaa_hitrust_v92_1215_09ab2system_7_09_ab,
+    benchmark.hipaa_hitrust_v92_1217_09ab3system_3_09_ab,
+    benchmark.hipaa_hitrust_v92_1219_09ab3system_10_09_ab,
+    benchmark.hipaa_hitrust_v92_1220_09ab3system_56_09_ab
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -67,6 +68,16 @@ benchmark "hipaa_hitrust_v92_1215_09ab2system_7_09_ab" {
   description   = "Auditing and monitoring systems employed by the organization support audit reduction and report generation."
   children = [
     control.compute_vm_log_analytics_agent_installed
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1217_09ab3system_3_09_ab" {
+  title         = "1217.09ab3System.3 - 09.ab"
+  description   = "Alerts are generated for technical personnel to analyze and investigate suspicious activity or suspected violations."
+  children = [
+    control.compute_vm_log_analytics_agent_installed_windows
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

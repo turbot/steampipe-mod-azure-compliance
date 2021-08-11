@@ -8,7 +8,8 @@ benchmark "hipaa_hitrust_v92_audit_logging" {
     benchmark.hipaa_hitrust_v92_1204_09aa1system_3_09_aa,
     benchmark.hipaa_hitrust_v92_1205_09aa2system_1_09_aa,
     benchmark.hipaa_hitrust_v92_1207_09aa2system_4_09_aa,
-    benchmark.hipaa_hitrust_v92_1208_09aa3system_1_09_aa
+    benchmark.hipaa_hitrust_v92_1208_09aa3system_1_09_aa,
+    benchmark.hipaa_hitrust_v92_1210_09aa3system_3_09_aa
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -92,6 +93,16 @@ benchmark "hipaa_hitrust_v92_1208_09aa3system_1_09_aa" {
   description   = "Audit logs are maintained for management activities, system and application startup/shutdown/errors, file changes, and security policy changes."
   children = [
     control.servicebus_namespace_logging_enabled
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1210_09aa3system_3_09_aa" {
+  title         = "1210.09aa3System.3 - 09.aa"
+  description   = "All disclosures of covered information within or outside of the organization are logged including type of disclosure, date/time of the event, recipient, and sender."
+  children = [
+    control.datalake_analytics_account_logging_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

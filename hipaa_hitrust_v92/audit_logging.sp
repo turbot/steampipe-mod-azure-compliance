@@ -5,7 +5,10 @@ benchmark "hipaa_hitrust_v92_audit_logging" {
     benchmark.hipaa_hitrust_v92_1209_09aa3system_2_09_aa,
     benchmark.hipaa_hitrust_v92_1202_09aa1system_1_09_aa,
     benchmark.hipaa_hitrust_v92_1203_09aa1system_2_09_aa,
-    benchmark.hipaa_hitrust_v92_1204_09aa1system_3_09_aa
+    benchmark.hipaa_hitrust_v92_1204_09aa1system_3_09_aa,
+    benchmark.hipaa_hitrust_v92_1205_09aa2system_1_09_aa,
+    benchmark.hipaa_hitrust_v92_1207_09aa2system_4_09_aa,
+    benchmark.hipaa_hitrust_v92_1208_09aa3system_1_09_aa
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -58,6 +61,37 @@ benchmark "hipaa_hitrust_v92_1204_09aa1system_3_09_aa" {
   description   = "The activities of privileged users (administrators, operators, etc.) include the success/failure of the event, time the event occurred, the account involved, the processes involved, and additional information about the event."
   children = [
     control.iot_hub_logging_enabled
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1205_09aa2system_1_09_aa" {
+  title         = "1205.09aa2System.1 - 09.aa"
+  description   = "Logs of messages sent and received are maintained including the date, time, origin and destination of the message, but not its contents."
+  children = [
+    control.batch_account_logging_enabled
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1207_09aa2system_4_09_aa" {
+  title         = "1207.09aa2System.4 - 09.aa"
+  description   = "Audit records are retained for 90 days and older audit records are archived for one year."
+  children = [
+    control.eventhub_namespace_logging_enabled,
+    control.stream_analytics_job_logging_enabled
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1208_09aa3system_1_09_aa" {
+  title         = "1208.09aa3System.1 - 09.aa"
+  description   = "Audit logs are maintained for management activities, system and application startup/shutdown/errors, file changes, and security policy changes."
+  children = [
+    control.servicebus_namespace_logging_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

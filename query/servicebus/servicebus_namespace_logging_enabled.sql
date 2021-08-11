@@ -33,7 +33,7 @@ select
   end as status,
   case
     when v.diagnostic_settings is null then v.name || ' logging not enabled.'
-    when l.namespace_name not like concat('%', v.name, '%') then v.name || ' logging not enabled.'
+    when l.namespace_name is null then v.name || ' logging not enabled.'
     else v.name || ' logging enabled.'
   end as reason,
   -- Additional Dimensions

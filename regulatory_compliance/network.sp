@@ -64,3 +64,13 @@ control "network_watcher_in_regions_with_virtual_network" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "network_security_group_diagnostic_setting_deployed" {
+  title       = "Deploy Diagnostic Settings for Network Security Groups"
+  description = "This policy automatically deploys diagnostic settings to network security groups. A storage account with name '{storagePrefixParameter}{NSGLocation}' will be automatically created."
+  sql         = query.network_security_group_diagnostic_setting_deployed.sql
+
+  tags = merge(local.conformance_pack_network_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

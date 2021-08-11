@@ -83,3 +83,13 @@ control "compute_vm_log_analytics_agent_installed_windows" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_vm_malware_agent_installed" {
+  title       = "Deploy default Microsoft IaaSAntimalware extension for Windows Server"
+  description = "This policy deploys a Microsoft IaaSAntimalware extension with a default configuration when a VM is not configured with the antimalware extension."
+  sql         = query.compute_vm_malware_agent_installed.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

@@ -14,6 +14,7 @@ benchmark "hipaa_hitrust_v92_network_controls" {
     benchmark.hipaa_hitrust_v92_0869_09m3organizational_19_09_m,
     benchmark.hipaa_hitrust_v92_0870_09m3organizational_20_09_m,
     benchmark.hipaa_hitrust_v92_0871_09m3organizational_22_09_m,
+    benchmark.hipaa_hitrust_v92_0860_09m1organizational_9_09_m
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -144,6 +145,16 @@ benchmark "hipaa_hitrust_v92_0864_09m2organizational_12_09_m" {
   description   = "Usage restrictions and implementation guidance are formally defined for VoIP, including the authorization and monitoring of the service."
   children = [
     control.cosmosdb_use_virtual_service_endpoint
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0860_09m1organizational_9_09_m" {
+  title         = "0860.09m1Organizational.9 - 09.m"
+  description   = "The organization formally manages equipment on the network, including equipment in user areas."
+  children = [
+    control.network_security_group_diagnostic_setting_deployed
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

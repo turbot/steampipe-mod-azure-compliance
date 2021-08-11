@@ -7,7 +7,9 @@ benchmark "hipaa_hitrust_v92_monitoring_system_use" {
     benchmark.hipaa_hitrust_v92_1215_09ab2system_7_09_ab,
     benchmark.hipaa_hitrust_v92_1217_09ab3system_3_09_ab,
     benchmark.hipaa_hitrust_v92_1219_09ab3system_10_09_ab,
-    benchmark.hipaa_hitrust_v92_1220_09ab3system_56_09_ab
+    benchmark.hipaa_hitrust_v92_1220_09ab3system_56_09_ab,
+    benchmark.hipaa_hitrust_v92_12101_09ab1organizational_3_09_ab,
+    benchmark.hipaa_hitrust_v92_1216_09ab3system_12_09_ab
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -78,6 +80,26 @@ benchmark "hipaa_hitrust_v92_1217_09ab3system_3_09_ab" {
   description   = "Alerts are generated for technical personnel to analyze and investigate suspicious activity or suspected violations."
   children = [
     control.compute_vm_log_analytics_agent_installed_windows
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_12101_09ab1organizational_3_09_ab" {
+  title         = "12101.09ab1Organizational.3 - 09.ab"
+  description   = "The organization specifies how often audit logs are reviewed, how the reviews are documented, and the specific roles and responsibilities of the personnel conducting the reviews, including the professional certifications or other qualifications required."
+  children = [
+    control.compute_vm_scale_set_log_analytics_agent_installed
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1216_09ab3system_12_09_ab" {
+  title         = "1216.09ab3System.12 - 09.ab"
+  description   = "Automated systems are used to review monitoring activities of security systems (e.g., IPS/IDS) and system records on a daily basis, and identify and document anomalies."
+  children = [
+    control.compute_vm_scale_set_log_analytics_agent_installed
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

@@ -53,3 +53,13 @@ control "sql_server_tde_protector_cmk_encrypted" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "sql_database_long_term_geo_redundant_backup_enabled" {
+  title       = "Long-term geo-redundant backup should be enabled for Azure SQL Databases"
+  description = "This policy audits any Azure SQL Database with long-term geo-redundant backup not enabled."
+  sql         = query.sql_database_long_term_geo_redundant_backup_enabled.sql
+
+  tags = merge(local.conformance_pack_sql_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

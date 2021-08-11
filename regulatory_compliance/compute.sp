@@ -93,3 +93,13 @@ control "compute_vm_malware_agent_installed" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_vm_scale_set_log_analytics_agent_installed" {
+  title       = "The Log Analytics agent should be installed on Virtual Machine Scale Sets"
+  description = "This policy audits any Windows/Linux Virtual Machine Scale Sets if the Log Analytics agent is not installed."
+  sql         = query.compute_vm_scale_set_log_analytics_agent_installed.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

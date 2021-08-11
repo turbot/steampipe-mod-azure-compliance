@@ -8,7 +8,9 @@ benchmark "hipaa_hitrust_v92_back_up" {
     benchmark.hipaa_hitrust_v92_1623_09l2organizational_4_09_l,
     benchmark.hipaa_hitrust_v92_1624_09l3organizational_12_09_l,
     benchmark.hipaa_hitrust_v92_1626_09l3organizational_5_09_l,
-    benchmark.hipaa_hitrust_v92_1627_09l3organizational_6_09_l
+    benchmark.hipaa_hitrust_v92_1627_09l3organizational_6_09_l,
+    benchmark.hipaa_hitrust_v92_1616_09l1organizational_16_09_l,
+    benchmark.hipaa_hitrust_v92_1621_09l2organizational_1_09_l
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -89,6 +91,26 @@ benchmark "hipaa_hitrust_v92_1627_09l3organizational_6_09_l" {
   description   = "The organization tests backup information following each backup to verify media reliability and information integrity, and at least annually thereafter."
   children = [
     control.mysql_db_server_geo_redundant_backup_enabled,
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1616_09l1organizational_16_09_l" {
+  title         = "1616.09l1Organizational.16 - 09.l"
+  description   = "Backup copies of information and software are made and tests of the media and restoration procedures are regularly performed at appropriate intervals."
+  children = [
+    control.sql_database_long_term_geo_redundant_backup_enabled,
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1621_09l2organizational_1_09_l" {
+  title         = "1616.09l1Organizational.16 - 09.l"
+  description   = "Automated tools are used to track all backups."
+  children = [
+    control.sql_database_long_term_geo_redundant_backup_enabled,
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

@@ -9,7 +9,8 @@ benchmark "hipaa_hitrust_v92_audit_logging" {
     benchmark.hipaa_hitrust_v92_1205_09aa2system_1_09_aa,
     benchmark.hipaa_hitrust_v92_1207_09aa2system_4_09_aa,
     benchmark.hipaa_hitrust_v92_1208_09aa3system_1_09_aa,
-    benchmark.hipaa_hitrust_v92_1210_09aa3system_3_09_aa
+    benchmark.hipaa_hitrust_v92_1210_09aa3system_3_09_aa,
+    benchmark.hipaa_hitrust_v92_1206_09aa2system_23_09_aa,
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -103,6 +104,16 @@ benchmark "hipaa_hitrust_v92_1210_09aa3system_3_09_aa" {
   description   = "All disclosures of covered information within or outside of the organization are logged including type of disclosure, date/time of the event, recipient, and sender."
   children = [
     control.datalake_analytics_account_logging_enabled
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1206_09aa2system_23_09_aa" {
+  title         = "1206.09aa2System.23 - 09.aa"
+  description   = "Auditing is always available while the system is active and tracks key events, success/failed data access, system security configuration changes, privileged or utility use, any alarms raised,  activation and de-activation of protection systems (e.g., A/V and IDS), activation and deactivation of identification and authentication mechanisms, and creation and deletion of system-level objects."
+  children = [
+    control.compute_vm_scale_set_logging_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

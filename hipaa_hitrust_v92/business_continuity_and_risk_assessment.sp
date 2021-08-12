@@ -1,7 +1,9 @@
 benchmark "hipaa_hitrust_v92_business_continuity_and_risk_assessment" {
   title         = "Business Continuity and Risk Assessment"
   children = [
-    benchmark.hipaa_hitrust_v92_1635_12b1organizational_2_12_b
+    benchmark.hipaa_hitrust_v92_1635_12b1organizational_2_12_b,
+    benchmark.hipaa_hitrust_v92_1634_12b1organizational_1_12_b,
+    benchmark.hipaa_hitrust_v92_1638_12b2organizational_345_12_b
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -13,6 +15,26 @@ benchmark "hipaa_hitrust_v92_1635_12b1organizational_2_12_b" {
   children = [
     control.keyvault_managed_hms_purge_protection_enabled,
     control.keyvault_purge_protection_enabled,
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1634_12b1organizational_1_12_b" {
+  title         = "1634.12b1Organizational.1 - 12.b"
+  description   = "The organization identifies the critical business processes requiring business continuity."
+  children = [
+    control.compute_vm_disaster_recovery_enabled
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1638_12b2organizational_345_12_b" {
+  title         = "1638.12b2Organizational.345 - 12.b"
+  description   = "Business continuity risk assessments (i) are carried out annually with full involvement from owners of business resources and processes; (ii) consider all business processes and is not limited to the information assets, but includes the results specific to information security; and (iii) identifies, quantifies, and prioritizes risks against key business objectives and criteria relevant to the organization, including critical resources, impacts of disruptions, allowable outage times, and recovery priorities."
+  children = [
+    control.compute_vm_disaster_recovery_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

@@ -5,7 +5,7 @@ locals {
 }
 
 control "container_registry_use_virtual_service_endpoint" {
-  title       = "[Preview]: Container Registry should use a virtual network service endpoint"
+  title       = "Container Registry should use a virtual network service endpoint"
   description = "This policy audits any Container Registry not configured to use a virtual network service endpoint."
   sql         = query.container_registry_use_virtual_service_endpoint.sql
 

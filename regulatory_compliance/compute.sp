@@ -103,3 +103,33 @@ control "compute_vm_scale_set_log_analytics_agent_installed" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_vm_disaster_recovery_enabled" {
+  title       = "Audit virtual machines without disaster recovery configured"
+  description = "Audit virtual machines which do not have disaster recovery configured."
+  sql         = query.compute_vm_disaster_recovery_enabled.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_malware_agent_automatic_upgrade_enabled" {
+  title       = "Microsoft Antimalware for Azure should be configured to automatically update protection signatures"
+  description = "This policy audits any Windows virtual machine not configured with automatic update of Microsoft Antimalware protection signatures."
+  sql         = query.compute_vm_malware_agent_automatic_upgrade_enabled.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_scale_set_logging_enabled" {
+  title       = "Resource logs in Virtual Machine Scale Sets should be enabled"
+  description = "It is recommended to enable Logs so that activity trail can be recreated when investigations are required in the event of an incident or a compromise."
+  sql         = query.compute_vm_scale_set_logging_enabled.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

@@ -93,6 +93,7 @@ benchmark "hipaa_hitrust_v92_1208_09aa3system_1_09_aa" {
   title         = "1208.09aa3System.1 - 09.aa"
   description   = "Audit logs are maintained for management activities, system and application startup/shutdown/errors, file changes, and security policy changes."
   children = [
+    control.search_service_logging_enabled,
     control.servicebus_namespace_logging_enabled
   ]
 

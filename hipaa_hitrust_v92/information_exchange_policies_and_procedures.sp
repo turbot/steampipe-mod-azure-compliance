@@ -2,16 +2,16 @@ benchmark "hipaa_hitrust_v92_information_exchange_policies_and_procedures" {
   title         = "Information Exchange Policies and Procedures"
   children = [
     benchmark.hipaa_hitrust_v92_0662_09scsporganizational_2_09_s,
-    benchmark.hipaa_hitrust_v92_0912_09s1organizational_4_09_s,
-    benchmark.hipaa_hitrust_v92_0915_09s2organizational_2_09_s,
-    benchmark.hipaa_hitrust_v92_0913_09s1organizational_5_09_s,
-    benchmark.hipaa_hitrust_v92_1325_09s1organizational_3_09_s,
-    benchmark.hipaa_hitrust_v92_0914_09s1organizational_6_09_s,
     benchmark.hipaa_hitrust_v92_0901_09s1organizational_1_09_s,
+    benchmark.hipaa_hitrust_v92_0902_09s2organizational_13_09_s,
+    benchmark.hipaa_hitrust_v92_0911_09s1organizational_2_09_s,
+    benchmark.hipaa_hitrust_v92_0912_09s1organizational_4_09_s,
+    benchmark.hipaa_hitrust_v92_0913_09s1organizational_5_09_s,
+    benchmark.hipaa_hitrust_v92_0914_09s1organizational_6_09_s,
+    benchmark.hipaa_hitrust_v92_0915_09s2organizational_2_09_s,
     benchmark.hipaa_hitrust_v92_0916_09s2organizational_4_09_s,
     benchmark.hipaa_hitrust_v92_0960_09scsporganizational_1_09_s,
-    benchmark.hipaa_hitrust_v92_0902_09s2organizational_13_09_s,
-    benchmark.hipaa_hitrust_v92_0911_09s1organizational_2_09_s
+    benchmark.hipaa_hitrust_v92_1325_09s1organizational_3_09_s
 
   ]
 

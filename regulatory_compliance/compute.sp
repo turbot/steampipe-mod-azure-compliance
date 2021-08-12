@@ -133,3 +133,13 @@ control "compute_vm_scale_set_logging_enabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_window_vm_meet_system_audit_policies_requirement" {
+  title       = "Windows machines should meet requirements for 'System Audit Policies - Detailed Tracking'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'System Audit Policies - Detailed Tracking' for auditing DPAPI, process creation/termination, RPC events, and PNP activity. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

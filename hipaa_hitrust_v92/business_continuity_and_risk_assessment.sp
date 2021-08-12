@@ -1,8 +1,8 @@
 benchmark "hipaa_hitrust_v92_business_continuity_and_risk_assessment" {
   title         = "Business Continuity and Risk Assessment"
   children = [
-    benchmark.hipaa_hitrust_v92_1635_12b1organizational_2_12_b,
     benchmark.hipaa_hitrust_v92_1634_12b1organizational_1_12_b,
+    benchmark.hipaa_hitrust_v92_1635_12b1organizational_2_12_b,
     benchmark.hipaa_hitrust_v92_1638_12b2organizational_345_12_b
   ]
 

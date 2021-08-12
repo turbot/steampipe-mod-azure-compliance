@@ -1,16 +1,16 @@
 benchmark "hipaa_hitrust_v92_audit_logging" {
   title         = "Audit Logging"
   children = [
-    benchmark.hipaa_hitrust_v92_1211_09aa3system_4_09_aa,
-    benchmark.hipaa_hitrust_v92_1209_09aa3system_2_09_aa,
     benchmark.hipaa_hitrust_v92_1202_09aa1system_1_09_aa,
     benchmark.hipaa_hitrust_v92_1203_09aa1system_2_09_aa,
     benchmark.hipaa_hitrust_v92_1204_09aa1system_3_09_aa,
     benchmark.hipaa_hitrust_v92_1205_09aa2system_1_09_aa,
+    benchmark.hipaa_hitrust_v92_1206_09aa2system_23_09_aa,
     benchmark.hipaa_hitrust_v92_1207_09aa2system_4_09_aa,
     benchmark.hipaa_hitrust_v92_1208_09aa3system_1_09_aa,
+    benchmark.hipaa_hitrust_v92_1209_09aa3system_2_09_aa,
     benchmark.hipaa_hitrust_v92_1210_09aa3system_3_09_aa,
-    benchmark.hipaa_hitrust_v92_1206_09aa2system_23_09_aa,
+    benchmark.hipaa_hitrust_v92_1211_09aa3system_4_09_aa
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

@@ -5,7 +5,7 @@ benchmark "hipaa_hitrust_v92_on_line_transactions" {
     benchmark.hipaa_hitrust_v92_0946_09y2organizational_14_09_y,
     benchmark.hipaa_hitrust_v92_0947_09y2organizational_2_09_y,
     benchmark.hipaa_hitrust_v92_0948_09y2organizational_3_09_y,
-    benchmark.hipaa_hitrust_v92_0949_09y2organizational_5_09_y,
+    benchmark.hipaa_hitrust_v92_0949_09y2organizational_5_09_y
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

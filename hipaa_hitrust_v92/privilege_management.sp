@@ -6,13 +6,13 @@ benchmark "hipaa_hitrust_v92_privilege_management" {
     benchmark.hipaa_hitrust_v92_1144_01c1system_4_01_c,
     benchmark.hipaa_hitrust_v92_1145_01c2system_1_01_c,
     benchmark.hipaa_hitrust_v92_1147_01c2system_456_01_c,
+    benchmark.hipaa_hitrust_v92_1148_01c2system_78_01_c,
     benchmark.hipaa_hitrust_v92_1149_01c2system_9_01_c,
     benchmark.hipaa_hitrust_v92_1150_01c2system_10_01_c,
     benchmark.hipaa_hitrust_v92_1151_01c3system_1_01_c,
     benchmark.hipaa_hitrust_v92_1152_01c3system_2_01_c,
     benchmark.hipaa_hitrust_v92_1153_01c3system_35_01_c,
-    benchmark.hipaa_hitrust_v92_1154_01c3system_4_01_c,
-    benchmark.hipaa_hitrust_v92_1148_01c2system_78_01_c
+    benchmark.hipaa_hitrust_v92_1154_01c3system_4_01_c
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

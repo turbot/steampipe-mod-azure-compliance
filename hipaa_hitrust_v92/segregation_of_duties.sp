@@ -2,10 +2,10 @@ benchmark "hipaa_hitrust_v92_segregation_of_duties" {
   title         = "Segregation of Duties"
   children = [
     benchmark.hipaa_hitrust_v92_1229_09c1organizational_1_09_c,
+    benchmark.hipaa_hitrust_v92_1230_09c2organizational_1_09_c,
     benchmark.hipaa_hitrust_v92_1232_09c3organizational_12_09_c,
     benchmark.hipaa_hitrust_v92_1276_09c2organizational_2_09_c,
-    benchmark.hipaa_hitrust_v92_1278_09c2organizational_56_09_c,
-    benchmark.hipaa_hitrust_v92_1230_09c2organizational_1_09_c
+    benchmark.hipaa_hitrust_v92_1278_09c2organizational_56_09_c
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

@@ -13,6 +13,7 @@ benchmark "hipaa_hitrust_v92" {
     benchmark.hipaa_hitrust_v92_audit_logging,
     benchmark.hipaa_hitrust_v92_back_up,
     benchmark.hipaa_hitrust_v92_business_continuity_and_risk_assessment,
+    benchmark.hipaa_hitrust_v92_change_control_procedures,
     benchmark.hipaa_hitrust_v92_control_of_technical_vulnerabilities,
     benchmark.hipaa_hitrust_v92_controls_against_malicious_code,
     benchmark.hipaa_hitrust_v92_identification_of_risks_related_to_external_parties,

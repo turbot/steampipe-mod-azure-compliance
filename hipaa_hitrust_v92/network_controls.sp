@@ -3,6 +3,7 @@ benchmark "hipaa_hitrust_v92_network_controls" {
   children = [
     benchmark.hipaa_hitrust_v92_0858_09m1organizational_4_09_m,
     benchmark.hipaa_hitrust_v92_0859_09m1organizational_78_09_m,
+    benchmark.hipaa_hitrust_v92_0860_09m1organizational_9_09_m,
     benchmark.hipaa_hitrust_v92_0861_09m2organizational_67_09_m,
     benchmark.hipaa_hitrust_v92_0862_09m2organizational_8_09_m,
     benchmark.hipaa_hitrust_v92_0863_09m2organizational_910_09_m,
@@ -13,8 +14,7 @@ benchmark "hipaa_hitrust_v92_network_controls" {
     benchmark.hipaa_hitrust_v92_0868_09m3organizational_18_09_m,
     benchmark.hipaa_hitrust_v92_0869_09m3organizational_19_09_m,
     benchmark.hipaa_hitrust_v92_0870_09m3organizational_20_09_m,
-    benchmark.hipaa_hitrust_v92_0871_09m3organizational_22_09_m,
-    benchmark.hipaa_hitrust_v92_0860_09m1organizational_9_09_m
+    benchmark.hipaa_hitrust_v92_0871_09m3organizational_22_09_m
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -24,7 +24,8 @@ benchmark "hipaa_hitrust_v92_0858_09m1organizational_4_09_m" {
   title         = "0858.09m1Organizational.4 - 09.m"
   description   = "The organization monitors for all authorized and unauthorized wireless access to the information system and prohibits installation of wireless access points (WAPs) unless explicitly authorized in writing by the CIO or his/her designated representative."
   children = [
-    control.compute_vm_jit_access_protected
+    control.compute_vm_jit_access_protected,
+    control.compute_vm_remote_access_restricted
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

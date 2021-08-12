@@ -2,14 +2,14 @@ benchmark "hipaa_hitrust_v92_monitoring_system_use" {
   title         = "Monitoring System Use"
   children = [
     benchmark.hipaa_hitrust_v92_12100_09ab2system_15_09_ab,
+    benchmark.hipaa_hitrust_v92_12101_09ab1organizational_3_09_ab,
     benchmark.hipaa_hitrust_v92_1212_09ab1system_1_09_ab,
     benchmark.hipaa_hitrust_v92_1213_09ab2system_128_09_ab,
     benchmark.hipaa_hitrust_v92_1215_09ab2system_7_09_ab,
+    benchmark.hipaa_hitrust_v92_1216_09ab3system_12_09_ab,
     benchmark.hipaa_hitrust_v92_1217_09ab3system_3_09_ab,
     benchmark.hipaa_hitrust_v92_1219_09ab3system_10_09_ab,
-    benchmark.hipaa_hitrust_v92_1220_09ab3system_56_09_ab,
-    benchmark.hipaa_hitrust_v92_12101_09ab1organizational_3_09_ab,
-    benchmark.hipaa_hitrust_v92_1216_09ab3system_12_09_ab
+    benchmark.hipaa_hitrust_v92_1220_09ab3system_56_09_ab
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

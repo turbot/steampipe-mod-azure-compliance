@@ -1,8 +1,8 @@
 benchmark "hipaa_hitrust_v92_user_identification_and_authentication" {
   title         = "User Identification and Authentication"
   children = [
-    benchmark.hipaa_hitrust_v92_11208_01q1organizational_8_01_q,
     benchmark.hipaa_hitrust_v92_11112_01q2organizational_67_01_q,
+    benchmark.hipaa_hitrust_v92_11208_01q1organizational_8_01_q
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

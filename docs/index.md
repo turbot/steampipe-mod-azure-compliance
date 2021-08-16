@@ -4,12 +4,14 @@ repository: "https://github.com/turbot/steampipe-mod-azure-compliance"
 
 # Azure Compliance Mod
 
-Run individual configuration, compliance and security controls or full `CIS` compliance benchmarks across all your Azure subscriptions. 
+Run individual configuration, compliance and security controls or full `CIS` compliance benchmarks across all your Azure subscriptions.
 
 ## References
 [Azure](https://azure.microsoft.com) provides on-demand cloud computing platforms and APIs to authenticated customers on a metered pay-as-you-go basis.
 
 [CIS Azure Benchmarks](https://www.cisecurity.org/benchmark/azure/) provide a predefined set of compliance and security best-practice checks for Microsoft Azure usage.
+
+[HIPAA HITRUST 9.2](https://docs.microsoft.com/en-us/azure/governance/policy/samples/hipaa-hitrust-9-2) provide a combined set of predefined compliance and security best-practice checks for Health Insurance Portability and Accountability Act.
 
 [PCI DSS](https://www.pcisecuritystandards.org) provides security standards for the payment card industry.
 

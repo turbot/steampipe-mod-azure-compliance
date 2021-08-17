@@ -10,24 +10,8 @@ with network_sg as (
   where
     sg -> 'properties' ->> 'access' = 'Allow'
     and sg -> 'properties' ->> 'direction' = 'Inbound'
-    and sg -> 'properties' ->> 'protocol' = 'TCP'
+    and sg -> 'properties' ->> 'protocol' in ('TCP','*')
     and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', '<nw>/0', '/0')
-    and (
-      dport in ('22', '3389', '*')
-      or (
-        dport like '%-%'
-        and (
-          (
-            split_part(dport, '-', 1) :: integer <= 3389
-            and split_part(dport, '-', 2) :: integer >= 3389
-          )
-          or (
-            split_part(dport, '-', 1) :: integer <= 22
-            and split_part(dport, '-', 2) :: integer >= 22
-          )
-        )
-      )
-    )
 )
 select
   -- Required Columns

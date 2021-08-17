@@ -6,7 +6,7 @@ locals {
 
 control "compute_os_and_data_disk_encrypted_with_cmk" {
   title       = "Disk encryption should be applied on virtual machines"
-  description   = "Virtual machines without an enabled disk encryption will be monitored by Azure Security Center as recommendations."
+  description = "Virtual machines without an enabled disk encryption will be monitored by Azure Security Center as recommendations."
   sql         = query.compute_os_and_data_disk_encrypted_with_cmk.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
@@ -16,7 +16,7 @@ control "compute_os_and_data_disk_encrypted_with_cmk" {
 
 control "compute_unattached_disk_encrypted_with_cmk" {
   title       = "Unattached disks should be encrypted"
-  description   = "This policy audits any unattached disk without encryption enabled."
+  description = "This policy audits any unattached disk without encryption enabled."
   sql         = query.compute_unattached_disk_encrypted_with_cmk.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
@@ -26,7 +26,7 @@ control "compute_unattached_disk_encrypted_with_cmk" {
 
 control "compute_vm_attached_with_network" {
   title       = "Virtual machines should be connected to an approved virtual network"
-  description   = "This policy audits any virtual machine connected to a virtual network that is not approved."
+  description = "This policy audits any virtual machine connected to a virtual network that is not approved."
   sql         = query.compute_vm_attached_with_network.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
@@ -36,8 +36,18 @@ control "compute_vm_attached_with_network" {
 
 control "compute_vm_remote_access_restricted" {
   title       = "Adaptive network hardening recommendations should be applied on internet facing virtual machines"
-  description   = "Azure Security Center analyzes the traffic patterns of Internet facing virtual machines and provides Network Security Group rule recommendations that reduce the potential attack surface."
+  description = "Azure Security Center analyzes the traffic patterns of Internet facing virtual machines and provides Network Security Group rule recommendations that reduce the potential attack surface."
   sql         = query.compute_vm_remote_access_restricted.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_remote_access_restricted_all_ports" {
+  title       = "All network ports should be restricted on network security groups associated to your virtual machine"
+  description = "Azure Security Center has identified some of your network security groups' inbound rules to be too permissive. Inbound rules should not allow access from 'Any' or 'Internet' ranges. This can potentially enable attackers to target your resources."
+  sql         = query.compute_vm_remote_access_restricted_all_ports.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"

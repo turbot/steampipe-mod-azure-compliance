@@ -8,7 +8,7 @@ with agent_installed_vm_scale_set as (
     b ->> 'Publisher' = 'Microsoft.EnterpriseCloud.Monitoring'
     and b ->> 'ExtensionType' = any(ARRAY ['MicrosoftMonitoringAgent', 'OmsAgentForLinux'])
     and b ->> 'ProvisioningState' = 'Succeeded'
-    and b -> 'Settings' ->> 'WorkspaceId' is not null
+    and b -> 'Settings' ->> 'workspaceId' is not null
 )
 select
   -- Required Columns

@@ -125,7 +125,7 @@ benchmark "hipaa_hitrust_v92_0859_09m1organizational_78_09_m" {
   title         = "0859.09m1Organizational.78 - 09.m"
   description   = "The organization ensures the security of information in networks, availability of network services and information services using the network, and the protection of connected services from unauthorized access."
   children = [
-    control.compute_vm_remote_access_restricted
+    control.compute_vm_adaptive_network_hardening_recommendation_applied
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

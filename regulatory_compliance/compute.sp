@@ -163,3 +163,13 @@ control "compute_vm_network_traffic_data_collection_window_agent_installed" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_vm_network_traffic_data_collection_linux_agent_installed" {
+  title       = "Network traffic data collection agent should be installed on Linux virtual machines"
+  description = "Security Center uses the Microsoft Dependency agent to collect network traffic data from your Azure virtual machines to enable advanced network protection features such as traffic visualization on the network map, network hardening recommendations and specific network threats."
+  sql         = query.compute_vm_network_traffic_data_collection_linux_agent_installed.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

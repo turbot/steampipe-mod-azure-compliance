@@ -5,7 +5,9 @@ benchmark "hipaa_hitrust_v92_security_of_network_services" {
     benchmark.hipaa_hitrust_v92_0837_09_n2Organizational_2_09_n,
     benchmark.hipaa_hitrust_v92_0886_09n2Organizational_4_09_n,
     benchmark.hipaa_hitrust_v92_0887_09n2organizational_5_09_n,
-    benchmark.hipaa_hitrust_v92_0888_09n2Organizational_6_09_n
+    benchmark.hipaa_hitrust_v92_0888_09n2Organizational_6_09_n,
+    benchmark.hipaa_hitrust_v92_0836_09_n2organizational_1_09_n,
+    benchmark.hipaa_hitrust_v92_0885_09n2organizational_3_09_n
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -56,6 +58,26 @@ benchmark "hipaa_hitrust_v92_0887_09n2organizational_5_09_n" {
   description   = "The organization requires external/outsourced service providers to identify the specific functions, ports, and protocols used in the provision of the external/outsourced services."
   children = [
     control.compute_vm_network_traffic_data_collection_window_agent_installed
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0836_09_n2organizational_1_09_n" {
+  title         = "0836.09.n2Organizational.1 - 09.n"
+  description   = "The organization formally authorizes and documents the characteristics of each connection from an information system to other information systems outside the organization."
+  children = [
+    control.compute_vm_network_traffic_data_collection_linux_agent_installed
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0885_09n2organizational_3_09_n" {
+  title         = "0885.09n2Organizational.3 - 09.n"
+  description   = "The organization reviews and updates the interconnection security agreements on an ongoing basis verifying enforcement of security requirements."
+  children = [
+    control.compute_vm_network_traffic_data_collection_linux_agent_installed
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

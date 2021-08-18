@@ -5,21 +5,22 @@ with agent_installed_vm as (
     azure_compute_virtual_machine as a,
     jsonb_array_elements(extensions) as b
   where
-    b ->> 'Publisher' = 'Microsoft.EnterpriseCloud.Monitoring'
-    and b ->> 'ExtensionType' = any(ARRAY ['MicrosoftMonitoringAgent', 'OmsAgentForLinux'])
+    b ->> 'ExtensionType' = 'DependencyAgentLinux'
+    and b ->> 'Publisher' = 'Microsoft.Azure.Monitoring.DependencyAgent'
     and b ->> 'ProvisioningState' = 'Succeeded'
-    and b -> 'Settings' ->> 'WorkspaceId' is not null
 )
 select
   -- Required Columns
   a.vm_id as resource,
   case
+    when a.os_type <> 'Linux' then 'skip'
     when b.vm_id is not null then 'ok'
     else 'alarm'
   end as status,
   case
-    when b.vm_id is not null then a.title || ' have log analytics agent installed.'
-    else a.title || ' log analytics agent not installed.'
+    when a.os_type <> 'Linux' then a.title || ' is of ' || a.os_type || ' operating syetem.'
+    when b.vm_id is not null then a.title || ' have data collection agent installed.'
+    else a.title || ' data collection agent not installed.'
   end as reason,
   -- Additional Dimensions
   a.resource_group,

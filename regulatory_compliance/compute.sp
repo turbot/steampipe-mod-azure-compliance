@@ -183,3 +183,23 @@ control "compute_vm_adaptive_application_controls_enabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_vm_security_configuration_vulnerabilities_remediated" {
+  title       = "Vulnerabilities in security configuration on your machines should be remediated"
+  description = "Servers which do not satisfy the configured baseline will be monitored by Azure Security Center as recommendations."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_uses_azure_resource_manager" {
+  title       = "Virtual machines should be migrated to new Azure Resource Manager resources"
+  description = "Use new Azure Resource Manager for your virtual machines to provide security enhancements such as: stronger access control (RBAC), better auditing, Azure Resource Manager based deployment and governance, access to managed identities, access to key vault for secrets, Azure AD-based authentication and support for tags and resource groups for easier security management."
+  sql         = query.compute_vm_uses_azure_resource_manager.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

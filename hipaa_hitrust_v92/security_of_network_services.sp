@@ -47,7 +47,8 @@ benchmark "hipaa_hitrust_v92_0835_09n1organizational_1_09_n" {
   title         = "0835.09n1Organizational.1 - 09.n"
   description   = "Agreed services provided by a network service provider/manager are formally managed and monitored to ensure they are provided securely."
   children = [
-    control.compute_vm_network_traffic_data_collection_window_agent_installed
+    control.compute_vm_network_traffic_data_collection_window_agent_installed,
+    control.compute_vm_uses_azure_resource_manager
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

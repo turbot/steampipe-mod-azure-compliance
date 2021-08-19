@@ -5,7 +5,8 @@ benchmark "hipaa_hitrust_v92_remote_diagnostic_and_configuration_port_protection
     benchmark.hipaa_hitrust_v92_1193_01l2organizational_13_01_l,
     benchmark.hipaa_hitrust_v92_1194_01l2organizational_2_01_l,
     benchmark.hipaa_hitrust_v92_1195_01l3organizational_1_01_l,
-    benchmark.hipaa_hitrust_v92_1196_01l3organizational_24_01_l
+    benchmark.hipaa_hitrust_v92_1196_01l3organizational_24_01_l,
+    benchmark.hipaa_hitrust_v92_1197_01l3organizational_3_01_l,
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -56,6 +57,16 @@ benchmark "hipaa_hitrust_v92_1196_01l3organizational_24_01_l" {
   description   = "The organization identifies unauthorized (blacklisted) software on the information system, prevents program execution in accordance with a list of unauthorized (blacklisted) software programs, employs an allow-all, deny-by exception policy to prohibit execution of known unauthorized (blacklisted) software, and reviews and updates the list of unauthorized (blacklisted) software programs annually."
   children = [
     control.appservice_api_app_remote_debugging_disabled
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1197_01l3organizational_3_01_l" {
+  title         = "1197.01l3Organizational.3 - 01.l"
+  description   = "The organization disables Bluetooth and peer-to-peer networking protocols within the information system determined to be unnecessary or non-secure."
+  children = [
+    control.compute_vm_adaptive_application_controls_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

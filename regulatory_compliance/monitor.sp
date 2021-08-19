@@ -24,3 +24,13 @@ control "monitor_log_alert_for_administrative_operations" {
   })
 }
 
+control "monitor_log_profile_enabled_for_all_regions" {
+  title       = "Azure Monitor should collect activity logs from all regions"
+  description = "This policy audits the Azure Monitor log profile which does not export activities from all Azure supported regions including global."
+  sql         = query.monitor_log_profile_enabled_for_all_regions.sql
+
+  tags = merge(local.conformance_pack_monitor_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+

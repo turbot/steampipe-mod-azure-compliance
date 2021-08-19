@@ -173,3 +173,13 @@ control "compute_vm_network_traffic_data_collection_linux_agent_installed" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_vm_adaptive_application_controls_enabled" {
+  title       = "Adaptive application controls for defining safe applications should be enabled on your machines"
+  description = "Enable application controls to define the list of known-safe applications running on your machines, and alert you when other applications run. This helps harden your machines against malware. To simplify the process of configuring and maintaining your rules, Security Center uses machine learning to analyze the applications running on each machine and suggest the list of known-safe applications."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

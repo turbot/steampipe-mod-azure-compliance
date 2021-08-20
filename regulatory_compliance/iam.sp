@@ -53,3 +53,13 @@ control "iam_no_custom_role" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "iam_external_user_with_owner_role" {
+  title       = "External accounts with owner permissions should be removed from your subscription"
+  description = "External accounts with owner permissions should be removed from your subscription in order to prevent unmonitored access."
+  sql         = query.iam_external_user_with_owner_role.sql
+
+  tags = merge(local.conformance_pack_iam_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

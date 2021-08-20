@@ -12,7 +12,8 @@ benchmark "hipaa_hitrust_v92_privilege_management" {
     benchmark.hipaa_hitrust_v92_1151_01c3system_1_01_c,
     benchmark.hipaa_hitrust_v92_1152_01c3system_2_01_c,
     benchmark.hipaa_hitrust_v92_1153_01c3system_35_01_c,
-    benchmark.hipaa_hitrust_v92_1154_01c3system_4_01_c
+    benchmark.hipaa_hitrust_v92_1154_01c3system_4_01_c,
+    benchmark.hipaa_hitrust_v92_1146_01c2system_23_01_c
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -133,6 +134,16 @@ benchmark "hipaa_hitrust_v92_1148_01c2system_78_01_c" {
   description   = "The organization restricts access to privileged functions and all security-relevant information."
   children = [
     control.iam_no_custom_role
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1146_01c2system_23_01_c" {
+  title         = "1146.01c2System.23 - 01.c"
+  description   = "The organization promotes the development and use of programs that avoid the need to run with elevated privileges and system routines to avoid the need to grant privileges to users."
+  children = [
+    control.iam_external_user_with_owner_role
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

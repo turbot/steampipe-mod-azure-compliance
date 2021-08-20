@@ -7,7 +7,7 @@ benchmark "hipaa_hitrust_v92_identification_of_risks_related_to_external_parties
     benchmark.hipaa_hitrust_v92_1404_05i2organizational_1_05_i,
     benchmark.hipaa_hitrust_v92_1418_05i1organizational_8_05_i,
     benchmark.hipaa_hitrust_v92_1450_05i2organizational_2_05_i,
-    benchmark.hipaa_hitrust_v92_1451_05icsporganizational_2_05_i,
+    benchmark.hipaa_hitrust_v92_1451_05icsporganizational_2_05_i
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

@@ -33,4 +33,3 @@ control "storage_account_use_virtual_service_endpoint" {
     hipaa_hitrust_v92 = "true"
   })
 }
-

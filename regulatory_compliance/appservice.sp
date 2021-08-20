@@ -153,5 +153,3 @@ control "appservice_api_app_cors_no_star" {
     hipaa_hitrust_v92 = "true"
   })
 }
-
-

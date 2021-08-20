@@ -13,4 +13,3 @@ control "iot_hub_logging_enabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
-

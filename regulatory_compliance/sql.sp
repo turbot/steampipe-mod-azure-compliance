@@ -5,8 +5,8 @@ locals {
 }
 
 control "sql_server_and_databases_va_enabled" {
-  title       = "SQL databases should have vulnerability findings resolved"
-  description = "Monitor vulnerability assessment scan results and recommendations for how to remediate database vulnerabilities."
+  title       = "Vulnerability assessment should be enabled on your SQL servers"
+  description = "Audit Azure SQL servers which do not have recurring vulnerability assessment scans enabled. Vulnerability assessment can discover, track, and help you remediate potential database vulnerabilities."
   sql         = query.sql_server_and_databases_va_enabled.sql
 
   tags = merge(local.conformance_pack_sql_common_tags, {

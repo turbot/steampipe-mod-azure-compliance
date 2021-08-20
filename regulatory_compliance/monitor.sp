@@ -34,3 +34,12 @@ control "monitor_log_profile_enabled_for_all_regions" {
   })
 }
 
+control "audit_diagnostic_setting" {
+  title       = "Audit diagnostic setting"
+  description = "Audit diagnostic setting for selected resource types"
+  sql         = query.manual_control.sql
+
+  tags = merge(local.conformance_pack_monitor_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

@@ -144,7 +144,7 @@ control "compute_vm_scale_set_logging_enabled" {
   })
 }
 
-control "compute_window_vm_meet_system_audit_policies_requirement" {
+control "compute_vm_meet_system_audit_policies_requirement_windows" {
   title       = "Windows machines should meet requirements for 'System Audit Policies - Detailed Tracking'"
   description = "Windows machines should have the specified Group Policy settings in the category 'System Audit Policies - Detailed Tracking' for auditing DPAPI, process creation/termination, RPC events, and PNP activity. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
   sql         = query.manual_control.sql
@@ -154,10 +154,10 @@ control "compute_window_vm_meet_system_audit_policies_requirement" {
   })
 }
 
-control "compute_vm_network_traffic_data_collection_window_agent_installed" {
+control "compute_vm_network_traffic_data_collection_windows_agent_installed" {
   title       = "Network traffic data collection agent should be installed on Windows virtual machines"
   description = "Security Center uses the Microsoft Dependency agent to collect network traffic data from your Azure virtual machines to enable advanced network protection features such as traffic visualization on the network map, network hardening recommendations and specific network threats."
-  sql         = query.compute_vm_network_traffic_data_collection_window_agent_installed.sql
+  sql         = query.compute_vm_network_traffic_data_collection_windows_agent_installed.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -198,6 +198,66 @@ control "compute_vm_uses_azure_resource_manager" {
   title       = "Virtual machines should be migrated to new Azure Resource Manager resources"
   description = "Use new Azure Resource Manager for your virtual machines to provide security enhancements such as: stronger access control (RBAC), better auditing, Azure Resource Manager based deployment and governance, access to managed identities, access to key vault for secrets, Azure AD-based authentication and support for tags and resource groups for easier security management."
   sql         = query.compute_vm_uses_azure_resource_manager.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_scale_set_security_configuration_vulnerabilities_remediated" {
+  title       = "Vulnerabilities in security configuration on your virtual machine scale sets should be remediated"
+  description = "Audit the OS vulnerabilities on your virtual machine scale sets to protect them from attacks."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_system_updates_installed" {
+  title       = "System updates should be installed on your machines"
+  description = "Missing security system updates on your servers will be monitored by Azure Security Center as recommendations."
+  sql         = query.compute_vm_system_updates_installed.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_administrators_group_with_no_specified_members_windows" {
+  title       = "Audit Windows machines missing any of specified members in the Administrators group"
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group does not contain one or more members that are listed in the policy parameter."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_administrators_group_with_specified_members_windows" {
+  title       = "Audit Windows machines that have the specified members in the Administrators group"
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group contains one or more of the members listed in the policy parameter."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_administrators_group_with_extra_accounts_windows" {
+  title       = "Audit Windows machines that have extra accounts in the Administrators group"
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group contains members that are not listed in the policy parameter."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_meet_security_option_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - Accounts'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Accounts' for limiting local account use of blank passwords and guest account status. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
+  sql         = query.manual_control.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"

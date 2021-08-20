@@ -1,6 +1,6 @@
 locals {
   conformance_pack_redis_common_tags = {
-    service = "kubernetes"
+    service = "redis"
   }
 }
 

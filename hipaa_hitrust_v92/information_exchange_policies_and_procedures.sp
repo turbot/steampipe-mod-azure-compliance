@@ -12,7 +12,6 @@ benchmark "hipaa_hitrust_v92_information_exchange_policies_and_procedures" {
     benchmark.hipaa_hitrust_v92_0916_09s2organizational_4_09_s,
     benchmark.hipaa_hitrust_v92_0960_09scsporganizational_1_09_s,
     benchmark.hipaa_hitrust_v92_1325_09s1organizational_3_09_s
-
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -127,5 +126,3 @@ benchmark "hipaa_hitrust_v92_0911_09s1organizational_2_09_s" {
 
   tags          = local.hipaa_hitrust_v92_common_tags
 }
-
-

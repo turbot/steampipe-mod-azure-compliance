@@ -13,4 +13,3 @@ control "batch_account_logging_enabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
-

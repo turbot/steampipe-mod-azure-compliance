@@ -104,7 +104,8 @@ benchmark "hipaa_hitrust_v92_1210_09aa3system_3_09_aa" {
   title         = "1210.09aa3System.3 - 09.aa"
   description   = "All disclosures of covered information within or outside of the organization are logged including type of disclosure, date/time of the event, recipient, and sender."
   children = [
-    control.datalake_analytics_account_logging_enabled
+    control.datalake_analytics_account_logging_enabled,
+    control.audit_diagnostic_setting
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

@@ -23,4 +23,3 @@ control "postgres_sql_ssl_enabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
-

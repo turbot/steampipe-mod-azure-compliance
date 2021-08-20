@@ -11,7 +11,8 @@ benchmark "hipaa_hitrust_v92_monitoring_system_use" {
     benchmark.hipaa_hitrust_v92_1216_09ab3system_12_09_ab,
     benchmark.hipaa_hitrust_v92_1217_09ab3system_3_09_ab,
     benchmark.hipaa_hitrust_v92_1219_09ab3system_10_09_ab,
-    benchmark.hipaa_hitrust_v92_1220_09ab3system_56_09_ab
+    benchmark.hipaa_hitrust_v92_1220_09ab3system_56_09_ab,
+    benchmark.hipaa_hitrust_v92_12102_09ab1organizational_4_09_ab
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -122,6 +123,16 @@ benchmark "hipaa_hitrust_v92_1214_09ab2system_3456_09_ab" {
   description   = "Monitoring includes privileged operations, authorized access or unauthorized access attempts, including attempts to access deactivated accounts, and system alerts or failures."
   children = [
     control.monitor_log_profile_enabled_for_all_regions
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_12102_09ab1organizational_4_09_ab" {
+  title         = "12102.09ab1Organizational.4 - 09.ab"
+  description   = "The organization shall periodically test its monitoring and detection processes, remediate deficiencies, and improve its processes."
+  children = [
+    control.compute_vm_log_analytics_agent_installed_windows
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

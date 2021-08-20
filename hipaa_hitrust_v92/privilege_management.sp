@@ -5,6 +5,7 @@ benchmark "hipaa_hitrust_v92_privilege_management" {
     benchmark.hipaa_hitrust_v92_1143_01c1system_23_01_c,
     benchmark.hipaa_hitrust_v92_1144_01c1system_4_01_c,
     benchmark.hipaa_hitrust_v92_1145_01c2system_1_01_c,
+    benchmark.hipaa_hitrust_v92_1146_01c2system_23_01_c,
     benchmark.hipaa_hitrust_v92_1147_01c2system_456_01_c,
     benchmark.hipaa_hitrust_v92_1148_01c2system_78_01_c,
     benchmark.hipaa_hitrust_v92_1149_01c2system_9_01_c,
@@ -12,8 +13,7 @@ benchmark "hipaa_hitrust_v92_privilege_management" {
     benchmark.hipaa_hitrust_v92_1151_01c3system_1_01_c,
     benchmark.hipaa_hitrust_v92_1152_01c3system_2_01_c,
     benchmark.hipaa_hitrust_v92_1153_01c3system_35_01_c,
-    benchmark.hipaa_hitrust_v92_1154_01c3system_4_01_c,
-    benchmark.hipaa_hitrust_v92_1146_01c2system_23_01_c
+    benchmark.hipaa_hitrust_v92_1154_01c3system_4_01_c
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -120,7 +120,7 @@ benchmark "hipaa_hitrust_v92_1152_01c3system_2_01_c" {
 }
 
 benchmark "hipaa_hitrust_v92_1154_01c3system_4_01_c" {
-  title         = "11154.01c3System.4 - 01.c"
+  title         = "1154.01c3System.4 - 01.c"
   description   = "Contractors are provided with minimal system and physical access only after the organization assesses the contractor's ability to comply with its security requirements and the contractor agrees to comply."
   children = [
     control.iam_subscription_owner_max_3
@@ -133,7 +133,8 @@ benchmark "hipaa_hitrust_v92_1148_01c2system_78_01_c" {
   title         = "1148.01c2System.78 - 01.c"
   description   = "The organization restricts access to privileged functions and all security-relevant information."
   children = [
-    control.iam_no_custom_role
+    control.iam_no_custom_role,
+    control.compute_vm_meet_security_option_requirement_windows
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

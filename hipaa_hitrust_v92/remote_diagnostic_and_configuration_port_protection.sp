@@ -6,7 +6,7 @@ benchmark "hipaa_hitrust_v92_remote_diagnostic_and_configuration_port_protection
     benchmark.hipaa_hitrust_v92_1194_01l2organizational_2_01_l,
     benchmark.hipaa_hitrust_v92_1195_01l3organizational_1_01_l,
     benchmark.hipaa_hitrust_v92_1196_01l3organizational_24_01_l,
-    benchmark.hipaa_hitrust_v92_1197_01l3organizational_3_01_l,
+    benchmark.hipaa_hitrust_v92_1197_01l3organizational_3_01_l
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

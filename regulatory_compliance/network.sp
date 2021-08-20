@@ -24,7 +24,6 @@ control "network_security_group_rdp_access_restricted" {
   })
 }
 
-
 control "network_watcher_enabled" {
   title       = "Network Watcher should be enabled"
   description = "Network Watcher is a regional service that enables you to monitor and diagnose conditions at a network scenario level in, to, and from Azure. Scenario level monitoring enables you to diagnose problems at an end to end network level view. It is required to have a network watcher resource group to be created in every region where a virtual network is present. An alert is enabled if a network watcher resource group is not available in a particular region."

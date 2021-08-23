@@ -12,12 +12,4 @@ mod "azure_compliance" {
     description = "Run individual configuration, compliance and security controls or full compliance benchmarks for CIS across all your Azure subscriptions using Steampipe."
     image       = "/images/mods/turbot/azure-compliance-social-graphic.png"
   }
-  requires{
-    plugin "azure"{
-      version = "0.17.0"
-    }
-    plugin "azuread"{
-      version = "0.0.1"
-    }
-  }
 }

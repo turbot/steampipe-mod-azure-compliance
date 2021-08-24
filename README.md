@@ -19,7 +19,7 @@ steampipe plugin install azure
 
 Clone:
 ```sh
-git clone git@github.com:turbot/steampipe-mod-azure-compliance
+git clone https://github.com/turbot/steampipe-mod-azure-compliance.git
 cd steampipe-mod-azure-compliance
 ```
 

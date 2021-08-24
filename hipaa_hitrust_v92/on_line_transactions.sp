@@ -5,7 +5,8 @@ benchmark "hipaa_hitrust_v92_on_line_transactions" {
     benchmark.hipaa_hitrust_v92_0946_09y2organizational_14_09_y,
     benchmark.hipaa_hitrust_v92_0947_09y2organizational_2_09_y,
     benchmark.hipaa_hitrust_v92_0948_09y2organizational_3_09_y,
-    benchmark.hipaa_hitrust_v92_0949_09y2organizational_5_09_y
+    benchmark.hipaa_hitrust_v92_0949_09y2organizational_5_09_y,
+    benchmark.hipaa_hitrust_v92_0945_09y1organizational_3_09_y
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -61,6 +62,16 @@ benchmark "hipaa_hitrust_v92_0949_09y2organizational_5_09_y" {
     control.appservice_function_app_only_https_accessible,
     control.appservice_web_app_latest_tls_version,
     control.appservice_web_app_use_https
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0945_09y1organizational_3_09_y" {
+  title         = "0945.09y1Organizational.3 - 09.y"
+  description   = "Protocols used to communicate between all involved parties are secured using cryptographic techniques (e.g., SSL)."
+  children = [
+    control.compute_vm_with_no_specified_certificates_in_trusted_root_windows
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

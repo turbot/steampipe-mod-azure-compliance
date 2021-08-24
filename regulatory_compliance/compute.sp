@@ -36,8 +36,8 @@ control "compute_vm_attached_with_network" {
 
 control "compute_vm_adaptive_network_hardening_recommendation_applied" {
   title       = "Adaptive network hardening recommendations should be applied on internet facing virtual machines"
-  description = "Azure Security Center analyzes the traffic patterns of Internet facing virtual machines and provides Network Security Group rule recommendations that reduce the potential attack surface."
-  sql         = query.manual_control.sql
+  description = "Azure Security Center analyzes the traffic patterns of Internet facing virtual machines and provides Network Security Group rule recommendations that reduce the potential attack surface. Note: It uses a machine learning algorithm that factors in actual traffic, known trusted configuration, threat intelligence, and other indicators of compromise, and then provides recommendations to allow traffic only from specific IP/port tuples."
+  sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -146,8 +146,8 @@ control "compute_vm_scale_set_logging_enabled" {
 
 control "compute_vm_meet_system_audit_policies_requirement_windows" {
   title       = "Windows machines should meet requirements for 'System Audit Policies - Detailed Tracking'"
-  description = "Windows machines should have the specified Group Policy settings in the category 'System Audit Policies - Detailed Tracking' for auditing DPAPI, process creation/termination, RPC events, and PNP activity. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
-  sql         = query.manual_control.sql
+  description = "Windows machines should have the specified Group Policy settings in the category 'System Audit Policies - Detailed Tracking' for auditing DPAPI, process creation/termination, RPC events, and PNP activity. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope. Note: This requires manual configurations in VM as prerequisites, for the time being there are no direct way to extract multiple information as defined in the policy except the GuestConfiguration setting in VM extension."
+  sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -177,7 +177,7 @@ control "compute_vm_network_traffic_data_collection_linux_agent_installed" {
 control "compute_vm_adaptive_application_controls_enabled" {
   title       = "Adaptive application controls for defining safe applications should be enabled on your machines"
   description = "Enable application controls to define the list of known-safe applications running on your machines, and alert you when other applications run. This helps harden your machines against malware. To simplify the process of configuring and maintaining your rules, Security Center uses machine learning to analyze the applications running on each machine and suggest the list of known-safe applications."
-  sql         = query.manual_control.sql
+  sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -186,8 +186,8 @@ control "compute_vm_adaptive_application_controls_enabled" {
 
 control "compute_vm_security_configuration_vulnerabilities_remediated" {
   title       = "Vulnerabilities in security configuration on your machines should be remediated"
-  description = "Servers which do not satisfy the configured baseline will be monitored by Azure Security Center as recommendations."
-  sql         = query.manual_control.sql
+  description = "Servers which do not satisfy the configured baseline will be monitored by Azure Security Center as recommendations. Note: There are no defined list of checks available for this policy, Azure ASC has the special privilege to inspect respective attributes by its own mechanism."
+  sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -206,8 +206,8 @@ control "compute_vm_uses_azure_resource_manager" {
 
 control "compute_vm_scale_set_security_configuration_vulnerabilities_remediated" {
   title       = "Vulnerabilities in security configuration on your virtual machine scale sets should be remediated"
-  description = "Audit the OS vulnerabilities on your virtual machine scale sets to protect them from attacks."
-  sql         = query.manual_control.sql
+  description = "Audit the OS vulnerabilities on your virtual machine scale sets to protect them from attacks. Note: Azure Security Control (ASC) uses pattern based finding from the logging events and initiate corrective actions to remediate."
+  sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -226,8 +226,8 @@ control "compute_vm_system_updates_installed" {
 
 control "compute_vm_administrators_group_with_no_specified_members_windows" {
   title       = "Audit Windows machines missing any of specified members in the Administrators group"
-  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group does not contain one or more members that are listed in the policy parameter."
-  sql         = query.manual_control.sql
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group does not contain one or more members that are listed in the policy parameter. Note: This control requires parameter to be specified."
+  sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -236,8 +236,8 @@ control "compute_vm_administrators_group_with_no_specified_members_windows" {
 
 control "compute_vm_administrators_group_with_specified_members_windows" {
   title       = "Audit Windows machines that have the specified members in the Administrators group"
-  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group contains one or more of the members listed in the policy parameter."
-  sql         = query.manual_control.sql
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group contains one or more of the members listed in the policy parameter. Note: This control requires parameter to be specified."
+  sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -246,8 +246,8 @@ control "compute_vm_administrators_group_with_specified_members_windows" {
 
 control "compute_vm_administrators_group_with_extra_accounts_windows" {
   title       = "Audit Windows machines that have extra accounts in the Administrators group"
-  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group contains members that are not listed in the policy parameter."
-  sql         = query.manual_control.sql
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group contains members that are not listed in the policy parameter. Note: This control requires parameter to be specified."
+  sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -257,7 +257,17 @@ control "compute_vm_administrators_group_with_extra_accounts_windows" {
 control "compute_vm_meet_security_option_requirement_windows" {
   title       = "Windows machines should meet requirements for 'Security Options - Accounts'"
   description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Accounts' for limiting local account use of blank passwords and guest account status. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
-  sql         = query.manual_control.sql
+  sql         = query.manual_control_hipaa.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_with_no_specified_certificates_in_trusted_root_windows" {
+  title       = "Audit Windows machines that do not contain the specified certificates in Trusted Root"
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the machine Trusted Root certificate store does not contain one or more of the certificates listed by clearthe policy parameter. Note: This control requires parameter to be specified."
+  sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
     hipaa_hitrust_v92 = "true"

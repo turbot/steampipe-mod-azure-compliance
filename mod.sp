@@ -5,7 +5,7 @@ mod "azure_compliance" {
   color         = "#0089D6"
   documentation = file("./docs/index.md")
   icon          = "/images/mods/turbot/azure-compliance.svg"
-  categories    = ["Azure", "CIS", "Compliance", "Public Cloud", "Security"]
+  categories    = ["azure", "cis", "compliance", "public cloud", "security"]
 
   opengraph {
     title       = "Steampipe Mod for Azure Compliance"

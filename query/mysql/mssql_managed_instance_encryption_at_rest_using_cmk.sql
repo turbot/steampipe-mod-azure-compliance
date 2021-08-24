@@ -5,8 +5,8 @@ with encryption_protector as (
     azure_mssql_managed_instance as i,
     jsonb_array_elements(encryption_protectors) a
     where
-      a -> 'encryptionProtectorProperties' ->> 'serverKeyType' = 'AzureKeyVault'
-      and a -> 'encryptionProtectorProperties' ->> 'uri' is not null
+      a ->> 'serverKeyType' = 'AzureKeyVault'
+      and a ->> 'uri' is not null
 )
 select
   -- Required Columns

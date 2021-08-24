@@ -63,3 +63,13 @@ control "sql_database_long_term_geo_redundant_backup_enabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "sql_database_vulnerability_findings_resolved" {
+  title       = "SQL databases should have vulnerability findings resolved"
+  description = "Monitor vulnerability assessment scan results and recommendations for how to remediate database vulnerabilities."
+  sql         = query.sql_database_vulnerability_findings_resolved.sql
+
+  tags = merge(local.conformance_pack_sql_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

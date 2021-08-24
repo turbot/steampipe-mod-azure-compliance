@@ -14,7 +14,8 @@ benchmark "hipaa_hitrust_v92_0201_09j1organizational_124_09_j" {
     control.compute_vm_adaptive_application_controls_enabled,
     control.compute_vm_malware_agent_automatic_upgrade_enabled,
     control.compute_vm_malware_agent_installed,
-    control.compute_vm_system_updates_installed
+    control.compute_vm_system_updates_installed,
+    control.compute_vm_endpoint_protection_agent_installed
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

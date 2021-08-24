@@ -273,3 +273,23 @@ control "compute_vm_with_no_specified_certificates_in_trusted_root_windows" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_vm_endpoint_protection_agent_installed" {
+  title       = "Monitor missing Endpoint Protection in Azure Security Center"
+  description = "Servers without an installed Endpoint Protection agent will be monitored by Azure Security Center as recommendations."
+  sql         = query.manual_control_hipaa.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_meet_firewall_properties_windows" {
+  title       = "Windows machines should meet requirements for 'Windows Firewall Properties'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Windows Firewall Properties' for firewall state, connections, rule management, and notifications. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
+  sql         = query.manual_control_hipaa.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

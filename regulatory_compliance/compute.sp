@@ -36,7 +36,7 @@ control "compute_vm_attached_with_network" {
 
 control "compute_vm_adaptive_network_hardening_recommendation_applied" {
   title       = "Adaptive network hardening recommendations should be applied on internet facing virtual machines"
-  description = "Azure Security Center analyzes the traffic patterns of Internet facing virtual machines and provides Network Security Group rule recommendations that reduce the potential attack surface.\n <b>Note:</b> It uses a machine learning algorithm that factors in actual traffic, known trusted configuration, threat intelligence, and other indicators of compromise, and then provides recommendations to allow traffic only from specific IP/port tuples."
+  description = "Azure Security Center analyzes the traffic patterns of Internet facing virtual machines and provides Network Security Group rule recommendations that reduce the potential attack surface. Note: It uses a machine learning algorithm that factors in actual traffic, known trusted configuration, threat intelligence, and other indicators of compromise, and then provides recommendations to allow traffic only from specific IP/port tuples."
   sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {

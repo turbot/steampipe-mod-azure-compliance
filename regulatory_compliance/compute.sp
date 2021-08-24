@@ -293,3 +293,14 @@ control "compute_vm_meet_firewall_properties_windows" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "compute_vm_vulnerability_assessment_solution_enabled" {
+  title       = "A vulnerability assessment solution should be enabled on your virtual machines"
+  description = "Audits virtual machines to detect whether they are running a supported vulnerability assessment solution. A core component of every cyber risk and security program is the identification and analysis of vulnerabilities. Azure Security Center's standard pricing tier includes vulnerability scanning for your virtual machines at no extra cost. Additionally, Security Center can automatically deploy this tool for you."
+  sql         = query.compute_vm_vulnerability_assessment_solution_enabled.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+

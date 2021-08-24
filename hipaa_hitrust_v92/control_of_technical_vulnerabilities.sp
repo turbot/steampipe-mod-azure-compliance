@@ -8,7 +8,8 @@ benchmark "hipaa_hitrust_v92_control_of_technical_vulnerabilities" {
     benchmark.hipaa_hitrust_v92_0718_10m3organizational_34_10_m,
     benchmark.hipaa_hitrust_v92_0719_10m3organizational_5_10_m,
     benchmark.hipaa_hitrust_v92_0710_10m2organizational_1_10_m,
-    benchmark.hipaa_hitrust_v92_0716_10m3organizational_1_10_m
+    benchmark.hipaa_hitrust_v92_0716_10m3organizational_1_10_m,
+    benchmark.hipaa_hitrust_v92_0711_10m2organizational_23_10_m
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -22,7 +23,8 @@ benchmark "hipaa_hitrust_v92_0709_10m1organizational_1_10_m" {
     control.compute_vm_security_configuration_vulnerabilities_remediated,
     control.compute_vm_scale_set_security_configuration_vulnerabilities_remediated,
     control.mssql_managed_instance_vulnerability_assessment_enabled,
-    control.sql_database_vulnerability_findings_resolved
+    control.sql_database_vulnerability_findings_resolved,
+    control.compute_vm_vulnerability_assessment_solution_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -94,6 +96,16 @@ benchmark "hipaa_hitrust_v92_0716_10m3organizational_1_10_m" {
   description   = "The organization conducts an enterprise security posture review as needed but no less than once within every three-hundred-sixty-five (365) days, in accordance with organizational IS procedures."
   children = [
     control.sql_database_vulnerability_findings_resolved
+  ]
+
+  tags          = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_0711_10m2organizational_23_10_m" {
+  title         = "0711.10m2Organizational.23 - 10.m"
+  description   = "A technical vulnerability management program is in place to monitor, assess, rank, and remediate vulnerabilities identified in systems."
+  children = [
+    control.compute_vm_vulnerability_assessment_solution_enabled
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

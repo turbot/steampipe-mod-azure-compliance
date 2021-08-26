@@ -42,6 +42,7 @@ cd steampipe-mod-azure-compliance
 ```shell
 steampipe check all
 ```
+
 ### Other stuff to try out
 
 Run an individual benchmark:

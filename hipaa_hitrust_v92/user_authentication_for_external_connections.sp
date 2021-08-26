@@ -20,7 +20,7 @@ benchmark "hipaa_hitrust_v92_1119_01j2organizational_3_01_j" {
 }
 
 benchmark "hipaa_hitrust_v92_1175_01j1organizational_8_01_j" {
-  title         = "0301.09o1Organizational.123 - 09.o"
+  title         = "1175.01j1Organizational.8 - 01.j"
   description   = "Remote access to business information across public networks only takes place after successful identification and authentication."
   children = [
     control.compute_vm_jit_access_protected

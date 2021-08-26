@@ -23,7 +23,7 @@ benchmark "hipaa_hitrust_v92_0805_01m1organizational_12_01_m" {
     control.network_security_group_not_configured_gateway_subnets,
     control.network_security_group_subnet_associated,
     control.sql_server_use_virtual_service_endpoint,
-    control.storage_account_use_virtual_service_endpoint,
+    control.storage_account_use_virtual_service_endpoint
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

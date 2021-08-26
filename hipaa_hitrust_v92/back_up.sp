@@ -107,7 +107,7 @@ benchmark "hipaa_hitrust_v92_1616_09l1organizational_16_09_l" {
 }
 
 benchmark "hipaa_hitrust_v92_1621_09l2organizational_1_09_l" {
-  title         = "1616.09l1Organizational.16 - 09.l"
+  title         = "1621.09l2Organizational.1 - 09.l"
   description   = "Automated tools are used to track all backups."
   children = [
     control.sql_database_long_term_geo_redundant_backup_enabled,

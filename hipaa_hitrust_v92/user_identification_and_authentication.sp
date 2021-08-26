@@ -3,11 +3,11 @@ benchmark "hipaa_hitrust_v92_user_identification_and_authentication" {
   children = [
     benchmark.hipaa_hitrust_v92_11112_01q2organizational_67_01_q,
     benchmark.hipaa_hitrust_v92_11208_01q1organizational_8_01_q,
+    benchmark.hipaa_hitrust_v92_11210_01q2organizational_10_01_q,
     benchmark.hipaa_hitrust_v92_11211_01q2organizational_11_01_q,
     benchmark.hipaa_hitrust_v92_1123_01q1system_2_01_q,
     benchmark.hipaa_hitrust_v92_1125_01q2system_1_01_q,
-    benchmark.hipaa_hitrust_v92_1127_01q2system_3_01_q,
-    benchmark.hipaa_hitrust_v92_11210_01q2organizational_10_01_q
+    benchmark.hipaa_hitrust_v92_1127_01q2system_3_01_q
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -17,7 +17,7 @@ benchmark "hipaa_hitrust_v92_11208_01q1organizational_8_01_q" {
   title         = "11208.01q1Organizational.8 - 01.q"
   description   = "The organization requires that electronic signatures, unique to one individual, cannot be reused by, or reassigned to, anyone else."
   children = [
-    control.iam_subscription_owner_more_than_1,
+    control.iam_subscription_owner_more_than_1
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags

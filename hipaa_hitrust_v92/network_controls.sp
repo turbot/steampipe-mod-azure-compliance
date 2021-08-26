@@ -25,8 +25,8 @@ benchmark "hipaa_hitrust_v92_0858_09m1organizational_4_09_m" {
   description   = "The organization monitors for all authorized and unauthorized wireless access to the information system and prohibits installation of wireless access points (WAPs) unless explicitly authorized in writing by the CIO or his/her designated representative."
   children = [
     control.compute_vm_jit_access_protected,
-    control.compute_vm_remote_access_restricted_all_ports,
-    control.compute_vm_meet_firewall_properties_windows
+    control.compute_vm_meet_firewall_properties_windows,
+    control.compute_vm_remote_access_restricted_all_ports
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -36,7 +36,7 @@ benchmark "hipaa_hitrust_v92_0866_09m3organizational_1516_09_m" {
   title         = "0866.09m3Organizational.1516 - 09.m"
   description   = "The organization describes the groups, roles, and responsibilities for the logical management of network components and ensures coordination of and consistency in the elements of the network infrastructure."
   children = [
-    control.storage_account_default_network_access_rule_denied,
+    control.storage_account_default_network_access_rule_denied
   ]
 
   tags          = local.hipaa_hitrust_v92_common_tags
@@ -83,7 +83,7 @@ benchmark "hipaa_hitrust_v92_0863_09m2organizational_910_09_m" {
 }
 
 benchmark "hipaa_hitrust_v92_0865_09m2organizational_13_09_m" {
-  title         = "0863.09m2Organizational.910 - 09.m"
+  title         = "0865.09m2Organizational.13 - 09.m"
   description   = "The organization (i) authorizes connections from the information system to other information systems outside of the organization through the use of interconnection security agreements or other formal agreement; (ii) documents each connection, the interface characteristics, security requirements, and the nature of the information communicated; (iii) employs a deny all, permit by exception policy for allowing connections from the information system to other information systems outside of the organization; and (iv) applies a default-deny rule that drops all traffic via host-based firewalls or port filtering tools on its endpoints (workstations, servers, etc.), except those services and ports that are explicitly allowed."
   children = [
     control.keyvault_vault_use_virtual_service_endpoint

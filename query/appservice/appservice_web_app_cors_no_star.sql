@@ -14,7 +14,7 @@ select
   resource_group,
   sub.display_name as subscription
 from
-  azure_app_service_web_app a,
-  azure_subscription sub
+  azure_app_service_web_app as a,
+  azure_subscription as sub
 where
   sub.subscription_id = a.subscription_id;

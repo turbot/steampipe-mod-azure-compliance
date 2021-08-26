@@ -40,8 +40,8 @@ select
   a.resource_group,
   sub.display_name as subscription
 from
-  azure_logic_app_workflow a
+  azure_logic_app_workflow as a
   left join logging_details as l on a.id = l.workflow_id,
-  azure_subscription sub
+  azure_subscription as sub
 where
   sub.subscription_id = a.subscription_id;

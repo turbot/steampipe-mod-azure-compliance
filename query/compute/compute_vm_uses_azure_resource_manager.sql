@@ -14,6 +14,6 @@ select
   sub.display_name as subscription
 from
   azure_compute_virtual_machine as vm,
-  azure_subscription sub
+  azure_subscription as sub
 where
   sub.subscription_id = vm.subscription_id;

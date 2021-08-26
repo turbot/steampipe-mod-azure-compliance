@@ -33,4 +33,4 @@ from
   left join all_api_app as b on a.id = b.id,
   azure_subscription as sub
 where
-  sub.subscription_id = a.subscription_id
+  sub.subscription_id = a.subscription_id;

@@ -13,7 +13,7 @@ select
   resource_group,
   sub.display_name as subscription
 from
-  azure_data_lake_store b,
-  azure_subscription sub
+  azure_data_lake_store as b,
+  azure_subscription as sub
 where
   sub.subscription_id = b.subscription_id;

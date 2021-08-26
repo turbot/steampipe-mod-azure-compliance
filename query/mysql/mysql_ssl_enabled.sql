@@ -13,7 +13,7 @@ select
   s.resource_group,
   sub.display_name as subscription
 from
-  azure_mysql_server s,
-  azure_subscription sub
+  azure_mysql_server as s,
+  azure_subscription as sub
 where
   sub.subscription_id = s.subscription_id;

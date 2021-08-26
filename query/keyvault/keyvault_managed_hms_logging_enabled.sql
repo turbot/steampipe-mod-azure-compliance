@@ -30,8 +30,8 @@ select
   v.resource_group,
   sub.display_name as subscription
 from
-  azure_key_vault_managed_hardware_security_module v,
-  logging_details l,
-  azure_subscription sub
+  azure_key_vault_managed_hardware_security_module as v,
+  logging_details as l,
+  azure_subscription as sub
 where
   sub.subscription_id = v.subscription_id;

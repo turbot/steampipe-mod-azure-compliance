@@ -15,7 +15,7 @@ select
   resource_group,
   sub.display_name as subscription
 from
-  azure_key_vault_secret kvs,
-  azure_subscription sub
+  azure_key_vault_secret as kvs,
+  azure_subscription as sub
 where
   sub.subscription_id = kvs.subscription_id;

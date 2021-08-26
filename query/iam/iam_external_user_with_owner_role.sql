@@ -26,5 +26,5 @@ select
   -- Additional Dimensions
   t.tenant_id
 from
-  azure_tenant t,
-  all_owner_users a
+  azure_tenant as t,
+  all_owner_users as a;

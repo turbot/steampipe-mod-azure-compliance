@@ -19,8 +19,8 @@ select
   -- Additional Dimensions
   sub.display_name as subscription
 from
-  custom_roles cr,
-  azure_subscription sub
+  custom_roles as cr,
+  azure_subscription as sub
 where
   sub.subscription_id = cr.subscription_id
 group by

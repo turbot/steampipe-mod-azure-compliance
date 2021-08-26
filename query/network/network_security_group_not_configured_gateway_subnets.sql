@@ -9,7 +9,7 @@ select
   case
     when subnet.name = 'GatewaySubnet' and network_security_group_id is not null then 'Gateway subnet configured with network security group.'
     when subnet.name = 'GatewaySubnet' and network_security_group_id is null then 'Gateway subnet not configured with network security group.'
-    else 'Not Gateway subnet.'
+    else subnet.name || ' not of gateway subnet type.'
   end as reason,
   -- Additional Dimensions
   resource_group,

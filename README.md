@@ -1,22 +1,15 @@
 
 # Azure Compliance Scanning Tool
 
-110+ checks covering industry defined security best practices for Azure. 
+200+ checks covering industry defined security best practices for Azure. Includes full support for `CIS v1.3` and `HIPAA HITRUST 9.2` compliance benchmarks across all your Azure subscriptions.
 
 **Includes full support for the CIS v1.3 Azure Benchmarks**:
 
 ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v130_console.png)
 
-## Azure control coverage
-1. [Identity and Access Management](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_1)
-2. [Security Center](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_2)
-3. [Storage Accounts](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_3)
-4. [Database Services](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_4)
-5. [Logging and Monitoring](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_5)
-6. [Networking](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_6)
-7. [Virtual Machines](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_7)
-8. [Other Security Considerations](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_8)
-9. [AppService](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_9)
+Includes support for:
+* [Azure CIS v1.3.0](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130)
+* [HIPAA HITRUST 9.2](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.hipaa_hitrust_v92)
 
 ## Quick start
 
@@ -34,7 +27,7 @@ az login
 
 4) Clone this repo:
 ```sh
-git clone git@github.com:turbot/steampipe-mod-azure-compliance
+git clone https://github.com/turbot/steampipe-mod-azure-compliance.git
 cd steampipe-mod-azure-compliance
 ```
 
@@ -42,6 +35,7 @@ cd steampipe-mod-azure-compliance
 ```shell
 steampipe check all
 ```
+
 ### Other stuff to try out
 
 Run an individual benchmark:

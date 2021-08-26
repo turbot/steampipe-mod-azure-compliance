@@ -25,7 +25,7 @@ vm_with_appoved_networks as (
 )
 select
   -- Required Columns
-  a.id as resource,
+  a.vm_id as resource,
   case
     when b.vm_id is null then 'alarm'
     else 'ok'

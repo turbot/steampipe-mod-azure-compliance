@@ -27,6 +27,6 @@ select
   -- Additional Columns
   t.tenant_id
 from
-  azure_tenant t,
-  azure_ad_user a
+  azure_tenant as t,
+  azure_ad_user as a
   left join owner_member as b on b.object_id = a.object_id;

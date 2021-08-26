@@ -4,19 +4,19 @@ repository: "https://github.com/turbot/steampipe-mod-azure-compliance"
 
 # Azure Compliance Mod
 
-Run individual configuration, compliance and security controls or full `CIS` compliance benchmarks across all your Azure subscriptions. 
+Run individual configuration, compliance and security controls or full `CIS` and `HIPAA HITRUST` compliance benchmarks across all your Azure subscriptions.
 
 ## References
+
 [Azure](https://azure.microsoft.com) provides on-demand cloud computing platforms and APIs to authenticated customers on a metered pay-as-you-go basis.
 
 [CIS Azure Benchmarks](https://www.cisecurity.org/benchmark/azure/) provide a predefined set of compliance and security best-practice checks for Microsoft Azure usage.
 
-[PCI DSS](https://www.pcisecuritystandards.org) provides security standards for the payment card industry.
+[HIPAA HITRUST 9.2](https://docs.microsoft.com/en-us/azure/governance/policy/samples/hipaa-hitrust-9-2) provides a combined set of predefined compliance and security best-practice checks for Health Insurance Portability and Accountability Act.
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 
 [Steampipe Mods](https://steampipe.io/docs/reference/mod-resources#mod) are collections of `named queries`, and codified `controls` that can be used to test current configuration of your cloud resources against a desired configuration.
-
 
 ## Documentation
 
@@ -26,27 +26,32 @@ Run individual configuration, compliance and security controls or full `CIS` com
 ## Get started
 
 Install the Azure plugin with [Steampipe](https://steampipe.io):
+
 ```shell
 steampipe plugin install azure
 ```
 
 Clone:
+
 ```sh
-git clone git@github.com:turbot/steampipe-mod-azure-compliance
+git clone https://github.com/turbot/steampipe-mod-azure-compliance.git
 cd steampipe-mod-azure-compliance
 ```
 
 Run all benchmarks:
+
 ```shell
 steampipe check all
 ```
 
 Run a benchmark:
+
 ```shell
 steampipe check benchmark.cis_v130
 ```
 
 Run a specific control:
+
 ```shell
 steampipe check control.cis_v130_2_1_1
 ```
@@ -61,5 +66,5 @@ No extra configuration is required.
 
 ## Get involved
 
-* Contribute: [GitHub Repo](https://github.com/turbot/steampipe-mod-azure-compliance)
-* Community: [Slack Channel](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)
+- Contribute: [GitHub Repo](https://github.com/turbot/steampipe-mod-azure-compliance)
+- Community: [Slack Channel](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)

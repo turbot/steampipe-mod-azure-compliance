@@ -33,7 +33,7 @@ union
     resource_group,
     sub.display_name as subscription
   from
-    azure_app_service_web_app wa,
-    azure_subscription sub
+    azure_app_service_web_app as wa,
+    azure_subscription as sub
   where
     sub.subscription_id = wa.subscription_id;

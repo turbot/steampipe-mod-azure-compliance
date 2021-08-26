@@ -22,8 +22,8 @@ select
   -- Additional Dimensions
   sub.display_name as subscription
 from
-  owner_roles owner,
-  azure_subscription sub
+  owner_roles as owner,
+  azure_subscription as sub
 where
   sub.subscription_id =owner.subscription_id
 group by

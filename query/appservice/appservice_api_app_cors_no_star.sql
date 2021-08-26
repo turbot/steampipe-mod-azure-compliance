@@ -22,15 +22,15 @@ select
   end as status,
   case
     when b.id is null then a.title || ' is ' || a.kind || ' kind.'
-    when  configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]' then a.name || ' CORS allow all domains to access the application.'
+    when configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]' then a.name || ' CORS allow all domains to access the application.'
     else a.name || ' CORS does not all domains to access the application.'
   end as reason,
   -- Additional Dimensions
   resource_group,
   sub.display_name as subscription
 from
-  azure_app_service_web_app a
+  azure_app_service_web_app as a
   left join all_api_app as b on a.id = b.id,
-  azure_subscription sub
+  azure_subscription as sub
 where
   sub.subscription_id = a.subscription_id;

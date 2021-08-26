@@ -1,36 +1,57 @@
-![image](https://hub.steampipe.io/images/mods/turbot/azure-compliance-social-graphic.png)
 
-# Azure Compliance Mod for Steampipe
+# Azure Compliance Scanning Tool
 
-Run individual configuration, compliance and security controls
-or full compliance benchmarks for CIS and PCI across all your Azure subscriptions.
+110+ checks covering industry defined security best practices for Azure. 
 
-* **[Get started →](https://hub.steampipe.io/mods/turbot/azure_compliance)**
-* Documentation: [Controls](https://hub.steampipe.io/mods/turbot/azure_compliance/controls)
-* Community: [Slack Channel](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)
-* Get involved: [Issues](https://github.com/turbot/steampipe-mod-azure-compliance/issues)
+**Includes full support for the CIS v1.3 Azure Benchmarks**:
+
+![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v130_console.png)
+
+## Azure control coverage
+1. [Identity and Access Management](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_1)
+2. [Security Center](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_2)
+3. [Storage Accounts](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_3)
+4. [Database Services](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_4)
+5. [Logging and Monitoring](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_5)
+6. [Networking](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_6)
+7. [Virtual Machines](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_7)
+8. [Other Security Considerations](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_8)
+9. [AppService](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130_9)
 
 ## Quick start
 
-Install the Azure plugin with [Steampipe](https://steampipe.io):
-```shell
+1) Download and install Steampipe (https://steampipe.io/downloads).
+
+2) Install the Azure plugin with [Steampipe](https://steampipe.io):
+```sh
 steampipe plugin install azure
 ```
 
-Clone:
+3) Configure your Azure CLI credentials
+```sh
+az login
+```
+
+4) Clone this repo:
 ```sh
 git clone git@github.com:turbot/steampipe-mod-azure-compliance
 cd steampipe-mod-azure-compliance
 ```
 
-Run all benchmarks:
+5) Run all the benchmarks:
 ```shell
 steampipe check all
 ```
+### Other stuff to try out
 
-Run a benchmark:
+Run an individual benchmark:
 ```shell
-steampipe check benchmark.cis_v130
+steampipe check benchmark.cis_v130_6
+```
+
+View all controls in this mod:
+```sh
+steampipe query "select resource_name from steampipe_control;"
 ```
 
 Run a specific control:
@@ -38,47 +59,14 @@ Run a specific control:
 steampipe check control.cis_v130_4_3_5
 ```
 
-## Developing
-
-Have an idea but aren't sure how to get started?
-- **[Join our Slack community →](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)**
-- **[Mod developer guide →](https://steampipe.io/docs/steampipe-mods/writing-mods.md)**
-
-**Prerequisites**:
-- [Steampipe installed](https://steampipe.io/downloads)
-- Steampipe AWS plugin installed (see above)
-
-**Fork**:
-Click on the GitHub Fork Widget. (Don't forget to :star: the repo!)
-
-**Clone**:
-
-1. Change the current working directory to the location where you want to put the cloned directory on your local filesystem.
-2. Type the clone command below inserting your GitHub username instead of `YOUR-USERNAME`:
-
-```sh
-git clone git@github.com:YOUR-USERNAME/steampipe-mod-azure-compliance
-cd steampipe-mod-azure-compliance
-```
-
-**View controls and benchmarks**:
-```
-steampipe query "select resource_name from steampipe_control;"
-```
-
-```sql
-steampipe query
-> select
-    resource_name
-  from
-    steampipe_benchmark
-  order by
-    resource_name;
-```
-
 ## Contributing
 
-Please see the [contribution guidelines](https://github.com/turbot/steampipe/blob/main/CONTRIBUTING.md) and our [code of conduct](https://github.com/turbot/steampipe/blob/main/CODE_OF_CONDUCT.md). All contributions are subject to the [Apache 2.0 open source license](https://github.com/turbot/steampipe-mod-azure-compliance/blob/main/LICENSE).
+If you have an idea for additional compliance controls, or just want to help maintain and extend this mod ([or others](https://github.com/topics/steampipe-mod)) we would love you to join the community and start contributing. (Even if you just want to help with the docs.)
+
+- **[Join our Slack community →](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)**
+- **[Mod developer guide →](https://steampipe.io/docs/using-steampipe/writing-controls)**
+
+Please see the [contribution guidelines](https://github.com/turbot/steampipe/blob/main/CONTRIBUTING.md) and our [code of conduct](https://github.com/turbot/steampipe/blob/main/CODE_OF_CONDUCT.md). All contributions are subject to the [Apache 2.0 open source license](https://github.com/turbot/steampipe-mod-aws-compliance/blob/main/LICENSE).
 
 `help wanted` issues:
 - [Steampipe](https://github.com/turbot/steampipe/labels/help%20wanted)

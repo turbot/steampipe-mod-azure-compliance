@@ -1,3 +1,15 @@
+## v0.4 [2021-08-26]
+
+_What's new?_
+
+- Added: HIPAA HITRUST 9.2 benchmark (`steampipe check azure_compliance.benchmark.hipaa_hitrust_v92`)
+
+## v0.3 [2021-05-28]
+
+_Bug fixes_
+
+- Minor fixes in the docs
+
 ## v0.2 [2021-05-27]
 
 _What's new?_

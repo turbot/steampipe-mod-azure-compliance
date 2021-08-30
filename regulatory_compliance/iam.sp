@@ -46,7 +46,7 @@ control "iam_deprecated_account_with_owner_roles" {
 
 control "iam_no_custom_role" {
   title       = "Audit usage of custom RBAC rules"
-  description = "Audit built-in roles such as 'Owner, Contributer, Reader' instead of custom RBAC roles, which are error prone. Using custom roles is treated as an exception and requires a rigorous review and threat modeling."
+  description = "Audit built-in roles such as 'Owner, Contributor, Reader' instead of custom RBAC roles, which are error prone. Using custom roles is treated as an exception and requires a rigorous review and threat modeling."
   sql         = query.iam_no_custom_role.sql
 
   tags = merge(local.conformance_pack_iam_common_tags, {

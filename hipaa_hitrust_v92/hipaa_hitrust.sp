@@ -29,7 +29,7 @@ benchmark "hipaa_hitrust_v92" {
     benchmark.hipaa_hitrust_v92_segregation_in_networks,
     benchmark.hipaa_hitrust_v92_segregation_of_duties,
     benchmark.hipaa_hitrust_v92_user_authentication_for_external_connections,
-    benchmark.hipaa_hitrust_v92_user_identification_and_authentication,
+    benchmark.hipaa_hitrust_v92_user_identification_and_authentication
   ]
   tags = local.hipaa_hitrust_v92_common_tags
 }

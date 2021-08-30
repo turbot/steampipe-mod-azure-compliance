@@ -266,7 +266,7 @@ control "compute_vm_meet_security_option_requirement_windows" {
 
 control "compute_vm_with_no_specified_certificates_in_trusted_root_windows" {
   title       = "Audit Windows machines that do not contain the specified certificates in Trusted Root"
-  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the machine Trusted Root certificate store does not contain one or more of the certificates listed by clearthe policy parameter. Note: This control requires parameter to be specified."
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the machine Trusted Root certificate store does not contain one or more of the certificates listed by the policy parameter. Note: This control requires parameter to be specified."
   sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {

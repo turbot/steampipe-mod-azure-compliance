@@ -51,7 +51,8 @@ benchmark "hipaa_hitrust_v92_1418_05i1organizational_8_05_i" {
 }
 
 benchmark "hipaa_hitrust_v92_1450_05i2organizational_2_05_i" {
-  title    = "The organization obtains satisfactory assurances that reasonable information security exists across their information supply chain by performing an annual review, which includes all partners/third party-providers upon which their information supply chain depends"
+  title       = "The organization obtains satisfactory assurances that reasonable information security exists across their information supply chain"
+  description = "The organization obtains satisfactory assurances that reasonable information security exists across their information supply chain by performing an annual review, which includes all partners/third party-providers upon which their information supply chain depends."
   children = [
     control.postgres_sql_ssl_enabled
   ]
@@ -69,7 +70,8 @@ benchmark "hipaa_hitrust_v92_1404_05i2organizational_1_05_i" {
 }
 
 benchmark "hipaa_hitrust_v92_1451_05icsporganizational_2_05_i" {
-  title    = "Cloud service providers design and implement controls to mitigate and contain data security risks through proper separation of duties, role-based access, and least-privilege access for all personnel within their supply chain"
+  title       = "Cloud service providers design and implement controls to mitigate and contain data security risks"
+  description = "Cloud service providers design and implement controls to mitigate and contain data security risks through proper separation of duties, role-based access, and least-privilege access for all personnel within their supply chain."
   children = [
     control.azure_redis_cache_ssl_enabled
   ]

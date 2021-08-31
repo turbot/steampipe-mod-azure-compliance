@@ -31,7 +31,8 @@ benchmark "hipaa_hitrust_v92_0946_09y2organizational_14_09_y" {
 }
 
 benchmark "hipaa_hitrust_v92_0947_09y2organizational_2_09_y" {
-  title    = "The organization ensures the storage of the transaction details are located outside of any publicly accessible environments (e.g., on a storage platform existing on the organization's intranet) and not retained and exposed on a storage medium directly accessible from the Internet"
+  title       = "The organization ensures the storage of the transaction details are located outside of any publicly accessible environment"
+  description = "The organization ensures the storage of the transaction details are located outside of any publicly accessible environments (e.g., on a storage platform existing on the organization's intranet) and not retained and exposed on a storage medium directly accessible from the Internet."
   children = [
     control.postgres_sql_ssl_enabled
   ]
@@ -40,7 +41,8 @@ benchmark "hipaa_hitrust_v92_0947_09y2organizational_2_09_y" {
 }
 
 benchmark "hipaa_hitrust_v92_0948_09y2organizational_3_09_y" {
-  title    = "Where a trusted authority is used (e.g., for the purposes of issuing and maintaining digital signatures and/or digital certificates), security is integrated and embedded throughout the entire end-to-end certificate/signature management process"
+  title    = "Where a trusted authority is used, security is integrated and embedded throughout the entire end-to-end certificate/signature management process"
+  description = "Where a trusted authority is used (e.g., for the purposes of issuing and maintaining digital signatures and/or digital certificates), security is integrated and embedded throughout the entire end-to-end certificate/signature management process."
   children = [
     control.mysql_ssl_enabled
   ]

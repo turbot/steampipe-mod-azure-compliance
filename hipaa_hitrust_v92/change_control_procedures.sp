@@ -17,7 +17,8 @@ benchmark "hipaa_hitrust_v92_change_control_procedures" {
 }
 
 benchmark "hipaa_hitrust_v92_0635_10k1organizational_12_10_k" {
-  title    = "Managers responsible for application systems are also responsible for the strict control (security) of the project or support environment and ensure that all proposed system changes are reviewed to check that they do not compromise the security of either the system or the operating environment"
+  title       = "Managers responsible for application systems are also responsible for the strict control (security) of the project or support environment"
+  description = "Managers responsible for application systems are also responsible for the strict control (security) of the project or support environment and ensure that all proposed system changes are reviewed to check that they do not compromise the security of either the system or the operating environment."
   children = [
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]

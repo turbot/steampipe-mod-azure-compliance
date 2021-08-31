@@ -56,7 +56,7 @@ benchmark "hipaa_hitrust_v92_1145_01c2system_1_01_c" {
 }
 
 benchmark "hipaa_hitrust_v92_1150_01c2system_10_01_c" {
-  title    = "Access to management functions or administrative consoles for systems hosting virtualized systems are restricted to personnel based upon the principle of least privilege and supported through technical controls"
+  title    = "The access control system for the system components storing, processing or transmitting covered information is set with a default 'deny-all' setting"
   children = [
     control.network_security_group_remote_access_restricted
   ]

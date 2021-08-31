@@ -21,7 +21,8 @@ benchmark "hipaa_hitrust_v92_network_controls" {
 }
 
 benchmark "hipaa_hitrust_v92_0858_09m1organizational_4_09_m" {
-  title    = "The organization monitors for all authorized and unauthorized wireless access to the information system and prohibits installation of wireless access points (WAPs) unless explicitly authorized in writing by the CIO or his/her designated representative"
+  title       = "The organization monitors for all authorized and unauthorized wireless access to the information system"
+  description = "The organization monitors for all authorized and unauthorized wireless access to the information system and prohibits installation of wireless access points (WAPs) unless explicitly authorized in writing by the CIO or his/her designated representative."
   children = [
     control.compute_vm_jit_access_protected,
     control.compute_vm_meet_firewall_properties_windows,
@@ -68,7 +69,8 @@ benchmark "hipaa_hitrust_v92_0862_09m2organizational_8_09_m" {
 }
 
 benchmark "hipaa_hitrust_v92_0863_09m2organizational_910_09_m" {
-  title    = "The organization builds a firewall configuration that restricts connections between un-trusted networks and any system components in the covered information environment; and any changes to the firewall configuration are updated in the network diagram"
+  title       = "The organization builds a firewall configuration that restricts connections between un-trusted networks and any system components in the covered information environment"
+  description = "The organization builds a firewall configuration that restricts connections between un-trusted networks and any system components in the covered information environment; and any changes to the firewall configuration are updated in the network diagram."
   children = [
     control.eventhub_namespace_use_virtual_service_endpoint
   ]

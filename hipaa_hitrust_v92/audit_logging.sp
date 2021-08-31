@@ -28,7 +28,8 @@ benchmark "hipaa_hitrust_v92_1211_09aa3system_4_09_aa" {
 }
 
 benchmark "hipaa_hitrust_v92_1209_09aa3system_2_09_aa" {
-  title    = "The information system generates audit records containing the following detailed information: filename accessed, program or command used to initiate the event and source and destination addresses"
+  title       = "The information system generates audit records containing detailed information"
+  description = "The information system generates audit records containing the following detailed information: filename accessed, program or command used to initiate the event and source and destination addresses."
   children = [
     control.appservice_web_app_diagnostic_logs_enabled
   ]
@@ -103,7 +104,7 @@ benchmark "hipaa_hitrust_v92_1210_09aa3system_3_09_aa" {
 }
 
 benchmark "hipaa_hitrust_v92_1206_09aa2system_23_09_aa" {
-  title       = "Auditing system while it is active"
+  title       = "Auditing a system while it is active"
   description = "Auditing is always available while the system is active and tracks key events, success/failed data access, system security configuration changes, privileged or utility use, any alarms raised, activation and de-activation of protection systems (e.g., A/V and IDS), activation and deactivation of identification and authentication mechanisms, and creation and deletion of system-level objects."
   children    = [
     control.compute_vm_scale_set_logging_enabled

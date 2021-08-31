@@ -1,7 +1,7 @@
 locals {
   hipaa_hitrust_v92_common_tags = {
     hipaa_hitrust_v92 = "true"
-    plugin             = "azure"
+    plugin            = "azure"
   }
 }
 

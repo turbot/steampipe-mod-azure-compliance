@@ -1,5 +1,5 @@
 benchmark "hipaa_hitrust_v92_control_of_technical_vulnerabilities" {
-  title         = "Control of Technical Vulnerabilities"
+  title    = "Control of Technical Vulnerabilities"
   children = [
     benchmark.hipaa_hitrust_v92_0709_10m1organizational_1_10_m,
     benchmark.hipaa_hitrust_v92_0713_10m2organizational_5_10_m,
@@ -12,7 +12,7 @@ benchmark "hipaa_hitrust_v92_control_of_technical_vulnerabilities" {
     benchmark.hipaa_hitrust_v92_0711_10m2organizational_23_10_m
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_0709_10m1organizational_1_10_m" {
@@ -26,7 +26,7 @@ benchmark "hipaa_hitrust_v92_0709_10m1organizational_1_10_m" {
     control.compute_vm_vulnerability_assessment_solution_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_0713_10m2organizational_5_10_m" {
@@ -35,7 +35,7 @@ benchmark "hipaa_hitrust_v92_0713_10m2organizational_5_10_m" {
     control.compute_vm_security_configuration_vulnerabilities_remediated
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_0718_10m3organizational_34_10_m" {
@@ -45,7 +45,7 @@ benchmark "hipaa_hitrust_v92_0718_10m3organizational_34_10_m" {
     control.compute_vm_security_configuration_vulnerabilities_remediated
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 
@@ -55,7 +55,7 @@ benchmark "hipaa_hitrust_v92_0719_10m3organizational_5_10_m" {
     control.mssql_managed_instance_vulnerability_assessment_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags  = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_0714_10m2organizational_7_10_m" {
@@ -64,7 +64,7 @@ benchmark "hipaa_hitrust_v92_0714_10m2organizational_7_10_m" {
     control.compute_vm_scale_set_security_configuration_vulnerabilities_remediated
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_0717_10m3organizational_2_10_m" {
@@ -73,7 +73,7 @@ benchmark "hipaa_hitrust_v92_0717_10m3organizational_2_10_m" {
     control.compute_vm_scale_set_security_configuration_vulnerabilities_remediated
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_0710_10m2organizational_1_10_m" {
@@ -82,7 +82,7 @@ benchmark "hipaa_hitrust_v92_0710_10m2organizational_1_10_m" {
     control.mssql_managed_instance_vulnerability_assessment_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_0716_10m3organizational_1_10_m" {
@@ -100,5 +100,5 @@ benchmark "hipaa_hitrust_v92_0711_10m2organizational_23_10_m" {
     control.compute_vm_vulnerability_assessment_solution_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }

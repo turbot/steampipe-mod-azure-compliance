@@ -6,7 +6,7 @@ benchmark "hipaa_hitrust_v92_business_continuity_and_risk_assessment" {
     benchmark.hipaa_hitrust_v92_1638_12b2organizational_345_12_b
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1635_12b1organizational_2_12_b" {
@@ -17,7 +17,7 @@ benchmark "hipaa_hitrust_v92_1635_12b1organizational_2_12_b" {
     control.keyvault_purge_protection_enabled,
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1634_12b1organizational_1_12_b" {
@@ -26,7 +26,7 @@ benchmark "hipaa_hitrust_v92_1634_12b1organizational_1_12_b" {
     control.compute_vm_disaster_recovery_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1638_12b2organizational_345_12_b" {
@@ -36,5 +36,5 @@ benchmark "hipaa_hitrust_v92_1638_12b2organizational_345_12_b" {
     control.compute_vm_disaster_recovery_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }

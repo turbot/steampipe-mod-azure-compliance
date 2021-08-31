@@ -1,5 +1,5 @@
 benchmark "hipaa_hitrust_v92_audit_logging" {
-  title         = "Audit Logging"
+  title    = "Audit Logging"
   children = [
     benchmark.hipaa_hitrust_v92_1202_09aa1system_1_09_aa,
     benchmark.hipaa_hitrust_v92_1203_09aa1system_2_09_aa,
@@ -13,7 +13,7 @@ benchmark "hipaa_hitrust_v92_audit_logging" {
     benchmark.hipaa_hitrust_v92_1211_09aa3system_4_09_aa
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1211_09aa3system_4_09_aa" {
@@ -24,7 +24,7 @@ benchmark "hipaa_hitrust_v92_1211_09aa3system_4_09_aa" {
     control.sql_server_auditing_on
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1209_09aa3system_2_09_aa" {
@@ -33,7 +33,7 @@ benchmark "hipaa_hitrust_v92_1209_09aa3system_2_09_aa" {
     control.appservice_web_app_diagnostic_logs_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1202_09aa1system_1_09_aa" {
@@ -42,7 +42,7 @@ benchmark "hipaa_hitrust_v92_1202_09aa1system_1_09_aa" {
     control.datalake_store_account_logging_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1203_09aa1system_2_09_aa" {
@@ -51,7 +51,7 @@ benchmark "hipaa_hitrust_v92_1203_09aa1system_2_09_aa" {
     control.logic_app_workflow_logging_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1204_09aa1system_3_09_aa" {
@@ -60,7 +60,7 @@ benchmark "hipaa_hitrust_v92_1204_09aa1system_3_09_aa" {
     control.iot_hub_logging_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1205_09aa2system_1_09_aa" {
@@ -69,7 +69,7 @@ benchmark "hipaa_hitrust_v92_1205_09aa2system_1_09_aa" {
     control.batch_account_logging_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1207_09aa2system_4_09_aa" {
@@ -79,7 +79,7 @@ benchmark "hipaa_hitrust_v92_1207_09aa2system_4_09_aa" {
     control.stream_analytics_job_logging_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1208_09aa3system_1_09_aa" {
@@ -89,7 +89,7 @@ benchmark "hipaa_hitrust_v92_1208_09aa3system_1_09_aa" {
     control.servicebus_namespace_logging_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1210_09aa3system_3_09_aa" {
@@ -99,7 +99,7 @@ benchmark "hipaa_hitrust_v92_1210_09aa3system_3_09_aa" {
     control.audit_diagnostic_setting
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1206_09aa2system_23_09_aa" {
@@ -109,5 +109,5 @@ benchmark "hipaa_hitrust_v92_1206_09aa2system_23_09_aa" {
     control.compute_vm_scale_set_logging_enabled
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }

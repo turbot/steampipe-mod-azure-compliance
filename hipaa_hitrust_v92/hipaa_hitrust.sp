@@ -1,7 +1,7 @@
 locals {
   hipaa_hitrust_v92_common_tags = {
     hipaa_hitrust_v92 = "true"
-    plugin             = "azure"
+    plugin            = "azure"
   }
 }
 
@@ -18,7 +18,8 @@ benchmark "hipaa_hitrust_v92" {
     benchmark.hipaa_hitrust_v92_control_of_technical_vulnerabilities,
     benchmark.hipaa_hitrust_v92_controls_against_malicious_code,
     benchmark.hipaa_hitrust_v92_identification_of_risks_related_to_external_parties,
-    benchmark.hipaa_hitrust_v92_management_of_removable_media,benchmark.hipaa_hitrust_v92_information_exchange_policies_and_procedures,
+    benchmark.hipaa_hitrust_v92_information_exchange_policies_and_procedures,
+    benchmark.hipaa_hitrust_v92_management_of_removable_media,
     benchmark.hipaa_hitrust_v92_monitoring_system_use,
     benchmark.hipaa_hitrust_v92_network_connection_control,
     benchmark.hipaa_hitrust_v92_network_controls,
@@ -29,7 +30,7 @@ benchmark "hipaa_hitrust_v92" {
     benchmark.hipaa_hitrust_v92_segregation_in_networks,
     benchmark.hipaa_hitrust_v92_segregation_of_duties,
     benchmark.hipaa_hitrust_v92_user_authentication_for_external_connections,
-    benchmark.hipaa_hitrust_v92_user_identification_and_authentication,
+    benchmark.hipaa_hitrust_v92_user_identification_and_authentication
   ]
   tags = local.hipaa_hitrust_v92_common_tags
 }

@@ -1,3 +1,9 @@
+## v0.5 [2021-09-02]
+
+_Enhancements_
+
+- Titles of all the HIPAA HITRUST 9.2 compliance benchmarks have been updated for better readability  
+
 ## v0.4 [2021-08-26]
 
 _What's new?_

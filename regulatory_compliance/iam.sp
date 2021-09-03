@@ -63,3 +63,23 @@ control "iam_external_user_with_owner_role" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "iam_deprecated_account" {
+  title       = "Deprecated accounts should be removed from your subscription"
+  description = "Deprecated accounts should be removed from your subscriptions. Deprecated accounts are accounts that have been blocked from signing in."
+  sql         = query.iam_deprecated_account.sql
+
+  tags = merge(local.conformance_pack_iam_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "iam_external_user_with_read_permission" {
+  title       = "External accounts with read permissions should be removed from your subscription"
+  description = "External accounts with read privileges should be removed from your subscription in order to prevent unmonitored access."
+  sql         = query.iam_external_user_with_read_permission.sql
+
+  tags = merge(local.conformance_pack_iam_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

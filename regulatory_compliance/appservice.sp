@@ -153,3 +153,33 @@ control "appservice_api_app_cors_no_star" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "appservice_web_app_uses_managed_identity" {
+  title       = "Managed identity should be used in your Web App"
+  description = "Use a managed identity for enhanced authentication security."
+  sql         = query.appservice_web_app_uses_managed_identity.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "appservice_api_app_uses_managed_identity" {
+  title       = "Managed identity should be used in your API App"
+  description = "Use a managed identity for enhanced authentication security."
+  sql         = query.appservice_api_app_uses_managed_identity.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "appservice_function_app_uses_managed_identity" {
+  title       = "Managed identity should be used in your Function App"
+  description = "Use a managed identity for enhanced authentication security."
+  sql         = query.appservice_function_app_uses_managed_identity.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

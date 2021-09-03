@@ -1,33 +1,13 @@
-with all_ebapp as (
-  select
-    id
-  from
-    azure_app_service_web_app
-  where
-    exists (
-      select
-      from
-        unnest(regexp_split_to_array(kind, ',')) elem
-      where
-        elem like 'api*'
-  )
-)
 select
   -- Required Column
   app.id as resource,
   case
-    when
-      configuration -> 'properties' -> 'xManagedServiceIdentityId' is not null
-      or configuration -> 'properties' -> 'managedServiceIdentityId' is not null
-      then 'ok'
-    else 'alarm'
+    when not client_cert_enabled then 'alarm'
+    else 'ok'
   end as status,
   case
-    when
-      configuration -> 'properties' -> 'xManagedServiceIdentityId' is not null
-      or configuration -> 'properties' -> 'managedServiceIdentityId' is not null
-      then app.name || ' uses managed identity.'
-    else app.name || ' not uses managed identity'
+    when not client_cert_enabled then name || ' incoming client certificates set to off.'
+    else name || ' incoming client certificates set to on.'
   end as reason,
   -- Additional Dimensions
   resource_group,

@@ -10,7 +10,8 @@ control "sql_server_and_databases_va_enabled" {
   sql         = query.sql_server_and_databases_va_enabled.sql
 
   tags = merge(local.conformance_pack_sql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -72,7 +73,8 @@ control "sql_database_vulnerability_findings_resolved" {
   sql         = query.sql_database_vulnerability_findings_resolved.sql
 
   tags = merge(local.conformance_pack_sql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

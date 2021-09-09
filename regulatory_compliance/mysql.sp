@@ -20,7 +20,8 @@ control "mysql_db_server_geo_redundant_backup_enabled" {
   sql         = query.mysql_db_server_geo_redundant_backup_enabled.sql
 
   tags = merge(local.conformance_pack_mysql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

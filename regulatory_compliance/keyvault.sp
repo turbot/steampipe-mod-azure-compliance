@@ -10,7 +10,8 @@ control "keyvault_purge_protection_enabled" {
   sql         = query.keyvault_purge_protection_enabled.sql
 
   tags = merge(local.conformance_pack_keyvault_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

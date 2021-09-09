@@ -10,6 +10,7 @@ control "search_service_logging_enabled" {
   sql         = query.search_service_logging_enabled.sql
 
   tags = merge(local.conformance_pack_search_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }

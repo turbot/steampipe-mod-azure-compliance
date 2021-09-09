@@ -10,7 +10,8 @@ control "eventhub_namespace_logging_enabled" {
   sql         = query.eventhub_namespace_logging_enabled.sql
 
   tags = merge(local.conformance_pack_eventhub_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

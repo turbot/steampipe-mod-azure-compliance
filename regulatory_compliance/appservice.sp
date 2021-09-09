@@ -120,7 +120,8 @@ control "appservice_web_app_diagnostic_logs_enabled" {
   sql         = query.appservice_web_app_diagnostic_logs_enabled.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -181,5 +182,15 @@ control "appservice_function_app_uses_managed_identity" {
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
     hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "appservice_azure_defender_enabled" {
+  title       = "Azure Defender for App Service should be enabled"
+  description = "Azure Defender for App Service leverages the scale of the cloud, and the visibility that Azure has as a cloud provider, to monitor for common web app attacks."
+  sql         = query.appservice_azure_defender_enabled.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
   })
 }

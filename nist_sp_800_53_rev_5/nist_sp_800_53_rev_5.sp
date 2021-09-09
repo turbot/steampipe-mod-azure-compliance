@@ -14,7 +14,8 @@ benchmark "nist_sp_800_53_rev_5" {
     benchmark.nist_sp_800_53_rev_5_ac,
     benchmark.nist_sp_800_53_rev_5_au,
     benchmark.nist_sp_800_53_rev_5_cm,
-    benchmark.nist_sp_800_53_rev_5_cp
+    benchmark.nist_sp_800_53_rev_5_cp,
+    benchmark.nist_sp_800_53_rev_5_ia
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

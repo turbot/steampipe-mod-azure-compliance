@@ -167,7 +167,8 @@ control "appservice_web_app_uses_managed_identity" {
   sql         = query.appservice_web_app_uses_managed_identity.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -177,7 +178,8 @@ control "appservice_api_app_uses_managed_identity" {
   sql         = query.appservice_api_app_uses_managed_identity.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -187,7 +189,8 @@ control "appservice_function_app_uses_managed_identity" {
   sql         = query.appservice_function_app_uses_managed_identity.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

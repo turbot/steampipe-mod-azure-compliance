@@ -30,7 +30,8 @@ control "appservice_web_app_remote_debugging_disabled" {
   sql         = query.appservice_web_app_remote_debugging_disabled.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -40,7 +41,8 @@ control "appservice_function_app_remote_debugging_disabled" {
   sql         = query.appservice_function_app_remote_debugging_disabled.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -100,7 +102,8 @@ control "appservice_api_app_remote_debugging_disabled" {
   sql         = query.appservice_api_app_remote_debugging_disabled.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -131,7 +134,8 @@ control "appservice_web_app_cors_no_star" {
   sql         = query.appservice_web_app_cors_no_star.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -141,7 +145,8 @@ control "appservice_function_app_cors_no_star" {
   sql         = query.appservice_function_app_cors_no_star.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -151,7 +156,8 @@ control "appservice_api_app_cors_no_star" {
   sql         = query.appservice_api_app_cors_no_star.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -189,6 +195,36 @@ control "appservice_azure_defender_enabled" {
   title       = "Azure Defender for App Service should be enabled"
   description = "Azure Defender for App Service leverages the scale of the cloud, and the visibility that Azure has as a cloud provider, to monitor for common web app attacks."
   sql         = query.appservice_azure_defender_enabled.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_api_app_client_certificates_on" {
+  title       = "Ensure API app has 'Client Certificates (Incoming client certificates)' set to 'On'"
+  description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
+  sql         = query.appservice_api_app_client_certificates_on.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_web_app_client_certificates_on" {
+  title       = "Ensure WEB app has 'Client Certificates (Incoming client certificates)' set to 'On'"
+  description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
+  sql         = query.appservice_web_app_client_certificates_on.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_function_app_client_certificates_on" {
+  title       = "Function apps should have 'Client Certificates (Incoming client certificates)' enabled"
+  description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients with valid certificates will be able to reach the app."
+  sql         = query.appservice_function_app_client_certificates_on.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"

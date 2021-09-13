@@ -53,8 +53,8 @@ benchmark "nist_sp_800_53_rev_5_cp_9" {
   children = [
     control.keyvault_purge_protection_enabled,
     control.mariadb_server_geo_redundant_backup_enabled,
-    control.mysql_db_server_geo_redundant_backup_enabled.sql,
-    control.postgres_db_server_geo_redundant_backup_enabled.sql
+    control.mysql_db_server_geo_redundant_backup_enabled,
+    control.postgres_db_server_geo_redundant_backup_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

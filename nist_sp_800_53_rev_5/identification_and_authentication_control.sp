@@ -39,7 +39,7 @@ benchmark "nist_sp_800_53_rev_5_ia_4" {
   children = [
     control.appservice_api_app_uses_managed_identity,
     control.appservice_function_app_uses_managed_identity,
-    controlappservice_web_app_uses_managed_identity,
+    control.appservice_web_app_uses_managed_identity
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

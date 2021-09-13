@@ -50,7 +50,8 @@ control "compute_vm_remote_access_restricted_all_ports" {
   sql         = query.compute_vm_remote_access_restricted_all_ports.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -70,7 +71,8 @@ control "compute_vm_jit_access_protected" {
   sql         = query.compute_vm_jit_access_protected.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

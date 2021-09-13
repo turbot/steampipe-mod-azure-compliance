@@ -10,7 +10,8 @@ control "appservice_web_app_use_https" {
   sql         = query.appservice_web_app_use_https.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -52,7 +53,8 @@ control "appservice_function_app_latest_tls_version" {
   sql         = query.appservice_function_app_latest_tls_version.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -62,7 +64,8 @@ control "appservice_web_app_latest_tls_version" {
   sql         = query.appservice_web_app_latest_tls_version.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -72,7 +75,8 @@ control "appservice_function_app_only_https_accessible" {
   sql         = query.appservice_function_app_only_https_accessible.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -92,7 +96,8 @@ control "appservice_api_app_use_https" {
   sql         = query.appservice_api_app_use_https.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -113,7 +118,8 @@ control "appservice_api_app_latest_tls_version" {
   sql         = query.appservice_api_app_latest_tls_version.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -228,6 +234,36 @@ control "appservice_function_app_client_certificates_on" {
   title       = "Function apps should have 'Client Certificates (Incoming client certificates)' enabled"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients with valid certificates will be able to reach the app."
   sql         = query.appservice_function_app_client_certificates_on.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_api_app_ftps_enabled" {
+  title       = "FTPS only should be required in your API App"
+  description = "Enable FTPS enforcement for enhanced security."
+  sql         = query.appservice_api_app_ftps_enabled.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_function_app_ftps_enabled" {
+  title       = "FTPS only should be required in your Function App"
+  description = "Enable FTPS enforcement for enhanced security."
+  sql         = query.appservice_function_app_ftps_enabled.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_web_app_ftps_enabled" {
+  title       = "FTPS should be required in your Web App"
+  description = "Enable FTPS enforcement for enhanced security."
+  sql         = query.appservice_web_app_ftps_enabled.sql
 
   tags = merge(local.conformance_pack_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"

@@ -10,7 +10,8 @@ control "network_security_group_remote_access_restricted" {
   sql         = query.network_security_group_remote_access_restricted.sql
 
   tags = merge(local.conformance_pack_network_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -41,7 +42,8 @@ control "network_security_group_subnet_associated" {
   sql         = query.network_security_group_subnet_associated.sql
 
   tags = merge(local.conformance_pack_network_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

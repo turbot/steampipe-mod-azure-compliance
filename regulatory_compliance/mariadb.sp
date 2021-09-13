@@ -14,3 +14,13 @@ control "mariadb_server_geo_redundant_backup_enabled" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+control "mariadb_server_public_network_access_disabled" {
+  title       = "Public network access should be disabled for MariaDB servers"
+  description = "Disable the public network access property to improve security and ensure your Azure Database for MariaDB can only be accessed from a private endpoint. This configuration strictly disables access from any public address space outside of Azure IP range, and denies all logins that match IP or virtual network-based firewall rules."
+  sql         = query.mariadb_server_public_network_access_disabled.sql
+
+  tags = merge(local.conformance_pack_mariadb_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}

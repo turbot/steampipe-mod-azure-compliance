@@ -205,7 +205,8 @@ control "compute_vm_uses_azure_resource_manager" {
   sql         = query.compute_vm_uses_azure_resource_manager.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

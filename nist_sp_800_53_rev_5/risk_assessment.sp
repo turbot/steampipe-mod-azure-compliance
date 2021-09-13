@@ -1,6 +1,6 @@
 benchmark "nist_sp_800_53_rev_5_ra" {
   title       = "Risk Assessment (RA)"
-  description = "to do."
+  description = "The RA control family relates to an organization’s risk assessment policies and vulnerability scanning capabilities. Using an integrated risk management solution like CyberStrong can help streamline and automate your NIST 800 53 compliance efforts."
   children = [
     benchmark.nist_sp_800_53_rev_5_ra_5
   ]
@@ -11,7 +11,7 @@ benchmark "nist_sp_800_53_rev_5_ra" {
 
 benchmark "nist_sp_800_53_rev_5_ra_5" {
   title       = "Vulnerability Monitoring and Scanning (RA-5)"
-  description = "to  do"
+  description = "Scan for system vulnerabilities. Share vulnerability information and security controls that eliminate vulnerabilities."
   children = [
     control.appservice_azure_defender_enabled,
     control.compute_vm_azure_defender_enabled,

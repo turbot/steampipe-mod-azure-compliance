@@ -1,6 +1,6 @@
 benchmark "nist_sp_800_53_rev_5_au" {
   title       = "Audit and Accountability Control (AU)"
-  description = "to do."
+  description = "The AU control family consists of security controls related to an organization’s audit capabilities. This includes audit policies and procedures, audit logging, audit report generation, and protection of audit information."
   children = [
     benchmark.nist_sp_800_53_rev_5_au_6,
     benchmark.nist_sp_800_53_rev_5_au_11,
@@ -13,7 +13,7 @@ benchmark "nist_sp_800_53_rev_5_au" {
 
 benchmark "nist_sp_800_53_rev_5_au_6" {
   title       = "Audit Record Review, Analysis, and Reporting (AU-6)"
-  description = "to  do"
+  description = "Integrate audit review, analysis, and reporting with processes for investigation and response to suspicious activities."
   children = [
     benchmark.nist_sp_800_53_rev_5_au_6_4,
     benchmark.nist_sp_800_53_rev_5_au_6_5,
@@ -38,7 +38,7 @@ benchmark "nist_sp_800_53_rev_5_au_6" {
 
 benchmark "nist_sp_800_53_rev_5_au_6_4" {
   title       = "AU-6(4) Central Review and Analysis"
-  description = "to  do"
+  description = "The information system provides the capability to centrally review and analyze audit records from multiple components within the system."
   children = [
     control.appservice_azure_defender_enabled,
     control.appservice_web_app_diagnostic_logs_enabled,
@@ -75,7 +75,7 @@ benchmark "nist_sp_800_53_rev_5_au_6_4" {
 
 benchmark "nist_sp_800_53_rev_5_au_6_5" {
   title       = "AU-6(5) Integrated Analysis of Audit Records"
-  description = "to  do"
+  description = "The organization integrates analysis of audit records with analysis of vulnerable scanning information, performance data, and information system monitoring information collected from other sources to further enhance the ability to identify inappropriate or unusual activity."
   children = [
     control.appservice_azure_defender_enabled,
     control.appservice_web_app_diagnostic_logs_enabled,
@@ -112,7 +112,7 @@ benchmark "nist_sp_800_53_rev_5_au_6_5" {
 
 benchmark "nist_sp_800_53_rev_5_au_11" {
   title       = "Audit Record Retention (AU-11)"
-  description = "to  do"
+  description = "Retain audit records for security investigations. Meet regulatory and organizational data retention requirements."
   children = [
   ]
 
@@ -121,7 +121,7 @@ benchmark "nist_sp_800_53_rev_5_au_11" {
 
 benchmark "nist_sp_800_53_rev_5_au_12" {
   title       = "Audit Record Generation (AU-12)"
-  description = "to  do"
+  description = "Audit events defined in AU-2. Allow trusted personnel to select which events to audit. Generate audit records for events."
   children = [
     benchmark.nist_sp_800_53_rev_5_au_12_1,
     control.appservice_azure_defender_enabled,
@@ -159,7 +159,7 @@ benchmark "nist_sp_800_53_rev_5_au_12" {
 
 benchmark "nist_sp_800_53_rev_5_au_12_1" {
   title       = "AU-12(1) System-wide and Time-correlated Audit Trail"
-  description = "to  do"
+  description = "The information system compiles audit records from organization-defined information system components into a system-wide (logical or physical) audit trail that is time-correlated to within organization-defined level of tolerance for the relationship between timestamps of individual records in the audit trail."
   children = [
     control.appservice_azure_defender_enabled,
     control.appservice_web_app_diagnostic_logs_enabled,

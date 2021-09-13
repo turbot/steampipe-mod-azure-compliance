@@ -10,7 +10,8 @@ control "iam_subscription_owner_more_than_1" {
   sql         = query.iam_subscription_owner_more_than_1.sql
 
   tags = merge(local.conformance_pack_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -20,7 +21,8 @@ control "iam_subscription_owner_max_3" {
   sql         = query.iam_subscription_owner_max_3.sql
 
   tags = merge(local.conformance_pack_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -40,7 +42,8 @@ control "iam_deprecated_account_with_owner_roles" {
   sql         = query.iam_deprecated_account_with_owner_roles.sql
 
   tags = merge(local.conformance_pack_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -50,7 +53,8 @@ control "iam_no_custom_role" {
   sql         = query.iam_no_custom_role.sql
 
   tags = merge(local.conformance_pack_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -60,7 +64,8 @@ control "iam_external_user_with_owner_role" {
   sql         = query.iam_external_user_with_owner_role.sql
 
   tags = merge(local.conformance_pack_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -70,7 +75,8 @@ control "iam_deprecated_account" {
   sql         = query.iam_deprecated_account.sql
 
   tags = merge(local.conformance_pack_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -80,6 +86,7 @@ control "iam_external_user_with_read_permission" {
   sql         = query.iam_external_user_with_read_permission.sql
 
   tags = merge(local.conformance_pack_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }

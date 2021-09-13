@@ -269,3 +269,23 @@ control "appservice_web_app_ftps_enabled" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+control "appservice_function_app_latest_http_version" {
+  title       = "Ensure that 'HTTP Version' is the latest, if used to run the Function app"
+  description = "Periodically, newer versions are released for HTTP either due to security flaws or to include additional functionality. Using the latest HTTP version for web apps to take advantage of security fixes, if any, and/or new functionalities of the newer version. Currently, this policy only applies to Linux web apps."
+  sql         = query.appservice_function_app_latest_http_version.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_web_app_latest_http_version" {
+  title       = "Ensure that 'HTTP Version' is the latest, if used to run the Web app"
+  description = "Periodically, newer versions are released for HTTP either due to security flaws or to include additional functionality. Using the latest HTTP version for web apps to take advantage of security fixes, if any, and/or new functionalities of the newer version. Currently, this policy only applies to Linux web apps."
+  sql         = query.appservice_web_app_latest_http_version.sql
+
+  tags = merge(local.conformance_pack_appservice_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}

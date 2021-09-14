@@ -10,7 +10,8 @@ control "postgres_db_server_geo_redundant_backup_enabled" {
   sql         = query.postgres_db_server_geo_redundant_backup_enabled.sql
 
   tags = merge(local.conformance_pack_postgres_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -20,6 +21,27 @@ control "postgres_sql_ssl_enabled" {
   sql         = query.postgres_sql_ssl_enabled.sql
 
   tags = merge(local.conformance_pack_postgres_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "postgresql_server_public_network_access_disabled" {
+  title       = "Public network access should be disabled for PostgreSQL servers"
+  description = "Disable the public network access property to improve security and ensure your Azure Database for PostgreSQL can only be accessed from a private endpoint. This configuration disables access from any public address space outside of Azure IP range, and denies all logins that match IP or virtual network-based firewall rules."
+  sql         = query.postgresql_server_public_network_access_disabled.sql
+
+  tags = merge(local.conformance_pack_postgres_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "postgresql_server_infrastructure_encryption_enabled" {
+  title       = "Infrastructure encryption should be enabled for Azure Database for PostgreSQL servers"
+  description = "Enable infrastructure encryption for Azure Database for PostgreSQL servers to have higher level of assurance that the data is secure. When infrastructure encryption is enabled, the data at rest is encrypted twice using FIPS 140-2 compliant Microsoft managed keys."
+  sql         = query.postgresql_server_infrastructure_encryption_enabled.sql
+
+  tags = merge(local.conformance_pack_postgres_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
   })
 }

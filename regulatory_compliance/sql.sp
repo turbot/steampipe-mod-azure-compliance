@@ -10,7 +10,8 @@ control "sql_server_and_databases_va_enabled" {
   sql         = query.sql_server_and_databases_va_enabled.sql
 
   tags = merge(local.conformance_pack_sql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -30,7 +31,8 @@ control "sql_server_auditing_on" {
   sql         = query.sql_server_auditing_on.sql
 
   tags = merge(local.conformance_pack_sql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -60,7 +62,8 @@ control "sql_database_long_term_geo_redundant_backup_enabled" {
   sql         = query.sql_database_long_term_geo_redundant_backup_enabled.sql
 
   tags = merge(local.conformance_pack_sql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -70,6 +73,37 @@ control "sql_database_vulnerability_findings_resolved" {
   sql         = query.sql_database_vulnerability_findings_resolved.sql
 
   tags = merge(local.conformance_pack_sql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "sql_database_server_azure_defender_enabled" {
+  title       = "Azure Defender for Azure SQL Database servers should be enabled"
+  description = "Azure Defender for SQL provides functionality for surfacing and mitigating potential database vulnerabilities, detecting anomalous activities that could indicate threats to SQL databases, and discovering and classifying sensitive data."
+  sql         = query.sql_database_server_azure_defender_enabled.sql
+
+  tags = merge(local.conformance_pack_sql_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "sql_server_vm_azure_defender_enabled" {
+  title       = "Azure Defender for SQL servers on machines should be enabled"
+  description = "Azure Defender for SQL provides functionality for surfacing and mitigating potential database vulnerabilities, detecting anomalous activities that could indicate threats to SQL databases, and discovering and classifying sensitive data."
+  sql         = query.sql_server_vm_azure_defender_enabled.sql
+
+  tags = merge(local.conformance_pack_sql_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "sql_server_azure_defender_enabled" {
+  title       = "Azure Defender for SQL should be enabled for unprotected Azure SQL servers"
+  description = "Audit SQL servers without Advanced Data Security."
+  sql         = query.sql_server_azure_defender_enabled.sql
+
+  tags = merge(local.conformance_pack_sql_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
   })
 }

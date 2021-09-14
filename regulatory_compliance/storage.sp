@@ -10,7 +10,8 @@ control "storage_account_secure_transfer_required_enabled" {
   sql         = query.storage_account_secure_transfer_required_enabled.sql
 
   tags = merge(local.conformance_pack_storage_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -20,7 +21,8 @@ control "storage_account_default_network_access_rule_denied" {
   sql         = query.storage_account_default_network_access_rule_denied.sql
 
   tags = merge(local.conformance_pack_storage_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -31,5 +33,35 @@ control "storage_account_use_virtual_service_endpoint" {
 
   tags = merge(local.conformance_pack_storage_common_tags, {
     hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "storage_azure_defender_enabled" {
+  title       = "Azure Defender for Storage should be enabled"
+  description = "Azure Defender for Storage provides detections of unusual and potentially harmful attempts to access or exploit storage accounts."
+  sql         = query.storage_azure_defender_enabled.sql
+
+  tags = merge(local.conformance_pack_storage_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "storage_account_uses_private_link" {
+  title       = "Storage accounts should use private link"
+  description = "Azure Private Link lets you connect your virtual network to Azure services without a public IP address at the source or destination. The Private Link platform handles the connectivity between the consumer and services over the Azure backbone network. By mapping private endpoints to your storage account, data leakage risks are reduced."
+  sql         = query.storage_account_uses_private_link.sql
+
+  tags = merge(local.conformance_pack_storage_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "storage_account_infrastructure_encryption_enabled" {
+  title       = "Storage accounts should have infrastructure encryption"
+  description = "Enable infrastructure encryption for higher level of assurance that the data is secure. When infrastructure encryption is enabled, data in a storage account is encrypted twice."
+  sql         = query.storage_account_infrastructure_encryption_enabled.sql
+
+  tags = merge(local.conformance_pack_storage_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
   })
 }

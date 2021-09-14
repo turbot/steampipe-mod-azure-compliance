@@ -50,7 +50,8 @@ control "compute_vm_remote_access_restricted_all_ports" {
   sql         = query.compute_vm_remote_access_restricted_all_ports.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -70,7 +71,8 @@ control "compute_vm_jit_access_protected" {
   sql         = query.compute_vm_jit_access_protected.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -140,7 +142,8 @@ control "compute_vm_scale_set_logging_enabled" {
   sql         = query.compute_vm_scale_set_logging_enabled.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -160,7 +163,8 @@ control "compute_vm_network_traffic_data_collection_windows_agent_installed" {
   sql         = query.compute_vm_network_traffic_data_collection_windows_agent_installed.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -170,7 +174,8 @@ control "compute_vm_network_traffic_data_collection_linux_agent_installed" {
   sql         = query.compute_vm_network_traffic_data_collection_linux_agent_installed.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -200,7 +205,8 @@ control "compute_vm_uses_azure_resource_manager" {
   sql         = query.compute_vm_uses_azure_resource_manager.sql
 
   tags = merge(local.conformance_pack_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -304,3 +310,12 @@ control "compute_vm_vulnerability_assessment_solution_enabled" {
   })
 }
 
+control "compute_vm_azure_defender_enabled" {
+  title       = "Azure Defender for servers should be enabled"
+  description = "Azure Defender for servers provides real-time threat protection for server workloads and generates hardening recommendations as well as alerts about suspicious activities."
+  sql         = query.compute_vm_azure_defender_enabled.sql
+
+  tags = merge(local.conformance_pack_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}

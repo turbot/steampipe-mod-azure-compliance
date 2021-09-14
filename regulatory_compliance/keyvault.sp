@@ -10,7 +10,8 @@ control "keyvault_purge_protection_enabled" {
   sql         = query.keyvault_purge_protection_enabled.sql
 
   tags = merge(local.conformance_pack_keyvault_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -20,7 +21,8 @@ control "keyvault_logging_enabled" {
   sql         = query.keyvault_logging_enabled.sql
 
   tags = merge(local.conformance_pack_keyvault_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -51,5 +53,15 @@ control "keyvault_managed_hms_logging_enabled" {
 
   tags = merge(local.conformance_pack_keyvault_common_tags, {
     hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "keyvault_azure_defender_enabled" {
+  title       = "Azure Defender for Key Vault should be enabled"
+  description = "Azure Defender for Key Vault provides an additional layer of protection and security intelligence by detecting unusual and potentially harmful attempts to access or exploit key vault accounts."
+  sql         = query.keyvault_azure_defender_enabled.sql
+
+  tags = merge(local.conformance_pack_keyvault_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
   })
 }

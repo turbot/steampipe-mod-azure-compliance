@@ -1,13 +1,13 @@
 locals {
   nist_sp_800_53_rev_5_common_tags = {
     nist_sp_800_53_rev_5 = "true"
-    plugin            = "azure"
+    plugin               = "azure"
   }
 }
 
 benchmark "nist_sp_800_53_rev_5" {
   title       = "NIST SP 800-53 Rev. 5"
-  description = "To-do."
+  description = "NIST SP 800-53 Rev. 5 represents a multi-year effort to develop the next generation of security and privacy controls needed to strengthen and support the U.S. federal government."
   documentation = file("./nist_sp_800_53_rev_5/docs/nist_sp_800_53_rev_5_overview.md")
 
   children = [

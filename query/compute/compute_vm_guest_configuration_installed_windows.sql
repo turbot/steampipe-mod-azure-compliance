@@ -5,9 +5,10 @@ with agent_installed_vm as (
     azure_compute_virtual_machine as a,
     jsonb_array_elements(extensions) as b
   where
-    b ->> 'ExtensionType' = 'DependencyAgentWindows'
-    and b ->> 'Publisher' = 'Microsoft.Azure.Monitoring.DependencyAgent'
+    b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
     and b ->> 'ProvisioningState' = 'Succeeded'
+    and b ->> 'ExtensionType' = 'ConfigurationforWindows'
+    and b ->> 'Name' like '%AzurePolicyforWindows'
 )
 select
   -- Required Columns
@@ -19,8 +20,8 @@ select
   end as status,
   case
     when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
-    when b.vm_id is not null then a.title || ' have data collection agent installed.'
-    else a.title || ' data collection agent not installed.'
+    when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
+    else a.title || ' guest configuration extension not installed.'
   end as reason,
   -- Additional Dimensions
   a.resource_group,

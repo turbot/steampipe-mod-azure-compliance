@@ -1,5 +1,3 @@
-cognitive_account_restrict_public_access.sql
-
 with account_with_public_access_restricted as (
   select
     a.id

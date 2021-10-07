@@ -29,7 +29,13 @@ benchmark "nist_sp_800_53_rev_5_si_2" {
     control.sql_database_server_azure_defender_enabled,
     control.sql_database_vulnerability_findings_resolved,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled
+    control.storage_azure_defender_enabled,
+    control.appservice_function_app_latest_java_version,
+    control.appservice_web_app_latest_java_version,
+    control.appservice_web_app_latest_php_version,
+    control.appservice_function_app_latest_python_version,
+    control.appservice_web_app_latest_python_version,
+    control.kubernetes_cluster_upgraded_with_non_vulnerable_version
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -40,7 +46,13 @@ benchmark "nist_sp_800_53_rev_5_si_2_6" {
   description = "The organization removes organization-defined software and firmware components after updated versions have been installed."
   children = [
     control.appservice_function_app_latest_http_version,
-    control.appservice_web_app_latest_http_version
+    control.appservice_web_app_latest_http_version,
+    control.appservice_function_app_latest_java_version,
+    control.appservice_web_app_latest_java_version,
+    control.appservice_web_app_latest_php_version,
+    control.appservice_function_app_latest_python_version,
+    control.appservice_web_app_latest_python_version,
+    control.kubernetes_cluster_upgraded_with_non_vulnerable_version
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -50,7 +62,8 @@ benchmark "nist_sp_800_53_rev_5_si_3" {
   title       = "Malicious Code Protection (SI-3)"
   description = "The organization employs malicious code protection mechanisms at information system entry and exit points to detect and eradicate malicious code; updates malicious code protection mechanisms whenever new releases are available in accordance with organizational configuration management policy and procedures; addresses the receipt of false positives during malicious code detection and eradication and the resulting potential impact on the availability of the information system; and configures malicious code protection mechanisms to perform periodic scans of the information system and real-time scans of files from external sources at an endpoint, network entry/exit points as the files are downloaded, opened, or executed in accordance with organizational security policy, and block and quarantine malicious code, send alert to the administrator and take organization-defined action in response to malicious code detection."
   children = [
-    control.compute_vm_azure_defender_enabled
+    control.compute_vm_azure_defender_enabled,
+    control.compute_vm_windows_defender_exploit_guard_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -75,7 +88,13 @@ benchmark "nist_sp_800_53_rev_5_si_4" {
     control.sql_database_server_azure_defender_enabled,
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled
+    control.storage_azure_defender_enabled,
+    control.compute_vm_guest_configuration_installed,
+    control.arc_compute_machine_linux_log_analytics_agent_installed,
+    control.compute_vm_log_analytics_agent_installed,
+    control.compute_vm_scale_set_log_analytics_agent_installed,
+    control.arc_compute_machine_windows_log_analytics_agent_installed,
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -85,6 +104,9 @@ benchmark "nist_sp_800_53_rev_5_si_4_12" {
   title       = "SI-4(12) Automated Organization-generated Alerts"
   description = "The organization employs automated mechanisms to alert security personnel of the organization-defined activities that trigger alerts with security implications."
   children = [
+    control.securitycenter_notify_alerts_configured,
+    control.securitycenter_security_alerts_to_owner_enabled,
+    control.securitycenter_email_configured
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -94,7 +116,8 @@ benchmark "nist_sp_800_53_rev_5_si_16" {
   title       = "Memory Protection (SI-16)"
   description = "The information system implements organization-defined security safeguards to protect its memory from unauthorized code execution."
   children = [
-    control.compute_vm_azure_defender_enabled
+    control.compute_vm_azure_defender_enabled,
+    control.compute_vm_windows_defender_exploit_guard_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

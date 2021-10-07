@@ -1,5 +1,5 @@
 locals {
-  conformance_pack_dns_common_tags = {
+  regulatory_compliance_dns_common_tags = {
     service = "dns"
   }
 }
@@ -9,7 +9,7 @@ control "dns_azure_defender_enabled" {
   description = "Azure Defender for DNS provides an additional layer of protection for your cloud resources by continuously monitoring all DNS queries from your Azure resources. Azure Defender alerts you about suspicious activity at the DNS layer."
   sql         = query.dns_azure_defender_enabled.sql
 
-  tags = merge(local.conformance_pack_dns_common_tags, {
+  tags = merge(local.regulatory_compliance_dns_common_tags, {
     nist_sp_800_53_rev_5 = "true"
   })
 }

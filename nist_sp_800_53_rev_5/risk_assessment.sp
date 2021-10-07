@@ -26,7 +26,8 @@ benchmark "nist_sp_800_53_rev_5_ra_5" {
     control.sql_server_and_databases_va_enabled,
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled
+    control.storage_azure_defender_enabled,
+    control.synapse_workspace_vulnerability_assessment_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

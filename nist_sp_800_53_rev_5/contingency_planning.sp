@@ -19,7 +19,8 @@ benchmark "nist_sp_800_53_rev_5_cp_6" {
     control.mariadb_server_geo_redundant_backup_enabled,
     control.mysql_db_server_geo_redundant_backup_enabled,
     control.postgres_db_server_geo_redundant_backup_enabled,
-    control.sql_database_long_term_geo_redundant_backup_enabled
+    control.sql_database_long_term_geo_redundant_backup_enabled,
+    control.storage_account_geo_redundant_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -32,7 +33,8 @@ benchmark "nist_sp_800_53_rev_5_cp_6_1" {
     control.mariadb_server_geo_redundant_backup_enabled,
     control.mysql_db_server_geo_redundant_backup_enabled,
     control.postgres_db_server_geo_redundant_backup_enabled,
-    control.sql_database_long_term_geo_redundant_backup_enabled
+    control.sql_database_long_term_geo_redundant_backup_enabled,
+    control.storage_account_geo_redundant_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -42,6 +44,7 @@ benchmark "nist_sp_800_53_rev_5_cp_7" {
   title       = "Alternate Processing Site (CP-7)"
   description = "The organization establishes an alternate processing site including necessary agreements to permit the transfer and resumption of organization-defined information system operations for essential missions/business functions within an organization-defined time period consistent with recovery time and recovery point objectives when the primary processing capabilities are unavailable, ensures that equipment and supplies required to transfer and resume operations are available at the alternate processing site or contracts are in place to support delivery to the site within the organization-defined time period for transfer/resumption and ensure that the alternate processing site provides information security safeguards equivalent to that of the primary site."
   children = [
+    control.compute_vm_disaster_recovery_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -54,7 +57,8 @@ benchmark "nist_sp_800_53_rev_5_cp_9" {
     control.keyvault_purge_protection_enabled,
     control.mariadb_server_geo_redundant_backup_enabled,
     control.mysql_db_server_geo_redundant_backup_enabled,
-    control.postgres_db_server_geo_redundant_backup_enabled
+    control.postgres_db_server_geo_redundant_backup_enabled,
+    control.keyvault_soft_delete_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

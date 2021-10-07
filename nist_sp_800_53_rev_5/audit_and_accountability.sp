@@ -67,7 +67,13 @@ benchmark "nist_sp_800_53_rev_5_au_6_4" {
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
     control.storage_azure_defender_enabled,
-    control.stream_analytics_job_logging_enabled
+    control.stream_analytics_job_logging_enabled,
+    control.compute_vm_guest_configuration_installed,
+    control.arc_compute_machine_linux_log_analytics_agent_installed,
+    control.compute_vm_log_analytics_agent_installed,
+    control.compute_vm_scale_set_log_analytics_agent_installed,
+    control.arc_compute_machine_windows_log_analytics_agent_installed,
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -104,7 +110,13 @@ benchmark "nist_sp_800_53_rev_5_au_6_5" {
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
     control.storage_azure_defender_enabled,
-    control.stream_analytics_job_logging_enabled
+    control.stream_analytics_job_logging_enabled,
+    control.compute_vm_guest_configuration_installed,
+    control.arc_compute_machine_linux_log_analytics_agent_installed,
+    control.compute_vm_log_analytics_agent_installed,
+    control.compute_vm_scale_set_log_analytics_agent_installed,
+    control.arc_compute_machine_windows_log_analytics_agent_installed,
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -151,7 +163,13 @@ benchmark "nist_sp_800_53_rev_5_au_12" {
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
     control.storage_azure_defender_enabled,
-    control.stream_analytics_job_logging_enabled
+    control.stream_analytics_job_logging_enabled,
+    control.compute_vm_guest_configuration_installed,
+    control.arc_compute_machine_linux_log_analytics_agent_installed,
+    control.compute_vm_log_analytics_agent_installed,
+    control.compute_vm_scale_set_log_analytics_agent_installed,
+    control.arc_compute_machine_windows_log_analytics_agent_installed,
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -188,7 +206,13 @@ benchmark "nist_sp_800_53_rev_5_au_12_1" {
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
     control.storage_azure_defender_enabled,
-    control.stream_analytics_job_logging_enabled
+    control.stream_analytics_job_logging_enabled,
+    control.compute_vm_guest_configuration_installed,
+    control.arc_compute_machine_linux_log_analytics_agent_installed,
+    control.compute_vm_log_analytics_agent_installed,
+    control.compute_vm_scale_set_log_analytics_agent_installed,
+    control.arc_compute_machine_windows_log_analytics_agent_installed,
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

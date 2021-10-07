@@ -56,3 +56,12 @@ control "postgres_server_private_link_used" {
   })
 }
 
+control "postgres_sql_server_encrypted_at_rest_using_cmk" {
+  title       = "PostgreSQL servers should use customer-managed keys to encrypt data at rest"
+  description = "Use customer-managed keys to manage the encryption at rest of your PostgreSQL servers. By default, the data is encrypted at rest with service-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management."
+  sql         = query.postgres_sql_server_encrypted_at_rest_using_cmk.sql
+
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}

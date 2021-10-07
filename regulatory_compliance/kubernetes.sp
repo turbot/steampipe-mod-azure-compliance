@@ -75,4 +75,25 @@ control "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
   })
 }
 
+control "arc_kubernetes_cluster_azure_defender_extension_installed" {
+  title       = "Azure Arc enabled Kubernetes clusters should have Azure Defender's extension installed"
+  description = "Azure Defender's extension for Azure Arc provides threat protection for your Arc enabled Kubernetes clusters. The extension collects data from nodes in the cluster and sends it to the Azure Defender for Kubernetes backend in the cloud for further analysis."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+
+control "kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id" {
+  title       = "Kubernetes cluster pods and containers should only run with approved user and group IDs"
+  description = "Control the user, primary group, supplemental group and file system group IDs that pods and containers can use to run in a Kubernetes Cluster. This recommendation is part of Pod Security Policies which are intended to improve the security of your Kubernetes environments. This policy is generally available for Kubernetes Service (AKS), and preview for AKS Engine and Azure Arc enabled Kubernetes."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 

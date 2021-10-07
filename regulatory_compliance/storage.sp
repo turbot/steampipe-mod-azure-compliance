@@ -107,4 +107,15 @@ control "storage_account_encryption_at_rest_using_cmk" {
   })
 }
 
+control "storage_account_uses_azure_resource_manager" {
+  title       = "Storage accounts should be migrated to new Azure Resource Manager resources"
+  description = "Use new Azure Resource Manager for your storage accounts to provide security enhancements such as: stronger access control (RBAC), better auditing, Azure Resource Manager based deployment and governance, access to managed identities, access to key vault for secrets, Azure AD-based authentication and support for tags and resource groups for easier security management."
+  sql         = query.storage_account_uses_azure_resource_manager.sql
+
+  tags = merge(local.regulatory_compliance_storage_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+
 

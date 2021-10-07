@@ -27,7 +27,13 @@ benchmark "nist_sp_800_53_rev_5_ra_5" {
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
     control.storage_azure_defender_enabled,
-    control.synapse_workspace_vulnerability_assessment_enabled
+    control.synapse_workspace_vulnerability_assessment_enabled,
+    control.compute_vm_security_configuration_vulnerabilities_remediated,
+    control.compute_vm_scale_set_security_configuration_vulnerabilities_remediated,
+    control.container_registry_vulnerabilities_remediated,
+    control.compute_vm_container_security_configurations_vulnerabilities_remediated,
+    control.compute_vm_vulnerability_findings_resolved_for_sql_server,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

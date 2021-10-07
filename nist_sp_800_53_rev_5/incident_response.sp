@@ -28,7 +28,8 @@ benchmark "nist_sp_800_53_rev_5_ir_4" {
     control.storage_azure_defender_enabled,
     control.securitycenter_notify_alerts_configured,
     control.securitycenter_security_alerts_to_owner_enabled,
-    control.securitycenter_email_configured
+    control.securitycenter_email_configured,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -51,7 +52,8 @@ benchmark "nist_sp_800_53_rev_5_ir_5" {
     control.storage_azure_defender_enabled,
     control.securitycenter_notify_alerts_configured,
     control.securitycenter_security_alerts_to_owner_enabled,
-    control.securitycenter_email_configured
+    control.securitycenter_email_configured,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

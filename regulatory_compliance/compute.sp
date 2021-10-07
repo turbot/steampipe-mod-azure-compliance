@@ -187,6 +187,7 @@ control "compute_vm_adaptive_application_controls_enabled" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -196,6 +197,7 @@ control "compute_vm_security_configuration_vulnerabilities_remediated" {
   sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
     hipaa_hitrust_v92 = "true"
   })
 }
@@ -536,6 +538,106 @@ control "compute_vm_and_sacle_set_encryption_at_host_enabled" {
   title       = "Virtual machines and virtual machine scale sets should have encryption at host enabled"
   description = "Use encryption at host to get end-to-end encryption for your virtual machine and virtual machine scale set data. Encryption at host enables encryption at rest for your temporary disk and OS/data disk caches. Temporary and ephemeral OS disks are encrypted with platform-managed keys when encryption at host is enabled. OS/data disk caches are encrypted at rest with either customer-managed or platform-managed key, depending on the encryption type selected on the disk."
   sql         = query.compute_vm_and_sacle_set_encryption_at_host_enabled.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated" {
+  title       = "Allowlist rules in your adaptive application control policy should be updated"
+  description = "Monitor for changes in behavior on groups of machines configured for auditing by Azure Security Center's adaptive application controls. Security Center uses machine learning to analyze the running processes on your machines and suggest a list of known-safe applications. These are presented as recommended apps to allow in adaptive application control policies."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_scale_set_endpoint_protection_solution_installed" {
+  title       = "Endpoint protection solution should be installed on virtual machine scale sets"
+  description = "Audit the existence and health of an endpoint protection solution on your virtual machines scale sets, to protect them from threats and vulnerabilities."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_monitor_missing_endpoint_protection_in_asc" {
+  title       = "Monitor missing Endpoint Protection in Azure Security Center"
+  description = "Servers without an installed Endpoint Protection agent will be monitored by Azure Security Center as recommendations."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_non_internet_facing_protected_with_nsg" {
+  title       = "Non-internet-facing virtual machines should be protected with network security groups"
+  description = "Protect your non-internet-facing virtual machines from potential threats by restricting access with network security groups (NSG)."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_password_file_permissions_0644_linux" {
+  title       = "Audit Linux machines that do not have the passwd file permissions set to 0644"
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if Linux machines that do not have the passwd file permissions set to 0644"
+  sql         = query.manual_control.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_temp_disks_cache_and_data_flows_encrypted" {
+  title       = "Virtual machines should encrypt temp disks, caches, and data flows between Compute and Storage resources"
+  description = "Virtual machines without an enabled disk encryption will be monitored by Azure Security Center as recommendations."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_container_security_configurations_vulnerabilities_remediated" {
+  title       = "Vulnerabilities in container security configurations should be remediate"
+  description = "Audit vulnerabilities in security configuration on machines with Docker installed and display as recommendations in Azure Security Center."
+  sql         = query.manual_control.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_meet_security_baseline_requirements_linux" {
+  title       = "Linux machines should meet requirements for the Azure compute security baseline"
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the machine is not configured correctly for one of the recommendations in the Azure compute security baseline."
+  sql         = query.compute_vm_meet_security_baseline_requirements_linux.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_meet_security_baseline_requirements_windows" {
+  title       = "Windows machines should meet requirements of the Azure compute security baseline"
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the machine is not configured correctly for one of the recommendations in the Azure compute security baseline."
+  sql         = query.compute_vm_meet_security_baseline_requirements_windows.sql
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_vulnerability_findings_resolved_for_sql_server" {
+  title       = "SQL servers on machines should have vulnerability findings resolved"
+  description = "SQL vulnerability assessment scans your database for security vulnerabilities, and exposes any deviations from best practices such as misconfigurations, excessive permissions, and unprotected sensitive data. Resolving the vulnerabilities found can greatly improve your database security posture."
+  sql         = query.manual_control.sql
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"

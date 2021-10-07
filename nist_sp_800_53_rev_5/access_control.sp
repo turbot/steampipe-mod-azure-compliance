@@ -78,7 +78,8 @@ benchmark "nist_sp_800_53_rev_5_ac_2_12" {
     control.resource_manager_azure_defender_enabled,
     control.sql_database_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled
+    control.storage_azure_defender_enabled,
+    control.arc_kubernetes_cluster_azure_defender_extension_installed
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -100,7 +101,8 @@ benchmark "nist_sp_800_53_rev_5_ac_3" {
     control.compute_vm_account_with_password_linux,
     control.compute_vm_ssh_key_authentication_linux,
     control.compute_vm_guest_configuration_installed_linux,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.storage_account_uses_azure_resource_manager
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -164,7 +166,9 @@ benchmark "nist_sp_800_53_rev_5_ac_4" {
     control.compute_disk_access_uses_private_link,
     control.network_interface_ip_forwarding_disabled,
     control.sql_server_uses_private_link,
-    control.compute_vm_tcp_udp_access_restricted_internet
+    control.compute_vm_tcp_udp_access_restricted_internet,
+    control.compute_vm_adaptive_network_hardening_recommendation_applied,
+    control.compute_vm_non_internet_facing_protected_with_nsg
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -174,7 +178,8 @@ benchmark "nist_sp_800_53_rev_5_ac_4_3" {
   title       = "AC-4(3) Dynamic Information Flow Control"
   description = "The information system enforces dynamic information flow control based on organization-defined policies."
   children = [
-    control.compute_vm_jit_access_protected
+    control.compute_vm_jit_access_protected,
+    control.compute_vm_adaptive_network_hardening_recommendation_applied
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -217,7 +222,8 @@ benchmark "nist_sp_800_53_rev_5_ac_16" {
   title       = "Security and Privacy Attributes (AC-16)"
   description = "Support and maintains the binding of security attributes to information in storage, in process, and in transition."
   children = [
-    control.sql_server_azure_defender_enabled
+    control.sql_server_azure_defender_enabled,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

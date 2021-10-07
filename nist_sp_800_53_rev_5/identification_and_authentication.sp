@@ -63,7 +63,8 @@ benchmark "nist_sp_800_53_rev_5_ia_5" {
     control.compute_vm_guest_configuration_installed_windows,
     control.keyvault_key_expiration_set,
     control.keyvault_secret_expiration_set,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.compute_vm_password_file_permissions_0644_linux
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -82,7 +83,8 @@ benchmark "nist_sp_800_53_rev_5_ia_5_1" {
     control.compute_vm_min_password_age_1_day_windows,
     control.compute_vm_password_complexity_setting_enabled_windows,
     control.compute_vm_min_password_length_14_windows,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.compute_vm_password_file_permissions_0644_linux
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

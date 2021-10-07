@@ -86,3 +86,13 @@ control "application_gateway_waf_enabled" {
     hipaa_hitrust_v92 = "true"
   })
 }
+
+control "network_security_group_udp_service_restricted" {
+  title       = "Azure DDoS Protection Standard should be enabled"
+  description = "DDoS protection standard should be enabled for all virtual networks with a subnet that is part of an application gateway with a public IP."
+  sql         = query.network_security_group_udp_service_restricted.sql
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}

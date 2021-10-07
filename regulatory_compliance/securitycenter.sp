@@ -45,3 +45,14 @@ control "securitycenter_email_configured" {
   })
 }
 
+control "securitycenter_azure_defender_on_for_sqlservervm" {
+  title       = "Azure Defender for SQL should be enabled for unprotected SQL Managed Instances"
+  description = "Audit each SQL Managed Instance without advanced data security."
+  sql         = query.securitycenter_azure_defender_on_for_sqlservervm.sql
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+

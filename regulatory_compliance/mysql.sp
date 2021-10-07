@@ -32,7 +32,8 @@ control "mssql_managed_instance_encryption_at_rest_using_cmk" {
   sql         = query.mssql_managed_instance_encryption_at_rest_using_cmk.sql
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92    = "true"
   })
 }
 

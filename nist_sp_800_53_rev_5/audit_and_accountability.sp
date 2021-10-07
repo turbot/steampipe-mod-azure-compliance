@@ -30,7 +30,8 @@ benchmark "nist_sp_800_53_rev_5_au_6" {
     control.sql_database_server_azure_defender_enabled,
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled
+    control.storage_azure_defender_enabled,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -73,7 +74,8 @@ benchmark "nist_sp_800_53_rev_5_au_6_4" {
     control.compute_vm_log_analytics_agent_installed,
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -116,7 +118,8 @@ benchmark "nist_sp_800_53_rev_5_au_6_5" {
     control.compute_vm_log_analytics_agent_installed,
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -126,6 +129,7 @@ benchmark "nist_sp_800_53_rev_5_au_11" {
   title       = "Audit Record Retention (AU-11)"
   description = "Retain audit records for security investigations. Meet regulatory and organizational data retention requirements."
   children = [
+    control.sql_server_auditing_storage_account_destination_retention_90_days
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -169,7 +173,8 @@ benchmark "nist_sp_800_53_rev_5_au_12" {
     control.compute_vm_log_analytics_agent_installed,
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -212,7 +217,8 @@ benchmark "nist_sp_800_53_rev_5_au_12_1" {
     control.compute_vm_log_analytics_agent_installed,
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

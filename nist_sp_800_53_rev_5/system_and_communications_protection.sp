@@ -19,7 +19,9 @@ benchmark "nist_sp_800_53_rev_5_sc_3" {
   description = "The information system isolates security functions from nonsecurity functions."
   children = [
     control.compute_vm_azure_defender_enabled,
-    control.compute_vm_windows_defender_exploit_guard_enabled
+    control.compute_vm_windows_defender_exploit_guard_enabled,
+    control.compute_vm_scale_set_endpoint_protection_solution_installed,
+    control.compute_vm_monitor_missing_endpoint_protection_in_asc
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -31,7 +33,8 @@ benchmark "nist_sp_800_53_rev_5_sc_5" {
   children = [
     control.network_interface_ip_forwarding_disabled,
     control.application_gateway_waf_enabled,
-    control.frontdoor_waf_enabled
+    control.frontdoor_waf_enabled,
+    control.network_security_group_udp_service_restricted
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -86,7 +89,9 @@ benchmark "nist_sp_800_53_rev_5_sc_7" {
     control.application_gateway_waf_enabled,
     control.frontdoor_waf_enabled,
     control.sql_server_uses_private_link,
-    control.compute_vm_tcp_udp_access_restricted_internet
+    control.compute_vm_tcp_udp_access_restricted_internet,
+    control.compute_vm_adaptive_network_hardening_recommendation_applied,
+    control.compute_vm_non_internet_facing_protected_with_nsg
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -140,7 +145,9 @@ benchmark "nist_sp_800_53_rev_5_sc_7_3" {
     control.application_gateway_waf_enabled,
     control.frontdoor_waf_enabled,
     control.sql_server_uses_private_link,
-    control.compute_vm_tcp_udp_access_restricted_internet
+    control.compute_vm_tcp_udp_access_restricted_internet,
+    control.compute_vm_adaptive_network_hardening_recommendation_applied,
+    control.compute_vm_non_internet_facing_protected_with_nsg
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -210,7 +217,9 @@ benchmark "nist_sp_800_53_rev_5_sc_12" {
     control.storage_account_encryption_at_rest_using_cmk,
     control.machine_learning_workspace_encrypted_with_cmk,
     control.kubernetes_cluster_os_and_data_disks_encrypted_with_cmk,
-    control.compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed
+    control.compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed,
+    control.postgres_sql_server_encrypted_at_rest_using_cmk,
+    control.mssql_managed_instance_encryption_at_rest_using_cmk
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -231,7 +240,8 @@ benchmark "nist_sp_800_53_rev_5_sc_28" {
     control.kusto_cluster_disk_encryption_enabled,
     control.kusto_cluster_double_encryption_enabled,
     control.kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host,
-    control.compute_vm_and_sacle_set_encryption_at_host_enabled
+    control.compute_vm_and_sacle_set_encryption_at_host_enabled,
+    control.compute_vm_temp_disks_cache_and_data_flows_encrypted
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -251,7 +261,8 @@ benchmark "nist_sp_800_53_rev_5_sc_28_1" {
     control.kusto_cluster_disk_encryption_enabled,
     control.kusto_cluster_double_encryption_enabled,
     control.kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host,
-    control.compute_vm_and_sacle_set_encryption_at_host_enabled
+    control.compute_vm_and_sacle_set_encryption_at_host_enabled,
+    control.compute_vm_temp_disks_cache_and_data_flows_encrypted
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

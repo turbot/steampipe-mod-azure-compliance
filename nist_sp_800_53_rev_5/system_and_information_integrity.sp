@@ -35,7 +35,10 @@ benchmark "nist_sp_800_53_rev_5_si_2" {
     control.appservice_web_app_latest_php_version,
     control.appservice_function_app_latest_python_version,
     control.appservice_web_app_latest_python_version,
-    control.kubernetes_cluster_upgraded_with_non_vulnerable_version
+    control.kubernetes_cluster_upgraded_with_non_vulnerable_version,
+    control.compute_vm_system_updates_installed,
+    control.compute_vm_security_configuration_vulnerabilities_remediated,
+    control.compute_vm_scale_set_security_configuration_vulnerabilities_remediated
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -63,7 +66,9 @@ benchmark "nist_sp_800_53_rev_5_si_3" {
   description = "The organization employs malicious code protection mechanisms at information system entry and exit points to detect and eradicate malicious code; updates malicious code protection mechanisms whenever new releases are available in accordance with organizational configuration management policy and procedures; addresses the receipt of false positives during malicious code detection and eradication and the resulting potential impact on the availability of the information system; and configures malicious code protection mechanisms to perform periodic scans of the information system and real-time scans of files from external sources at an endpoint, network entry/exit points as the files are downloaded, opened, or executed in accordance with organizational security policy, and block and quarantine malicious code, send alert to the administrator and take organization-defined action in response to malicious code detection."
   children = [
     control.compute_vm_azure_defender_enabled,
-    control.compute_vm_windows_defender_exploit_guard_enabled
+    control.compute_vm_windows_defender_exploit_guard_enabled,
+    control.compute_vm_scale_set_endpoint_protection_solution_installed,
+    control.compute_vm_monitor_missing_endpoint_protection_in_asc
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -94,7 +99,8 @@ benchmark "nist_sp_800_53_rev_5_si_4" {
     control.compute_vm_log_analytics_agent_installed,
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

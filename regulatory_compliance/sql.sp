@@ -137,3 +137,15 @@ control "sql_server_uses_private_link" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+control "sql_server_auditing_storage_account_destination_retention_90_days" {
+  title       = "SQL servers with auditing to storage account destination should be configured with 90 days retention or higher"
+  description = "For incident investigation purposes, we recommend setting the data retention for your SQL Server' auditing to storage account destination to at least 90 days. Confirm that you are meeting the necessary retention rules for the regions in which you are operating. This is sometimes required for compliance with regulatory standards."
+  sql         = query.sql_server_auditing_storage_account_destination_retention_90_days.sql
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+

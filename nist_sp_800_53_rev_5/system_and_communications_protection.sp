@@ -13,7 +13,6 @@ benchmark "nist_sp_800_53_rev_5_sc" {
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
-
 benchmark "nist_sp_800_53_rev_5_sc_3" {
   title       = "Security Function Isolation (SC-3)"
   description = "The information system isolates security functions from nonsecurity functions."

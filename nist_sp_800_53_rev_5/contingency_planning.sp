@@ -10,7 +10,6 @@ benchmark "nist_sp_800_53_rev_5_cp" {
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
-
 benchmark "nist_sp_800_53_rev_5_cp_6" {
   title       = "Alternate Storage Site (CP-6)"
   description = "The organization establishes an alternate storage site including necessary agreements to permit the storage and retrieval of information system backup information and ensures that the alternate storage site provides information security safeguards equivalent to that of the primary site."

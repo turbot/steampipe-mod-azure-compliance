@@ -10,7 +10,6 @@ benchmark "nist_sp_800_53_rev_5_ir" {
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
-
 benchmark "nist_sp_800_53_rev_5_ir_4" {
   title       = "Incident Handling (IR-4)"
   description = "The organization implements an incident handling capability for security incidents that includes preparation, detection and analysis, containment, eradication, and recovery; coordinates incident handling activities with contingency planning activities; and incorporates lessons learned from ongoing incident handling activities into incident response procedures, training, and testing/exercises, and implements the resulting changes accordingly."

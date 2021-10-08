@@ -10,7 +10,6 @@ benchmark "nist_sp_800_53_rev_5_ia" {
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
-
 benchmark "nist_sp_800_53_rev_5_ia_2" {
   title       = "Identification and Authentication (organizational Users) (IA-2)"
   description = "Identify and authenticate organization users and processes."

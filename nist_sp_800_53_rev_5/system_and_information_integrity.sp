@@ -11,7 +11,6 @@ benchmark "nist_sp_800_53_rev_5_si" {
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
-
 benchmark "nist_sp_800_53_rev_5_si_2" {
   title       = "Flaw Remediation (SI-2)"
   description = "The organization identifies, reports, and corrects information system flaws, tests software and firmware updates related to flaw remediation for effectiveness and potential side effects before installation, installs security-relevant software and firmware updates within the organization-defined time period of the release of the updates, and incorporates flaw remediation into the organizational configuration management process."

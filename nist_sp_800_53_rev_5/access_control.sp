@@ -14,7 +14,6 @@ benchmark "nist_sp_800_53_rev_5_ac" {
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
-
 benchmark "nist_sp_800_53_rev_5_ac_2" {
   title       = "Account Management (AC-2)"
   description = "Manage system accounts, group memberships, privileges, workflow, notifications, deactivations, and authorizations."

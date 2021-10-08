@@ -8,7 +8,6 @@ benchmark "nist_sp_800_53_rev_5_ra" {
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
-
 benchmark "nist_sp_800_53_rev_5_ra_5" {
   title       = "Vulnerability Monitoring and Scanning (RA-5)"
   description = "Scan for system vulnerabilities. Share vulnerability information and security controls that eliminate vulnerabilities."

@@ -11,7 +11,6 @@ benchmark "nist_sp_800_53_rev_5_cm" {
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
-
 benchmark "nist_sp_800_53_rev_5_cm_6" {
   title       = "Configuration Settings (CM-6)"
   description = "The organization establishes and documents configuration settings for information technology products employed within the information system using organization-defined security configuration checklists that reflect the most restrictive mode consistent with operational requirements; implements the configuration settings; identifies, documents, and approves any deviations from established configuration settings for organization-defined information system components based on organization-defined operational requirements; and monitors and controls changes to the configuration settings in accordance with organizational policies and procedures."

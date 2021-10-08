@@ -40,7 +40,7 @@ benchmark "nist_sp_800_53_rev_5_ac_2" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_2_1" {
-  title       = "AC-2(1) Automated System Account Management"
+  title       = "Automated System Account Management AC-2(1)"
   description = "The organization employs automated mechanisms to support the management of information system accounts."
   children = [
     control.sql_server_azure_ad_authentication_enabled,
@@ -52,7 +52,7 @@ benchmark "nist_sp_800_53_rev_5_ac_2_1" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_2_7" {
-  title       = "AC-2(7) Privileged User Accounts"
+  title       = "Privileged User Accounts AC-2(7)"
   description = "The organization establishes and administers privileged user accounts in accordance with a role-based access scheme that organizes allowed information system access and privileges into roles, monitors privileged role assignments, and takes organization-defined actions when privileged role assignments are no longer appropriate."
   children = [
     control.iam_no_custom_role,
@@ -65,7 +65,7 @@ benchmark "nist_sp_800_53_rev_5_ac_2_7" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_2_12" {
-  title       = "AC-2(12) Account Monitoring for Atypical Usage"
+  title       = "Account Monitoring for Atypical Usage AC-2(12)"
   description = "The organization monitors information system accounts for organization-defined atypical use and reports atypical usage of information system accounts to organization-defined personnel or roles."
   children = [
     control.appservice_azure_defender_enabled,
@@ -79,7 +79,8 @@ benchmark "nist_sp_800_53_rev_5_ac_2_12" {
     control.sql_database_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
     control.storage_azure_defender_enabled,
-    control.arc_kubernetes_cluster_azure_defender_extension_installed
+    control.arc_kubernetes_cluster_azure_defender_extension_installed,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -109,7 +110,7 @@ benchmark "nist_sp_800_53_rev_5_ac_3" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_3_7" {
-  title       = "AC-3(7) Role-based Access Control"
+  title       = "Role-based Access Control AC-3(7)"
   description = "The information system enforces a role-based access control policy over defined subjects and objects and controls access based upon organization-defined roles and users authorized to assume such roles."
   children = [
     control.kubernetes_instance_rbac_enabled
@@ -175,7 +176,7 @@ benchmark "nist_sp_800_53_rev_5_ac_4" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_4_3" {
-  title       = "AC-4(3) Dynamic Information Flow Control"
+  title       = "Dynamic Information Flow Control AC-4(3)"
   description = "The information system enforces dynamic information flow control based on organization-defined policies."
   children = [
     control.compute_vm_jit_access_protected,
@@ -208,7 +209,7 @@ benchmark "nist_sp_800_53_rev_5_ac_6" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_6_7" {
-  title       = "AC-6(7) Review of User Privileges"
+  title       = "Review of User Privileges AC-6(7)"
   description = "The organization reviews organization-defined frequency the privileges assigned to organization-defined roles or classes of users to validate the need for such privileges and reassigns or removes privileges, if necessary, to correctly reflect organizational mission/business needs."
   children = [
     control.iam_no_custom_role,
@@ -273,7 +274,7 @@ benchmark "nist_sp_800_53_rev_5_ac_17" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_17_1" {
-  title       = "AC-17(1) Monitoring and Control"
+  title       = "Monitoring and Control AC-17(1)"
   description = "The information system monitors and controls remote access methods."
   children = [
     control.appservice_api_app_remote_debugging_disabled,

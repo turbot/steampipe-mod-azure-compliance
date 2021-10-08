@@ -28,7 +28,7 @@ benchmark "nist_sp_800_53_rev_5_ia_2" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ia_2_2" {
-  title       = "IA-2(2) Multi-factor Authentication to Non-privileged Accounts"
+  title       = "Multi-factor Authentication to Non-privileged Accounts IA-2(2)"
   description = "The information system implements multi-factor authentication for network access to non-privileged accounts."
   children = [
   ]
@@ -71,7 +71,7 @@ benchmark "nist_sp_800_53_rev_5_ia_5" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ia_5_1" {
-  title       = "IA-5(1) Password-based Authentication"
+  title       = "Password-based Authentication IA-5(1) "
   description = "The information system, for password-based authentication, enforces minimum password complexity of organization-defined requirements for case sensitivity, number of characters, mix of upper-case letters, lower-case letters, numbers, and special characters, including minimum requirements for each type; enforces at least the organization-defined number of changed characters when new passwords are created; stores and transmits only cryptographically-protected passwords; enforces password minimum and maximum lifetime restrictions of organization-defined numbers for lifetime minimum, lifetime maximum; prohibits password reuse for organization-defined number generations; and allows the use of a temporary password for system logons with an immediate change to a permanent password."
   children = [
     control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,

@@ -27,7 +27,7 @@ benchmark "nist_sp_800_53_rev_5_cp_6" {
 }
 
 benchmark "nist_sp_800_53_rev_5_cp_6_1" {
-  title       = "CP-6(1) Separation from Primary Site"
+  title       = "Separation from Primary Site CP-6(1)"
   description = "The organization identifies an alternate storage site that is separated from the primary storage site to reduce susceptibility to the same threats."
   children = [
     control.mariadb_server_geo_redundant_backup_enabled,

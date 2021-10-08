@@ -117,5 +117,16 @@ control "storage_account_uses_azure_resource_manager" {
   })
 }
 
+control "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
+  title       = "Storage account encryption scopes should use customer-managed keys to encrypt data at rest"
+  description = "Use customer-managed keys to manage the encryption at rest of your storage account encryption scopes. Customer-managed keys enable the data to be encrypted with an Azure key-vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management."
+  sql         = query.storage_account_encryption_scopes_encrypted_at_rest_with_cmk.sql
+
+  tags = merge(local.regulatory_compliance_storage_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+
 
 

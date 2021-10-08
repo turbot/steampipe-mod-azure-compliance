@@ -33,7 +33,8 @@ benchmark "nist_sp_800_53_rev_5_ra_5" {
     control.container_registry_vulnerabilities_remediated,
     control.compute_vm_container_security_configurations_vulnerabilities_remediated,
     control.compute_vm_vulnerability_findings_resolved_for_sql_server,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.compute_vm_vulnerability_assessment_solution_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

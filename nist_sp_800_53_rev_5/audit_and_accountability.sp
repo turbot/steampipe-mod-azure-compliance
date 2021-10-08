@@ -10,7 +10,6 @@ benchmark "nist_sp_800_53_rev_5_au" {
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
-
 benchmark "nist_sp_800_53_rev_5_au_6" {
   title       = "Audit Record Review, Analysis, and Reporting (AU-6)"
   description = "Integrate audit review, analysis, and reporting with processes for investigation and response to suspicious activities."
@@ -31,14 +30,15 @@ benchmark "nist_sp_800_53_rev_5_au_6" {
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
     control.storage_azure_defender_enabled,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.arc_kubernetes_cluster_azure_defender_extension_installed
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
 benchmark "nist_sp_800_53_rev_5_au_6_4" {
-  title       = "AU-6(4) Central Review and Analysis"
+  title       = "Central Review and Analysis AU-6(4)"
   description = "The information system provides the capability to centrally review and analyze audit records from multiple components within the system."
   children = [
     control.appservice_azure_defender_enabled,
@@ -75,14 +75,16 @@ benchmark "nist_sp_800_53_rev_5_au_6_4" {
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
     control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.compute_vm_log_analytics_agent_health_issues_resolved,
+    control.arc_kubernetes_cluster_azure_defender_extension_installed
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
 benchmark "nist_sp_800_53_rev_5_au_6_5" {
-  title       = "AU-6(5) Integrated Analysis of Audit Records"
+  title       = "Integrated Analysis of Audit Records AU-6(5)"
   description = "The organization integrates analysis of audit records with analysis of vulnerable scanning information, performance data, and information system monitoring information collected from other sources to further enhance the ability to identify inappropriate or unusual activity."
   children = [
     control.appservice_azure_defender_enabled,
@@ -119,7 +121,9 @@ benchmark "nist_sp_800_53_rev_5_au_6_5" {
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
     control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.compute_vm_log_analytics_agent_health_issues_resolved,
+    control.arc_kubernetes_cluster_azure_defender_extension_installed
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -174,14 +178,16 @@ benchmark "nist_sp_800_53_rev_5_au_12" {
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
     control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.compute_vm_log_analytics_agent_health_issues_resolved,
+    control.arc_kubernetes_cluster_azure_defender_extension_installed
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
 benchmark "nist_sp_800_53_rev_5_au_12_1" {
-  title       = "AU-12(1) System-wide and Time-correlated Audit Trail"
+  title       = "System-wide and Time-correlated Audit Trail AU-12(1)"
   description = "The information system compiles audit records from organization-defined information system components into a system-wide (logical or physical) audit trail that is time-correlated to within organization-defined level of tolerance for the relationship between timestamps of individual records in the audit trail."
   children = [
     control.appservice_azure_defender_enabled,
@@ -218,7 +224,9 @@ benchmark "nist_sp_800_53_rev_5_au_12_1" {
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
     control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.compute_vm_log_analytics_agent_health_issues_resolved,
+    control.arc_kubernetes_cluster_azure_defender_extension_installed
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

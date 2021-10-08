@@ -49,7 +49,7 @@ benchmark "nist_sp_800_53_rev_5_cm_7" {
 }
 
 benchmark "nist_sp_800_53_rev_5_cm_7_2" {
-  title       = "CM-7(2) Prevent Program Execution"
+  title       = "Prevent Program Execution CM-7(2) "
   description = "The information system prevents program execution in accordance with organization-defined policies regarding software program usage and restrictions, rules authorizing the terms and conditions of software program usage."
   children = [
     control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated,
@@ -60,7 +60,7 @@ benchmark "nist_sp_800_53_rev_5_cm_7_2" {
 }
 
 benchmark "nist_sp_800_53_rev_5_cm_7_5" {
-  title       = "CM-7(5) Authorized Software ??? Allow-by-exception"
+  title       = "Authorized Software ??? Allow-by-exception CM-7(5)"
   description = "The organization identifies organization-defined software programs authorized to execute on the information system, employs a deny-all, permit-by-exception policy to allow the execution of authorized software programs on the information system, and reviews and updates the list of authorized software programs."
   children = [
     control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated,

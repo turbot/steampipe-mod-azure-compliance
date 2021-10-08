@@ -85,7 +85,6 @@ control "arc_kubernetes_cluster_azure_defender_extension_installed" {
   })
 }
 
-
 control "kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id" {
   title       = "Kubernetes cluster pods and containers should only run with approved user and group IDs"
   description = "Control the user, primary group, supplemental group and file system group IDs that pods and containers can use to run in a Kubernetes Cluster. This recommendation is part of Pod Security Policies which are intended to improve the security of your Kubernetes environments. This policy is generally available for Kubernetes Service (AKS), and preview for AKS Engine and Azure Arc enabled Kubernetes."

@@ -38,14 +38,15 @@ benchmark "nist_sp_800_53_rev_5_si_2" {
     control.kubernetes_cluster_upgraded_with_non_vulnerable_version,
     control.compute_vm_system_updates_installed,
     control.compute_vm_security_configuration_vulnerabilities_remediated,
-    control.compute_vm_scale_set_security_configuration_vulnerabilities_remediated
+    control.compute_vm_scale_set_security_configuration_vulnerabilities_remediated,
+    control.compute_vm_vulnerability_assessment_solution_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
 benchmark "nist_sp_800_53_rev_5_si_2_6" {
-  title       = "SI-2(6) Removal of Previous Versions of Software and Firmware"
+  title       = "Removal of Previous Versions of Software and Firmware SI-2(6)"
   description = "The organization removes organization-defined software and firmware components after updated versions have been installed."
   children = [
     control.appservice_function_app_latest_http_version,
@@ -100,14 +101,16 @@ benchmark "nist_sp_800_53_rev_5_si_4" {
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.arc_compute_machine_windows_log_analytics_agent_installed,
     control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.compute_vm_log_analytics_agent_health_issues_resolved,
+    control.arc_kubernetes_cluster_azure_defender_extension_installed
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
 benchmark "nist_sp_800_53_rev_5_si_4_12" {
-  title       = "SI-4(12) Automated Organization-generated Alerts"
+  title       = "Automated Organization-generated Alerts SI-4(12)"
   description = "The organization employs automated mechanisms to alert security personnel of the organization-defined activities that trigger alerts with security implications."
   children = [
     control.securitycenter_notify_alerts_configured,

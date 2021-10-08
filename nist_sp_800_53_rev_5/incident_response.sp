@@ -60,7 +60,7 @@ benchmark "nist_sp_800_53_rev_5_ir_5" {
 }
 
 benchmark "nist_sp_800_53_rev_5_ir_6_2" {
-  title       = "IR-6(2) Vulnerabilities Related to Incidents"
+  title       = "Vulnerabilities Related to Incidents IR-6(2) "
   description = "The organization reports information system vulnerabilities associated with reported security incidents to organization-defined personnel or roles."
   children = [
     control.securitycenter_notify_alerts_configured,

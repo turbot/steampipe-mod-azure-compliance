@@ -98,7 +98,7 @@ benchmark "nist_sp_800_53_rev_5_sc_7" {
 }
 
 benchmark "nist_sp_800_53_rev_5_sc_7_3" {
-  title       = "SC-7(3) Access Points"
+  title       = "Access Points SC-7(3)"
   description = "The organization limits the number of external network connections to the information system."
   children = [
     control.azure_redis_cache_uses_private_link,
@@ -171,14 +171,15 @@ benchmark "nist_sp_800_53_rev_5_sc_8" {
     control.mysql_ssl_enabled,
     control.postgres_sql_ssl_enabled,
     control.storage_account_secure_transfer_required_enabled,
-    control.compute_vm_secure_communication_protocols_configured
+    control.compute_vm_secure_communication_protocols_configured,
+    control.hdinsight_cluster_encryption_in_transit_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
 }
 
 benchmark "nist_sp_800_53_rev_5_sc_8_1" {
-  title       = "SC-8(1) Cryptographic Protection"
+  title       = "Cryptographic Protection SC-8(1) "
   description = "The information system implements cryptographic mechanisms to prevent unauthorized disclosure of information and detect changes to information during transmission unless otherwise protected by organization-defined alternative physical safeguards."
   children = [
     control.appservice_api_app_ftps_enabled,
@@ -194,7 +195,8 @@ benchmark "nist_sp_800_53_rev_5_sc_8_1" {
     control.mysql_ssl_enabled,
     control.postgres_sql_ssl_enabled,
     control.storage_account_secure_transfer_required_enabled,
-    control.compute_vm_secure_communication_protocols_configured
+    control.compute_vm_secure_communication_protocols_configured,
+    control.hdinsight_cluster_encryption_in_transit_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -219,7 +221,11 @@ benchmark "nist_sp_800_53_rev_5_sc_12" {
     control.kubernetes_cluster_os_and_data_disks_encrypted_with_cmk,
     control.compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed,
     control.postgres_sql_server_encrypted_at_rest_using_cmk,
-    control.mssql_managed_instance_encryption_at_rest_using_cmk
+    control.mssql_managed_instance_encryption_at_rest_using_cmk,
+    control.storage_account_encryption_scopes_encrypted_at_rest_with_cmk,
+    control.healthcare_fhir_azure_api_encrypted_at_rest_with_cmk,
+    control.hdinsight_cluster_encryption_at_host_enabled,
+    control.hdinsight_cluster_encrypted_at_rest_with_cmk
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -248,7 +254,7 @@ benchmark "nist_sp_800_53_rev_5_sc_28" {
 }
 
 benchmark "nist_sp_800_53_rev_5_sc_28_1" {
-  title       = "SC-28(1) Cryptographic Protection"
+  title       = "Cryptographic Protection SC-28(1)"
   description = "The information system implements cryptographic mechanisms to prevent unauthorized disclosure and modification of organization-defined information on organization-defined information system components."
   children = [
     control.mysql_server_infrastructure_encryption_enabled,

@@ -20,20 +20,20 @@ benchmark "nist_sp_800_53_rev_5_ac_2" {
   description = "Manage system accounts, group memberships, privileges, workflow, notifications, deactivations, and authorizations."
   children = [
     benchmark.nist_sp_800_53_rev_5_ac_2_1,
-    benchmark.nist_sp_800_53_rev_5_ac_2_7,
     benchmark.nist_sp_800_53_rev_5_ac_2_12,
+    benchmark.nist_sp_800_53_rev_5_ac_2_7,
     control.appservice_api_app_uses_managed_identity,
     control.appservice_function_app_uses_managed_identity,
     control.appservice_web_app_uses_managed_identity,
-    control.iam_deprecated_account,
+    control.cognitive_service_local_auth_disabled,
     control.iam_deprecated_account_with_owner_roles,
+    control.iam_deprecated_account,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
     control.iam_no_custom_role,
     control.iam_subscription_owner_max_3,
-    control.sql_server_azure_ad_authentication_enabled,
-    control.cognitive_service_local_auth_disabled,
-    control.servicefabric_cluster_active_directory_authentication_enabled
+    control.servicefabric_cluster_active_directory_authentication_enabled,
+    control.sql_server_azure_ad_authentication_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -43,9 +43,9 @@ benchmark "nist_sp_800_53_rev_5_ac_2_1" {
   title       = "Automated System Account Management AC-2(1)"
   description = "The organization employs automated mechanisms to support the management of information system accounts."
   children = [
-    control.sql_server_azure_ad_authentication_enabled,
     control.cognitive_service_local_auth_disabled,
-    control.servicefabric_cluster_active_directory_authentication_enabled
+    control.servicefabric_cluster_active_directory_authentication_enabled,
+    control.sql_server_azure_ad_authentication_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -55,10 +55,10 @@ benchmark "nist_sp_800_53_rev_5_ac_2_7" {
   title       = "Privileged User Accounts AC-2(7)"
   description = "The organization establishes and administers privileged user accounts in accordance with a role-based access scheme that organizes allowed information system access and privileges into roles, monitors privileged role assignments, and takes organization-defined actions when privileged role assignments are no longer appropriate."
   children = [
-    control.iam_no_custom_role,
-    control.sql_server_azure_ad_authentication_enabled,
     control.cognitive_service_local_auth_disabled,
-    control.servicefabric_cluster_active_directory_authentication_enabled
+    control.iam_no_custom_role,
+    control.servicefabric_cluster_active_directory_authentication_enabled,
+    control.sql_server_azure_ad_authentication_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -69,6 +69,7 @@ benchmark "nist_sp_800_53_rev_5_ac_2_12" {
   description = "The organization monitors information system accounts for organization-defined atypical use and reports atypical usage of information system accounts to organization-defined personnel or roles."
   children = [
     control.appservice_azure_defender_enabled,
+    control.arc_kubernetes_cluster_azure_defender_extension_installed,
     control.compute_vm_azure_defender_enabled,
     control.compute_vm_jit_access_protected,
     control.container_registry_azure_defender_enabled,
@@ -76,11 +77,10 @@ benchmark "nist_sp_800_53_rev_5_ac_2_12" {
     control.keyvault_azure_defender_enabled,
     control.kubernetes_azure_defender_enabled,
     control.resource_manager_azure_defender_enabled,
+    control.securitycenter_azure_defender_on_for_sqlservervm,
     control.sql_database_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled,
-    control.arc_kubernetes_cluster_azure_defender_extension_installed,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.storage_azure_defender_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -94,15 +94,15 @@ benchmark "nist_sp_800_53_rev_5_ac_3" {
     control.appservice_api_app_uses_managed_identity,
     control.appservice_function_app_uses_managed_identity,
     control.appservice_web_app_uses_managed_identity,
-    control.compute_vm_uses_azure_resource_manager,
-    control.sql_server_azure_ad_authentication_enabled,
     control.cognitive_service_local_auth_disabled,
-    control.servicefabric_cluster_active_directory_authentication_enabled,
-    control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
     control.compute_vm_account_with_password_linux,
-    control.compute_vm_ssh_key_authentication_linux,
     control.compute_vm_guest_configuration_installed_linux,
     control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
+    control.compute_vm_ssh_key_authentication_linux,
+    control.compute_vm_uses_azure_resource_manager,
+    control.servicefabric_cluster_active_directory_authentication_enabled,
+    control.sql_server_azure_ad_authentication_enabled,
     control.storage_account_uses_azure_resource_manager
   ]
 
@@ -124,52 +124,52 @@ benchmark "nist_sp_800_53_rev_5_ac_4" {
   description = "Enforce approved authorizations. Control information workflow between interconnected systems."
   children = [
     benchmark.nist_sp_800_53_rev_5_ac_4_3,
+    control.apimanagement_service_with_virtual_network,
+    control.app_configuration_private_link_used,
     control.appservice_web_app_cors_no_star,
     control.azure_redis_cache_uses_private_link,
+    control.cognitive_account_private_link_used,
+    control.cognitive_account_public_network_access_disabled,
+    control.cognitive_account_restrict_public_access,
+    control.compute_disk_access_uses_private_link,
+    control.compute_vm_adaptive_network_hardening_recommendation_applied,
     control.compute_vm_jit_access_protected,
+    control.compute_vm_non_internet_facing_protected_with_nsg,
     control.compute_vm_remote_access_restricted_all_ports,
+    control.compute_vm_tcp_udp_access_restricted_internet,
     control.container_registry_restrict_public_access,
     control.container_registry_uses_private_link,
     control.cosmosdb_account_uses_private_link,
     control.cosmosdb_account_with_firewall_rules,
+    control.data_factory_uses_private_link,
+    control.eventgrid_domain_private_link_used,
+    control.eventgrid_topic_private_link_used,
+    control.eventhub_namespace_private_link_used,
+    control.healthcare_fhir_uses_private_link,
+    control.keyvault_vault_private_link_used,
+    control.keyvault_vault_public_network_access_disabled,
+    control.kubernetes_cluster_authorized_ip_range_defined,
     control.mariadb_server_public_network_access_disabled,
+    control.mysql_server_private_link_used,
     control.mysql_server_public_network_access_disabled,
+    control.network_interface_ip_forwarding_disabled,
     control.network_security_group_remote_access_restricted,
     control.network_security_group_subnet_associated,
+    control.postgres_server_private_link_used,
     control.postgresql_server_public_network_access_disabled,
     control.search_service_public_network_access_disabled,
     control.search_service_uses_private_link,
     control.search_service_uses_sku_supporting_private_link,
-    control.storage_account_default_network_access_rule_denied,
-    control.storage_account_uses_private_link,
-    control.app_configuration_private_link_used,
-    control.apimanagement_service_with_virtual_network,
-    control.keyvault_vault_private_link_used,
-    control.healthcare_fhir_uses_private_link,
-    control.data_factory_uses_private_link,
-    control.eventgrid_domain_private_link_used,
-    control.eventgrid_topic_private_link_used,
-    control.storage_sync_private_link_used,
-    control.keyvault_vault_public_network_access_disabled,
     control.servicebus_name_space_private_link_used,
-    control.eventhub_namespace_private_link_used,
-    control.mysql_server_private_link_used,
-    control.postgres_server_private_link_used,
     control.signalr_service_private_link_used,
-    control.synapse_workspace_private_link_used,
-    control.cognitive_account_private_link_used,
     control.sql_db_public_network_access_disabled,
-    control.storage_account_block_public_access,
-    control.storage_account_restrict_network_access,
-    control.kubernetes_cluster_authorized_ip_range_defined,
-    control.cognitive_account_public_network_access_disabled,
-    control.cognitive_account_restrict_public_access,
-    control.compute_disk_access_uses_private_link,
-    control.network_interface_ip_forwarding_disabled,
     control.sql_server_uses_private_link,
-    control.compute_vm_tcp_udp_access_restricted_internet,
-    control.compute_vm_adaptive_network_hardening_recommendation_applied,
-    control.compute_vm_non_internet_facing_protected_with_nsg
+    control.storage_account_block_public_access,
+    control.storage_account_default_network_access_rule_denied,
+    control.storage_account_restrict_network_access,
+    control.storage_account_uses_private_link,
+    control.storage_sync_private_link_used,
+    control.synapse_workspace_private_link_used
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -179,8 +179,8 @@ benchmark "nist_sp_800_53_rev_5_ac_4_3" {
   title       = "Dynamic Information Flow Control AC-4(3)"
   description = "The information system enforces dynamic information flow control based on organization-defined policies."
   children = [
-    control.compute_vm_jit_access_protected,
-    control.compute_vm_adaptive_network_hardening_recommendation_applied
+    control.compute_vm_adaptive_network_hardening_recommendation_applied,
+    control.compute_vm_jit_access_protected
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -223,8 +223,8 @@ benchmark "nist_sp_800_53_rev_5_ac_16" {
   title       = "Security and Privacy Attributes (AC-16)"
   description = "Support and maintains the binding of security attributes to information in storage, in process, and in transition."
   children = [
-    control.sql_server_azure_defender_enabled,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.sql_server_azure_defender_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -235,39 +235,39 @@ benchmark "nist_sp_800_53_rev_5_ac_17" {
   description = "Authorize remote access systems prior to connection. Enforce remote connection requirements to information systems."
   children = [
     benchmark.nist_sp_800_53_rev_5_ac_17_1,
+    control.app_configuration_private_link_used,
     control.appservice_api_app_remote_debugging_disabled,
     control.appservice_function_app_remote_debugging_disabled,
     control.appservice_web_app_remote_debugging_disabled,
     control.azure_redis_cache_in_virtual_network,
     control.azure_redis_cache_uses_private_link,
+    control.cognitive_account_private_link_used,
+    control.compute_disk_access_uses_private_link,
+    control.compute_vm_guest_configuration_installed_linux,
+    control.compute_vm_guest_configuration_installed_windows,
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
+    control.compute_vm_restrict_remote_connection_from_accounts_without_password_linux,
     control.container_registry_uses_private_link,
     control.cosmosdb_account_uses_private_link,
-    control.search_service_uses_private_link,
-    control.search_service_uses_sku_supporting_private_link,
-    control.storage_account_default_network_access_rule_denied,
-    control.storage_account_uses_private_link,
-    control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
-    control.app_configuration_private_link_used,
-    control.compute_vm_guest_configuration_installed_linux,
-    control.keyvault_vault_private_link_used,
-    control.healthcare_fhir_uses_private_link,
     control.data_factory_uses_private_link,
     control.eventgrid_domain_private_link_used,
     control.eventgrid_topic_private_link_used,
-    control.storage_sync_private_link_used,
-    control.servicebus_name_space_private_link_used,
     control.eventhub_namespace_private_link_used,
+    control.healthcare_fhir_uses_private_link,
+    control.keyvault_vault_private_link_used,
     control.mysql_server_private_link_used,
     control.postgres_server_private_link_used,
+    control.search_service_uses_private_link,
+    control.search_service_uses_sku_supporting_private_link,
+    control.servicebus_name_space_private_link_used,
     control.signalr_service_private_link_used,
-    control.synapse_workspace_private_link_used,
-    control.cognitive_account_private_link_used,
-    control.compute_vm_guest_configuration_installed_windows,
-    control.compute_disk_access_uses_private_link,
-    control.sql_server_uses_private_link,
     control.spring_cloud_service_network_injection_enabled,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
-    control.compute_vm_restrict_remote_connection_from_accounts_without_password_linux
+    control.sql_server_uses_private_link,
+    control.storage_account_default_network_access_rule_denied,
+    control.storage_account_uses_private_link,
+    control.storage_sync_private_link_used,
+    control.synapse_workspace_private_link_used
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -277,39 +277,39 @@ benchmark "nist_sp_800_53_rev_5_ac_17_1" {
   title       = "Monitoring and Control AC-17(1)"
   description = "The information system monitors and controls remote access methods."
   children = [
+    control.app_configuration_private_link_used,
     control.appservice_api_app_remote_debugging_disabled,
     control.appservice_function_app_remote_debugging_disabled,
     control.appservice_web_app_remote_debugging_disabled,
     control.azure_redis_cache_in_virtual_network,
     control.azure_redis_cache_uses_private_link,
+    control.cognitive_account_private_link_used,
+    control.compute_disk_access_uses_private_link,
+    control.compute_vm_guest_configuration_installed_linux,
+    control.compute_vm_guest_configuration_installed_windows,
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
+    control.compute_vm_restrict_remote_connection_from_accounts_without_password_linux,
     control.container_registry_uses_private_link,
     control.cosmosdb_account_uses_private_link,
-    control.search_service_uses_private_link,
-    control.search_service_uses_sku_supporting_private_link,
-    control.storage_account_default_network_access_rule_denied,
-    control.storage_account_uses_private_link,
-    control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
-    control.app_configuration_private_link_used,
-    control.compute_vm_guest_configuration_installed_linux,
-    control.keyvault_vault_private_link_used,
-    control.healthcare_fhir_uses_private_link,
     control.data_factory_uses_private_link,
     control.eventgrid_domain_private_link_used,
     control.eventgrid_topic_private_link_used,
-    control.storage_sync_private_link_used,
-    control.servicebus_name_space_private_link_used,
     control.eventhub_namespace_private_link_used,
+    control.healthcare_fhir_uses_private_link,
+    control.keyvault_vault_private_link_used,
     control.mysql_server_private_link_used,
     control.postgres_server_private_link_used,
+    control.search_service_uses_private_link,
+    control.search_service_uses_sku_supporting_private_link,
+    control.servicebus_name_space_private_link_used,
     control.signalr_service_private_link_used,
-    control.synapse_workspace_private_link_used,
-    control.cognitive_account_private_link_used,
-    control.compute_vm_guest_configuration_installed_windows,
-    control.compute_disk_access_uses_private_link,
-    control.sql_server_uses_private_link,
     control.spring_cloud_service_network_injection_enabled,
-    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
-    control.compute_vm_restrict_remote_connection_from_accounts_without_password_linux
+    control.sql_server_uses_private_link,
+    control.storage_account_default_network_access_rule_denied,
+    control.storage_account_uses_private_link,
+    control.storage_sync_private_link_used,
+    control.synapse_workspace_private_link_used
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

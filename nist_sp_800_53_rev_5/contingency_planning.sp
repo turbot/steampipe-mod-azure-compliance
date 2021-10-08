@@ -55,10 +55,10 @@ benchmark "nist_sp_800_53_rev_5_cp_9" {
   description = "The organization conducts backups of information system documentation including security-related documentation, user-level and system-level information contained in the information system with recovery time and recovery point objectives, and protects the confidentiality, integrity, and availability of backup information at storage locations."
   children = [
     control.keyvault_purge_protection_enabled,
+    control.keyvault_soft_delete_enabled,
     control.mariadb_server_geo_redundant_backup_enabled,
     control.mysql_db_server_geo_redundant_backup_enabled,
-    control.postgres_db_server_geo_redundant_backup_enabled,
-    control.keyvault_soft_delete_enabled
+    control.postgres_db_server_geo_redundant_backup_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

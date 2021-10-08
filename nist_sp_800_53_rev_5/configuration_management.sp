@@ -25,10 +25,10 @@ benchmark "nist_sp_800_53_rev_5_cm_6" {
     control.appservice_web_app_client_certificates_on,
     control.appservice_web_app_cors_no_star,
     control.appservice_web_app_remote_debugging_disabled,
-    control.kubernetes_cluster_add_on_azure_policy_enabled,
-    control.kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id,
     control.compute_vm_meet_security_baseline_requirements_linux,
-    control.compute_vm_meet_security_baseline_requirements_windows
+    control.compute_vm_meet_security_baseline_requirements_windows,
+    control.kubernetes_cluster_add_on_azure_policy_enabled,
+    control.kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -40,9 +40,9 @@ benchmark "nist_sp_800_53_rev_5_cm_7" {
   children = [
     benchmark.nist_sp_800_53_rev_5_cm_7_2,
     benchmark.nist_sp_800_53_rev_5_cm_7_5,
-    control.compute_vm_azure_defender_enabled,
+    control.compute_vm_adaptive_application_controls_enabled,
     control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated,
-    control.compute_vm_adaptive_application_controls_enabled
+    control.compute_vm_azure_defender_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -52,8 +52,8 @@ benchmark "nist_sp_800_53_rev_5_cm_7_2" {
   title       = "Prevent Program Execution CM-7(2) "
   description = "The information system prevents program execution in accordance with organization-defined policies regarding software program usage and restrictions, rules authorizing the terms and conditions of software program usage."
   children = [
-    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated,
-    control.compute_vm_adaptive_application_controls_enabled
+    control.compute_vm_adaptive_application_controls_enabled,
+    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -74,8 +74,8 @@ benchmark "nist_sp_800_53_rev_5_cm_10" {
   title       = "Software Usage Restrictions (CM-10)"
   description = "The organization uses software and associated documentation in accordance with contract agreements and copyright laws, tracks the use of software and associated documentation protected by quantity licenses to control copying and distribution, and controls and documents the use of peer-to-peer file-sharing technology to ensure that this capability is not used for the unauthorized distribution, display, performance, or reproduction of copyrighted work."
   children = [
-    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated,
-    control.compute_vm_adaptive_application_controls_enabled
+    control.compute_vm_adaptive_application_controls_enabled,
+    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -85,8 +85,8 @@ benchmark "nist_sp_800_53_rev_5_cm_11" {
   title       = "User-installed Software (CM-11)"
   description = "The organization establishes organization-defined policies governing the installation of software by users, enforces software installation policies through organization-defined methods, and monitors policy compliance at organization-defined frequency."
   children = [
-    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated,
-    control.compute_vm_adaptive_application_controls_enabled
+    control.compute_vm_adaptive_application_controls_enabled,
+    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

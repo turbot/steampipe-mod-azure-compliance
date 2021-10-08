@@ -22,14 +22,14 @@ benchmark "nist_sp_800_53_rev_5_ir_4" {
     control.keyvault_azure_defender_enabled,
     control.kubernetes_azure_defender_enabled,
     control.resource_manager_azure_defender_enabled,
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.securitycenter_email_configured,
+    control.securitycenter_notify_alerts_configured,
+    control.securitycenter_security_alerts_to_owner_enabled,
     control.sql_database_server_azure_defender_enabled,
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled,
-    control.securitycenter_notify_alerts_configured,
-    control.securitycenter_security_alerts_to_owner_enabled,
-    control.securitycenter_email_configured,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.storage_azure_defender_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -46,14 +46,14 @@ benchmark "nist_sp_800_53_rev_5_ir_5" {
     control.keyvault_azure_defender_enabled,
     control.kubernetes_azure_defender_enabled,
     control.resource_manager_azure_defender_enabled,
+    control.securitycenter_azure_defender_on_for_sqlservervm,
+    control.securitycenter_email_configured,
+    control.securitycenter_notify_alerts_configured,
+    control.securitycenter_security_alerts_to_owner_enabled,
     control.sql_database_server_azure_defender_enabled,
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled,
-    control.securitycenter_notify_alerts_configured,
-    control.securitycenter_security_alerts_to_owner_enabled,
-    control.securitycenter_email_configured,
-    control.securitycenter_azure_defender_on_for_sqlservervm
+    control.storage_azure_defender_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -63,9 +63,9 @@ benchmark "nist_sp_800_53_rev_5_ir_6_2" {
   title       = "Vulnerabilities Related to Incidents IR-6(2) "
   description = "The organization reports information system vulnerabilities associated with reported security incidents to organization-defined personnel or roles."
   children = [
+    control.securitycenter_email_configured,
     control.securitycenter_notify_alerts_configured,
-    control.securitycenter_security_alerts_to_owner_enabled,
-    control.securitycenter_email_configured
+    control.securitycenter_security_alerts_to_owner_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

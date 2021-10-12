@@ -18,7 +18,7 @@ select
     else 'alarm'
   end as status,
   case
-    when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating syetem.'
+    when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
     when b.vm_id is not null then a.title || ' have data collection agent installed.'
     else a.title || ' data collection agent not installed.'
   end as reason,

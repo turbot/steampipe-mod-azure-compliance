@@ -4,7 +4,7 @@ repository: "https://github.com/turbot/steampipe-mod-azure-compliance"
 
 # Azure Compliance Mod
 
-Run individual configuration, compliance and security controls or full compliance benchmarks for `CIS` and `HIPAA HITRUST` across all your Azure subscriptions.
+Run individual configuration, compliance and security controls or full `CIS`, `HIPAA HITRUST` and `NIST` compliance benchmarks across all your Azure subscriptions.
 
 ## References
 
@@ -13,6 +13,8 @@ Run individual configuration, compliance and security controls or full complianc
 [CIS Azure Benchmarks](https://www.cisecurity.org/benchmark/azure/) provide a predefined set of compliance and security best-practice checks for Microsoft Azure usage.
 
 [HIPAA HITRUST 9.2](https://docs.microsoft.com/en-us/azure/governance/policy/samples/hipaa-hitrust-9-2) provides a combined set of predefined compliance and security best-practice checks for Health Insurance Portability and Accountability Act.
+
+[NIST SP 800-53 Revision 5](https://docs.microsoft.com/en-us/azure/governance/policy/samples/nist-sp-800-53-r5) defines the standards and guidelines for federal agencies to architect and manage their information security systems.
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 

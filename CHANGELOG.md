@@ -1,3 +1,9 @@
+## v0.6 [2021-10-12]
+
+_What's new?_
+
+- Added: NIST SP 800-53 Revision 5 benchmark (`steampipe check azure_compliance.benchmark.nist_sp_800_53_rev_5`)
+
 ## v0.5 [2021-09-02]
 
 _Enhancements_

@@ -1,3 +1,9 @@
+## v0.7 [2021-11-10]
+
+_Enhancements_
+
+- `docs/index.md` file now includes the console output image
+
 ## v0.6 [2021-10-12]
 
 _What's new?_

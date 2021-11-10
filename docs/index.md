@@ -6,7 +6,7 @@ repository: "https://github.com/turbot/steampipe-mod-azure-compliance"
 
 Run individual configuration, compliance and security controls or full `CIS`, `HIPAA HITRUST` and `NIST` compliance benchmarks across all your Azure subscriptions.
 
-![image](https://github.com/turbot/steampipe-mod-azure-compliance/blob/main/docs/azure_cis_v130_console.png)
+![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v130_console.png)
 
 ## References
 

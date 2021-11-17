@@ -1,3 +1,9 @@
+## v0.8 [2021-11-17]
+
+_Bug fixes_
+
+- Fixed the `mssql_managed_instance_vulnerability_assessment_enabled` query to correctly check if the periodic vulnerability scanning is enabled for a managed SQL instance
+
 ## v0.7 [2021-11-10]
 
 _Enhancements_

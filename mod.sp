@@ -13,8 +13,8 @@ mod "azure_compliance" {
     image       = "/images/mods/turbot/azure-compliance-social-graphic.png"
   }
 
-  requires{
-    plugin "azuread"{
+  requires {
+    plugin "azuread" {
       version = "0.0.3"
     }
   }

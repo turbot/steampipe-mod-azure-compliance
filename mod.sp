@@ -17,5 +17,8 @@ mod "azure_compliance" {
     plugin "azuread" {
       version = "0.0.3"
     }
+    plugin "azure" {
+      version = "0.21.0"
+    }
   }
 }

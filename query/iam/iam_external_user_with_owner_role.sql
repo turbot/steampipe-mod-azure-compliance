@@ -7,8 +7,8 @@ distinct
   u.user_principal_name,
   d.subscription_id
 from
-  azure_ad_user as u
-  left join azure_role_assignment as a on a.principal_id = u.object_id
+  azuread_user as u
+  left join azure_role_assignment as a on a.principal_id = u.id
   left join azure_role_definition as d on d.id = a.role_definition_id
   where d.role_name = 'Owner'
 )

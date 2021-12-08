@@ -19,6 +19,7 @@ Includes support for:
 2) Install the Azure and the Azure Active Directory plugins with [Steampipe](https://steampipe.io):
 ```sh
 steampipe plugin install azure
+steampipe plugin install azuread
 ```
 
 3) Configure your Azure CLI credentials
@@ -64,4 +65,4 @@ Please see the [contribution guidelines](https://github.com/turbot/steampipe/blo
 
 `help wanted` issues:
 - [Steampipe](https://github.com/turbot/steampipe/labels/help%20wanted)
-- [Azure Mod](https://github.com/turbot/steampipe-mod-azure-compliance/labels/help%20wanted)
+- [Azure Compliance Mod](https://github.com/turbot/steampipe-mod-azure-compliance/labels/help%20wanted)

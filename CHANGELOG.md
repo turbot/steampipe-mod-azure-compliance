@@ -4,7 +4,7 @@ _Enhancements_
 
 - Updated `ad_guest_user_reviewed_monthly`, `iam_deprecated_account`, `iam_deprecated_account_with_owner_roles`, `iam_external_user_with_owner_role`, `iam_external_user_with_read_permission`, `iam_external_user_with_write_permission` queries to use azuread plugin tables instead of deprecated azure tables ([83](https://github.com/turbot/steampipe-mod-azure-compliance/pull/83))
 
-- Updated the `README` and the `docs/index.md` files to include additional prerequisites on running the compliance checks ([84](https://github.com/turbot/steampipe-mod-azure-compliance/pull/84))
+- Updated the `README` and the `docs/index.md` files to include additional prerequisites for running the compliance checks ([84](https://github.com/turbot/steampipe-mod-azure-compliance/pull/84))
 
 ## v0.8 [2021-11-17]
 

@@ -29,10 +29,11 @@ Run individual configuration, compliance and security controls or full `CIS`, `H
 
 ## Get started
 
-Install the Azure plugin with [Steampipe](https://steampipe.io):
+Install the Azure and the Azure Active Directory plugins with [Steampipe](https://steampipe.io):
 
 ```shell
 steampipe plugin install azure
+steampipe plugin install azuread
 ```
 
 Clone:
@@ -62,7 +63,7 @@ steampipe check control.cis_v130_2_1_1
 
 ### Credentials
 
-This mod uses the credentials configured in the [Steampipe Azure plugin](https://hub.steampipe.io/plugins/turbot/azure).
+This mod uses the credentials configured in the [Steampipe Azure plugin](https://hub.steampipe.io/plugins/turbot/azure) and the [Steampipe Azure Active Directory plugin](https://hub.steampipe.io/plugins/turbot/azuread).
 
 ### Configuration
 
@@ -71,4 +72,4 @@ No extra configuration is required.
 ## Get involved
 
 - Contribute: [GitHub Repo](https://github.com/turbot/steampipe-mod-azure-compliance)
-- Community: [Slack Channel](https://join.slack.com/t/steampipe/shared_invite/zt-oij778tv-lYyRTWOTMQYBVAbtPSWs3g)
+- Community: [Slack Channel](https://steampipe.io/community/join)

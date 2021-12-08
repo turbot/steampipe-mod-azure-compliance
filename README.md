@@ -16,7 +16,7 @@ Includes support for:
 
 1) Download and install Steampipe (https://steampipe.io/downloads).
 
-2) Install the Azure plugin with [Steampipe](https://steampipe.io):
+2) Install the Azure and the Azure Active Directory plugins with [Steampipe](https://steampipe.io):
 ```sh
 steampipe plugin install azure
 ```

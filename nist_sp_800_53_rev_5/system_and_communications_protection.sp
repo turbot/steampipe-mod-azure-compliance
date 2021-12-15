@@ -32,8 +32,8 @@ benchmark "nist_sp_800_53_rev_5_sc_5" {
   children = [
     control.application_gateway_waf_enabled,
     control.frontdoor_waf_enabled,
-    control.network_interface_ip_forwarding_disabled,
-    control.network_security_group_udp_service_restricted
+    control.network_ddos_enabled,
+    control.network_interface_ip_forwarding_disabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

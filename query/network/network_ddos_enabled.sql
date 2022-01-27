@@ -2,8 +2,8 @@ with application_gateway_subnet as (
   select
     distinct (split_part(c -> 'properties' -> 'subnet' ->> 'id', '/', 9)) as vn_name
   from
-	  azure_application_gateway as ag,
-		jsonb_array_elements(gateway_ip_configurations) as c
+    azure_application_gateway as ag,
+    jsonb_array_elements(gateway_ip_configurations) as c
 )
 select
   -- Required Columns

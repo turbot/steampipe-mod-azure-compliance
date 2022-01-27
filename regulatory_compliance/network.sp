@@ -83,16 +83,16 @@ control "application_gateway_waf_enabled" {
   sql         = query.application_gateway_waf_enabled.sql
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
-control "network_security_group_udp_service_restricted" {
+control "network_ddos_enabled" {
   title       = "Azure DDoS Protection Standard should be enabled"
   description = "DDoS protection standard should be enabled for all virtual networks with a subnet that is part of an application gateway with a public IP."
-  sql         = query.network_security_group_udp_service_restricted.sql
+  sql         = query.network_ddos_enabled.sql
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }

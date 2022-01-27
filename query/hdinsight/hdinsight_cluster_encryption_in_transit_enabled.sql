@@ -2,11 +2,13 @@ select
   -- Required Columns
   a.id as resource,
   case
-    when encryption_in_transit_properties -> 'isEncryptionInTransitEnabled' = 'true' and provisioning_state <> 'Failed' then 'ok'
+    when provisioning_state = 'Failed' then 'skip'
+    when encryption_in_transit_properties -> 'isEncryptionInTransitEnabled' = 'true' then 'ok'
     else 'alarm'
   end as status,
   case
-    when encryption_in_transit_properties -> 'isEncryptionInTransitEnabled' = 'true' and provisioning_state <> 'Failed' then a.name || ' encryption in transit enabled.'
+     when provisioning_state = 'Failed' then a.name || ' is in failed state.'
+    when encryption_in_transit_properties -> 'isEncryptionInTransitEnabled' = 'true' then a.name || ' encryption in transit enabled.'
     else a.name || ' encryption in transit disabled.'
   end as reason,
   -- Additional Dimensions

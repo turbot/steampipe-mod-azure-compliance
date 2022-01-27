@@ -2,11 +2,13 @@ select
   -- Required Columns
   a.id as resource,
   case
-    when disk_encryption_properties -> 'encryptionAtHost' = 'true' and provisioning_state <> 'Failed' then 'ok'
+    when provisioning_state = 'Failed' then 'skip'
+    when disk_encryption_properties -> 'encryptionAtHost' = 'true' then 'ok'
     else 'alarm'
   end as status,
   case
-    when disk_encryption_properties -> 'encryptionAtHost' = 'true' and provisioning_state <> 'Failed' then a.name || ' uses encryption at host to encrypt data at rest.'
+    when provisioning_state = 'Failed' then a.name || ' is in failed state.'
+    when disk_encryption_properties -> 'encryptionAtHost' = 'true' then a.name || ' uses encryption at host to encrypt data at rest.'
     else a.name || ' not uses encryption at host to encrypt data at rest.'
   end as reason,
   -- Additional Dimensions

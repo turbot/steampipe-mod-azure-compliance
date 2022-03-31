@@ -4,6 +4,36 @@ locals {
   }
 }
 
+control "storage_account_blob_containers_public_access_private" {
+  title         = "Ensure that 'Public access level' is set to Private for blob containers."
+  description   = "Disable anonymous access to blob containers and disallow blob public access on storage account."
+  sql           = query.storage_account_blob_containers_public_access_private.sql
+
+  tags = merge(local.regulatory_compliance_storage_common_tags, {
+    soc_2 = "true"
+  })
+}
+
+control "storage_account_blob_service_logging_enabled" {
+  title         = "Ensure Storage logging is enabled for Blob service for read, write, and delete requests."
+  description   = "These logs allow users to see the details of read, write, and delete operations against the blobs."
+  sql           = query.storage_account_blob_service_logging_enabled.sql
+
+  tags = merge(local.regulatory_compliance_storage_common_tags, {
+    soc_2 = "true"
+  })
+}
+
+control "storage_account_queue_services_logging_enabled" {
+  title       = "Ensure Storage logging is enabled for Queue service for read, write, and delete requests."
+  description = "These logs allow users to see the details of read, write, and delete operations against the queues."
+  sql         = query.storage_account_queue_services_logging_enabled.sql
+
+  tags = merge(local.regulatory_compliance_storage_common_tags, {
+    soc_2 = "true"
+  })
+}
+
 control "storage_account_secure_transfer_required_enabled" {
   title       = "Secure transfer to storage accounts should be enabled"
   description = "Audit requirement of Secure transfer in your storage account. Secure transfer is an option that forces your storage account to accept requests only from secure connections (HTTPS). Use of HTTPS ensures authentication between the server and the service and protects data in transit from network layer attacks such as man-in-the-middle, eavesdropping, and session-hijacking."
@@ -76,7 +106,6 @@ control "storage_account_block_public_access" {
   })
 }
 
-
 control "storage_account_restrict_network_access" {
   title       = "Storage accounts should restrict network access using virtual network rules"
   description = "Protect your storage accounts from potential threats using virtual network rules as a preferred method instead of IP-based filtering. Disabling IP-based filtering prevents public IPs from accessing your storage accounts."
@@ -104,6 +133,7 @@ control "storage_account_encryption_at_rest_using_cmk" {
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    soc_2                = "true"
   })
 }
 
@@ -127,6 +157,25 @@ control "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
   })
 }
 
+control "storage_account_trusted_microsoft_services_enabled" {
+  title       = "Ensure 'Trusted Microsoft Services' is enabled for Storage Account access"
+  description = "Some Microsoft services that interact with storage accounts operate from networks that can't be granted access through network rules. To help this type of service work as intended, allow the set of trusted Microsoft services to bypass the network rules. These services will then use strong authentication to access the storage account. If the Allow trusted Microsoft services exception is enabled, the following services: Azure Backup, Azure Site Recovery, Azure DevTest Labs, Azure Event Grid, Azure Event Hubs, Azure Networking, Azure Monitor and Azure SQL Data Warehouse (when registered in the subscription), are granted access to the storage account."
+  sql         = query.storage_account_trusted_microsoft_services_enabled.sql
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    soc_2 = "true"
+  })
+}
+
+control "storage_account_soft_delete_enabled" {
+  title       = "Ensure soft delete is enabled for Azure Storage."
+  description = "The Azure Storage blobs contain data like ePHI, Financial, secret or personal. Erroneously modified or deleted accidentally by an application or other storage account user cause data loss or data unavailability. It is recommended the Azure Storage be made recoverable by enabling soft delete configuration. This is to save and recover data when blobs or blob snapshots are deleted."
+  sql         = query.storage_account_soft_delete_enabled.sql
+
+  tags = merge(local.regulatory_compliance_storage_common_tags, {
+    soc_2 = "true"
+  })
+}
 
 
 

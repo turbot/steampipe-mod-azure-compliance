@@ -15,13 +15,24 @@ control "appservice_web_app_use_https" {
   })
 }
 
+control "appservice_web_app_register_with_active_directory_enabled" {
+  title       = "Ensure that Register with Azure Active Directory is enabled on App Service."
+  description = "When registering with Azure Active Directory in the app service, the app will connect to other Azure services securely without the need of username and passwords."
+  sql         = query.appservice_web_app_register_with_active_directory_enabled.sql
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    soc_2 = "true"
+  })
+}
+
 control "appservice_web_app_incoming_client_cert_on" {
   title       = "Ensure WEB app has 'Client Certificates (Incoming client certificates)' set to 'On'"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
   sql         = query.appservice_web_app_incoming_client_cert_on.sql
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92 = "true",
+    soc_2             = "true"
   })
 }
 
@@ -348,4 +359,14 @@ control "appservice_web_app_latest_python_version" {
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
   })
+}
+
+control "appservice_authentication_enabled" {
+    title       = "Ensure App Service Authentication is set on Azure App Service."
+    description = "Azure App Service Authentication is a feature that can prevent anonymous HTTP requests from reaching the API app, or authenticate those that have tokens before they reach the API app."
+    sql         = query.appservice_authentication_enabled.sql
+
+    tags = merge(local.regulatory_compliance_appservice_common_tags, {
+      soc_2 = "true"
+    })
 }

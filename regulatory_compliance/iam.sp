@@ -32,7 +32,8 @@ control "iam_no_custom_subscription_owner_roles_created" {
   sql         = query.iam_no_custom_subscription_owner_roles_created.sql
 
   tags = merge(local.regulatory_compliance_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92 = "true",
+    soc_2             = "true"
   })
 }
 

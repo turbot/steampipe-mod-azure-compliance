@@ -21,7 +21,28 @@ control "network_security_group_rdp_access_restricted" {
   sql         = query.network_security_group_rdp_access_restricted.sql
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92 = "true",
+    soc_2             = "true"
+  })
+}
+
+control "network_security_group_ssh_access_restricted" {
+  title       = "Ensure that SSH access is restricted from the internet."
+  description = "Disable SSH access on network security groups from the Internet."
+  sql         = query.network_security_group_ssh_access_restricted.sql
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    soc_2 = "true"
+  })
+}
+
+control "network_security_group_udp_service_restricted" {
+  title       = "Ensure that UDP Services are restricted from the Internet."
+  description = "Disable Internet exposed UDP ports on network security groups."
+  sql         = query.network_security_group_udp_service_restricted.sql
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    soc_2 = "true"
   })
 }
 
@@ -33,6 +54,7 @@ control "network_watcher_enabled" {
   tags = merge(local.regulatory_compliance_network_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    soc_2                = "true"
   })
 }
 
@@ -94,5 +116,15 @@ control "network_ddos_enabled" {
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "network_sg_flowlog_retention_period_greater_than_90" {
+  title       = "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'."
+  description = "Network Security Group Flow Logs should be enabled and the retention period is set to greater than or equal to 90 days."
+  sql         = query.network_sg_flowlog_retention_period_greater_than_90.sql
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    soc_2 = "true"
   })
 }

@@ -12,6 +12,37 @@ control "sql_server_and_databases_va_enabled" {
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    soc_2                = "true"
+  })
+}
+
+control "sql_server_va_setting_periodic_scan_enabled" {
+  title       = "Ensure that VA setting Periodic Recurring Scans is enabled on a SQL server."
+  description = "It is recommended to enable Vulnerability Assessment (VA) Periodic recurring scans for critical SQL servers and corresponding SQL databases."
+  sql         = query.sql_server_va_setting_periodic_scan_enabled.sql
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    soc_2 = "true"
+  })
+}
+
+control "sql_server_va_setting_reports_notify_admins" {
+  title       = "Ensure that VA setting 'Also send email notifications to admins and subscription owners' is set for a SQL server"
+  description = "It is recommended to enable Vulnerability Assessment (VA) setting Also send email notifications to admins and subscription owners."
+  sql         = query.sql_server_va_setting_reports_notify_admins.sql
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    soc_2 = "true"
+  })
+}
+
+control "sql_server_va_setting_scan_reports_configured" {
+  title       = "Ensure that VA setting Send scan reports to is configured for a SQL server."
+  description = "It is recommended to configure Send scan reports to with email ids of concerned data owners or stakeholders for a critical SQL servers."
+  sql         = query.sql_server_va_setting_scan_reports_configured.sql
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    soc_2 = "true"
   })
 }
 
@@ -22,6 +53,7 @@ control "sql_server_transparent_data_encryption_enabled" {
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     hipaa_hitrust_v92 = "true"
+    soc2_2 = "true"
   })
 }
 
@@ -53,6 +85,7 @@ control "sql_server_tde_protector_cmk_encrypted" {
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     hipaa_hitrust_v92 = "true"
+    soc_2 = "true"
   })
 }
 
@@ -145,7 +178,46 @@ control "sql_server_auditing_storage_account_destination_retention_90_days" {
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    soc_2                = "true"
   })
 }
 
+control "sql_database_allow_internet_access" {
+  title       = "Ensure no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)."
+  description = "Ensure that no SQL Databases allow ingress from 0.0.0.0/0 (ANY IP)."
+  sql         = query.sql_database_allow_internet_access.sql
 
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    soc_2 = "true"
+  })
+}
+
+control "sql_db_active_directory_admin_configured" {
+  title       = "Ensure that Azure Active Directory Admin is configured."
+  description = "It is recommended to use Azure Active Directory Authentication for authentication with SQL Database. It is a mechanism to connect to Microsoft Azure SQL Database and SQL Data Warehouse by using identities in Azure Active Directory (Azure AD). With Azure AD authentication, identities of database users and other Microsoft services can be managed in one central location. Central ID management provides a single place to manage database users and simplifies permission management."
+  sql         = query.sql_db_active_directory_admin_configured.sql
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    soc_2 = "true"
+  })
+}
+
+control "sql_server_atp_enabled" {
+  title       = "Ensure that Advanced Threat Protection (ATP) on a SQL server is set to 'Enabled'."
+  description = "It is recommended to enable Azure Defender for SQL on critical SQL Servers. Azure Defender for SQL is a unified package for advanced security capabilities."
+  sql         = query.sql_server_atp_enabled.sql
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    soc_2 = "true"
+  })
+}
+
+control "sql_server_audting_retention_period_90" {
+  title       = "Ensure that 'Auditing' Retention is 'greater than 90 days'."
+  description = "It is recommended SQL Server Audit Retention should be configured to be greater than 90 days. Audit Logs can be used to check for anomalies and give insight into suspected breaches or misuse of information and access."
+  sql         = query.sql_server_audting_retention_period_90.sql
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    soc_2 = "true"
+  })
+}

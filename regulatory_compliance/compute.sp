@@ -10,7 +10,8 @@ control "compute_os_and_data_disk_encrypted_with_cmk" {
   sql         = query.compute_os_and_data_disk_encrypted_with_cmk.sql
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92 = "true",
+    soc_2             = "true"
   })
 }
 
@@ -20,7 +21,8 @@ control "compute_unattached_disk_encrypted_with_cmk" {
   sql         = query.compute_unattached_disk_encrypted_with_cmk.sql
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92 = "true",
+    soc_2             = "true"
   })
 }
 

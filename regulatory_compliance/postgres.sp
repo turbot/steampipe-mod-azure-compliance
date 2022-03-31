@@ -65,3 +65,13 @@ control "postgres_sql_server_encrypted_at_rest_using_cmk" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+control "postgres_db_server_log_retention_days_3" {
+  title       = "Ensure server parameter 'log_retention_days' is greater than 3 days for PostgreSQL Database Server."
+  description = "It is recommended to enable log_retention_days on PostgreSQL Servers. Enabling log_retention_days helps PostgreSQL database to sets number of days a log file is retained which in turn generates query and error logs."
+  sql         = query.postgres_db_server_log_retention_days_3.sql
+
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    soc_2 = "true"
+  })
+}

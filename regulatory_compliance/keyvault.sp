@@ -23,6 +23,7 @@ control "keyvault_logging_enabled" {
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    soc_2                = "true"
   })
 }
 
@@ -113,5 +114,16 @@ control "keyvault_soft_delete_enabled" {
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    soc_2                = "true"
+  })
+}
+
+control "keyvault_vault_recoverable" {
+  title       = "Ensure the key vault is recoverable."
+  description = "It is recommended that the key vault be made recoverable by enabling the Do Not Purge and Soft Delete functions."
+  sql         = query.keyvault_vault_recoverable.sql
+
+  tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    soc_2 = "true"
   })
 }

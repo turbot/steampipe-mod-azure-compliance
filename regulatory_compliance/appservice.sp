@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_appservice_common_tags = {
-    service = "appservice"
+    service = "Azure/AppService"
   }
 }
 

@@ -26,7 +26,9 @@ benchmark "hipaa_hitrust_v92_0302_09o2organizational_1_09_o" {
     control.compute_os_and_data_disk_encrypted_with_cmk
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0303_09o2organizational_2_09_o" {
@@ -35,7 +37,9 @@ benchmark "hipaa_hitrust_v92_0303_09o2organizational_2_09_o" {
     control.compute_unattached_disk_encrypted_with_cmk
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0304_09o3organizational_1_09_o" {

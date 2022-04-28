@@ -34,7 +34,10 @@ benchmark "hipaa_hitrust_v92_1209_09aa3system_2_09_aa" {
     control.appservice_web_app_diagnostic_logs_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/AppService"
+  })
+
 }
 
 benchmark "hipaa_hitrust_v92_1202_09aa1system_1_09_aa" {
@@ -43,7 +46,9 @@ benchmark "hipaa_hitrust_v92_1202_09aa1system_1_09_aa" {
     control.datalake_store_account_logging_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/DataLakeStorage"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1203_09aa1system_2_09_aa" {
@@ -52,7 +57,9 @@ benchmark "hipaa_hitrust_v92_1203_09aa1system_2_09_aa" {
     control.logic_app_workflow_logging_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/LogicApps"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1204_09aa1system_3_09_aa" {
@@ -61,7 +68,9 @@ benchmark "hipaa_hitrust_v92_1204_09aa1system_3_09_aa" {
     control.iot_hub_logging_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/IoTHub"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1205_09aa2system_1_09_aa" {
@@ -70,7 +79,9 @@ benchmark "hipaa_hitrust_v92_1205_09aa2system_1_09_aa" {
     control.batch_account_logging_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Batch"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1207_09aa2system_4_09_aa" {
@@ -110,5 +121,7 @@ benchmark "hipaa_hitrust_v92_1206_09aa2system_23_09_aa" {
     control.compute_vm_scale_set_logging_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Compute"
+  })
 }

@@ -115,7 +115,9 @@ benchmark "nist_sp_800_53_rev_5_ac_3_7" {
     control.kubernetes_instance_rbac_enabled
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/KubernetesService"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_4" {
@@ -182,7 +184,9 @@ benchmark "nist_sp_800_53_rev_5_ac_4_3" {
     control.compute_vm_jit_access_protected
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_5" {
@@ -192,7 +196,9 @@ benchmark "nist_sp_800_53_rev_5_ac_5" {
     control.iam_subscription_owner_more_than_1
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_6" {
@@ -204,7 +210,9 @@ benchmark "nist_sp_800_53_rev_5_ac_6" {
     control.iam_subscription_owner_max_3
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_6_7" {
@@ -215,7 +223,9 @@ benchmark "nist_sp_800_53_rev_5_ac_6_7" {
     control.iam_subscription_owner_max_3
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_ac_16" {

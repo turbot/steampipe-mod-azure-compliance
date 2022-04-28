@@ -25,7 +25,9 @@ benchmark "hipaa_hitrust_v92_11180_01c3system_6_01_c" {
     control.compute_vm_jit_access_protected
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1143_01c1system_23_01_c" {
@@ -34,7 +36,9 @@ benchmark "hipaa_hitrust_v92_1143_01c1system_23_01_c" {
     control.network_security_group_remote_access_restricted
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Network"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1144_01c1system_4_01_c" {
@@ -43,7 +47,9 @@ benchmark "hipaa_hitrust_v92_1144_01c1system_4_01_c" {
     control.iam_subscription_owner_max_3
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1145_01c2system_1_01_c" {
@@ -52,7 +58,9 @@ benchmark "hipaa_hitrust_v92_1145_01c2system_1_01_c" {
     control.iam_subscription_owner_more_than_1
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1150_01c2system_10_01_c" {
@@ -61,7 +69,9 @@ benchmark "hipaa_hitrust_v92_1150_01c2system_10_01_c" {
     control.network_security_group_remote_access_restricted
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Network"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1147_01c2system_456_01_c" {
@@ -70,7 +80,9 @@ benchmark "hipaa_hitrust_v92_1147_01c2system_456_01_c" {
     control.iam_deprecated_account_with_owner_roles
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1153_01c3system_35_01_c" {
@@ -79,7 +91,9 @@ benchmark "hipaa_hitrust_v92_1153_01c3system_35_01_c" {
     control.kubernetes_instance_rbac_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/KubernetesService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1149_01c2system_9_01_c" {
@@ -88,7 +102,9 @@ benchmark "hipaa_hitrust_v92_1149_01c2system_9_01_c" {
     control.kubernetes_instance_rbac_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/KubernetesService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1151_01c3system_1_01_c" {
@@ -97,7 +113,9 @@ benchmark "hipaa_hitrust_v92_1151_01c3system_1_01_c" {
     control.iam_subscription_owner_max_3
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1152_01c3system_2_01_c" {
@@ -106,7 +124,9 @@ benchmark "hipaa_hitrust_v92_1152_01c3system_2_01_c" {
     control.iam_subscription_owner_more_than_1
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1154_01c3system_4_01_c" {
@@ -115,7 +135,9 @@ benchmark "hipaa_hitrust_v92_1154_01c3system_4_01_c" {
     control.iam_subscription_owner_max_3
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1148_01c2system_78_01_c" {
@@ -134,5 +156,7 @@ benchmark "hipaa_hitrust_v92_1146_01c2system_23_01_c" {
     control.iam_external_user_with_owner_role
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }

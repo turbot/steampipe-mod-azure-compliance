@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_resourcemanagement_common_tags = {
-    service = "resourcemanagement"
+    service = "Azure/ResourceManager"
   }
 }
 

@@ -136,7 +136,9 @@ benchmark "nist_sp_800_53_rev_5_au_11" {
     control.sql_server_auditing_storage_account_destination_retention_90_days
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service = "Azure/SQLDatabase"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_au_12" {

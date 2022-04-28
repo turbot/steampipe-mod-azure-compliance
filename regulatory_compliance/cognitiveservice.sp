@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_cognitive_common_tags = {
-    service = "cognitive"
+    service = "Azure/CognitiveServices"
   }
 }
 

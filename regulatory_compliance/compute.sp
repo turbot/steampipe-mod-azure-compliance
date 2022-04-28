@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_compute_common_tags = {
-    service = "compute"
+    service = "Azure/Compute"
   }
 }
 

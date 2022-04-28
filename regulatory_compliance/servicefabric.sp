@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_servicefabric_common_tags = {
-    service = "servicefabric"
+    service = "Azure/ServiceFabric"
   }
 }
 

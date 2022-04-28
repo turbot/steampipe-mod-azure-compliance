@@ -1,16 +1,15 @@
 locals {
-  cis_v130_common_tags = {
-    benchmark   = "cis"
+  cis_v130_common_tags = merge(local.azure_compliance_common_tags, {
+    cis         = "true"
     cis_version = "v1.3.0"
-    plugin      = "azure"
-  }
+  })
 }
 
 benchmark "cis_v130" {
   title         = "CIS v1.3.0"
   description   = "The CIS Microsoft Azure Foundations Security Benchmark provides prescriptive guidance for establishing a secure baseline configuration for Microsoft Azure."
   documentation = file("./cis_v130/docs/cis_overview.md")
-  tags          = local.cis_v130_common_tags
+
   children = [
     benchmark.cis_v130_1,
     benchmark.cis_v130_2,
@@ -22,4 +21,8 @@ benchmark "cis_v130" {
     benchmark.cis_v130_8,
     benchmark.cis_v130_9
   ]
+
+  tags = merge(local.cis_v130_common_tags, {
+    type = "Benchmark"
+  })
 }

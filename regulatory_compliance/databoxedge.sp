@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_databoxedge_common_tags = {
-    service = "databoxedge"
+    service = "Azure/DataBox"
   }
 }
 

@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_kubernetes_common_tags = {
-    service = "kubernetes"
+    service = "Azure/KubernetesService"
   }
 }
 

@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_streamanalytics_common_tags = {
-    service = "streamanalytics"
+    service = "Azure/StreamAnalytics"
   }
 }
 

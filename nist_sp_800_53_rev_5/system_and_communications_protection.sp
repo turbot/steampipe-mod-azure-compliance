@@ -23,7 +23,9 @@ benchmark "nist_sp_800_53_rev_5_sc_3" {
     control.compute_vm_windows_defender_exploit_guard_enabled
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service = "Azure/Compute"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_sc_5" {

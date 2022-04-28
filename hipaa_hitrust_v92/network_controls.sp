@@ -29,7 +29,9 @@ benchmark "hipaa_hitrust_v92_0858_09m1organizational_4_09_m" {
     control.compute_vm_remote_access_restricted_all_ports
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0866_09m3organizational_1516_09_m" {
@@ -121,7 +123,9 @@ benchmark "hipaa_hitrust_v92_0859_09m1organizational_78_09_m" {
     control.compute_vm_adaptive_network_hardening_recommendation_applied
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0861_09m2organizational_67_09_m" {
@@ -131,7 +135,9 @@ benchmark "hipaa_hitrust_v92_0861_09m2organizational_67_09_m" {
     control.appservice_web_app_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0864_09m2organizational_12_09_m" {
@@ -149,5 +155,7 @@ benchmark "hipaa_hitrust_v92_0860_09m1organizational_9_09_m" {
     control.network_security_group_diagnostic_setting_deployed
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Network"
+  })
 }

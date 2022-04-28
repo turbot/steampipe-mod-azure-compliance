@@ -62,7 +62,9 @@ benchmark "hipaa_hitrust_v92_12100_09ab2system_15_09_ab" {
     control.compute_vm_log_analytics_agent_installed
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1215_09ab2system_7_09_ab" {
@@ -71,7 +73,9 @@ benchmark "hipaa_hitrust_v92_1215_09ab2system_7_09_ab" {
     control.compute_vm_log_analytics_agent_installed
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1217_09ab3system_3_09_ab" {
@@ -80,7 +84,9 @@ benchmark "hipaa_hitrust_v92_1217_09ab3system_3_09_ab" {
     control.compute_vm_log_analytics_agent_installed_windows
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_12101_09ab1organizational_3_09_ab" {
@@ -90,7 +96,9 @@ benchmark "hipaa_hitrust_v92_12101_09ab1organizational_3_09_ab" {
     control.compute_vm_scale_set_log_analytics_agent_installed
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1216_09ab3system_12_09_ab" {
@@ -99,7 +107,9 @@ benchmark "hipaa_hitrust_v92_1216_09ab3system_12_09_ab" {
     control.compute_vm_scale_set_log_analytics_agent_installed
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1120_09ab3system_9_09_ab" {
@@ -126,5 +136,7 @@ benchmark "hipaa_hitrust_v92_12102_09ab1organizational_4_09_ab" {
     control.compute_vm_log_analytics_agent_installed_windows
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_redis_common_tags = {
-    service = "redis"
+    service = "Azure/CacheForRedis"
   }
 }
 

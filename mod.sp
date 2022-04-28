@@ -1,3 +1,12 @@
+// Benchmarks and controls for specific services should override the "service" tag
+locals {
+  azure_compliance_common_tags = {
+    category = "Compliance"
+    plugin   = "azure"
+    service  = "Azure"
+  }
+}
+
 mod "azure_compliance" {
   # hub metadata
   title         = "Azure Compliance"

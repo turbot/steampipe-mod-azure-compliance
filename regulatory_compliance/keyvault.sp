@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_keyvault_common_tags = {
-    service = "keyvault"
+    service = "Azure/KeyVault"
   }
 }
 

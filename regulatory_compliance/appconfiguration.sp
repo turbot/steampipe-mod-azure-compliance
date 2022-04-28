@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_appconfiguration_common_tags = {
-    service = "appconfiguration"
+    service = "Azure/AppConfiguration"
   }
 }
 

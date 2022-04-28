@@ -20,7 +20,6 @@ locals {
 benchmark "cis_v130_4" {
   title         = "4 Database Services"
   documentation = file("./cis_v130/docs/cis_v130_4.md")
-  tags          = local.cis_v130_4_common_tags
   children = [
     benchmark.cis_v130_4_1,
     benchmark.cis_v130_4_2,
@@ -28,23 +27,29 @@ benchmark "cis_v130_4" {
     control.cis_v130_4_4,
     control.cis_v130_4_5,
   ]
+
+  tags = merge(local.cis_v130_4_common_tags, {
+    type = "Benchmark"
+  })
 }
 
 benchmark "cis_v130_4_1" {
   title         = "4.1 SQL Server - Auditing"
   documentation = file("./cis_v130/docs/cis_v130_4_1.md")
-  tags          = local.cis_v130_4_1_common_tags
   children = [
     control.cis_v130_4_1_1,
     control.cis_v130_4_1_2,
     control.cis_v130_4_1_3,
   ]
+
+  tags = merge(local.cis_v130_4_1_common_tags, {
+    type = "Benchmark"
+  })
 }
 
 benchmark "cis_v130_4_2" {
   title         = "4.2 SQL Server - Azure Defender for SQL"
   documentation = file("./cis_v130/docs/cis_v130_4_2.md")
-  tags          = local.cis_v130_4_2_common_tags
   children = [
     control.cis_v130_4_2_1,
     control.cis_v130_4_2_2,
@@ -52,12 +57,15 @@ benchmark "cis_v130_4_2" {
     control.cis_v130_4_2_4,
     control.cis_v130_4_2_5
   ]
+
+  tags = merge(local.cis_v130_4_2_common_tags, {
+    type = "Benchmark"
+  })
 }
 
 benchmark "cis_v130_4_3" {
   title         = "4.3 PostgreSQL Database Server"
   documentation = file("./cis_v130/docs/cis_v130_4_3.md")
-  tags          = local.cis_v130_4_3_common_tags
   children = [
     control.cis_v130_4_3_1,
     control.cis_v130_4_3_2,
@@ -68,6 +76,10 @@ benchmark "cis_v130_4_3" {
     control.cis_v130_4_3_7,
     control.cis_v130_4_3_8
   ]
+
+  tags = merge(local.cis_v130_4_3_common_tags, {
+    type = "Benchmark"
+  })
 }
 
 control "cis_v130_4_1_1" {
@@ -80,6 +92,7 @@ control "cis_v130_4_1_1" {
     cis_item_id = "4.1.1"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/SQLDatabas"
   })
 }
 
@@ -92,6 +105,7 @@ control "cis_v130_4_1_2" {
     cis_item_id = "4.1.2"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/SQLDatabase"
   })
 }
 
@@ -105,6 +119,7 @@ control "cis_v130_4_1_3" {
     cis_item_id = "4.1.3"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/SQLDatabase"
   })
 }
 
@@ -118,6 +133,7 @@ control "cis_v130_4_2_1" {
     "cis_item_id" = "4.2.1"
     "cis_level"   = "2"
     "cis_type"    = "automated"
+    service       = "Azure/SQLDatabase"
   })
 }
 
@@ -128,9 +144,10 @@ control "cis_v130_4_2_2" {
   documentation = file("./cis_v130/docs/cis_v130_4_2_2.md")
 
   tags = merge(local.cis_v130_4_2_common_tags, {
-    "cis_item_id" = "4.2.2"
-    "cis_level"   = "2"
-    "cis_type"    = "automated"
+    cis_item_id = "4.2.2"
+    cis_level   = "2"
+    cis_type    = "automated"
+    service     = "Azure/SQLDatabase"
   })
 }
 
@@ -141,9 +158,10 @@ control "cis_v130_4_2_3" {
   documentation = file("./cis_v130/docs/cis_v130_4_2_3.md")
 
   tags = merge(local.cis_v130_4_2_common_tags, {
-    "cis_item_id" = "4.2.3"
-    "cis_level"   = "2"
-    "cis_type"    = "automated"
+    cis_item_id = "4.2.3"
+    cis_level   = "2"
+    cis_type    = "automated"
+    service     = "Azure/SQLDatabase"
   })
 }
 
@@ -154,9 +172,10 @@ control "cis_v130_4_2_4" {
   documentation = file("./cis_v130/docs/cis_v130_4_2_4.md")
 
   tags = merge(local.cis_v130_4_2_common_tags, {
-    "cis_item_id" = "4.2.4"
-    "cis_level"   = "2"
-    "cis_type"    = "automated"
+    cis_item_id = "4.2.4"
+    cis_level   = "2"
+    cis_type    = "automated"
+    service     = "Azure/SQLDatabase"
   })
 }
 
@@ -167,9 +186,10 @@ control "cis_v130_4_2_5" {
   documentation = file("./cis_v130/docs/cis_v130_4_2_5.md")
 
   tags = merge(local.cis_v130_4_2_common_tags, {
-    "cis_item_id" = "4.2.5"
-    "cis_level"   = "2"
-    "cis_type"    = "automated"
+    cis_item_id = "4.2.5"
+    cis_level   = "2"
+    cis_type    = "automated"
+    service     = "Azure/SQLDatabase"
   })
 }
 
@@ -180,9 +200,10 @@ control "cis_v130_4_3_1" {
   documentation = file("./cis_v130/docs/cis_v130_4_3_1.md")
 
   tags = merge(local.cis_v130_4_3_common_tags, {
-    "cis_item_id" = "4.3.1"
-    "cis_level"   = "1"
-    "cis_type"    = "automated"
+    cis_item_id = "4.3.1"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/DatabaseForPostgreSQL"
   })
 }
 
@@ -193,9 +214,10 @@ control "cis_v130_4_3_2" {
   documentation = file("./cis_v130/docs/cis_v130_4_3_2.md")
 
   tags = merge(local.cis_v130_4_3_common_tags, {
-    "cis_item_id" = "4.3.2"
-    "cis_level"   = "1"
-    "cis_type"    = "automated"
+    cis_item_id = "4.3.2"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/DatabaseForMySQL"
   })
 }
 
@@ -206,9 +228,10 @@ control "cis_v130_4_3_3" {
   documentation = file("./cis_v130/docs/cis_v130_4_3_3.md")
 
   tags = merge(local.cis_v130_4_3_common_tags, {
-    "cis_item_id" = "4.3.3"
-    "cis_level"   = "1"
-    "cis_type"    = "automated"
+    cis_item_id = "4.3.3"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/DatabaseForPostgreSQL"
   })
 }
 
@@ -219,9 +242,10 @@ control "cis_v130_4_3_4" {
   documentation = file("./cis_v130/docs/cis_v130_4_3_4.md")
 
   tags = merge(local.cis_v130_4_3_common_tags, {
-    "cis_item_id" = "4.3.4"
-    "cis_level"   = "1"
-    "cis_type"    = "automated"
+    cis_item_id = "4.3.4"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/DatabaseForPostgreSQL"
   })
 }
 
@@ -232,9 +256,10 @@ control "cis_v130_4_3_5" {
   documentation = file("./cis_v130/docs/cis_v130_4_3_5.md")
 
   tags = merge(local.cis_v130_4_3_common_tags, {
-    "cis_item_id" = "4.3.5"
-    "cis_level"   = "1"
-    "cis_type"    = "automated"
+    cis_item_id = "4.3.5"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/DatabaseForPostgreSQL"
   })
 }
 
@@ -245,9 +270,10 @@ control "cis_v130_4_3_6" {
   documentation = file("./cis_v130/docs/cis_v130_4_3_6.md")
 
   tags = merge(local.cis_v130_4_3_common_tags, {
-    "cis_item_id" = "4.3.6"
-    "cis_level"   = "1"
-    "cis_type"    = "automated"
+    cis_item_id = "4.3.6"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/DatabaseForPostgreSQL"
   })
 }
 
@@ -258,9 +284,10 @@ control "cis_v130_4_3_7" {
   documentation = file("./cis_v130/docs/cis_v130_4_3_7.md")
 
   tags = merge(local.cis_v130_4_3_common_tags, {
-    "cis_item_id" = "4.3.7"
-    "cis_level"   = "1"
-    "cis_type"    = "automated"
+    cis_item_id = "4.3.7"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/DatabaseForPostgreSQL"
   })
 }
 
@@ -271,9 +298,10 @@ control "cis_v130_4_3_8" {
   documentation = file("./cis_v130/docs/cis_v130_4_3_8.md")
 
   tags = merge(local.cis_v130_4_3_common_tags, {
-    "cis_item_id" = "4.3.8"
-    "cis_level"   = "1"
-    "cis_type"    = "manual"
+    cis_item_id = "4.3.8"
+    cis_level   = "1"
+    cis_type    = "manual"
+    service     = "Azure/DatabaseForPostgreSQL"
   })
 }
 
@@ -284,9 +312,10 @@ control "cis_v130_4_4" {
   documentation = file("./cis_v130/docs/cis_v130_4_4.md")
 
   tags = merge(local.cis_v130_4_common_tags, {
-    "cis_item_id" = "4.4"
-    "cis_level"   = "1"
-    "cis_type"    = "automated"
+    cis_item_id = "4.4"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/SQLDatabase"
   })
 }
 
@@ -297,8 +326,9 @@ control "cis_v130_4_5" {
   documentation = file("./cis_v130/docs/cis_v130_4_5.md")
 
   tags = merge(local.cis_v130_4_common_tags, {
-    "cis_item_id" = "4.5"
-    "cis_level"   = "2"
-    "cis_type"    = "automated"
+    cis_item_id = "4.5"
+    cis_level   = "2"
+    cis_type    = "automated"
+    service     = "Azure/SQLDatabase"
   })
 }

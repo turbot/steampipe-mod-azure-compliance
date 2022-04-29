@@ -19,7 +19,9 @@ benchmark "hipaa_hitrust_v92_0837_09_n2Organizational_2_09_n" {
     control.network_watcher_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Network"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0886_09n2Organizational_4_09_n" {
@@ -29,7 +31,9 @@ benchmark "hipaa_hitrust_v92_0886_09n2Organizational_4_09_n" {
     control.network_watcher_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Network"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0888_09n2Organizational_6_09_n" {
@@ -38,7 +42,9 @@ benchmark "hipaa_hitrust_v92_0888_09n2Organizational_6_09_n" {
     control.network_watcher_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Network"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0835_09n1organizational_1_09_n" {
@@ -48,7 +54,9 @@ benchmark "hipaa_hitrust_v92_0835_09n1organizational_1_09_n" {
     control.compute_vm_uses_azure_resource_manager
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0887_09n2organizational_5_09_n" {
@@ -57,7 +65,9 @@ benchmark "hipaa_hitrust_v92_0887_09n2organizational_5_09_n" {
     control.compute_vm_network_traffic_data_collection_windows_agent_installed
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0836_09_n2organizational_1_09_n" {
@@ -66,7 +76,9 @@ benchmark "hipaa_hitrust_v92_0836_09_n2organizational_1_09_n" {
     control.compute_vm_network_traffic_data_collection_linux_agent_installed
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0885_09n2organizational_3_09_n" {
@@ -75,5 +87,7 @@ benchmark "hipaa_hitrust_v92_0885_09n2organizational_3_09_n" {
     control.compute_vm_network_traffic_data_collection_linux_agent_installed
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

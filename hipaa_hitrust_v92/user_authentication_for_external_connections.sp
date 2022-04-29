@@ -15,7 +15,9 @@ benchmark "hipaa_hitrust_v92_1119_01j2organizational_3_01_j" {
     control.compute_vm_jit_access_protected
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1175_01j1organizational_8_01_j" {
@@ -24,7 +26,9 @@ benchmark "hipaa_hitrust_v92_1175_01j1organizational_8_01_j" {
     control.compute_vm_jit_access_protected
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1179_01j3organizational_1_01_j" {
@@ -33,5 +37,7 @@ benchmark "hipaa_hitrust_v92_1179_01j3organizational_1_01_j" {
     control.compute_vm_jit_access_protected
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

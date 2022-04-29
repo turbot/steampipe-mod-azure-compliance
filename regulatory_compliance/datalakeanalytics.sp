@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_datalakeanalytics_common_tags = {
-    service = "datalakeanalytics"
+    service = "Azure/DataLakeAnalytics"
   }
 }
 

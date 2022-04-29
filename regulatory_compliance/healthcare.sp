@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_healthcare_common_tags = {
-    service = "healthcare"
+    service = "Azure/HealthcareAPIs"
   }
 }
 

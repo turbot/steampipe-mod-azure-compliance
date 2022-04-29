@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_network_common_tags = {
-    service = "network"
+    service = "Azure/Network"
   }
 }
 

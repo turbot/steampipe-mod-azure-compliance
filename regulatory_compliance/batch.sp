@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_batch_common_tags = {
-    service = "batch"
+    service = "Azure/Batch"
   }
 }
 

@@ -18,7 +18,9 @@ benchmark "hipaa_hitrust_v92_0943_09y1organizational_1_09_y" {
     control.storage_account_secure_transfer_required_enabled,
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Storage"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0946_09y2organizational_14_09_y" {
@@ -27,7 +29,9 @@ benchmark "hipaa_hitrust_v92_0946_09y2organizational_14_09_y" {
     control.azure_redis_cache_ssl_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Redis"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0947_09y2organizational_2_09_y" {
@@ -37,7 +41,9 @@ benchmark "hipaa_hitrust_v92_0947_09y2organizational_2_09_y" {
     control.postgres_sql_ssl_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/PostgreSQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0948_09y2organizational_3_09_y" {
@@ -47,7 +53,9 @@ benchmark "hipaa_hitrust_v92_0948_09y2organizational_3_09_y" {
     control.mysql_ssl_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/MySQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0949_09y2organizational_5_09_y" {
@@ -61,7 +69,9 @@ benchmark "hipaa_hitrust_v92_0949_09y2organizational_5_09_y" {
     control.appservice_web_app_use_https
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0945_09y1organizational_3_09_y" {
@@ -70,5 +80,7 @@ benchmark "hipaa_hitrust_v92_0945_09y1organizational_3_09_y" {
     control.compute_vm_with_no_specified_certificates_in_trusted_root_windows
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

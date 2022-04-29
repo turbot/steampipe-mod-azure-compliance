@@ -46,7 +46,9 @@ benchmark "nist_sp_800_53_rev_5_cp_7" {
     control.compute_vm_disaster_recovery_enabled
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_cp_9" {

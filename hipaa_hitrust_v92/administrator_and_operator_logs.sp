@@ -14,7 +14,9 @@ benchmark "hipaa_hitrust_v92_1270_09ad1system_12_09_ad" {
     control.monitor_log_alert_for_administrative_operations
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Monitor"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1271_09ad1system_1_09_ad" {
@@ -23,5 +25,7 @@ benchmark "hipaa_hitrust_v92_1271_09ad1system_1_09_ad" {
     control.monitor_log_alert_for_administrative_operations
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Monitor"
+  })
 }

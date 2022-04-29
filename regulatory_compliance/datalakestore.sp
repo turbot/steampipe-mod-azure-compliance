@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_datalakestore_common_tags = {
-    service = "datalakestore"
+    service = "Azure/DataLakeStorage"
   }
 }
 

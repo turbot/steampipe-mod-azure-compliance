@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_mariadb_common_tags = {
-    service = "mariadb"
+    service = "Azure/MariaDB"
   }
 }
 

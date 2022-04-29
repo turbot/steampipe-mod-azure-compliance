@@ -18,5 +18,7 @@ benchmark "hipaa_hitrust_v92_0201_09j1organizational_124_09_j" {
     control.compute_vm_endpoint_protection_agent_installed
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

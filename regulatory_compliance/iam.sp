@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_iam_common_tags = {
-    service = "iam"
+    service = "Azure/ActiveDirectory"
   }
 }
 

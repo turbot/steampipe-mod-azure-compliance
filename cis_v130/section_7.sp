@@ -7,7 +7,6 @@ locals {
 benchmark "cis_v130_7" {
   title         = "7 Virtual Machines"
   documentation = file("./cis_v130/docs/cis_v130_7.md")
-  tags          = local.cis_v130_7_common_tags
   children = [
     control.cis_v130_7_1,
     control.cis_v130_7_2,
@@ -17,6 +16,11 @@ benchmark "cis_v130_7" {
     control.cis_v130_7_6,
     control.cis_v130_7_7
   ]
+
+  tags = merge(local.cis_v130_7_common_tags, {
+    type    = "Benchmark"
+    service = "Azure/Compute"
+  })
 }
 
 control "cis_v130_7_1" {
@@ -29,6 +33,7 @@ control "cis_v130_7_1" {
     cis_item_id = "7.1"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/Compute"
   })
 }
 
@@ -42,6 +47,7 @@ control "cis_v130_7_2" {
     cis_item_id = "7.2"
     cis_level   = "2"
     cis_type    = "automated"
+    service     = "Azure/Compute"
   })
 }
 
@@ -55,6 +61,7 @@ control "cis_v130_7_3" {
     cis_item_id = "7.3"
     cis_level   = "2"
     cis_type    = "automated"
+    service     = "Azure/Compute"
   })
 }
 
@@ -68,6 +75,7 @@ control "cis_v130_7_4" {
     cis_item_id = "7.4"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/Compute"
   })
 }
 
@@ -81,6 +89,7 @@ control "cis_v130_7_5" {
     cis_item_id = "7.5"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/Compute"
   })
 }
 
@@ -94,6 +103,7 @@ control "cis_v130_7_6" {
     cis_item_id = "7.6"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/Compute"
   })
 }
 
@@ -107,5 +117,6 @@ control "cis_v130_7_7" {
     cis_item_id = "7.7"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/Compute"
   })
 }

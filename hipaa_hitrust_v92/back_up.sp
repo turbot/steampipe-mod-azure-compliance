@@ -23,7 +23,9 @@ benchmark "hipaa_hitrust_v92_11617_09l1organizational_23_09_l" {
     control.mysql_db_server_geo_redundant_backup_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MySQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1618_09l1organizational_45_09_l" {
@@ -33,7 +35,9 @@ benchmark "hipaa_hitrust_v92_1618_09l1organizational_45_09_l" {
     control.postgres_db_server_geo_redundant_backup_enabled,
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/PostgreSQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1619_09l1organizational_7_09_l" {
@@ -42,7 +46,9 @@ benchmark "hipaa_hitrust_v92_1619_09l1organizational_7_09_l" {
     control.mariadb_server_geo_redundant_backup_enabled,
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MariaDB"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1622_09l2organizational_23_09_l" {
@@ -52,7 +58,9 @@ benchmark "hipaa_hitrust_v92_1622_09l2organizational_23_09_l" {
     control.mysql_db_server_geo_redundant_backup_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MySQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1623_09l2organizational_4_09_l" {
@@ -61,7 +69,9 @@ benchmark "hipaa_hitrust_v92_1623_09l2organizational_4_09_l" {
     control.postgres_db_server_geo_redundant_backup_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/PostgreSQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1624_09l3organizational_12_09_l" {
@@ -70,7 +80,9 @@ benchmark "hipaa_hitrust_v92_1624_09l3organizational_12_09_l" {
     control.mariadb_server_geo_redundant_backup_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MariaDB"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1626_09l3organizational_5_09_l" {
@@ -79,7 +91,9 @@ benchmark "hipaa_hitrust_v92_1626_09l3organizational_5_09_l" {
     control.postgres_db_server_geo_redundant_backup_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/PostgreSQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1627_09l3organizational_6_09_l" {
@@ -88,7 +102,9 @@ benchmark "hipaa_hitrust_v92_1627_09l3organizational_6_09_l" {
     control.mysql_db_server_geo_redundant_backup_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MySQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1616_09l1organizational_16_09_l" {
@@ -97,7 +113,9 @@ benchmark "hipaa_hitrust_v92_1616_09l1organizational_16_09_l" {
     control.sql_database_long_term_geo_redundant_backup_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/SQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1621_09l2organizational_1_09_l" {
@@ -106,5 +124,7 @@ benchmark "hipaa_hitrust_v92_1621_09l2organizational_1_09_l" {
     control.sql_database_long_term_geo_redundant_backup_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/SQL"
+  })
 }

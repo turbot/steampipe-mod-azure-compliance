@@ -17,18 +17,20 @@ locals {
 benchmark "cis_v130_5" {
   title         = "5 Logging and Monitoring"
   documentation = file("./cis_v130/docs/cis_v130_5.md")
-  tags          = local.cis_v130_5_common_tags
   children = [
     benchmark.cis_v130_5_1,
     benchmark.cis_v130_5_2,
     control.cis_v130_5_3
   ]
+
+  tags = merge(local.cis_v130_5_common_tags, {
+    type = "Benchmark"
+  })
 }
 
 benchmark "cis_v130_5_1" {
   title         = "5.1 Configuring Diagnostic Settings"
   documentation = file("./cis_v130/docs/cis_v130_5_1.md")
-  tags          = local.cis_v130_5_1_common_tags
   children = [
     control.cis_v130_5_1_1,
     control.cis_v130_5_1_2,
@@ -36,12 +38,15 @@ benchmark "cis_v130_5_1" {
     control.cis_v130_5_1_4,
     control.cis_v130_5_1_5
   ]
+
+  tags = merge(local.cis_v130_5_1_common_tags, {
+    type = "Benchmark"
+  })
 }
 
 benchmark "cis_v130_5_2" {
   title         = "5.2 Monitoring using Activity Log Alerts"
   documentation = file("./cis_v130/docs/cis_v130_5_2.md")
-  tags          = local.cis_v130_5_2_common_tags
   children = [
     control.cis_v130_5_2_1,
     control.cis_v130_5_2_2,
@@ -53,6 +58,11 @@ benchmark "cis_v130_5_2" {
     control.cis_v130_5_2_8,
     control.cis_v130_5_2_9
   ]
+
+  tags = merge(local.cis_v130_5_2_common_tags, {
+    type    = "Benchmark"
+    service = "Azure/Monitor"
+  })
 }
 
 control "cis_v130_5_1_1" {
@@ -65,6 +75,7 @@ control "cis_v130_5_1_1" {
     cis_item_id = "5.1.1"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -78,6 +89,7 @@ control "cis_v130_5_1_2" {
     cis_item_id = "5.1.2"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -91,6 +103,7 @@ control "cis_v130_5_1_3" {
     cis_item_id = "5.1.3"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -104,6 +117,7 @@ control "cis_v130_5_1_4" {
     cis_item_id = "5.1.4"
     cis_level   = "2"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -117,6 +131,7 @@ control "cis_v130_5_1_5" {
     cis_item_id = "5.1.5"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/KeyVault"
   })
 }
 
@@ -130,6 +145,7 @@ control "cis_v130_5_2_1" {
     cis_item_id = "5.2.1"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -143,6 +159,7 @@ control "cis_v130_5_2_2" {
     cis_item_id = "5.2.2"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -156,6 +173,7 @@ control "cis_v130_5_2_3" {
     cis_item_id = "5.2.3"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -169,6 +187,7 @@ control "cis_v130_5_2_4" {
     cis_item_id = "5.2.4"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -182,6 +201,7 @@ control "cis_v130_5_2_5" {
     cis_item_id = "5.2.5"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -195,6 +215,7 @@ control "cis_v130_5_2_6" {
     cis_item_id = "5.2.6"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -208,6 +229,7 @@ control "cis_v130_5_2_7" {
     cis_item_id = "5.2.7"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -221,6 +243,7 @@ control "cis_v130_5_2_8" {
     cis_item_id = "5.2.8"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -234,6 +257,7 @@ control "cis_v130_5_2_9" {
     cis_item_id = "5.2.9"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -247,5 +271,6 @@ control "cis_v130_5_3" {
     cis_item_id = "5.3"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Monitor"
   })
 }

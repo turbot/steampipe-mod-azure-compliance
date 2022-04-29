@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_storage_common_tags = {
-    service = "storage"
+    service = "Azure/Storage"
   }
 }
 

@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_eventgrid_common_tags = {
-    service = "eventgrid"
+    service = "Azure/EventGrid"
   }
 }
 

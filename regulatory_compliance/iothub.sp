@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_iothub_common_tags = {
-    service = "iothub"
+    service = "Azure/IoTHub"
   }
 }
 

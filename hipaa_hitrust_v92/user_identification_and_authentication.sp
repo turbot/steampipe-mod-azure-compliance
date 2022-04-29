@@ -19,7 +19,9 @@ benchmark "hipaa_hitrust_v92_11208_01q1organizational_8_01_q" {
     control.iam_subscription_owner_more_than_1
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_11112_01q2organizational_67_01_q" {
@@ -29,7 +31,9 @@ benchmark "hipaa_hitrust_v92_11112_01q2organizational_67_01_q" {
     control.iam_subscription_owner_max_3,
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1127_01q2system_3_01_q" {
@@ -38,7 +42,9 @@ benchmark "hipaa_hitrust_v92_1127_01q2system_3_01_q" {
     control.compute_vm_administrators_group_with_no_specified_members_windows
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_11211_01q2organizational_11_01_q" {
@@ -47,7 +53,9 @@ benchmark "hipaa_hitrust_v92_11211_01q2organizational_11_01_q" {
     control.compute_vm_administrators_group_with_no_specified_members_windows,
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1125_01q2system_1_01_q" {
@@ -56,7 +64,9 @@ benchmark "hipaa_hitrust_v92_1125_01q2system_1_01_q" {
     control.compute_vm_administrators_group_with_specified_members_windows,
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_11210_01q2organizational_10_01_q" {
@@ -65,7 +75,9 @@ benchmark "hipaa_hitrust_v92_11210_01q2organizational_10_01_q" {
     control.compute_vm_administrators_group_with_specified_members_windows,
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1123_01q1system_2_01_q" {
@@ -74,5 +86,7 @@ benchmark "hipaa_hitrust_v92_1123_01q1system_2_01_q" {
     control.compute_vm_administrators_group_with_extra_accounts_windows,
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

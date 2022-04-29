@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_dns_common_tags = {
-    service = "dns"
+    service = "Azure/DNS"
   }
 }
 

@@ -7,7 +7,6 @@ locals {
 benchmark "cis_v130_3" {
   title         = "3 Storage Accounts"
   documentation = file("./cis_v130/docs/cis_v130_3.md")
-  tags          = local.cis_v130_3_common_tags
   children = [
     control.cis_v130_3_1,
     control.cis_v130_3_2,
@@ -21,6 +20,11 @@ benchmark "cis_v130_3" {
     control.cis_v130_3_10,
     control.cis_v130_3_11
   ]
+
+  tags = merge(local.cis_v130_3_common_tags, {
+    type    = "Benchmark"
+    service = "Azure/Storage"
+  })
 }
 
 control "cis_v130_3_1" {
@@ -33,6 +37,7 @@ control "cis_v130_3_1" {
     cis_item_id = "3.1"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Storage"
   })
 }
 
@@ -46,6 +51,7 @@ control "cis_v130_3_2" {
     cis_item_id = "3.2"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/Storage"
   })
 }
 
@@ -59,6 +65,7 @@ control "cis_v130_3_3" {
     cis_item_id = "3.3"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/Storage"
   })
 }
 
@@ -72,6 +79,7 @@ control "cis_v130_3_4" {
     cis_item_id = "3.4"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/Storage"
   })
 }
 
@@ -85,6 +93,7 @@ control "cis_v130_3_5" {
     cis_item_id = "3.5"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Storage"
   })
 }
 
@@ -98,6 +107,7 @@ control "cis_v130_3_6" {
     cis_item_id = "3.6"
     cis_level   = "2"
     cis_type    = "automated"
+    service     = "Azure/Storage"
   })
 }
 
@@ -111,6 +121,7 @@ control "cis_v130_3_7" {
     cis_item_id = "3.7"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/Storage"
   })
 }
 
@@ -124,6 +135,7 @@ control "cis_v130_3_8" {
     cis_item_id = "3.8"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Storage"
   })
 }
 
@@ -137,6 +149,7 @@ control "cis_v130_3_9" {
     cis_item_id = "3.9"
     cis_level   = "2"
     cis_type    = "automated"
+    service     = "Azure/StorageM"
   })
 }
 
@@ -150,6 +163,7 @@ control "cis_v130_3_10" {
     cis_item_id = "3.10"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/Storage"
   })
 }
 
@@ -163,5 +177,6 @@ control "cis_v130_3_11" {
     cis_item_id = "3.11"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/Storage"
   })
 }

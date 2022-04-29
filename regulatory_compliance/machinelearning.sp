@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_machinelearning_common_tags = {
-    service = "machinelearning"
+    service = "Azure/MachineLearning"
   }
 }
 

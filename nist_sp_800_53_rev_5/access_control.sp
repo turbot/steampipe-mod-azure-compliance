@@ -223,7 +223,7 @@ benchmark "nist_sp_800_53_rev_5_ac_6_7" {
     control.iam_subscription_owner_max_3
   ]
 
-  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
     service       = "Azure/ActiveDirectory"
   })
 }

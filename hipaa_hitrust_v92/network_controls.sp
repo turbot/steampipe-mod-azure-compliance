@@ -49,7 +49,9 @@ benchmark "hipaa_hitrust_v92_0867_09m3organizational_17_09_m" {
     control.storage_account_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Storage"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0868_09m3organizational_18_09_m" {
@@ -58,7 +60,9 @@ benchmark "hipaa_hitrust_v92_0868_09m3organizational_18_09_m" {
     control.container_registry_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/ContainerRegistry"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0862_09m2organizational_8_09_m" {
@@ -67,7 +71,9 @@ benchmark "hipaa_hitrust_v92_0862_09m2organizational_8_09_m" {
     control.sql_server_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/SQLDatabase"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0863_09m2organizational_910_09_m" {
@@ -77,7 +83,9 @@ benchmark "hipaa_hitrust_v92_0863_09m2organizational_910_09_m" {
     control.eventhub_namespace_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/EventHubs"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0865_09m2organizational_13_09_m" {
@@ -87,7 +95,9 @@ benchmark "hipaa_hitrust_v92_0865_09m2organizational_13_09_m" {
     control.keyvault_vault_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/KeyVault"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0869_09m3organizational_19_09_m" {
@@ -96,7 +106,9 @@ benchmark "hipaa_hitrust_v92_0869_09m3organizational_19_09_m" {
     control.container_registry_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/ContainerRegistry"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0870_09m3organizational_20_09_m" {
@@ -105,7 +117,9 @@ benchmark "hipaa_hitrust_v92_0870_09m3organizational_20_09_m" {
     control.container_registry_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/ContainerRegistry"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0871_09m3organizational_22_09_m" {
@@ -114,7 +128,9 @@ benchmark "hipaa_hitrust_v92_0871_09m3organizational_22_09_m" {
     control.container_registry_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/ContainerRegistry"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0859_09m1organizational_78_09_m" {
@@ -146,7 +162,9 @@ benchmark "hipaa_hitrust_v92_0864_09m2organizational_12_09_m" {
     control.cosmosdb_use_virtual_service_endpoint
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service      = "Azure/CosmosDB"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0860_09m1organizational_9_09_m" {

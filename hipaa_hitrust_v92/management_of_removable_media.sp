@@ -17,7 +17,9 @@ benchmark "hipaa_hitrust_v92_0301_09o1organizational_123_09_o" {
     control.sql_server_transparent_data_encryption_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/SQLDatabase"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0302_09o2organizational_1_09_o" {

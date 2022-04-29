@@ -58,7 +58,7 @@ benchmark "hipaa_hitrust_v92_1203_09aa1system_2_09_aa" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/LogicApps"
+    service = "Azure/Logic"
   })
 }
 

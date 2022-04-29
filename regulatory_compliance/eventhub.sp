@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_eventhub_common_tags = {
-    service = "Azure/EventHubs"
+    service = "Azure/EventHub"
   }
 }
 

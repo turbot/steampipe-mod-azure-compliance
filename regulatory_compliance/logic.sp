@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_logic_common_tags = {
-    service = "Azure/LogicApps"
+    service = "Azure/Logic"
   }
 }
 

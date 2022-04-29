@@ -92,7 +92,7 @@ control "cis_v130_4_1_1" {
     cis_item_id = "4.1.1"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabas"
+    service     = "Azure/SQLDatabase"
   })
 }
 

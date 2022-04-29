@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_storagesync_common_tags = {
-    service = "Azure/storagesync"
+    service = "Azure/FileSync"
   }
 }
 

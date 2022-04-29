@@ -34,7 +34,8 @@ benchmark "cis_v130_1" {
   ]
 
   tags = merge(local.cis_v130_1_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -216,7 +217,7 @@ control "cis_v130_1_13" {
     cis_item_id = "1.13"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "AWS/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -258,7 +259,7 @@ control "cis_v130_1_16" {
     cis_item_id = "1.16"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/ActiveDirectoryM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 

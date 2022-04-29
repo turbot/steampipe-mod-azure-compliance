@@ -43,7 +43,8 @@ benchmark "cis_v130_4_1" {
   ]
 
   tags = merge(local.cis_v130_4_1_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/SQLDatabase"
   })
 }
 
@@ -59,7 +60,8 @@ benchmark "cis_v130_4_2" {
   ]
 
   tags = merge(local.cis_v130_4_2_common_tags, {
-    type = "Benchmark"
+    type     = "Benchmark"
+     service = "Azure/SQLDatabase"
   })
 }
 

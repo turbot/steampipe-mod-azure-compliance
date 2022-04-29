@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_sql_common_tags = {
-    service = "Azure/SQLDatabase"
+    service = "Azure/SQL"
   }
 }
 

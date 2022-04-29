@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_postgres_common_tags = {
-    service = "Azure/DatabaseForPostgreSQL"
+    service = "Azure/PostgreSQL"
   }
 }
 

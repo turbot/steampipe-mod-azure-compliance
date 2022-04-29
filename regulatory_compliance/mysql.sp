@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_mysql_common_tags = {
-    service = "Azure/DatabaseForMySQL"
+    service = "Azure/MySQL"
   }
 }
 

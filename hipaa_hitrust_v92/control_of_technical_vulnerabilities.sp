@@ -60,7 +60,7 @@ benchmark "hipaa_hitrust_v92_0719_10m3organizational_5_10_m" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/DatabaseForMySQL"
+    service       = "Azure/MySQL"
   })
 }
 
@@ -93,7 +93,7 @@ benchmark "hipaa_hitrust_v92_0710_10m2organizational_1_10_m" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/DatabaseForMySQL"
+    service       = "Azure/MySQL"
   })
 }
 
@@ -104,7 +104,7 @@ benchmark "hipaa_hitrust_v92_0716_10m3organizational_1_10_m" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/SQLDatabase"
+    service       = "Azure/SQL"
   })
 }
 

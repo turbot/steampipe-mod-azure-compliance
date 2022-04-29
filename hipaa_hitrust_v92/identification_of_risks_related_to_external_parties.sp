@@ -54,7 +54,7 @@ benchmark "hipaa_hitrust_v92_1418_05i1organizational_8_05_i" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/DatabaseForMySQL"
+    service       = "Azure/MySQL"
   })
 }
 
@@ -66,7 +66,7 @@ benchmark "hipaa_hitrust_v92_1450_05i2organizational_2_05_i" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/DatabaseForPostgreSQL"
+    service       = "Azure/PostgreSQL"
   })
 }
 
@@ -89,6 +89,6 @@ benchmark "hipaa_hitrust_v92_1451_05icsporganizational_2_05_i" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/CacheForRedis"
+    service       = "Azure/Redis"
   })
 }

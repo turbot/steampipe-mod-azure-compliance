@@ -44,7 +44,7 @@ benchmark "cis_v130_4_1" {
 
   tags = merge(local.cis_v130_4_1_common_tags, {
     type    = "Benchmark"
-    service = "Azure/SQLDatabase"
+    service = "Azure/SQL"
   })
 }
 
@@ -61,7 +61,7 @@ benchmark "cis_v130_4_2" {
 
   tags = merge(local.cis_v130_4_2_common_tags, {
     type     = "Benchmark"
-     service = "Azure/SQLDatabase"
+     service = "Azure/SQL"
   })
 }
 
@@ -94,7 +94,7 @@ control "cis_v130_4_1_1" {
     cis_item_id = "4.1.1"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabase"
+    service     = "Azure/SQL"
   })
 }
 
@@ -107,7 +107,7 @@ control "cis_v130_4_1_2" {
     cis_item_id = "4.1.2"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabase"
+    service     = "Azure/SQL"
   })
 }
 
@@ -121,7 +121,7 @@ control "cis_v130_4_1_3" {
     cis_item_id = "4.1.3"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabase"
+    service     = "Azure/SQL"
   })
 }
 
@@ -135,7 +135,7 @@ control "cis_v130_4_2_1" {
     "cis_item_id" = "4.2.1"
     "cis_level"   = "2"
     "cis_type"    = "automated"
-    service       = "Azure/SQLDatabase"
+    service       = "Azure/SQL"
   })
 }
 
@@ -149,7 +149,7 @@ control "cis_v130_4_2_2" {
     cis_item_id = "4.2.2"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabase"
+    service     = "Azure/SQL"
   })
 }
 
@@ -163,7 +163,7 @@ control "cis_v130_4_2_3" {
     cis_item_id = "4.2.3"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabase"
+    service     = "Azure/SQL"
   })
 }
 
@@ -177,7 +177,7 @@ control "cis_v130_4_2_4" {
     cis_item_id = "4.2.4"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabase"
+    service     = "Azure/SQL"
   })
 }
 
@@ -191,7 +191,7 @@ control "cis_v130_4_2_5" {
     cis_item_id = "4.2.5"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabase"
+    service     = "Azure/SQL"
   })
 }
 
@@ -205,7 +205,7 @@ control "cis_v130_4_3_1" {
     cis_item_id = "4.3.1"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/DatabaseForPostgreSQL"
+    service     = "Azure/PostgreSQL"
   })
 }
 
@@ -219,7 +219,7 @@ control "cis_v130_4_3_2" {
     cis_item_id = "4.3.2"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/DatabaseForMySQL"
+    service     = "Azure/MySQL"
   })
 }
 
@@ -233,7 +233,7 @@ control "cis_v130_4_3_3" {
     cis_item_id = "4.3.3"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/DatabaseForPostgreSQL"
+    service     = "Azure/PostgreSQL"
   })
 }
 
@@ -247,7 +247,7 @@ control "cis_v130_4_3_4" {
     cis_item_id = "4.3.4"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/DatabaseForPostgreSQL"
+    service     = "Azure/PostgreSQL"
   })
 }
 
@@ -261,7 +261,7 @@ control "cis_v130_4_3_5" {
     cis_item_id = "4.3.5"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/DatabaseForPostgreSQL"
+    service     = "Azure/PostgreSQL"
   })
 }
 
@@ -275,7 +275,7 @@ control "cis_v130_4_3_6" {
     cis_item_id = "4.3.6"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/DatabaseForPostgreSQL"
+    service     = "Azure/PostgreSQL"
   })
 }
 
@@ -289,7 +289,7 @@ control "cis_v130_4_3_7" {
     cis_item_id = "4.3.7"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/DatabaseForPostgreSQL"
+    service     = "Azure/PostgreSQL"
   })
 }
 
@@ -303,7 +303,7 @@ control "cis_v130_4_3_8" {
     cis_item_id = "4.3.8"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/DatabaseForPostgreSQL"
+    service     = "Azure/PostgreSQL"
   })
 }
 
@@ -317,7 +317,7 @@ control "cis_v130_4_4" {
     cis_item_id = "4.4"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabase"
+    service     = "Azure/SQL"
   })
 }
 
@@ -331,6 +331,6 @@ control "cis_v130_4_5" {
     cis_item_id = "4.5"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/SQLDatabase"
+    service     = "Azure/SQL"
   })
 }

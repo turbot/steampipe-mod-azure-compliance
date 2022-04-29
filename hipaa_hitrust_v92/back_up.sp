@@ -24,7 +24,7 @@ benchmark "hipaa_hitrust_v92_11617_09l1organizational_23_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/DatabaseForMySQL"
+    service = "Azure/MySQL"
   })
 }
 
@@ -36,7 +36,7 @@ benchmark "hipaa_hitrust_v92_1618_09l1organizational_45_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/DatabaseForPostgreSQL"
+    service = "Azure/PostgreSQL"
   })
 }
 
@@ -47,7 +47,7 @@ benchmark "hipaa_hitrust_v92_1619_09l1organizational_7_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/DatabaseForMariaDB"
+    service = "Azure/MariaDB"
   })
 }
 
@@ -59,7 +59,7 @@ benchmark "hipaa_hitrust_v92_1622_09l2organizational_23_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/DatabaseForMySQL"
+    service = "Azure/MySQL"
   })
 }
 
@@ -70,7 +70,7 @@ benchmark "hipaa_hitrust_v92_1623_09l2organizational_4_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/DatabaseForPostgreSQL"
+    service = "Azure/PostgreSQL"
   })
 }
 
@@ -81,7 +81,7 @@ benchmark "hipaa_hitrust_v92_1624_09l3organizational_12_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/DatabaseForMariaDB"
+    service = "Azure/MariaDB"
   })
 }
 
@@ -92,7 +92,7 @@ benchmark "hipaa_hitrust_v92_1626_09l3organizational_5_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/DatabaseForPostgreSQL"
+    service = "Azure/PostgreSQL"
   })
 }
 
@@ -103,7 +103,7 @@ benchmark "hipaa_hitrust_v92_1627_09l3organizational_6_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/DatabaseForMySQL"
+    service = "Azure/MySQL"
   })
 }
 
@@ -114,7 +114,7 @@ benchmark "hipaa_hitrust_v92_1616_09l1organizational_16_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/SQLDatabase"
+    service = "Azure/SQL"
   })
 }
 
@@ -125,6 +125,6 @@ benchmark "hipaa_hitrust_v92_1621_09l2organizational_1_09_l" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/SQLDatabase"
+    service = "Azure/SQL"
   })
 }

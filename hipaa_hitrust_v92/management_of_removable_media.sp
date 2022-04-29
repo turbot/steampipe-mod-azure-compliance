@@ -18,7 +18,7 @@ benchmark "hipaa_hitrust_v92_0301_09o1organizational_123_09_o" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/SQLDatabase"
+    service       = "Azure/SQL"
   })
 }
 

@@ -137,7 +137,7 @@ benchmark "nist_sp_800_53_rev_5_au_11" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service = "Azure/SQLDatabase"
+    service = "Azure/SQL"
   })
 }
 

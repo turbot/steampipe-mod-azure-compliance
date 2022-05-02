@@ -24,7 +24,9 @@ benchmark "hipaa_hitrust_v92_0662_09scsporganizational_2_09_s" {
     control.appservice_web_app_incoming_client_cert_on
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0912_09s1organizational_4_09_s" {
@@ -33,7 +35,9 @@ benchmark "hipaa_hitrust_v92_0912_09s1organizational_4_09_s" {
     control.appservice_web_app_remote_debugging_disabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0915_09s2organizational_2_09_s" {
@@ -42,7 +46,9 @@ benchmark "hipaa_hitrust_v92_0915_09s2organizational_2_09_s" {
     control.appservice_web_app_incoming_client_cert_on
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0913_09s1organizational_5_09_s" {
@@ -51,7 +57,9 @@ benchmark "hipaa_hitrust_v92_0913_09s1organizational_5_09_s" {
     control.appservice_function_app_remote_debugging_disabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0914_09s1organizational_6_09_s" {
@@ -60,7 +68,9 @@ benchmark "hipaa_hitrust_v92_0914_09s1organizational_6_09_s" {
     control.appservice_api_app_remote_debugging_disabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1325_09s1organizational_3_09_s" {
@@ -69,7 +79,9 @@ benchmark "hipaa_hitrust_v92_1325_09s1organizational_3_09_s" {
     control.appservice_function_app_remote_debugging_disabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0901_09s1organizational_1_09_s" {
@@ -78,7 +90,9 @@ benchmark "hipaa_hitrust_v92_0901_09s1organizational_1_09_s" {
     control.appservice_web_app_cors_no_star
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0916_09s2organizational_4_09_s" {
@@ -87,7 +101,9 @@ benchmark "hipaa_hitrust_v92_0916_09s2organizational_4_09_s" {
     control.appservice_web_app_cors_no_star
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0960_09scsporganizational_1_09_s" {
@@ -97,7 +113,9 @@ benchmark "hipaa_hitrust_v92_0960_09scsporganizational_1_09_s" {
     control.appservice_function_app_cors_no_star
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0902_09s2organizational_13_09_s" {
@@ -106,7 +124,9 @@ benchmark "hipaa_hitrust_v92_0902_09s2organizational_13_09_s" {
     control.appservice_function_app_cors_no_star
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0911_09s1organizational_2_09_s" {
@@ -116,5 +136,7 @@ benchmark "hipaa_hitrust_v92_0911_09s1organizational_2_09_s" {
     control.appservice_api_app_cors_no_star
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }

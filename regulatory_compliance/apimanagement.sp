@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_apimanagement_common_tags = {
-    service = "apimanagement"
+    service = "Azure/APIManagement"
   }
 }
 

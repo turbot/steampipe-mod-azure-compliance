@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_frontdoor_common_tags = {
-    service = "frontdoor"
+    service = "Azure/FrontDoor"
   }
 }
 

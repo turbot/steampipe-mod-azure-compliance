@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_kusto_common_tags = {
-    service = "kusto"
+    service = "Azure/DataExplorer"
   }
 }
 

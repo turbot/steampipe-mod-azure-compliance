@@ -7,7 +7,6 @@ locals {
 benchmark "cis_v130_8" {
   title         = "8 Other Security Considerations"
   documentation = file("./cis_v130/docs/cis_v130_8.md")
-  tags          = local.cis_v130_8_common_tags
   children = [
     control.cis_v130_8_1,
     control.cis_v130_8_2,
@@ -15,6 +14,10 @@ benchmark "cis_v130_8" {
     control.cis_v130_8_4,
     control.cis_v130_8_5
   ]
+
+  tags = merge(local.cis_v130_8_common_tags, {
+    type = "Benchmark"
+  })
 }
 
 control "cis_v130_8_1" {
@@ -27,6 +30,7 @@ control "cis_v130_8_1" {
     cis_item_id = "8.1"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/KeyVault"
   })
 }
 
@@ -40,6 +44,7 @@ control "cis_v130_8_2" {
     cis_item_id = "8.2"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/KeyVault"
   })
 }
 
@@ -53,6 +58,7 @@ control "cis_v130_8_3" {
     cis_item_id = "8.3"
     cis_level   = "2"
     cis_type    = "Manual"
+    service     = "Azure/ResourceManager"
   })
 }
 
@@ -66,6 +72,7 @@ control "cis_v130_8_4" {
     cis_item_id = "8.4"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/KeyVault"
   })
 }
 
@@ -79,5 +86,6 @@ control "cis_v130_8_5" {
     cis_item_id = "8.5"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/KeyVault"
   })
 }

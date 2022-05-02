@@ -67,5 +67,7 @@ benchmark "nist_sp_800_53_rev_5_ir_6_2" {
     control.securitycenter_security_alerts_to_owner_enabled
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service = "Azure/SecurityCenter"
+  })
 }

@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_servicebus_common_tags = {
-    service = "servicebus"
+    service = "Azure/ServiceBus"
   }
 }
 

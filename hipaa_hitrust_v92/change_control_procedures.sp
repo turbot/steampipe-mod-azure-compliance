@@ -23,7 +23,9 @@ benchmark "hipaa_hitrust_v92_0635_10k1organizational_12_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0636_10k2organizational_1_10_k" {
@@ -32,7 +34,9 @@ benchmark "hipaa_hitrust_v92_0636_10k2organizational_1_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0637_10k2organizational_2_10_k" {
@@ -41,7 +45,9 @@ benchmark "hipaa_hitrust_v92_0637_10k2organizational_2_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0638_10k2organizational_34569_10_k" {
@@ -50,7 +56,9 @@ benchmark "hipaa_hitrust_v92_0638_10k2organizational_34569_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0639_10k2organizational_78_10_k" {
@@ -59,7 +67,9 @@ benchmark "hipaa_hitrust_v92_0639_10k2organizational_78_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0640_10k2organizational_1012_10_k" {
@@ -69,7 +79,9 @@ benchmark "hipaa_hitrust_v92_0640_10k2organizational_1012_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0641_10k2organizational_11_10_k" {
@@ -78,7 +90,9 @@ benchmark "hipaa_hitrust_v92_0641_10k2organizational_11_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags          = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0642_10k3organizational_12_10_k" {
@@ -87,7 +101,9 @@ benchmark "hipaa_hitrust_v92_0642_10k3organizational_12_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0643_10k3organizational_3_10_k" {
@@ -97,7 +113,9 @@ benchmark "hipaa_hitrust_v92_0643_10k3organizational_3_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0644_10k3organizational_4_10_k" {
@@ -107,5 +125,7 @@ benchmark "hipaa_hitrust_v92_0644_10k3organizational_4_10_k" {
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

@@ -1,8 +1,8 @@
 locals {
-  nist_sp_800_53_rev_5_common_tags = {
+  nist_sp_800_53_rev_5_common_tags = merge(local.azure_compliance_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    plugin               = "azure"
-  }
+    type                 = "Benchmark"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5" {

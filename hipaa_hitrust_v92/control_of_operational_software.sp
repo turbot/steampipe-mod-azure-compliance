@@ -15,7 +15,9 @@ benchmark "hipaa_hitrust_v92_0607_10h2system_23_10_h" {
     control.compute_vm_scale_set_security_configuration_vulnerabilities_remediated
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0605_10h1system_12_10_h" {
@@ -24,5 +26,7 @@ benchmark "hipaa_hitrust_v92_0605_10h1system_12_10_h" {
     control.compute_vm_security_configuration_vulnerabilities_remediated
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+   tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_hdinsight_common_tags = {
-    service = "hdinsight"
+    service = "Azure/HDInsight"
   }
 }
 

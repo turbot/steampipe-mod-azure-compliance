@@ -18,7 +18,9 @@ benchmark "hipaa_hitrust_v92_1192_01l1organizational_1_01_l" {
     control.compute_vm_jit_access_protected
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1193_01l2organizational_13_01_l" {
@@ -27,7 +29,9 @@ benchmark "hipaa_hitrust_v92_1193_01l2organizational_13_01_l" {
     control.network_security_group_remote_access_restricted
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Network"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1194_01l2organizational_2_01_l" {
@@ -36,7 +40,9 @@ benchmark "hipaa_hitrust_v92_1194_01l2organizational_2_01_l" {
     control.appservice_web_app_remote_debugging_disabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1195_01l3organizational_1_01_l" {
@@ -45,7 +51,9 @@ benchmark "hipaa_hitrust_v92_1195_01l3organizational_1_01_l" {
     control.appservice_function_app_remote_debugging_disabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1196_01l3organizational_24_01_l" {
@@ -55,7 +63,9 @@ benchmark "hipaa_hitrust_v92_1196_01l3organizational_24_01_l" {
     control.appservice_api_app_remote_debugging_disabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/AppService"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1197_01l3organizational_3_01_l" {
@@ -64,5 +74,7 @@ benchmark "hipaa_hitrust_v92_1197_01l3organizational_3_01_l" {
     control.compute_vm_adaptive_application_controls_enabled
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

@@ -76,5 +76,7 @@ benchmark "nist_sp_800_53_rev_5_ia_5_1" {
     control.compute_vm_restrict_previous_24_passwords_resuse_windows
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

@@ -7,7 +7,6 @@ locals {
 benchmark "cis_v130_9" {
   title         = "9 AppService"
   documentation = file("./cis_v130/docs/cis_v130_9.md")
-  tags          = local.cis_v130_9_common_tags
   children = [
     control.cis_v130_9_1,
     control.cis_v130_9_2,
@@ -21,6 +20,11 @@ benchmark "cis_v130_9" {
     control.cis_v130_9_10,
     control.cis_v130_9_11
   ]
+
+  tags = merge(local.cis_v130_9_common_tags, {
+    type    = "Benchmark"
+    service = "Azure/AppService"
+  })
 }
 
 control "cis_v130_9_1" {
@@ -33,6 +37,7 @@ control "cis_v130_9_1" {
     cis_item_id = "9.1"
     cis_level   = "2"
     cis_type    = "automated"
+    service     = "Azure/AppService"
   })
 }
 
@@ -46,6 +51,7 @@ control "cis_v130_9_2" {
     cis_item_id = "9.2"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/AppService"
   })
 }
 
@@ -59,6 +65,7 @@ control "cis_v130_9_3" {
     cis_item_id = "9.3"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/AppService"
   })
 }
 
@@ -72,6 +79,7 @@ control "cis_v130_9_4" {
     cis_item_id = "9.4"
     cis_level   = "2"
     cis_type    = "automated"
+    service     = "Azure/AppService"
   })
 }
 
@@ -85,6 +93,7 @@ control "cis_v130_9_5" {
     cis_item_id = "9.5"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/AppService"
   })
 }
 
@@ -98,6 +107,7 @@ control "cis_v130_9_6" {
     cis_item_id = "9.6"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/AppService"
   })
 }
 
@@ -111,6 +121,7 @@ control "cis_v130_9_7" {
     cis_item_id = "9.7"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/AppService"
   })
 }
 
@@ -124,6 +135,7 @@ control "cis_v130_9_8" {
     cis_item_id = "9.8"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/AppService"
   })
 }
 
@@ -137,6 +149,7 @@ control "cis_v130_9_9" {
     cis_item_id = "9.9"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/AppService"
   })
 }
 
@@ -150,6 +163,7 @@ control "cis_v130_9_10" {
     cis_item_id = "9.10"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/AppService"
   })
 }
 
@@ -163,5 +177,6 @@ control "cis_v130_9_11" {
     cis_item_id = "9.11"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/AppService"
   })
 }

@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_synapse_common_tags = {
-    service = "synapse"
+    service = "Azure/SynapseAnalytics"
   }
 }
 

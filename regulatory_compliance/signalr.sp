@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_signalr_common_tags = {
-    service = "signalr"
+    service = "Azure/SignalRService"
   }
 }
 

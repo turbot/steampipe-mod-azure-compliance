@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_monitor_common_tags = {
-    service = "monitor"
+    service = "Azure/Monitor"
   }
 }
 

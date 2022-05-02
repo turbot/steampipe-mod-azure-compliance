@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_securitycenter_common_tags = {
-    service = "securitycenter"
+    service = "Azure/SecurityCenter"
   }
 }
 

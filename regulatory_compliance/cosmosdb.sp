@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_cosmosdb_common_tags = {
-    service = "cosmosdb"
+    service = "Azure/CosmosDB"
   }
 }
 

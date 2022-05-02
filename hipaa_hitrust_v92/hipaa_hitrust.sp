@@ -1,8 +1,8 @@
 locals {
-  hipaa_hitrust_v92_common_tags = {
+  hipaa_hitrust_v92_common_tags = merge(local.azure_compliance_common_tags, {
     hipaa_hitrust_v92 = "true"
-    plugin            = "azure"
-  }
+    type              = "Benchmark"
+  })
 }
 
 benchmark "hipaa_hitrust_v92" {

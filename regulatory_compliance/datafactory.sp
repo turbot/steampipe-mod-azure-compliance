@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_datafactory_common_tags = {
-    service = "datafactory"
+    service = "Azure/DataFactory"
   }
 }
 

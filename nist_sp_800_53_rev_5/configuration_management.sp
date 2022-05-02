@@ -44,7 +44,9 @@ benchmark "nist_sp_800_53_rev_5_cm_7" {
     control.compute_vm_azure_defender_enabled
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_cm_7_2" {
@@ -55,7 +57,9 @@ benchmark "nist_sp_800_53_rev_5_cm_7_2" {
     control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_cm_7_5" {
@@ -66,7 +70,9 @@ benchmark "nist_sp_800_53_rev_5_cm_7_5" {
     control.compute_vm_adaptive_application_controls_enabled
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_cm_10" {
@@ -77,7 +83,9 @@ benchmark "nist_sp_800_53_rev_5_cm_10" {
     control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated
   ]
 
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/Compute"
+  })
 }
 
 benchmark "nist_sp_800_53_rev_5_cm_11" {
@@ -87,6 +95,8 @@ benchmark "nist_sp_800_53_rev_5_cm_11" {
     control.compute_vm_adaptive_application_controls_enabled,
     control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated
   ]
-
-  tags = local.nist_sp_800_53_rev_5_common_tags
+  
+  tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
+    service       = "Azure/Compute"
+  })
 }

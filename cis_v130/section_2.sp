@@ -7,7 +7,6 @@ locals {
 benchmark "cis_v130_2" {
   title         = "2 Security Center"
   documentation = file("./cis_v130/docs/cis_v130_2.md")
-  tags          = local.cis_v130_2_common_tags
   children = [
     control.cis_v130_2_1,
     control.cis_v130_2_2,
@@ -25,6 +24,11 @@ benchmark "cis_v130_2" {
     control.cis_v130_2_14,
     control.cis_v130_2_15
   ]
+
+  tags = merge(local.cis_v130_2_common_tags, {
+    type    = "Benchmark"
+    service = "Azure/SecurityCenter"
+  })
 }
 
 control "cis_v130_2_1" {
@@ -37,6 +41,7 @@ control "cis_v130_2_1" {
     cis_item_id = "2.1"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -50,6 +55,7 @@ control "cis_v130_2_2" {
     cis_item_id = "2.2"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -63,6 +69,7 @@ control "cis_v130_2_3" {
     cis_item_id = "2.3"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -76,6 +83,7 @@ control "cis_v130_2_4" {
     cis_item_id = "2.4"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -89,6 +97,7 @@ control "cis_v130_2_5" {
     cis_item_id = "2.5"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -102,6 +111,7 @@ control "cis_v130_2_6" {
     cis_item_id = "2.6"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -115,6 +125,7 @@ control "cis_v130_2_7" {
     cis_item_id = "2.7"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -128,6 +139,7 @@ control "cis_v130_2_8" {
     cis_item_id = "2.8"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -141,6 +153,7 @@ control "cis_v130_2_9" {
     cis_item_id = "2.9"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -154,6 +167,7 @@ control "cis_v130_2_10" {
     cis_item_id = "2.10"
     cis_type    = "manual"
     cis_level   = "2"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -167,6 +181,7 @@ control "cis_v130_2_11" {
     cis_item_id = "2.11"
     cis_type    = "automated"
     cis_level   = "1"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -180,6 +195,7 @@ control "cis_v130_2_12" {
     cis_item_id = "2.12"
     cis_type    = "automated"
     cis_level   = "1"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -193,6 +209,7 @@ control "cis_v130_2_13" {
     cis_item_id = "2.13"
     cis_type    = "automated"
     cis_level   = "1"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -206,6 +223,7 @@ control "cis_v130_2_14" {
     cis_item_id = "2.14"
     cis_type    = "automated"
     cis_level   = "1"
+    service     = "Azure/SecurityCenter"
   })
 }
 
@@ -219,6 +237,7 @@ control "cis_v130_2_15" {
     cis_item_id = "2.15"
     cis_type    = "automated"
     cis_level   = "1"
+    service     = "Azure/SecurityCenter"
   })
 }
 

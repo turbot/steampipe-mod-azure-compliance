@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_containerregistry_common_tags = {
-    service = "containerregistry"
+    service = "Azure/ContainerRegistry"
   }
 }
 

@@ -4,7 +4,6 @@ _Enhancements_
 
 - Added `category`, `service`, and `type` tags to benchmarks and controls. ([#98](https://github.com/turbot/steampipe-mod-azure-compliance/pull/98))
 
-
 ## v0.10 [2022-01-27]
 
 _Enhancements_

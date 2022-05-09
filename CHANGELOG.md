@@ -1,3 +1,9 @@
+## v0.12 [2022-05-09]
+
+_Enhancements_
+
+- Updated docs/index.md and README with new dashboard screenshots and latest format. ([#102](https://github.com/turbot/steampipe-mod-azure-compliance/pull/102))
+
 ## v0.11 [2022-05-02]
 
 _Enhancements_

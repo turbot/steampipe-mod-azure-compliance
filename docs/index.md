@@ -6,9 +6,9 @@ repository: "https://github.com/turbot/steampipe-mod-azure-compliance"
 
 Run individual configuration, compliance and security controls or full `CIS`, `HIPAA HITRUST` and `NIST` compliance benchmarks across all your Azure subscriptions.
 
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/issue-101/docs/azure_compliance_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/issue-101/docs/azure_cis_v130_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/issue-101/docs/azure_cis_v130_console.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v130_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v130_console.png" width="50%" type="thumbnail"/>
 
 ## References
 
@@ -42,7 +42,7 @@ brew install steampipe
 
 Install the Azure and the Azure Active Directory plugins with [Steampipe](https://steampipe.io):
 
-```shell
+```sh
 steampipe plugin install azure
 steampipe plugin install azuread
 ```
@@ -77,13 +77,13 @@ steampipe check all
 
 Run a benchmark:
 
-```shell
+```sh
 steampipe check benchmark.cis_v130
 ```
 
 Run a specific control:
 
-```shell
+```sh
 steampipe check control.cis_v130_2_1_1
 ```
 

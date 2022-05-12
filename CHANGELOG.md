@@ -1,3 +1,9 @@
+## v0.13 [2022-05-12]
+
+_Bug fixes_
+
+- Fixed `sql_server_auditing_storage_account_destination_retention_90_days` and `sql_server_auditing_retention_period_90` queries to correctly evaluate the SQL servers when the audit retention period is set to `0`. ([#105](https://github.com/turbot/steampipe-mod-azure-compliance/pull/105))
+
 ## v0.12 [2022-05-09]
 
 _Enhancements_

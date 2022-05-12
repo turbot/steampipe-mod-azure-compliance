@@ -114,7 +114,7 @@ control "cis_v130_4_1_2" {
 control "cis_v130_4_1_3" {
   title         = "4.1.3 Ensure that 'Auditing' Retention is 'greater than 90 days'"
   description   = "SQL Server Audit Retention should be configured to be greater than 90 days."
-  sql           = query.sql_server_audting_retention_period_90.sql
+  sql           = query.sql_server_auditing_retention_period_90.sql
   documentation = file("./cis_v130/docs/cis_v130_4_1_3.md")
 
   tags = merge(local.cis_v130_4_1_common_tags, {

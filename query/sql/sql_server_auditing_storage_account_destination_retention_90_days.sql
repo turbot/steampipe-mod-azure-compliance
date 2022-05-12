@@ -17,11 +17,14 @@ select
   a.id as resource,
   case
     when s.id is null then 'skip'
+    -- The value in days of the retention period (0 is an indication for unlimited retention).
+    when s.retentionDays::Integer = 0 then 'ok'
     when s.retentionDays::Integer >= 90 then 'ok'
     else 'alarm'
   end as status,
   case
     when s.id is null then a.name || ' auditing to storage account destination not enabled.'
+    when s.retentionDays::Integer = 0 then a.name || ' auditing to storage account destination configured with unlimited retention days.'
     when s.retentionDays::Integer >= 90 then a.name || ' auditing to storage account destination configured with 90 days retention or higher.'
     else a.name || ' auditing to storage account destination not configured with 90 days retention or higher.'
   end as reason,

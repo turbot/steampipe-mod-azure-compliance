@@ -1,0 +1,21 @@
+## Description
+
+It is recommended to enable *log_checkpoints* on PostgreSQL Servers. Enabling *log_checkpoints* helps the PostgreSQL database to Log each checkpoint in turn generates query and error logs. However, access to transaction logs is not supported. Query and error logs can be used to identify, troubleshoot, and repair configuration errors and sub-optimal performance.
+
+## Remediation
+
+### From Console
+
+1. Login to Azure console and navigate to [PostgreSQL Servers](https://portal.azure.com/#create/Microsoft.PostgreSQLServer).
+2. For each database, go to `Settings` section from left pane.
+3. Click on `Server parameters`.
+4. Search for `log_checkpoints`.
+5. Click **ON** and save.
+
+### From Command Line
+
+Command to update `log_checkpoints` configuration
+
+```bash
+az postgres server configuration set --resource-group <resourceGroupName> --server-name <serverName> --name log_checkpoints --value on
+```

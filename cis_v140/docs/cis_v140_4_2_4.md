@@ -1,0 +1,39 @@
+## Description
+
+It is recommended to configure *Send scan reports to* with email ids of concerned data owners or stakeholders for a critical SQL servers.
+
+Vulnerability Assessment (VA) scan reports and alerts will be sent to email ids configured at *Send scan reports to*. This may help in reducing time required for identifying risks and taking corrective measures.
+
+## Remediation
+
+### From Console
+
+1. Login to Azure console and navigate to [SQL Servers](https://portal.azure.com/#create/Microsoft.SQLServer).
+2. For each server instance, go to Security section from left pane.
+3. Click on `Security Center`.
+4. Make sure `Enable Azure Defender for SQL` is `On`.
+5. Select `Configure` next to Azure Defender for SQL: Enabled at the server-level.
+6. In section `VULNERABILITY ASSESSMENT SETTINGS`, select subscription and storage account.
+7. Set `Periodic recurring scans` to **ON**.
+8. Configure email ids for concerned stakeholders at `Send scan reports to`.
+9. Click **Save**.
+
+### From PowerShell
+
+Enable Azure Defender for a SQL if not enabled
+
+```powershell
+Set-AZSqlServerThreatDetectionPolicy -ResourceGroupName <resource group name> -ServerName <server name> -EmailAdmins $True
+```
+
+Enable ADS-VA service and set `Send scan reports to`
+
+```powershell
+Update-AzSqlServerVulnerabilityAssessmentSetting ` -ResourceGroupName "<resource group name>"`
+-ServerName "<Server Name>"`
+-StorageAccountName "<Storage Name from same subscription and same Location" `
+-ScanResultsContainerName "vulnerability-assessment" `
+-RecurringScansInterval Weekly `
+-EmailSubscriptionAdmins $true `
+-NotificationEmail @("mail1@mail.com" , "mail2@mail.com")
+```

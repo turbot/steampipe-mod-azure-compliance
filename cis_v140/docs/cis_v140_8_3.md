@@ -1,0 +1,22 @@
+## Description
+
+It is recommended that all *Secrets* in the Azure Key Vault have an expiration time set. The Azure Key Vault enables users to store and keep secrets within the Microsoft Azure environment. Secrets in the Azure Key Vault are octet sequences with a maximum size of 25k bytes each. The exp (expiration time) attribute identifies the expiration time on or after which the secret *MUST NOT* be used.
+
+As default, secrets never expire. It is thus recommended to rotate secrets in the key vault and set an explicit expiration time for all secrets.
+
+## Remediation
+
+### From Console
+
+1. Login and go to `Key vaults`.
+2. For each Key vault, go to `Settings` section and click on `Secrets`.
+3. Make sure `Status` is `Enabled`.
+4. Set an appropriate `Expiration Date` on all secrets.
+
+### From Command Line
+
+Command to update the `Expiration Date` for the secret
+
+```bash
+az keyvault secret set-attributes --name <secretName> --vault-name <vaultName> --expires Y-m-d'T'H:M:S'Z'
+```

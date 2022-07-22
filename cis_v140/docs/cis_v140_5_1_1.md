@@ -1,0 +1,17 @@
+## Description
+
+Enable Diagnostic settings for exporting activity logs. Diagnostic setting are available for each individual resources within a subscription. Settings should be configured for all appropriate resources for your environment.
+
+A diagnostic setting controls how a diagnostic log is exported. By default, logs are retained only for 90 days. Diagnostic settings should be defined so that logs can be exported and stored for a longer duration in order to analyze security activities within an Azure subscription.
+
+## Remediation
+
+### From Console
+
+1. Click on the resource that has a diagnostic status of disabled
+2. Select Add **Diagnostic Settings**
+3. Enter a Diagnostic setting name
+4. Select the appropriate log, metric, and destination. (This may be Log Analytics/Storage account or Event Hub)
+5. Click **save**
+
+**Note:** By default, diagnostic setting is not set.

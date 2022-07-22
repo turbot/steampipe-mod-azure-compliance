@@ -1,0 +1,17 @@
+## Description
+
+Ensure that the number of days before users are asked to re-confirm their authentication information is not set to 0.
+
+If authentication re-confirmation is disabled, registered users will never be prompted to reconfirm their existing authentication information. If the authentication information for a user, such as a phone number or email changes, then the password reset information for that user reverts to the previously registered authentication information.
+
+## Remediation
+
+### From Console
+
+1. Log in to [Azure Active Directory](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview)
+2. Go to `Users`
+3. Go to `Password reset` in side bar
+4. Go to `Registration`
+5. Set the `Number of days before users are asked to re-confirm their authentication information` to your organization defined frequency
+
+**Note:** By default, the 'Number of days before users are asked to re-confirm their authentication information' is set to '180 days'.

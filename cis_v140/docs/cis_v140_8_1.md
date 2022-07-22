@@ -1,0 +1,29 @@
+## Description
+
+Azure Key Vault enables users to store and use cryptographic keys within the Microsoft Azure environment. The exp (expiration time) attribute identifies the expiration time on or after which the key MUST NOT be used for a cryptographic operation. By default, keys never expire. It is thus recommended that keys be rotated in the key vault and set an explicit expiration time for all keys. This ensures that the keys cannot be used beyond their assigned lifetimes.
+
+## Remediation
+
+### From Console
+
+1. Login and go to `Key vaults`.
+2. For each Key vault, go to `Settings` section and click on `Keys`.
+3. Make sure `Status` is `Enabled`.
+4. Set an appropriate `Expiration Date` on all keys.
+
+### From Command Line
+
+Command to update the `Expiration Date` for the key
+
+```bash
+az keyvault key set-attributes --name <keyName> --vault-name <vaultName> -- expires Y-m-d'T'H:M:S'Z'
+```
+
+**Note**
+
+- In order to access expiration time on all keys in Azure Key Vault using Microsoft API requires *List* Key permission
+- By default, keys do not expire
+- To provide required access follow below steps
+   - Go to Key vaults
+   - For each Key vault, click on Access Policy
+   - Add access policy with Key permission as `List`

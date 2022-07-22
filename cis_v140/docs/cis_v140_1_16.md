@@ -1,0 +1,16 @@
+## Description
+
+Restrict group creation to administrators only.
+
+Self-service group management enables users to create and manage security groups or Office 365 groups in Azure Active Directory (Azure AD). Unless a business requires this day-to-day delegation for some users, self-service group management should be disabled.
+
+## Remediation
+
+### From Console
+
+1. Log in to [Azure Active Directory](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview)
+2. Go to `Groups`
+3. Go to `General` in setting section
+4. Ensure that `Restrict user ability to access groups features` in the Access Pane is set to **No**
+
+**Note:** By default, Restrict user ability to access groups features in the Access Pane is set to No.

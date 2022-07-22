@@ -1,0 +1,17 @@
+## Description
+
+Require administrators to provide consent for the apps before use.
+
+Unless Azure Active Directory is running as an identity provider for third-party applications, do not allow users to use their identity outside of the cloud environment. User profiles contain private information such as phone numbers and email addresses which could then be sold off to other third parties without requiring any further consent from the user.
+
+## Remediation
+
+### From Console
+
+1. Log in to [Azure Active Directory](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview)
+2. Go to `Users`
+3. Go to `User settings` in side bar
+4. Click on **Manage how end users launch and view their applications**
+5. Set `Users can consent to apps accessing company data on their behalf` to **No**
+
+**Note:** By default, `Users can consent to apps accessing company data on their behalf` is set to 'Yes'.

@@ -1,0 +1,21 @@
+## Description
+
+Subscription ownership should not include permission to create custom owner roles. The principle of least privilege should be followed and only necessary privileges should be assigned instead of allowing full administrative access.
+
+Classic subscription admin roles offer basic access management and include Account `Administrator`, `Service Administrator`, and `Co-Administrators`. It is recommended the least necessary permissions be given initially. Permissions can be added as needed by the account holder. This ensures the account holder cannot perform actions which were not intended.
+
+## Remediation
+
+### From Command Line
+
+1. Execute to get the list of role definitions to check for entries with assignableScope of / or a subscription, and an action of * Verify the usage and impact of removing the role identified
+
+```bash
+az role definition list
+```
+
+2. Review output for each returned role's 'AssignableScopes' value for '/' or the current subscription, and 'Actions' containing the '*' wildcard character. Based on the findings delete the role.
+
+```bash
+az role definition delete --name "rolename"
+```

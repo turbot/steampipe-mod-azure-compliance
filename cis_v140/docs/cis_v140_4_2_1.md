@@ -1,0 +1,22 @@
+## Description
+
+It is recommended to enable *Azure Defender for SQL* on critical SQL Servers. Azure Defender for SQL is a unified package for advanced security capabilities.
+
+It is available for *Azure SQL Database*, *Azure SQL Managed Instance*, and *Azure Synapse Analytics*. It includes functionality for discovering and classifying sensitive data, surfacing and mitigating potential database vulnerabilities, and detecting anomalous activities that could indicate a threat to your database. It provides a single go-to location for enabling and managing these capabilities.
+
+Default setting for Azure Defender for SQL is *Off*.
+
+## Remediation
+
+### From Console
+
+1. Login to Azure console and navigate to [SQL Servers](https://portal.azure.com/#create/Microsoft.SQLServer).
+2. For each server instance, go to Security section from left pane.
+3. Click on `Security Center`.
+4. Click `Enable Azure Defender for SQL`.
+
+### From PowerShell
+
+```powershell
+Set-AzSqlServerThreatDetectionPolicy -ResourceGroupName <resource group name> -ServerName <server name> -EmailAdmins $True
+```

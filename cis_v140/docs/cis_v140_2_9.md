@@ -1,0 +1,40 @@
+## Description
+
+This setting enables Windows Defender ATP (WDATP) integration with Security Center. WDATP integration brings comprehensive Endpoint Detection and Response (EDR) capabilities within security center. This integration helps to spot abnormalities, detect and respond to advanced attacks on Windows server endpoints monitored by Azure Security Center.
+
+Windows Defender ATP in Security Center supports detection on Windows Server 2016, 2012 R2, and 2008 R2 SP1 operating systems in a Standard service subscription. WDATP works only with Standard Tier subscriptions.
+
+## Remediation
+
+### From Console
+
+Perform the following action to check Azure Defender is set to On for Endpoint (WDATP):
+
+1. Go to `Microsoft Defender for Cloud`
+2. Select `Environment Settings` blade
+3. Select `Security policy `blade
+4. Click On `Edit Settings` to alter the the security policy for a subscription
+5. Select the `Integrations` blade
+6. Check/Enable option `Allow Microsoft Defender for Endpoint to access my data`
+7. Select `Save`
+
+### From Command Line
+
+Command to enable Azure defender
+
+```bash
+az account get-access-token --query "{subscription:subscription,accessToken:accessToken}" --out tsv | xargs -L1 bash -c 'curl -X PUT -H "Authorization: Bearer $1" -H "Content-Type: application/json" https://management.azure.com/subscriptions/$0/providers/Microsoft.Security/settings/WDATP?api-version=2021-06-01 -d@"input.json"'
+```
+
+Where `input.json` contains the request body json data as mentioned below
+
+```json
+{
+  "id":"/subscriptions/<Your_Subscription_Id>/providers/Microsoft.Security/settings/WDATP",
+  "name":"DataExportSettings",
+  "type":"Microsoft.Security/settings",
+  "properties":{
+    "enabled":"true"
+  }
+}
+```

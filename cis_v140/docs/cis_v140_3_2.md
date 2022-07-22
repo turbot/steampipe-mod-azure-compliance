@@ -1,0 +1,20 @@
+## Description
+
+Regenerate storage account access keys periodically.
+
+When a storage account is created, Azure generates two 512-bit storage access keys, which are used for authentication when the storage account is accessed. Rotating these keys periodically ensures that any inadvertent access or exposure does not result in these keys being compromised.
+
+## Remediation
+
+### From Console
+
+1. Login to Azure Storage Accounts
+2. For each selected storage account, go to `Activity` log from side bar
+3. Under **Timespan** drop-down, select Custom and choose Start time and End time such that it ranges 90 days
+4. Enter `RegenerateKey` in the **Search text box**
+5. Click **Apply**
+6. It should list out all RegenerateKey events. If no such event exists, then this is a finding.
+
+To remediate, follow Microsoft Azure [documentation](https://docs.microsoft.com/en-us/azure/storage/common/storage-create-storage-account#regenerate-storage-access-keys) for regenerating storage account access keys.
+
+**Note:** By default, access keys are not regenerated periodically.

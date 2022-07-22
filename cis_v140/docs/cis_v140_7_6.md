@@ -1,0 +1,18 @@
+## Description
+
+It is recommended to install endpoint protection for all virtual machines. Installing endpoint protection systems (like Antimalware for Azure) provides for real-time protection capability that helps identify and remove viruses, spyware, and other malicious software, with configurable alerts when known malicious or unwanted software attempts to install itself or run on Azure systems.
+
+## Remediation
+
+### From Console
+
+Perform the following action to check endpoint protection system status:
+
+1. Go to `Security Center - Recommendations`.
+2. Ensure that there are no recommendations available for `Endpoint Protection not installed on Azure VMs`.
+
+Follow Microsoft Azure documentation to install endpoint protection from the security center - [Security-benchmarks-endpoint](https://docs.microsoft.com/en-us/azure/security-center/security-center-install- endpoint-protection)
+
+**Note**
+
+- You can employ your own endpoint protection tool for your OS.

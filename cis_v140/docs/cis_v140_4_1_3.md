@@ -1,0 +1,22 @@
+## Description
+
+It is recommended SQL Server *Audit Retention* should be configured to be greater than 90 days. Audit Logs can be used to check for anomalies and give insight into suspected breaches or misuse of information and access.
+
+Default setting for SQL Server audit storage is *disabled*.
+
+## Remediation
+
+### From Console
+
+1. Login to Azure console and navigate to [SQL Servers](https://portal.azure.com/#create/Microsoft.SQLServer).
+2. For each server instance, go to Security section from left pane.
+3. Click on `Auditing`.
+4. Set `Enable Azure SQL Auditing` to **On** and select a storage account for log destination.
+5. Set `Retention Days` setting to greater than **90** days.
+6. Click **Save**.
+
+### From PowerShell
+
+```powershell
+set-AzureRmSqlServerAuditing -ResourceGroupName <resource group name> - ServerName <server name> -RetentionInDays <Number of Days to retain the audit logs, should be 90days minimum>
+```

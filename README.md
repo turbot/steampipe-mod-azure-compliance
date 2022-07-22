@@ -12,6 +12,7 @@ Or in a terminal:
 
 Includes support for:
 * [Azure CIS v1.3.0](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130)
+* [Azure CIS v1.4.0](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v140) 🚀 New!
 * [HIPAA HITRUST 9.2](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.hipaa_hitrust_v92)
 * [NIST SP 800-53 Revision 5](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.nist_sp_800_53_rev_5)
 

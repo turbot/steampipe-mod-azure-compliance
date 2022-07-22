@@ -1,0 +1,18 @@
+## Description
+
+Restrict invitations to administrators only.
+
+Restricting invitations to administrators ensures that only authorized accounts have access to cloud resources. This helps to maintain `Need to Know` permissions and prevents inadvertent access to data.
+
+By default the setting Admins and users in the guest inviter role can invite is set to yes. This will allow you to use the inviter role to control who will be able to invite guests to the tenant.
+
+## Remediation
+
+### From Console
+
+1. Log in to [Azure Active Directory](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview)
+2. Go to `External Identities`
+3. Go to `External collaboration settings`
+4. Restrict `Guest invite restrictions` to `Only users assigned to specific admin roles can invite guest users`
+
+**Note:** By default, Members can invite is set to `Yes`.

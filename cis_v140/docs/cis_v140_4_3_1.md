@@ -1,0 +1,20 @@
+## Description
+
+It is recommended to enable SSL connection on PostgreSQL Servers. *SSL connectivity* helps to provide a new layer of security, by connecting database server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between database server and client applications helps protect against attacks by encrypting the data stream between the server and application.
+
+## Remediation
+
+### From Console
+
+1. Login to Azure console and navigate to [PostgreSQL Servers](https://portal.azure.com/#create/Microsoft.PostgreSQLServer).
+2. For each database, go to `Settings` section from left pane.
+3. Click on `Connection security` and go to `SSL settings`.
+4. For `Enforce SSL connection`, click on **ENABLED**.
+
+### From Command Line
+
+Enable `enforce ssl connection` for PostgreSQL Database
+
+```bash
+az postgres server update --resource-group <resourceGroupName> --name <serverName> --ssl-enforcement Enabled
+```

@@ -208,7 +208,7 @@ control "cis_v140_1_12" {
 
 control "cis_v140_1_13" {
   title         = "1.13 Ensure that 'Guest invite restrictions' is set to 'Only users assigned to specific admin roles can invite guest users'"
-  description   = "Restrict invitations to users with specific admin roles only.."
+  description   = "Restrict invitations to users with specific admin roles only."
   sql           = query.ad_manual_control.sql
   documentation = file("./cis_v140/docs/cis_v140_1_13.md")
 
@@ -250,7 +250,7 @@ control "cis_v140_1_15" {
 
 control "cis_v140_1_16" {
   title         = "1.16 Ensure that 'Users can create security groups in Azure portals, API or PowerShell' is set to 'No'"
-  description   = "Restrict security group creation to administrators only.."
+  description   = "Restrict security group creation to administrators only."
   sql           = query.ad_manual_control.sql
   documentation = file("./cis_v140/docs/cis_v140_1_16.md")
 
@@ -292,7 +292,7 @@ control "cis_v140_1_18" {
 
 control "cis_v140_1_19" {
   title         = "1.19 Ensure that 'Require Multi-Factor Authentication to register or join devices with Azure AD' is set to 'Yes'"
-  description   = "Joining or registering devices to the active directory should require Multi-factor authentication.."
+  description   = "Joining or registering devices to the active directory should require Multi-factor authentication."
   sql           = query.ad_manual_control.sql
   documentation = file("./cis_v140/docs/cis_v140_1_19.md")
 

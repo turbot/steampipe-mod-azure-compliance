@@ -7,9 +7,9 @@ select
     else 'alarm'
   end as status,
   case
-    when minimal_tls_version =  'TLSEnforcementDisabled' then s.name || ' TLS enforcement is disabled ' || minimal_tls_version || '.'
+    when minimal_tls_version =  'TLSEnforcementDisabled' then s.name || ' TLS enforcement is disabled.'
     when minimal_tls_version = 'TLS1_2' then s.name || ' minimum TLS version set to ' || minimal_tls_version || '.'
-    else s.name || ' minimum TLS version is not set.'
+    else s.name || ' minimum TLS version set to ' || minimal_tls_version || '.'
   end as reason,
   -- Additional Dimensions
   s.resource_group,

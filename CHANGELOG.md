@@ -1,3 +1,13 @@
+## v0.14 [2022-07-27]
+
+_What's new?_
+
+- Added CIS v1.4.0 benchmark (`steampipe check azure_compliance.benchmark.cis_v140`). ([#112](https://github.com/turbot/steampipe-mod-azure-compliance/pull/112))
+
+_Bug fixes_
+
+- Fixed the `sql_server_azure_ad_authentication_enabled` query to correctly be in `alarm` state for SQL servers where the Azure AD authentication is disabled.
+
 ## v0.13 [2022-05-12]
 
 _Bug fixes_

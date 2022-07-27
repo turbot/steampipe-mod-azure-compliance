@@ -12,11 +12,11 @@ select
   a.id as resource,
   case
     when s.id is not null then 'ok'
-    else 'ok'
+    else 'alarm'
   end as status,
   case
-    when s.id is not null then a.name || ' azure ad authentication enabled.'
-    else a.name || ' azure ad authentication disabled.'
+    when s.id is not null then a.name || ' azure AD authentication enabled.'
+    else a.name || ' azure AD authentication disabled.'
   end as reason,
   -- Additional Dimensions
   a.resource_group,

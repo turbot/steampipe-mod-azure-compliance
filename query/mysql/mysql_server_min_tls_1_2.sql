@@ -2,12 +2,12 @@ select
   -- Required Columns
   s.id as resource,
   case
-    when minimal_tls_version =  'TLSEnforcementDisabled' then 'alarm'
+    when minimal_tls_version = 'TLSEnforcementDisabled' then 'alarm'
     when minimal_tls_version = 'TLS1_2' then 'ok'
     else 'alarm'
   end as status,
   case
-    when minimal_tls_version =  'TLSEnforcementDisabled' then s.name || ' TLS enforcement is disabled.'
+    when minimal_tls_version = 'TLSEnforcementDisabled' then s.name || ' TLS enforcement is disabled.'
     when minimal_tls_version = 'TLS1_2' then s.name || ' minimum TLS version set to ' || minimal_tls_version || '.'
     else s.name || ' minimum TLS version set to ' || minimal_tls_version || '.'
   end as reason,

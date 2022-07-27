@@ -206,8 +206,8 @@ control "cis_v140_5_2_5" {
 }
 
 control "cis_v140_5_2_6" {
-  title         = "5.2.6 Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
-  description   = "Create an activity log alert for the Create or Update Network Security Group Rule event."
+  title         = "5.2.6 Ensure that Activity Log Alert exists for Delete Network Security Group Rule"
+  description   = "Create an activity log alert for the Delete Network Security Group Rule event."
   sql           = query.monitor_log_alert_delete_nsg_rule.sql
   documentation = file("./cis_v140/docs/cis_v140_5_2_6.md")
 
@@ -267,7 +267,7 @@ control "cis_v140_5_3" {
   sql           = query.manual_control.sql
   documentation = file("./cis_v140/docs/cis_v140_5_3.md")
 
-  tags = merge(local.cis_v140_5_2_common_tags, {
+  tags = merge(local.cis_v140_5_common_tags, {
     cis_item_id = "5.3"
     cis_level   = "1"
     cis_type    = "automated"

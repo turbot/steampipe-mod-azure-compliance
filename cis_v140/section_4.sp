@@ -312,7 +312,7 @@ control "cis_v140_4_3_8" {
 }
 
 benchmark "cis_v140_4_4" {
-  title         = "4.1 MySQL Database"
+  title         = "4.4 MySQL Database"
   documentation = file("./cis_v140/docs/cis_v140_4_4.md")
   children = [
     control.cis_v140_4_4_1,

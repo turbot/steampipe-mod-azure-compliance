@@ -1,6 +1,6 @@
 # Azure Compliance Scanning Tool
 
-200+ checks covering industry defined security best practices for Azure. Includes full support for `CIS v1.3`, `HIPAA HITRUST 9.2` and `NIST SP 800-53` compliance benchmarks across all your Azure subscriptions.
+200+ checks covering industry defined security best practices for Azure. Includes full support for `CIS v1.3`,`CIS v1.4`, `HIPAA HITRUST 9.2` and `NIST SP 800-53` compliance benchmarks across all your Azure subscriptions.
 
 **Includes full support for the CIS v1.3 Azure Benchmarks**.
 

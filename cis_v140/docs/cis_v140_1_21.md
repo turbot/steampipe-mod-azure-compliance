@@ -1,0 +1,22 @@
+## Description
+
+Security defaults in Azure Active Directory (Azure AD) make it easier to be secure and help protect your organization. Security defaults contain preconfigured security settings for common attacks.
+
+Microsoft is making security defaults available to everyone. The goal is to ensure that all organizations have a basic level of security-enabled at no extra cost. You turn on security defaults in the Azure portal.
+
+Security defaults provide secure default settings that we manage on behalf of organizations to keep customers safe until they are ready to manage their own identity security settings.
+
+For example doing the following:
+  - Requiring all users and admins to register for MFA.
+  - Challenging users with MFA - mostly when they show up on a new device or app, but more often for critical roles and tasks.
+  - Disabling authentication from legacy authentication clients, which can’t do MFA.
+
+## Remediation
+
+### From Console
+
+1. Sign in to the Azure portal as a security administrator, Conditional Access administrator, or global administrator.
+2. Browse to `Azure Active Directory` > `Properties` in side bar
+3. Select **Manage security defaults** section
+4. Set the `Enable security defaults toggle` to **Yes**.
+5. Select **Save**.

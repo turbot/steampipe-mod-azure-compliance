@@ -1,0 +1,16 @@
+## Description
+
+Expire shared access signature tokens within an hour.
+
+A shared access signature (SAS) is a URI that grants restricted access rights to Azure Storage resources. A shared access signature can be provided to clients who should not be trusted with the storage account key but for whom it may be necessary to delegate access to certain storage account resources. Providing a shared access signature URI to these clients allows them access to a resource for a specified period of time. This time should be set as low as possible and preferably no longer than an hour.
+
+## Remediation
+
+### From Console
+
+1. Login to `Azure Storage Accounts`
+2. For each selected storage account
+3. For each storage account, go to **Shared access signature**
+4. Set `Start and expiry date/time` within an hour
+
+**Note:** By default, expiration for `shared access signature` is set to 8 hour

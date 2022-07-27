@@ -1,0 +1,31 @@
+## Description
+
+Install only organization-approved extensions on VMs. Azure virtual machine extensions are small applications that provide post-deployment configuration and automation tasks on Azure virtual machines. These extensions run with administrative privileges and could potentially access anything on a virtual machine. The Azure Portal and community provide several such extensions. Each organization should carefully evaluate these extensions and ensure that only those that are approved for use are actually implemented.
+
+By default, no extensions are added to the virtual machines.
+
+## Remediation
+
+### From Console
+
+Perform the following action to check approved extensions are installed on a VM:
+
+1. Go to `Virtual machines`.
+2. For each virtual machine, go to `Settings`.
+3. Click on `Extensions`.
+4. Ensure that the listed extensions are approved for use.
+
+Perform the following action to un-install unapproved extensions on a VM:
+
+1. Go to `Virtual machines`.
+2. For each virtual machine, go to `Settings`.
+3. Click on `Extensions`.
+4. If there are any unapproved extensions, uninstall them.
+
+### From Command Line
+
+From the check, identify the unapproved extensions, and use the below CLI command to remove an unapproved extension attached to VM
+
+```bash
+az vm extension delete --resource-group <resourceGroupName> --vm-name <vmName> --name <extensionName>
+```

@@ -2,7 +2,7 @@
 
 _Bug fixes_
 
-- Added the missing `/>` tag in the dashboard images section of `docs/index.md` file which would cause the mod overview page to not render correctly. ([#117](https://github.com/turbot/steampipe-mod-azure-compliance/pull/117))
+- Added the missing `/>` tag in the dashboard images section of `docs/index.md` file which would cause a failure in loading the mod overview page. ([#117](https://github.com/turbot/steampipe-mod-azure-compliance/pull/117))
 
 ## v0.14 [2022-07-27]
 

@@ -9,7 +9,7 @@ Run individual configuration, compliance and security controls or full `CIS`, `H
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png" width="50%" type="thumbnail"/>
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v130_dashboard.png" width="50%" type="thumbnail"/>
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v130_console.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_hipaa_hitrust_dashboard.png" width="50%" type="thumbnail">
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_hipaa_hitrust_dashboard.png" width="50%" type="thumbnail"/>
 
 ## References
 

@@ -1,3 +1,10 @@
+## v0.16 [2022-08-10]
+
+_Bug fixes_
+
+- Fixed the `storage_account_blob_containers_public_access_private` query to correctly check if the Azure storage containers and Azure storage accounts are public or not. ([#120](https://github.com/turbot/steampipe-mod-azure-compliance/pull/120))
+- Fixed the `network_security_group_rdp_access_restricted`, `network_security_group_remote_access_restricted` and `network_security_group_ssh_access_restricted` queries which would cause the corresponding CIS controls to incorrectly be in `ok` state instead of `alarm`, even though RDP and SSH access was enabled on network security groups. ([#122](https://github.com/turbot/steampipe-mod-azure-compliance/pull/122))
+
 ## v0.15 [2022-07-28]
 
 _Bug fixes_

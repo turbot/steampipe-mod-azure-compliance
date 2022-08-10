@@ -9,7 +9,7 @@ with network_sg as (
   where
     sg -> 'properties' ->> 'access' = 'Allow'
     and sg -> 'properties' ->> 'direction' = 'Inbound'
-    and sg -> 'properties' ->> 'protocol' = 'TCP'
+    and sg -> 'properties' ->> 'protocol' ilike 'TCP'
     and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
     and (
       dport in ('3389', '*')

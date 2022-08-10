@@ -2,13 +2,13 @@ select
   -- Required Columns
   container.id as resource,
   case
-    when account.allow_blob_public_access and container.public_access != 'None' then 'alarm'
-    else 'ok'
+    when not account.allow_blob_public_access and container.public_access = 'None' then 'ok'
+    else 'alarm'
   end as status,
   case
-    when account.allow_blob_public_access and container.public_access != 'None'
-      then account.name || ' container ' || container.name || ' allows anonymous access.'
-    else account.name || ' container ' || container.name || ' doesn''t allow anonymous access.'
+    when not account.allow_blob_public_access and container.public_access = 'None'
+      then account.name || ' container ' || container.name || ' doesn''t allow anonymous access.'
+    else account.name || ' container ' || container.name || ' allows anonymous access.'
   end as reason,
   -- Additional Dimensions
   container.resource_group,

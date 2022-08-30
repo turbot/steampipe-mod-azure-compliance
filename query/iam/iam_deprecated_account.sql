@@ -2,7 +2,6 @@ with owner_member as (
 select
 distinct
   u.display_name,
-  d.role_name,
   u.account_enabled,
   u.user_principal_name,
   u.id,
@@ -22,7 +21,7 @@ select
   end as status,
   case
     when b.id is null then a.display_name || ' signing in enabled.'
-    else a.display_name || ' signing in disabled state with ' || b.role_name || ' role.'
+    else a.display_name || ' signing in disabled.'
   end as reason,
   -- Additional Columns
   t.tenant_id

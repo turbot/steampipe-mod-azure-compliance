@@ -1,8 +1,7 @@
-with owner_member as (
+with disabled_users as (
 select
 distinct
   u.display_name,
-  d.role_name,
   u.account_enabled,
   u.user_principal_name,
   u.id,
@@ -15,18 +14,18 @@ from
 )
 select
   -- Required Columns
-   a.user_principal_name as resource,
+   u.user_principal_name as resource,
   case
-    when b.id is null then 'ok'
+    when d.id is null then 'ok'
     else 'alarm'
   end as status,
   case
-    when b.id is null then a.display_name || ' signing in enabled.'
-    else a.display_name || ' signing in disabled state with ' || b.role_name || ' role.'
+    when d.id is null then u.display_name || ' sign-in enabled.'
+    else u.display_name || ' sign-in disabled.'
   end as reason,
   -- Additional Columns
   t.tenant_id
 from
   azure_tenant as t,
-  azuread_user as a
-  left join owner_member as b on b.id = a.id;
+  azuread_user as u
+  left join disabled_users as d on d.id = u.id;

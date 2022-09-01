@@ -1,4 +1,4 @@
-with disabled_user as (
+with disabled_users as (
 select
 distinct
   u.display_name,
@@ -28,4 +28,4 @@ select
 from
   azure_tenant as t,
   azuread_user as u
-  left join disabled_user as d on d.id = u.id;
+  left join disabled_users as d on d.id = u.id;

@@ -1,0 +1,26 @@
+## Description
+
+VHD (Virtual Hard Disks) are stored in BLOB storage and are the old style disks that were attached to Virtual Machines, and the BLOB VHD was then leased to the VM. By Default storage accounts are not encrypted, and Azure Defender(Security Centre) would then recommend that the OS disks should be encrypted. Storage accounts can be encrypted as a whole using PMK or CMK and this should be turned on for storage accounts containing VHD's.
+
+Managed disks that are encrypted by default, we need to also have a recommendation that *legacy* disk that may for a number of reasons need to be left as VHD's should also be encrypted to protect the data content.
+
+## Remediation
+
+### From Console
+
+1. Navigate to the `storage account` that you need to encrypt.
+2. Select the `encryption` option.
+3. Select the `Encryption type` (Microsoft-managed or Customer-manages key) that you wish to use.
+4. For `Customer-managed`, create or select a key from the key vault and `Save`
+
+### From Command Line
+
+Create the Keyvault
+```bash
+az keyvault create --name "myKV" --resource-group "myResourceGroup" -- location eastus --enabled-for-disk-encryption
+```
+
+Encrypt the disk and store the key in keyvault
+```bash
+az vm encryption enable -g MyResourceGroup --name MyVM --disk-encryption- keyvault myKV
+```

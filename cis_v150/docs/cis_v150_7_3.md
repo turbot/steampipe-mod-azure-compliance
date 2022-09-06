@@ -1,0 +1,13 @@
+## Description
+
+Ensure that unattached disks in a subscription are encrypted with a Customer Managed Key (CMK). Managed disks are encrypted by default with Platform-managed keys. Using Customer- managed keys may provide an additional level of security or meet an organization's regulatory requirements. Encrypting managed disks ensures that its entire content is fully unrecoverable without a key and thus protects the volume from unwarranted reads. Even if the disk is not attached to any of the VMs, there is always a risk where a compromised user account with administrative access to VM service can mount/attach these data disks which may lead to sensitive information disclosure and tampering.
+
+## Remediation
+
+### From Console
+
+1. Using the search feature, go to `Disks`.
+2. Select the unattached `disk` you would like to encrypt.
+3. From `Settings` section, select `Encryption`.
+4. For the `Encryption type`, select `Encryption at-rest with a customer-managed key`.
+5. Select `Disk encryption set` and click `Save`.

@@ -1,0 +1,3 @@
+## Overview
+
+This subsection is dedicated to providing guidance on Microsoft Defender for Cloud product plans. This guidance is intended to ensure that - at a minimum - the protective measures offered by these plans are being considered. Organizations may find that they have existing products or services that provide the same utility as some Microsoft Defender for Cloud products. Security and Administrative personnel need to make the determination on their organization's behalf regarding which - if any - of these recommendations are relevant to their organization's needs. In consideration of the above, and because of the potential for increased cost and complexity, please be aware that all Defender Plan recommendations are profiled as "Level 2" recommendations.

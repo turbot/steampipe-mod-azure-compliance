@@ -253,7 +253,7 @@ control "cis_v150_5_2_6" {
 control "cis_v150_5_2_7" {
   title         = "5.2.7 Ensure that Activity Log Alert exists for Create or Update SQL Server Firewall Rule"
   description   = "Create an activity log alert for the Create or Update SQL Server Firewall Rule event."
-  sql           = query.monitor_log_alert_create_update_servers_firewall_rule.sql
+  sql           = query.monitor_log_alert_create_update_sql_servers_firewall_rule.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_7.md")
 
   tags = merge(local.cis_v150_5_2_common_tags, {
@@ -267,7 +267,7 @@ control "cis_v150_5_2_7" {
 control "cis_v150_5_2_8" {
   title         = "5.2.8 Ensure that Activity Log Alert exists for Delete SQL Server Firewall Rule"
   description   = "Create an activity log alert for the 'Delete SQL Server Firewall Rule.''"
-  sql           = query.monitor_log_alert_delete_servers_firewall_rule.sql
+  sql           = query.monitor_log_alert_delete_sql_servers_firewall_rule.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_8.md")
 
   tags = merge(local.cis_v150_5_2_common_tags, {

@@ -196,7 +196,7 @@ control "cis_v150_5_2_2" {
 
 control "cis_v150_5_2_3" {
   title         = "5.2.3 Ensure that Activity Log Alert exists for Create or Update Network Security Group"
-  description   = "Create an Activity Log Alert for the \"Create\" or \"Update Network Security Group\" event."
+  description   = "Create an Activity Log Alert for the Create or Update Network Security Group event."
   sql           = query.monitor_log_alert_create_update_nsg.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_3.md")
 
@@ -223,8 +223,8 @@ control "cis_v150_5_2_4" {
 }
 
 control "cis_v150_5_2_5" {
-  title         = "5.2.5 Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
-  description   = "Create an activity log alert for the Create or Update Network Security Group Rule event."
+  title         = "5.2.5 Ensure that Activity Log Alert exists for Create or Update Security Solution"
+  description   = "Create an activity log alert for the Create or Update Security Solution event."
   sql           = query.monitor_log_alert_create_update_nsg_rule.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_5.md")
 
@@ -237,8 +237,8 @@ control "cis_v150_5_2_5" {
 }
 
 control "cis_v150_5_2_6" {
-  title         = "5.2.6 Ensure that Activity Log Alert exists for Delete Network Security Group Rule"
-  description   = "Create an activity log alert for the Delete Network Security Group Rule event."
+  title         = "5.2.6 Ensure that Activity Log Alert exists for Delete Security Solution"
+  description   = "Create an activity log alert for the Delete Security Solution event."
   sql           = query.monitor_log_alert_delete_nsg_rule.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_6.md")
 
@@ -251,9 +251,9 @@ control "cis_v150_5_2_6" {
 }
 
 control "cis_v150_5_2_7" {
-  title         = "5.2.7 Ensure that Activity Log Alert exists for Create or Update Security Solution"
-  description   = "Create an activity log alert for the Create or Update Security Solution event."
-  sql           = query.monitor_log_alert_create_update_security_solution.sql
+  title         = "5.2.7 Ensure that Activity Log Alert exists for Create or Update SQL Server Firewall Rule"
+  description   = "Create an activity log alert for the Create or Update SQL Server Firewall Rule event."
+  sql           = query.monitor_log_alert_create_update_servers_firewall_rule.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_7.md")
 
   tags = merge(local.cis_v150_5_2_common_tags, {
@@ -265,9 +265,9 @@ control "cis_v150_5_2_7" {
 }
 
 control "cis_v150_5_2_8" {
-  title         = "5.2.8 Ensure that Activity Log Alert exists for Delete Security Solution"
-  description   = "Create an activity log alert for the Delete Security Solution event."
-  sql           = query.monitor_log_alert_delete_security_solution.sql
+  title         = "5.2.8 Ensure that Activity Log Alert exists for Delete SQL Server Firewall Rule"
+  description   = "Create an activity log alert for the 'Delete SQL Server Firewall Rule.''"
+  sql           = query.monitor_log_alert_delete_servers_firewall_rule.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_8.md")
 
   tags = merge(local.cis_v150_5_2_common_tags, {
@@ -279,9 +279,9 @@ control "cis_v150_5_2_8" {
 }
 
 control "cis_v150_5_2_9" {
-  title         = "5.2.9 Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule"
-  description   = "Create an activity log alert for the Create or Update or Delete SQL Server Firewall Rule event."
-  sql           = query.manual_control.sql
+  title         = "5.2.9 Ensure that Activity Log Alert exists for Create or Update Public IP Address rule"
+  description   = "Create an activity log alert for the Create or Update Public IP Addresses rule."
+  sql           = query.monitor_log_alert_create_update_public_ip_address_rule.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_9.md")
 
   tags = merge(local.cis_v150_5_2_common_tags, {
@@ -295,7 +295,7 @@ control "cis_v150_5_2_9" {
 control "cis_v150_5_2_10" {
   title         = "5.2.10 Ensure that Activity Log Alert exists for Delete Public IP Address rule"
   description   = "Create an activity log alert for the Delete Public IP Address rule."
-  sql           = query.manual_control.sql
+  sql           = query.monitor_log_alert_delete_public_ip_address_rule.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_10.md")
 
   tags = merge(local.cis_v150_5_common_tags, {

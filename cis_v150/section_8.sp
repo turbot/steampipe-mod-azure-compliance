@@ -104,13 +104,13 @@ control "cis_v150_8_6" {
     cis_level   = "2"
     cis_type    = "manual"
     service     = "Azure/KeyVault"
-  })  
+  })
 }
 
 control "cis_v150_8_7" {
   title         = "8.7 Ensure that Private Endpoints are Used for Azure Key Vault"
   description   = "Private endpoints will secure network traffic from Azure Key Vault to the resources requesting secrets and keys."
-  sql           = query.keyvault_private_endpoints_used.sql
+  sql           = query.keyvault_vault_private_link_used.sql
   documentation = file("./cis_v150/docs/cis_v150_8_7.md")
 
   tags = merge(local.cis_v150_8_common_tags, {
@@ -118,7 +118,7 @@ control "cis_v150_8_7" {
     cis_level   = "2"
     cis_type    = "manual"
     service     = "Azure/KeyVault"
-  })  
+  })
 }
 
 

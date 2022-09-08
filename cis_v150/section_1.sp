@@ -359,7 +359,7 @@ control "cis_v150_1_13" {
 control "cis_v150_1_14" {
   title         = "1.14 Ensure That ‘Users Can Register Applications’ Is Set to ‘No’ "
   description   = "Require administrators or appropriately delegated users to register third-party applications."
-  sql           = query.ad_manual_control.sql
+  sql           = query.iam_user_not_allowed_to_register_application.sql
   documentation = file("./cis_v150/docs/cis_v150_1_14.md")
 
   tags = merge(local.cis_v150_1_common_tags, {
@@ -429,7 +429,7 @@ control "cis_v150_1_18" {
 control "cis_v150_1_19" {
   title         = "1.19 Ensure that 'Users can create security groups in Azure portals, API or PowerShell' is set to 'No'"
   description   = "Restrict security group creation to administrators only."
-  sql           = query.ad_manual_control.sql
+  sql           = query.iam_user_not_allowed_to_create_security_group.sql
   documentation = file("./cis_v150/docs/cis_v150_1_19.md")
 
   tags = merge(local.cis_v150_1_common_tags, {

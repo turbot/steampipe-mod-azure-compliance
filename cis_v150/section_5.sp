@@ -281,7 +281,7 @@ control "cis_v150_5_2_8" {
 control "cis_v150_5_2_9" {
   title         = "5.2.9 Ensure that Activity Log Alert exists for Create or Update Public IP Address rule"
   description   = "Create an activity log alert for the Create or Update Public IP Addresses rule."
-  sql           = query.monitor_log_alert_create_update_public_ip_address_rule.sql
+  sql           = query.monitor_log_alert_create_update_public_ip_address.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_9.md")
 
   tags = merge(local.cis_v150_5_2_common_tags, {
@@ -295,7 +295,7 @@ control "cis_v150_5_2_9" {
 control "cis_v150_5_2_10" {
   title         = "5.2.10 Ensure that Activity Log Alert exists for Delete Public IP Address rule"
   description   = "Create an activity log alert for the Delete Public IP Address rule."
-  sql           = query.monitor_log_alert_delete_public_ip_address_rule.sql
+  sql           = query.monitor_log_alert_delete_public_ip_address.sql
   documentation = file("./cis_v150/docs/cis_v150_5_2_10.md")
 
   tags = merge(local.cis_v150_5_common_tags, {

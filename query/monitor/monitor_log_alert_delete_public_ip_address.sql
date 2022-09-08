@@ -16,12 +16,13 @@ with alert_rule as
     and
     (
       ( alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-      and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.sql/servers/firewallrules"}]'
-      and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Sql/servers/firewallRules/delete"}]' )
+      and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/publicipaddresses"}]'
+      and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/publicIPAddresses/delete"}]'
+      )
       or
       (
         alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.sql/servers/firewallrules"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/publicipaddresses"}]'
         and jsonb_array_length(alert.condition -> 'allOf') = 2
       )
     )
@@ -43,9 +44,9 @@ select
     when
       count(a.subscription_id) > 0
     then
-      'Activity Log Alert exists for Delete SQL Server Firewall Rule.'
+      'Activity Log Alert exists for Delete Public IP Address rule.'
     else
-      'Activity Log Alert does not exists for Delete SQL Server Firewall Rule.'
+      'Activity Log Alert does not exists for Delete Public IP Address rule.'
   end
   as reason, 	-- Additional Dimensions
   sub.display_name as subscription

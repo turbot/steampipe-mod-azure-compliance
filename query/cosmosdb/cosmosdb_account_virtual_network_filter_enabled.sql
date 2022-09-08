@@ -4,7 +4,7 @@ select
   case
     when public_network_access = 'Disabled' then 'ok'
     when public_network_access = 'Enabled' and is_virtual_network_filter_enabled = 'true' then 'ok'
-    else 'ok'
+    else 'alarm'
   end as status,
   case
     when public_network_access = 'Disabled' then a.name || ' public network access disabled.'

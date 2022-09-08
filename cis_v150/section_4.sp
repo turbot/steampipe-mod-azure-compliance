@@ -445,7 +445,7 @@ benchmark "cis_v150_4_5" {
 }
 
 control "cis_v150_4_5_1" {
-  title         = "4.5 Ensure That 'Firewalls & Networks' Is Limited to Use Selected Networks Instead of All Networks"
+  title         = "4.5.1 Ensure That 'Firewalls & Networks' Is Limited to Use Selected Networks Instead of All Networks"
   sql           = query.cosmosdb_account_virtual_network_filter_enabled.sql
   documentation = file("./cis_v150/docs/cis_v150_4_5_1.md")
 
@@ -458,7 +458,7 @@ control "cis_v150_4_5_1" {
 }
 
 control "cis_v150_4_5_2" {
-  title         = "4.6 Ensure That Private Endpoints Are Used Where Possible"
+  title         = "4.5.2 Ensure That Private Endpoints Are Used Where Possible"
   description   = "Based on business needs or criticality of data/databases hosted a SQL server, it is recommended that the TDE protector is encrypted by a key that is managed by the data owner (Customer-managed key)"
   sql           = query.cosmosdb_account_uses_private_link.sql
   documentation = file("./cis_v150/docs/cis_v150_4_5_2.md")

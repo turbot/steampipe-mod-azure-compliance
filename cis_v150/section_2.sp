@@ -217,7 +217,7 @@ control "cis_v150_2_1_11" {
 control "cis_v150_2_1_12" {
   title         = "2.1.12 Ensure That Microsoft Defender for IoT Is Set To 'On'"
   description   = "Microsoft Defender for IoT acts as a central security hub for IoT devices within your organization."
-  sql           = query.ad_manual_control.sql
+  sql           = query.manual_control.sql
   documentation = file("./cis_v150/docs/cis_v150_2_1_12.md")
 
   tags = merge(local.cis_v150_2_1_common_tags, {
@@ -274,7 +274,7 @@ control "cis_v150_2_2_1" {
 control "cis_v150_2_2_2" {
   title         = "2.2.2 Ensure that Auto provisioning of 'Vulnerability assessment for machines' is Set to 'On'"
   description   = "Enable automatic provisioning of vulnerability assessment for machines on both Azure and hybrid (Arc enabled) machines."
-  sql           = query.ad_manual_control.sql
+  sql           = query.manual_control.sql
   documentation = file("./cis_v150/docs/cis_v150_2_2_2.md")
 
   tags = merge(local.cis_v150_2_2_common_tags, {
@@ -288,7 +288,7 @@ control "cis_v150_2_2_2" {
 control "cis_v150_2_2_3" {
   title         = "2.2.3 Ensure that Auto provisioning of 'Microsoft Defender for Containers components' is Set to 'On'"
   description   = "Enable automatic provisioning of the Microsoft Defender for Containers components."
-  sql           = query.ad_manual_control.sql
+  sql           = query.manual_control.sql
   documentation = file("./cis_v150/docs/cis_v150_2_2_3.md")
 
   tags = merge(local.cis_v150_2_2_common_tags, {
@@ -401,7 +401,7 @@ control "cis_v150_2_4_2" {
 control "cis_v150_2_5" {
   title         = "2.5 Ensure that Microsoft Defender Recommendation for 'Apply system updates' status is 'Completed'"
   description   = "Ensure that the latest OS patches for all virtual machines are applied."
-  sql           = query.ad_manual_control.sql
+  sql           = query.manual_control.sql
   documentation = file("./cis_v150/docs/cis_v150_2_5.md")
 
   tags = merge(local.cis_v150_2_common_tags, {

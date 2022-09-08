@@ -19,7 +19,29 @@ benchmark "cis_v150_1" {
   children = [
     benchmark.cis_v150_1_1,
     benchmark.cis_v150_1_2,
-    control.cis_v150_1_3
+    control.cis_v150_1_3,
+    control.cis_v150_1_4,
+    control.cis_v150_1_5,
+    control.cis_v150_1_6,
+    control.cis_v150_1_7,
+    control.cis_v150_1_8,
+    control.cis_v150_1_9,
+    control.cis_v150_1_10,
+    control.cis_v150_1_11,
+    control.cis_v150_1_12,
+    control.cis_v150_1_13,
+    control.cis_v150_1_14,
+    control.cis_v150_1_15,
+    control.cis_v150_1_16,
+    control.cis_v150_1_17,
+    control.cis_v150_1_18,
+    control.cis_v150_1_19,
+    control.cis_v150_1_20,
+    control.cis_v150_1_21,
+    control.cis_v150_1_22,
+    control.cis_v150_1_23,
+    control.cis_v150_1_24,
+    control.cis_v150_1_25
   ]
 
   tags = merge(local.cis_v150_1_common_tags, {

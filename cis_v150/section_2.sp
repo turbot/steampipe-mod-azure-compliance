@@ -14,6 +14,9 @@ locals {
   cis_v150_2_3_common_tags = merge(local.cis_v150_2_common_tags, {
     cis_section_id = "2.3"
   })
+  cis_v150_2_4_common_tags = merge(local.cis_v150_2_common_tags, {
+    cis_section_id = "2.4"
+  })
 }
 
 benchmark "cis_v150_2" {
@@ -292,7 +295,7 @@ control "cis_v150_2_2_3" {
   documentation = file("./cis_v150/docs/cis_v150_2_2_3.md")
 
   tags = merge(local.cis_v150_2_2_common_tags, {
-    cis_item_id = "2.2.13"
+    cis_item_id = "2.2.3"
     cis_type    = "manual"
     cis_level   = "2"
     service     = "Azure/SecurityCenter"
@@ -376,7 +379,7 @@ control "cis_v150_2_4_1" {
   sql           = query.securitycenter_mcas_integration.sql
   documentation = file("./cis_v150/docs/cis_v150_2_4_1.md")
 
-  tags = merge(local.cis_v150_2_2_common_tags, {
+  tags = merge(local.cis_v150_2_4_common_tags, {
     cis_item_id = "2.4.1"
     cis_type    = "manual"
     cis_level   = "2"
@@ -390,7 +393,7 @@ control "cis_v150_2_4_2" {
   sql           = query.securitycenter_wdatp_integration.sql
   documentation = file("./cis_v150/docs/cis_v150_2_4_2.md")
 
-  tags = merge(local.cis_v150_2_2_common_tags, {
+  tags = merge(local.cis_v150_2_4_common_tags, {
     cis_item_id = "2.4.2"
     cis_type    = "manual"
     cis_level   = "2"

@@ -1,0 +1,55 @@
+## Description
+
+Enable auditing on SQL Servers.
+
+The Azure platform allows a SQL server to be created as a service. Enabling auditing at the server level ensures that all existing and newly created databases on the SQL server instance are audited. Auditing policy applied on the SQL database does not override auditing policy and settings applied on the particular SQL server where the database is hosted.
+
+Auditing tracks database events and writes them to an audit log in the Azure storage account. It also helps to maintain regulatory compliance, understand database activity, and gain insight into discrepancies and anomalies that could indicate business concerns or suspected security violations.
+
+## Remediation
+
+### From Azure Console
+
+1. Go to `SQL servers`
+2. For each server instance
+3. Click on `Auditing`
+4. Set `Enable Azure SQL Auditing` is set to `On`
+
+### From Powershell
+
+Get the list of all SQL Servers
+
+```bash
+Get-AzSqlServer
+```
+
+For each Server, enable auditing and set the retention for at least 90 days or longer.
+
+### Log Analytics Example
+
+```bash
+Set-AzSqlServerAudit -ResourceGroupName <resource group name> -ServerName
+<SQL Server name> -RetentionInDays <Number of Days to retain the audit logs,
+should be 90days minimum> -LogAnalyticsTargetState Enabled -
+WorkspaceResourceId "/subscriptions/<subscriptionID>/resourceGroups/insightsintegration/providers/Microsoft.OperationalInsights/workspaces/<workspacename>
+```
+
+## Event Hub Example
+
+```bash
+Set-AzSqlServerAudit -ResourceGroupName "<resource group name>" -ServerName
+"<SQL Server name>" -EventHubTargetState Enabled -EventHubName
+"<Event Hub name>" -EventHubAuthorizationRuleResourceId "<Event HubAuthorization Rule Resource ID>"
+```
+
+## Blob Storage Example*
+
+```bash
+Set-AzSqlServerAudit -ResourceGroupName "<resource group name>" -ServerName
+"<SQL Server name>" -BlobStorageTargetState Enabled-StorageAccountResourceId
+"/subscriptions/<subscription_ID>/resourceGroups/<Resource_Group>/providers/Microsoft.Storage/storageAccounts/<Storage Account name>"
+```
+
+### Default Value
+
+By default, Enable Azure SQL Auditing is set to Off.

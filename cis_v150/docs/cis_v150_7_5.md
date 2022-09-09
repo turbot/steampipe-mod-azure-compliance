@@ -1,0 +1,35 @@
+## Description
+
+Install endpoint protection for all virtual machines.
+
+Installing endpoint protection systems (like anti-malware for Azure) provides for realtime protection capability that helps identify and remove viruses, spyware, and other malicious software. These also offer configurable alerts when known-malicious or unwanted software attempts to install itself or run on Azure systems.
+
+## Remediation
+
+Follow Microsoft Azure documentation to install endpoint protection from the security center. Alternatively, you can employ your own endpoint protection tool for your OS.
+
+### From Azure Portal
+
+1. Go to `Security Center`
+2. Click the `Recommendations` blade
+3. Ensure that there are no recommendations for `Endpoint Protection not installed on Azure VMs`
+
+### From Azure CLI
+
+```bash
+az vm show -g MyResourceGroup -n MyVm -d
+```
+
+It should list below or any other endpoint extensions as one of the installed extensions.
+
+```bash
+EndpointSecurity || TrendMicroDSA* || Antimalware || EndpointProtection ||
+SCWPAgent || PortalProtectExtension* || FileSecurity*
+```
+
+Alternatively, you can employ your own endpoint protection tool for your OS.
+
+### Default Value
+
+By default Endpoint Protection is disabled.
+

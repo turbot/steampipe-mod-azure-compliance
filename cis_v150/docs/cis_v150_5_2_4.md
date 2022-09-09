@@ -1,0 +1,43 @@
+## Description
+
+Create an activity log alert for the Delete Network Security Group event.
+
+Monitoring for "Delete Network Security Group" events gives insight into network access changes and may reduce the time it takes to detect suspicious activity.
+
+## Remediation
+
+### From Azure Portal
+
+1. Navigate to the `Monitor` blade
+2. Click on `Alerts`
+3. Click on `Create`
+4. Click on `Alert rule`
+5. Under the Scope tab, click `Select scope`
+6. In the `Select a resource` window, select the appropriate filters:
+   - Filter by subscription: < `choose the subscription alerts are needed` for >
+   - Filter by resource location: Network security groups
+   - Filter by location: `All`
+   - Click on the `subscription name` or `resource group` or `Network securiy group` that the Log Alert Rule will be applied to
+7. Verify that the selection preview shows:
+   - `All network securiy groups or `< your network security group >`
+   - `< Resource Name >` - The subscription, group, or resource you selected
+8. Click `Done`
+9. Under the Condition tab, click `Add Condition` (the `Select a signal` window may automatically open without clicking)
+10. In the Select a signal window, under the "Signal Name" heading, click Delete Network Security Group (Microsoft.Network/networkSecurityGroups)
+11. Under the Actions tab, choose appropriately:
+    - Select action groups - If you have an existing action group to notify the necessary personnel.
+    - Create action group - If you do not have an existing action group or want to create a new one.
+12. Under the Details tab, fill in:
+    -  Resource group - Select the resource group you want the alert rule to reside in.
+    - Alert rule name - Give your alert a recognizable and standardized name.
+    - Alert rule description - (Optional)
+13. Click `Review + create` then verify the summary details
+14. Click `Create`
+
+### From Azure CLI
+
+[Azure CLI has been temporarily removed from the Activity Log Alerts section in version 1.5 and will be added back in the next release]
+
+### Default Value
+
+By default, no monitoring alerts are created.

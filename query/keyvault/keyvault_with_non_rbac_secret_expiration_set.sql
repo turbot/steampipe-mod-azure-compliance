@@ -14,11 +14,11 @@ select
     else 'ok'
   end as status,
   vault_name || ' key ' || kvs.name ||
-    case
-      when v.name is null then ' RBAC enabled vault.'
-      when enabled and expires_at is null then ' expiration date not set.'
-      when not enabled then ' disabled.'
-      else ' expiration date set to ' || to_char(expires_at, 'DD-Mon-YYYY') || '.'
+  case
+    when v.name is null then ' RBAC enabled vault.'
+    when enabled and expires_at is null then ' expiration date not set.'
+    when not enabled then ' disabled.'
+    else ' expiration date set to ' || to_char(expires_at, 'DD-Mon-YYYY') || '.'
   end as reason,
   -- Additional Dimensions
   resource_group,

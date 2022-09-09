@@ -53,7 +53,7 @@ control "cis_v150_8_2" {
 
 control "cis_v150_8_3" {
   title         = "8.3 Ensure that the Expiration Date is set for all Secrets in RBAC Key Vaults"
-  description   = "Ensure that all Secrets in Role Based Access Control (RBAC) Azure Key Vaults have an expiration time set"
+  description   = "Ensure that all Secrets in Role Based Access Control (RBAC) Azure Key Vaults have an expiration time set."
   sql           = query.keyvault_with_rbac_secret_expiration_set.sql
   documentation = file("./cis_v150/docs/cis_v150_8_3.md")
 
@@ -134,16 +134,3 @@ control "cis_v150_8_8" {
     service     = "Azure/KeyVault"
   })
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

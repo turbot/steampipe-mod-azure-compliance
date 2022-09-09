@@ -394,7 +394,7 @@ control "cis_v150_1_14" {
 
 control "cis_v150_1_15" {
   title         = "1.15 Ensure That 'Guest users access restrictions' is set to 'Guest user access is restricted to properties and memberships of their own directory objects'"
-  description   = "Limit guest user permissions.."
+  description   = "Limit guest user permissions."
   sql           = query.ad_manual_control.sql
   documentation = file("./cis_v150/docs/cis_v150_1_15.md")
 

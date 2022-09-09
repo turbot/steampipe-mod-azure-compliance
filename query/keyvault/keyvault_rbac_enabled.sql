@@ -6,7 +6,7 @@ select
     else 'alarm'
   end as status,
   case
-    when enable_rbac_authorization then name || ' have RBAC enabled.'
+    when enable_rbac_authorization then name || ' has RBAC enabled.'
     else name || ' have RBAC disabled.'
   end as reason,
   -- Additional Dimensions

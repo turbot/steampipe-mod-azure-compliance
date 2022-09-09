@@ -173,7 +173,7 @@ control "cis_v150_4_2_1" {
 
 control "cis_v150_4_2_2" {
   title         = "4.2.2 Ensure that Vulnerability Assessment (VA) is enabled on a SQL server by setting a Storage Account"
-  description   = "EEnable Vulnerability Assessment (VA) service scans for critical SQL servers and corresponding SQL databases."
+  description   = "Enable Vulnerability Assessment (VA) service scans for critical SQL servers and corresponding SQL databases."
   sql           = query.sql_server_and_databases_va_enabled.sql
   documentation = file("./cis_v150/docs/cis_v150_4_2_2.md")
 
@@ -376,7 +376,7 @@ benchmark "cis_v150_4_4" {
 
 control "cis_v150_4_4_1" {
   title         = "4.4.1 Ensure 'Enforce SSL connection' is set to 'Enabled' for Standard MySQL Database Server"
-  description   = "Enable SSL connection on MYSQL Servers."
+  description   = "Enable SSL connection on MySQL Servers."
   sql           = query.mysql_ssl_enabled.sql
   documentation = file("./cis_v150/docs/cis_v150_4_4_1.md")
 
@@ -459,7 +459,7 @@ control "cis_v150_4_5_1" {
 
 control "cis_v150_4_5_2" {
   title         = "4.5.2 Ensure That Private Endpoints Are Used Where Possible"
-  description   = "Based on business needs or criticality of data/databases hosted a SQL server, it is recommended that the TDE protector is encrypted by a key that is managed by the data owner (Customer-managed key)"
+  description   = "Based on business needs or criticality of data/databases hosted a SQL server, it is recommended that the TDE protector is encrypted by a key that is managed by the data owner (Customer-managed key)."
   sql           = query.cosmosdb_account_uses_private_link.sql
   documentation = file("./cis_v150/docs/cis_v150_4_5_2.md")
 

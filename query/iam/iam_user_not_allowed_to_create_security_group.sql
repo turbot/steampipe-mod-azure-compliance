@@ -7,7 +7,7 @@ select
   end as status,
   case
     when a.default_user_role_permissions ->> 'allowedToCreateSecurityGroups' = 'false' then a.display_name || ' does not allow user to create security groups.'
-    else a.display_name || ' allow user to create security groups.'
+    else a.display_name || ' allows user to create security groups.'
   end as reason,
   -- Additional Dimensions
   t.tenant_id

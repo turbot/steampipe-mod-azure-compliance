@@ -40,29 +40,17 @@ select
   -- Required Columns
   sg.id resource,
   case
-    when
-      nsg.sg_name is null
-    then
-      'ok'
-    else
-      'alarm'
-  end
-  as status,
+    when nsg.sg_name is null then 'ok'
+    else 'alarm'
+  end as status,
   case
-    when
-      nsg.sg_name is null
-    then
-      sg.title || ' restricts HTTPS access from internet.'
-    else
-      sg.title || ' allows HTTPS access from internet.'
-  end
-  as reason, 	-- Additional Dimensions
-  sg.resource_group, sub.display_name as subscription
+    when nsg.sg_name is null then sg.title || ' restricts HTTPS access from internet.'
+    else sg.title || ' allows HTTPS access from internet.'
+  end as reason,
+  -- Additional Dimensions
+  sg.resource_group,
+  sub.display_name as subscription
 from
   azure_network_security_group sg
-  left join
-    network_sg nsg
-    on nsg.sg_name = sg.name
-  join
-    azure_subscription sub
-    on sub.subscription_id = sg.subscription_id;
+  left join network_sg nsg on nsg.sg_name = sg.name
+  join azure_subscription sub on sub.subscription_id = sg.subscription_id;

@@ -32,28 +32,18 @@ select
   -- Required Columns
   sub.subscription_id as resource,
   case
-    when
-      count(a.subscription_id) > 0
-    then
-      'ok'
-    else
-      'alarm'
-  end
-  as status,
+    when count(a.subscription_id) > 0 then 'ok'
+    else 'alarm'
+  end as status,
   case
-    when
-      count(a.subscription_id) > 0
-    then
-      'Activity Log Alert exists for Delete Public IP Address rule.'
-    else
-      'Activity Log Alert does not exists for Delete Public IP Address rule.'
-  end
-  as reason, 	-- Additional Dimensions
+    when count(a.subscription_id) > 0 then 'Activity Log Alert exists for Delete Public IP Address rule.'
+    else 'Activity Log Alert does not exists for Delete Public IP Address rule.'
+  end as reason,
+  -- Additional Dimensions
   sub.display_name as subscription
 from
   azure_subscription sub
-  left join
-    alert_rule a
-    on sub.subscription_id = a.subscription_id
+  left join alert_rule a on sub.subscription_id = a.subscription_id
 group by
-  sub.subscription_id, sub.display_name;
+  sub.subscription_id,
+  sub.display_name;

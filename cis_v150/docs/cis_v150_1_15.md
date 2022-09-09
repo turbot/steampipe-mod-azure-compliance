@@ -1,0 +1,31 @@
+## Description
+
+Limit guest user permissions.
+
+Limiting guest access ensures that guest accounts do not have permission for certain directory tasks, such as enumerating users, groups or other directory resources, and cannot be assigned to administrative roles in your directory. Guest access has three levels of restriction.
+
+1. Guest users have the same access as members (most inclusive),
+2. Guest users have limited access to properties and memberships of directory objects (default value),
+3. Guest user access is restricted to properties and memberships of their own directory objects (most restrictive).
+
+The recommended option is the 3rd, most restrictive: "Guest user access is restricted to their own directory object".
+
+## Remediation
+
+### From Azure Portal
+
+1. From Azure Home select the Portal Menu
+2. Select `Azure Active Directory`
+3. Then `External Identities`
+4. Select `External collaboration settings`
+5. Under `Guest user access`, change `Guest user access restrictions` to be `Guest user access is restricted to properties and memberships of their own directory objects`
+
+### From Powershell
+
+1. From a Powershell session enter Set-AzureADMSAuthorizationPolicy - GuestUserRoleId '2af84b1e-32c8-42b7-82bc-daa82404023b'
+2. Check that the setting was applied by entering GetAzureADMSAuthorizationPolicy
+3. Make certain that the GuestUserRoleId is equal to the earlier entered value of 2af84b1e-32c8-42b7-82bc-daa82404023b.
+
+### Default Value
+
+By default, `Guest user access restrictions` is set to `Guest user access is restricted to properties and memberships of their own directory objects`.

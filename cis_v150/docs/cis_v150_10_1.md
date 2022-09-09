@@ -1,0 +1,34 @@
+## Description
+
+As an administrator, it may be necessary to lock a subscription, resource group, or resource to prevent other users in the organization from accidentally deleting or modifying critical resources. The lock level can be set to to CanNotDelete or ReadOnly to achieve this purpose.
+- CanNotDelete means authorized users can still read and modify a resource, but they cannot delete the resource.
+- ReadOnly means authorized users can read a resource, but they cannot delete or update the resource. Applying this lock is similar to restricting all authorized users to the permissions granted by the Reader role.
+
+## Remediation
+
+### From Azure Portal
+
+1. Navigate to the specific Azure Resource or Resource Group
+2. For each of the mission critical resource, click on `Locks`
+3. Click `Add`
+4. Give the lock a name and a description, then select the type, `CanNotDelete` or `ReadOnly` as appropriate
+
+### From Azure CLI
+
+To lock a resource, provide the name of the resource, its resource type, and its resource group name.
+
+```bash
+az lock create --name <LockName> --lock-type <CanNotDelete/Read-only> --
+resource-group <resourceGroupName> --resource-name <resourceName> --resourcetype <resourceType>
+```
+
+### From Powershel
+
+```bash
+Get-AzResourceLock -ResourceName <Resource Name> -ResourceType <Resource
+Type> -ResourceGroupName <Resource Group Name> -Locktype <CanNotDelete/Readonly>
+```
+
+### Default Value
+
+By default, no locks are set.

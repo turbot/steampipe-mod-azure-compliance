@@ -1,3 +1,13 @@
+## v0.17 [2022-09-08]
+
+_What's new?_
+
+- Added CIS v1.5.0 benchmark (`steampipe check azure_compliance.benchmark.cis_v150`). ([#127](https://github.com/turbot/steampipe-mod-azure-compliance/pull/127))
+
+_Bug fixes_
+
+- Fixed `iam_deprecated_account` query incorrectly returning `nil` for any rows in alarm state. ([#125](https://github.com/turbot/steampipe-mod-azure-compliance/pull/125))
+
 ## v0.16 [2022-08-10]
 
 _Bug fixes_

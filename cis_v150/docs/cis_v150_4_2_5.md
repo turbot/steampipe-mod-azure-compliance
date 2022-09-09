@@ -1,0 +1,43 @@
+## Description
+
+Enable Vulnerability Assessment (VA) setting 'Also send email notifications to admins and subscription owners'.
+
+VA scan reports and alerts will be sent to admins and subscription owners by enabling setting 'Also send email notifications to admins and subscription owners'. This may help in reducing time required for identifying risks and taking corrective measures.
+
+## Remediation
+
+### From Azure Console
+
+1. Go to `SQL servers`
+2. Select a server instance
+3. Click on `Security Center`
+4. Select `Configure` next to `Enabled at subscription-level`
+5. In Section `Vulnerability Assessment Settings`, configure `Storage Accounts` if not already
+6. Check/enable 'Also send email notifications to admins and subscription owners'
+7. Click `Save`
+
+### From Powershell
+
+If not already, Enable Advanced Data Security for a SQL Server:
+
+```bash
+Set-AZSqlServerThreatDetectionPolicy -ResourceGroupName <resource group name>
+-ServerName <server name> -EmailAdmins $True
+```
+
+To enable ADS-VA service and Set 'Also send email notifications to admins and subscription owners'
+
+```bash
+Update-AzSqlServerVulnerabilityAssessmentSetting `
+-ResourceGroupName "<resource group name>"`
+-ServerName "<Server Name>"`
+-StorageAccountName "<Storage Name from same subscription and same Location" `
+-ScanResultsContainerName "vulnerability-assessment" `
+-RecurringScansInterval Weekly `
+-EmailSubscriptionAdmins $true `
+-NotificationEmail @("mail1@mail.com" , "mail2@mail.com")
+```
+
+### Default Value
+
+By default, 'Also send email notifications to admins and subscription owners' is enabled.

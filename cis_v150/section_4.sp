@@ -71,7 +71,7 @@ control "cis_v150_4_1_1" {
 }
 
 control "cis_v150_4_1_2" {
-  title         = "Ensure no Azure SQL Databases allow ingress from 0.0.0.0/0 (ANY IP)"
+  title         = "4.1.2 Ensure no Azure SQL Databases allow ingress from 0.0.0.0/0 (ANY IP)"
   description   = "Ensure that no SQL Databases allow ingress from 0.0.0.0/0 (ANY IP)."
   sql           = query.sql_database_allow_internet_access.sql
   documentation = file("./cis_v150/docs/cis_v150_4_1_2.md")
@@ -221,7 +221,7 @@ control "cis_v150_4_2_5" {
 
   tags = merge(local.cis_v150_4_2_common_tags, {
     cis_item_id = "4.2.5"
-    cis_level   = "2"
+    cis_level   = "1"
     cis_type    = "automated"
     service     = "Azure/SQL"
   })
@@ -353,7 +353,7 @@ control "cis_v150_4_3_8" {
   tags = merge(local.cis_v150_4_3_common_tags, {
     cis_item_id = "4.3.8"
     cis_level   = "1"
-    cis_type    = "manual"
+    cis_type    = "automated"
     service     = "Azure/PostgreSQL"
   })
 }
@@ -466,7 +466,7 @@ control "cis_v150_4_5_2" {
   tags = merge(local.cis_v150_4_5_common_tags, {
     cis_item_id = "4.5.2"
     cis_level   = "2"
-    cis_type    = "automated"
+    cis_type    = "manual"
     service     = "Azure/SQL"
   })
 }

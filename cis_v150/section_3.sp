@@ -46,7 +46,7 @@ control "cis_v150_3_1" {
 }
 
 control "cis_v150_3_2" {
-  title         = "3.2 Ensure that ‘Enable Infrastructure Encryption’ for Each Storage Account in Azure Storage is Set to ‘enabled’"
+  title         = "3.2 Ensure that 'Enable Infrastructure Encryption' for Each Storage Account in Azure Storage is Set to ‘enabled’"
   description   = "Enabling double encryption at the hardware level on top of the default software encryption for Storage Accounts accessing Azure storage solutions."
   sql           = query.storage_account_infrastructure_encryption_enabled.sql
   documentation = file("./cis_v150/docs/cis_v150_3_2.md")
@@ -63,7 +63,7 @@ control "cis_v150_3_3" {
   title         = "3.3 Ensure that 'Enable key rotation reminders' is enabled for each Storage Account"
   description   = "Access Keys authenticate application access requests to data contained in Storage Accounts. A periodic rotation of these keys is recommended to ensure that potentially compromised keys cannot result in a long-term exploitable credential. The Rotation Reminder is an automatic reminder feature for a manual procedure."
   sql           = query.manual_control.sql
-  documentation = file("./cis_v150/docs/cis_v150_3_2.md")
+  documentation = file("./cis_v150/docs/cis_v150_3_3.md")
 
   tags = merge(local.cis_v150_3_common_tags, {
     cis_item_id = "3.3"

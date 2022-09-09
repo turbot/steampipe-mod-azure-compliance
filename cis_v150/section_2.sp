@@ -268,8 +268,8 @@ control "cis_v150_2_2_1" {
 
   tags = merge(local.cis_v150_2_2_common_tags, {
     cis_item_id = "2.2.1"
-    cis_type    = "manual"
-    cis_level   = "2"
+    cis_type    = "automated"
+    cis_level   = "1"
     service     = "Azure/SecurityCenter"
   })
 }
@@ -282,7 +282,7 @@ control "cis_v150_2_2_2" {
 
   tags = merge(local.cis_v150_2_2_common_tags, {
     cis_item_id = "2.2.2"
-    cis_type    = "manual"
+    cis_type    = "automated"
     cis_level   = "2"
     service     = "Azure/SecurityCenter"
   })
@@ -296,7 +296,7 @@ control "cis_v150_2_2_3" {
 
   tags = merge(local.cis_v150_2_2_common_tags, {
     cis_item_id = "2.2.3"
-    cis_type    = "manual"
+    cis_type    = "automated"
     cis_level   = "2"
     service     = "Azure/SecurityCenter"
   })
@@ -325,7 +325,7 @@ control "cis_v150_2_3_1" {
 
   tags = merge(local.cis_v150_2_2_common_tags, {
     cis_item_id = "2.3.1"
-    cis_type    = "manual"
+    cis_type    = "automated"
     cis_level   = "1"
     service     = "Azure/SecurityCenter"
   })
@@ -339,7 +339,7 @@ control "cis_v150_2_3_2" {
 
   tags = merge(local.cis_v150_2_2_common_tags, {
     cis_item_id = "2.3.2"
-    cis_type    = "manual"
+    cis_type    = "automated"
     cis_level   = "1"
     service     = "Azure/SecurityCenter"
   })
@@ -353,7 +353,7 @@ control "cis_v150_2_3_3" {
 
   tags = merge(local.cis_v150_2_2_common_tags, {
     cis_item_id = "2.3.3"
-    cis_type    = "manual"
+    cis_type    = "Automated"
     cis_level   = "1"
     service     = "Azure/SecurityCenter"
   })

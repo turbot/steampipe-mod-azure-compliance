@@ -138,7 +138,7 @@ control "cis_v150_5_1_5" {
 }
 
 control "cis_v150_5_1_6" {
-  title         = "5.1.5 Ensure that Network Security Group Flow logs are captured and sent to Log Analytics"
+  title         = "5.1.6 Ensure that Network Security Group Flow logs are captured and sent to Log Analytics"
   description   = "Ensure that network flow logs are captured and fed into a central log analytics workspace."
   sql           = query.manual_control.sql
   documentation = file("./cis_v150/docs/cis_v150_5_1_6.md")
@@ -152,7 +152,7 @@ control "cis_v150_5_1_6" {
 }
 
 control "cis_v150_5_1_7" {
-  title         = "5.1.5 Ensure that logging for Azure AppService 'AppServiceHTTPLogs' is enabled."
+  title         = "5.1.7 Ensure that logging for Azure AppService 'AppServiceHTTPLogs' is enabled."
   description   = "Enable AppServiceHTTPLogs diagnostic log category for Azure App Service instances to ensure all http requests are captured and centrally logged."
   sql           = query.manual_control.sql
   documentation = file("./cis_v150/docs/cis_v150_5_1_7.md")

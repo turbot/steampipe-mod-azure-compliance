@@ -9,7 +9,7 @@ select
   case
     when public_network_access = 'Disabled' then a.name || ' public network access disabled.'
     when public_network_access = 'Enabled' and is_virtual_network_filter_enabled = 'true' then a.name || ' virtual network filter enabled.'
-    else a.name || 'virtual network filter disabled.'
+    else a.name || ' virtual network filter disabled.'
   end as reason,
   -- Additional Dimensions
   resource_group,

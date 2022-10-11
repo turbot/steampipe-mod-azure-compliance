@@ -1,3 +1,9 @@
+## v0.18 [2022-10-12]
+
+_Bug fixes_
+
+- Fixed the formatting in several `CIS v1.5.0 benchmark` documents which would cause the control page to not render correctly on the hub. ([#129](https://github.com/turbot/steampipe-mod-azure-compliance/pull/130))([#130](https://github.com/turbot/steampipe-mod-azure-compliance/pull/130))
+
 ## v0.17 [2022-09-08]
 
 _What's new?_

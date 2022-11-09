@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "cis_v150_3" {
-  title         = "3 Other Security Considerations"
+  title         = "3 Storage Accounts"
   documentation = file("./cis_v150/docs/cis_v150_3.md")
   children = [
     control.cis_v150_3_1,

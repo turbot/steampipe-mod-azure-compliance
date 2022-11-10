@@ -1,3 +1,9 @@
+## v0.19 [2022-11-10]
+
+_Bug fixes_
+
+- Fixed typo in `cis_v150_3` benchmark title. ([#135](https://github.com/turbot/steampipe-mod-azure-compliance/pull/135)) (Thanks to [@sfunkernw](https://github.com/sfunkernw) for the quick fix!)
+
 ## v0.18 [2022-10-12]
 
 _Bug fixes_

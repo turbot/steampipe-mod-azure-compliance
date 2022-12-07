@@ -1,3 +1,9 @@
+## v0.20 [2022-12-07]
+
+_Bug fixes_
+
+- Fixed `network_security_group_rdp_access_restricted`, `network_security_group_remote_access_restricted` and `network_security_group_ssh_access_restricted` queries to no longer skip network security group rules where the protocol is set to `ANY`, and correctly evaluate the associated controls. ([#138](https://github.com/turbot/steampipe-mod-azure-compliance/pull/138))
+
 ## v0.19 [2022-11-10]
 
 _Bug fixes_

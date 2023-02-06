@@ -88,6 +88,16 @@ control "sql_database_server_azure_defender_enabled" {
   })
 }
 
+control "sql_database_transparent_data_encryption_enabled" {
+  title       = "Azure Defender for Azure SQL Database servers should be enabled"
+  description = "Transparent data encryption should be enabled to protect data-at-rest and meet compliance requirements."
+  sql         = query.sql_database_transparent_data_encryption_enabled.sql
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    pci_dss_v321 = "true"
+  })
+}
+
 control "sql_server_vm_azure_defender_enabled" {
   title       = "Azure Defender for SQL servers on machines should be enabled"
   description = "Azure Defender for SQL provides functionality for surfacing and mitigating potential database vulnerabilities, detecting anomalous activities that could indicate threats to SQL databases, and discovering and classifying sensitive data."

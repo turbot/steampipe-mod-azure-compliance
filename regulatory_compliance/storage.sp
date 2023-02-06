@@ -23,6 +23,7 @@ control "storage_account_default_network_access_rule_denied" {
   tags = merge(local.regulatory_compliance_storage_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321 = "true"
   })
 }
 

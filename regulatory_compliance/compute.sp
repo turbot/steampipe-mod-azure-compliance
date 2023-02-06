@@ -83,7 +83,7 @@ control "compute_vm_log_analytics_agent_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
   })
 }
 
@@ -186,7 +186,7 @@ control "compute_vm_adaptive_application_controls_enabled" {
   sql         = query.manual_control_hipaa.sql
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -198,7 +198,7 @@ control "compute_vm_security_configuration_vulnerabilities_remediated" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
   })
 }
 
@@ -230,6 +230,7 @@ control "compute_vm_system_updates_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
+    pci_dss_v321      = "true"
   })
 }
 
@@ -311,6 +312,7 @@ control "compute_vm_vulnerability_assessment_solution_enabled" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
     hipaa_hitrust_v92    = "true"
+    pci_dss_v321         = "true"
   })
 }
 

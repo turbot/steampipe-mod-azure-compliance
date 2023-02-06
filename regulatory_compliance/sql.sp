@@ -75,6 +75,7 @@ control "sql_database_vulnerability_findings_resolved" {
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 

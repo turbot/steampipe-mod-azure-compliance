@@ -23,6 +23,7 @@ control "iam_subscription_owner_max_3" {
   tags = merge(local.regulatory_compliance_iam_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -55,6 +56,7 @@ control "iam_no_custom_role" {
   tags = merge(local.regulatory_compliance_iam_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -66,6 +68,7 @@ control "iam_external_user_with_owner_role" {
   tags = merge(local.regulatory_compliance_iam_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -88,5 +91,18 @@ control "iam_external_user_with_read_permission" {
   tags = merge(local.regulatory_compliance_iam_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
+  })
+}
+
+control "iam_external_user_with_write_permission" {
+  title       = "External accounts with write permissions should be removed from your subscription"
+  description = "External accounts with write privileges should be removed from your subscription in order to prevent unmonitored access."
+  sql         = query.iam_external_user_with_write_permission.sql
+
+  tags = merge(local.regulatory_compliance_iam_common_tags, {
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }

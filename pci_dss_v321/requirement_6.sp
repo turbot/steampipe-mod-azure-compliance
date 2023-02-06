@@ -26,7 +26,7 @@ benchmark "pci_dss_v321_requirement_6_2" {
 }
 
 benchmark "pci_dss_v321_requirement_6_5" {
-  title = "Prevent common coding vulnerabilities in software development processes by training developers in secure coding techniques and developing applications based on secure coding guidelines – including how sensitive data is handled in memory"
+  title = "Prevent common coding vulnerabilities in software development processes by training developers in secure coding techniques and developing applications based on secure coding guidelines - including how sensitive data is handled in memory"
   children = [
     benchmark.pci_dss_v321_requirement_6_5_3
   ]

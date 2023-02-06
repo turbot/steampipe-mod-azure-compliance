@@ -1,6 +1,6 @@
 benchmark "pci_dss_v321_requirement_5" {
   title       = "Requirement 5: Protect all systems against malware and regularly update anti-virus software or programs"
-  description = "Malicious software (a.k.a “malware”) exploits system vulnerabilities after entering the network via users’ e-mail and other online business activities. Anti-virus software must be used on all systems commonly affected by malware to protect systems from current and evolving malicious software threats. Additional anti-malware solutions may supplement (but not replace) anti-virus software."
+  description = "Malicious software (a.k.a “malware”) exploits system vulnerabilities after entering the network via users' e-mail and other online business activities. Anti-virus software must be used on all systems commonly affected by malware to protect systems from current and evolving malicious software threats. Additional anti-malware solutions may supplement (but not replace) anti-virus software."
   children = [
     benchmark.pci_dss_v321_requirement_5_1
   ]

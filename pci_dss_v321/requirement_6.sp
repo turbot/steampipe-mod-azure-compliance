@@ -17,7 +17,7 @@ benchmark "pci_dss_v321_requirement_6_2" {
     control.compute_vm_endpoint_protection_agent_installed,
     control.sql_database_vulnerability_findings_resolved,
     control.compute_vm_system_updates_installed,
-    control.Vulnerabilities in security configuration on your machines should be remediated
+    control.compute_vm_security_configuration_vulnerabilities_remediated
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {

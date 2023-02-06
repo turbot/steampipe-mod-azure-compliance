@@ -9,7 +9,7 @@ benchmark "pci_dss_v321_requirement_1" {
 }
 
 benchmark "pci_dss_v321_requirement_1_3" {
-  title = "Prohibit direct public access between the Internet and any system component in the cardholder data environment."
+  title = "Prohibit direct public access between the Internet and any system component in the cardholder data environment"
   children = [
     benchmark.pci_dss_v321_requirement_1_3_2
   ]
@@ -20,7 +20,7 @@ benchmark "pci_dss_v321_requirement_1_3" {
 }
 
 benchmark "pci_dss_v321_requirement_1_3_2" {
-  title = "Limit inbound Internet traffic to IP addresses within the DMZ."
+  title = "Limit inbound Internet traffic to IP addresses within the DMZ"
   children = [
     control.storage_account_default_network_access_rule_denied
   ]

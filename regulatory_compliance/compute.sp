@@ -199,6 +199,7 @@ control "compute_vm_security_configuration_vulnerabilities_remediated" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
     hipaa_hitrust_v92    = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -291,6 +292,7 @@ control "compute_vm_endpoint_protection_agent_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
+    pci_dss_v321      = "true"
   })
 }
 

@@ -71,7 +71,7 @@ benchmark "pci_dss_v321_requirement_8_2_3" {
   title       = "Passwords/phrases must meet the following: - Require a minimum length of at least seven characters. - Contain both numeric and alphabetic characters. Alternatively, the passwords/phrases must have complexity and strength at least equivalent to the parameters specified above"
   children = [
     // control 1
-    // control 2
+    control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
     control.compute_vm_restrict_previous_24_passwords_resuse_windows,
     control.compute_vm_max_password_age_70_days_windows,
     control.compute_vm_min_password_length_14_windows,
@@ -85,7 +85,7 @@ benchmark "pci_dss_v321_requirement_8_2_5" {
   title       = "Do not allow an individual to submit a new password/phrase that is the same as any of the last four passwords/phrases he or she has used"
   children = [
     // control 1
-    // control 2
+    control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
     control.compute_vm_restrict_previous_24_passwords_resuse_windows,
     control.compute_vm_max_password_age_70_days_windows,
     control.compute_vm_min_password_length_14_windows,
@@ -109,8 +109,8 @@ benchmark "pci_dss_v321_requirement_8_3_1" {
   children = [
     control.sql_server_azure_ad_authentication_enabled,
     control.iam_no_custom_role,
-    control.iam_external_user_with_owner_role,
-    control.iam_external_user_with_read_permission
+    control.iam_external_user_with_owner_role
+    // control 4
     // control 5
     // control 6
   ]

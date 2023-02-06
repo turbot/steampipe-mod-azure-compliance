@@ -293,6 +293,7 @@ control "compute_vm_endpoint_protection_agent_installed" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
     pci_dss_v321      = "true"
+    pci_dss_v321      = "true"
   })
 }
 
@@ -335,6 +336,7 @@ control "compute_vm_guest_configuration_with_user_and_system_assigned_managed_id
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -610,6 +612,7 @@ control "compute_vm_temp_disks_cache_and_data_flows_encrypted" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 

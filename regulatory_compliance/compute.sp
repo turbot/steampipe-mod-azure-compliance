@@ -403,6 +403,7 @@ control "compute_vm_guest_configuration_installed_windows" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -413,6 +414,7 @@ control "compute_vm_restrict_previous_24_passwords_resuse_windows" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -423,6 +425,7 @@ control "compute_vm_max_password_age_70_days_windows" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -453,6 +456,7 @@ control "compute_vm_min_password_length_14_windows" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 

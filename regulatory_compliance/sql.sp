@@ -33,6 +33,7 @@ control "sql_server_auditing_on" {
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 

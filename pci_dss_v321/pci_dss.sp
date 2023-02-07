@@ -21,6 +21,6 @@ benchmark "pci_dss_v321" {
     benchmark.pci_dss_v321_requirement_10,
     benchmark.pci_dss_v321_requirement_11
   ]
-  
+
   tags = local.pci_dss_v321_common_tags
 }

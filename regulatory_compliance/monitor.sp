@@ -41,5 +41,6 @@ control "audit_diagnostic_setting" {
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     hipaa_hitrust_v92 = "true"
+    pci_dss_v321      = "true"
   })
 }

@@ -52,6 +52,7 @@ control "compute_vm_remote_access_restricted_all_ports" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -292,7 +293,6 @@ control "compute_vm_endpoint_protection_agent_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
-    pci_dss_v321      = "true"
     pci_dss_v321      = "true"
   })
 }

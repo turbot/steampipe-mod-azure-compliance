@@ -11,7 +11,8 @@ benchmark "pci_dss_v321_requirement_1" {
 benchmark "pci_dss_v321_requirement_1_3" {
   title = "Prohibit direct public access between the Internet and any system component in the cardholder data environment"
   children = [
-    benchmark.pci_dss_v321_requirement_1_3_2
+    benchmark.pci_dss_v321_requirement_1_3_2,
+    benchmark.pci_dss_v321_requirement_1_3_4
   ]
 
   tags = local.pci_dss_v321_common_tags
@@ -20,10 +21,19 @@ benchmark "pci_dss_v321_requirement_1_3" {
 benchmark "pci_dss_v321_requirement_1_3_2" {
   title = "Limit inbound Internet traffic to IP addresses within the DMZ"
   children = [
+    control.compute_vm_remote_access_restricted_all_ports,
     control.storage_account_default_network_access_rule_denied
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Storage"
-  })
+  tags = local.pci_dss_v321_common_tags
+}
+
+benchmark "pci_dss_v321_requirement_1_3_4" {
+  title = "Do not allow unauthorized outbound traffic from the cardholder data environment to the Internet"
+  children = [
+    control.compute_vm_remote_access_restricted_all_ports,
+    control.storage_account_default_network_access_rule_denied
+  ]
+
+  tags = local.pci_dss_v321_common_tags
 }

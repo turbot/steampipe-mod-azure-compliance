@@ -20,7 +20,7 @@ benchmark "pci_dss_v321_requirement_10_5" {
 benchmark "pci_dss_v321_requirement_10_5_4" {
   title = "Write logs for external-facing technologies onto a secure, centralized, internal log server or media device"
   children = [
-    // control 1
+    control.audit_diagnostic_setting,
     control.sql_server_auditing_on,
     control.storage_account_uses_azure_resource_manager,
     control.compute_vm_uses_azure_resource_manager

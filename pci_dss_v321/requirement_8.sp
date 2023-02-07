@@ -80,7 +80,8 @@ benchmark "pci_dss_v321_requirement_8_2_3" {
     control.compute_vm_restrict_previous_24_passwords_resuse_windows,
     control.compute_vm_max_password_age_70_days_windows,
     control.compute_vm_min_password_length_14_windows,
-    control.compute_vm_guest_configuration_installed_windows
+    control.compute_vm_guest_configuration_installed_windows,
+    control.compute_vm_guest_configuration_with_no_managed_identity
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
@@ -95,7 +96,8 @@ benchmark "pci_dss_v321_requirement_8_2_5" {
     control.compute_vm_restrict_previous_24_passwords_resuse_windows,
     control.compute_vm_max_password_age_70_days_windows,
     control.compute_vm_min_password_length_14_windows,
-    control.compute_vm_guest_configuration_installed_windows
+    control.compute_vm_guest_configuration_installed_windows,
+    control.compute_vm_guest_configuration_with_no_managed_identity
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {

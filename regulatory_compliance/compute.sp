@@ -665,3 +665,13 @@ control "compute_vm_log_analytics_agent_health_issues_resolved" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+control "compute_vm_guest_configuration_with_no_managed_identity" {
+  title       = "Add system-assigned managed identity to enable Guest Configuration assignments on virtual machines with no identities"
+  description = "This policy adds a system-assigned managed identity to virtual machines hosted in Azure that are supported by Guest Configuration but do not have any managed identities. A system-assigned managed identity is a prerequisite for all Guest Configuration assignments and must be added to machines before using any Guest Configuration policy definitions."
+  query       = query.compute_vm_guest_configuration_with_no_managed_identity
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    pci_dss_v321 = "true"
+  })
+}

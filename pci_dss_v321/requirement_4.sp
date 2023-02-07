@@ -21,7 +21,5 @@ benchmark "pci_dss_v321_requirement_4_1" {
     control.compute_vm_temp_disks_cache_and_data_flows_encrypted
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }

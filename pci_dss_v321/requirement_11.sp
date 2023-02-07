@@ -14,9 +14,7 @@ benchmark "pci_dss_v321_requirement_11_2" {
     benchmark.pci_dss_v321_requirement_11_2_1
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }
 
 
@@ -30,7 +28,5 @@ benchmark "pci_dss_v321_requirement_11_2_1" {
     control.compute_vm_security_configuration_vulnerabilities_remediated
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }

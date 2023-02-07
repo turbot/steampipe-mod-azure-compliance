@@ -31,7 +31,9 @@ benchmark "pci_dss_v321_requirement_8_1_2" {
     // control 5
   ]
 
-  tags = local.pci_dss_v321_common_tags
+  tags = merge(local.pci_dss_v321_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "pci_dss_v321_requirement_8_1_3" {
@@ -41,7 +43,9 @@ benchmark "pci_dss_v321_requirement_8_1_3" {
     control.iam_deprecated_account_with_owner_roles,
   ]
 
-  tags = local.pci_dss_v321_common_tags
+  tags = merge(local.pci_dss_v321_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "pci_dss_v321_requirement_8_1_5" {
@@ -54,7 +58,9 @@ benchmark "pci_dss_v321_requirement_8_1_5" {
     // control 5
   ]
 
-  tags = local.pci_dss_v321_common_tags
+  tags = merge(local.pci_dss_v321_common_tags, {
+    service = "Azure/ActiveDirectory"
+  })
 }
 
 benchmark "pci_dss_v321_requirement_8_2" {
@@ -78,7 +84,9 @@ benchmark "pci_dss_v321_requirement_8_2_3" {
     control.compute_vm_guest_configuration_installed_windows
   ]
 
-  tags = local.pci_dss_v321_common_tags
+  tags = merge(local.pci_dss_v321_common_tags, {
+    service =  "Azure/Compute"
+  })
 }
 
 benchmark "pci_dss_v321_requirement_8_2_5" {
@@ -92,7 +100,9 @@ benchmark "pci_dss_v321_requirement_8_2_5" {
     control.compute_vm_guest_configuration_installed_windows
   ]
 
-  tags = local.pci_dss_v321_common_tags
+  tags = merge(local.pci_dss_v321_common_tags, {
+    service =  "Azure/Compute"
+  })
 }
 
 benchmark "pci_dss_v321_requirement_8_3" {

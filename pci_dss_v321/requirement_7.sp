@@ -17,9 +17,7 @@ benchmark "pci_dss_v321_requirement_7_1" {
     benchmark.pci_dss_v321_requirement_7_1_3
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }
 
 benchmark "pci_dss_v321_requirement_7_1_1" {
@@ -30,7 +28,7 @@ benchmark "pci_dss_v321_requirement_7_1_1" {
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -42,7 +40,7 @@ benchmark "pci_dss_v321_requirement_7_1_2" {
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -54,7 +52,7 @@ benchmark "pci_dss_v321_requirement_7_1_3" {
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -81,7 +79,5 @@ benchmark "pci_dss_v321_requirement_7_2_1" {
     // control 7
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }

@@ -14,9 +14,7 @@ benchmark "pci_dss_v321_requirement_1_3" {
     benchmark.pci_dss_v321_requirement_1_3_2
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }
 
 benchmark "pci_dss_v321_requirement_1_3_2" {
@@ -26,6 +24,6 @@ benchmark "pci_dss_v321_requirement_1_3_2" {
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
+    service = "Azure/Storage"
   })
 }

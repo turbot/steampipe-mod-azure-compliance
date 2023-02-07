@@ -20,9 +20,7 @@ benchmark "pci_dss_v321_requirement_6_2" {
     control.compute_vm_security_configuration_vulnerabilities_remediated
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }
 
 benchmark "pci_dss_v321_requirement_6_5" {
@@ -49,9 +47,7 @@ benchmark "pci_dss_v321_requirement_6_5_3" {
     control.compute_vm_temp_disks_cache_and_data_flows_encrypted
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }
 
 benchmark "pci_dss_v321_requirement_6_6" {
@@ -64,7 +60,6 @@ benchmark "pci_dss_v321_requirement_6_6" {
     control.compute_vm_security_configuration_vulnerabilities_remediated
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+
+  tags = local.pci_dss_v321_common_tags
 }

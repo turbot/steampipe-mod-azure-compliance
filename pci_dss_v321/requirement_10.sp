@@ -14,9 +14,7 @@ benchmark "pci_dss_v321_requirement_10_5" {
     benchmark.pci_dss_v321_requirement_10_5_4
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }
 
 benchmark "pci_dss_v321_requirement_10_5_4" {
@@ -28,7 +26,5 @@ benchmark "pci_dss_v321_requirement_10_5_4" {
     control.compute_vm_uses_azure_resource_manager
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }

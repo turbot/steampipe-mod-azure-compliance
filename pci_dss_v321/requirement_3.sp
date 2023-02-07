@@ -16,9 +16,5 @@ benchmark "pci_dss_v321_requirement_3_2" {
     control.iam_external_user_with_read_permission,
   ]
 
-  tags = merge(local.pci_dss_v321_common_tags, {
-    service = "Azure/Monitor"
-  })
+  tags = local.pci_dss_v321_common_tags
 }
-
-

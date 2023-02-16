@@ -1,6 +1,6 @@
 benchmark "pci_dss_v321_requirement_3" {
   title       = "Requirement 3: Protect stored cardholder data"
-  description = "Cardholder data should not be stored unless it's necessary to meet the needs of the business. Sensitive data on the magnetic stripe or chip must never be stored after authorization. If your organization stores PAN, it is crucial to render it unreadable (see 3.4, and table below for guidelines) "
+  description = "Cardholder data should not be stored unless it's necessary to meet the needs of the business. Sensitive data on the magnetic stripe or chip must never be stored after authorization. If your organization stores PAN, it is crucial to render it unreadable (see 3.4, and table below for guidelines)."
   children = [
     benchmark.pci_dss_v321_requirement_3_2,
     benchmark.pci_dss_v321_requirement_3_4

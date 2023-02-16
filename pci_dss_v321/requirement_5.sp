@@ -11,11 +11,11 @@ benchmark "pci_dss_v321_requirement_5" {
 benchmark "pci_dss_v321_requirement_5_1" {
   title = "Deploy anti-virus software on all systems commonly affected by malicious software (particularly personal computers and servers). For systems not affected commonly by malicious software, perform periodic evaluations to evaluate evolving malware threats and confirm whether such systems continue to not require anti-virus software"
   children = [
-    control.compute_vm_vulnerability_assessment_solution_enabled,
     control.compute_vm_endpoint_protection_agent_installed,
-    control.sql_database_vulnerability_findings_resolved,
+    control.compute_vm_security_configuration_vulnerabilities_remediated,
     control.compute_vm_system_updates_installed,
-    control.compute_vm_security_configuration_vulnerabilities_remediated
+    control.compute_vm_vulnerability_assessment_solution_enabled,
+    control.sql_database_vulnerability_findings_resolved
   ]
 
   tags = local.pci_dss_v321_common_tags

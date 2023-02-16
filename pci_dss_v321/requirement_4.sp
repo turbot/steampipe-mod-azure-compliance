@@ -14,10 +14,10 @@ benchmark "pci_dss_v321_requirement_4_1" {
     control.appservice_api_app_use_https,
     control.appservice_function_app_only_https_accessible,
     control.azure_redis_cache_ssl_enabled,
-    control.storage_account_secure_transfer_required_enabled,
+    control.compute_vm_temp_disks_cache_and_data_flows_encrypted,
     control.servicefabric_cluster_protection_level_as_encrypt_and_sign,
     control.sql_database_transparent_data_encryption_enabled,
-    control.compute_vm_temp_disks_cache_and_data_flows_encrypted
+    control.storage_account_secure_transfer_required_enabled
   ]
 
   tags = local.pci_dss_v321_common_tags

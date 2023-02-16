@@ -21,11 +21,11 @@ benchmark "pci_dss_v321_requirement_11_2" {
 benchmark "pci_dss_v321_requirement_11_2_1" {
   title = "Perform quarterly internal vulnerability scans and rescans as needed, until all “high-risk” vulnerabilities (as identified in Requirement 6.1) are resolved. Scans must be performed by qualified personnel"
   children = [
-    control.compute_vm_vulnerability_assessment_solution_enabled,
     control.compute_vm_endpoint_protection_agent_installed,
-    control.sql_database_vulnerability_findings_resolved,
+    control.compute_vm_security_configuration_vulnerabilities_remediated,
     control.compute_vm_system_updates_installed,
-    control.compute_vm_security_configuration_vulnerabilities_remediated
+    control.compute_vm_vulnerability_assessment_solution_enabled,
+    control.sql_database_vulnerability_findings_resolved,
   ]
 
   tags = local.pci_dss_v321_common_tags

@@ -24,8 +24,8 @@ benchmark "pci_dss_v321_requirement_8_1" {
 benchmark "pci_dss_v321_requirement_8_1_2" {
   title       = "Control addition, deletion, and modification of user IDs, credentials, and other identifier objects"
   children = [
-    control.iam_deprecated_account,
     control.iam_deprecated_account_with_owner_roles,
+    control.iam_deprecated_account,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
     control.iam_external_user_with_write_permission
@@ -39,8 +39,8 @@ benchmark "pci_dss_v321_requirement_8_1_2" {
 benchmark "pci_dss_v321_requirement_8_1_3" {
   title       = "Immediately revoke access for any terminated users"
   children = [
-    control.iam_deprecated_account,
-    control.iam_deprecated_account_with_owner_roles
+    control.iam_deprecated_account_with_owner_roles,
+    control.iam_deprecated_account
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
@@ -51,8 +51,8 @@ benchmark "pci_dss_v321_requirement_8_1_3" {
 benchmark "pci_dss_v321_requirement_8_1_5" {
   title       = "Manage IDs used by thid parties to access, support, or maintain system components via remote access as follows: - Enabled only during the time period needed and disabled when not in use. - Monitored when in use"
   children = [
-    control.iam_deprecated_account,
     control.iam_deprecated_account_with_owner_roles,
+    control.iam_deprecated_account,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
     control.iam_external_user_with_write_permission
@@ -76,12 +76,12 @@ benchmark "pci_dss_v321_requirement_8_2" {
 benchmark "pci_dss_v321_requirement_8_2_3" {
   title       = "Passwords/phrases must meet the following: - Require a minimum length of at least seven characters. - Contain both numeric and alphabetic characters. Alternatively, the passwords/phrases must have complexity and strength at least equivalent to the parameters specified above"
   children = [
+    control.compute_vm_guest_configuration_installed_windows,
+    control.compute_vm_guest_configuration_with_no_managed_identity,
     control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
-    control.compute_vm_restrict_previous_24_passwords_resuse_windows,
     control.compute_vm_max_password_age_70_days_windows,
     control.compute_vm_min_password_length_14_windows,
-    control.compute_vm_guest_configuration_installed_windows,
-    control.compute_vm_guest_configuration_with_no_managed_identity
+    control.compute_vm_restrict_previous_24_passwords_resuse_windows,
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
@@ -92,12 +92,12 @@ benchmark "pci_dss_v321_requirement_8_2_3" {
 benchmark "pci_dss_v321_requirement_8_2_5" {
   title       = "Do not allow an individual to submit a new password/phrase that is the same as any of the last four passwords/phrases he or she has used"
   children = [
+    control.compute_vm_guest_configuration_installed_windows,
+    control.compute_vm_guest_configuration_with_no_managed_identity,
     control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
-    control.compute_vm_restrict_previous_24_passwords_resuse_windows,
     control.compute_vm_max_password_age_70_days_windows,
     control.compute_vm_min_password_length_14_windows,
-    control.compute_vm_guest_configuration_installed_windows,
-    control.compute_vm_guest_configuration_with_no_managed_identity
+    control.compute_vm_restrict_previous_24_passwords_resuse_windows
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
@@ -117,11 +117,13 @@ benchmark "pci_dss_v321_requirement_8_3" {
 benchmark "pci_dss_v321_requirement_8_3_1" {
   title       = "Incorporate multi-factor authentication for all non-console access into the CDE for personnel with administrative access"
   children = [
-    control.sql_server_azure_ad_authentication_enabled,
-    control.iam_no_custom_role,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
-    control.iam_external_user_with_write_permission
+    control.iam_external_user_with_write_permission,
+    control.iam_no_custom_role,
+    control.iam_user_with_owner_permission_on_subscription_mfa_enabled,
+    control.iam_user_with_write_permission_on_subscription_mfa_enabled,
+    control.sql_server_azure_ad_authentication_enabled,
   ]
 
   tags = local.pci_dss_v321_common_tags

@@ -35,13 +35,13 @@ benchmark "pci_dss_v321_requirement_6_5" {
 benchmark "pci_dss_v321_requirement_6_5_3" {
   title = "Insecure cryptographic storage"
   children = [
-    control.appservice_web_app_use_https,
     control.appservice_function_app_only_https_accessible,
+    control.appservice_web_app_use_https,
     control.azure_redis_cache_ssl_enabled,
-    control.storage_account_secure_transfer_required_enabled,
+    control.compute_vm_temp_disks_cache_and_data_flows_encrypted,
     control.servicefabric_cluster_protection_level_as_encrypt_and_sign,
     control.sql_database_transparent_data_encryption_enabled,
-    control.compute_vm_temp_disks_cache_and_data_flows_encrypted
+    control.storage_account_secure_transfer_required_enabled
   ]
 
   tags = local.pci_dss_v321_common_tags
@@ -54,9 +54,8 @@ benchmark "pci_dss_v321_requirement_6_6" {
     control.compute_vm_endpoint_protection_agent_installed,
     control.sql_database_vulnerability_findings_resolved,
     control.compute_vm_system_updates_installed,
-    control.compute_vm_security_configuration_vulnerabilities_remediated
+    control.compute_vm_security_configuration_vulnerabilities_remediated,
   ]
-
 
   tags = local.pci_dss_v321_common_tags
 }

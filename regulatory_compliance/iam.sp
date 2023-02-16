@@ -108,3 +108,23 @@ control "iam_external_user_with_write_permission" {
     pci_dss_v321         = "true"
   })
 }
+
+control "iam_user_with_write_permission_on_subscription_mfa_enabled" {
+  title       = "MFA should be enabled for accounts with write permissions on your subscription"
+  description = "Multi-Factor Authentication (MFA) should be enabled for all subscription accounts with write privileges to prevent a breach of accounts or resources."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
+    pci_dss_v321 = "true"
+  })
+}
+
+control "iam_user_with_owner_permission_on_subscription_mfa_enabled" {
+  title       = "MFA should be enabled on accounts with owner permissions on your subscription"
+  description = "Multi-Factor Authentication (MFA) should be enabled for all subscription accounts with owner permissions to prevent a breach of accounts or resources."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
+    pci_dss_v321 = "true"
+  })
+}

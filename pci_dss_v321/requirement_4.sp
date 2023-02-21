@@ -17,7 +17,8 @@ benchmark "pci_dss_v321_requirement_4_1" {
     control.compute_vm_temp_disks_cache_and_data_flows_encrypted,
     control.servicefabric_cluster_protection_level_as_encrypt_and_sign,
     control.sql_database_transparent_data_encryption_enabled,
-    control.storage_account_secure_transfer_required_enabled
+    control.storage_account_secure_transfer_required_enabled,
+    control.automation_account_variable_encryption_enabled
   ]
 
   tags = local.pci_dss_v321_common_tags

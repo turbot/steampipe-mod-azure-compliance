@@ -6,8 +6,8 @@ locals {
 }
 
 benchmark "pci_dss_v321" {
-  title       = "PCI DSS 3.2.1"
-  description = "The PCI DSS applies to all entities that store, process, and/or transmit cardholder data. It covers technical and operational system components included in or connected to cardholder data. If you accept or process payment cards, PCI DSS applies to you."
+  title         = "PCI DSS 3.2.1"
+  description   = "The PCI DSS applies to all entities that store, process, and/or transmit cardholder data. It covers technical and operational system components included in or connected to cardholder data. If you accept or process payment cards, PCI DSS applies to you."
   documentation = file("./pci_dss_v321/docs/pci_dss_v321_overview.md")
 
   children = [

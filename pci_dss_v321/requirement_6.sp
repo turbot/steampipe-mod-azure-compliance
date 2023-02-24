@@ -1,5 +1,5 @@
 benchmark "pci_dss_v321_requirement_6" {
-  title       = "Requirement 6: Develop and maintain secure systems and applications"
+  title       = "Requirement 6 - Develop and maintain secure systems and applications"
   description = "Security vulnerabilities in systems and applications may allow criminals to access PAN and other cardholder data. Many of these vulnerabilities are eliminated by installing vendor-provided security patches, which perform a quick-repair job for a specific piece of programming code. All critical systems must have the most recently released software patches to prevent exploitation. Entities should apply patches to less-critical systems as soon as possible, based on a risk-based vulnerability management program."
   children = [
     benchmark.pci_dss_v321_requirement_6_2,
@@ -11,7 +11,8 @@ benchmark "pci_dss_v321_requirement_6" {
 }
 
 benchmark "pci_dss_v321_requirement_6_2" {
-  title = "Protect all system components and software from known vulnerabilities by installing applicable vendor-supplied security patches. Install critical security patches within one month of release"
+  title       = "Protect all system components and software from known vulnerabilities by installing applicable vendor-supplied security patches"
+  description = "Install critical security patches within one month of release."
   children = [
     control.compute_vm_vulnerability_assessment_solution_enabled,
     control.compute_vm_endpoint_protection_agent_installed,

@@ -1,5 +1,5 @@
 benchmark "pci_dss_v321_requirement_7" {
-  title       = "Requirement 7: Restrict access to cardholder data by business need-to-know"
+  title       = "Requirement 7 - Restrict access to cardholder data by business need-to-know"
   description = "To ensure critical data can only be accessed by authorized personnel, systems and processes must be in place to limit access based on need to know and according to job responsibilities. Need to know is when access rights are granted to only the least amount of data and privileges needed to perform a job."
   children = [
     benchmark.pci_dss_v321_requirement_7_1,

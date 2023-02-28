@@ -1,3 +1,13 @@
+## v0.21 [2023-02-28]
+
+_Dependencies_
+
+- Azure plugin `v0.37.0` or higher is now required. ([#143](https://github.com/turbot/steampipe-mod-azure-compliance/pull/143))
+
+_What's new?_
+
+- Added PCI DSS 3.2.1 benchmark (`steampipe check azure_compliance.benchmark.pci_dss_v321`). ([#143](https://github.com/turbot/steampipe-mod-azure-compliance/pull/143))
+
 ## v0.20 [2022-12-07]
 
 _Bug fixes_

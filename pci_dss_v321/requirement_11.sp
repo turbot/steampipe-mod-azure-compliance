@@ -26,7 +26,7 @@ benchmark "pci_dss_v321_requirement_11_2_1" {
     control.compute_vm_security_configuration_vulnerabilities_remediated,
     control.compute_vm_system_updates_installed,
     control.compute_vm_vulnerability_assessment_solution_enabled,
-    control.sql_database_vulnerability_findings_resolved,
+    control.sql_database_vulnerability_findings_resolved
   ]
 
   tags = local.pci_dss_v321_common_tags

@@ -31,9 +31,9 @@ benchmark "pci_dss_v321_requirement_1_3_2" {
 benchmark "pci_dss_v321_requirement_1_3_4" {
   title = "Do not allow unauthorized outbound traffic from the cardholder data environment to the Internet"
   children = [
+    control.automation_account_variable_encryption_enabled,
     control.compute_vm_remote_access_restricted_all_ports,
-    control.storage_account_default_network_access_rule_denied,
-    control.automation_account_variable_encryption_enabled
+    control.storage_account_default_network_access_rule_denied
   ]
 
   tags = local.pci_dss_v321_common_tags

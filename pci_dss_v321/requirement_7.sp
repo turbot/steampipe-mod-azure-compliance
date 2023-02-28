@@ -68,13 +68,13 @@ benchmark "pci_dss_v321_requirement_7_2" {
 benchmark "pci_dss_v321_requirement_7_2_1" {
   title = "Coverage of all system components"
   children = [
-    control.sql_server_azure_ad_authentication_enabled,
-    control.iam_no_custom_role,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
     control.iam_external_user_with_write_permission,
+    control.iam_no_custom_role,
+    control.iam_user_with_owner_permission_on_subscription_mfa_enabled,
     control.iam_user_with_write_permission_on_subscription_mfa_enabled,
-    control.iam_user_with_owner_permission_on_subscription_mfa_enabled
+    control.sql_server_azure_ad_authentication_enabled
   ]
 
   tags = local.pci_dss_v321_common_tags

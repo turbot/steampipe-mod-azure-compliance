@@ -40,8 +40,8 @@ benchmark "pci_dss_v321_requirement_8_1_2" {
 benchmark "pci_dss_v321_requirement_8_1_3" {
   title = "Immediately revoke access for any terminated users"
   children = [
-    control.iam_deprecated_account_with_owner_roles,
-    control.iam_deprecated_account
+    control.iam_deprecated_account,
+    control.iam_deprecated_account_with_owner_roles
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
@@ -85,7 +85,7 @@ benchmark "pci_dss_v321_requirement_8_2_3" {
     control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
     control.compute_vm_max_password_age_70_days_windows,
     control.compute_vm_min_password_length_14_windows,
-    control.compute_vm_restrict_previous_24_passwords_resuse_windows,
+    control.compute_vm_restrict_previous_24_passwords_resuse_windows
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
@@ -128,7 +128,7 @@ benchmark "pci_dss_v321_requirement_8_3_1" {
     control.iam_no_custom_role,
     control.iam_user_with_owner_permission_on_subscription_mfa_enabled,
     control.iam_user_with_write_permission_on_subscription_mfa_enabled,
-    control.sql_server_azure_ad_authentication_enabled,
+    control.sql_server_azure_ad_authentication_enabled
   ]
 
   tags = local.pci_dss_v321_common_tags

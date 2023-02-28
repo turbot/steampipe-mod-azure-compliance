@@ -10,7 +10,8 @@ with all_write_permission_users as (
     azuread_user as u
     left join azure_role_assignment as a on a.principal_id = u.id
     left join azure_role_definition as d on d.id = a.role_definition_id
-    where d.role_name = 'Reader'
+  where
+    d.role_name = any(array['Owner', 'Contributor'])
 )
 select
   -- Required Columns

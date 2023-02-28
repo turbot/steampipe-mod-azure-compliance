@@ -7,18 +7,19 @@ locals {
 control "appservice_web_app_use_https" {
   title       = "Web Application should only be accessible over HTTPS"
   description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
-  sql         = query.appservice_web_app_use_https.sql
+  query       = query.appservice_web_app_use_https
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
 control "appservice_web_app_incoming_client_cert_on" {
   title       = "Ensure WEB app has 'Client Certificates (Incoming client certificates)' set to 'On'"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
-  sql         = query.appservice_web_app_incoming_client_cert_on.sql
+  query       = query.appservice_web_app_incoming_client_cert_on
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -28,7 +29,7 @@ control "appservice_web_app_incoming_client_cert_on" {
 control "appservice_web_app_remote_debugging_disabled" {
   title       = "Remote debugging should be turned off for Web Applications"
   description = "Remote debugging requires inbound ports to be opened on a web application. Remote debugging should be turned off."
-  sql         = query.appservice_web_app_remote_debugging_disabled.sql
+  query       = query.appservice_web_app_remote_debugging_disabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -39,7 +40,7 @@ control "appservice_web_app_remote_debugging_disabled" {
 control "appservice_function_app_remote_debugging_disabled" {
   title       = "Remote debugging should be turned off for Function Apps"
   description = "Remote debugging requires inbound ports to be opened on function apps. Remote debugging should be turned off."
-  sql         = query.appservice_function_app_remote_debugging_disabled.sql
+  query       = query.appservice_function_app_remote_debugging_disabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -50,7 +51,7 @@ control "appservice_function_app_remote_debugging_disabled" {
 control "appservice_function_app_latest_tls_version" {
   title       = "Latest TLS version should be used in your Function App"
   description = "Upgrade to the latest TLS version."
-  sql         = query.appservice_function_app_latest_tls_version.sql
+  query       = query.appservice_function_app_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -61,7 +62,7 @@ control "appservice_function_app_latest_tls_version" {
 control "appservice_web_app_latest_tls_version" {
   title       = "Latest TLS version should be used in your Web App"
   description = "Upgrade to the latest TLS version."
-  sql         = query.appservice_web_app_latest_tls_version.sql
+  query       = query.appservice_web_app_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -72,18 +73,19 @@ control "appservice_web_app_latest_tls_version" {
 control "appservice_function_app_only_https_accessible" {
   title       = "Function App should only be accessible over HTTPS"
   description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
-  sql         = query.appservice_function_app_only_https_accessible.sql
+  query       = query.appservice_function_app_only_https_accessible
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
 control "appservice_web_app_use_virtual_service_endpoint" {
   title       = "App Service should use a virtual network service endpoint"
   description = "This policy audits any App Service not configured to use a virtual network service endpoint."
-  sql         = query.appservice_web_app_use_virtual_service_endpoint.sql
+  query       = query.appservice_web_app_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92 = "true"
@@ -93,18 +95,19 @@ control "appservice_web_app_use_virtual_service_endpoint" {
 control "appservice_api_app_use_https" {
   title       = "API App should only be accessible over HTTPS"
   description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
-  sql         = query.appservice_api_app_use_https.sql
+  query       = query.appservice_api_app_use_https
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
 control "appservice_api_app_remote_debugging_disabled" {
   title       = "Remote debugging should be turned off for API Apps"
   description = "Remote debugging requires inbound ports to be opened on API apps. Remote debugging should be turned off."
-  sql         = query.appservice_api_app_remote_debugging_disabled.sql
+  query       = query.appservice_api_app_remote_debugging_disabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -115,7 +118,7 @@ control "appservice_api_app_remote_debugging_disabled" {
 control "appservice_api_app_latest_tls_version" {
   title       = "Latest TLS version should be used in your API App"
   description = "Upgrade to the latest TLS version."
-  sql         = query.appservice_api_app_latest_tls_version.sql
+  query       = query.appservice_api_app_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -126,7 +129,7 @@ control "appservice_api_app_latest_tls_version" {
 control "appservice_web_app_diagnostic_logs_enabled" {
   title       = "Diagnostic logs in App Services should be enabled"
   description = "Audit enabling of diagnostic logs on the app. This enables you to recreate activity trails for investigation purposes if a security incident occurs or your network is compromised."
-  sql         = query.appservice_web_app_diagnostic_logs_enabled.sql
+  query       = query.appservice_web_app_diagnostic_logs_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -137,7 +140,7 @@ control "appservice_web_app_diagnostic_logs_enabled" {
 control "appservice_web_app_cors_no_star" {
   title       = "CORS should not allow every resource to access your Web Applications"
   description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your web application. Allow only required domains to interact with your web app."
-  sql         = query.appservice_web_app_cors_no_star.sql
+  query       = query.appservice_web_app_cors_no_star
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -148,7 +151,7 @@ control "appservice_web_app_cors_no_star" {
 control "appservice_function_app_cors_no_star" {
   title       = "CORS should not allow every resource to access your Function Apps"
   description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your Function app. Allow only required domains to interact with your Function app."
-  sql         = query.appservice_function_app_cors_no_star.sql
+  query       = query.appservice_function_app_cors_no_star
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -159,7 +162,7 @@ control "appservice_function_app_cors_no_star" {
 control "appservice_api_app_cors_no_star" {
   title       = "CORS should not allow every resource to access your API App"
   description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your API app. Allow only required domains to interact with your API app."
-  sql         = query.appservice_api_app_cors_no_star.sql
+  query       = query.appservice_api_app_cors_no_star
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -170,7 +173,7 @@ control "appservice_api_app_cors_no_star" {
 control "appservice_web_app_uses_managed_identity" {
   title       = "Managed identity should be used in your Web App"
   description = "Use a managed identity for enhanced authentication security."
-  sql         = query.appservice_web_app_uses_managed_identity.sql
+  query       = query.appservice_web_app_uses_managed_identity
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -181,7 +184,7 @@ control "appservice_web_app_uses_managed_identity" {
 control "appservice_api_app_uses_managed_identity" {
   title       = "Managed identity should be used in your API App"
   description = "Use a managed identity for enhanced authentication security."
-  sql         = query.appservice_api_app_uses_managed_identity.sql
+  query       = query.appservice_api_app_uses_managed_identity
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -192,7 +195,7 @@ control "appservice_api_app_uses_managed_identity" {
 control "appservice_function_app_uses_managed_identity" {
   title       = "Managed identity should be used in your Function App"
   description = "Use a managed identity for enhanced authentication security."
-  sql         = query.appservice_function_app_uses_managed_identity.sql
+  query       = query.appservice_function_app_uses_managed_identity
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
@@ -203,7 +206,7 @@ control "appservice_function_app_uses_managed_identity" {
 control "appservice_azure_defender_enabled" {
   title       = "Azure Defender for App Service should be enabled"
   description = "Azure Defender for App Service leverages the scale of the cloud, and the visibility that Azure has as a cloud provider, to monitor for common web app attacks."
-  sql         = query.appservice_azure_defender_enabled.sql
+  query       = query.appservice_azure_defender_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -213,7 +216,7 @@ control "appservice_azure_defender_enabled" {
 control "appservice_api_app_client_certificates_on" {
   title       = "Ensure API app has 'Client Certificates (Incoming client certificates)' set to 'On'"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
-  sql         = query.appservice_api_app_client_certificates_on.sql
+  query       = query.appservice_api_app_client_certificates_on
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -223,7 +226,7 @@ control "appservice_api_app_client_certificates_on" {
 control "appservice_web_app_client_certificates_on" {
   title       = "Ensure WEB app has 'Client Certificates (Incoming client certificates)' set to 'On'"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
-  sql         = query.appservice_web_app_client_certificates_on.sql
+  query       = query.appservice_web_app_client_certificates_on
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -233,7 +236,7 @@ control "appservice_web_app_client_certificates_on" {
 control "appservice_function_app_client_certificates_on" {
   title       = "Function apps should have 'Client Certificates (Incoming client certificates)' enabled"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients with valid certificates will be able to reach the app."
-  sql         = query.appservice_function_app_client_certificates_on.sql
+  query       = query.appservice_function_app_client_certificates_on
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -243,7 +246,7 @@ control "appservice_function_app_client_certificates_on" {
 control "appservice_api_app_ftps_enabled" {
   title       = "FTPS only should be required in your API App"
   description = "Enable FTPS enforcement for enhanced security."
-  sql         = query.appservice_api_app_ftps_enabled.sql
+  query       = query.appservice_api_app_ftps_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -253,7 +256,7 @@ control "appservice_api_app_ftps_enabled" {
 control "appservice_function_app_ftps_enabled" {
   title       = "FTPS only should be required in your Function App"
   description = "Enable FTPS enforcement for enhanced security."
-  sql         = query.appservice_function_app_ftps_enabled.sql
+  query       = query.appservice_function_app_ftps_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -263,7 +266,7 @@ control "appservice_function_app_ftps_enabled" {
 control "appservice_web_app_ftps_enabled" {
   title       = "FTPS should be required in your Web App"
   description = "Enable FTPS enforcement for enhanced security."
-  sql         = query.appservice_web_app_ftps_enabled.sql
+  query       = query.appservice_web_app_ftps_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -273,7 +276,7 @@ control "appservice_web_app_ftps_enabled" {
 control "appservice_function_app_latest_http_version" {
   title       = "Ensure that 'HTTP Version' is the latest, if used to run the Function app"
   description = "Periodically, newer versions are released for HTTP either due to security flaws or to include additional functionality. Using the latest HTTP version for web apps to take advantage of security fixes, if any, and/or new functionalities of the newer version. Currently, this policy only applies to Linux web apps."
-  sql         = query.appservice_function_app_latest_http_version.sql
+  query       = query.appservice_function_app_latest_http_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -283,7 +286,7 @@ control "appservice_function_app_latest_http_version" {
 control "appservice_web_app_latest_http_version" {
   title       = "Ensure that 'HTTP Version' is the latest, if used to run the Web app"
   description = "Periodically, newer versions are released for HTTP either due to security flaws or to include additional functionality. Using the latest HTTP version for web apps to take advantage of security fixes, if any, and/or new functionalities of the newer version. Currently, this policy only applies to Linux web apps."
-  sql         = query.appservice_web_app_latest_http_version.sql
+  query       = query.appservice_web_app_latest_http_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -293,7 +296,7 @@ control "appservice_web_app_latest_http_version" {
 control "app_service_environment_internal_encryption_enabled" {
   title       = "App Service Environment should enable internal encryption"
   description = "Setting InternalEncryption to true encrypts the pagefile, worker disks, and internal network traffic between the front ends and workers in an App Service Environment."
-  sql         = query.app_service_environment_internal_encryption_enabled.sql
+  query       = query.app_service_environment_internal_encryption_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -303,7 +306,7 @@ control "app_service_environment_internal_encryption_enabled" {
 control "appservice_function_app_latest_java_version" {
   title       = "Ensure that 'Java version' is the latest, if used as a part of the Function app"
   description = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for Function apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
-  sql         = query.appservice_function_app_latest_java_version.sql
+  query       = query.appservice_function_app_latest_java_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -313,7 +316,7 @@ control "appservice_function_app_latest_java_version" {
 control "appservice_web_app_latest_java_version" {
   title       = "Ensure that 'Java version' is the latest, if used as a part of the Web app"
   description = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
-  sql         = query.appservice_web_app_latest_java_version.sql
+  query       = query.appservice_web_app_latest_java_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -323,7 +326,7 @@ control "appservice_web_app_latest_java_version" {
 control "appservice_web_app_latest_php_version" {
   title       = "Ensure that 'PHP version' is the latest, if used as a part of the WEB app"
   description = "Periodically, newer versions are released for PHP software either due to security flaws or to include additional functionality. Using the latest PHP version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
-  sql         = query.appservice_web_app_latest_php_version.sql
+  query       = query.appservice_web_app_latest_php_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -333,7 +336,7 @@ control "appservice_web_app_latest_php_version" {
 control "appservice_function_app_latest_python_version" {
   title       = "Ensure that 'Python version' is the latest, if used as a part of the Function app"
   description = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest Python version for Function apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
-  sql         = query.appservice_function_app_latest_python_version.sql
+  query       = query.appservice_function_app_latest_python_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -343,7 +346,7 @@ control "appservice_function_app_latest_python_version" {
 control "appservice_web_app_latest_python_version" {
   title       = "Ensure that 'Python version' is the latest, if used as a part of the Web app"
   description = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest Python version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
-  sql         = query.appservice_web_app_latest_python_version.sql
+  query       = query.appservice_web_app_latest_python_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"

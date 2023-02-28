@@ -4,7 +4,7 @@ repository: "https://github.com/turbot/steampipe-mod-azure-compliance"
 
 # Azure Compliance Mod
 
-Run individual configuration, compliance and security controls or full `CIS`, `HIPAA HITRUST` and `NIST` compliance benchmarks across all your Azure subscriptions.
+Run individual configuration, compliance and security controls or full `CIS`, `HIPAA HITRUST`, `NIST` and `PCI DSS` compliance benchmarks across all your Azure subscriptions.
 
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png" width="50%" type="thumbnail"/>
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v130_dashboard.png" width="50%" type="thumbnail"/>
@@ -20,6 +20,8 @@ Run individual configuration, compliance and security controls or full `CIS`, `H
 [HIPAA HITRUST 9.2](https://docs.microsoft.com/en-us/azure/governance/policy/samples/hipaa-hitrust-9-2) provides a combined set of predefined compliance and security best-practice checks for Health Insurance Portability and Accountability Act.
 
 [NIST SP 800-53 Revision 5](https://docs.microsoft.com/en-us/azure/governance/policy/samples/nist-sp-800-53-r5) defines the standards and guidelines for federal agencies to architect and manage their information security systems.
+
+[PCI DSS v3.2.1](https://learn.microsoft.com/en-us/azure/governance/policy/samples/pci-dss-3-2-1) applies to all entities that store, process, and/or transmit cardholder data. It covers technical and operational system components included in or connected to cardholder data.
 
 [Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
 

@@ -22,7 +22,7 @@ mod "azure_compliance" {
     image       = "/images/mods/turbot/azure-compliance-social-graphic.png"
   }
 
-  requires {
+  require {
     plugin "azure" {
       version = "0.37.0"
     }

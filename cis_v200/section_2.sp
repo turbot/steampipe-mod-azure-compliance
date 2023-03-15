@@ -47,7 +47,16 @@ benchmark "cis_v200_2_1" {
     control.cis_v200_2_1_10,
     control.cis_v200_2_1_11,
     control.cis_v200_2_1_12,
-    control.cis_v200_2_1_13
+    control.cis_v200_2_1_13,
+    control.cis_v200_2_1_14,
+    control.cis_v200_2_1_15,
+    control.cis_v200_2_1_16,
+    control.cis_v200_2_1_17,
+    control.cis_v200_2_1_18,
+    control.cis_v200_2_1_19,
+    control.cis_v200_2_1_20,
+    control.cis_v200_2_1_21,
+    control.cis_v200_2_1_22
   ]
 
   tags = merge(local.cis_v200_2_common_tags, {

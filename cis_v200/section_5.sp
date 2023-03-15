@@ -23,8 +23,8 @@ benchmark "cis_v200_5" {
     benchmark.cis_v200_5_1,
     benchmark.cis_v200_5_2,
     benchmark.cis_v200_5_3,
-    control.cis_v200_5_4,
-    control.cis_v200_5_5
+    benchmark.cis_v200_5_5,
+    control.cis_v200_5_4
   ]
 
   tags = merge(local.cis_v200_5_common_tags, {
@@ -351,11 +351,16 @@ control "cis_v200_5_4" {
   })
 }
 
-control "cis_v200_5_5" {
+benchmark "cis_v200_5_5" {
   title         = "5.5 Ensure that SKU Basic/Consumption is not used on artifacts that need to be monitored (Particularly for Production Workloads)"
   description   = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU's do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
-  query         = query.manual_control
   documentation = file("./cis_v200/docs/cis_v200_5_5.md")
+    children = [
+      control.network_lb_no_basic_sku,
+      control.network_public_ip_no_basic_sku,
+      control.network_virtual_network_gateway_no_basic_sku,
+      control.redis_cache_no_basic_sku
+  ]
 
   tags = merge(local.cis_v200_5_common_tags, {
     cis_item_id = "5.5"

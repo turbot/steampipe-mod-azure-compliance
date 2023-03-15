@@ -326,7 +326,7 @@ benchmark "cis_v200_5_3" {
 control "cis_v200_5_3_1" {
   title         = "5.3.1 Ensure Application Insights are Configured"
   description   = "Application Insights within Azure act as an Application Performance Monitoring solution providing valuable data into how well an application performs and additional information when performing incident response. The types of log data collected include application metrics, telemetry data, and application trace logging data providing organizations with detailed information about application activity and application transactions."
-  query         = query.manual_control
+  query         = query.monitor_application_insights_configured
   documentation = file("./cis_v200/docs/cis_v200_5_3_1.md")
 
   tags = merge(local.cis_v140_5_common_tags, {

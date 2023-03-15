@@ -26,7 +26,7 @@ benchmark "cis_v200_7" {
 control "cis_v200_7_1" {
   title         = "7.1 Ensure an Azure Bastion Host Exists"
   description   = "The Azure Bastion service allows secure remote access to Azure Virtual Machines over the Internet without exposing remote access protocol ports and services directly to the Internet. The Azure Bastion service provides this access using TLS over 443/TCP, and subscribes to hardened configurations within an organization's Azure Active Directory service."
-  query         = query.manual_control
+  query         = query.network_bastion_host_min_1
   documentation = file("./cis_v200/docs/cis_v200_7_1.md")
 
   tags = merge(local.cis_v200_7_common_tags, {

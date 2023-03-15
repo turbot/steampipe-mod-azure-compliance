@@ -227,7 +227,7 @@ control "cis_v200_1_2_6" {
 control "cis_v200_1_3" {
   title         = "1.3 Ensure that 'Users can create Azure AD Tenants' is set to 'No'"
   description   = "Require administrators or appropriately delegated users to create new tenants."
-  # query         = query.ad_manual_control
+  query         = query.ad_manual_control
   documentation = file("./cis_v200/docs/cis_v200_1_3.md")
 
   tags = merge(local.cis_v200_1_common_tags, {
@@ -240,7 +240,7 @@ control "cis_v200_1_3" {
 
 control "cis_v200_1_4" {
   title         = "1.4 Ensure Access Review is Set Up for External Users in Azure AD Privileged Identity Management"
-  description   = "This recommendation extends guest access review by utilizing the Azure AD Privileged Identity Management feature provided in Azure AD Premium P2. Azure AD is extended to include Azure AD B2B collaboration, allowing you to invite people from outside your organization to be guest users in your cloud account and sign in with their own work, school, or social identities. Guest users allow you to share your company's applications and services with users from any other organization, while maintaining control over your own corporate data. Work with external partners, large or small, even if they don't have Azure AD or an IT department. A simple invitation and redemption process lets partners use their own credentials to access your company's resources a a guest user."
+  description   = "This recommendation extends guest access review by utilizing the Azure AD Privileged Identity Management feature provided in Azure AD Premium P2. Azure AD is extended to include Azure AD B2B collaboration, allowing you to invite people from outside your organization to be guest users in your cloud account and sign in with their own work, school, or social identities."
   query         = query.ad_manual_control
   documentation = file("./cis_v200/docs/cis_v200_1_4.md")
 
@@ -507,7 +507,7 @@ control "cis_v200_1_22" {
 control "cis_v200_1_23" {
   title         = "1.23 Ensure That No Custom Subscription Administrator Roles Exist"
   description   = "The principle of least privilege should be followed and only necessary privileges should be assigned instead of allowing full administrative access."
-  # query         = query.iam_no_custom_subscription_owner_roles_created
+  query         = query.iam_no_custom_subscription_owner_roles_created
   documentation = file("./cis_v200/docs/cis_v200_1_23.md")
 
   tags = merge(local.cis_v200_1_common_tags, {

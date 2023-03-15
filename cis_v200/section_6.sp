@@ -110,7 +110,7 @@ control "cis_v200_6_6" {
 control "cis_v200_6_7" {
   title         = "6.7 Ensure that Public IP addresses are Evaluated on a Periodic Basis"
   description   = "Public IP Addresses provide tenant accounts with Internet connectivity for resources contained within the tenant. During the creation of certain resources in Azure, a Public IP Address may be created. All Public IP Addresses within the tenant should be periodically reviewed for accuracy and necessity."
-  # query         = query.network_watcher_enabled
+  query         = query.manual_control
   documentation = file("./cis_v200/docs/cis_v200_6_7.md")
 
   tags = merge(local.cis_v200_6_common_tags, {

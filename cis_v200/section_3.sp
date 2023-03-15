@@ -89,7 +89,7 @@ control "cis_v200_3_4" {
 
 control "cis_v200_3_5" {
   title         = "3.5 Ensure Storage Logging is Enabled for Queue Service for 'Read', 'Write', and 'Delete' requests"
-  description   = "The Storage Queue service stores messages that may be read by any client who has access to the storage account. A queue can contain an unlimited number of messages, each of which can be up to 64KB in size using version 2011-08-18 or newer. Storage Logging happens server-side and allows details for both successful and failed requests to be recorded in the storage account. These logs allow users to see the details of read, write, and delete operations against the queues. Storage Logging log entries contain the following information about individual requests: Timing information such as start time, end-to-end latency, and server latency, authentication details, concurrency information, and the sizes of the request and response messages."
+  description   = "The Storage Queue service stores messages that may be read by any client who has access to the storage account. A queue can contain an unlimited number of messages, each of which can be up to 64KB in size using version 2011-08-18 or newer. Storage Logging happens server-side and allows details for both successful and failed requests to be recorded in the storage account."
   query         = query.storage_account_queue_services_logging_enabled
   documentation = file("./cis_v200/docs/cis_v200_3_5.md")
 
@@ -145,7 +145,7 @@ control "cis_v200_3_8" {
 
 control "cis_v200_3_9" {
   title         = "3.9 Ensure 'Allow Azure services on the trusted services list to access this storage account' is Enabled for Storage Account Access"
-  description   = "Some Azure services that interact with storage accounts operate from networks that can't be granted access through network rules. To help this type of service work as intended, allow the set of trusted Azure services to bypass the network rules. These services will then use strong authentication to access the storage account. If the Allow trusted Azure services exception is enabled, the following services are granted access to the storage account: Azure Backup, Azure Site Recovery, Azure DevTest Labs, Azure Event Grid, Azure Event Hubs, Azure Networking, Azure Monitor, and Azure SQL Data Warehouse (when registered in the subscription)."
+  description   = "Some Azure services that interact with storage accounts operate from networks that can't be granted access through network rules. To help this type of service work as intended, allow the set of trusted Azure services to bypass the network rules. These services will then use strong authentication to access the storage account."
   query         = query.storage_account_trusted_microsoft_services_enabled
   documentation = file("./cis_v200/docs/cis_v200_3_9.md")
 
@@ -159,7 +159,7 @@ control "cis_v200_3_9" {
 
 control "cis_v200_3_10" {
   title         = "3.10 Ensure Private Endpoints are used to access Storage Accounts"
-  description   = "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data located over a network via an encrypted Private Link. To do this, the private endpoint uses an IP address from the VNet for each service. Network traffic between disparate services securely traverses encrypted over the VNet. This VNet can also link addressing space, extending your network and accessing resources on it. Similarly, it can be a tunnel through public networks to connect remote infrastructures together. This creates further security through segmenting network traffic and preventing outside sources from accessing it."
+  description   = "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data located over a network via an encrypted Private Link. To do this, the private endpoint uses an IP address from the VNet for each service. Network traffic between disparate services securely traverses encrypted over the VNet."
   query         = query.storage_account_uses_private_link
   documentation = file("./cis_v200/docs/cis_v200_3_10.md")
 
@@ -173,7 +173,7 @@ control "cis_v200_3_10" {
 
 control "cis_v200_3_11" {
   title         = "3.11 Ensure Soft Delete is Enabled for Azure Containers and Blob Storage"
-  description   = "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal. Data that is erroneously modified or deleted by an application or other storage account user will cause data loss or unavailability. It is recommended that both Azure Containers with attached Blob Storage and standalone containers with Blob Storage be made recoverable by enabling the soft delete configuration. This is to save and recover data when blobs or blob snapshots are deleted."
+  description   = "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal. Data that is erroneously modified or deleted by an application or other storage account user will cause data loss or unavailability."
   query         = query.storage_account_soft_delete_enabled
   documentation = file("./cis_v200/docs/cis_v200_3_11.md")
 

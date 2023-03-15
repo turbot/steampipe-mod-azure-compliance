@@ -325,8 +325,8 @@ benchmark "cis_v200_5_3" {
 
 control "cis_v200_5_3_1" {
   title         = "5.3.1 Ensure Application Insights are Configured"
-  description   = "Application Insights within Azure act as an Application Performance Monitoring solution providing valuable data into how well an application performs and additional information when performing incident response. The types of log data collected include application metrics, telemetry data, and application trace logging data providing organizations with detailed information about application activity and application transactions. Both data sets help organizations adopt a proactive and retroactive means to handle security and performance related metrics within their modern applications."
-  # query         = query.manual_control
+  description   = "Application Insights within Azure act as an Application Performance Monitoring solution providing valuable data into how well an application performs and additional information when performing incident response. The types of log data collected include application metrics, telemetry data, and application trace logging data providing organizations with detailed information about application activity and application transactions."
+  query         = query.manual_control
   documentation = file("./cis_v200/docs/cis_v200_5_3_1.md")
 
   tags = merge(local.cis_v140_5_common_tags, {
@@ -339,7 +339,7 @@ control "cis_v200_5_3_1" {
 
 control "cis_v200_5_4" {
   title         = "5.4 Ensure that Azure Monitor Resource Logging is Enabled for All Services that Support it"
-  description   = "Resource Logs capture activity to the data access plane while the Activity log is a subscription-level log for the control plane. Resource-level diagnostic logs provide insight into operations that were performed within that resource itself; for example, reading or updating a secret from a Key Vault. Currently, 95 Azure resources support Azure Monitoring (See the more information section for a complete list), including Network Security Groups, Load Balancers, Key Vault, AD, Logic Apps, and CosmosDB. The content of these logs varies by resource type. A number of back-end services were not configured to log and store Resource Logs for certain activities or for a sufficient length. It is crucial that monitoring is correctly configured to log all relevant activities and retain those logs for a sufficient length of time. Given that the mean time to detection in an enterprise is 240 days, a minimum retention period of two years is recommended."
+  description   = "Resource Logs capture activity to the data access plane while the Activity log is a subscription-level log for the control plane. Resource-level diagnostic logs provide insight into operations that were performed within that resource itself; for example, reading or updating a secret from a Key Vault."
   query         = query.manual_control
   documentation = file("./cis_v200/docs/cis_v200_5_4.md")
 
@@ -354,7 +354,7 @@ control "cis_v200_5_4" {
 control "cis_v200_5_5" {
   title         = "5.5 Ensure that SKU Basic/Consumption is not used on artifacts that need to be monitored (Particularly for Production Workloads)"
   description   = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU's do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
-  # query         = query.manual_control
+  query         = query.manual_control
   documentation = file("./cis_v200/docs/cis_v200_5_5.md")
 
   tags = merge(local.cis_v200_5_common_tags, {

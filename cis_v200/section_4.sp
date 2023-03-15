@@ -476,7 +476,7 @@ control "cis_v200_4_5_2" {
 control "cis_v200_4_5_3" {
   title         = "4.5.3 Use Azure Active Directory (AAD) Client Authentication and Azure RBAC where possible"
   description   = "Cosmos DB can use tokens or AAD for client authentication which in turn will use Azure RBAC for authorization. Using AAD is significantly more secure because AAD handles the credentials and allows for MFA and centralized management, and the Azure RBAC better integrated with the rest of Azure."
-  # query         = query.cosmosdb_account_uses_private_link
+  query         = query.manual_control
   documentation = file("./cis_v200/docs/cis_v200_4_5_3.md")
 
   tags = merge(local.cis_v200_4_5_common_tags, {

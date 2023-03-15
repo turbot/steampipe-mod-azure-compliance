@@ -156,7 +156,7 @@ control "cis_v200_2_1_7" {
 }
 
 control "cis_v200_2_1_8" {
-  title         = "2.1.8 Ensure That Microsoft Defender for Containers Is Set To 'On' "
+  title         = "2.1.8 Ensure That Microsoft Defender for Containers Is Set To 'On'"
   description   = "Turning on Microsoft Defender for Containers enables threat detection for Container Registries including Kubernetes, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud."
   query         = query.securitycenter_azure_defender_on_for_containerregistry
   documentation = file("./cis_v200/docs/cis_v200_2_1_8.md")
@@ -381,7 +381,7 @@ benchmark "cis_v200_2_2" {
 control "cis_v200_2_2_1" {
   title         = "2.2.1 Ensure That Microsoft Defender for IoT Hub Is Set To 'On'"
   description   = "Microsoft Defender for IoT acts as a central security hub for IoT devices within your organization."
-  # query         = query.securitycenter_automatic_provisioning_monitoring_agent_on
+  query         = query.manual_control
   documentation = file("./cis_v200/docs/cis_v200_2_2_1.md")
 
   tags = merge(local.cis_v200_2_2_common_tags, {

@@ -253,7 +253,7 @@ control "cis_v200_1_4" {
 }
 
 control "cis_v200_1_5" {
-  title         = "1.5 Ensure Guest Users Are Reviewed on a Regular Basis'"
+  title         = "1.5 Ensure Guest Users Are Reviewed on a Regular Basis"
   description   = "Azure AD is extended to include Azure AD B2B collaboration, allowing you to invite people from outside your organization to be guest users in your cloud account and sign in with their own work, school, or social identities. Guest users allow you to share your company's applications and services with users from any other organization, while maintaining control over your own corporate data. Work with external partners, large or small, even if they don't have Azure AD or an IT department. A simple invitation and redemption process lets partners use their own credentials to access your company's resources as a guest user. Guest users in every subscription should be review on a regular basis to ensure that inactive and unneeded accounts are removed."
   query         = query.ad_guest_user_reviewed_monthly
   documentation = file("./cis_v200/docs/cis_v200_1_5.md")

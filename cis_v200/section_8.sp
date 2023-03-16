@@ -38,7 +38,7 @@ control "cis_v200_8_1" {
 }
 
 control "cis_v200_8_2" {
-  title         = "8.2 Ensure that the Expiration Date is set for all Keys in Non- RBAC Key Vaults"
+  title         = "8.2 Ensure that the Expiration Date is set for all Keys in Non-RBAC Key Vaults"
   description   = "Ensure that all Keys in Non Role Based Access Control (RBAC) Azure Key Vaults have an expiration date set."
   query         = query.keyvault_with_non_rbac_key_expiration_set
   documentation = file("./cis_v200/docs/cis_v200_8_2.md")

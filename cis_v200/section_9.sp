@@ -70,7 +70,7 @@ control "cis_v200_9_3" {
 }
 
 control "cis_v200_9_4" {
-  title         = "9.4 EEnsure the web app has 'Client Certificates (Incoming client certificates)' set to 'On'"
+  title         = "9.4 Ensure the web app has 'Client Certificates (Incoming client certificates)' set to 'On'"
   description   = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
   query         = query.appservice_web_app_incoming_client_cert_on
   documentation = file("./cis_v200/docs/cis_v200_9_4.md")

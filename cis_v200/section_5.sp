@@ -23,8 +23,8 @@ benchmark "cis_v200_5" {
     benchmark.cis_v200_5_1,
     benchmark.cis_v200_5_2,
     benchmark.cis_v200_5_3,
-    benchmark.cis_v200_5_5,
-    control.cis_v200_5_4
+    control.cis_v200_5_4,
+    benchmark.cis_v200_5_5
   ]
 
   tags = merge(local.cis_v200_5_common_tags, {

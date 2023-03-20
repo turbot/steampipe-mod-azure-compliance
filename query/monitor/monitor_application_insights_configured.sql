@@ -16,7 +16,7 @@ select
   end as status,
   case
     when i.subscription_id is null then sub.display_name || ' does not have application insights configured.'
-    else sub.display_name || ' have ' || no_application_insight || ' application insights configured.'
+    else sub.display_name || ' has ' || no_application_insight || ' application insights configured.'
   end as reason,
   -- Additional Dimensions
   sub.display_name as subscription

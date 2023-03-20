@@ -1,0 +1,41 @@
+## Description
+
+Enable Vulnerability Assessment (VA) Periodic recurring scans for critical SQL servers and corresponding SQL databases.
+
+VA setting 'Periodic recurring scans' schedules periodic (weekly) vulnerability scanning for the SQL server and corresponding Databases. Periodic and regular vulnerability scanning provides risk visibility based on updated known vulnerability signatures and best practices.
+
+## Remediation
+
+### From Azure Console
+
+1. Go to `SQL servers`.
+2. For each server instance.
+3. Click on `Security Center`.
+4. In Section `Vulnerability Assessment Settings`, set `Storage Account` if not already.
+5. Toggle 'Periodic recurring scans' to ON.
+6. Click `Save`.
+
+### From Powershell
+
+If not already, Enable `Advanced Data Security` for a SQL Server:
+
+```bash
+Set-AZSqlServerThreatDetectionPolicy -ResourceGroupName <resource group name> -ServerName <server name> -EmailAdmins $True
+```
+
+To enable ADS-VA service with 'Periodic recurring scans'
+
+```bash
+Update-AzSqlServerVulnerabilityAssessmentSetting `
+  -ResourceGroupName "<resource group name>"`
+  -ServerName "<Server Name>"`
+  -StorageAccountName "<Storage Name from same subscription and same Location" `
+  -ScanResultsContainerName "vulnerability-assessment" `
+  -RecurringScansInterval Weekly `
+  -EmailSubscriptionAdmins $true `
+  -NotificationEmail @("mail1@mail.com" , "mail2@mail.com")
+```
+
+### Default Value
+
+Enabling `Microsoft Defender for SQL` enables 'Periodic recurring scans' by default but does not configure the Storage account.

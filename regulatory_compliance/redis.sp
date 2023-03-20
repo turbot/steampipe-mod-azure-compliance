@@ -35,3 +35,13 @@ control "azure_redis_cache_in_virtual_network" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+control "redis_cache_no_basic_sku" {
+  title       = "Azure Cache for Redis should use standard SKUs as a minimum"
+  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
+  query       = query.redis_cache_no_basic_sku
+
+  tags = merge(local.regulatory_compliance_redis_common_tags, {
+    cis = "true"
+  })
+}

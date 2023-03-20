@@ -16,7 +16,7 @@ select
   end as status,
   case
     when i.subscription_id is null then sub.display_name || ' does not have bastion host.'
-    else sub.display_name || ' have ' || no_bastion_host || ' bastion host(s).'
+    else sub.display_name || ' has ' || no_bastion_host || ' bastion host(s).'
   end as reason,
   -- Additional Dimensions
   sub.display_name as subscription

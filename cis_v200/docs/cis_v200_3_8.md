@@ -1,0 +1,28 @@
+## Description
+
+Restricting default network access helps to provide a new layer of security, since storage accounts accept connections from clients on any network. To limit access to selected networks, the default action must be changed.
+
+Storage accounts should be configured to deny access to traffic from all networks (including internet traffic). Access can be granted to traffic from specific Azure Virtual networks, allowing a secure network boundary for specific applications to be built. Access can also be granted to public internet IP address ranges to enable connections from specific internet or on-premises clients. When network rules are configured, only applications from allowed networks can access a storage account. When calling from an allowed network, applications continue to require proper authorization (a valid access key or SAS token) to access the storage account.
+
+## Remediation
+
+### From Azure Console
+
+1. Go to `Storage Accounts`.
+2. For each storage account, Click on the `Networking` blade.
+3. Click the `Firewalls and virtual networks` heading.
+4. Ensure that you have elected to `allow access from Selected networks`.
+5. Add rules to allow traffic from specific network.
+6. Click Save to apply your changes.
+
+### From Azure CLI
+
+Use the below command to update `default-action` to `Deny`.
+
+```bash
+az storage account update --name <StorageAccountName> --resource-group <resourceGroupName> --default-action Deny
+```
+
+### Default Value
+
+By default, Storage Accounts will accept connections from clients on any network.

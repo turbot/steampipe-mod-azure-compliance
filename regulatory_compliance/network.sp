@@ -96,3 +96,33 @@ control "network_ddos_enabled" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+control "network_virtual_network_gateway_no_basic_sku" {
+  title       = "Virtual network gateways should use standard SKUs as a minimum"
+  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
+  query       = query.network_virtual_network_gateway_no_basic_sku
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    cis = "true"
+  })
+}
+
+control "network_lb_no_basic_sku" {
+  title       = "Network load balancers should use standard SKUs as a minimum"
+  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
+  query       = query.network_lb_no_basic_sku
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    cis = "true"
+  })
+}
+
+control "network_public_ip_no_basic_sku" {
+  title       = "Network public IPs should use standard SKUs as a minimum"
+  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
+  query       = query.network_public_ip_no_basic_sku
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    cis = "true"
+  })
+}

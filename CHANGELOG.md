@@ -2,7 +2,7 @@
 
 _Bug fixes_
 
-- Fixed the ordering of sub-benchmarks and controls in the `5 Logging and Monitoring` benchmark section of `CIS v2.0.0`. ([#151](https://github.com/turbot/steampipe-mod-azure-compliance/pull/151))
+- Fixed the ordering of sub-benchmarks and controls in `cis_v200_5` benchmark. ([#151](https://github.com/turbot/steampipe-mod-azure-compliance/pull/151))
 
 ## v0.22 [2023-03-20]
 

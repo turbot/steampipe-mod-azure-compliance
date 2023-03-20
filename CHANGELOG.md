@@ -1,3 +1,13 @@
+## v0.22 [2023-03-20]
+
+_Dependencies_
+
+- Azure plugin `v0.38.0` or higher is now required. ([#147](https://github.com/turbot/steampipe-mod-azure-compliance/pull/147))
+
+_What's new?_
+
+- Added CIS v2.0.0 benchmark (`steampipe check azure_compliance.benchmark.cis_v200`). ([#147](https://github.com/turbot/steampipe-mod-azure-compliance/pull/147))
+
 ## v0.21 [2023-02-28]
 
 _Dependencies_

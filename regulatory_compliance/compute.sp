@@ -535,7 +535,6 @@ control "compute_vm_restrict_remote_connection_from_accounts_without_password_li
   })
 }
 
-
 control "compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed" {
   title       = "Managed disks should be double encrypted with both platform-managed and customer-managed keys"
   description = "High security sensitive customers who are concerned of the risk associated with any particular encryption algorithm, implementation, or key being compromised can opt for additional layer of encryption using a different encryption algorithm/mode at the infrastructure layer using platform managed encryption keys. The disk encryption sets are required to use double encryption."
@@ -675,4 +674,1722 @@ control "compute_vm_guest_configuration_with_no_managed_identity" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     pci_dss_v321 = "true"
   })
+}
+
+query "compute_os_and_data_disk_encrypted_with_cmk" {
+  sql = <<-EOQ
+    select
+      -- Required Columns
+      disk.id as resource,
+      case
+        when encryption_type = 'EncryptionAtRestWithCustomerKey' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when encryption_type = 'EncryptionAtRestWithCustomerKey' then disk.name || ' encrypted with CMK.'
+        else disk.name || ' not encrypted with CMK.'
+      end as reason,
+      -- Additional Dimensions
+      resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_disk disk,
+      azure_subscription sub
+    where
+      disk_state = 'Attached'
+      and sub.subscription_id = disk.subscription_id;
+  EOQ
+}
+
+query "compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed" {
+  sql = <<-EOQ
+    select
+      -- Required Columns
+      disk.id as resource,
+      case
+        when encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys' then disk.name || ' encrypted with both platform-managed and customer-managed keys.'
+        else disk.name || ' not encrypted with both platform-managed and customer-managed keys.'
+      end as reason,
+      -- Additional Dimensions
+      resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_disk disk,
+      azure_subscription sub
+    where
+      disk_state = 'Attached'
+      and sub.subscription_id = disk.subscription_id;
+  EOQ
+}
+
+query "compute_vm_restrict_remote_connection_from_accounts_without_password_linux" {
+  sql = <<-EOQ
+    with compute_machine as(
+      select
+        id,
+        name,
+        subscription_id,
+        resource_group
+      from
+        azure_compute_virtual_machine,
+        jsonb_array_elements(guest_configuration_assignments) as e
+      where
+        e ->> 'name' = 'PasswordPolicy_msid110'
+        and e ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.id as resource,
+      case
+        when a.os_type <> 'Linux' then 'skip'
+        when m.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Linux' then a.name || ' is of ' || a.os_type || ' operating system.'
+        when m.id is not null then a.name || ' restrict remote connections from accounts without passwords.'
+        else a.name || ' allows remote connections from accounts without passwords.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join compute_machine as m on m.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_unattached_disk_encrypted_with_cmk" {
+  sql = <<-EOQ
+    select
+      -- Required Columns
+      disk.id as resource,
+      case
+        when encryption_type = 'EncryptionAtRestWithCustomerKey' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when encryption_type = 'EncryptionAtRestWithCustomerKey' then disk.name || ' encrypted with CMK.'
+        else disk.name || ' not encrypted with CMK.'
+      end as reason,
+      -- Additional Dimensions
+      resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_disk disk,
+      azure_subscription sub
+    where
+      disk_state != 'Attached'
+      and sub.subscription_id = disk.subscription_id;
+  EOQ
+}
+
+query "compute_vm_attached_with_network" {
+  sql = <<-EOQ
+    with vm_with_network_interfaces as (
+      select
+        vm.id as vm_id,
+        n ->> 'id' as network_id
+      from
+        azure_compute_virtual_machine as vm,
+        jsonb_array_elements(network_interfaces) as n
+    ),
+    vm_with_appoved_networks as (
+      select
+        vn.vm_id as vm_id,
+        vn.network_id as network_id,
+        t.title as title
+      from
+        vm_with_network_interfaces as vn
+        left join azure_network_interface as t on t.id = vn.network_id
+        where exists
+          (select
+            ip -> 'properties' -> 'subnet' ->> 'id' as ip
+          FROM
+            azure_network_interface,
+            jsonb_array_elements(ip_configurations) as ip
+          where
+            ip -> 'properties' -> 'subnet' ->> 'id' is not null)
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when b.vm_id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when b.vm_id is null then a.title || ' not attached with virtual network.'
+        else a.name || ' attached with virtual network ' || b.title || '.'
+      end as reason,
+      -- Additional Dimensions
+      resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join vm_with_appoved_networks as b on a.id = b.vm_id,
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_remote_access_restricted_all_ports" {
+  sql = <<-EOQ
+    with network_sg as (
+      select
+        distinct name as sg_name,
+        network_interfaces
+      from
+        azure_network_security_group as nsg,
+        jsonb_array_elements(security_rules) as sg,
+        jsonb_array_elements_text(sg -> 'properties' -> 'destinationPortRanges' || (sg -> 'properties' -> 'destinationPortRange') :: jsonb) as dport,
+        jsonb_array_elements_text(sg -> 'properties' -> 'sourceAddressPrefixes' || (sg -> 'properties' -> 'sourceAddressPrefix') :: jsonb) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and sg -> 'properties' ->> 'protocol' in ('TCP','*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', '<nw>/0', '/0')
+    )
+    select
+      -- Required Columns
+      vm.vm_id as resource,
+      case
+        when sg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sg.sg_name is null then vm.title || ' restricts remote access from internet.'
+        else vm.title || ' allows remote access from internet.'
+      end as reason,
+      -- Additional Dimensions
+      vm.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as vm
+      left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
+      join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
+  EOQ
+}
+
+query "compute_vm_tcp_udp_access_restricted_internet" {
+  sql = <<-EOQ
+    with network_sg as (
+      select
+        distinct name as sg_name,
+        network_interfaces
+      from
+        azure_network_security_group as nsg,
+        jsonb_array_elements(security_rules) as sg,
+        jsonb_array_elements_text(sg -> 'properties' -> 'destinationPortRanges' || (sg -> 'properties' -> 'destinationPortRange') :: jsonb) as dport,
+        jsonb_array_elements_text(sg -> 'properties' -> 'sourceAddressPrefixes' || (sg -> 'properties' -> 'sourceAddressPrefix') :: jsonb) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and sg -> 'properties' ->> 'protocol' in ('TCP', 'UDP')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('22', '3389', '*')
+          or (
+            dport like '%-%'
+            and (
+              (
+              53 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
+              or 123 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
+              or 161 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
+              or 389 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
+              or 1900 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
+              )
+              or (
+                split_part(dport, '-', 1) :: integer <= 3389
+                and split_part(dport, '-', 2) :: integer >= 3389
+              )
+              or (
+                split_part(dport, '-', 1) :: integer <= 22
+                and split_part(dport, '-', 2) :: integer >= 22
+              )
+            )
+          )
+        )
+    )
+    select
+      -- Required Columns
+      vm.vm_id as resource,
+      case
+        when sg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sg.sg_name is null then vm.title || ' restricts remote access from internet.'
+        else vm.title || ' allows remote access from internet.'
+      end as reason,
+      -- Additional Dimensions
+      vm.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as vm
+      left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
+      join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
+  EOQ
+}
+
+query "compute_vm_jit_access_protected" {
+  sql = <<-EOQ
+    with compute as (
+      select
+        vm.id as resource,
+        'alarm' as status,
+        vm.name || ' not JIT protected.' as reason,
+        vm.resource_group,
+        sub.display_name as subscription
+      from
+        azure_compute_virtual_machine as vm,
+        azure_subscription sub
+      where
+        vm.subscription_id = sub.subscription_id
+    )
+    select
+      -- Required Columns
+      distinct vm.vm_id as resource,
+      case
+        when lower(vm.id) = lower(vms ->> 'id') then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when lower(vms ->> 'id') = lower(vm.id) then vm.name || ' JIT protected.'
+        else vm.name || ' not JIT protected.'
+      end as reason,
+      -- Additional Dimensions
+      vm.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as vm,
+      azure_security_center_jit_network_access_policy as jit,
+      jsonb_array_elements(virtual_machines) as vms,
+      azure_subscription as sub
+      left join compute on true
+    where
+      jit.subscription_id = sub.subscription_id;
+  EOQ
+}
+
+query "compute_vm_log_analytics_agent_installed" {
+  sql = <<-EOQ
+    with agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.EnterpriseCloud.Monitoring'
+        and b ->> 'ExtensionType' = any(ARRAY ['MicrosoftMonitoringAgent', 'OmsAgentForLinux'])
+        and b ->> 'ProvisioningState' = 'Succeeded'
+        and b -> 'Settings' ->> 'workspaceId' is not null
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.vm_id is not null then a.title || ' have log analytics agent installed.'
+        else a.title || ' log analytics agent not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_log_analytics_agent_installed_windows" {
+  sql = <<-EOQ
+    with agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.EnterpriseCloud.Monitoring'
+        and b ->> 'ExtensionType' = any(ARRAY ['MicrosoftMonitoringAgent', 'OmsAgentForLinux'])
+        and b ->> 'ProvisioningState' = 'Succeeded'
+        and b -> 'Settings' ->> 'workspaceId' is not null
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating syetem.'
+        when b.vm_id is not null then a.title || ' have log analytics agent installed.'
+        else a.title || ' log analytics agent not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_malware_agent_installed" {
+  sql = <<-EOQ
+    with malware_agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.Azure.Security'
+        and b ->> 'ExtensionType' = 'IaaSAntimalware'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.vm_id is not null then a.title || ' IaaSAntimalware extension installed.'
+        else a.title || ' IaaSAntimalware extension not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join malware_agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_scale_set_log_analytics_agent_installed" {
+  sql = <<-EOQ
+    with agent_installed_vm_scale_set as (
+      select
+        distinct a.id as vm_id
+      from
+        azure_compute_virtual_machine_scale_set as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.EnterpriseCloud.Monitoring'
+        and b ->> 'ExtensionType' = any(ARRAY ['MicrosoftMonitoringAgent', 'OmsAgentForLinux'])
+        and b ->> 'ProvisioningState' = 'Succeeded'
+        and b -> 'Settings' ->> 'workspaceId' is not null
+    )
+    select
+      -- Required Columns
+      a.id as resource,
+      case
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.vm_id is not null then a.title || ' have log analytics agent installed.'
+        else a.title || ' log analytics agent not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine_scale_set as a
+      left join agent_installed_vm_scale_set as b on a.id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_disaster_recovery_enabled" {
+  sql = <<-EOQ
+    with vm_dr_enabled as (
+      select
+        substr(source_id, 0, length(source_id)) as source_id
+      from
+        azure_resource_link as l
+        left join azure_compute_virtual_machine as vm on lower(substr(source_id, 0, length(source_id)))= lower(vm.id)
+      where
+        l.name like 'ASR-Protect-%'
+    )
+    select
+      -- Required Columns
+      vm.vm_id as resource,
+      case
+        when l.source_id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when l.source_id is null then vm.title || ' disaster recovery disabled.'
+        else vm.title || ' disaster recovery enabled.'
+      end as reason,
+      -- Additional Dimensions
+      resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as vm
+      left join vm_dr_enabled as l on lower(vm.id) = lower(l.source_id),
+      azure_subscription sub
+    where
+      sub.subscription_id = vm.subscription_id;
+  EOQ
+}
+
+query "compute_vm_malware_agent_automatic_upgrade_enabled" {
+  sql = <<-EOQ
+    with malware_agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.Azure.Security'
+        and b ->> 'ExtensionType' = 'IaaSAntimalware'
+        and b ->> 'AutoUpgradeMinorVersion' = 'true'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating syetem.'
+        when b.vm_id is not null then a.title || ' automatic update of Microsoft Antimalware protection signatures enabled.'
+        else a.title || ' automatic update of Microsoft Antimalware protection signatures not enabled.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join malware_agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_scale_set_logging_enabled" {
+  sql = <<-EOQ
+    with malware_agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.Azure.Security'
+        and b ->> 'ExtensionType' = 'IaaSAntimalware'
+        and b ->> 'AutoUpgradeMinorVersion' = 'true'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating syetem.'
+        when b.vm_id is not null then a.title || ' automatic update of Microsoft Antimalware protection signatures enabled.'
+        else a.title || ' automatic update of Microsoft Antimalware protection signatures not enabled.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join malware_agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_network_traffic_data_collection_windows_agent_installed" {
+  sql = <<-EOQ
+    with agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'ExtensionType' = 'DependencyAgentWindows'
+        and b ->> 'Publisher' = 'Microsoft.Azure.Monitoring.DependencyAgent'
+        and b ->> 'ProvisioningState' = 'Succeeded'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' have data collection agent installed.'
+        else a.title || ' data collection agent not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_network_traffic_data_collection_linux_agent_installed" {
+  sql = <<-EOQ
+    with agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'ExtensionType' = 'DependencyAgentLinux'
+        and b ->> 'Publisher' = 'Microsoft.Azure.Monitoring.DependencyAgent'
+        and b ->> 'ProvisioningState' = 'Succeeded'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Linux' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Linux' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' have data collection agent installed.'
+        else a.title || ' data collection agent not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_uses_azure_resource_manager" {
+  sql = <<-EOQ
+    select
+      -- Required Columns
+      vm.vm_id as resource,
+      case
+        when resource_group is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when resource_group is not null then vm.title || ' uses azure resource manager.'
+        else vm.title || ' not uses azure resource manager.'
+      end as reason,
+      -- Additional Dimensions
+      resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as vm,
+      azure_subscription as sub
+    where
+      sub.subscription_id = vm.subscription_id;
+  EOQ
+}
+
+query "compute_vm_system_updates_installed" {
+  sql = <<-EOQ
+    select
+      -- Required Columns
+      vm.vm_id as resource,
+      case
+        when enable_automatic_updates then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when enable_automatic_updates then vm.title || ' automatic system updates enabled.'
+        else vm.title || ' automatic system updates disabled.'
+      end as reason,
+      -- Additional Dimensions
+      resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as vm,
+      azure_subscription as sub
+    where
+      sub.subscription_id = vm.subscription_id;
+  EOQ
+}
+
+query "compute_vm_vulnerability_assessment_solution_enabled" {
+  sql = <<-EOQ
+    with defender_enabled_vms as (
+      select
+        distinct a.vm_id as vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'ExtensionType' = any(ARRAY ['MDE.Linux', 'MDE.Windows'])
+        and b ->> 'ProvisioningState' = 'Succeeded'
+    ),
+    agent_installed_vm as (
+      select
+        distinct a.vm_id as vm_id
+      from
+        defender_enabled_vms as a
+        left join azure_compute_virtual_machine as w on w.vm_id = a.vm_id,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Qualys'
+        and b ->> 'ExtensionType' = any(ARRAY ['WindowsAgent.AzureSecurityCenter', 'LinuxAgent.AzureSecurityCenter'])
+        and b ->> 'ProvisioningState' = 'Succeeded'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.vm_id is not null then a.title || ' have vulnerability assessment solution enabled.'
+        else a.title || ' have vulnerability assessment solution disabled.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_azure_defender_enabled" {
+  sql = <<-EOQ
+    select
+      -- Required Columns
+      pricing.id as resource,
+      case
+        when name = 'VirtualMachines' and pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when name = 'VirtualMachines' and pricing_tier = 'Standard' then 'VirtualMachines azure defender enabled.'
+        else name || 'VirtualMachines azure defender disabled.'
+      end as reason,
+      -- Additional Dimensions
+      sub.display_name as subscription
+    from
+      azure_security_center_subscription_pricing as pricing,
+      azure_subscription as sub
+    where
+      sub.subscription_id = pricing.subscription_id
+      and name = 'VirtualMachines';
+  EOQ
+}
+
+query "compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity" {
+  sql = <<-EOQ
+    with gc_installed_vm as (
+      select
+        distinct a.vm_id,
+        title
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when b.vm_id is null then 'skip'
+        when not string_to_array(a.identity ->> 'type' , ', ') @> array['UserAssigned'] then 'skip'
+        when string_to_array(identity ->> 'type' , ', ') @> array['UserAssigned', 'SystemAssigned'] then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.vm_id is null then a.title || ' guest configuration extension not installed.'
+        when not string_to_array(a.identity ->> 'type' , ', ') @> array['UserAssigned'] then a.title || ' does not have user assigned managed identity.'
+        when string_to_array(identity ->> 'type' , ', ') @> array['UserAssigned', 'SystemAssigned'] then a.title || ' guest configuration extension installed with user and system assigned managed identity.'
+        else a.title || ' guest configuration extension not installed with user and system assigned managed identity.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join gc_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_passwords_stored_using_reversible_encryption_windows" {
+  sql = <<-EOQ
+    with vm_password_reversible_encryption as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name'= 'StorePasswordsUsingReversibleEncryption'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' store passwords using reversible encryption.'
+        else a.title || ' not store passwords using reversible encryption'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join vm_password_reversible_encryption as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_account_with_password_linux" {
+  sql = <<-EOQ
+    with vm_ssh_key_auth as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name'= 'PasswordPolicy_msid232'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Linux' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Linux' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' have accounts with passwords.'
+        else a.title || ' does not have have accounts with passwords.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join vm_ssh_key_auth as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_ssh_key_authentication_linux" {
+  sql = <<-EOQ
+    with vm_ssh_key_auth as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name'= 'LinuxNoPasswordForSSH'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Linux' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Linux' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' have SSH keys authentication.'
+        else a.title || ' does not have SSH keys authentication.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join vm_ssh_key_auth as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_guest_configuration_installed_linux" {
+  sql = <<-EOQ
+    with agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
+        and b ->> 'ProvisioningState' = 'Succeeded'
+        and b ->> 'ExtensionType' = 'ConfigurationforLinux'
+        and b ->> 'Name' like '%AzurePolicyforLinux'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Linux' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Linux' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
+        else a.title || ' guest configuration extension not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_guest_configuration_installed" {
+  sql = <<-EOQ
+    with agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
+        and b ->> 'ProvisioningState' = 'Succeeded'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
+        else a.title || ' guest configuration extension not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "arc_compute_machine_linux_log_analytics_agent_installed" {
+  sql = <<-EOQ
+    with compute_machine as(
+      select
+        id,
+        name,
+        subscription_id,
+        resource_group
+      from
+        azure_hybrid_compute_machine,
+        jsonb_array_elements(extensions) as e
+      where
+      e ->> 'name' = 'OMSAgentForLinux'
+      and e ->> 'provisioningState' = 'Succeeded'
+    )
+    select
+      -- Required Columns
+      a.id as resource,
+      case
+        when a.os_name <> 'linux' then 'skip'
+        when m.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_name <> 'linux' then a.name || ' is of ' || a.os_name || ' operating system.'
+        when m.id is not null then a.name || ' log analytics extension installed.'
+        else a.name || ' log analytics extension not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+    azure_hybrid_compute_machine as a
+    left join compute_machine as m on m.id = a.id,
+    azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_guest_configuration_installed_windows" {
+  sql = <<-EOQ
+    with agent_installed_vm as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
+        and b ->> 'ProvisioningState' = 'Succeeded'
+        and b ->> 'ExtensionType' = 'ConfigurationforWindows'
+        and b ->> 'Name' like '%AzurePolicyforWindows'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
+        else a.title || ' guest configuration extension not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join agent_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_restrict_previous_24_passwords_resuse_windows" {
+  sql = <<-EOQ
+    with vm_enforce_password_history as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name'= 'EnforcePasswordHistory'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' enforce password history.'
+        else a.title || ' doest not enforce password history.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join vm_enforce_password_history as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_max_password_age_70_days_windows" {
+  sql = <<-EOQ
+    with vm_maximum_password_age as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name'= 'MaximumPasswordAge'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' maximum password age is 70 days.'
+        else a.title || ' maximum password age is not 70 days.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join vm_maximum_password_age as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_min_password_age_1_day_windows" {
+  sql = <<-EOQ
+    with vm_min_password_age as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name'= 'MinimumPasswordAge'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' minimum password age is 1 day.'
+        else a.title || ' minimum password age is not 1 day.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join vm_min_password_age as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_password_complexity_setting_enabled_windows" {
+  sql = <<-EOQ
+    with vm_password_complexity_setting as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name'= 'PasswordMustMeetComplexityRequirements'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' password complexity setting enabled.'
+        else a.title || ' password complexity setting disabled.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join vm_password_complexity_setting as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_min_password_length_14_windows" {
+  sql = <<-EOQ
+    with vm_min_password_age as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name'= 'MinimumPasswordLength'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' minimum password length is 14 characters.'
+        else a.title || ' minimum password length is not 14 characters.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join vm_min_password_age as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_disk_access_uses_private_link" {
+  sql = <<-EOQ
+    with compute_disk_connection as (
+      select
+        distinct a.id
+      from
+        azure_compute_disk_access as a,
+        jsonb_array_elements(private_endpoint_connections) as connection
+      where
+        connection ->> 'PrivateLinkServiceConnectionStateStatus' = 'Approved'
+    )
+    select
+      -- Required Columns
+      b.id as resource,
+      case
+        when c.id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when c.id is null then b.name || ' not uses private link.'
+        else b.name || ' uses private link.'
+      end as reason,
+      -- Additional Dimensions
+      resource_group
+      --sub.display_name as subscription
+    from
+      azure_compute_disk_access as b
+      left join compute_disk_connection as c on b.id = c.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = b.subscription_id;
+  EOQ
+}
+
+query "network_interface_ip_forwarding_disabled" {
+  sql = <<-EOQ
+    with vm_using_nic as (
+      select
+        id as vm_id,
+        name as vm_name,
+        resource_group as rg,
+        subscription_id as sub,
+        b ->> 'id' as nic_id
+      from
+        azure_compute_virtual_machine as c,
+        jsonb_array_elements(network_interfaces) as b
+    )
+    select
+      -- Required Columns
+      v.vm_id as resource,
+      case
+        when i.enable_ip_forwarding then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when i.enable_ip_forwarding then v.vm_name || ' using ' || i.name || ' network interface enabled with IP forwarding.'
+        else v.vm_name || ' using ' || i.name || ' network interface disabled with IP forwarding.'
+      end as reason,
+      -- Additional Dimensions
+      v.rg,
+      v.sub as subscription
+    from
+      azure_subscription as sub,
+      vm_using_nic as v
+      left join azure_network_interface as i on i.id = v.nic_id;
+  EOQ
+}
+
+query "arc_compute_machine_windows_log_analytics_agent_installed" {
+  sql = <<-EOQ
+    with compute_machine as(
+      select
+        id,
+        name,
+        subscription_id,
+        resource_group
+      from
+        azure_hybrid_compute_machine,
+        jsonb_array_elements(extensions) as e
+      where
+      e ->> 'name' = 'MicrosoftMonitoringAgent'
+      and e ->> 'provisioningState' = 'Succeeded'
+    )
+    select
+      -- Required Columns
+      a.id as resource,
+      case
+        when a.os_name <> 'windows' then 'skip'
+        when m.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_name <> 'windows' then a.name || ' is of ' || a.os_name || ' operating system.'
+        when m.id is not null then a.name || ' log analytics extension installed.'
+        else a.name || ' log analytics extension not installed.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+    azure_hybrid_compute_machine as a
+    left join compute_machine as m on m.id = a.id,
+    azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_guest_configuration_with_system_assigned_managed_identity" {
+  sql = <<-EOQ
+    with gc_installed_vm as (
+      select
+        distinct a.vm_id,
+        title
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when b.vm_id is null then 'skip'
+        when b.vm_id is not null and string_to_array(identity ->> 'type' , ', ') @> array['SystemAssigned'] then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.vm_id is null then a.title || ' guest configuration extension not installed.'
+        when b.vm_id is not null and string_to_array(identity ->> 'type' , ', ') @> array['SystemAssigned'] then a.title || ' guest configuration extension installed with system-assigned managed identity.'
+        else a.title || ' guest configuration extension not installed with system-assigned managed identity.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join gc_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_windows_defender_exploit_guard_enabled" {
+  sql = <<-EOQ
+    with compute_machine as(
+      select
+        id,
+        name,
+        subscription_id,
+        resource_group
+      from
+        azure_compute_virtual_machine,
+        jsonb_array_elements(guest_configuration_assignments) as e
+      where
+      e ->> 'name' = 'WindowsDefenderExploitGuard'
+      and e ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when m.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.name || ' is of ' || a.os_type || ' operating system.'
+        when m.id is not null then a.name || ' windows defender exploit guard enabled.'
+        else a.name || ' windows defender exploit guard disabled.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join compute_machine as m on m.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_secure_communication_protocols_configured" {
+  sql = <<-EOQ
+    with compute_machine as(
+      select
+        id,
+        name,
+        subscription_id,
+        resource_group,c
+      from
+        azure_compute_virtual_machine,
+        jsonb_array_elements(guest_configuration_assignments) as e,
+        jsonb_array_elements(e -> 'guestConfiguration' -> 'configurationParameter') as c
+      where
+        e ->> 'name' = 'AuditSecureProtocol'
+        and e ->> 'complianceStatus' = 'Compliant'
+        and c ->> 'name' = 'MinimumTLSVersion'
+        and c ->> 'value' = '1.3'
+    )
+    select
+      -- Required Columns
+      a.id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when m.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.name || ' is of ' || a.os_type || ' operating system.'
+        when m.id is not null then a.name || ' configured to use secure communication protocols.'
+        else a.name || ' not configured to use secure communication protocols.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join compute_machine as m on m.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
+  sql = <<-EOQ
+    (
+      select
+        -- Required Columns
+        a.id as resource,
+        case
+          when security_profile -> 'encryptionAtHost' = 'true' then 'ok'
+          else 'alarm'
+        end as status,
+        case
+          when security_profile -> 'encryptionAtHost' = 'true' then a.name || ' encryption at host enabled.'
+          else a.name || ' encryption at host disabled.'
+        end as reason,
+        -- Additional Dimensions
+        a.resource_group,
+        sub.display_name as subscription
+      from
+        azure_compute_virtual_machine as a,
+        azure_subscription as sub
+      where
+        sub.subscription_id = a.subscription_id
+    )
+    union
+    (
+      select
+        -- Required Columns
+        a.id as resource,
+        case
+          when virtual_machine_security_profile -> 'encryptionAtHost' = 'true' then 'ok'
+          else 'alarm'
+        end as status,
+        case
+          when virtual_machine_security_profile -> 'encryptionAtHost' = 'true' then a.name || ' encryption at host enabled.'
+          else a.name || ' encryption at host disabled.'
+        end as reason,
+        -- Additional Dimensions
+        a.resource_group,
+        sub.display_name as subscription
+      from
+        azure_compute_virtual_machine_scale_set as a,
+        azure_subscription as sub
+      where
+        sub.subscription_id = a.subscription_id
+    )
+  EOQ
+}
+
+query "compute_vm_meet_security_baseline_requirements_linux" {
+  sql = <<-EOQ
+    with compute_machine as(
+      select
+        id,
+        name,
+        subscription_id,
+        resource_group
+      from
+        azure_compute_virtual_machine,
+        jsonb_array_elements(guest_configuration_assignments) as e
+      where
+        e ->> 'name' = 'AzureLinuxBaseline'
+        and e ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Linux' then 'skip'
+        when m.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Linux' then a.name || ' is of ' || a.os_type || ' operating system.'
+        when m.id is not null then a.name || ' meet requirements for azure compute security baseline.'
+        else a.name || ' does not meet requirements for azure compute security baseline.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join compute_machine as m on m.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_meet_security_baseline_requirements_windows" {
+  sql = <<-EOQ
+    with compute_machine as(
+      select
+        id,
+        name,
+        subscription_id,
+        resource_group
+      from
+        azure_compute_virtual_machine,
+        jsonb_array_elements(guest_configuration_assignments) as e
+      where
+      e ->> 'name' = 'AzureWindowsBaseline'
+      and e ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when m.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.name || ' is of ' || a.os_type || ' operating system.'
+        when m.id is not null then a.name || ' meet requirements for azure compute security baseline.'
+        else a.name || ' does not meet requirements for azure compute security baseline.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join compute_machine as m on m.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_guest_configuration_with_no_managed_identity" {
+  sql = <<-EOQ
+    with gc_installed_vm as (
+      select
+        distinct a.vm_id,
+        title
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
+    )
+    select
+      -- Required Columns
+      a.vm_id as resource,
+      case
+        when b.vm_id is null then 'skip'
+        when b.vm_id is not null and identity ->> 'type' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.vm_id is null then a.title || ' guest configuration extension not installed.'
+        when b.vm_id is not null and identity ->> 'type' is not null then a.title || ' guest configuration extension installed with ' || (identity ->> 'type') || ' managed identity.'
+        else a.title || ' guest configuration extension not installed with managed identity.'
+      end as reason,
+      -- Additional Dimensions
+      a.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as a
+      left join gc_installed_vm as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+# Non-Config rule query
+
+query "compute_vm_remote_access_restricted" {
+  sql = <<-EOQ
+    with network_sg as (
+      select
+        distinct name as sg_name,
+        network_interfaces
+      from
+        azure_network_security_group as nsg,
+        jsonb_array_elements(security_rules) as sg,
+        jsonb_array_elements_text(sg -> 'properties' -> 'destinationPortRanges' || (sg -> 'properties' -> 'destinationPortRange') :: jsonb) as dport,
+        jsonb_array_elements_text(sg -> 'properties' -> 'sourceAddressPrefixes' || (sg -> 'properties' -> 'sourceAddressPrefix') :: jsonb) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and sg -> 'properties' ->> 'protocol' = 'TCP'
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', '<nw>/0', '/0')
+        and (
+          dport in ('22', '3389', '*')
+          or (
+            dport like '%-%'
+            and (
+              (
+                split_part(dport, '-', 1) :: integer <= 3389
+                and split_part(dport, '-', 2) :: integer >= 3389
+              )
+              or (
+                split_part(dport, '-', 1) :: integer <= 22
+                and split_part(dport, '-', 2) :: integer >= 22
+              )
+            )
+          )
+        )
+    )
+    select
+      -- Required Columns
+      vm.vm_id as resource,
+      case
+        when sg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sg.sg_name is null then vm.title || ' restricts remote access from internet.'
+        else vm.title || ' allows remote access from internet.'
+      end as reason,
+      -- Additional Dimensions
+      vm.resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as vm
+      left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
+      join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
+  EOQ
+}
+
+query "compute_vm_utilizing_managed_disk" {
+  sql = <<-EOQ
+    select
+      -- Required Columns
+      vm.id as resource,
+      case
+        when managed_disk_id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when managed_disk_id is null then vm.name || ' VM not utilizing managed disks.'
+        else vm.name || ' VM utilizing managed disks.'
+      end as reason,
+      -- Additional Dimensions
+      resource_group,
+      sub.display_name as subscription
+    from
+      azure_compute_virtual_machine as vm,
+      azure_subscription as sub
+    where
+      sub.subscription_id = vm.subscription_id;
+  EOQ
 }

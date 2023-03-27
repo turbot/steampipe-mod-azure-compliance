@@ -126,3 +126,145 @@ control "network_public_ip_no_basic_sku" {
     cis = "true"
   })
 }
+
+query "network_security_group_remote_access_restricted" {
+  sql = <<-EOQ
+    with network_sg as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules) sg,
+        jsonb_array_elements_text(sg -> 'properties' -> 'destinationPortRanges' || (sg -> 'properties' -> 'destinationPortRange') :: jsonb) dport,
+        jsonb_array_elements_text(sg -> 'properties' -> 'sourceAddressPrefixes' || (sg -> 'properties' -> 'sourceAddressPrefix') :: jsonb) sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('22', '3389', '*')
+          or (
+            dport like '%-%'
+            and (
+              (
+                split_part(dport, '-', 1) :: integer <= 3389
+                and split_part(dport, '-', 2) :: integer >= 3389
+              )
+              or (
+                split_part(dport, '-', 1) :: integer <= 22
+                and split_part(dport, '-', 2) :: integer >= 22
+              )
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is null then sg.title || ' restricts remote access from internet.'
+        else sg.title || ' allows remote access from internet.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group as sg
+      left join network_sg as nsg on nsg.sg_name = sg.name
+      join azure_subscription as sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_rdp_access_restricted" {
+  sql = <<-EOQ
+    with network_sg as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules) sg,
+        jsonb_array_elements_text(sg -> 'properties' -> 'destinationPortRanges' || (sg -> 'properties' -> 'destinationPortRange') :: jsonb) dport,
+        jsonb_array_elements_text(sg -> 'properties' -> 'sourceAddressPrefixes' || (sg -> 'properties' -> 'sourceAddressPrefix') :: jsonb) sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('3389', '*')
+          or (
+            dport like '%-%'
+            and split_part(dport, '-', 1) :: integer <= 3389
+            and split_part(dport, '-', 2) :: integer >= 3389
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is null
+          then sg.title || ' restricts RDP access from internet.'
+        else sg.title || ' allows RDP access from internet.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_watcher_enabled" {
+  sql = <<-EOQ
+    select
+      loc.id resource,
+      case
+        when watcher.id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when watcher.id is null then 'Network watcher not enabled in ' || loc.name || '.'
+        else 'Network watcher enabled in ' || loc.name || '.'
+      end as reason,
+      loc.name
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "loc.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_location loc
+      left join azure_network_watcher watcher on watcher.region = loc.name
+      join azure_subscription sub on sub.subscription_id = loc.subscription_id;
+  EOQ
+}
+
+query "network_security_group_subnet_associated" {
+  sql = <<-EOQ
+    select
+      sg.id resource,
+      case
+        when subnets is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when subnets is null then name || ' not associated with subnet.'
+        else name || ' associated with ' || split_part(rtrim((subnet -> 'id') :: text, '"'), '/subnets/',2) || '.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group as sg
+      join azure_subscription as sub on sub.subscription_id = sg.subscription_id
+      left join jsonb_array_elements(subnets) as subnet on true;
+  EOQ
+}

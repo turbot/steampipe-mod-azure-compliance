@@ -74,7 +74,6 @@ query "monitor_log_alert_for_administrative_operations" {
         alert.name as alert_name,
         alert.enabled,
         alert.location,
-        alert._ctx,
         alert.subscription_id
       from
         azure_log_alert as alert,
@@ -214,5 +213,692 @@ query "monitor_diagnostic_settings_captures_proper_categories" {
       azure_subscription sub
     where
       sub.subscription_id = sett.subscription_id;
+  EOQ
+}
+
+query "monitor_log_alert_create_policy_assignment" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.authorization/policyassignments"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Authorization/policyAssignments/write"}]'
+      limit 1
+    )
+    select
+      a.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity log alert exists for create policy assignment event.'
+        else 'Activity log alert does not exists for create policy assignment event.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      a.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_create_update_nsg_rule" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and (
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups/securityrules"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networksecuritygroups/securityrules/write"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups/securityrules"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+      limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity log alert exists for create or update Network Security Group Rule event.'
+        else 'Activity log alert does not exists for create or update Network Security Group Rule event.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_create_update_nsg" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and (
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networkSecurityGroups/write"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+      limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity log alert exists for create or update Network Security Group event.'
+        else 'Activity log alert does not exists for create or update Network Security Group event.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_create_update_public_ip_address" {
+  sql = <<-EOQ
+    with alert_rule as
+    (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and
+        (
+          ( alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/publicipaddresses"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/publicIPAddresses/write"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/publicipaddresses"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+        limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity Log Alert exists for Create or Update Public IP Address rule.'
+        else 'Activity Log Alert does not exists for Create or Update Public IP Address rule.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_create_update_security_solution" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and (
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Security","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.security/securitysolutions"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Security/securitySolutions/write"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Security","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.security/securitysolutions"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+      limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity log alert exists for create or update Security Solution event.'
+        else 'Activity log alert does not exists for create or update Security Solution event.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_create_update_sql_servers_firewall_rule" {
+  sql = <<-EOQ
+    with alert_rule as
+    (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and
+        (
+          ( alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+          and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.sql/servers/firewallrules"}]'
+          and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Sql/servers/firewallRules/write"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.sql/servers/firewallrules"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+        limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity Log Alert exists for Create or Update SQL Server Firewall Rule.'
+        else 'Activity Log Alert does not exists for Create or Update SQL Server Firewall Rule.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_delete_nsg_rule" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and (
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups/securityrules"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networksecuritygroups/securityrules/delete"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups/securityrules"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+      limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity log alert exists for delete Network Security Group Rule event.'
+        else 'Activity log alert does not exists for delete Network Security Group Rule event.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_delete_nsg" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id,
+        jsonb_array_length(alert.condition -> 'allOf')
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and (
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networkSecurityGroups/delete"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+      limit 1
+    )
+      select
+        sub.subscription_id as resource,
+        case
+          when count(a.subscription_id) > 0 then 'ok'
+          else 'alarm'
+        end as status,
+        case
+          when count(a.subscription_id) > 0 then 'Activity log alert exists for delete Network Security Group event.'
+          else 'Activity log alert does not exists for delete Network Security Group event.'
+        end as reason
+        ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      from
+        azure_subscription sub
+        left join alert_rule a on sub.subscription_id = a.subscription_id
+      group by
+        sub.subscription_id,
+        sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_delete_policy_assignment" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.authorization/policyassignments"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Authorization/policyAssignments/delete"}]'
+      limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity log alert exists for delete policy assignment event.'
+        else 'Activity log alert does not exists for delete policy assignment event.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_delete_public_ip_address" {
+  sql = <<-EOQ
+    with alert_rule as(
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and
+        (
+          ( alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+          and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/publicipaddresses"}]'
+          and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/publicIPAddresses/delete"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/publicipaddresses"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+        limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity Log Alert exists for Delete Public IP Address rule.'
+        else 'Activity Log Alert does not exists for Delete Public IP Address rule.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_delete_security_solution" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and (
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Security","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.security/securitysolutions"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Security/securitySolutions/delete"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Security","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.security/securitysolutions"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+      limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity log alert exists for delete Security Solution event.'
+        else 'Activity log alert does not exists for delete Security Solution event.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_delete_sql_servers_firewall_rule" {
+  sql = <<-EOQ
+    with alert_rule as(
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and
+        (
+          ( alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+          and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.sql/servers/firewallrules"}]'
+          and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Sql/servers/firewallRules/delete"}]' )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.sql/servers/firewallrules"}]'
+            and jsonb_array_length(alert.condition -> 'allOf') = 2
+          )
+        )
+        limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity Log Alert exists for Delete SQL Server Firewall Rule.'
+        else 'Activity Log Alert does not exists for Delete SQL Server Firewall Rule.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_log_alert_sql_firewall_rule" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'Global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
+        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.sql/servers"}]'
+        and jsonb_array_length(alert.condition -> 'allOf') = 2
+      limit 1
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity log alert exists for create, update and delete SQL Server Firewall Rule event.'
+        else 'Activity log alert does not exists for  create, update and delete SQL Server Firewall Rule event.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}
+
+query "monitor_logs_storage_container_encryptes_with_byok" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when a.encryption_key_source = 'Microsoft.Keyvault' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.encryption_key_source = 'Microsoft.Keyvault'
+          then a.name || ' container insights-operational-logs encrypted with BYOK.'
+        else a.name || ' container insights-operational-logs not encrypted with BYOK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_container c,
+      azure_storage_account a,
+      azure_subscription sub
+    where
+      c.name = 'insights-operational-logs'
+      and c.account_name = a.name
+      and sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "monitor_logs_storage_container_not_public_accessible" {
+  sql = <<-EOQ
+    select
+      sc.id as resource,
+      case
+        when public_access != 'None' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_access != 'None'
+          then account_name || ' container insights-operational-logs storing activity logs publicly accessible.'
+        else account_name || ' container insights-operational-logs storing activity logs not publicly accessible.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sc.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}    
+    from
+      azure_storage_container sc,
+      azure_subscription sub
+    where
+      name = 'insights-operational-logs'
+      and sub.subscription_id = sc.subscription_id;
   EOQ
 }

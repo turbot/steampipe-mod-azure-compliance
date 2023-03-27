@@ -128,3 +128,368 @@ control "iam_user_with_owner_permission_on_subscription_mfa_enabled" {
     pci_dss_v321 = "true"
   })
 }
+
+query "iam_subscription_owner_more_than_1" {
+  sql = <<-EOQ
+    with owner_roles as (
+      select
+        d.role_name,
+        d.role_type,
+        d.name,
+        d.title,
+        d._ctx,
+        d.subscription_id
+      from
+        azure_role_definition as d
+        left join azure_role_assignment as a on d.id = a.role_definition_id
+      where
+        d.role_name = 'Owner'
+    )
+    select
+      owner.subscription_id as resource,
+      case
+        when count(*) > 1 then 'ok'
+        else 'alarm'
+      end as status,
+      count(*) || ' owner(s) associated.' as reason
+      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "owner.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      owner_roles as owner,
+      azure_subscription as sub
+    where
+      sub.subscription_id =owner.subscription_id
+    group by
+      owner.subscription_id,
+      owner._ctx,
+      sub.display_name;
+  EOQ
+}
+
+query "iam_subscription_owner_max_3" {
+  sql = <<-EOQ
+    with owner_roles as (
+      select
+        d.role_name,
+        d.role_type,
+        d.name,
+        d.title,
+        d._ctx,
+        d.subscription_id
+      from
+        azure_role_definition as d
+        left join azure_role_assignment as a on d.id = a.role_definition_id
+      where
+        d.role_name = 'Owner'
+    )
+    select
+      owner.subscription_id as resource,
+      case
+        when count(*) <= 3 then 'ok'
+        else 'alarm'
+      end as status,
+      count(*) || ' owner(s) associated.' as reason
+      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "owner.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      owner_roles as owner,
+      azure_subscription as sub
+    where
+      sub.subscription_id =owner.subscription_id
+    group by
+      owner.subscription_id,
+      owner._ctx,
+      sub.display_name;
+  EOQ
+}
+
+query "iam_no_custom_subscription_owner_roles_created" {
+  sql = <<-EOQ
+    with owner_custom_roles as (
+      select
+        role_name,
+        role_type,
+        title,
+        action,
+        _ctx,
+        subscription_id
+      from
+        azure_role_definition,
+        jsonb_array_elements(permissions) as s,
+        jsonb_array_elements_text(s -> 'actions') as action
+      where
+        role_type = 'CustomRole'
+        and action in ('*', '*:*')
+    )
+    select
+      cr.subscription_id as resource,
+      case
+        when count(*) > 0 then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when count(*) = 1 then 'There is one custom owner role.'
+        when count(*) > 1 then 'There are ' || count(*) || ' custom owner roles.'
+        else  'There are no custom owner roles.'
+      end as reason
+      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "cr.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      owner_custom_roles cr,
+      azure_subscription sub
+    where
+      sub.subscription_id = cr.subscription_id
+    group by
+      cr.subscription_id,
+      cr._ctx,
+      sub.display_name;
+  EOQ
+}
+
+query "iam_deprecated_account_with_owner_roles" {
+  sql = <<-EOQ
+    select
+      distinct u.user_principal_name as resource,
+      case
+        when not u.account_enabled  then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when not u.account_enabled  then u.display_name || ' signing-in disabled state with ' || d.role_name || ' role.'
+        else u.display_name || ' signing-in enabled.'
+      end as reason
+      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azure_tenant as t,
+      azuread_user as u
+      left join azure_role_assignment as a on a.principal_id = u.id
+      left join azure_role_definition as d on d.id = a.role_definition_id
+      -- Query checks the users with only Owner role
+      where d.role_name = 'Owner';
+  EOQ
+}
+
+query "iam_no_custom_role" {
+  sql = <<-EOQ
+    with custom_roles as (
+      select
+        role_name,
+        role_type,
+        _ctx,
+        subscription_id
+      from
+        azure_role_definition
+      where
+        role_type = 'CustomRole'
+    )
+    select
+      cr.subscription_id as resource,
+      case
+        when count(*) > 0 then 'alarm'
+        else 'ok'
+      end as status,
+      'There are ' || count(*) || ' custom roles.' as reason
+      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "cr.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      custom_roles as cr,
+      azure_subscription as sub
+    where
+      sub.subscription_id = cr.subscription_id
+    group by
+      cr.subscription_id,
+      cr._ctx,
+      sub.display_name;
+  EOQ
+}
+
+query "iam_external_user_with_owner_role" {
+  sql = <<-EOQ
+    with all_owner_users as (
+      select
+      distinct
+        u.display_name,
+        d.role_name,
+        u.account_enabled,
+        u.user_principal_name,
+        d.subscription_id
+      from
+        azuread_user as u
+        left join azure_role_assignment as a on a.principal_id = u.id
+        left join azure_role_definition as d on d.id = a.role_definition_id
+        where d.role_name = 'Owner'
+    )
+    select
+      a.user_principal_name as resource,
+      case
+        when a.user_principal_name like '%EXT%' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
+        else a.display_name || ' is domain user with ' || a.role_name || ' role.'
+      end as reason
+      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azure_tenant as t,
+      all_owner_users as a;
+  EOQ
+}
+
+query "iam_deprecated_account" {
+  sql = <<-EOQ
+    with disabled_users as (
+      select
+      distinct
+        u.display_name,
+        u.account_enabled,
+        u.user_principal_name,
+        u.id,
+        d.subscription_id
+      from
+        azuread_user as u
+        left join azure_role_assignment as a on a.principal_id = u.id
+        left join azure_role_definition as d on d.id = a.role_definition_id
+        where not u.account_enabled
+    )
+    select
+      u.user_principal_name as resource,
+      case
+        when d.id is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when d.id is null then u.display_name || ' sign-in enabled.'
+        else u.display_name || ' sign-in disabled.'
+      end as reason
+      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azure_tenant as t,
+      azuread_user as u
+      left join disabled_users as d on d.id = u.id;
+  EOQ
+}
+
+query "iam_external_user_with_read_permission" {
+  sql = <<-EOQ
+    with all_write_permission_users as (
+      select
+        distinct
+        u.display_name,
+        d.role_name,
+        u.account_enabled,
+        u.user_principal_name,
+        d.subscription_id
+      from
+        azuread_user as u
+        left join azure_role_assignment as a on a.principal_id = u.id
+        left join azure_role_definition as d on d.id = a.role_definition_id
+        where d.role_name = 'Reader'
+    )
+    select
+      a.user_principal_name as resource,
+      case
+        when a.user_principal_name like '%EXT%' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
+        else a.display_name || ' is domain user with ' || a.role_name || ' role.'
+      end as reason
+      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azure_tenant as t,
+      all_write_permission_users as a;
+  EOQ
+}
+
+query "iam_external_user_with_write_permission" {
+  sql = <<-EOQ
+    with all_write_permission_users as (
+      select
+        distinct
+        u.display_name,
+        d.role_name,
+        u.account_enabled,
+        u.user_principal_name,
+        d.subscription_id
+      from
+        azuread_user as u
+        left join azure_role_assignment as a on a.principal_id = u.id
+        left join azure_role_definition as d on d.id = a.role_definition_id
+      where
+        d.role_name = any(array['Owner', 'Contributor'])
+    )
+    select
+      a.user_principal_name as resource,
+      case
+        when a.user_principal_name like '%EXT%' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
+        else a.display_name || ' is domain user with ' || a.role_name || ' role.'
+      end as reason
+      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azure_tenant as t,
+      all_write_permission_users as a;
+  EOQ
+}
+
+query "iam_conditional_access_mfa_enabled" {
+  sql = <<-EOQ
+    select
+      p.id as resource,
+      case
+        when p.built_in_controls @> '["mfa"]' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.built_in_controls @> '["mfa"]' then p.display_name || ' MFA enabled.'
+        else p.display_name || ' MFA disabled.'
+      end as reason
+      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azure_tenant as t,
+      azuread_conditional_access_policy as p;
+  EOQ
+}
+
+query "iam_user_not_allowed_to_create_security_group" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when a.default_user_role_permissions ->> 'allowedToCreateSecurityGroups' = 'false' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.default_user_role_permissions ->> 'allowedToCreateSecurityGroups' = 'false' then a.display_name || ' does not allow user to create security groups.'
+        else a.display_name || ' allows user to create security groups.'
+      end as reason
+      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azure_tenant as t,
+      azuread_authorization_policy as a;
+  EOQ
+}
+
+query "iam_user_not_allowed_to_register_application" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when a.default_user_role_permissions ->> 'allowedToCreateApps' = 'false' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.default_user_role_permissions ->> 'allowedToCreateApps' = 'false' then a.display_name || ' does not allow user to register applications.'
+        else a.display_name || ' allows user to register applications.'
+      end as reason
+      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azure_tenant as t,
+      azuread_authorization_policy as a;
+  EOQ
+}

@@ -57,7 +57,6 @@ control "cognitive_account_encrypted_with_cmk" {
 query "cognitive_service_local_auth_disabled" {
   sql = <<-EOQ
     select
-      -- Required Columns
       a.id as resource,
       case
         when disable_local_auth then 'ok'
@@ -66,10 +65,10 @@ query "cognitive_service_local_auth_disabled" {
       case
         when disable_local_auth then a.name || ' account local authentication enabled.'
         else  a.name || ' account local authentication disabled.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_cognitive_account a,
       azure_subscription sub;
@@ -98,7 +97,6 @@ query "cognitive_account_private_link_used" {
         c -> 'PrivateLinkServiceConnectionState' ->> 'status' =  'Approved'
     )
     select
-      -- Required Columns
       b.id as resource,
       case
         when jsonb_array_length(b.private_endpoint_connections) = 0 then 'info'
@@ -109,10 +107,10 @@ query "cognitive_account_private_link_used" {
         when jsonb_array_length(b.private_endpoint_connections) = 0 then b.name || ' no private link exists.'
         when c.id is not null then b.name || ' uses private link.'
         else b.name || ' not uses private link.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_cognitive_account as b
       left join cognitive_account_connections as c on b.id = c.id,
@@ -125,7 +123,6 @@ query "cognitive_account_private_link_used" {
 query "cognitive_account_public_network_access_disabled" {
   sql = <<-EOQ
     select
-      -- Required Columns
       s.id as resource,
       case
         when public_network_access = 'Enabled' then 'alarm'
@@ -134,10 +131,10 @@ query "cognitive_account_public_network_access_disabled" {
       case
         when public_network_access = 'Enabled' then name || ' public network access enabled.'
         else name || ' public network access disabled.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_cognitive_account as s,
       azure_subscription as sub
@@ -158,7 +155,6 @@ query "cognitive_account_restrict_public_access" {
         c ->> 'name' = 'VirtualNetworks' and network_acls ->> 'defaultAction' <> 'Deny'
     )
     select
-      -- Required Columns
       distinct a.name as resource,
       case
         when b.id is not null then 'alarm'
@@ -167,10 +163,10 @@ query "cognitive_account_restrict_public_access" {
       case
         when b.id is not null then a.name || ' publicly accessible.'
         else a.name || ' publicly not accessible.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_cognitive_account as a
       left join account_with_public_access_restricted as b on a.id = b.id,
@@ -192,7 +188,6 @@ query "cognitive_account_encrypted_with_cmk" {
         c ->> 'name' =  'CustomerManagedKey'
     )
     select
-      -- Required Columns
       s.id as resource,
       case
         when c.id is null then 'ok'
@@ -203,10 +198,10 @@ query "cognitive_account_encrypted_with_cmk" {
         when c.id is null then name || ' encryption not supported.'
         when c.id is not null and encryption ->> 'keySource' = 'Microsoft.KeyVault' then name || ' encrypted with CMK.'
         else name || ' not encrypted with CMK.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_cognitive_account as s
       left join cognitive_account_cmk as c on c.id = s.id,

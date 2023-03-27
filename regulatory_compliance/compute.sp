@@ -679,7 +679,6 @@ control "compute_vm_guest_configuration_with_no_managed_identity" {
 query "compute_os_and_data_disk_encrypted_with_cmk" {
   sql = <<-EOQ
     select
-      -- Required Columns
       disk.id as resource,
       case
         when encryption_type = 'EncryptionAtRestWithCustomerKey' then 'ok'
@@ -688,10 +687,10 @@ query "compute_os_and_data_disk_encrypted_with_cmk" {
       case
         when encryption_type = 'EncryptionAtRestWithCustomerKey' then disk.name || ' encrypted with CMK.'
         else disk.name || ' not encrypted with CMK.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_disk disk,
       azure_subscription sub
@@ -704,7 +703,6 @@ query "compute_os_and_data_disk_encrypted_with_cmk" {
 query "compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed" {
   sql = <<-EOQ
     select
-      -- Required Columns
       disk.id as resource,
       case
         when encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys' then 'ok'
@@ -713,10 +711,10 @@ query "compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed" {
       case
         when encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys' then disk.name || ' encrypted with both platform-managed and customer-managed keys.'
         else disk.name || ' not encrypted with both platform-managed and customer-managed keys.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_disk disk,
       azure_subscription sub
@@ -742,7 +740,6 @@ query "compute_vm_restrict_remote_connection_from_accounts_without_password_linu
         and e ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.id as resource,
       case
         when a.os_type <> 'Linux' then 'skip'
@@ -753,10 +750,10 @@ query "compute_vm_restrict_remote_connection_from_accounts_without_password_linu
         when a.os_type <> 'Linux' then a.name || ' is of ' || a.os_type || ' operating system.'
         when m.id is not null then a.name || ' restrict remote connections from accounts without passwords.'
         else a.name || ' allows remote connections from accounts without passwords.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join compute_machine as m on m.id = a.id,
@@ -769,7 +766,6 @@ query "compute_vm_restrict_remote_connection_from_accounts_without_password_linu
 query "compute_unattached_disk_encrypted_with_cmk" {
   sql = <<-EOQ
     select
-      -- Required Columns
       disk.id as resource,
       case
         when encryption_type = 'EncryptionAtRestWithCustomerKey' then 'ok'
@@ -778,10 +774,10 @@ query "compute_unattached_disk_encrypted_with_cmk" {
       case
         when encryption_type = 'EncryptionAtRestWithCustomerKey' then disk.name || ' encrypted with CMK.'
         else disk.name || ' not encrypted with CMK.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_disk disk,
       azure_subscription sub
@@ -819,7 +815,6 @@ query "compute_vm_attached_with_network" {
             ip -> 'properties' -> 'subnet' ->> 'id' is not null)
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when b.vm_id is null then 'alarm'
@@ -828,10 +823,10 @@ query "compute_vm_attached_with_network" {
       case
         when b.vm_id is null then a.title || ' not attached with virtual network.'
         else a.name || ' attached with virtual network ' || b.title || '.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join vm_with_appoved_networks as b on a.id = b.vm_id,
@@ -859,7 +854,6 @@ query "compute_vm_remote_access_restricted_all_ports" {
         and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', '<nw>/0', '/0')
     )
     select
-      -- Required Columns
       vm.vm_id as resource,
       case
         when sg.sg_name is null then 'ok'
@@ -868,10 +862,10 @@ query "compute_vm_remote_access_restricted_all_ports" {
       case
         when sg.sg_name is null then vm.title || ' restricts remote access from internet.'
         else vm.title || ' allows remote access from internet.'
-      end as reason,
-      -- Additional Dimensions
-      vm.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm
       left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
@@ -920,7 +914,6 @@ query "compute_vm_tcp_udp_access_restricted_internet" {
         )
     )
     select
-      -- Required Columns
       vm.vm_id as resource,
       case
         when sg.sg_name is null then 'ok'
@@ -929,10 +922,10 @@ query "compute_vm_tcp_udp_access_restricted_internet" {
       case
         when sg.sg_name is null then vm.title || ' restricts remote access from internet.'
         else vm.title || ' allows remote access from internet.'
-      end as reason,
-      -- Additional Dimensions
-      vm.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm
       left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
@@ -956,7 +949,6 @@ query "compute_vm_jit_access_protected" {
         vm.subscription_id = sub.subscription_id
     )
     select
-      -- Required Columns
       distinct vm.vm_id as resource,
       case
         when lower(vm.id) = lower(vms ->> 'id') then 'ok'
@@ -965,10 +957,10 @@ query "compute_vm_jit_access_protected" {
       case
         when lower(vms ->> 'id') = lower(vm.id) then vm.name || ' JIT protected.'
         else vm.name || ' not JIT protected.'
-      end as reason,
-      -- Additional Dimensions
-      vm.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm,
       azure_security_center_jit_network_access_policy as jit,
@@ -995,7 +987,6 @@ query "compute_vm_log_analytics_agent_installed" {
         and b -> 'Settings' ->> 'workspaceId' is not null
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when b.vm_id is not null then 'ok'
@@ -1004,10 +995,10 @@ query "compute_vm_log_analytics_agent_installed" {
       case
         when b.vm_id is not null then a.title || ' have log analytics agent installed.'
         else a.title || ' log analytics agent not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1032,7 +1023,6 @@ query "compute_vm_log_analytics_agent_installed_windows" {
         and b -> 'Settings' ->> 'workspaceId' is not null
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1043,10 +1033,10 @@ query "compute_vm_log_analytics_agent_installed_windows" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating syetem.'
         when b.vm_id is not null then a.title || ' have log analytics agent installed.'
         else a.title || ' log analytics agent not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1069,7 +1059,6 @@ query "compute_vm_malware_agent_installed" {
         and b ->> 'ExtensionType' = 'IaaSAntimalware'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when b.vm_id is not null then 'ok'
@@ -1078,10 +1067,10 @@ query "compute_vm_malware_agent_installed" {
       case
         when b.vm_id is not null then a.title || ' IaaSAntimalware extension installed.'
         else a.title || ' IaaSAntimalware extension not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join malware_agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1106,7 +1095,6 @@ query "compute_vm_scale_set_log_analytics_agent_installed" {
         and b -> 'Settings' ->> 'workspaceId' is not null
     )
     select
-      -- Required Columns
       a.id as resource,
       case
         when b.vm_id is not null then 'ok'
@@ -1115,10 +1103,10 @@ query "compute_vm_scale_set_log_analytics_agent_installed" {
       case
         when b.vm_id is not null then a.title || ' have log analytics agent installed.'
         else a.title || ' log analytics agent not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine_scale_set as a
       left join agent_installed_vm_scale_set as b on a.id = b.vm_id,
@@ -1140,7 +1128,6 @@ query "compute_vm_disaster_recovery_enabled" {
         l.name like 'ASR-Protect-%'
     )
     select
-      -- Required Columns
       vm.vm_id as resource,
       case
         when l.source_id is null then 'alarm'
@@ -1149,10 +1136,10 @@ query "compute_vm_disaster_recovery_enabled" {
       case
         when l.source_id is null then vm.title || ' disaster recovery disabled.'
         else vm.title || ' disaster recovery enabled.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm
       left join vm_dr_enabled as l on lower(vm.id) = lower(l.source_id),
@@ -1176,7 +1163,6 @@ query "compute_vm_malware_agent_automatic_upgrade_enabled" {
         and b ->> 'AutoUpgradeMinorVersion' = 'true'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1187,10 +1173,10 @@ query "compute_vm_malware_agent_automatic_upgrade_enabled" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating syetem.'
         when b.vm_id is not null then a.title || ' automatic update of Microsoft Antimalware protection signatures enabled.'
         else a.title || ' automatic update of Microsoft Antimalware protection signatures not enabled.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join malware_agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1214,7 +1200,6 @@ query "compute_vm_scale_set_logging_enabled" {
         and b ->> 'AutoUpgradeMinorVersion' = 'true'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1225,10 +1210,10 @@ query "compute_vm_scale_set_logging_enabled" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating syetem.'
         when b.vm_id is not null then a.title || ' automatic update of Microsoft Antimalware protection signatures enabled.'
         else a.title || ' automatic update of Microsoft Antimalware protection signatures not enabled.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join malware_agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1252,7 +1237,6 @@ query "compute_vm_network_traffic_data_collection_windows_agent_installed" {
         and b ->> 'ProvisioningState' = 'Succeeded'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1263,10 +1247,10 @@ query "compute_vm_network_traffic_data_collection_windows_agent_installed" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' have data collection agent installed.'
         else a.title || ' data collection agent not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1290,7 +1274,6 @@ query "compute_vm_network_traffic_data_collection_linux_agent_installed" {
         and b ->> 'ProvisioningState' = 'Succeeded'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Linux' then 'skip'
@@ -1301,10 +1284,10 @@ query "compute_vm_network_traffic_data_collection_linux_agent_installed" {
         when a.os_type <> 'Linux' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' have data collection agent installed.'
         else a.title || ' data collection agent not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1317,7 +1300,6 @@ query "compute_vm_network_traffic_data_collection_linux_agent_installed" {
 query "compute_vm_uses_azure_resource_manager" {
   sql = <<-EOQ
     select
-      -- Required Columns
       vm.vm_id as resource,
       case
         when resource_group is not null then 'ok'
@@ -1326,10 +1308,10 @@ query "compute_vm_uses_azure_resource_manager" {
       case
         when resource_group is not null then vm.title || ' uses azure resource manager.'
         else vm.title || ' not uses azure resource manager.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm,
       azure_subscription as sub
@@ -1341,7 +1323,6 @@ query "compute_vm_uses_azure_resource_manager" {
 query "compute_vm_system_updates_installed" {
   sql = <<-EOQ
     select
-      -- Required Columns
       vm.vm_id as resource,
       case
         when enable_automatic_updates then 'ok'
@@ -1350,10 +1331,10 @@ query "compute_vm_system_updates_installed" {
       case
         when enable_automatic_updates then vm.title || ' automatic system updates enabled.'
         else vm.title || ' automatic system updates disabled.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm,
       azure_subscription as sub
@@ -1387,7 +1368,6 @@ query "compute_vm_vulnerability_assessment_solution_enabled" {
         and b ->> 'ProvisioningState' = 'Succeeded'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when b.vm_id is not null then 'ok'
@@ -1396,10 +1376,10 @@ query "compute_vm_vulnerability_assessment_solution_enabled" {
       case
         when b.vm_id is not null then a.title || ' have vulnerability assessment solution enabled.'
         else a.title || ' have vulnerability assessment solution disabled.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1412,7 +1392,6 @@ query "compute_vm_vulnerability_assessment_solution_enabled" {
 query "compute_vm_azure_defender_enabled" {
   sql = <<-EOQ
     select
-      -- Required Columns
       pricing.id as resource,
       case
         when name = 'VirtualMachines' and pricing_tier = 'Standard' then 'ok'
@@ -1421,9 +1400,9 @@ query "compute_vm_azure_defender_enabled" {
       case
         when name = 'VirtualMachines' and pricing_tier = 'Standard' then 'VirtualMachines azure defender enabled.'
         else name || 'VirtualMachines azure defender disabled.'
-      end as reason,
-      -- Additional Dimensions
-      sub.display_name as subscription
+      end as reason
+      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing as pricing,
       azure_subscription as sub
@@ -1446,7 +1425,6 @@ query "compute_vm_guest_configuration_with_user_and_system_assigned_managed_iden
         b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when b.vm_id is null then 'skip'
@@ -1459,10 +1437,10 @@ query "compute_vm_guest_configuration_with_user_and_system_assigned_managed_iden
         when not string_to_array(a.identity ->> 'type' , ', ') @> array['UserAssigned'] then a.title || ' does not have user assigned managed identity.'
         when string_to_array(identity ->> 'type' , ', ') @> array['UserAssigned', 'SystemAssigned'] then a.title || ' guest configuration extension installed with user and system assigned managed identity.'
         else a.title || ' guest configuration extension not installed with user and system assigned managed identity.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join gc_installed_vm as b on a.vm_id = b.vm_id,
@@ -1485,7 +1463,6 @@ query "compute_vm_passwords_stored_using_reversible_encryption_windows" {
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1496,10 +1473,10 @@ query "compute_vm_passwords_stored_using_reversible_encryption_windows" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' store passwords using reversible encryption.'
         else a.title || ' not store passwords using reversible encryption'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join vm_password_reversible_encryption as b on a.vm_id = b.vm_id,
@@ -1522,7 +1499,6 @@ query "compute_vm_account_with_password_linux" {
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Linux' then 'skip'
@@ -1533,10 +1509,10 @@ query "compute_vm_account_with_password_linux" {
         when a.os_type <> 'Linux' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' have accounts with passwords.'
         else a.title || ' does not have have accounts with passwords.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join vm_ssh_key_auth as b on a.vm_id = b.vm_id,
@@ -1559,7 +1535,6 @@ query "compute_vm_ssh_key_authentication_linux" {
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Linux' then 'skip'
@@ -1570,10 +1545,10 @@ query "compute_vm_ssh_key_authentication_linux" {
         when a.os_type <> 'Linux' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' have SSH keys authentication.'
         else a.title || ' does not have SSH keys authentication.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join vm_ssh_key_auth as b on a.vm_id = b.vm_id,
@@ -1598,7 +1573,6 @@ query "compute_vm_guest_configuration_installed_linux" {
         and b ->> 'Name' like '%AzurePolicyforLinux'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Linux' then 'skip'
@@ -1609,10 +1583,10 @@ query "compute_vm_guest_configuration_installed_linux" {
         when a.os_type <> 'Linux' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
         else a.title || ' guest configuration extension not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1635,7 +1609,6 @@ query "compute_vm_guest_configuration_installed" {
         and b ->> 'ProvisioningState' = 'Succeeded'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when b.vm_id is not null then 'ok'
@@ -1644,10 +1617,10 @@ query "compute_vm_guest_configuration_installed" {
       case
         when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
         else a.title || ' guest configuration extension not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1673,7 +1646,6 @@ query "arc_compute_machine_linux_log_analytics_agent_installed" {
       and e ->> 'provisioningState' = 'Succeeded'
     )
     select
-      -- Required Columns
       a.id as resource,
       case
         when a.os_name <> 'linux' then 'skip'
@@ -1684,10 +1656,10 @@ query "arc_compute_machine_linux_log_analytics_agent_installed" {
         when a.os_name <> 'linux' then a.name || ' is of ' || a.os_name || ' operating system.'
         when m.id is not null then a.name || ' log analytics extension installed.'
         else a.name || ' log analytics extension not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
     azure_hybrid_compute_machine as a
     left join compute_machine as m on m.id = a.id,
@@ -1712,7 +1684,6 @@ query "compute_vm_guest_configuration_installed_windows" {
         and b ->> 'Name' like '%AzurePolicyforWindows'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1723,10 +1694,10 @@ query "compute_vm_guest_configuration_installed_windows" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
         else a.title || ' guest configuration extension not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1749,7 +1720,6 @@ query "compute_vm_restrict_previous_24_passwords_resuse_windows" {
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1760,10 +1730,10 @@ query "compute_vm_restrict_previous_24_passwords_resuse_windows" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' enforce password history.'
         else a.title || ' doest not enforce password history.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join vm_enforce_password_history as b on a.vm_id = b.vm_id,
@@ -1786,7 +1756,6 @@ query "compute_vm_max_password_age_70_days_windows" {
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1797,10 +1766,10 @@ query "compute_vm_max_password_age_70_days_windows" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' maximum password age is 70 days.'
         else a.title || ' maximum password age is not 70 days.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join vm_maximum_password_age as b on a.vm_id = b.vm_id,
@@ -1823,7 +1792,6 @@ query "compute_vm_min_password_age_1_day_windows" {
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1834,10 +1802,10 @@ query "compute_vm_min_password_age_1_day_windows" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' minimum password age is 1 day.'
         else a.title || ' minimum password age is not 1 day.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join vm_min_password_age as b on a.vm_id = b.vm_id,
@@ -1860,7 +1828,6 @@ query "compute_vm_password_complexity_setting_enabled_windows" {
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1871,10 +1838,10 @@ query "compute_vm_password_complexity_setting_enabled_windows" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' password complexity setting enabled.'
         else a.title || ' password complexity setting disabled.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join vm_password_complexity_setting as b on a.vm_id = b.vm_id,
@@ -1897,7 +1864,6 @@ query "compute_vm_min_password_length_14_windows" {
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -1908,10 +1874,10 @@ query "compute_vm_min_password_length_14_windows" {
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' minimum password length is 14 characters.'
         else a.title || ' minimum password length is not 14 characters.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join vm_min_password_age as b on a.vm_id = b.vm_id,
@@ -1933,7 +1899,6 @@ query "compute_disk_access_uses_private_link" {
         connection ->> 'PrivateLinkServiceConnectionStateStatus' = 'Approved'
     )
     select
-      -- Required Columns
       b.id as resource,
       case
         when c.id is null then 'alarm'
@@ -1942,10 +1907,10 @@ query "compute_disk_access_uses_private_link" {
       case
         when c.id is null then b.name || ' not uses private link.'
         else b.name || ' uses private link.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group
-      --sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_disk_access as b
       left join compute_disk_connection as c on b.id = c.id,
@@ -1961,15 +1926,16 @@ query "network_interface_ip_forwarding_disabled" {
       select
         id as vm_id,
         name as vm_name,
-        resource_group as rg,
-        subscription_id as sub,
+        resource_group,
+        _ctx,
+        region,
+        subscription_id,
         b ->> 'id' as nic_id
       from
         azure_compute_virtual_machine as c,
         jsonb_array_elements(network_interfaces) as b
     )
     select
-      -- Required Columns
       v.vm_id as resource,
       case
         when i.enable_ip_forwarding then 'alarm'
@@ -1978,10 +1944,10 @@ query "network_interface_ip_forwarding_disabled" {
       case
         when i.enable_ip_forwarding then v.vm_name || ' using ' || i.name || ' network interface enabled with IP forwarding.'
         else v.vm_name || ' using ' || i.name || ' network interface disabled with IP forwarding.'
-      end as reason,
-      -- Additional Dimensions
-      v.rg,
-      v.sub as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription as sub,
       vm_using_nic as v
@@ -2005,7 +1971,6 @@ query "arc_compute_machine_windows_log_analytics_agent_installed" {
       and e ->> 'provisioningState' = 'Succeeded'
     )
     select
-      -- Required Columns
       a.id as resource,
       case
         when a.os_name <> 'windows' then 'skip'
@@ -2016,10 +1981,10 @@ query "arc_compute_machine_windows_log_analytics_agent_installed" {
         when a.os_name <> 'windows' then a.name || ' is of ' || a.os_name || ' operating system.'
         when m.id is not null then a.name || ' log analytics extension installed.'
         else a.name || ' log analytics extension not installed.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
     azure_hybrid_compute_machine as a
     left join compute_machine as m on m.id = a.id,
@@ -2042,7 +2007,6 @@ query "compute_vm_guest_configuration_with_system_assigned_managed_identity" {
         b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when b.vm_id is null then 'skip'
@@ -2053,10 +2017,10 @@ query "compute_vm_guest_configuration_with_system_assigned_managed_identity" {
         when b.vm_id is null then a.title || ' guest configuration extension not installed.'
         when b.vm_id is not null and string_to_array(identity ->> 'type' , ', ') @> array['SystemAssigned'] then a.title || ' guest configuration extension installed with system-assigned managed identity.'
         else a.title || ' guest configuration extension not installed with system-assigned managed identity.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join gc_installed_vm as b on a.vm_id = b.vm_id,
@@ -2082,7 +2046,6 @@ query "compute_vm_windows_defender_exploit_guard_enabled" {
       and e ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -2093,10 +2056,10 @@ query "compute_vm_windows_defender_exploit_guard_enabled" {
         when a.os_type <> 'Windows' then a.name || ' is of ' || a.os_type || ' operating system.'
         when m.id is not null then a.name || ' windows defender exploit guard enabled.'
         else a.name || ' windows defender exploit guard disabled.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join compute_machine as m on m.id = a.id,
@@ -2125,7 +2088,6 @@ query "compute_vm_secure_communication_protocols_configured" {
         and c ->> 'value' = '1.3'
     )
     select
-      -- Required Columns
       a.id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -2136,10 +2098,10 @@ query "compute_vm_secure_communication_protocols_configured" {
         when a.os_type <> 'Windows' then a.name || ' is of ' || a.os_type || ' operating system.'
         when m.id is not null then a.name || ' configured to use secure communication protocols.'
         else a.name || ' not configured to use secure communication protocols.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join compute_machine as m on m.id = a.id,
@@ -2153,7 +2115,6 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
   sql = <<-EOQ
     (
       select
-        -- Required Columns
         a.id as resource,
         case
           when security_profile -> 'encryptionAtHost' = 'true' then 'ok'
@@ -2162,10 +2123,10 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
         case
           when security_profile -> 'encryptionAtHost' = 'true' then a.name || ' encryption at host enabled.'
           else a.name || ' encryption at host disabled.'
-        end as reason,
-        -- Additional Dimensions
-        a.resource_group,
-        sub.display_name as subscription
+        end as reason
+        ${local.tag_dimensions_sql}
+        ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+        ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from
         azure_compute_virtual_machine as a,
         azure_subscription as sub
@@ -2175,7 +2136,6 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
     union
     (
       select
-        -- Required Columns
         a.id as resource,
         case
           when virtual_machine_security_profile -> 'encryptionAtHost' = 'true' then 'ok'
@@ -2184,10 +2144,10 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
         case
           when virtual_machine_security_profile -> 'encryptionAtHost' = 'true' then a.name || ' encryption at host enabled.'
           else a.name || ' encryption at host disabled.'
-        end as reason,
-        -- Additional Dimensions
-        a.resource_group,
-        sub.display_name as subscription
+        end as reason
+        ${local.tag_dimensions_sql}
+        ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+        ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from
         azure_compute_virtual_machine_scale_set as a,
         azure_subscription as sub
@@ -2213,7 +2173,6 @@ query "compute_vm_meet_security_baseline_requirements_linux" {
         and e ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Linux' then 'skip'
@@ -2224,10 +2183,10 @@ query "compute_vm_meet_security_baseline_requirements_linux" {
         when a.os_type <> 'Linux' then a.name || ' is of ' || a.os_type || ' operating system.'
         when m.id is not null then a.name || ' meet requirements for azure compute security baseline.'
         else a.name || ' does not meet requirements for azure compute security baseline.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join compute_machine as m on m.id = a.id,
@@ -2253,7 +2212,6 @@ query "compute_vm_meet_security_baseline_requirements_windows" {
       and e ->> 'complianceStatus' = 'Compliant'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when a.os_type <> 'Windows' then 'skip'
@@ -2264,10 +2222,10 @@ query "compute_vm_meet_security_baseline_requirements_windows" {
         when a.os_type <> 'Windows' then a.name || ' is of ' || a.os_type || ' operating system.'
         when m.id is not null then a.name || ' meet requirements for azure compute security baseline.'
         else a.name || ' does not meet requirements for azure compute security baseline.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join compute_machine as m on m.id = a.id,
@@ -2290,7 +2248,6 @@ query "compute_vm_guest_configuration_with_no_managed_identity" {
         b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
     )
     select
-      -- Required Columns
       a.vm_id as resource,
       case
         when b.vm_id is null then 'skip'
@@ -2301,10 +2258,10 @@ query "compute_vm_guest_configuration_with_no_managed_identity" {
         when b.vm_id is null then a.title || ' guest configuration extension not installed.'
         when b.vm_id is not null and identity ->> 'type' is not null then a.title || ' guest configuration extension installed with ' || (identity ->> 'type') || ' managed identity.'
         else a.title || ' guest configuration extension not installed with managed identity.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join gc_installed_vm as b on a.vm_id = b.vm_id,
@@ -2350,7 +2307,6 @@ query "compute_vm_remote_access_restricted" {
         )
     )
     select
-      -- Required Columns
       vm.vm_id as resource,
       case
         when sg.sg_name is null then 'ok'
@@ -2359,10 +2315,10 @@ query "compute_vm_remote_access_restricted" {
       case
         when sg.sg_name is null then vm.title || ' restricts remote access from internet.'
         else vm.title || ' allows remote access from internet.'
-      end as reason,
-      -- Additional Dimensions
-      vm.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm
       left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
@@ -2373,7 +2329,6 @@ query "compute_vm_remote_access_restricted" {
 query "compute_vm_utilizing_managed_disk" {
   sql = <<-EOQ
     select
-      -- Required Columns
       vm.id as resource,
       case
         when managed_disk_id is null then 'alarm'
@@ -2382,10 +2337,10 @@ query "compute_vm_utilizing_managed_disk" {
       case
         when managed_disk_id is null then vm.name || ' VM not utilizing managed disks.'
         else vm.name || ' VM utilizing managed disks.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm,
       azure_subscription as sub

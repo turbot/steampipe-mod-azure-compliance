@@ -33,3 +33,78 @@ control "hdinsight_cluster_encryption_in_transit_enabled" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+query "hdinsight_cluster_encryption_at_host_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when provisioning_state <> 'Succeeded' then 'skip'
+        when disk_encryption_properties -> 'encryptionAtHost' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when provisioning_state <> 'Succeeded' then a.name || ' is in ' || provisioning_state || ' state.'
+        when disk_encryption_properties -> 'encryptionAtHost' = 'true' then a.name || ' uses encryption at host to encrypt data at rest.'
+        else a.name || ' not uses encryption at host to encrypt data at rest.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_hdinsight_cluster as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "hdinsight_cluster_encrypted_at_rest_with_cmk" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when provisioning_state <> 'Succeeded' then 'skip'
+        when disk_encryption_properties -> 'keyName' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when provisioning_state <> 'Succeeded' then a.name || ' is in ' || provisioning_state || ' state.'
+        when disk_encryption_properties -> 'keyName' is not null then a.name || ' encrypted with CMK.'
+        else a.name || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_hdinsight_cluster as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "hdinsight_cluster_encryption_in_transit_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when provisioning_state <> 'Succeeded' then 'skip'
+        when encryption_in_transit_properties -> 'isEncryptionInTransitEnabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when provisioning_state <> 'Succeeded' then a.name || ' is in ' || provisioning_state || ' state.'
+        when encryption_in_transit_properties -> 'isEncryptionInTransitEnabled' = 'true' then a.name || ' encryption in transit enabled.'
+        else a.name || ' encryption in transit disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_hdinsight_cluster as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}

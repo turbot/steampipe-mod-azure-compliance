@@ -95,4 +95,192 @@ control "kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id"
   })
 }
 
+query "kubernetes_instance_rbac_enabled" {
+  sql = <<-EOQ
+    select
+      kc.id as resource,
+      case
+        when enable_rbac then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when enable_rbac then name || ' role based access control enabled.'
+        else name || ' role based access control disabled.'
+      end as reason,
+      enable_rbac
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster kc,
+      azure_subscription sub
+    where
+      sub.subscription_id = kc.subscription_id;
+  EOQ
+}
 
+query "kubernetes_azure_defender_enabled" {
+  sql = <<-EOQ
+    select
+      kc.id as resource,
+      case
+        when enable_rbac then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when enable_rbac then name || ' role based access control enabled.'
+        else name || ' role based access control disabled.'
+      end as reason,
+      enable_rbac
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster kc,
+      azure_subscription sub
+    where
+      sub.subscription_id = kc.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_add_on_azure_policy_enabled" {
+  sql = <<-EOQ
+    select
+      kc.id as resource,
+      case
+        when addon_profiles -> 'azurepolicy' ->> 'enabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when addon_profiles -> 'azurepolicy' ->> 'enabled' = 'true' then name || ' add on azure policy enabled.'
+        else name || ' add on azure policy disabled.'
+      end as reason,
+      enable_rbac
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster kc,
+      azure_subscription sub
+    where
+      sub.subscription_id = kc.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_authorized_ip_range_defined" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when api_server_access_profile -> 'AuthorizedIPRanges' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when api_server_access_profile -> 'AuthorizedIPRanges' is not null then c.title || ' authorized IP ranges defined.'
+        else c.title || ' authorized IP ranges not defined.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster as c,
+      azure_subscription as sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_os_and_data_disks_encrypted_with_cmk" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when disk_encryption_set_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when disk_encryption_set_id is not null then c.name || ' os and data diska encrypted with CMK.'
+        else c.name || ' os and data diska not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host" {
+  sql = <<-EOQ
+    with kubernetes_cluster as(
+        select
+        id,
+        name,
+        subscription_id,
+        resource_group
+      from
+        azure_kubernetes_cluster,
+        jsonb_array_elements(agent_pool_profiles) as p
+      where
+      p -> 'enableEncryptionAtHost' = 'true'
+    )
+    select
+      a.id as resource,
+      case
+        when s.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when s.id is not null then a.name || ' encrypted at host.'
+        else a.name || ' not encrypted at host.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster as a
+      left join kubernetes_cluster as s on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
+  sql = <<-EOQ
+    with kubernetes_cluster as(
+        select
+        id,
+        name,
+        subscription_id,
+        resource_group
+      from
+        azure_kubernetes_cluster,
+        jsonb_array_elements(agent_pool_profiles) as p
+      where
+      p -> 'enableEncryptionAtHost' = 'true'
+    )
+    select
+      a.id as resource,
+      case
+        when s.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when s.id is not null then a.name || ' encrypted at host.'
+        else a.name || ' not encrypted at host.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster as a
+      left join kubernetes_cluster as s on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}

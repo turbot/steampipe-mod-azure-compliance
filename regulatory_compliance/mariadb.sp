@@ -24,3 +24,47 @@ control "mariadb_server_public_network_access_disabled" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+query "mariadb_server_geo_redundant_backup_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when s.geo_redundant_backup_enabled = 'Enabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when s.geo_redundant_backup_enabled = 'Enabled' then s.title || ' geo-redundant backup enabled.'
+        else s.title || ' geo-redundant backup disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mariadb_server as s
+      join azure_subscription as sub on sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mariadb_server_public_network_access_disabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when public_network_access = 'Enabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_network_access = 'Enabled' then name || ' public network access enabled.'
+        else name || ' public network access disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mariadb_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}

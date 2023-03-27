@@ -53,7 +53,6 @@ query "batch_account_logging_enabled" {
         )
     )
     select
-      -- Required Columns
       v.id as resource,
       case
         when v.diagnostic_settings is null then 'alarm'
@@ -64,10 +63,10 @@ query "batch_account_logging_enabled" {
         when v.diagnostic_settings is null then v.name || ' logging not enabled.'
         when l.account_name is null then v.name || ' logging not enabled.'
         else v.name || ' logging enabled.'
-      end as reason,
-      -- Additional Dimensions
-      v.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_batch_account as v
       left join logging_details as l on v.name = l.account_name,
@@ -80,7 +79,6 @@ query "batch_account_logging_enabled" {
 query "batch_account_encrypted_with_cmk" {
   sql = <<-EOQ
     select
-      -- Required Columns
       batch.id as resource,
       case
         when encryption ->> 'keySource' = 'Microsoft.KeyVault' then 'ok'
@@ -89,10 +87,10 @@ query "batch_account_encrypted_with_cmk" {
       case
         when  encryption ->> 'keySource' = 'Microsoft.KeyVault' then batch.name || ' encrypted with CMK.'
         else batch.name || ' not encrypted with CMK.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "batch.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_batch_account as batch,
       azure_subscription as sub

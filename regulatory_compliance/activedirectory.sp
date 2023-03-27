@@ -3,7 +3,6 @@
 query "ad_guest_user_reviewed_monthly" {
   sql = <<-EOQ
     select
-      -- Required Columns
       display_name as resource,
       case
         when not account_enabled then 'alarm'
@@ -25,7 +24,6 @@ query "ad_guest_user_reviewed_monthly" {
 query "ad_manual_control" {
   sql = <<-EOQ
     select
-      -- Required Columns
       'active_directory' as resource,
       'info' as status,
       'Manual verification required.' as reason;

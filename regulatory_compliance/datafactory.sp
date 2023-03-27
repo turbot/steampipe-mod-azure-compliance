@@ -24,3 +24,58 @@ control "data_factory_encrypted_with_cmk" {
   })
 }
 
+query "data_factory_uses_private_link" {
+  sql = <<-EOQ
+    with data_factory_connection as (
+      select
+        distinct a.id
+      from
+        azure_data_factory as a,
+        jsonb_array_elements(private_endpoint_connections) as connection
+      where
+        connection ->> 'PrivateLinkServiceConnectionStateStatus' = 'Approved'
+    )
+    select
+      a.id as resource,
+      case
+        when c.id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when c.id is null then a.name || ' not uses private link.'
+        else a.name || ' uses private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_data_factory as a
+      left join data_factory_connection as c on c.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "data_factory_encrypted_with_cmk" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when encryption ->> 'vaultBaseUrl' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when encryption ->> 'vaultBaseUrl' is not null then a.name || ' encrypted with CMK.'
+        else a.name || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_data_factory as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}

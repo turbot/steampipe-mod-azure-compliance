@@ -67,7 +67,6 @@ control "container_registry_vulnerabilities_remediated" {
 query "container_registry_azure_defender_enabled" {
   sql = <<-EOQ
     select
-      -- Required Columns
       pricing.id as resource,
       case
         when name = 'ContainerRegistry' and pricing_tier = 'Standard' then 'ok'
@@ -76,9 +75,9 @@ query "container_registry_azure_defender_enabled" {
       case
         when name = 'ContainerRegistry' and pricing_tier = 'Standard' then 'ContainerRegistry azure defender enabled.'
         else name || 'ContainerRegistry azure defender disabled.'
-      end as reason,
-      -- Additional Dimensions
-      sub.display_name as subscription
+      end as reason
+      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing as pricing,
       azure_subscription as sub
@@ -91,7 +90,6 @@ query "container_registry_azure_defender_enabled" {
 query "container_registry_encrypted_with_cmk" {
   sql = <<-EOQ
     select
-      -- Required Columns
       distinct a.name as resource,
       case
         when encryption ->> 'status' = 'enabled' then 'ok'
@@ -100,10 +98,10 @@ query "container_registry_encrypted_with_cmk" {
       case
         when encryption ->> 'status' = 'enabled' then a.name || ' encrypted with CMK.'
         else a.name || ' not encrypted with CMK.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_registry as a,
       azure_subscription as sub
@@ -115,7 +113,6 @@ query "container_registry_encrypted_with_cmk" {
 query "container_registry_restrict_public_access" {
   sql = <<-EOQ
     select
-      -- Required Columns
       distinct a.name as resource,
       case
         when network_rule_set ->> 'defaultAction' = 'Deny' then 'ok'
@@ -124,10 +121,10 @@ query "container_registry_restrict_public_access" {
       case
         when network_rule_set ->> 'defaultAction' = 'Deny' then a.name || ' publicly not accessible.'
         else a.name || ' publicly accessible.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_registry as a,
       azure_subscription as sub
@@ -148,7 +145,6 @@ query "container_registry_use_virtual_service_endpoint" {
         azure_subnet as subnet
     )
     select
-      -- Required Columns
       distinct a.name as resource,
       case
         when network_rule_set ->> 'defaultAction' <> 'Deny' then 'alarm'
@@ -159,10 +155,10 @@ query "container_registry_use_virtual_service_endpoint" {
         when network_rule_set ->> 'defaultAction' <> 'Deny' then a.name || ' not configured with virtual service endpoint.'
         when s.name is null then a.name || ' not configured with virtual service endpoint.'
         else a.name || ' configured with virtual service endpoint.'
-      end as reason,
-      -- Additional Dimensions
-      a.resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_registry as a
       left join container_registry_subnet as s on a.name = s.name,
@@ -184,7 +180,6 @@ query "container_registry_uses_private_link" {
         connection -> 'properties' -> 'privateLinkServiceConnectionState' ->> 'status' = 'Approved'
     )
     select
-      -- Required Columns
       a.id as resource,
       case
         when c.id is null then 'alarm'
@@ -193,10 +188,10 @@ query "container_registry_uses_private_link" {
       case
         when c.id is null then a.name || ' not uses private link.'
         else a.name || ' uses private link.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_registry as a
       left join container_registry_private_connection as c on c.id = a.id,

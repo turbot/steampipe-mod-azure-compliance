@@ -17,16 +17,15 @@ control "apimanagement_service_with_virtual_network" {
 query "apimanagement_service_with_virtual_network" {
   sql = <<-EOQ
     select
-      -- Required Columns
       a.id as resource,
       case
         when virtual_network_type != 'None' then 'ok'
         else 'alarm'
       end as status,
-      a.name || ' Virtual network is set to '  ||  virtual_network_type as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      a.name || ' Virtual network is set to '  ||  virtual_network_type as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_api_management a,
       azure_subscription sub;

@@ -17,7 +17,6 @@ control "automation_account_variable_encryption_enabled" {
 query "automation_account_variable_encryption_enabled" {
   sql = <<-EOQ
     select
-      -- Required Columns
       a.id as resource,
       case
         when is_encrypted then 'ok'
@@ -26,10 +25,9 @@ query "automation_account_variable_encryption_enabled" {
       case
         when is_encrypted then a.title || ' encryption enabled.'
         else a.title || ' encryption disabled.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
     from
       azure_automation_variable as a,
       azure_subscription as sub;

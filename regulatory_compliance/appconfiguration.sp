@@ -17,7 +17,6 @@ control "app_configuration_private_link_used" {
 query "app_configuration_private_link_used" {
   sql = <<-EOQ
     select
-      -- Required Columns
       a.id as resource,
       case
         -- Only applicable to standard tier
@@ -33,10 +32,10 @@ query "app_configuration_private_link_used" {
         when public_network_access = 'Enabled' and private_endpoint_connections is null then ' using public networks.'
         when private_endpoint_connections @>  '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
         else a.name || ' not using private link.'
-      end as reason,
-      -- Additional Dimensions
-      resource_group,
-      sub.display_name as subscription
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_configuration a,
       azure_subscription sub;

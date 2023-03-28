@@ -161,4 +161,130 @@ control "sql_server_auditing_storage_account_destination_retention_90_days" {
   })
 }
 
+query "sql_server_and_databases_va_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when security -> 'properties' ->> 'state' = 'Disabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when security -> 'properties' ->> 'state' = 'Disabled' then s.name || ' VA setting disabled.'
+        else s.name || ' VA setting enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_sql_server s,
+      jsonb_array_elements(server_security_alert_policy) security,
+      jsonb_array_elements(server_vulnerability_assessment) assessment,
+      azure_subscription sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
 
+query "sql_server_transparent_data_encryption_enabled" {
+  sql = <<-EOQ
+    select
+      db.id as resource,
+      case
+        when transparent_data_encryption ->> 'status' = 'Disabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when transparent_data_encryption ->> 'status' = 'Disabled' then db.name || ' transparent data encryption off.'
+        else db.name || ' transparent data encryption on.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "db.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_sql_database db,
+      azure_subscription sub
+    where
+      sub.subscription_id = db.subscription_id;
+  EOQ
+}
+
+query "sql_server_auditing_on" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when audit -> 'properties' ->> 'state' = 'Disabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when audit -> 'properties' ->> 'state' = 'Disabled' then name || ' auditing disabled.'
+        else name || ' auditing enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_sql_server s,
+      jsonb_array_elements(server_audit_policy) audit,
+      azure_subscription sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "sql_server_use_virtual_service_endpoint" {
+  sql = <<-EOQ
+    with sql_server_subnet as (
+      select
+        distinct a.name,
+        rule -> 'properties' -> 'virtualNetworkSubnetId' as subnet_id
+      from
+        azure_sql_server as a,
+        jsonb_array_elements(virtual_network_rules) as rule
+    )
+    select
+      distinct a.name as resource,
+      case
+        when s.name is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when s.name is null then a.name || ' not configured with virtual service endpoint.'
+        else a.name || ' configured with virtual service endpoint.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+    from
+      azure_sql_server as a
+      left join sql_server_subnet as s on a.name = s.name,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "sql_server_tde_protector_cmk_encrypted" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when encryption ->> 'kind' = 'servicemanaged' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when encryption ->> 'kind' = 'servicemanaged' then s.name || ' TDE protector not encrypted with CMK.'
+        else s.name || ' TDE protector encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+    from
+      azure_sql_server s,
+      jsonb_array_elements(encryption_protector) encryption,
+      azure_subscription sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}

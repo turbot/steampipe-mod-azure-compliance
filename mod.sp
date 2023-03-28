@@ -55,8 +55,8 @@ locals {
   %{~if contains(var.common_dimensions, "subscription")}, __QUALIFIER__display_name as subscription%{endif~}
   EOQ
 
-  tag_dimensions_sql = <<-EOQ
-  %{~for dim in var.tag_dimensions}, tags ->> '${dim}' as "${replace(dim, "\"", "\"\"")}"%{endfor~}
+  tag_dimensions_qualifier_sql = <<-EOQ
+  %{~for dim in var.tag_dimensions},  __QUALIFIER__tags ->> '${dim}' as "${replace(dim, "\"", "\"\"")}"%{endfor~} 
   EOQ
 
 }
@@ -68,6 +68,7 @@ locals {
   common_dimensions_tenant_sql       = replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "")
   common_dimensions_subscription_sql = replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "")
   common_dimensions_pricing_sql      = replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "")
+  tag_dimensions_sql                 = replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "")
 }
 
 mod "azure_compliance" {

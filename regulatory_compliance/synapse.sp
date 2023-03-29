@@ -33,3 +33,85 @@ control "synapse_workspace_encryption_at_rest_using_cmk" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+query "synapse_workspace_private_link_used" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]' then a.name || ' uses private link.'
+        else a.name || ' not uses private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_synapse_workspace as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "synapse_workspace_vulnerability_assessment_enabled" {
+  sql = <<-EOQ
+    with synapse_workspace as(
+      select
+        id,
+        name,
+        subscription_id,
+        resource_group
+      from
+        azure_synapse_workspace,
+        jsonb_array_elements(workspace_managed_sql_server_vulnerability_assessments) as w
+      where
+        w -> 'properties' -> 'recurringScans' ->> 'isEnabled' = 'true'
+    )
+    select
+      a.id as resource,
+      case
+        when s.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when s.id is not null then a.name || ' vulnerability assessment enabled.'
+        else a.name || ' vulnerability assessment disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+    azure_synapse_workspace as a
+    left join synapse_workspace as s on s.id = a.id,
+    azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "synapse_workspace_encryption_at_rest_using_cmk" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when encryption -> 'CmkKey' ->> 'name' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when encryption -> 'CmkKey' ->> 'name' is not null then s.title || ' encrypted with CMK.'
+        else s.title || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_synapse_workspace as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}

@@ -891,8 +891,7 @@ query "monitor_logs_storage_container_not_public_accessible" {
           then account_name || ' container insights-operational-logs storing activity logs publicly accessible.'
         else account_name || ' container insights-operational-logs storing activity logs not publicly accessible.'
       end as reason
-      ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sc.")}
+      ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "sc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}    
     from
       azure_storage_container sc,

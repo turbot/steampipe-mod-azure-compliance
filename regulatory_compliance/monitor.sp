@@ -107,11 +107,13 @@ query "monitor_log_alert_for_administrative_operations" {
         when count(a.subscription_id) > 0 then 'Activity log alert exists for administrative operations.'
         else 'Activity log alert does not exists for administrative operations.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -161,6 +163,7 @@ query "monitor_application_insights_configured" {
         when i.subscription_id is null then sub.display_name || ' does not have application insights configured.'
         else sub.display_name || ' has ' || no_application_insight || ' application insights configured.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription as sub
@@ -247,12 +250,15 @@ query "monitor_log_alert_create_policy_assignment" {
         when count(a.subscription_id) > 0 then 'Activity log alert exists for create policy assignment event.'
         else 'Activity log alert does not exists for create policy assignment event.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
       a.subscription_id,
+      sub.subscription_id,
+      sub._ctx,
       sub.display_name;
   EOQ
 }
@@ -298,11 +304,13 @@ query "monitor_log_alert_create_update_nsg_rule" {
         when count(a.subscription_id) > 0 then 'Activity log alert exists for create or update Network Security Group Rule event.'
         else 'Activity log alert does not exists for create or update Network Security Group Rule event.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -349,11 +357,13 @@ query "monitor_log_alert_create_update_nsg" {
         when count(a.subscription_id) > 0 then 'Activity log alert exists for create or update Network Security Group event.'
         else 'Activity log alert does not exists for create or update Network Security Group event.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -401,11 +411,13 @@ query "monitor_log_alert_create_update_public_ip_address" {
         when count(a.subscription_id) > 0 then 'Activity Log Alert exists for Create or Update Public IP Address rule.'
         else 'Activity Log Alert does not exists for Create or Update Public IP Address rule.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -452,11 +464,13 @@ query "monitor_log_alert_create_update_security_solution" {
         when count(a.subscription_id) > 0 then 'Activity log alert exists for create or update Security Solution event.'
         else 'Activity log alert does not exists for create or update Security Solution event.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -504,11 +518,13 @@ query "monitor_log_alert_create_update_sql_servers_firewall_rule" {
         when count(a.subscription_id) > 0 then 'Activity Log Alert exists for Create or Update SQL Server Firewall Rule.'
         else 'Activity Log Alert does not exists for Create or Update SQL Server Firewall Rule.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -555,11 +571,13 @@ query "monitor_log_alert_delete_nsg_rule" {
         when count(a.subscription_id) > 0 then 'Activity log alert exists for delete Network Security Group Rule event.'
         else 'Activity log alert does not exists for delete Network Security Group Rule event.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -607,11 +625,13 @@ query "monitor_log_alert_delete_nsg" {
           when count(a.subscription_id) > 0 then 'Activity log alert exists for delete Network Security Group event.'
           else 'Activity log alert does not exists for delete Network Security Group event.'
         end as reason
+        ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
         ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from
         azure_subscription sub
         left join alert_rule a on sub.subscription_id = a.subscription_id
       group by
+        sub._ctx,
         sub.subscription_id,
         sub.display_name;
   EOQ
@@ -648,11 +668,13 @@ query "monitor_log_alert_delete_policy_assignment" {
         when count(a.subscription_id) > 0 then 'Activity log alert exists for delete policy assignment event.'
         else 'Activity log alert does not exists for delete policy assignment event.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -699,11 +721,13 @@ query "monitor_log_alert_delete_public_ip_address" {
         when count(a.subscription_id) > 0 then 'Activity Log Alert exists for Delete Public IP Address rule.'
         else 'Activity Log Alert does not exists for Delete Public IP Address rule.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -750,11 +774,13 @@ query "monitor_log_alert_delete_security_solution" {
         when count(a.subscription_id) > 0 then 'Activity log alert exists for delete Security Solution event.'
         else 'Activity log alert does not exists for delete Security Solution event.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -800,11 +826,13 @@ query "monitor_log_alert_delete_sql_servers_firewall_rule" {
         when count(a.subscription_id) > 0 then 'Activity Log Alert exists for Delete SQL Server Firewall Rule.'
         else 'Activity Log Alert does not exists for Delete SQL Server Firewall Rule.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ
@@ -841,11 +869,13 @@ query "monitor_log_alert_sql_firewall_rule" {
         when count(a.subscription_id) > 0 then 'Activity log alert exists for create, update and delete SQL Server Firewall Rule event.'
         else 'Activity log alert does not exists for  create, update and delete SQL Server Firewall Rule event.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
       left join alert_rule a on sub.subscription_id = a.subscription_id
     group by
+      sub._ctx,
       sub.subscription_id,
       sub.display_name;
   EOQ

@@ -16,7 +16,8 @@ variable "common_dimensions" {
   # - resource_group
   # - subscription
   # - subscription_id
-  default = ["resource_group", "subscription"]
+  # - tenant_id
+  default = ["resource_group", "region", "subscription", "subscription_id", "tenant_id"]
 }
 
 variable "tag_dimensions" {

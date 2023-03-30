@@ -101,7 +101,7 @@ The benchmark queries use common properties (like `connection_name`, `resource_g
 - Pass in a value on the command line:
 
   ```shell
-  steampipe check benchmark.cis_v140 --var 'common_dimensions=["connection_name", "resource_group", "subscription"]'
+  steampipe check benchmark.cis_v140 --var 'common_dimensions=["resource_group", "region", "subscription", "subscription_id", "tenant_id"]'
   ```
 
   ```shell
@@ -111,7 +111,7 @@ The benchmark queries use common properties (like `connection_name`, `resource_g
 - Set an environment variable:
 
   ```shell
-  SP_VAR_common_dimensions='["connection_name", "resource_group", "subscription"]' steampipe check control.storage_account_use_virtual_service_endpoint
+  SP_VAR_common_dimensions='["resource_group", "region", "subscription", "subscription_id", "tenant_id"]' steampipe check control.storage_account_use_virtual_service_endpoint
   ```
 
   ```shell

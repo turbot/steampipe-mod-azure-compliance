@@ -97,6 +97,7 @@ query "securitycenter_notify_alerts_configured" {
         when notification_alert_count > 0 then '"Notify about alerts with the following severity" set to High.'
         else '"Notify about alerts with the following severity" not set to High.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
@@ -126,6 +127,7 @@ query "securitycenter_security_alerts_to_owner_enabled" {
         when admin_alert_count > 0 then '"All users with the following roles" set to Owner'
         else '"All users with the following roles" not set to Owner.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
@@ -159,6 +161,7 @@ query "securitycenter_email_configured" {
         when default_count = 1 and default_email is not null then'Additional email addresses configured.'
         else 'Additional email addresses not configured.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
@@ -214,6 +217,7 @@ query "securitycenter_additional_email_configured" {
         when default_count = 1 and default_email is not null then'Additional email addresses configured.'
         else 'Additional email addresses not configured.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription sub
@@ -246,6 +250,7 @@ query "securitycenter_asc_default_setting_not_disabled" {
         when count(value = 'Disabled') > 0 then 'Settings disabled for ' || count(*) filter (where value = 'Disabled') || ' parameters.'
         else 'Settings enabled for all the parameters.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       policy_assignment_parameters pol_assignment
@@ -253,6 +258,8 @@ query "securitycenter_asc_default_setting_not_disabled" {
     group by
       sub.id,
       pol_assignment.id,
+      sub._ctx,
+      sub.subscription_id,
       pol_assignment.subscription_id,
       sub.display_name;
   EOQ
@@ -357,6 +364,7 @@ query "securitycenter_azure_defender_on_for_database" {
           then 'Azure Defender on for Databases.'
         else 'Azure Defender off for Databases.'
       end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription as sub

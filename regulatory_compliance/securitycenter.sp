@@ -67,7 +67,7 @@ query "securitycenter_automatic_provisioning_monitoring_agent_on" {
         when auto_provision = 'On' then 'Automatic provisioning of monitoring agent is on.'
         else 'Automatic provisioning of monitoring agent is off.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sc_prov.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sc_prov.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_auto_provisioning sc_prov
@@ -178,7 +178,7 @@ query "securitycenter_azure_defender_on_for_sqlservervm" {
         when pricing_tier = 'Standard' then 'Azure Defender on for SQL servers on machines.'
         else 'Azure Defender off for SQL servers on machines.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -270,7 +270,7 @@ query "securitycenter_azure_defender_on_for_appservice" {
         when pricing_tier = 'Standard' then 'Azure Defender on for App Services.'
         else 'Azure Defender off for App Services.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -292,7 +292,7 @@ query "securitycenter_azure_defender_on_for_containerregistry" {
         when pricing_tier = 'Standard' then 'Azure Defender on for Container Registry.'
         else 'Azure Defender off for Container Registry.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -314,7 +314,7 @@ query "securitycenter_azure_defender_on_for_cosmosdb" {
         when pricing_tier = 'Standard' then 'Azure Defender on for Cosmos DB.'
         else 'Azure Defender off for Cosmos DB.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -376,7 +376,7 @@ query "securitycenter_azure_defender_on_for_dns" {
         when pricing_tier = 'Standard' then 'Azure Defender on for DNS.'
         else 'Azure Defender off for DNS.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -398,7 +398,7 @@ query "securitycenter_azure_defender_on_for_k8s" {
         when pricing_tier = 'Standard' then 'Azure Defender on for Kubernetes.'
         else 'Azure Defender off for Kubernetes.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -420,7 +420,7 @@ query "securitycenter_azure_defender_on_for_keyvault" {
         when pricing_tier = 'Standard' then 'Azure Defender on for Key Vaults.'
         else 'Azure Defender off for Key Vaults.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -442,7 +442,7 @@ query "securitycenter_azure_defender_on_for_opensource_relational_db" {
         when pricing_tier = 'Standard' then 'Azure Defender on for Open Source Relational Databases.'
         else 'Azure Defender off for Open Source Relational Databases.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -464,7 +464,7 @@ query "securitycenter_azure_defender_on_for_resource_manager" {
         when pricing_tier = 'Standard' then 'Azure Defender on for Resource Manager.'
         else 'Azure Defender off for Resource Manager.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -486,7 +486,7 @@ query "securitycenter_azure_defender_on_for_server" {
         when pricing_tier = 'Standard' then 'Azure Defender on for Servers.'
         else 'Azure Defender off for Servers.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -508,7 +508,7 @@ query "securitycenter_azure_defender_on_for_sqldb" {
         when pricing_tier = 'Standard' then 'Azure Defender on for SQL database servers.'
         else 'Azure Defender off for SQL database servers.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -530,7 +530,7 @@ query "securitycenter_azure_defender_on_for_storage" {
         when pricing_tier = 'Standard' then 'Azure Defender on for Storage.'
         else 'Azure Defender off for Storage.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing sub_pricing
@@ -552,7 +552,7 @@ query "securitycenter_mcas_integration" {
         when enabled then 'Windows Defender ATP (WDATP) integrated with Security Center.'
         else 'Windows Defender ATP (WDATP) not integrated with Security Center.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sc_sett.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sc_sett.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_setting sc_sett
@@ -574,7 +574,7 @@ query "securitycenter_wdatp_integration" {
         when enabled then 'Microsoft Cloud App Security (MCAS) integrated with Security Center.'
         else 'Microsoft Cloud App Security (MCAS) not integrated with Security Center.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "sc_sett.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sc_sett.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_setting sc_sett

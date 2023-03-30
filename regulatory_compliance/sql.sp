@@ -369,7 +369,7 @@ query "sql_database_server_azure_defender_enabled" {
         when name = 'SqlServers' and pricing_tier = 'Standard' then 'SqlServers azure defender enabled.'
         else name || 'SqlServers azure defender disabled.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing as pricing,
@@ -416,7 +416,7 @@ query "sql_server_vm_azure_defender_enabled" {
         when name = 'SqlServerVirtualMachines' and pricing_tier = 'Standard' then 'SqlServerVirtualMachines azure defender enabled.'
         else name || 'SqlServerVirtualMachines azure defender disabled.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing as pricing,

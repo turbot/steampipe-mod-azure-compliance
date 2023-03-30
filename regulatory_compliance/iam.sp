@@ -152,7 +152,7 @@ query "iam_subscription_owner_more_than_1" {
         else 'alarm'
       end as status,
       count(*) || ' owner(s) associated.' as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "owner.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "owner.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       owner_roles as owner,
@@ -189,7 +189,7 @@ query "iam_subscription_owner_max_3" {
         else 'alarm'
       end as status,
       count(*) || ' owner(s) associated.' as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "owner.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "owner.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       owner_roles as owner,
@@ -232,7 +232,7 @@ query "iam_no_custom_subscription_owner_roles_created" {
         when count(*) > 1 then 'There are ' || count(*) || ' custom owner roles.'
         else  'There are no custom owner roles.'
       end as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "cr.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "cr.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       owner_custom_roles cr,
@@ -289,7 +289,7 @@ query "iam_no_custom_role" {
         else 'ok'
       end as status,
       'There are ' || count(*) || ' custom roles.' as reason
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "cr.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "cr.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       custom_roles as cr,

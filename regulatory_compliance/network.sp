@@ -238,7 +238,7 @@ query "network_watcher_enabled" {
       end as reason,
       loc.name
       ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_pricing_qualifier_sql, "__QUALIFIER__", "loc.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "loc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_location loc

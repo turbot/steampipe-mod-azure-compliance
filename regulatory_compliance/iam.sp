@@ -257,8 +257,9 @@ query "iam_deprecated_account_with_owner_roles" {
       case
         when not u.account_enabled  then u.display_name || ' signing-in disabled state with ' || d.role_name || ' role.'
         else u.display_name || ' signing-in enabled.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azure_tenant as t,
       azuread_user as u
@@ -328,8 +329,9 @@ query "iam_external_user_with_owner_role" {
       case
         when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
         else a.display_name || ' is domain user with ' || a.role_name || ' role.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azure_tenant as t,
       all_owner_users as a;
@@ -361,8 +363,9 @@ query "iam_deprecated_account" {
       case
         when d.id is null then u.display_name || ' sign-in enabled.'
         else u.display_name || ' sign-in disabled.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azure_tenant as t,
       azuread_user as u
@@ -395,8 +398,9 @@ query "iam_external_user_with_read_permission" {
       case
         when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
         else a.display_name || ' is domain user with ' || a.role_name || ' role.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azure_tenant as t,
       all_write_permission_users as a;
@@ -429,8 +433,9 @@ query "iam_external_user_with_write_permission" {
       case
         when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
         else a.display_name || ' is domain user with ' || a.role_name || ' role.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azure_tenant as t,
       all_write_permission_users as a;
@@ -448,8 +453,9 @@ query "iam_conditional_access_mfa_enabled" {
       case
         when p.built_in_controls @> '["mfa"]' then p.display_name || ' MFA enabled.'
         else p.display_name || ' MFA disabled.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azure_tenant as t,
       azuread_conditional_access_policy as p;
@@ -467,8 +473,9 @@ query "iam_user_not_allowed_to_create_security_group" {
       case
         when a.default_user_role_permissions ->> 'allowedToCreateSecurityGroups' = 'false' then a.display_name || ' does not allow user to create security groups.'
         else a.display_name || ' allows user to create security groups.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azure_tenant as t,
       azuread_authorization_policy as a;
@@ -486,8 +493,9 @@ query "iam_user_not_allowed_to_register_application" {
       case
         when a.default_user_role_permissions ->> 'allowedToCreateApps' = 'false' then a.display_name || ' does not allow user to register applications.'
         else a.display_name || ' allows user to register applications.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azure_tenant as t,
       azuread_authorization_policy as a;

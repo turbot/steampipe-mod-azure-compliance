@@ -17,7 +17,7 @@ variable "common_dimensions" {
   # - subscription
   # - subscription_id
   # - tenant_id
-  default = ["resource_group", "region", "subscription", "tenant_id"]
+  default = ["resource_group", "region", "subscription"]
 }
 
 variable "tag_dimensions" {
@@ -45,12 +45,6 @@ locals {
   %{~if contains(var.common_dimensions, "subscription_id")}, __QUALIFIER__subscription_id as subscription_id%{endif~}
   EOQ
 
-  common_dimensions_tenant_qualifier_sql = <<-EOQ
-  %{~if contains(var.common_dimensions, "connection_name")}, __QUALIFIER___ctx ->> 'connection_name' as connection_name%{endif~}
-  # %{~if contains(var.common_dimensions, "tenant_id")}, __QUALIFIER__tenant_id as tenant_id%{endif~}
-  %{~if contains(var.common_dimensions, "subscription_id")}, __QUALIFIER__subscription_id as subscription_id%{endif~}
-  EOQ
-
   common_dimensions_subscription_id_qualifier_sql = <<-EOQ
   %{~if contains(var.common_dimensions, "connection_name")}, __QUALIFIER___ctx ->> 'connection_name' as connection_name%{endif~}
   %{~if contains(var.common_dimensions, "subscription_id")}, __QUALIFIER__subscription_id as subscription_id%{endif~}
@@ -72,7 +66,6 @@ locals {
   # and tag dimensions. Do not edit directly.
   common_dimensions_sql                 = replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "")
   common_dimensions_global_sql          = replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "")
-  common_dimensions_tenant_sql          = replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "")
   common_dimensions_subscription_sql    = replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "")
   common_dimensions_subscription_id_sql = replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "")
   tag_dimensions_sql                    = replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "")

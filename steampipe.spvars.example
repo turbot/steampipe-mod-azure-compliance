@@ -1,3 +1,3 @@
 # Dimensions
-common_dimensions = [ "connection_name", "region", "resource_group", "subscription", "tenant_id"]
+common_dimensions = ["region", "resource_group", "subscription"]
 tag_dimensions    = []

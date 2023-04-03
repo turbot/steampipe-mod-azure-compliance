@@ -17,7 +17,7 @@ variable "common_dimensions" {
   # - subscription
   # - subscription_id
   # - tenant_id
-  default = ["resource_group", "region", "subscription", "subscription_id", "tenant_id"]
+  default = ["resource_group", "region", "subscription", "tenant_id"]
 }
 
 variable "tag_dimensions" {
@@ -47,7 +47,7 @@ locals {
 
   common_dimensions_tenant_qualifier_sql = <<-EOQ
   %{~if contains(var.common_dimensions, "connection_name")}, __QUALIFIER___ctx ->> 'connection_name' as connection_name%{endif~}
-  %{~if contains(var.common_dimensions, "tenant_id")}, __QUALIFIER__tenant_id as tenant_id%{endif~}
+  # %{~if contains(var.common_dimensions, "tenant_id")}, __QUALIFIER__tenant_id as tenant_id%{endif~}
   %{~if contains(var.common_dimensions, "subscription_id")}, __QUALIFIER__subscription_id as subscription_id%{endif~}
   EOQ
 
@@ -63,7 +63,7 @@ locals {
   # Local internal variable to build the SQL select clause for tag
   # dimensions. Do not edit directly.
   tag_dimensions_qualifier_sql = <<-EOQ
-  %{~for dim in var.tag_dimensions},  __QUALIFIER__tags ->> '${dim}' as "${replace(dim, "\"", "\"\"")}"%{endfor~} 
+  %{~for dim in var.tag_dimensions},  __QUALIFIER__tags ->> '${dim}' as "${replace(dim, "\"", "\"\"")}"%{endfor~}
   EOQ
 }
 

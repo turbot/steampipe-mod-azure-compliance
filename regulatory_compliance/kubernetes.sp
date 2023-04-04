@@ -122,24 +122,23 @@ query "kubernetes_instance_rbac_enabled" {
 query "kubernetes_azure_defender_enabled" {
   sql = <<-EOQ
     select
-      kc.id as resource,
+      pricing.id as resource,
       case
-        when enable_rbac then 'ok'
+        when name = 'KubernetesService' and pricing_tier = 'Standard' then 'ok'
         else 'alarm'
       end as status,
       case
-        when enable_rbac then name || ' role based access control enabled.'
-        else name || ' role based access control disabled.'
-      end as reason,
-      enable_rbac
-      ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
+        when name = 'KubernetesService' and pricing_tier = 'Standard' then 'KubernetesService azure defender enabled.'
+        else name || 'KubernetesService azure defender disabled.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster kc,
-      azure_subscription sub
+      azure_security_center_subscription_pricing as pricing,
+      azure_subscription as sub
     where
-      sub.subscription_id = kc.subscription_id;
+      sub.subscription_id = pricing.subscription_id
+      and name = 'KubernetesService';
   EOQ
 }
 
@@ -154,8 +153,7 @@ query "kubernetes_cluster_add_on_azure_policy_enabled" {
       case
         when addon_profiles -> 'azurepolicy' ->> 'enabled' = 'true' then name || ' add on azure policy enabled.'
         else name || ' add on azure policy disabled.'
-      end as reason,
-      enable_rbac
+      end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
@@ -216,7 +214,7 @@ query "kubernetes_cluster_os_and_data_disks_encrypted_with_cmk" {
 query "kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host" {
   sql = <<-EOQ
     with kubernetes_cluster as(
-        select
+      select
         id,
         name,
         subscription_id,
@@ -225,7 +223,7 @@ query "kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host
         azure_kubernetes_cluster,
         jsonb_array_elements(agent_pool_profiles) as p
       where
-      p -> 'enableEncryptionAtHost' = 'true'
+        p -> 'enableEncryptionAtHost' = 'true'
     )
     select
       a.id as resource,
@@ -251,34 +249,29 @@ query "kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host
 
 query "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
   sql = <<-EOQ
-    with kubernetes_cluster as(
-        select
-        id,
-        name,
-        subscription_id,
-        resource_group
-      from
-        azure_kubernetes_cluster,
-        jsonb_array_elements(agent_pool_profiles) as p
-      where
-      p -> 'enableEncryptionAtHost' = 'true'
-    )
     select
       a.id as resource,
       case
-        when s.id is not null then 'ok'
-        else 'alarm'
+        when
+          a.kubernetes_version ~ '1\.13\.[0-4]'
+          or a.kubernetes_version ~ '1\.12\.[0-6]'
+          or a.kubernetes_version ~ '1\.11\.[0-8]'
+          or a.kubernetes_version ~ '1\.\d|10\.*' then 'alarm'
+        else 'ok'
       end as status,
       case
-        when s.id is not null then a.name || ' encrypted at host.'
-        else a.name || ' not encrypted at host.'
+        when
+          a.kubernetes_version ~ '1\.13\.[0-4]'
+          or a.kubernetes_version ~ '1\.12\.[0-6]'
+          or a.kubernetes_version ~ '1\.11\.[0-8]'
+          or a.kubernetes_version ~ '1\.\d|10\.*' then a.name || ' not upgraded to a non-vulnerable Kubernetes version.'
+        else a.name || ' upgraded to a non-vulnerable Kubernetes version.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster as a
-      left join kubernetes_cluster as s on s.id = a.id,
+      azure_kubernetes_cluster as a,
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;

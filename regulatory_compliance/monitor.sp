@@ -867,7 +867,7 @@ query "monitor_log_alert_sql_firewall_rule" {
       end as status,
       case
         when count(a.subscription_id) > 0 then 'Activity log alert exists for create, update and delete SQL Server Firewall Rule event.'
-        else 'Activity log alert does not exists for  create, update and delete SQL Server Firewall Rule event.'
+        else 'Activity log alert does not exists for create, update and delete SQL Server Firewall Rule event.'
       end as reason
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
@@ -922,7 +922,7 @@ query "monitor_logs_storage_container_not_public_accessible" {
         else account_name || ' container insights-operational-logs storing activity logs not publicly accessible.'
       end as reason
       ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "sc.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}    
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_container sc,
       azure_subscription sub

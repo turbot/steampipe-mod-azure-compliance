@@ -254,12 +254,12 @@ query "mysql_server_private_link_used" {
       a.id as resource,
       case
         when sku_tier = 'Basic' then 'skip'
-        when private_endpoint_connections @>  '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
         else 'alarm'
       end as status,
       case
         when sku_tier = 'Basic' then a.name || ' is of ' || sku_tier || ' tier.'
-        when private_endpoint_connections @>  '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
         else a.name || ' not using private link.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -371,7 +371,7 @@ query "mysql_server_min_tls_1_2" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}     
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_server as s,
       azure_subscription as sub

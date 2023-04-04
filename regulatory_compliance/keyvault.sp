@@ -292,7 +292,7 @@ query "keyvault_azure_defender_enabled" {
         else name || 'KeyVaults azure defender disabled.'
       end as reason
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing as pricing,
       azure_subscription as sub
@@ -318,7 +318,7 @@ query "keyvault_vault_private_link_used" {
       case
         when network_acls is null or network_acls ->> 'defaultAction' = 'Allow' then a.name || ' using public networks.'
         when private_endpoint_connections is null then a.name || ' no private link exists.'
-        when private_endpoint_connections @>  '[{"PrivateLinkServiceConnectionStateStatus": "Approved"}]'
+        when private_endpoint_connections @> '[{"PrivateLinkServiceConnectionStateStatus": "Approved"}]'
         then a.name || ' using private link.'
         else a.name || ' private link not enabled.'
       end as reason

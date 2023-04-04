@@ -60,7 +60,7 @@ query "azure_redis_cache_ssl_enabled" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}     
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_redis_cache as redis,
       azure_subscription as sub
@@ -116,7 +116,7 @@ query "azure_redis_cache_in_virtual_network" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_redis_cache as redis,
       azure_subscription as sub
@@ -135,11 +135,11 @@ query "redis_cache_no_basic_sku" {
       end as status,
       case
         when c.sku_name = 'Basic' then c.title || ' using basic SKU.'
-        else c.title || ' using ' || sku_name  || ' SKU.'
+        else c.title || ' using ' || sku_name || ' SKU.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}  
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_redis_cache as c,
       azure_subscription as sub

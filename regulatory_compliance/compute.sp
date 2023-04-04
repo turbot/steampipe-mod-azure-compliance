@@ -1586,7 +1586,7 @@ query "compute_vm_guest_configuration_installed_linux" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,
@@ -1620,7 +1620,7 @@ query "compute_vm_guest_configuration_installed" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
       left join agent_installed_vm as b on a.vm_id = b.vm_id,

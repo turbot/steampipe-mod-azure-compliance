@@ -496,7 +496,6 @@ query "appservice_web_app_latest_tls_version" {
 query "appservice_function_app_only_https_accessible" {
   sql = <<-EOQ
     select
-      -- Required Column
       app.id as resource,
       case
         when https_only then 'ok'
@@ -574,7 +573,7 @@ query "appservice_api_app_use_https" {
     from
       azure_app_service_web_app as a
       left join all_api_app as b on a.id = b.id,
-      azure_subscription sub
+      azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;
   EOQ
@@ -663,9 +662,9 @@ query "appservice_web_app_diagnostic_logs_enabled" {
           then a.name || ' diagnostic logs enabled.'
         else a.title || ' diagnostic logs disabled.'
           -- concat_ws(', ',
-          --   case when not ((a.configuration-> 'properties' -> 'detailedErrorLoggingEnabled')::bool) then 'detailed_Error_Logging_Enabled' end,
-          --   case when not ((a.configuration -> 'properties' -> 'httpLoggingEnabled')::bool) then 'http_logging_enabled' end,
-          --   case when not ((a.configuration-> 'properties' -> 'requestTracingEnabled')::bool) then 'request_tracing_enabled' end
+          -- case when not ((a.configuration-> 'properties' -> 'detailedErrorLoggingEnabled')::bool) then 'detailed_Error_Logging_Enabled' end,
+          -- case when not ((a.configuration -> 'properties' -> 'httpLoggingEnabled')::bool) then 'http_logging_enabled' end,
+          -- case when not ((a.configuration-> 'properties' -> 'requestTracingEnabled')::bool) then 'request_tracing_enabled' end
           -- ) || '.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -1016,7 +1015,7 @@ query "appservice_function_app_client_certificates_on" {
       case
         when client_cert_enabled then app.name || ' client certificate enabled.'
         else app.name || ' client certificate disabled.'
-      end as reason      
+      end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
@@ -1135,7 +1134,7 @@ query "appservice_web_app_ftps_enabled" {
         when b.id is null then a.title || ' is ' || a.kind || ' kind.'
         when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then a.name || ' FTPS disabled.'
         else a.name || ' FTPS enabled.'
-      end as reason      
+      end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
@@ -1205,8 +1204,7 @@ query "appservice_web_app_latest_http_version" {
         else 'ok'
       end as status,
       case
-        when not (configuration -> 'properties' ->> 'http20Enabled') :: boolean
-          then name || ' HTTP version not latest.'
+        when not (configuration -> 'properties' ->> 'http20Enabled') :: boolean then name || ' HTTP version not latest.'
         else name || ' HTTP version is latest.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -1229,8 +1227,8 @@ query "app_service_environment_internal_encryption_enabled" {
         azure_app_service_environment,
         jsonb_array_elements(cluster_settings ) as s
       where
-        s ->> 'name' =  'InternalEncryption'
-        and s ->> 'value' =  'true'
+        s ->> 'name' = 'InternalEncryption'
+        and s ->> 'value' = 'true'
     )
     select
       a.id as resource,
@@ -1551,7 +1549,6 @@ query "appservice_ftp_deployment_disabled" {
         sub.subscription_id = fa.subscription_id
     union
       select
-        -- Required Column
         wa.id as resource,
         case
           when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then 'alarm'

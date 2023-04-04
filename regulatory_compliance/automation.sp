@@ -27,7 +27,7 @@ query "automation_account_variable_encryption_enabled" {
         else a.title || ' encryption disabled.'
       end as reason
       ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_automation_variable as a,
       azure_subscription as sub;

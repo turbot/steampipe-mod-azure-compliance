@@ -64,7 +64,7 @@ query "cognitive_service_local_auth_disabled" {
       end as status,
       case
         when disable_local_auth then a.name || ' account local authentication enabled.'
-        else  a.name || ' account local authentication disabled.'
+        else a.name || ' account local authentication disabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -84,17 +84,17 @@ query "cognitive_account_private_link_used" {
         azure_cognitive_account as a,
         jsonb_array_elements(capabilities ) as c
       where
-        c ->> 'name' =  'VirtualNetworks'
+        c ->> 'name' = 'VirtualNetworks'
     ),
     cognitive_account_connections as (
       select
         distinct a.id
       from
         cognitive_account as a
-        left join azure_cognitive_account as b on a.id =  b.id,
+        left join azure_cognitive_account as b on a.id = b.id,
         jsonb_array_elements(private_endpoint_connections ) as c
       where
-        c -> 'PrivateLinkServiceConnectionState' ->> 'status' =  'Approved'
+        c -> 'PrivateLinkServiceConnectionState' ->> 'status' = 'Approved'
     )
     select
       b.id as resource,
@@ -185,7 +185,7 @@ query "cognitive_account_encrypted_with_cmk" {
         azure_cognitive_account as a,
         jsonb_array_elements(capabilities ) as c
       where
-        c ->> 'name' =  'CustomerManagedKey'
+        c ->> 'name' = 'CustomerManagedKey'
     )
     select
       s.id as resource,

@@ -99,7 +99,7 @@ query "postgres_sql_ssl_enabled" {
       end as status,
       case
         when ssl_enforcement = 'Disabled' then name || ' SSL connection disabled.'
-        else  name || ' SSL connection enabled.'
+        else name || ' SSL connection enabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
@@ -165,12 +165,12 @@ query "postgres_server_private_link_used" {
       case
         -- Only applicable to standard tier
         when sku_tier = 'Basic' then 'skip'
-        when private_endpoint_connections @>  '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
         else 'alarm'
       end as status,
       case
         when sku_tier = 'Basic' then a.name || ' is of ' || sku_tier || ' tier.'
-        when private_endpoint_connections @>  '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
         else a.name || ' not using private link.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -305,7 +305,7 @@ query "postgres_db_server_log_disconnections_on" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}     
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_server s,
       jsonb_array_elements(server_configurations) config,
@@ -330,7 +330,7 @@ query "postgres_db_server_log_retention_days_3" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_server s,
       jsonb_array_elements(server_configurations) as config,

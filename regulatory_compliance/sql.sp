@@ -255,7 +255,7 @@ query "sql_server_use_virtual_service_endpoint" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server as a
       left join sql_server_subnet as s on a.name = s.name,
@@ -279,7 +279,7 @@ query "sql_server_tde_protector_cmk_encrypted" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server s,
       jsonb_array_elements(encryption_protector) encryption,
@@ -346,7 +346,7 @@ query "sql_database_vulnerability_findings_resolved" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_database as a
       left join vulnerability_findings as s on a.id = s.database_id,
@@ -389,7 +389,7 @@ query "sql_database_transparent_data_encryption_enabled" {
           else 'alarm'
       end as status,
       case
-        when transparent_data_encryption ->> 'status' = 'Enabled' or transparent_data_encryption ->> 'state' = 'Enabled'  then s.title || ' transparent data encryption enabled.'
+        when transparent_data_encryption ->> 'status' = 'Enabled' or transparent_data_encryption ->> 'state' = 'Enabled' then s.title || ' transparent data encryption enabled.'
           else s.title || ' transparent data encryption disabled.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -510,7 +510,7 @@ query "sql_db_public_network_access_disabled" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}     
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server as s,
       azure_subscription as sub
@@ -613,7 +613,7 @@ query "sql_database_allow_internet_access" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server s,
       azure_subscription sub
@@ -636,7 +636,7 @@ query "sql_db_active_directory_admin_configured" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server s,
       azure_subscription sub

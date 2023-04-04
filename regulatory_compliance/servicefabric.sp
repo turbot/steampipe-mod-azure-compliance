@@ -35,7 +35,7 @@ query "servicefabric_cluster_active_directory_authentication_enabled" {
       end as status,
       case
         when azure_active_directory is not null then a.name || ' using Azure Active Directory for client authentication.'
-        else  a.name || ' not using Azure Active Directory for client authentication.'
+        else a.name || ' not using Azure Active Directory for client authentication.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -56,11 +56,11 @@ query "servicefabric_cluster_protection_level_as_encrypt_and_sign" {
       end as status,
       case
         when fabric_settings @> '[{"parameters":[{"value": "EncryptAndSign"}]}]'::jsonb then a.name || ' ClusterProtectionLevel property set to EncryptAndSign.'
-        else  a.name || ' ClusterProtectionLevel property not set to EncryptAndSign.'
+        else a.name || ' ClusterProtectionLevel property not set to EncryptAndSign.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_service_fabric_cluster a,
       azure_subscription sub;

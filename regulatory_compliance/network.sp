@@ -216,7 +216,7 @@ query "network_security_group_rdp_access_restricted" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join network_sg nsg on nsg.sg_name = sg.name
@@ -307,7 +307,7 @@ query "network_watcher_in_regions_with_virtual_network" {
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_virtual_network as a
       left join azure_network_watcher as b on a.region = b.region
@@ -365,7 +365,7 @@ query "application_gateway_waf_enabled" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_application_gateway as ag
       join azure_subscription as sub on sub.subscription_id = ag.subscription_id;
@@ -395,7 +395,7 @@ query "network_ddos_enabled" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}       
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_virtual_network as a
       left join application_gateway_subnet as b on a.name = b.vn_name
@@ -413,7 +413,7 @@ query "network_virtual_network_gateway_no_basic_sku" {
       end as status,
       case
         when g.sku_name = 'Basic' then g.title || ' using basic SKU.'
-        else g.title || ' using ' || sku_name  || ' SKU.'
+        else g.title || ' using ' || sku_name || ' SKU.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "g.")}
@@ -436,7 +436,7 @@ query "network_lb_no_basic_sku" {
       end as status,
       case
         when l.sku_name = 'Basic' then l.title || ' using basic SKU.'
-        else l.title || ' using ' || sku_name  || ' SKU.'
+        else l.title || ' using ' || sku_name || ' SKU.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "l.")}
@@ -459,7 +459,7 @@ query "network_public_ip_no_basic_sku" {
       end as status,
       case
         when i.sku_name = 'Basic' then i.title || ' using basic SKU.'
-        else i.title || ' using ' || sku_name  || ' SKU.'
+        else i.title || ' using ' || sku_name || ' SKU.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "i.")}

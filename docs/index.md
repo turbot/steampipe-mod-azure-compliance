@@ -103,13 +103,13 @@ No extra configuration is required.
 
 ### Common and Tag Dimensions
 
-The benchmark queries use common properties (like `connection_name`, `resource_group`, `region`, `subscription`, `subscription_id` and `tenant_id`) and tags that are defined in the form of a default list of strings in the `mod.sp` file. These properties can be overwritten in several ways:
+The benchmark queries use common properties (like `connection_name`, `resource_group`, `region`, `subscription` and `subscription_id`) and tags that are defined in the form of a default list of strings in the `mod.sp` file. These properties can be overwritten in several ways:
 
 - Copy and rename the `steampipe.spvars.example` file to `steampipe.spvars`, and then modify the variable values inside that file
 - Pass in a value on the command line:
 
   ```shell
-  steampipe check benchmark.cis_v140 --var 'common_dimensions=["resource_group", "region", "subscription", "subscription_id", "tenant_id"]'
+  steampipe check benchmark.cis_v140 --var 'common_dimensions=["resource_group", "region", "subscription", "subscription_id"]'
   ```
 
   ```shell
@@ -119,7 +119,7 @@ The benchmark queries use common properties (like `connection_name`, `resource_g
 - Set an environment variable:
 
   ```shell
-  SP_VAR_common_dimensions='["resource_group", "region", "subscription", "subscription_id", "tenant_id"]' steampipe check control.storage_account_use_virtual_service_endpoint
+  SP_VAR_common_dimensions='["resource_group", "region", "subscription", "subscription_id"]' steampipe check control.storage_account_use_virtual_service_endpoint
   ```
 
   ```shell

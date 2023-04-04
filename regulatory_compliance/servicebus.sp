@@ -76,7 +76,7 @@ query "servicebus_namespace_logging_enabled" {
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}      
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_servicebus_namespace as v
       left join logging_details as l on v.name = l.namespace_name,
@@ -93,19 +93,19 @@ query "servicebus_name_space_private_link_used" {
       case
         when sku_name in ('Basic', 'Standard') then 'skip'
         when private_endpoint_connections is null then 'info'
-        when private_endpoint_connections @>  '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
         else 'alarm'
       end as status,
       case
         when sku_name in ('Basic', 'Standard') then a.name || ' is of ' || sku_name || ' tier.'
         when private_endpoint_connections is null then a.name || ' no private link exists.'
-        when private_endpoint_connections @>  '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb
         then a.name || ' using private link.'
         else a.name || ' not using private link.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}     
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_servicebus_namespace a,
       azure_subscription sub;
@@ -150,7 +150,7 @@ query "servicebus_use_virtual_service_endpoint" {
           jsonb_array_length(network_rule_set -> 'properties' -> 'virtualNetworkRules') = 0
           or exists (
             select
-              * 
+              *
             from
               jsonb_array_elements(network_rule_set -> 'properties' -> 'virtualNetworkRules') as t
             where
@@ -160,11 +160,11 @@ query "servicebus_use_virtual_service_endpoint" {
     )
     select
       bus.id as resource,
-      case 
+      case
         when bus.name != service_bus.name then 'ok'
         else 'alarm'
       end as status,
-      case 
+      case
         when bus.name != service_bus.name then bus.name || ' configured with virtual service endpoint.'
         else bus.name || ' not configured with virtual service endpoint.'
       end as reason

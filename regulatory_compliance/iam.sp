@@ -230,7 +230,7 @@ query "iam_no_custom_subscription_owner_roles_created" {
       case
         when count(*) = 1 then 'There is one custom owner role.'
         when count(*) > 1 then 'There are ' || count(*) || ' custom owner roles.'
-        else  'There are no custom owner roles.'
+        else 'There are no custom owner roles.'
       end as reason
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "cr.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
@@ -251,11 +251,11 @@ query "iam_deprecated_account_with_owner_roles" {
     select
       distinct u.user_principal_name as resource,
       case
-        when not u.account_enabled  then 'alarm'
+        when not u.account_enabled then 'alarm'
         else 'ok'
       end as status,
       case
-        when not u.account_enabled  then u.display_name || ' signing-in disabled state with ' || d.role_name || ' role.'
+        when not u.account_enabled then u.display_name || ' signing-in disabled state with ' || d.role_name || ' role.'
         else u.display_name || ' signing-in enabled.'
       end as reason,
       t.tenant_id

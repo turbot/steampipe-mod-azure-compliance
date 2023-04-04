@@ -10,9 +10,8 @@ query "ad_guest_user_reviewed_monthly" {
         else 'ok'
       end as status,
       case
-        when not account_enabled
-          then 'Guest user ''' || display_name || ''' inactive.'
-          else 'Guest user ''' || display_name || ''' was created ' || extract(day from current_timestamp - created_date_time::timestamp) || ' days ago.'
+        when not account_enabled then 'Guest user ''' || display_name || ''' inactive.'
+        else 'Guest user ''' || display_name || ''' was created ' || extract(day from current_timestamp - created_date_time::timestamp) || ' days ago.'
       end as reason,
       tenant_id
       ${local.common_dimensions_subscription_id_sql}

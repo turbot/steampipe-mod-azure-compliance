@@ -85,7 +85,7 @@ query "batch_account_encrypted_with_cmk" {
         else 'alarm'
       end as status,
       case
-        when  encryption ->> 'keySource' = 'Microsoft.KeyVault' then batch.name || ' encrypted with CMK.'
+        when encryption ->> 'keySource' = 'Microsoft.KeyVault' then batch.name || ' encrypted with CMK.'
         else batch.name || ' not encrypted with CMK.'
       end as reason
       ${local.tag_dimensions_sql}

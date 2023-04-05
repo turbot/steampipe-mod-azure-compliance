@@ -3,22 +3,23 @@
 query "ad_guest_user_reviewed_monthly" {
   sql = <<-EOQ
     select
-      display_name as resource,
+      u.display_name as resource,
       case
         when not account_enabled then 'alarm'
-        when created_date_time::timestamp <= (current_date - interval '30' day) then 'alarm'
+        when u.created_date_time::timestamp <= (current_date - interval '30' day) then 'alarm'
         else 'ok'
       end as status,
       case
-        when not account_enabled then 'Guest user ''' || display_name || ''' inactive.'
-        else 'Guest user ''' || display_name || ''' was created ' || extract(day from current_timestamp - created_date_time::timestamp) || ' days ago.'
+        when not account_enabled then 'Guest user ''' || u.display_name || ''' inactive.'
+        else 'Guest user ''' || u.display_name || ''' was created ' || extract(day from current_timestamp - u.created_date_time::timestamp) || ' days ago.'
       end as reason,
-      tenant_id
-      ${local.common_dimensions_subscription_id_sql}
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      azuread_user
+      azuread_user as u
+      left join azure_tenant as t on t.tenant_id = u.tenant_id
     where
-      user_type = 'Guest';
+      u.user_type = 'Guest';
   EOQ
 }
 

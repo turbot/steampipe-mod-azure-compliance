@@ -113,7 +113,7 @@ The benchmark queries use common properties (like `connection_name`, `resource_g
   ```
 
   ```shell
-  steampipe check benchmark.cis_v140 --var 'tag_dimensions=[ "Department", "Environment"]'
+  steampipe check benchmark.cis_v140 --var 'tag_dimensions=["Department", "Environment"]'
   ```
 
 - Set an environment variable:
@@ -123,7 +123,7 @@ The benchmark queries use common properties (like `connection_name`, `resource_g
   ```
 
   ```shell
-  SP_VAR_tag_dimensions='[ "Department", "Environment"]' steampipe check control.storage_account_use_virtual_service_endpoint
+  SP_VAR_tag_dimensions='["Department", "Environment"]' steampipe check control.storage_account_use_virtual_service_endpoint
   ```
 
 ## Contributing

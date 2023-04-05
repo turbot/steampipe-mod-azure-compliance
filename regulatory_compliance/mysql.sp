@@ -87,3 +87,295 @@ control "mysql_server_encrypted_at_rest_using_cmk" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+query "mysql_ssl_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when ssl_enforcement = 'Disabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when ssl_enforcement = 'Disabled' then s.name || ' SSL connection disabled.'
+        else s.name || ' SSL connection enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_db_server_geo_redundant_backup_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when geo_redundant_backup = 'Enabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when geo_redundant_backup = 'Enabled' then name || ' Geo-redundant backup enabled.'
+        else name || ' Geo-redundant backup disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mssql_managed_instance_encryption_at_rest_using_cmk" {
+  sql = <<-EOQ
+    with encryption_protector as (
+      select
+        distinct i.id as id
+      from
+        azure_mssql_managed_instance as i,
+        jsonb_array_elements(encryption_protectors) a
+        where
+          a ->> 'serverKeyType' = 'AzureKeyVault'
+          and a ->> 'uri' is not null
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' encrypted with CMK.'
+        else s.title || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mssql_managed_instance as s
+      left join encryption_protector as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mssql_managed_instance_vulnerability_assessment_enabled" {
+  sql = <<-EOQ
+    with vulnerability_assessments as (
+      select
+        distinct i.id as id
+      from
+        azure_mssql_managed_instance as i,
+        jsonb_array_elements(vulnerability_assessments) a
+      where
+        a -> 'recurringScans' ->> 'isEnabled' = 'true'
+        and a ->> 'name' = 'Default'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' vulnerability assessment enabled.'
+        else s.title || ' vulnerability assessment disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mssql_managed_instance as s
+      left join vulnerability_assessments as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_server_public_network_access_disabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when public_network_access = 'Enabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_network_access = 'Enabled' then name || ' public network access enabled.'
+        else name || ' public network access disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_server_infrastructure_encryption_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when infrastructure_encryption = 'Enabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when infrastructure_encryption = 'Enabled' then s.name || ' infrastructure encryption enabled.'
+        else s.name || ' infrastructure encryption disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_server_private_link_used" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when sku_tier = 'Basic' then 'skip'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sku_tier = 'Basic' then a.name || ' is of ' || sku_tier || ' tier.'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
+        else a.name || ' not using private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_server a,
+      azure_subscription sub;
+  EOQ
+}
+
+query "mysql_server_encrypted_at_rest_using_cmk" {
+  sql = <<-EOQ
+    with mysql_server_encrypted as (
+      select
+        distinct i.id as id
+      from
+        azure_mysql_server as i,
+        jsonb_array_elements(server_keys) a
+        where
+          a ->> 'serverKeyType' = 'AzureKeyVault'
+          and a ->> 'uri' is not null
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' encrypted with CMK.'
+        else s.title || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_server as s
+      left join mysql_server_encrypted as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_server_audit_logging_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then s.name || ' server parameter audit_log_enabled off.'
+        else s.name || ' server parameter audit_log_enabled on.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_server as s,
+      jsonb_array_elements(server_configurations) config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'audit_log_enabled'
+      and sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_server_audit_logging_events_connection_set" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') = 'connection' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') = 'connection' then s.name || ' server parameter audit_log_events has connection set.'
+        else s.name || ' server parameter audit_log_events connection not set.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_server as s,
+      jsonb_array_elements(server_configurations) config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'audit_log_events'
+      and sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_server_min_tls_1_2" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when minimal_tls_version = 'TLSEnforcementDisabled' then 'alarm'
+        when minimal_tls_version = 'TLS1_2' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when minimal_tls_version = 'TLSEnforcementDisabled' then s.name || ' TLS enforcement is disabled.'
+        when minimal_tls_version = 'TLS1_2' then s.name || ' minimum TLS version set to ' || minimal_tls_version || '.'
+        else s.name || ' minimum TLS version set to ' || minimal_tls_version || '.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}

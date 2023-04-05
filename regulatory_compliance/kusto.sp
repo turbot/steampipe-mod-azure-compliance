@@ -34,5 +34,79 @@ control "kusto_cluster_double_encryption_enabled" {
   })
 }
 
+query "kusto_cluster_encrypted_at_rest_with_cmk" {
+  sql = <<-EOQ
+    select
+      kv.id as resource,
+      case
+        when
+          key_vault_properties -> 'keyName' is not null
+          and key_vault_properties -> 'keyVaultUri' is not null
+          and key_vault_properties -> 'keyVersion' is not null
+        then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when
+          key_vault_properties -> 'keyName' is not null
+          and key_vault_properties -> 'keyVaultUri' is not null
+          and key_vault_properties -> 'keyVersion' is not null
+        then name || ' encrypted at rest with CMK.'
+        else name || ' not encrypted at rest with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kusto_cluster as kv,
+      azure_subscription as sub
+    where
+      sub.subscription_id = kv.subscription_id;
+  EOQ
+}
 
+query "kusto_cluster_disk_encryption_enabled" {
+  sql = <<-EOQ
+    select
+      kv.id as resource,
+      case
+        when enable_disk_encryption then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when enable_disk_encryption then name || ' disk encryption enabled.'
+        else name || ' disk encryption disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kusto_cluster as kv,
+      azure_subscription as sub
+    where
+      sub.subscription_id = kv.subscription_id;
+  EOQ
+}
 
+query "kusto_cluster_double_encryption_enabled" {
+  sql = <<-EOQ
+    select
+      kv.id as resource,
+      case
+        when enable_double_encryption then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when enable_double_encryption then name || ' double encryption enabled.'
+        else name || ' double encryption disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kusto_cluster as kv,
+      azure_subscription as sub
+    where
+      sub.subscription_id = kv.subscription_id;
+  EOQ
+}

@@ -14,3 +14,25 @@ control "machine_learning_workspace_encrypted_with_cmk" {
   })
 }
 
+query "machine_learning_workspace_encrypted_with_cmk" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when encryption ->> 'status' = 'Enabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when encryption ->> 'status' = 'Enabled' then c.name || ' encrypted with CMK.'
+        else c.name || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_machine_learning_workspace c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}

@@ -14,3 +14,29 @@ control "hpc_cache_encrypted_with_cmk" {
   })
 }
 
+query "hpc_cache_encrypted_with_cmk" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when
+          a.encryption_settings -> 'keyEncryptionKey' -> 'keyUrl' is not null
+          and a.encryption_settings -> 'keyEncryptionKey' -> 'sourceVault' ->> 'id' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when
+          a.encryption_settings -> 'keyEncryptionKey' -> 'keyUrl' is not null
+          and a.encryption_settings -> 'keyEncryptionKey' -> 'sourceVault' ->> 'id' is not null then a.name || ' encrypted with CMK.'
+        else a.name || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_hpc_cache as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}

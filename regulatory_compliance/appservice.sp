@@ -352,3 +352,1242 @@ control "appservice_web_app_latest_python_version" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+query "appservice_web_app_use_https" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when not https_only then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when not https_only then name || ' does not redirect all HTTP traffic to HTTPS.'
+        else name || ' redirects all HTTP traffic to HTTPS.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_incoming_client_cert_on" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when not client_cert_enabled then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when not client_cert_enabled then name || ' incoming client certificates set to off.'
+        else name || ' incoming client certificates set to on.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_remote_debugging_disabled" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when kind = 'api' then 'skip'
+        when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when kind = 'api' then name || ' is of ' || kind || ' type.'
+        when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then name || ' remote debugging disabled.'
+        else name || ' remote debugging enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_remote_debugging_disabled" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then name || ' remote debugging disabled.'
+        else name || ' remote debugging enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_latest_tls_version" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then name || ' not using the latest version of TLS encryption.'
+        else name || ' using the latest version of TLS encryption.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_latest_tls_version" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then name || ' not using the latest version of TLS encryption.'
+        else name || ' using the latest version of TLS encryption.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_only_https_accessible" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when https_only then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when https_only then name || ' https-only accessible enabled.'
+        else name || ' https-only accessible disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_use_virtual_service_endpoint" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when vnet_connection -> 'properties' -> 'vnetResourceId' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when vnet_connection -> 'properties' -> 'vnetResourceId' is not null then a.name || ' configured with virtual network service endpoint.'
+        else a.name || ' not configured with virtual network service endpoint.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_api_app_use_https" {
+  sql = <<-EOQ
+    with all_api_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like '%api'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when not https_only then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when not https_only then a.name || ' does not redirect all HTTP traffic to HTTPS.'
+        else a.name || ' redirects all HTTP traffic to HTTPS.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_api_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_api_app_remote_debugging_disabled" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when kind <> 'api' then 'skip'
+        when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when kind <> 'api' then name || ' is of ' || kind || ' type.'
+        when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then name || ' remote debugging disabled.'
+        else name || ' remote debugging enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_api_app_latest_tls_version" {
+  sql = <<-EOQ
+    with all_api_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like '%api'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then a.name || ' not using the latest version of TLS encryption.'
+        else a.name || ' using the latest version of TLS encryption.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_api_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_diagnostic_logs_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when (a.configuration-> 'properties' -> 'detailedErrorLoggingEnabled')::bool
+          and (a.configuration -> 'properties' -> 'httpLoggingEnabled')::bool
+          and (a.configuration-> 'properties' -> 'requestTracingEnabled')::bool
+        then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (a.configuration-> 'properties' -> 'detailedErrorLoggingEnabled')::bool
+          and (a.configuration -> 'properties' -> 'httpLoggingEnabled')::bool
+          and (a.configuration-> 'properties' -> 'requestTracingEnabled')::bool
+          then a.name || ' diagnostic logs enabled.'
+        else a.title || ' diagnostic logs disabled.'
+          -- concat_ws(', ',
+          -- case when not ((a.configuration-> 'properties' -> 'detailedErrorLoggingEnabled')::bool) then 'detailed_Error_Logging_Enabled' end,
+          -- case when not ((a.configuration -> 'properties' -> 'httpLoggingEnabled')::bool) then 'http_logging_enabled' end,
+          -- case when not ((a.configuration-> 'properties' -> 'requestTracingEnabled')::bool) then 'request_tracing_enabled' end
+          -- ) || '.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_cors_no_star" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]'
+          then a.name || ' CORS allow all domains to access the application.'
+        else a.name || ' CORS does not all domains to access the application.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_cors_no_star" {
+  sql = <<-EOQ
+    select
+      b.id as resource,
+      case
+        when configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]'
+          then b.name || ' CORS allow all domains to access the application.'
+        else b.name || ' CORS does not all domains to access the application.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as b,
+      azure_subscription as sub
+    where
+      sub.subscription_id = b.subscription_id;
+  EOQ
+}
+
+query "appservice_api_app_cors_no_star" {
+  sql = <<-EOQ
+    with all_api_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like '%api'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]' then a.name || ' CORS allow all domains to access the application.'
+        else a.name || ' CORS does not all domains to access the application.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_api_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_uses_managed_identity" {
+  sql = <<-EOQ
+    with all_web_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'app%'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when
+          configuration -> 'properties' ->> 'xManagedServiceIdentityId' is not null
+          or configuration -> 'properties' ->> 'managedServiceIdentityId' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when
+          configuration -> 'properties' ->> 'xManagedServiceIdentityId' is not null
+          or configuration -> 'properties' ->> 'managedServiceIdentityId' is not null
+          then a.name || ' uses managed identity.'
+        else a.name || ' not uses managed identity'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_web_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_api_app_uses_managed_identity" {
+  sql = <<-EOQ
+    with all_api_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like '%api'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when
+          configuration -> 'properties' ->> 'xManagedServiceIdentityId' is not null
+          or configuration -> 'properties' ->> 'managedServiceIdentityId' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when
+          configuration -> 'properties' ->> 'xManagedServiceIdentityId' is not null
+          or configuration -> 'properties' ->> 'managedServiceIdentityId' is not null
+          then a.name || ' uses managed identity.'
+        else a.name || ' not uses managed identity'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_api_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_uses_managed_identity" {
+  sql = <<-EOQ
+    with all_function_app as (
+      select
+        id
+      from
+        azure_app_service_function_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'functionapp%'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when
+          configuration -> 'properties' ->> 'xManagedServiceIdentityId' is not null
+          or configuration -> 'properties' ->> 'managedServiceIdentityId' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when
+          configuration -> 'properties' ->> 'xManagedServiceIdentityId' is not null
+          or configuration -> 'properties' ->> 'managedServiceIdentityId' is not null
+          then a.name || ' uses managed identity.'
+        else a.name || ' not uses managed identity'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as a
+      left join all_function_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_azure_defender_enabled" {
+  sql = <<-EOQ
+    select
+      pricing.id as resource,
+      case
+        when name = 'AppServices' and pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when name = 'AppServices' and pricing_tier = 'Standard' then 'AppServices azure defender enabled.'
+        else name || 'AppServices azure defender disabled.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_subscription_pricing as pricing,
+      azure_subscription as sub
+    where
+      sub.subscription_id = pricing.subscription_id
+      and name = 'AppServices';
+  EOQ
+}
+
+query "appservice_api_app_client_certificates_on" {
+  sql = <<-EOQ
+    with all_api_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like '%api'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when client_cert_enabled then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when client_cert_enabled then a.name || ' client certificate enabled.'
+        else a.name || ' client certificate disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_api_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_client_certificates_on" {
+  sql = <<-EOQ
+    with all_web_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'app%'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when client_cert_enabled then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when client_cert_enabled then a.name || ' client certificate enabled.'
+        else a.name || ' client certificate disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_web_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_client_certificates_on" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when client_cert_enabled then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when client_cert_enabled then app.name || ' client certificate enabled.'
+        else app.name || ' client certificate disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_api_app_ftps_enabled" {
+  sql = <<-EOQ
+    with all_api_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like '%api'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then a.name || ' FTPS disabled.'
+        else a.name || ' FTPS enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_api_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_ftps_enabled" {
+  sql = <<-EOQ
+    with all_function_app as (
+      select
+        id
+      from
+        azure_app_service_function_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'functionapp%'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then a.name || ' FTPS disabled.'
+        else a.name || ' FTPS enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as a
+      left join all_function_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_ftps_enabled" {
+  sql = <<-EOQ
+    with all_web_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'app%'
+      )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then a.name || ' FTPS disabled.'
+        else a.name || ' FTPS enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_web_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_latest_http_version" {
+  sql = <<-EOQ
+    with all_function_app as (
+      select
+        id
+      from
+        azure_app_service_function_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'functionapp%'
+        )
+        and
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem = 'linux'
+        )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'http20Enabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is not a linux function app.'
+        when configuration -> 'properties' ->> 'http20Enabled' = 'true' then a.name || ' using the latest HTTP version.'
+        else a.name || ' not using latest HTTP version.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as a
+      left join all_function_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_latest_http_version" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when not (configuration -> 'properties' ->> 'http20Enabled') :: boolean then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when not (configuration -> 'properties' ->> 'http20Enabled') :: boolean then name || ' HTTP version not latest.'
+        else name || ' HTTP version is latest.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "app_service_environment_internal_encryption_enabled" {
+  sql = <<-EOQ
+    with app_service_environment as (
+      select
+        distinct id as id
+      from
+        azure_app_service_environment,
+        jsonb_array_elements(cluster_settings ) as s
+      where
+        s ->> 'name' = 'InternalEncryption'
+        and s ->> 'value' = 'true'
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is not null then a.title || ' internal encryption enabled.'
+        else a.name || ' internal encryption disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_environment as a
+      left join app_service_environment as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_latest_java_version" {
+  sql = <<-EOQ
+    with all_function_app as (
+      select
+        id
+      from
+        azure_app_service_function_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'functionapp%'
+        )
+        and
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem = 'linux'
+        )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is not of linux kind.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' then a.name || ' not using JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then a.name || ' using the latest JAVA version.'
+        else a.name || ' not using latest JAVA version.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as a
+      left join all_function_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_latest_java_version" {
+  sql = <<-EOQ
+    with all_web_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'app%'
+        )
+        and
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem = 'linux'
+        )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' then a.name ||  ' not using JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then a.name || ' using the latest JAVA version.'
+        else a.name || ' not using latest JAVA version.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_web_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_latest_php_version" {
+  sql = <<-EOQ
+    with all_web_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'app%'
+        )
+        and
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem = 'linux'
+        )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PHP%' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PHP|8.0' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PHP%' then a.name ||  ' not using php version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PHP|8.0' then a.name || ' using the latest php version.'
+        else a.name || ' not using latest php version.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_web_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_latest_python_version" {
+  sql = <<-EOQ
+    with all_function_app as (
+      select
+        id
+      from
+        azure_app_service_function_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'functionapp%'
+        )
+        and
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem = 'linux'
+        )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Python%' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = 'Python|3.9' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is ' || a.kind || ' kind.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Python%' then a.name || ' not using python version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = 'Python|3.9' then a.name || ' using the latest python version.'
+        else a.name || ' not using latest python version.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app as a
+      left join all_function_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_latest_python_version" {
+  sql = <<-EOQ
+    with all_web_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'app%'
+        )
+        and
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem = 'linux'
+        )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PYTHON%' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PYTHON|3.9' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is not of linux kind.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PYTHON%' then a.name ||  ' not using python version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PYTHON|3.9' then a.name || ' using the latest python version.'
+        else a.name || ' not using latest python version.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_web_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+# Non-Config rule query
+
+query "appservice_authentication_enabled" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when not (auth_settings -> 'properties' ->> 'enabled') :: boolean then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when not (auth_settings -> 'properties' ->> 'enabled') :: boolean then name || ' authentication not set.'
+        else name || ' authentication set.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_ftp_deployment_disabled" {
+  sql = <<-EOQ
+    select
+        fa.id as resource,
+        case
+          when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then 'alarm'
+          else 'ok'
+        end as status,
+        case
+          when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then name || ' FTP deployments enabled.'
+          else name || ' FTP deployments disabled.'
+        end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      from
+        azure_app_service_function_app fa,
+        azure_subscription sub
+      where
+        sub.subscription_id = fa.subscription_id
+    union
+      select
+        wa.id as resource,
+        case
+          when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then 'alarm'
+          else 'ok'
+        end as status,
+        case
+          when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then name || ' FTP deployments enabled.'
+          else name || ' FTP deployments disabled.'
+        end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "wa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      from
+        azure_app_service_web_app as wa,
+        azure_subscription as sub
+      where
+        sub.subscription_id = wa.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_register_with_active_directory_enabled" {
+  sql = <<-EOQ
+    select
+      app.id as resource,
+      case
+        when identity = '{}' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when identity = '{}' then name || ' register with azure active directory disabled.'
+        else name || ' register with azure active directory enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as app,
+      azure_subscription as sub
+    where
+      sub.subscription_id = app.subscription_id;
+  EOQ
+}

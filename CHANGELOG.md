@@ -1,3 +1,10 @@
+## v0.24 [2023-04-05]
+
+_What's new?_
+
+- Added `tags` as dimensions to group and filter findings. (see [var.tag_dimensions](https://hub.steampipe.io/mods/turbot/azure_compliance/variables)) ([#154](https://github.com/turbot/steampipe-mod-azure-compliance/pull/154))
+- Added `connection_name`, `region` and `subscription_id` in the common dimensions to group and filter findings. (see [var.common_dimensions](https://hub.steampipe.io/mods/turbot/azure_compliance/variables)) ([#154](https://github.com/turbot/steampipe-mod-azure-compliance/pull/154))
+
 ## v0.23 [2023-03-20]
 
 _Bug fixes_

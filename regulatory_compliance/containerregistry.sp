@@ -63,3 +63,140 @@ control "container_registry_vulnerabilities_remediated" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+query "container_registry_azure_defender_enabled" {
+  sql = <<-EOQ
+    select
+      pricing.id as resource,
+      case
+        when name = 'ContainerRegistry' and pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when name = 'ContainerRegistry' and pricing_tier = 'Standard' then 'ContainerRegistry azure defender enabled.'
+        else name || 'ContainerRegistry azure defender disabled.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_subscription_pricing as pricing,
+      azure_subscription as sub
+    where
+      sub.subscription_id = pricing.subscription_id
+      and name = 'ContainerRegistry';
+  EOQ
+}
+
+query "container_registry_encrypted_with_cmk" {
+  sql = <<-EOQ
+    select
+      distinct a.name as resource,
+      case
+        when encryption ->> 'status' = 'enabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when encryption ->> 'status' = 'enabled' then a.name || ' encrypted with CMK.'
+        else a.name || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_container_registry as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "container_registry_restrict_public_access" {
+  sql = <<-EOQ
+    select
+      distinct a.name as resource,
+      case
+        when network_rule_set ->> 'defaultAction' = 'Deny' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when network_rule_set ->> 'defaultAction' = 'Deny' then a.name || ' publicly not accessible.'
+        else a.name || ' publicly accessible.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_container_registry as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "container_registry_use_virtual_service_endpoint" {
+  sql = <<-EOQ
+    with container_registry_subnet as (
+      select
+        distinct a.name,
+        rule ->> 'id' as id
+      from
+        azure_container_registry as a,
+        jsonb_array_elements(network_rule_set -> 'virtualNetworkRules') as rule,
+        azure_subnet as subnet
+    )
+    select
+      distinct a.name as resource,
+      case
+        when network_rule_set ->> 'defaultAction' <> 'Deny' then 'alarm'
+        when s.name is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when network_rule_set ->> 'defaultAction' <> 'Deny' then a.name || ' not configured with virtual service endpoint.'
+        when s.name is null then a.name || ' not configured with virtual service endpoint.'
+        else a.name || ' configured with virtual service endpoint.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_container_registry as a
+      left join container_registry_subnet as s on a.name = s.name,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "container_registry_uses_private_link" {
+  sql = <<-EOQ
+    with container_registry_private_connection as (
+      select
+        distinct a.id
+      from
+        azure_container_registry as a,
+        jsonb_array_elements(private_endpoint_connections) as connection
+      where
+        connection -> 'properties' -> 'privateLinkServiceConnectionState' ->> 'status' = 'Approved'
+    )
+    select
+      a.id as resource,
+      case
+        when c.id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when c.id is null then a.name || ' not uses private link.'
+        else a.name || ' uses private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_container_registry as a
+      left join container_registry_private_connection as c on c.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}

@@ -13,3 +13,23 @@ control "automation_account_variable_encryption_enabled" {
     pci_dss_v321 = "true"
   })
 }
+
+query "automation_account_variable_encryption_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when is_encrypted then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when is_encrypted then a.title || ' encryption enabled.'
+        else a.title || ' encryption disabled.'
+      end as reason
+      ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_automation_variable as a,
+      azure_subscription as sub;
+  EOQ
+}

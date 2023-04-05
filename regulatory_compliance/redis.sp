@@ -45,3 +45,105 @@ control "redis_cache_no_basic_sku" {
     cis = "true"
   })
 }
+
+query "azure_redis_cache_ssl_enabled" {
+  sql = <<-EOQ
+    select
+      redis.id as resource,
+      case
+        when enable_non_ssl_port then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when enable_non_ssl_port then redis.name || ' secure connections disabled.'
+        else redis.name || ' secure connections enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_redis_cache as redis,
+      azure_subscription as sub
+    where
+      sub.subscription_id = redis.subscription_id;
+  EOQ
+}
+
+query "azure_redis_cache_uses_private_link" {
+  sql = <<-EOQ
+    with redis_private_connection as (
+      select
+        distinct a.id
+      from
+        azure_redis_cache as a,
+        jsonb_array_elements(private_endpoint_connections) as connection
+      where
+        connection -> 'properties' -> 'privateLinkServiceConnectionState' ->> 'status' = 'Approved'
+    )
+    select
+      a.id as resource,
+      case
+        when c.id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when c.id is null then a.name || ' not uses private link.'
+        else a.name || ' uses private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_redis_cache as a
+      left join redis_private_connection as c on c.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "azure_redis_cache_in_virtual_network" {
+  sql = <<-EOQ
+    select
+      redis.id as resource,
+      case
+        when subnet_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when subnet_id is not null then redis.name || ' in virtual network.'
+        else redis.name || ' not in virtual network.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_redis_cache as redis,
+      azure_subscription as sub
+    where
+      sub.subscription_id = redis.subscription_id;
+  EOQ
+}
+
+query "redis_cache_no_basic_sku" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when c.sku_name = 'Basic' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when c.sku_name = 'Basic' then c.title || ' using basic SKU.'
+        else c.title || ' using ' || sku_name || ' SKU.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_redis_cache as c,
+      azure_subscription as sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}

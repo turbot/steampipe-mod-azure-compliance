@@ -78,7 +78,6 @@ control "storage_account_block_public_access" {
   })
 }
 
-
 control "storage_account_restrict_network_access" {
   title       = "Storage accounts should restrict network access using virtual network rules"
   description = "Protect your storage accounts from potential threats using virtual network rules as a preferred method instead of IP-based filtering. Disabling IP-based filtering prevents public IPs from accessing your storage accounts."
@@ -131,6 +130,476 @@ control "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
   })
 }
 
+query "storage_account_secure_transfer_required_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when not enable_https_traffic_only then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when not enable_https_traffic_only then sa.name || ' encryption in transit not enabled.'
+        else sa.name || ' encryption in transit enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
 
+query "storage_account_default_network_access_rule_denied" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when sa.network_rule_default_action = 'Allow' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when sa.network_rule_default_action = 'Allow' then name || ' allows traffic from all networks.'
+        else name || ' allows traffic from specific networks.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
 
+query "storage_account_use_virtual_service_endpoint" {
+  sql = <<-EOQ
+    with storage_account_subnet as (
+      select
+        distinct a.name,
+        rule ->> 'id' as id
+      from
+        azure_storage_account as a,
+        jsonb_array_elements(virtual_network_rules) as rule,
+        azure_subnet as subnet,
+        jsonb_array_elements(service_endpoints) as endpoints
+      where
+        endpoints ->> 'service' like '%Microsoft.Storage%'
+    )
+    select
+      distinct a.name as resource,
+      case
+        when network_rule_default_action <> 'Deny' then 'alarm'
+        when s.name is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when network_rule_default_action <> 'Deny' then a.name || ' not configured with virtual service endpoint.'
+        when s.name is null then a.name || ' not configured with virtual service endpoint.'
+        else a.name || ' configured with virtual service endpoint.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as a
+      left join storage_account_subnet as s on a.name = s.name,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
 
+query "storage_azure_defender_enabled" {
+  sql = <<-EOQ
+    select
+      pricing.id as resource,
+      case
+        when name = 'StorageAccounts' and pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when name = 'StorageAccounts' and pricing_tier = 'Standard' then 'StorageAccounts azure defender enabled.'
+        else name || 'StorageAccounts azure defender disabled.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_subscription_pricing as pricing,
+      azure_subscription as sub
+    where
+      sub.subscription_id = pricing.subscription_id
+      and name = 'StorageAccounts';
+  EOQ
+}
+
+query "storage_account_uses_private_link" {
+  sql = <<-EOQ
+    with storage_account_connection as (
+      select
+        distinct a.name
+      from
+        azure_storage_account as a,
+        jsonb_array_elements(private_endpoint_connections) as connection
+      where
+        connection -> 'properties' -> 'privateLinkServiceConnectionState' ->> 'status' = 'Approved'
+    )
+    select
+      distinct a.name as resource,
+      case
+        when s.name is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when s.name is null then a.name || ' not uses private link.'
+        else a.name || ' uses private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as a
+      left join storage_account_connection as s on a.name = s.name,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "storage_account_infrastructure_encryption_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when require_infrastructure_encryption then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when require_infrastructure_encryption then name || ' infrastructure encryption enabled.'
+        else name || ' infrastructure encryption disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "storage_account_block_public_access" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when sa.id not like '%/resourceGroups/aro-%'
+          and (sa.name not like 'cluster%' or sa.name not like 'imageregistry%')
+          and sa.allow_blob_public_access = 'false'
+          then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sa.id not like '%/resourceGroups/aro-%'
+          and (sa.name not like 'cluster%' or sa.name not like 'imageregistry%')
+          and sa.allow_blob_public_access = 'false'
+          then sa.name || ' not publicy accessible.'
+        else sa.name || ' publicy accessible.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_restrict_network_access" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when network_rule_default_action = 'Deny' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when network_rule_default_action = 'Deny' then sa.name || ' blocks network access.'
+        else sa.name || ' allows network access.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_geo_redundant_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when sku_name = any(ARRAY ['Standard_GRS', 'Standard_RAGRS', 'Standard_GZRS', 'Standard_RAGZRS']) then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sku_name = any(ARRAY ['Standard_GRS', 'Standard_RAGRS', 'Standard_GZRS', 'Standard_RAGZRS']) then name || ' geo-redundant enabled.'
+        else name || ' geo-redundant disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "storage_account_encryption_at_rest_using_cmk" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when sa.encryption_key_source = 'Microsoft.Storage' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when sa.encryption_key_source = 'Microsoft.Storage' then sa.name || ' not encrypted with CMK.'
+        else sa.name || ' encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_uses_azure_resource_manager" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when resource_group is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when resource_group is not null then s.title || ' uses azure resource manager.'
+        else s.title || ' not uses azure resource manager.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
+  sql = <<-EOQ
+    with storage_account_encryption_scope as(
+      select
+        e ->> 'Id' as id,
+        e ->> 'Name' as name,
+        e ->> 'Source' as source,
+        subscription_id,
+        _ctx,
+        region,
+        resource_group
+      from
+        azure_storage_account,
+        jsonb_array_elements(encryption_scope) as e
+    )
+    select
+      s.id as resource,
+      case
+        when source = 'Microsoft.Keyvault' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when source = 'Microsoft.Keyvault' then s.name || ' uses customer-managed keys to encrypt data at rest.'
+        else s.name || ' not uses customer-managed keys to encrypt data at rest.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      storage_account_encryption_scope as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "storage_account_blob_containers_public_access_private" {
+  sql = <<-EOQ
+    select
+      container.id as resource,
+      case
+        when not account.allow_blob_public_access and container.public_access = 'None' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when not account.allow_blob_public_access and container.public_access = 'None'
+          then account.name || ' container ' || container.name || ' doesn''t allow anonymous access.'
+        else account.name || ' container ' || container.name || ' allows anonymous access.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "container.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_container container
+      join azure_storage_account account on container.account_name = account.name
+      join azure_subscription sub on sub.subscription_id = account.subscription_id;
+  EOQ
+}
+
+query "storage_account_blob_service_logging_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when not (sa.blob_service_logging ->> 'Read') :: boolean
+        or not (sa.blob_service_logging ->> 'Write') :: boolean
+        or not (sa.blob_service_logging ->> 'Delete') :: boolean then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when not (sa.blob_service_logging ->> 'Read') :: boolean
+        or not (sa.blob_service_logging ->> 'Write') :: boolean
+        or not (sa.blob_service_logging ->> 'Delete') :: boolean then name || ' blob service logging not enabled for ' ||
+          concat_ws(', ',
+            case when not (sa.blob_service_logging ->> 'Write') :: boolean then 'write' end,
+            case when not (sa.blob_service_logging ->> 'Read') :: boolean then 'read' end,
+            case when not (sa.blob_service_logging ->> 'Delete') :: boolean then 'delete' end
+          ) || ' requests.'
+        else name || ' blob service logging enabled for read, write, delete requests.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_min_tls_1_2" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when minimum_tls_version = 'TLSEnforcementDisabled' then 'alarm'
+        when minimum_tls_version = 'TLS1_2' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when minimum_tls_version = 'TLSEnforcementDisabled' then sa.name || ' TLS enforcement is disabled.'
+        when minimum_tls_version = 'TLS1_2' then sa.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
+        else sa.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_queue_services_logging_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when queue_logging_read and queue_logging_write and queue_logging_delete then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when queue_logging_read and queue_logging_write and queue_logging_delete
+          then sa.name || ' queue service logging enabled for read, write, delete requests.'
+        else sa.name || ' queue service logging not enabled for: ' ||
+          concat_ws(', ',
+            case when not queue_logging_write then 'write' end,
+            case when not queue_logging_read then 'read' end,
+            case when not queue_logging_delete then 'delete' end
+          ) || ' requests.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_soft_delete_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when not blob_soft_delete_enabled then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when not blob_soft_delete_enabled then sa.name || ' blobs soft delete disabled.'
+        else sa.name || ' blobs soft delete enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_trusted_microsoft_services_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when network_rule_bypass not like '%AzureServices%' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when network_rule_bypass not like '%AzureServices%' then sa.name || ' trusted Microsoft services not enabled.'
+        else sa.name || ' trusted Microsoft services enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}

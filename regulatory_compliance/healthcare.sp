@@ -23,3 +23,49 @@ control "healthcare_fhir_azure_api_encrypted_at_rest_with_cmk" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+query "healthcare_fhir_azure_api_encrypted_at_rest_with_cmk" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when cosmos_db_configuration -> 'keyVaultKeyUri' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when cosmos_db_configuration -> 'keyVaultKeyUri' is not null then a.name || ' encrypted with CMK.'
+        else a.name || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_healthcare_service as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "healthcare_fhir_uses_private_link" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when private_endpoint_connections is null then 'info'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionState": "Approved"}]'::jsonb then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when private_endpoint_connections is null then a.name || ' no private link exists.'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionState": "Approved"}]'::jsonb then a.name || ' using private link.'
+        else a.name || ' not using private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_healthcare_service a,
+      azure_subscription sub;
+  EOQ
+}

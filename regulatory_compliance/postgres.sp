@@ -65,3 +65,278 @@ control "postgres_sql_server_encrypted_at_rest_using_cmk" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+query "postgres_db_server_geo_redundant_backup_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when geo_redundant_backup = 'Enabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when geo_redundant_backup = 'Enabled' then name || ' Geo-redundant backup enabled.'
+        else name || ' Geo-redundant backup disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_sql_ssl_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when ssl_enforcement = 'Disabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when ssl_enforcement = 'Disabled' then name || ' SSL connection disabled.'
+        else name || ' SSL connection enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server s,
+      azure_subscription sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgresql_server_public_network_access_disabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when public_network_access = 'Enabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_network_access = 'Enabled' then name || ' public network access enabled.'
+        else name || ' public network access disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgresql_server_infrastructure_encryption_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when infrastructure_encryption = 'Enabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when infrastructure_encryption = 'Enabled' then name || ' infrastructure encryption enabled.'
+        else name || ' infrastructure encryption disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_server_private_link_used" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        -- Only applicable to standard tier
+        when sku_tier = 'Basic' then 'skip'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sku_tier = 'Basic' then a.name || ' is of ' || sku_tier || ' tier.'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
+        else a.name || ' not using private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server a,
+      azure_subscription sub;
+  EOQ
+}
+
+query "postgres_sql_server_encrypted_at_rest_using_cmk" {
+  sql = <<-EOQ
+    with pgql_server_encrypted as (
+      select
+        distinct i.id as id
+      from
+        azure_mysql_server as i,
+        jsonb_array_elements(server_keys) a
+        where
+          a ->> 'serverKeyType' = 'AzureKeyVault'
+          and a ->> 'uri' is not null
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' encrypted with CMK.'
+        else s.title || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server as s
+      left join pgql_server_encrypted as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_db_server_connection_throttling_on" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then s.name || ' server parameter connection_throttling off.'
+        else s.name || ' server parameter connection_throttling on.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server s,
+      jsonb_array_elements(server_configurations) config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'connection_throttling'
+      and sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_db_server_log_checkpoints_on" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then s.name || ' server parameter log_checkpoints off.'
+        else s.name || ' server parameter log_checkpoints on.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server s,
+      jsonb_array_elements(server_configurations) config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'log_checkpoints'
+      and sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_db_server_log_connections_on" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then s.name || ' server parameter log_connections off.'
+        else s.name || ' server parameter log_connections on.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server s,
+      jsonb_array_elements(server_configurations) config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'log_connections'
+      and sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_db_server_log_disconnections_on" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then name || ' server parameter log_disconnections off.'
+        else name || ' server parameter log_disconnections on.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server s,
+      jsonb_array_elements(server_configurations) config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'log_disconnections'
+      and sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_db_server_log_retention_days_3" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when (config -> 'ConfigurationProperties' ->> 'value')::integer <= 3 then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when (config -> 'ConfigurationProperties' ->> 'value')::integer <= 3 then s.name || ' log files are retained for 3 days or lesser.'
+        else s.name || ' log files are retained for more than 3 days.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server s,
+      jsonb_array_elements(server_configurations) as config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'log_retention_days'
+      and sub.subscription_id = s.subscription_id;
+  EOQ
+}

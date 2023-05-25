@@ -180,7 +180,7 @@ query "storage_account_use_virtual_service_endpoint" {
   sql = <<-EOQ
     with storage_account_subnet as (
       select
-        distinct a.name,
+        distinct a.id as storage_account_id,
         rule ->> 'id' as id
       from
         azure_storage_account as a,
@@ -191,15 +191,15 @@ query "storage_account_use_virtual_service_endpoint" {
         endpoints ->> 'service' like '%Microsoft.Storage%'
     )
     select
-      distinct a.name as resource,
+      distinct a.id as resource,
       case
         when network_rule_default_action <> 'Deny' then 'alarm'
-        when s.name is null then 'alarm'
+        when s.storage_account_id is null then 'alarm'
         else 'ok'
       end as status,
       case
         when network_rule_default_action <> 'Deny' then a.name || ' not configured with virtual service endpoint.'
-        when s.name is null then a.name || ' not configured with virtual service endpoint.'
+        when s.storage_account_id is null then a.name || ' not configured with virtual service endpoint.'
         else a.name || ' configured with virtual service endpoint.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -207,7 +207,7 @@ query "storage_account_use_virtual_service_endpoint" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_account as a
-      left join storage_account_subnet as s on a.name = s.name,
+      left join storage_account_subnet as s on a.id = s.storage_account_id,
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;
@@ -241,7 +241,7 @@ query "storage_account_uses_private_link" {
   sql = <<-EOQ
     with storage_account_connection as (
       select
-        distinct a.name
+        distinct a.id
       from
         azure_storage_account as a,
         jsonb_array_elements(private_endpoint_connections) as connection
@@ -249,13 +249,13 @@ query "storage_account_uses_private_link" {
         connection -> 'properties' -> 'privateLinkServiceConnectionState' ->> 'status' = 'Approved'
     )
     select
-      distinct a.name as resource,
+      distinct a.id as resource,
       case
-        when s.name is null then 'alarm'
+        when s.id is null then 'alarm'
         else 'ok'
       end as status,
       case
-        when s.name is null then a.name || ' not uses private link.'
+        when s.id is null then a.name || ' not uses private link.'
         else a.name || ' uses private link.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -263,7 +263,7 @@ query "storage_account_uses_private_link" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_account as a
-      left join storage_account_connection as s on a.name = s.name,
+      left join storage_account_connection as s on a.id = s.id,
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;

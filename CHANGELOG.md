@@ -1,3 +1,11 @@
+## v0.25 [2023-05-26]
+
+_Bug fixes_
+
+- Fixed queries `storage_account_use_virtual_service_endpoint` and `storage_account_uses_private_link` to keep consistency in indicating vulnerable resources. ([#161](https://github.com/turbot/steampipe-mod-azure-compliance/pull/161))
+- Fixed dashboard localhost URLs in README and index doc. ([#157](https://github.com/turbot/steampipe-mod-azure-compliance/pull/157))
+
+
 ## v0.24 [2023-04-05]
 
 _What's new?_
@@ -141,7 +149,7 @@ _What's new?_
 
 _Enhancements_
 
-- Titles of all the HIPAA HITRUST 9.2 compliance benchmarks have been updated for better readability  
+- Titles of all the HIPAA HITRUST 9.2 compliance benchmarks have been updated for better readability
 
 ## v0.4 [2021-08-26]
 

@@ -5,7 +5,6 @@ _Bug fixes_
 - Fixed queries `storage_account_use_virtual_service_endpoint` and `storage_account_uses_private_link` to keep consistency in indicating vulnerable resources. ([#161](https://github.com/turbot/steampipe-mod-azure-compliance/pull/161))
 - Fixed dashboard localhost URLs in README and index doc. ([#157](https://github.com/turbot/steampipe-mod-azure-compliance/pull/157))
 
-
 ## v0.24 [2023-04-05]
 
 _What's new?_

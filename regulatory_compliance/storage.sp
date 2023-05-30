@@ -504,6 +504,35 @@ query "storage_account_blob_service_logging_enabled" {
   EOQ
 }
 
+query "storage_account_table_service_logging_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when table_logging_write and table_logging_read and table_logging_delete then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when table_logging_write and table_logging_read and table_logging_delete
+          then sa.name || ' table service logging enabled for read, write, delete requests.'
+        else sa.name || ' table service logging not enabled for: ' ||
+          concat_ws(', ',
+            case when not table_logging_write then 'write' end,
+            case when not table_logging_read then 'read' end,
+            case when not table_logging_delete then 'delete' end
+          ) || ' requests.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as sa,
+      azure_subscription as sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
 query "storage_account_min_tls_1_2" {
   sql = <<-EOQ
     select

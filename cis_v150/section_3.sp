@@ -216,7 +216,7 @@ control "cis_v150_3_13" {
 control "cis_v150_3_14" {
   title         = "3.14 Ensure Storage Logging is Enabled for Table Service for 'Read', 'Write', and 'Delete' Requests "
   description   = "Azure Table storage is a service that stores structured NoSQL data in the cloud, providing a key/attribute store with a schema-less design. Storage Logging happens server-side and allows details for both successful and failed requests to be recorded in the storage account. These logs allow users to see the details of read, write, and delete operations against the tables. Storage Logging log entries contain the following information about individual requests: timing information such as start time, end-to-end latency, and server latency; authentication details; concurrency information; and the sizes of the request and response messages."
-  query         = query.manual_control
+  query         = query.storage_account_table_service_logging_enabled
   documentation = file("./cis_v150/docs/cis_v150_3_14.md")
 
   tags = merge(local.cis_v150_3_common_tags, {

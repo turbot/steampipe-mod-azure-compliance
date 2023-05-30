@@ -333,7 +333,7 @@ control "cis_v200_4_3_6" {
 control "cis_v200_4_3_7" {
   title         = "4.3.7 Ensure 'Allow access to Azure services' for PostgreSQL Database Server is disabled"
   description   = "Disable access from Azure services to PostgreSQL Database Server."
-  query         = query.manual_control
+  query         = query.postgres_db_server_allow_access_to_azure_services_disabled
   documentation = file("./cis_v200/docs/cis_v200_4_3_7.md")
 
   tags = merge(local.cis_v200_4_3_common_tags, {

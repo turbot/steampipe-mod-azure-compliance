@@ -1,3 +1,18 @@
+## v0.26 [2023-05-30]
+
+_Dependencies_
+
+- Azure plugin `v0.43.0` or higher is now required. ([#167](https://github.com/turbot/steampipe-mod-azure-compliance/pull/167))
+
+_Enhancements_
+
+- Added query `postgres_db_server_allow_access_to_azure_services_disabled` for `cis_v200_4_3_7` control. ([#164](https://github.com/turbot/steampipe-mod-azure-compliance/pull/164))
+- Added query `storage_account_table_service_logging_enabled` for `cis_v150_3_14` control. ([#165](https://github.com/turbot/steampipe-mod-azure-compliance/pull/165))
+
+_Bug fixes_
+
+- Fixed dashboard localhost URLs in README and index doc. ([#157](https://github.com/turbot/steampipe-mod-azure-compliance/pull/157))
+
 ## v0.25 [2023-05-26]
 
 _Bug fixes_

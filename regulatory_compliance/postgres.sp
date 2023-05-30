@@ -360,8 +360,8 @@ query "postgres_db_server_allow_access_to_azure_services_disabled" {
         else 'ok'
       end as status,
       case
-        when a.id is not null then s.title || ' does not restrict acess to azure services.'
-        else s.title || ' restrict acess to azure services.'
+        when a.id is not null then s.title || ' does not restrict access to azure services.'
+        else s.title || ' restricts access to azure services.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}

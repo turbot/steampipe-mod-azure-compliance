@@ -340,3 +340,38 @@ query "postgres_db_server_log_retention_days_3" {
       and sub.subscription_id = s.subscription_id;
   EOQ
 }
+
+query "postgres_db_server_allow_access_to_azure_services_disabled" {
+  sql = <<-EOQ
+    with postgres_db_with_allow_access_to_azure_services as (
+      select
+        id
+      from
+        azure_postgresql_server,
+        jsonb_array_elements(firewall_rules) as r
+      where
+        r -> 'FirewallRuleProperties' ->> 'endIpAddress' = '0.0.0.0'
+        and r -> 'FirewallRuleProperties' ->> 'startIpAddress' = '0.0.0.0'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when a.id is not null then s.title || ' does not restrict access to azure services.'
+        else s.title || ' restricts access to azure services.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server as s
+      left join postgres_db_with_allow_access_to_azure_services as a on a.id = s.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+

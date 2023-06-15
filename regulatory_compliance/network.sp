@@ -10,7 +10,6 @@ control "network_security_group_remote_access_restricted" {
   query       = query.network_security_group_remote_access_restricted
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

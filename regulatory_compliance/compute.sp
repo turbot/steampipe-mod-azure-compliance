@@ -197,8 +197,8 @@ control "compute_vm_security_configuration_vulnerabilities_remediated" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
 }
@@ -275,6 +275,26 @@ control "compute_vm_administrators_group_with_specified_members_windows" {
 //     hipaa_hitrust_v92 = "true"
 //   })
 // }
+
+control "compute_vm_meet_security_option_audit_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - Audit'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Audit' for forcing audit policy subcategory and shutting down if unable to log security audits. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
+  query       = query.manual_control_hipaa
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_meet_system_audit_policies_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'System Audit Policies - Account Management'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'System Audit Policies - Account Management' for auditing application, security, and user group management, and other management events. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
+  query       = query.manual_control_hipaa
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
 
 control "compute_vm_with_no_specified_certificates_in_trusted_root_windows" {
   title       = "Audit Windows machines that do not contain the specified certificates in Trusted Root"
@@ -623,6 +643,7 @@ control "compute_vm_container_security_configurations_vulnerabilities_remediated
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

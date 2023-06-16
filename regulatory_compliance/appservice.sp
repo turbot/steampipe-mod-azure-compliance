@@ -224,11 +224,12 @@ control "appservice_api_app_client_certificates_on" {
 }
 
 control "appservice_web_app_client_certificates_on" {
-  title       = "Ensure WEB app has 'Client Certificates (Incoming client certificates)' set to 'On'"
+  title       = "App Service apps should have 'Client Certificates (Incoming client certificates)' enabled"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
   query       = query.appservice_web_app_client_certificates_on
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

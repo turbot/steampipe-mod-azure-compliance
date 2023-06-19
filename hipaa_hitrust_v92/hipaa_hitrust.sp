@@ -16,7 +16,7 @@ benchmark "hipaa_hitrust_v92" {
     benchmark.hipaa_hitrust_v92_change_control_procedures,
     benchmark.hipaa_hitrust_v92_configuration_management,
     benchmark.hipaa_hitrust_v92_control_of_operational_software,
-    benchmark.hipaa_hitrust_v92_control_of_technical_vulnerabilities,
+    benchmark.hipaa_hitrust_v92_vulnerability_management,
     benchmark.hipaa_hitrust_v92_endpoint_protection,
     benchmark.hipaa_hitrust_v92_identification_of_risks_related_to_external_parties,
     benchmark.hipaa_hitrust_v92_information_exchange_policies_and_procedures,

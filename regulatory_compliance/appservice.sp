@@ -16,15 +16,15 @@ control "appservice_web_app_use_https" {
   })
 }
 
-control "appservice_web_app_incoming_client_cert_on" {
-  title       = "Ensure WEB app has 'Client Certificates (Incoming client certificates)' set to 'On'"
-  description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
-  query       = query.appservice_web_app_incoming_client_cert_on
+// control "appservice_web_app_incoming_client_cert_on" {
+//   title       = "Ensure WEB app has 'Client Certificates (Incoming client certificates)' set to 'On'"
+//   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
+//   query       = query.appservice_web_app_incoming_client_cert_on
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
-  })
-}
+//   tags = merge(local.regulatory_compliance_appservice_common_tags, {
+//     hipaa_hitrust_v92 = "true"
+//   })
+// }
 
 control "appservice_web_app_remote_debugging_disabled" {
   title       = "Remote debugging should be turned off for Web Applications"
@@ -38,7 +38,7 @@ control "appservice_web_app_remote_debugging_disabled" {
 }
 
 control "appservice_function_app_remote_debugging_disabled" {
-  title       = "Remote debugging should be turned off for Function Apps"
+  title       = "Function apps should have remote debugging turned off"
   description = "Remote debugging requires inbound ports to be opened on function apps. Remote debugging should be turned off."
   query       = query.appservice_function_app_remote_debugging_disabled
 
@@ -49,8 +49,8 @@ control "appservice_function_app_remote_debugging_disabled" {
 }
 
 control "appservice_function_app_latest_tls_version" {
-  title       = "Latest TLS version should be used in your Function App"
-  description = "Upgrade to the latest TLS version."
+  title       = "Function apps should use the latest TLS version"
+  description = "Periodically, newer versions are released for TLS either due to security flaws, include additional functionality, and enhance speed. Upgrade to the latest TLS version for Function apps to take advantage of security fixes, if any, and/or new functionalities of the latest version."
   query       = query.appservice_function_app_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
@@ -83,8 +83,8 @@ control "appservice_function_app_only_https_accessible" {
 }
 
 control "appservice_web_app_use_virtual_service_endpoint" {
-  title       = "App Service should use a virtual network service endpoint"
-  description = "This policy audits any App Service not configured to use a virtual network service endpoint."
+  title       = "App Service apps should use a virtual network service endpoint"
+  description = "Use virtual network service endpoints to restrict access to your app from selected subnets from an Azure virtual network. To learn more about App Service service endpoints, visit https://aks.ms/appservice-vnet-service-endpoint."
   query       = query.appservice_web_app_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
@@ -93,7 +93,7 @@ control "appservice_web_app_use_virtual_service_endpoint" {
 }
 
 control "appservice_api_app_use_https" {
-  title       = "API App should only be accessible over HTTPS"
+  title       = "App Service apps should only be accessible over HTTPS"
   description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
   query       = query.appservice_api_app_use_https
 
@@ -105,8 +105,8 @@ control "appservice_api_app_use_https" {
 }
 
 control "appservice_api_app_remote_debugging_disabled" {
-  title       = "Remote debugging should be turned off for API Apps"
-  description = "Remote debugging requires inbound ports to be opened on API apps. Remote debugging should be turned off."
+  title       = "App Service apps should have remote debugging turned off"
+  description = "Remote debugging requires inbound ports to be opened on an App Service app. Remote debugging should be turned off."
   query       = query.appservice_api_app_remote_debugging_disabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
@@ -116,8 +116,8 @@ control "appservice_api_app_remote_debugging_disabled" {
 }
 
 control "appservice_api_app_latest_tls_version" {
-  title       = "Latest TLS version should be used in your API App"
-  description = "Upgrade to the latest TLS version."
+  title       = "App Service apps should use the latest TLS version"
+  description = "Periodically, newer versions are released for TLS either due to security flaws, include additional functionality, and enhance speed. Upgrade to the latest TLS version for App Service apps to take advantage of security fixes, if any, and/or new functionalities of the latest version."
   query       = query.appservice_api_app_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
@@ -149,7 +149,7 @@ control "appservice_web_app_cors_no_star" {
 }
 
 control "appservice_function_app_cors_no_star" {
-  title       = "CORS should not allow every resource to access your Function Apps"
+  title       = "Function apps should not have CORS configured to allow every resource to access your apps"
   description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your Function app. Allow only required domains to interact with your Function app."
   query       = query.appservice_function_app_cors_no_star
 
@@ -160,8 +160,8 @@ control "appservice_function_app_cors_no_star" {
 }
 
 control "appservice_api_app_cors_no_star" {
-  title       = "CORS should not allow every resource to access your API App"
-  description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your API app. Allow only required domains to interact with your API app."
+  title       = "App Service apps should not have CORS configured to allow every resource to access your apps"
+  description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your app. Allow only required domains to interact with your app."
   query       = query.appservice_api_app_cors_no_star
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
@@ -214,7 +214,7 @@ control "appservice_azure_defender_enabled" {
 }
 
 control "appservice_api_app_client_certificates_on" {
-  title       = "Ensure API app has 'Client Certificates (Incoming client certificates)' set to 'On'"
+  title       = "App Service apps should have 'Client Certificates (Incoming client certificates)' enabled"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
   query       = query.appservice_api_app_client_certificates_on
 
@@ -633,9 +633,6 @@ query "appservice_api_app_latest_tls_version" {
         when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then a.name || ' not using the latest version of TLS encryption.'
         else a.name || ' using the latest version of TLS encryption.'
       end as reason
-      ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
       left join all_api_app as b on a.id = b.id,

@@ -601,13 +601,13 @@ query "sql_database_allow_internet_access" {
       s.id resource,
       case
         when firewall_rules @> '[{"properties":{"endIpAddress":"0.0.0.0","startIpAddress":"0.0.0.0"}}]'
-        or firewall_rules @> '[{"properties":{"endIpAddress":"0.0.0.0","startIpAddress":"255.255.255.255"}}]'
+        or firewall_rules @> '[{"properties":{"endIpAddress":"255.255.255.255","startIpAddress":"0.0.0.0"}}]'
           then 'alarm'
           else 'ok'
       end as status,
       case
         when firewall_rules @> '[{"properties":{"endIpAddress":"0.0.0.0","startIpAddress":"0.0.0.0"}}]'
-        or firewall_rules @> '[{"properties":{"endIpAddress":"0.0.0.0","startIpAddress":"255.255.255.255"}}]'
+        or firewall_rules @> '[{"properties":{"endIpAddress":"255.255.255.255","startIpAddress":"0.0.0.0"}}]'
           then s.title || ' allows ingress 0.0.0.0/0 or any ip over internet.'
           else s.title || ' not allows ingress 0.0.0.0/0 or any ip over internet.'
       end as reason

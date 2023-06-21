@@ -1,3 +1,13 @@
+## v0.27 [2023-07-21]
+
+_Enhancements_
+
+- Added query `storage_account_table_service_logging_enabled` for `cis_v200_3_14` control. ([#170](https://github.com/turbot/steampipe-mod-azure-compliance/pull/170)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+
+_Bug fixes_
+
+- Fixed `postgres_db_server_allow_access_to_azure_services_disabled` and `sql_database_allow_internet_access` queries to correctly check for `startIpAddress` and `endIpAddress` parameters of firewall rules as per CIS documentation. ([#170](https://github.com/turbot/steampipe-mod-azure-compliance/pull/170)) ([#172](https://github.com/turbot/steampipe-mod-azure-compliance/pull/172)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+
 ## v0.26 [2023-05-30]
 
 _Dependencies_

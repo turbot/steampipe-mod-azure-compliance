@@ -11,8 +11,11 @@ benchmark "hipaa_hitrust_v92_business_continuity_and_disaster_recovery" {
     benchmark.hipaa_hitrust_v92_1622_09l2organizational_23_09_l,
     benchmark.hipaa_hitrust_v92_1623_09l2organizational_4_09_l,
     benchmark.hipaa_hitrust_v92_1624_09l3organizational_12_09_l,
+    benchmark.hipaa_hitrust_v92_1626_09l3organizational_5_09_l,
+    benchmark.hipaa_hitrust_v92_1627_09l3organizational_6_09_l,
     benchmark.hipaa_hitrust_v92_1634_12b1organizational_1_12_b,
     benchmark.hipaa_hitrust_v92_1635_12b1organizational_2_12_b,
+    // benchmark.hipaa_hitrust_v92_1637_12b2organizational_2_12_b,
     benchmark.hipaa_hitrust_v92_1638_12b2organizational_345_12_b
   ]
 
@@ -20,7 +23,7 @@ benchmark "hipaa_hitrust_v92_business_continuity_and_disaster_recovery" {
 }
 
 benchmark "hipaa_hitrust_v92_1616_09l1organizational_16_09_l" {
-  title = "1616.09l1Organizational.16-09.l 09.05 Information Back-Up"
+  title       = "1616.09l1Organizational.16-09.l 09.05 Information Back-Up"
   description = "Backup copies of information and software are made and tests of the media and restoration procedures are regularly performed at appropriate intervals"
   children = [
     control.sql_database_long_term_geo_redundant_backup_enabled
@@ -67,7 +70,7 @@ benchmark "hipaa_hitrust_v92_1619_09l1organizational_7_09_l" {
 }
 
 benchmark "hipaa_hitrust_v92_1621_09l2organizational_1_09_l" {
-  title = "1621.09l2Organizational.1-09.l 09.05 Information Back-Up"
+  title       = "1621.09l2Organizational.1-09.l 09.05 Information Back-Up"
   description = "Automated tools are used to track all backups"
   children = [
     control.sql_database_long_term_geo_redundant_backup_enabled
@@ -91,7 +94,7 @@ benchmark "hipaa_hitrust_v92_1622_09l2organizational_23_09_l" {
 }
 
 benchmark "hipaa_hitrust_v92_1623_09l2organizational_4_09_l" {
-  title = "1623.09l2Organizational.4-09.l 09.05 Information Back-Up"
+  title       = "1623.09l2Organizational.4-09.l 09.05 Information Back-Up"
   description = "Covered information is backed-up in an encrypted format to ensure confidentiality"
   children = [
     control.postgres_db_server_geo_redundant_backup_enabled
@@ -103,7 +106,7 @@ benchmark "hipaa_hitrust_v92_1623_09l2organizational_4_09_l" {
 }
 
 benchmark "hipaa_hitrust_v92_1624_09l3organizational_12_09_l" {
-  title = "1624.09l3Organizational.12-09.l 09.05 Information Back-Up"
+  title       = "1624.09l3Organizational.12-09.l 09.05 Information Back-Up"
   description = "The organization performs incremental or differential backups daily and full backups weekly to separate media"
   children = [
     control.mariadb_server_geo_redundant_backup_enabled
@@ -114,8 +117,32 @@ benchmark "hipaa_hitrust_v92_1624_09l3organizational_12_09_l" {
   })
 }
 
+benchmark "hipaa_hitrust_v92_1626_09l3organizational_5_09_l" {
+  title       = "1626.09l3Organizational.5-09.l 09.05 Information Back-Up"
+  description = "The organization ensures a current, retrievable copy of covered information is available before movement of servers"
+  children = [
+    control.postgres_db_server_geo_redundant_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/PostgreSQL"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1627_09l3organizational_6_09_l" {
+  title = "1627.09l3Organizational.6-09.l 09.05 Information Back-Up"
+  description = "The organization tests backup information following each backup to verify media reliability and information integrity, and at least annually thereafter"
+  children = [
+    control.mariadb_server_geo_redundant_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MySQL"
+  })
+}
+
 benchmark "hipaa_hitrust_v92_1635_12b1organizational_2_12_b" {
-  title       = "Information security aspects of business continuity"
+  title       = "1635.12b1Organizational.2-12.b 12.01 Information Security Aspects of Business Continuity Management"
   description = "Information security aspects of business continuity are (i) based on identifying events (or sequence of events) that can cause interruptions to the organization's critical business processes (e.g., equipment failure, human errors, theft, fire, natural disasters acts of terrorism); (ii) followed by a risk assessment to determine the probability and impact of such interruptions, in terms of time, damage scale and recovery period; (iii) based on the results of the risk assessment, a business continuity strategy is developed to identify the overall approach to business continuity; and (iv) once this strategy has been created, endorsement is provided by management, and a plan created and endorsed to implement this strategy."
   children = [
     control.keyvault_managed_hms_purge_protection_enabled,
@@ -128,7 +155,8 @@ benchmark "hipaa_hitrust_v92_1635_12b1organizational_2_12_b" {
 }
 
 benchmark "hipaa_hitrust_v92_1634_12b1organizational_1_12_b" {
-  title = "The organization identifies the critical business processes requiring business continuity"
+  title = "1634.12b1Organizational.1-12.b 12.01 Information Security Aspects of Business Continuity Management"
+  description = "The organization identifies the critical business processes requiring business continuity"
   children = [
     control.compute_vm_disaster_recovery_enabled
   ]

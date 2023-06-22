@@ -56,7 +56,7 @@ benchmark "hipaa_hitrust_v92_0805_01m1organizational_12_01_m" {
 }
 
 benchmark "hipaa_hitrust_v92_0806_01m2organizational_12356_01_m" {
-  title       = "The organizations network is logically and physically segmented with a defined security perimeter and a graduated set of controls"
+  title       = "0806.01m2Organizational.12356-01.m 01.04 Network Access Control"
   description = "The organizations network is logically and physically segmented with a defined security perimeter and a graduated set of controls, including subnetworks for publicly accessible system components that are logically separated from the internal network, based on organizational requirements; and traffic is controlled based on functionality required and classification of the data/systems based on a risk assessment and their respective security requirements."
   children = [
     control.appservice_web_app_use_virtual_service_endpoint,

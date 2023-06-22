@@ -5,6 +5,12 @@ benchmark "hipaa_hitrust_v92_business_continuity_and_disaster_recovery" {
     benchmark.hipaa_hitrust_v92_1616_09l1organizational_16_09_l,
     benchmark.hipaa_hitrust_v92_1617_09l1organizational_23_09_l,
     benchmark.hipaa_hitrust_v92_1618_09l1organizational_45_09_l,
+    benchmark.hipaa_hitrust_v92_1619_09l1organizational_7_09_l,
+    // benchmark.hipaa_hitrust_v92_1620_09l1organizational_8_09_l,
+    benchmark.hipaa_hitrust_v92_1621_09l2organizational_1_09_l,
+    benchmark.hipaa_hitrust_v92_1622_09l2organizational_23_09_l,
+    benchmark.hipaa_hitrust_v92_1623_09l2organizational_4_09_l,
+    benchmark.hipaa_hitrust_v92_1624_09l3organizational_12_09_l,
     benchmark.hipaa_hitrust_v92_1634_12b1organizational_1_12_b,
     benchmark.hipaa_hitrust_v92_1635_12b1organizational_2_12_b,
     benchmark.hipaa_hitrust_v92_1638_12b2organizational_345_12_b
@@ -15,7 +21,7 @@ benchmark "hipaa_hitrust_v92_business_continuity_and_disaster_recovery" {
 
 benchmark "hipaa_hitrust_v92_1616_09l1organizational_16_09_l" {
   title = "1616.09l1Organizational.16-09.l 09.05 Information Back-Up"
-  title = "Backup copies of information and software are made and tests of the media and restoration procedures are regularly performed at appropriate intervals"
+  description = "Backup copies of information and software are made and tests of the media and restoration procedures are regularly performed at appropriate intervals"
   children = [
     control.sql_database_long_term_geo_redundant_backup_enabled
   ]
@@ -46,6 +52,65 @@ benchmark "hipaa_hitrust_v92_1618_09l1organizational_45_09_l" {
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
     service = "Azure/PostgreSQL"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1619_09l1organizational_7_09_l" {
+  description = "Inventory records for the backup copies, including content and current location, are maintained"
+  children = [
+    control.mariadb_server_geo_redundant_backup_enabled,
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MariaDB"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1621_09l2organizational_1_09_l" {
+  title = "1621.09l2Organizational.1-09.l 09.05 Information Back-Up"
+  description = "Automated tools are used to track all backups"
+  children = [
+    control.sql_database_long_term_geo_redundant_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/SQL"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1622_09l2organizational_23_09_l" {
+  title       = "1622.09l2Organizational.23-09.l 09.05 Information Back-Up"
+  description = "The integrity and security of the backup copies are maintained to ensure future availability, and any potential accessibility problems with the backup copies are identified and mitigated in the event of an area-wide disaster."
+  children = [
+    control.mysql_db_server_geo_redundant_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MySQL"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1623_09l2organizational_4_09_l" {
+  title = "1623.09l2Organizational.4-09.l 09.05 Information Back-Up"
+  description = "Covered information is backed-up in an encrypted format to ensure confidentiality"
+  children = [
+    control.postgres_db_server_geo_redundant_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/PostgreSQL"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1624_09l3organizational_12_09_l" {
+  title = "1624.09l3Organizational.12-09.l 09.05 Information Back-Up"
+  description = "The organization performs incremental or differential backups daily and full backups weekly to separate media"
+  children = [
+    control.mariadb_server_geo_redundant_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MariaDB"
   })
 }
 

@@ -1,5 +1,6 @@
 benchmark "hipaa_hitrust_v92_user_identification_and_authentication" {
-  title = "User Identification and Authentication"
+  title       = "User Identification and Authentication"
+  description = "TO DO"
   children = [
     benchmark.hipaa_hitrust_v92_11110_01q1organizational_6_01_q,
     benchmark.hipaa_hitrust_v92_11208_01q1organizational_8_01_q,
@@ -11,7 +12,8 @@ benchmark "hipaa_hitrust_v92_user_identification_and_authentication" {
 }
 
 benchmark "hipaa_hitrust_v92_11208_01q1organizational_8_01_q" {
-  title = "The organization requires that electronic signatures, unique to one individual, cannot be reused by, or reassigned to, anyone else"
+  title       = "The organization requires that electronic signatures, unique to one individual, cannot be reused by, or reassigned to, anyone else"
+  description = "TO DO"
   children = [
     control.iam_subscription_owner_more_than_1
   ]
@@ -22,7 +24,8 @@ benchmark "hipaa_hitrust_v92_11208_01q1organizational_8_01_q" {
 }
 
 benchmark "hipaa_hitrust_v92_11211_01q2organizational_11_01_q" {
-  title = "Signed electronic records shall contain information associated with the signing in human-readable format"
+  title       = "Signed electronic records shall contain information associated with the signing in human-readable format"
+  description = "TO DO"
   children = [
     control.compute_vm_administrators_group_with_no_specified_members_windows
   ]
@@ -33,7 +36,8 @@ benchmark "hipaa_hitrust_v92_11211_01q2organizational_11_01_q" {
 }
 
 benchmark "hipaa_hitrust_v92_11210_01q2organizational_10_01_q" {
-  title = "Electronic signatures and handwritten signatures executed to electronic records shall be linked to their respective electronic records"
+  title       = "Electronic signatures and handwritten signatures executed to electronic records shall be linked to their respective electronic records"
+  description = "TO DO"
   children = [
     control.compute_vm_administrators_group_with_specified_members_windows
   ]
@@ -44,7 +48,8 @@ benchmark "hipaa_hitrust_v92_11210_01q2organizational_10_01_q" {
 }
 
 benchmark "hipaa_hitrust_v92_11110_01q1organizational_6_01_q" {
-  title = "Non-organizational users (all information system users other than organizational users, such as patients, customers, contractors, or foreign nationals), or processes acting on behalf of non-organizational users, determined to need access to information residing on the organization's information systems, are uniquely identified and authenticated"
+  title       = "Non-organizational users (all information system users other than organizational users, such as patients, customers, contractors, or foreign nationals), or processes acting on behalf of non-organizational users, determined to need access to information residing on the organization's information systems, are uniquely identified and authenticated"
+  description = "TO DO"
   children = [
     control.iam_user_with_write_permission_on_subscription_mfa_enabled
   ]

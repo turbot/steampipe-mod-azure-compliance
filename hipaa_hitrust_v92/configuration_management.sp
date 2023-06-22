@@ -1,5 +1,6 @@
 benchmark "hipaa_hitrust_v92_configuration_management" {
-  title = "Configuration Management"
+  title       = "Configuration Management"
+  description = "TO DO"
   children = [
     benchmark.hipaa_hitrust_v92_0605_10h1system_12_10_h,
     benchmark.hipaa_hitrust_v92_0635_10k1organizational_12_10_k,
@@ -105,7 +106,7 @@ benchmark "hipaa_hitrust_v92_0640_10k2organizational_1012_10_k" {
 }
 
 benchmark "hipaa_hitrust_v92_0641_10k2organizational_11_10_k" {
-  title = "0641.10k2Organizational.11-10.k 10.05 Security In Development and Support Processes"
+  title       = "0641.10k2Organizational.11-10.k 10.05 Security In Development and Support Processes"
   description = "The organization does not use automated updates on critical systems"
   children = [
     control.compute_vm_meet_system_audit_policies_requirement_windows
@@ -117,7 +118,7 @@ benchmark "hipaa_hitrust_v92_0641_10k2organizational_11_10_k" {
 }
 
 benchmark "hipaa_hitrust_v92_0642_10k3organizational_12_10_k" {
-  title = "0642.10k3Organizational.12-10.k 10.05 Security In Development and Support Processes"
+  title       = "0642.10k3Organizational.12-10.k 10.05 Security In Development and Support Processes"
   description = "The organization develops, documents, and maintains, under configuration control, a current baseline configuration of the information system, and reviews and updates the baseline as required"
   children = [
     control.compute_vm_meet_system_audit_policies_requirement_windows
@@ -160,6 +161,6 @@ benchmark "hipaa_hitrust_v92_0662_09scsporganizational_2_09_s" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/AppService"
+    service = "Azure/AppService"
   })
 }

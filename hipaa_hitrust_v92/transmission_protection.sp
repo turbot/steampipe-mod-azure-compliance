@@ -1,5 +1,6 @@
 benchmark "hipaa_hitrust_v92_transmission_protection" {
   title = "09 Transmission Protection"
+  description = "TO DO"
   children = [
     benchmark.hipaa_hitrust_v92_0901_09s1organizational_1_09_s,
     benchmark.hipaa_hitrust_v92_0902_09s2organizational_13_09_s,

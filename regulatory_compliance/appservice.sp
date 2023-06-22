@@ -65,7 +65,6 @@ control "appservice_web_app_latest_tls_version" {
   query       = query.appservice_web_app_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -143,7 +142,6 @@ control "appservice_web_app_cors_no_star" {
   query       = query.appservice_web_app_cors_no_star
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

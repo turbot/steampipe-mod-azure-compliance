@@ -1,5 +1,5 @@
 benchmark "hipaa_hitrust_v92_identification_of_risks_related_to_external_parties" {
-  title    = "Identification of Risks Related to External Parties"
+  title = "Identification of Risks Related to External Parties"
   children = [
     benchmark.hipaa_hitrust_v92_1401_05i1organizational_1239_05_i,
     benchmark.hipaa_hitrust_v92_1402_05i1organizational_45_05_i,
@@ -18,39 +18,42 @@ benchmark "hipaa_hitrust_v92_1401_05i1organizational_1239_05_i" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/Storage"
+    service = "Azure/Storage"
   })
 }
 
 benchmark "hipaa_hitrust_v92_1402_05i1organizational_45_05_i" {
-  title    = "Remote access connections between the organization and external parties are encrypted"
+  title       = "Remote access connections between the organization and external parties are encrypted"
+  description = "TO DO"
   children = [
     control.appservice_function_app_only_https_accessible
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/AppService"
+    service = "Azure/AppService"
   })
 }
 
 benchmark "hipaa_hitrust_v92_1403_05i1organizational_67_05_i" {
-  title    = "Access granted to external parties is limited to the minimum necessary and granted only for the duration required"
+  title       = "Access granted to external parties is limited to the minimum necessary and granted only for the duration required"
+  description = "TO DO"
   children = [
     control.appservice_web_app_use_https
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/AppService"
+    service = "Azure/AppService"
   })
 }
 
 benchmark "hipaa_hitrust_v92_1418_05i1organizational_8_05_i" {
-  title    = "The identification of risks related to external party access takes into account a minimal set of specifically defined issues"
+  title       = "The identification of risks related to external party access takes into account a minimal set of specifically defined issues"
+  description = "TO DO"
   children = [
     control.mysql_ssl_enabled
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/MySQL"
+    service = "Azure/MySQL"
   })
 }

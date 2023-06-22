@@ -12,7 +12,7 @@ benchmark "hipaa_hitrust_v92" {
     benchmark.hipaa_hitrust_v92_administrator_and_operator_logs,
     benchmark.hipaa_hitrust_v92_audit_logging,
     benchmark.hipaa_hitrust_v92_back_up,
-    benchmark.hipaa_hitrust_v92_business_continuity_and_risk_assessment,
+    benchmark.hipaa_hitrust_v92_business_continuity_and_disaster_recovery,
     benchmark.hipaa_hitrust_v92_configuration_management,
     benchmark.hipaa_hitrust_v92_control_of_operational_software,
     benchmark.hipaa_hitrust_v92_endpoint_protection,

@@ -1,12 +1,52 @@
-benchmark "hipaa_hitrust_v92_business_continuity_and_risk_assessment" {
-  title    = "Business Continuity and Risk Assessment"
+benchmark "hipaa_hitrust_v92_business_continuity_and_disaster_recovery" {
+  title       = "16 Business Continuity & Disaster Recovery"
+  description = "TO DO"
   children = [
+    benchmark.hipaa_hitrust_v92_1616_09l1organizational_16_09_l,
+    benchmark.hipaa_hitrust_v92_1617_09l1organizational_23_09_l,
+    benchmark.hipaa_hitrust_v92_1618_09l1organizational_45_09_l,
     benchmark.hipaa_hitrust_v92_1634_12b1organizational_1_12_b,
     benchmark.hipaa_hitrust_v92_1635_12b1organizational_2_12_b,
     benchmark.hipaa_hitrust_v92_1638_12b2organizational_345_12_b
   ]
 
   tags = local.hipaa_hitrust_v92_common_tags
+}
+
+benchmark "hipaa_hitrust_v92_1616_09l1organizational_16_09_l" {
+  title = "1616.09l1Organizational.16-09.l 09.05 Information Back-Up"
+  title = "Backup copies of information and software are made and tests of the media and restoration procedures are regularly performed at appropriate intervals"
+  children = [
+    control.sql_database_long_term_geo_redundant_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/SQL"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1617_09l1organizational_23_09_l" {
+  title       = "1617.09l1Organizational.23-09.l 09.05 Information Back-Up"
+  description = "A formal definition of the level of backup required for each system is defined and documented including how each system will be restored, the scope of data to be imaged, frequency of imaging, and duration of retention based on relevant contractual, legal, regulatory and business requirements."
+  children = [
+    control.mysql_db_server_geo_redundant_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/MySQL"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1618_09l1organizational_45_09_l" {
+  title       = "1618.09l1Organizational.45-09.l 09.05 Information Back-Up"
+  description = "The backups are stored in a physically secure remote location, at a sufficient distance to make them reasonably immune from damage to data at the primary site, and reasonable physical and environmental controls are in place to ensure their protection at the remote location"
+  children = [
+    control.postgres_db_server_geo_redundant_backup_enabled,
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/PostgreSQL"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_1635_12b1organizational_2_12_b" {
@@ -23,13 +63,13 @@ benchmark "hipaa_hitrust_v92_1635_12b1organizational_2_12_b" {
 }
 
 benchmark "hipaa_hitrust_v92_1634_12b1organizational_1_12_b" {
-  title    = "The organization identifies the critical business processes requiring business continuity"
+  title = "The organization identifies the critical business processes requiring business continuity"
   children = [
     control.compute_vm_disaster_recovery_enabled
   ]
 
-   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/Compute"
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Compute"
   })
 }
 
@@ -41,6 +81,6 @@ benchmark "hipaa_hitrust_v92_1638_12b2organizational_345_12_b" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service       = "Azure/Compute"
+    service = "Azure/Compute"
   })
 }

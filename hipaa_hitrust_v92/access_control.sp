@@ -1,5 +1,6 @@
 benchmark "hipaa_hitrust_v92_access_control" {
-  title = "TO DO"
+  title       = "11 Access Control"
+  description = "TO DO"
   children = [
     benchmark.hipaa_hitrust_v92_11109_01q1organizational_57_01_q,
     benchmark.hipaa_hitrust_v92_11111_01q2system_4_01_q,

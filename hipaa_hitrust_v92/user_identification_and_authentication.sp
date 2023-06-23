@@ -11,6 +11,18 @@ benchmark "hipaa_hitrust_v92_user_identification_and_authentication" {
   tags = local.hipaa_hitrust_v92_common_tags
 }
 
+benchmark "hipaa_hitrust_v92_11110_01q1organizational_6_01_q" {
+  title       = "Non-organizational users (all information system users other than organizational users, such as patients, customers, contractors, or foreign nationals), or processes acting on behalf of non-organizational users, determined to need access to information residing on the organization's information systems, are uniquely identified and authenticated"
+  description = "TO DO"
+  children = [
+    control.iam_user_with_write_permission_on_subscription_mfa_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/IAM"
+  })
+}
+
 benchmark "hipaa_hitrust_v92_11208_01q1organizational_8_01_q" {
   title       = "The organization requires that electronic signatures, unique to one individual, cannot be reused by, or reassigned to, anyone else"
   description = "TO DO"
@@ -44,17 +56,5 @@ benchmark "hipaa_hitrust_v92_11210_01q2organizational_10_01_q" {
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
     service = "Azure/Compute"
-  })
-}
-
-benchmark "hipaa_hitrust_v92_11110_01q1organizational_6_01_q" {
-  title       = "Non-organizational users (all information system users other than organizational users, such as patients, customers, contractors, or foreign nationals), or processes acting on behalf of non-organizational users, determined to need access to information residing on the organization's information systems, are uniquely identified and authenticated"
-  description = "TO DO"
-  children = [
-    control.iam_user_with_write_permission_on_subscription_mfa_enabled
-  ]
-
-  tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/IAM"
   })
 }

@@ -130,7 +130,7 @@ benchmark "hipaa_hitrust_v92_1626_09l3organizational_5_09_l" {
 }
 
 benchmark "hipaa_hitrust_v92_1627_09l3organizational_6_09_l" {
-  title = "1627.09l3Organizational.6-09.l 09.05 Information Back-Up"
+  title       = "1627.09l3Organizational.6-09.l 09.05 Information Back-Up"
   description = "The organization tests backup information following each backup to verify media reliability and information integrity, and at least annually thereafter"
   children = [
     control.mariadb_server_geo_redundant_backup_enabled
@@ -155,7 +155,7 @@ benchmark "hipaa_hitrust_v92_1635_12b1organizational_2_12_b" {
 }
 
 benchmark "hipaa_hitrust_v92_1634_12b1organizational_1_12_b" {
-  title = "1634.12b1Organizational.1-12.b 12.01 Information Security Aspects of Business Continuity Management"
+  title       = "1634.12b1Organizational.1-12.b 12.01 Information Security Aspects of Business Continuity Management"
   description = "The organization identifies the critical business processes requiring business continuity"
   children = [
     control.compute_vm_disaster_recovery_enabled
@@ -166,8 +166,20 @@ benchmark "hipaa_hitrust_v92_1634_12b1organizational_1_12_b" {
   })
 }
 
+// benchmark "hipaa_hitrust_v92_1637_12b2organizational_2_12_b" {
+//   title       = "1637.12b2Organizational.2-12.b 12.01 Information Security Aspects of Business Continuity Management"
+//   description = "Business impact analysis are used to evaluate the consequences of disasters, security failures, loss of service, and service availability."
+//   children = [
+//     control.
+//   ]
+
+//   tags = merge(local.hipaa_hitrust_v92_common_tags, {
+//     service = "Azure/Compute"
+//   })
+// }
+
 benchmark "hipaa_hitrust_v92_1638_12b2organizational_345_12_b" {
-  title       = "Business continuity risk assessments"
+  title       = "1638.12b2Organizational.345-12.b 12.01 Information Security Aspects of Business Continuity Management"
   description = "Business continuity risk assessments (i) are carried out annually with full involvement from owners of business resources and processes; (ii) consider all business processes and is not limited to the information assets, but includes the results specific to information security; and (iii) identifies, quantifies, and prioritizes risks against key business objectives and criteria relevant to the organization, including critical resources, impacts of disruptions, allowable outage times, and recovery priorities."
   children = [
     control.compute_vm_disaster_recovery_enabled

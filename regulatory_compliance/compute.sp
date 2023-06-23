@@ -256,15 +256,15 @@ control "compute_vm_administrators_group_with_specified_members_windows" {
   })
 }
 
-// control "compute_vm_administrators_group_with_extra_accounts_windows" {
-//   title       = "Audit Windows machines that have extra accounts in the Administrators group"
-//   description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group contains members that are not listed in the policy parameter."
-//   query       = query.manual_control_hipaa
+control "compute_vm_administrators_group_with_extra_accounts_windows" {
+  title       = "Audit Windows machines that have extra accounts in the Administrators group"
+  description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the local Administrators group contains members that are not listed in the policy parameter."
+  query       = query.manual_control_hipaa
 
-//   tags = merge(local.regulatory_compliance_compute_common_tags, {
-//     hipaa_hitrust_v92 = "true"
-//   })
-// }
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
 
 // control "compute_vm_meet_security_option_requirement_windows" {
 //   title       = "Windows machines should meet requirements for 'Security Options - Accounts'"

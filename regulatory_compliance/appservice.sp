@@ -126,8 +126,8 @@ control "appservice_api_app_latest_tls_version" {
 }
 
 control "appservice_web_app_diagnostic_logs_enabled" {
-  title       = "Diagnostic logs in App Services should be enabled"
-  description = "Audit enabling of diagnostic logs on the app. This enables you to recreate activity trails for investigation purposes if a security incident occurs or your network is compromised."
+  title       = "App Service apps should have resource logs enabled"
+  description = "Audit enabling of resource logs on the app. This enables you to recreate activity trails for investigation purposes if a security incident occurs or your network is compromised."
   query       = query.appservice_web_app_diagnostic_logs_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {

@@ -48,7 +48,7 @@ control "iam_deprecated_account_with_owner_roles" {
 }
 
 control "iam_no_custom_role" {
-  title       = "Audit usage of custom RBAC rules"
+  title       = "Audit usage of custom RBAC roles"
   description = "Audit built-in roles such as 'Owner, Contributor, Reader' instead of custom RBAC roles, which are error prone. Using custom roles is treated as an exception and requires a rigorous review and threat modeling."
   query       = query.iam_no_custom_role
 

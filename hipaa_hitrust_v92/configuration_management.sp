@@ -1,5 +1,5 @@
 benchmark "hipaa_hitrust_v92_configuration_management" {
-  title       = "Configuration Management"
+  title       = "06 Configuration Management"
   description = "TO DO"
   children = [
     benchmark.hipaa_hitrust_v92_0605_10h1system_12_10_h,

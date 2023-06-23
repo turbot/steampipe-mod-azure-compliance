@@ -9,6 +9,7 @@ benchmark "hipaa_hitrust_v92" {
   title       = "HIPAA HITRUST 9.2"
   description = "The HIPAA HITRUST 9.2 provides a combined set of predefined compliance and security best-practice checks for Health Insurance Portability and Accountability Act."
   children = [
+    benchmark.hipaa_hitrust_v92_access_control,
     benchmark.hipaa_hitrust_v92_administrator_and_operator_logs,
     benchmark.hipaa_hitrust_v92_audit_logging,
     benchmark.hipaa_hitrust_v92_back_up,

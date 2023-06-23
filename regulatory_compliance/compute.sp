@@ -266,15 +266,15 @@ control "compute_vm_administrators_group_with_extra_accounts_windows" {
   })
 }
 
-// control "compute_vm_meet_security_option_requirement_windows" {
-//   title       = "Windows machines should meet requirements for 'Security Options - Accounts'"
-//   description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Accounts' for limiting local account use of blank passwords and guest account status. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
-//   query       = query.manual_control_hipaa
+control "compute_vm_meet_security_option_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - Accounts'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Accounts' for limiting local account use of blank passwords and guest account status. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
+  query       = query.manual_control_hipaa
 
-//   tags = merge(local.regulatory_compliance_compute_common_tags, {
-//     hipaa_hitrust_v92 = "true"
-//   })
-// }
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
 
 control "compute_vm_meet_security_option_audit_requirement_windows" {
   title       = "Windows machines should meet requirements for 'Security Options - Audit'"

@@ -23,7 +23,6 @@ benchmark "hipaa_hitrust_v92" {
     benchmark.hipaa_hitrust_v92_on_line_transactions,
     benchmark.hipaa_hitrust_v92_portable_media_security,
     benchmark.hipaa_hitrust_v92_privilege_management,
-    benchmark.hipaa_hitrust_v92_remote_diagnostic_and_configuration_port_protection,
     benchmark.hipaa_hitrust_v92_third_party_assurance,
     benchmark.hipaa_hitrust_v92_transmission_protection,
     benchmark.hipaa_hitrust_v92_user_authentication_for_external_connections,

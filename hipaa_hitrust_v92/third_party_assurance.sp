@@ -1,4 +1,4 @@
-benchmark "hipaa_hitrust_v92_training_party_assurance" {
+benchmark "hipaa_hitrust_v92_third_party_assurance" {
   title       = "14 Third Party Assurance"
   description = "TO DO"
   children = [

@@ -5,6 +5,7 @@ benchmark "hipaa_hitrust_v92_access_control" {
     benchmark.hipaa_hitrust_v92_11109_01q1organizational_57_01_q,
     benchmark.hipaa_hitrust_v92_11111_01q2system_4_01_q,
     benchmark.hipaa_hitrust_v92_11112_01q2organizational_67_01_q,
+    benchmark.hipaa_hitrust_v92_1116_01j1organizational_145_01_j,
     benchmark.hipaa_hitrust_v92_1118_01j2organizational_124_01_j,
     benchmark.hipaa_hitrust_v92_11180_01c3system_6_01_c,
     benchmark.hipaa_hitrust_v92_1119_01j2organizational_3_01_j,
@@ -65,6 +66,18 @@ benchmark "hipaa_hitrust_v92_11112_01q2organizational_67_01_q" {
   description = "The information system employs replay-resistant authentication mechanisms such as nonce, one-time passwords, or time stamps to secure network access for privileged accounts; and, for hardware token-based authentication, employs mechanisms that satisfy minimum token requirements discussed in NIST SP 800-63-2, Electronic Authentication Guideline."
   children = [
     control.iam_subscription_owner_max_3
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/IAM"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1116_01j1organizational_145_01_j" {
+  title       = "1116.01j1Organizational.145-01.j 01.04 Network Access Control"
+  description = "TO DO"
+  children = [
+    control.iam_user_with_owner_permission_on_subscription_mfa_enabled
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
@@ -288,7 +301,7 @@ benchmark "hipaa_hitrust_v92_1153_01c3system_35_01_c" {
 }
 
 benchmark "hipaa_hitrust_v92_1175_01j1organizational_8_01_j" {
-  title       = "1175.01j1Organizational.8-01.j 01.02 Authorized Access to Information Systems"
+  title       = "1175.01j1Organizational.8-01.j 01.04 Network Access Control"
   description = "Remote access to business information across public networks only takes place after successful identification and authentication"
   children = [
     control.compute_vm_jit_access_protected

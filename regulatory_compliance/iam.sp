@@ -37,7 +37,7 @@ control "iam_no_custom_subscription_owner_roles_created" {
 }
 
 control "iam_deprecated_account_with_owner_roles" {
-  title       = "Deprecated accounts with owner permissions should be removed from your subscription"
+  title       = "Blocked accounts with owner permissions on Azure resources should be removed"
   description = "Deprecated accounts with owner permissions should be removed from your subscription. Deprecated accounts are accounts that have been blocked from signing in."
   query       = query.iam_deprecated_account_with_owner_roles
 
@@ -60,7 +60,7 @@ control "iam_no_custom_role" {
 }
 
 control "iam_external_user_with_owner_role" {
-  title       = "External accounts with owner permissions should be removed from your subscription"
+  title       = "Guest accounts with owner permissions on Azure resources should be removed"
   description = "External accounts with owner permissions should be removed from your subscription in order to prevent unmonitored access."
   query       = query.iam_external_user_with_owner_role
 

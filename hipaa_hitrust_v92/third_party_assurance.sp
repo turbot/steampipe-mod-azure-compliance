@@ -1,6 +1,6 @@
 benchmark "hipaa_hitrust_v92_third_party_assurance" {
   title       = "14 Third Party Assurance"
-  description = "TO DO"
+  description = "Where software development is outsourced, the development process is monitored by the organization and includes independent security and code reviews."
   children = [
     benchmark.hipaa_hitrust_v92_1450_05i2organizational,
     benchmark.hipaa_hitrust_v92_1451_05icsporganizational

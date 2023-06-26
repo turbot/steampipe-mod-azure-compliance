@@ -1,6 +1,6 @@
 benchmark "hipaa_hitrust_v92_business_continuity_and_disaster_recovery" {
   title       = "16 Business Continuity & Disaster Recovery"
-  description = "TO DO"
+  description = "The organization identifies the critical business processes requiring business continuity. Information security aspects of business continuity are (i) based on identifying events (or sequence of events) that can cause interruptions to the organization's critical business processes (e.g., equipment failure, human errors, theft, fire, natural disasters acts of terrorism); (ii) followed by a risk assessment to determine the probability and impact of such interruptions, in terms of time, damage scale and recovery period; (iii) based on the results of the risk assessment, a business continuity strategy is developed to identify the overall approach to business continuity; and (iv) once this strategy has been created, endorsement is provided by management, and a plan created and endorsed to implement this strategy."
   children = [
     benchmark.hipaa_hitrust_v92_1616_09l1organizational,
     benchmark.hipaa_hitrust_v92_1617_09l1organizational,

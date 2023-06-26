@@ -1,6 +1,6 @@
 benchmark "hipaa_hitrust_v92_audit_logging_and_monitoring" {
   title       = "12 Audit Logging & Monitoring"
-  description = "TO DO"
+  description = "Audit logging refers to the process of recording and tracking all system activities, such as user logins, data access, and modifications made to sensitive information. By implementing comprehensive audit logging, the website will maintain a detailed trail of events, enabling organizations to track and investigate any potential security breaches or unauthorized access. Furthermore, monitoring mechanisms will be put in place to actively observe and analyze system activities in real time. This includes the monitoring of network traffic, system logs, and user behaviour to detect any anomalous or suspicious activities promptly."
   children = [
     benchmark.hipaa_hitrust_v92_1202_09aa1system,
     benchmark.hipaa_hitrust_v92_1203_09aa1system,

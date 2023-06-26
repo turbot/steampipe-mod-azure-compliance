@@ -1,6 +1,6 @@
 benchmark "hipaa_hitrust_v92_access_control" {
   title       = "11 Access Control"
-  description = "TO DO"
+  description = "Default and unnecessary system accounts are removed, disabled, or otherwise secured (e.g., the passwords are changed, and privileges are reduced to the lowest access levels). Account managers are notified when users' access rights change (e.g., termination, change in position) and modify the user's account accordingly."
   children = [
     benchmark.hipaa_hitrust_v92_11109_01q1organizational,
     benchmark.hipaa_hitrust_v92_11111_01q2system,
@@ -75,7 +75,7 @@ benchmark "hipaa_hitrust_v92_11112_01q2organizational" {
 
 benchmark "hipaa_hitrust_v92_1116_01j1organizational" {
   title       = "1116.01j1Organizational.145-01.j 01.04 Network Access Control"
-  description = "TO DO"
+  description = "Prevent unauthorized access to networked services, such as user authentication for external connections"
   children = [
     control.iam_user_with_owner_permission_on_subscription_mfa_enabled
   ]
@@ -87,7 +87,7 @@ benchmark "hipaa_hitrust_v92_1116_01j1organizational" {
 
 benchmark "hipaa_hitrust_v92_1118_01j2organizational" {
   title       = "1118.01j2Organizational.124-01.j 01.04 Network Access Control"
-  description = "TO DO"
+  description = "The organization has implemented encryption (e.g.  VPN solutions or private lines) and logs remote access to the organization's network by employees, contractors or third party."
   children = [
     control.iam_user_with_read_permission_on_subscription_mfa_enabled
   ]

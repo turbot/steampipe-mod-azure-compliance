@@ -26,16 +26,6 @@ control "iam_subscription_owner_max_3" {
   })
 }
 
-control "iam_no_custom_subscription_owner_roles_created" {
-  title       = "Custom subscription owner roles should not exist"
-  description = "This policy ensures that no custom subscription owner roles exist."
-  query       = query.iam_no_custom_subscription_owner_roles_created
-
-  tags = merge(local.regulatory_compliance_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
-  })
-}
-
 control "iam_deprecated_account_with_owner_roles" {
   title       = "Blocked accounts with owner permissions on Azure resources should be removed"
   description = "Deprecated accounts with owner permissions should be removed from your subscription. Deprecated accounts are accounts that have been blocked from signing in."

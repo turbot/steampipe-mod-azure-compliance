@@ -1,13 +1,14 @@
 benchmark "hipaa_hitrust_v92_endpoint_protection" {
-  title = "02 Endpoint Protection"
+  title       = "02 Endpoint Protection"
+  description = "TO DO"
   children = [
-    benchmark.hipaa_hitrust_v92_0201_09j1organizational_124_09_j
+    benchmark.hipaa_hitrust_v92_0201_09j1organizational
   ]
 
   tags = local.hipaa_hitrust_v92_common_tags
 }
 
-benchmark "hipaa_hitrust_v92_0201_09j1organizational_124_09_j" {
+benchmark "hipaa_hitrust_v92_0201_09j1organizational" {
   title       = "Protection Against Malicious and Mobile Code"
   description = "Anti-virus and anti-spyware are installed, operating and updated on all end-user devices to conduct periodic scans of the systems to identify and remove unauthorized software. Server environments for which the server software developer specifically recommends not installing host-based anti-virus and anti-spyware software may address the requirement via a network-based malware detection (NBMD) solution."
   children = [

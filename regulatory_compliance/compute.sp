@@ -77,8 +77,8 @@ control "compute_vm_jit_access_protected" {
 }
 
 control "compute_vm_log_analytics_agent_installed" {
-  title       = "The Log Analytics agent should be installed on virtual machines"
-  description = "This policy audits any Windows/Linux virtual machines if the Log Analytics agent is not installed."
+  title       = "Virtual machines should have the Log Analytics extension installed"
+  description = "This policy audits any Windows/Linux virtual machines if the Log Analytics extension is not installed."
   query       = query.compute_vm_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -108,8 +108,8 @@ control "compute_vm_malware_agent_installed" {
 }
 
 control "compute_vm_scale_set_log_analytics_agent_installed" {
-  title       = "The Log Analytics agent should be installed on Virtual Machine Scale Sets"
-  description = "This policy audits any Windows/Linux Virtual Machine Scale Sets if the Log Analytics agent is not installed."
+  title       = "The Log Analytics extension should be installed on Virtual Machine Scale Sets"
+  description = "This policy audits any Windows/Linux Virtual Machine Scale Sets if the Log Analytics extension is not installed."
   query       = query.compute_vm_scale_set_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -279,16 +279,6 @@ control "compute_vm_meet_security_option_requirement_windows" {
 control "compute_vm_meet_security_option_audit_requirement_windows" {
   title       = "Windows machines should meet requirements for 'Security Options - Audit'"
   description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Audit' for forcing audit policy subcategory and shutting down if unable to log security audits. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
-  query       = query.manual_control_hipaa
-
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
-  })
-}
-
-control "compute_vm_meet_system_audit_policies_requirement_windows" {
-  title       = "Windows machines should meet requirements for 'System Audit Policies - Account Management'"
-  description = "Windows machines should have the specified Group Policy settings in the category 'System Audit Policies - Account Management' for auditing application, security, and user group management, and other management events. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {

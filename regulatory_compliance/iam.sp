@@ -108,7 +108,7 @@ control "iam_external_user_with_write_permission" {
 }
 
 control "iam_user_with_write_permission_on_subscription_mfa_enabled" {
-  title       = "MFA should be enabled for accounts with write permissions on your subscription"
+  title       = "Accounts with write permissions on Azure resources should be MFA enabled"
   description = "Multi-Factor Authentication (MFA) should be enabled for all subscription accounts with write privileges to prevent a breach of accounts or resources."
   query       = query.manual_control
 

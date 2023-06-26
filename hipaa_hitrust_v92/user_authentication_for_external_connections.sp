@@ -37,7 +37,7 @@ benchmark "hipaa_hitrust_v92_1173_01j1organizational" {
 benchmark "hipaa_hitrust_v92_1174_01j1organizational" {
   title = "The organization protects wireless access to systems containing sensitive information by authenticating both users and devices"
   children = [
-    control.iam_user_with_write_permission_on_subscription_mfa_enabled
+    control.iam_user_with_read_permission_on_subscription_mfa_enabled
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
@@ -48,7 +48,7 @@ benchmark "hipaa_hitrust_v92_1174_01j1organizational" {
 benchmark "hipaa_hitrust_v92_1176_01j2organizational" {
   title = "The organization requires a callback capability with re-authentication to verify dial-up connections from authorized locations"
   children = [
-    control.iam_user_with_write_permission_on_subscription_mfa_enabled
+    control.iam_user_with_owner_permission_on_subscription_mfa_enabled
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {

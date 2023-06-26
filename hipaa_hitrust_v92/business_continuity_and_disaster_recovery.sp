@@ -59,6 +59,7 @@ benchmark "hipaa_hitrust_v92_1618_09l1organizational" {
 }
 
 benchmark "hipaa_hitrust_v92_1619_09l1organizational" {
+  title       = "1619.09l1Organizational.7-09.l 09.05 Information Back-Up"
   description = "Inventory records for the backup copies, including content and current location, are maintained"
   children = [
     control.mariadb_server_geo_redundant_backup_enabled,

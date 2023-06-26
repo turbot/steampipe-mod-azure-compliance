@@ -37,7 +37,7 @@ benchmark "hipaa_hitrust_v92_1402_05i1organizational" {
 benchmark "hipaa_hitrust_v92_1403_05i1organizational" {
   title = "Access granted to external parties is limited to the minimum necessary and granted only for the duration required"
   children = [
-    control.appservice_web_app_use_https
+    control.appservice_api_app_use_https
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {

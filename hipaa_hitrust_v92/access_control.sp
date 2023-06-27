@@ -314,7 +314,6 @@ benchmark "hipaa_hitrust_v92_1175_01j1organizational" {
 
 benchmark "hipaa_hitrust_v92_1178_01j2organizational" {
   title       = "1178.01j2Organizational.7-01.j 01.04 Network Access Control"
-  description = "TO DO"
   children = [
     control.iam_user_with_read_permission_on_subscription_mfa_enabled
   ]

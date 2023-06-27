@@ -41,7 +41,7 @@ benchmark "hipaa_hitrust_v92_1202_09aa1system" {
     control.compute_vm_scale_set_system_updates_installed
   ]
 
-  tags = hipaa_hitrust_v92_common_tags
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1203_09aa1system" {

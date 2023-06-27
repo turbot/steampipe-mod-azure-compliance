@@ -621,6 +621,9 @@ query "appservice_api_app_latest_tls_version" {
         when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then a.name || ' not using the latest version of TLS encryption.'
         else a.name || ' using the latest version of TLS encryption.'
       end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
       left join all_api_app as b on a.id = b.id,

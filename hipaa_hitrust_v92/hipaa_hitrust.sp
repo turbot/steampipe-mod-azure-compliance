@@ -27,7 +27,8 @@ benchmark "hipaa_hitrust_v92" {
     benchmark.hipaa_hitrust_v92_audit_logging_and_monitoring,
     benchmark.hipaa_hitrust_v92_education_training_and_awareness,
     benchmark.hipaa_hitrust_v92_third_party_assurance,
-    benchmark.hipaa_hitrust_v92_business_continuity_and_disaster_recovery,
+    benchmark.hipaa_hitrust_v92_business_continuity_and_disaster_recovery
   ]
+
   tags = local.hipaa_hitrust_v92_common_tags
 }

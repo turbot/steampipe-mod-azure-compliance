@@ -35,10 +35,10 @@ benchmark "hipaa_hitrust_v92_audit_logging_and_monitoring" {
 
 benchmark "hipaa_hitrust_v92_1202_09aa1system" {
   title       = "1202.09aa1System.1-09.aa 09.10 Monitoring"
-  description = "A secure audit record is created for all activities on the system (create, read, update, delete) involving covered information"
+  description = "A secure audit record is created for all activities on the system (create, read, update, delete) involving covered information."
   children = [
-    control.datalake_store_account_logging_enabled,
-    control.compute_vm_scale_set_system_updates_installed
+    control.compute_vm_scale_set_system_updates_installed,
+    control.datalake_store_account_logging_enabled
   ]
 
   tags = local.hipaa_hitrust_v92_common_tags
@@ -46,7 +46,7 @@ benchmark "hipaa_hitrust_v92_1202_09aa1system" {
 
 benchmark "hipaa_hitrust_v92_1203_09aa1system" {
   title       = "1203.09aa1System.2-09.aa 09.10 Monitoring"
-  description = "Audit records include the unique user ID, unique data subject ID, function performed, and date/time the event was performed"
+  description = "Audit records include the unique user ID, unique data subject ID, function performed, and date/time the event was performed."
   children = [
     control.logic_app_workflow_logging_enabled
   ]
@@ -58,7 +58,7 @@ benchmark "hipaa_hitrust_v92_1203_09aa1system" {
 
 benchmark "hipaa_hitrust_v92_1204_09aa1system" {
   title       = "1204.09aa1System.3-09.aa 09.10 Monitoring"
-  description = "The activities of privileged users (administrators, operators, etc.) include the success/failure of the event, time the event occurred, the account involved, the processes involved, and additional information about the event"
+  description = "The activities of privileged users (administrators, operators, etc.) include the success/failure of the event, time the event occurred, the account involved, the processes involved, and additional information about the event."
   children = [
     control.iot_hub_logging_enabled
   ]
@@ -70,7 +70,7 @@ benchmark "hipaa_hitrust_v92_1204_09aa1system" {
 
 benchmark "hipaa_hitrust_v92_1205_09aa2system" {
   title       = "1205.09aa2System.1-09.aa 09.10 Monitoring"
-  description = "Logs of messages sent and received are maintained including the date, time, origin and destination of the message, but not its contents"
+  description = "Logs of messages sent and received are maintained including the date, time, origin and destination of the message, but not its contents."
   children = [
     control.batch_account_logging_enabled
   ]
@@ -82,7 +82,7 @@ benchmark "hipaa_hitrust_v92_1205_09aa2system" {
 
 benchmark "hipaa_hitrust_v92_1207_09aa2system" {
   title       = "1207.09aa2System.4-09.aa 09.10 Monitoring"
-  description = "Audit records are retained for 90 days and older audit records are archived for one year"
+  description = "Audit records are retained for 90 days and older audit records are archived for one year."
   children = [
     control.eventhub_namespace_logging_enabled,
     control.stream_analytics_job_logging_enabled
@@ -93,7 +93,7 @@ benchmark "hipaa_hitrust_v92_1207_09aa2system" {
 
 benchmark "hipaa_hitrust_v92_1208_09aa3system" {
   title       = "1208.09aa3System.1-09.aa 09.10 Monitoring"
-  description = "Audit logs are maintained for management activities, system and application startup/shutdown/errors, file changes, and security policy changes"
+  description = "Audit logs are maintained for management activities, system and application startup/shutdown/errors, file changes, and security policy changes."
   children = [
     control.search_service_logging_enabled,
     control.servicebus_namespace_logging_enabled
@@ -117,10 +117,10 @@ benchmark "hipaa_hitrust_v92_1209_09aa3system" {
 
 benchmark "hipaa_hitrust_v92_1210_09aa3system" {
   title       = "1210.09aa3System.3-09.aa 09.10 Monitoring"
-  description = "All disclosures of covered information within or outside of the organization are logged including type of disclosure, date/time of the event, recipient, and sender"
+  description = "All disclosures of covered information within or outside of the organization are logged including type of disclosure, date/time of the event, recipient, and sender."
   children = [
-    control.datalake_analytics_account_logging_enabled,
-    control.audit_diagnostic_setting
+    control.audit_diagnostic_setting,
+    control.datalake_analytics_account_logging_enabled
   ]
 
   tags = local.hipaa_hitrust_v92_common_tags
@@ -152,7 +152,7 @@ benchmark "hipaa_hitrust_v92_12101_09ab1organizational" {
 
 benchmark "hipaa_hitrust_v92_12102_09ab1organizational" {
   title       = "12102.09ab1Organizational.4-09.ab 09.10 Monitoring"
-  description = "The organization shall periodically test its monitoring and detection processes, remediate deficiencies, and improve its processes"
+  description = "The organization shall periodically test its monitoring and detection processes, remediate deficiencies, and improve its processes."
   children = [
     control.compute_vm_log_analytics_agent_installed_windows
   ]
@@ -164,7 +164,7 @@ benchmark "hipaa_hitrust_v92_12102_09ab1organizational" {
 
 benchmark "hipaa_hitrust_v92_1211_09aa3system" {
   title       = "1211.09aa3System.4-09.aa 09.10 Monitoring"
-  description = "The organization verifies every ninety (90) days for each extract of covered information recorded that the data is erased or its use is still required"
+  description = "The organization verifies every ninety (90) days for each extract of covered information recorded that the data is erased or its use is still required."
   children = [
     control.keyvault_logging_enabled,
     control.keyvault_managed_hms_logging_enabled,
@@ -176,7 +176,7 @@ benchmark "hipaa_hitrust_v92_1211_09aa3system" {
 
 benchmark "hipaa_hitrust_v92_1212_09ab1system" {
   title       = "1212.09ab1System.1-09.ab 09.10 Monitoring"
-  description = "All applicable legal requirements related to monitoring authorized access and unauthorized access attempts are met"
+  description = "All applicable legal requirements related to monitoring authorized access and unauthorized access attempts are met."
   children = [
     control.monitor_log_profile_enabled_for_all_categories
   ]
@@ -200,7 +200,7 @@ benchmark "hipaa_hitrust_v92_1213_09ab2system" {
 
 benchmark "hipaa_hitrust_v92_1214_09ab2system" {
   title       = "1214.09ab2System.3456-09.ab 09.10 Monitoring"
-  description = "Monitoring includes privileged operations, authorized access or unauthorized access attempts, including attempts to access deactivated accounts, and system alerts or failures"
+  description = "Monitoring includes privileged operations, authorized access or unauthorized access attempts, including attempts to access deactivated accounts, and system alerts or failures."
   children = [
     control.monitor_log_profile_enabled_for_all_regions
   ]
@@ -212,7 +212,7 @@ benchmark "hipaa_hitrust_v92_1214_09ab2system" {
 
 benchmark "hipaa_hitrust_v92_1215_09ab2system" {
   title       = "1215.09ab2System.7-09.ab 09.10 Monitoring"
-  description = "Auditing and monitoring systems employed by the organization support audit reduction and report generation"
+  description = "Auditing and monitoring systems employed by the organization support audit reduction and report generation."
   children = [
     control.compute_vm_log_analytics_agent_installed
   ]
@@ -224,7 +224,7 @@ benchmark "hipaa_hitrust_v92_1215_09ab2system" {
 
 benchmark "hipaa_hitrust_v92_1216_09ab3system" {
   title       = "1216.09ab3System.12-09.ab 09.10 Monitoring"
-  description = "Automated systems are used to review monitoring activities of security systems (e.g., IPS/IDS) and system records on a daily basis, and identify and document anomalies"
+  description = "Automated systems are used to review monitoring activities of security systems (e.g., IPS/IDS) and system records on a daily basis, and identify and document anomalies."
   children = [
     control.compute_vm_scale_set_log_analytics_agent_installed
   ]
@@ -236,7 +236,7 @@ benchmark "hipaa_hitrust_v92_1216_09ab3system" {
 
 benchmark "hipaa_hitrust_v92_1217_09ab3system" {
   title       = "1217.09ab3System.3-09.ab 09.10 Monitoring"
-  description = "Alerts are generated for technical personnel to analyze and investigate suspicious activity or suspected violations"
+  description = "Alerts are generated for technical personnel to analyze and investigate suspicious activity or suspected violations."
   children = [
     control.compute_vm_log_analytics_agent_installed_windows
   ]
@@ -248,7 +248,7 @@ benchmark "hipaa_hitrust_v92_1217_09ab3system" {
 
 benchmark "hipaa_hitrust_v92_1219_09ab3system" {
   title       = "1219.09ab3System.10-09.ab 09.10 Monitoring"
-  description = "The information system is able to automatically process audit records for events of interest based on selectable criteria"
+  description = "The information system is able to automatically process audit records for events of interest based on selectable criteria."
   children = [
     control.monitor_log_profile_enabled_for_all_categories
   ]
@@ -260,7 +260,7 @@ benchmark "hipaa_hitrust_v92_1219_09ab3system" {
 
 benchmark "hipaa_hitrust_v92_1220_09ab3system" {
   title       = "1220.09ab3System.56-09.ab 09.10 Monitoring"
-  description = "Monitoring includes inbound and outbound communications and file integrity monitoring"
+  description = "Monitoring includes inbound and outbound communications and file integrity monitoring."
   children = [
     control.securitycenter_automatic_provisioning_monitoring_agent_on
   ]
@@ -272,7 +272,7 @@ benchmark "hipaa_hitrust_v92_1220_09ab3system" {
 
 benchmark "hipaa_hitrust_v92_1229_09c1organizational" {
   title       = "1229.09c1Organizational.1-09.c 09.01 Documented Operating Procedures"
-  description = "Separation of duties is used to limit the risk of unauthorized or unintentional modification of information and systems"
+  description = "Separation of duties is used to limit the risk of unauthorized or unintentional modification of information and systems."
   children = [
     control.kubernetes_instance_rbac_enabled
   ]
@@ -284,7 +284,7 @@ benchmark "hipaa_hitrust_v92_1229_09c1organizational" {
 
 benchmark "hipaa_hitrust_v92_1230_09c2organizational" {
   title       = "1230.09c2Organizational.1-09.c 09.01 Documented Operating Procedures"
-  description = "No single person is able to access, modify, or use information systems without authorization or detection"
+  description = "No single person is able to access, modify, or use information systems without authorization or detection."
   children = [
     control.iam_no_custom_role
   ]
@@ -308,7 +308,7 @@ benchmark "hipaa_hitrust_v92_1232_09c3organizational" {
 
 benchmark "hipaa_hitrust_v92_1270_09ad1system" {
   title       = "1270.09ad1System.12-09.ad 09.10 Monitoring"
-  description = "The organization ensures proper logging is enabled in order to audit administrator activities; and reviews system administrator and operator logs on a regular basis"
+  description = "The organization ensures proper logging is enabled in order to audit administrator activities; and reviews system administrator and operator logs on a regular basis."
   children = [
     control.monitor_log_alert_for_administrative_operations
   ]
@@ -320,7 +320,7 @@ benchmark "hipaa_hitrust_v92_1270_09ad1system" {
 
 benchmark "hipaa_hitrust_v92_1271_09ad1system" {
   title       = "1271.09ad1System.1-09.ad 09.10 Monitoring"
-  description = "An intrusion detection system managed outside of the control of system and network administrators is used to monitor system and network administration activities for compliance"
+  description = "An intrusion detection system managed outside of the control of system and network administrators is used to monitor system and network administration activities for compliance."
   children = [
     control.monitor_log_alert_for_administrative_operations
   ]

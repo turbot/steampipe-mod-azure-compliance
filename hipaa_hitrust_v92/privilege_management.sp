@@ -10,7 +10,7 @@ benchmark "hipaa_hitrust_v92_privilege_management" {
 }
 
 benchmark "hipaa_hitrust_v92_1149_01c2system" {
-  title       = "The organization facilitates information sharing by enabling authorized users."
+  title       = "The organization facilitates information sharing by enabling authorized users"
   description = "To determine a business partner's access when discretion is allowed as defined by the organization and by employing manual processes or automated mechanisms to assist users in making information sharing/collaboration decisions."
   children = [
     control.kubernetes_instance_rbac_enabled
@@ -22,7 +22,7 @@ benchmark "hipaa_hitrust_v92_1149_01c2system" {
 }
 
 benchmark "hipaa_hitrust_v92_1154_01c3system" {
-  title       = "Contractors are provided with minimal system and physical access."
+  title       = "Contractors are provided with minimal system and physical access"
   description = "The allocation and use of privileges to information systems and services shall be restricted and controlled. Special attention shall be given to the allocation of privileged access rights, which allow users to override system controls. Only after the organization assesses the contractor's ability to comply with its security requirements and the contractor agrees to comply."
   children = [
     control.iam_subscription_owner_max_3

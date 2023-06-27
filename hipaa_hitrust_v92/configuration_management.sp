@@ -21,11 +21,11 @@ benchmark "hipaa_hitrust_v92_configuration_management" {
 
 benchmark "hipaa_hitrust_v92_0605_10h1system" {
   title       = "0605.10h1System.12-10.h 10.04 Security of System Files"
-  description = "Only authorized administrators are allowed to implement approved upgrades to software, applications, and program libraries, based on business requirements and the security implications of the release"
+  description = "Only authorized administrators are allowed to implement approved upgrades to software, applications, and program libraries, based on business requirements and the security implications of the release."
   children = [
-    control.compute_vm_security_configuration_vulnerabilities_remediated,
     control.compute_vm_meet_security_option_audit_requirement_windows,
-    control.compute_vm_meet_system_audit_policies_requirement_windows
+    control.compute_vm_meet_system_audit_policies_requirement_windows,
+    control.compute_vm_security_configuration_vulnerabilities_remediated
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
@@ -47,7 +47,7 @@ benchmark "hipaa_hitrust_v92_0635_10k1organizational" {
 
 benchmark "hipaa_hitrust_v92_0636_10k2organizational" {
   title       = "0636.10k2Organizational.1-10.k 10.05 Security In Development and Support Processes"
-  description = "The organization formally addresses purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance for  configuration management"
+  description = "The organization formally addresses purpose, scope, roles, responsibilities, management commitment, coordination among organizational entities, and compliance for configuration management."
   children = [
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
@@ -59,7 +59,7 @@ benchmark "hipaa_hitrust_v92_0636_10k2organizational" {
 
 benchmark "hipaa_hitrust_v92_0637_10k2organizational" {
   title       = "0637.10k2Organizational.2-10.k 10.05 Security In Development and Support Processes"
-  description = "The organization has developed, documented, and implemented a configuration management plan for the information system"
+  description = "The organization has developed, documented, and implemented a configuration management plan for the information system."
   children = [
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
@@ -71,7 +71,7 @@ benchmark "hipaa_hitrust_v92_0637_10k2organizational" {
 
 benchmark "hipaa_hitrust_v92_0638_10k2organizational" {
   title       = "0638.10k2Organizational.34569-10.k 10.05 Security In Development and Support Processes"
-  description = "Changes are formally controlled, documented and enforced in order to minimize the corruption of information systems"
+  description = "Changes are formally controlled, documented and enforced in order to minimize the corruption of information systems."
   children = [
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
@@ -83,7 +83,7 @@ benchmark "hipaa_hitrust_v92_0638_10k2organizational" {
 
 benchmark "hipaa_hitrust_v92_0639_10k2organizational" {
   title       = "0639.10k2Organizational.78-10.k 10.05 Security In Development and Support Processes"
-  description = "Installation checklists and vulnerability scans are used to validate the configuration of servers, workstations, devices and appliances and ensure the configuration meets minimum standards"
+  description = "Installation checklists and vulnerability scans are used to validate the configuration of servers, workstations, devices and appliances and ensure the configuration meets minimum standards."
   children = [
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
@@ -107,7 +107,7 @@ benchmark "hipaa_hitrust_v92_0640_10k2organizational" {
 
 benchmark "hipaa_hitrust_v92_0641_10k2organizational" {
   title       = "0641.10k2Organizational.11-10.k 10.05 Security In Development and Support Processes"
-  description = "The organization does not use automated updates on critical systems"
+  description = "The organization does not use automated updates on critical systems."
   children = [
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]
@@ -119,7 +119,7 @@ benchmark "hipaa_hitrust_v92_0641_10k2organizational" {
 
 benchmark "hipaa_hitrust_v92_0642_10k3organizational" {
   title       = "0642.10k3Organizational.12-10.k 10.05 Security In Development and Support Processes"
-  description = "The organization develops, documents, and maintains, under configuration control, a current baseline configuration of the information system, and reviews and updates the baseline as required"
+  description = "The organization develops, documents, and maintains, under configuration control, a current baseline configuration of the information system, and reviews and updates the baseline as required."
   children = [
     control.compute_vm_meet_system_audit_policies_requirement_windows
   ]

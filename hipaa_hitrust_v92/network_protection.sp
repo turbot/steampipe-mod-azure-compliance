@@ -98,7 +98,7 @@ benchmark "hipaa_hitrust_v92_0809_01n2organizational" {
 
 benchmark "hipaa_hitrust_v92_0810_01n2organizational" {
   title       = "0810.01n2Organizational.5-01.n 01.04 Network Access Control"
-  description = "Transmitted information is secured and, at a minimum, encrypted over open, public networks"
+  description = "Transmitted information is secured and, at a minimum, encrypted over open, public networks."
   children = [
     control.appservice_api_app_latest_tls_version,
     control.appservice_api_app_use_https,
@@ -140,7 +140,7 @@ benchmark "hipaa_hitrust_v92_0811_01n2organizational" {
 
 benchmark "hipaa_hitrust_v92_0812_01n2organizational" {
   title       = "0812.01n2Organizational.8-01.n 01.04 Network Access Control"
-  description = "Remote devices establishing a non-remote connection are not allowed to communicate with external (remote) resources"
+  description = "Remote devices establishing a non-remote connection are not allowed to communicate with external (remote) resources."
   children = [
     control.appservice_api_app_latest_tls_version,
     control.appservice_api_app_use_https,
@@ -182,7 +182,7 @@ benchmark "hipaa_hitrust_v92_0814_01n1organizational" {
 
 benchmark "hipaa_hitrust_v92_0835_09n1organizational" {
   title       = "0835.09n1Organizational.1-09.n 09.06 Network Security Management"
-  description = "Agreed services provided by a network service provider/manager are formally managed and monitored to ensure they are provided securely"
+  description = "Agreed services provided by a network service provider/manager are formally managed and monitored to ensure they are provided securely."
   children = [
     control.compute_vm_network_traffic_data_collection_windows_agent_installed,
     control.compute_vm_uses_azure_resource_manager
@@ -195,7 +195,7 @@ benchmark "hipaa_hitrust_v92_0835_09n1organizational" {
 
 benchmark "hipaa_hitrust_v92_0836_09_n2organizational" {
   title       = "0836.09.n2Organizational.1-09.n 09.06 Network Security Management"
-  description = "The organization formally authorizes and documents the characteristics of each connection from an information system to other information systems outside the organization"
+  description = "The organization formally authorizes and documents the characteristics of each connection from an information system to other information systems outside the organization."
   children = [
     control.compute_vm_network_traffic_data_collection_linux_agent_installed
   ]
@@ -207,7 +207,7 @@ benchmark "hipaa_hitrust_v92_0836_09_n2organizational" {
 
 benchmark "hipaa_hitrust_v92_0837_09_n2Organizational" {
   title       = "0837.09.n2Organizational.2-09.n 09.06 Network Security Management"
-  description = "Formal agreements with external information system providers include specific obligations for security and privacy"
+  description = "Formal agreements with external information system providers include specific obligations for security and privacy."
   children = [
     control.network_watcher_enabled
   ]
@@ -233,7 +233,7 @@ benchmark "hipaa_hitrust_v92_0858_09m1organizational" {
 
 benchmark "hipaa_hitrust_v92_0859_09m1organizational" {
   title       = "0859.09m1Organizational.78-09.m 09.06 Network Security Management"
-  description = "The organization ensures the security of information in networks, availability of network services and information services using the network, and the protection of connected services from unauthorized access"
+  description = "The organization ensures the security of information in networks, availability of network services and information services using the network, and the protection of connected services from unauthorized access."
   children = [
     control.compute_vm_adaptive_network_hardening_recommendation_applied
   ]
@@ -245,7 +245,7 @@ benchmark "hipaa_hitrust_v92_0859_09m1organizational" {
 
 benchmark "hipaa_hitrust_v92_0860_09m1organizational" {
   title       = "0860.09m1Organizational.9-09.m 09.06 Network Security Management"
-  description = "The organization formally manages equipment on the network, including equipment in user areas"
+  description = "The organization formally manages equipment on the network, including equipment in user areas."
   children = [
     control.network_security_group_diagnostic_setting_deployed
   ]
@@ -268,7 +268,7 @@ benchmark "hipaa_hitrust_v92_0861_09m2organizational" {
 
 benchmark "hipaa_hitrust_v92_0862_09m2organizational" {
   title       = "0862.09m2Organizational.8-09.m 09.06 Network Security Management"
-  description = "The organization ensures information systems protect the confidentiality and integrity of transmitted information, including during preparation for transmission and during reception"
+  description = "The organization ensures information systems protect the confidentiality and integrity of transmitted information, including during preparation for transmission and during reception."
   children = [
     control.sql_server_use_virtual_service_endpoint
   ]
@@ -292,7 +292,7 @@ benchmark "hipaa_hitrust_v92_0863_09m2organizational" {
 
 benchmark "hipaa_hitrust_v92_0864_09m2organizational" {
   title       = "0864.09m2Organizational.12-09.m 09.06 Network Security Management"
-  description = "Usage restrictions and implementation guidance are formally defined for VoIP, including the authorization and monitoring of the service"
+  description = "Usage restrictions and implementation guidance are formally defined for VoIP, including the authorization and monitoring of the service."
   children = [
     control.cosmosdb_use_virtual_service_endpoint
   ]
@@ -316,7 +316,7 @@ benchmark "hipaa_hitrust_v92_0865_09m2organizational" {
 
 benchmark "hipaa_hitrust_v92_0866_09m3organizational" {
   title       = "0866.09m3Organizational.1516-09.m 09.06 Network Security Management"
-  description = "The organization describes the groups, roles, and responsibilities for the logical management of network components and ensures coordination of and consistency in the elements of the network infrastructure"
+  description = "The organization describes the groups, roles, and responsibilities for the logical management of network components and ensures coordination of and consistency in the elements of the network infrastructure."
   children = [
     control.storage_account_default_network_access_rule_denied
   ]
@@ -326,7 +326,7 @@ benchmark "hipaa_hitrust_v92_0866_09m3organizational" {
 
 benchmark "hipaa_hitrust_v92_0868_09m3organizational" {
   title       = "0868.09m3Organizational.18-09.m 09.06 Network Security Management"
-  description = "The organization builds a firewall configuration to restrict inbound and outbound traffic to that which is necessary for the covered data environment"
+  description = "The organization builds a firewall configuration to restrict inbound and outbound traffic to that which is necessary for the covered data environment."
   children = [
     control.container_registry_use_virtual_service_endpoint
   ]
@@ -338,7 +338,7 @@ benchmark "hipaa_hitrust_v92_0868_09m3organizational" {
 
 benchmark "hipaa_hitrust_v92_0869_09m3organizational" {
   title       = "0869.09m3Organizational.19-09.m 09.06 Network Security Management"
-  description = "The router configuration files are secured and synchronized"
+  description = "The router configuration files are secured and synchronized."
   children = [
     control.container_registry_use_virtual_service_endpoint
   ]
@@ -350,7 +350,7 @@ benchmark "hipaa_hitrust_v92_0869_09m3organizational" {
 
 benchmark "hipaa_hitrust_v92_0870_09m3organizational" {
   title       = "0870.09m3Organizational.20-09.m 09.06 Network Security Management"
-  description = "Access to all proxies is denied, except for those hosts, ports, and services that are explicitly required"
+  description = "Access to all proxies is denied, except for those hosts, ports, and services that are explicitly required."
   children = [
     control.container_registry_use_virtual_service_endpoint
   ]
@@ -362,7 +362,7 @@ benchmark "hipaa_hitrust_v92_0870_09m3organizational" {
 
 benchmark "hipaa_hitrust_v92_0871_09m3organizational" {
   title       = "0871.09m3Organizational.22-09.m 09.07 Network Security Management"
-  description = "Authoritative DNS servers are segregated into internal and external roles"
+  description = "Authoritative DNS servers are segregated into internal and external roles."
   children = [
     control.container_registry_use_virtual_service_endpoint
   ]
@@ -374,7 +374,7 @@ benchmark "hipaa_hitrust_v92_0871_09m3organizational" {
 
 benchmark "hipaa_hitrust_v92_0885_09n2organizational" {
   title       = "0885.09n2Organizational.3-09.n 09.06 Network Security Management"
-  description = "The organization reviews and updates the interconnection security agreements on an ongoing basis verifying enforcement of security requirements"
+  description = "The organization reviews and updates the interconnection security agreements on an ongoing basis verifying enforcement of security requirements."
   children = [
     control.compute_vm_network_traffic_data_collection_linux_agent_installed
   ]
@@ -398,7 +398,7 @@ benchmark "hipaa_hitrust_v92_0886_09n2Organizational" {
 
 benchmark "hipaa_hitrust_v92_0887_09n2organizational" {
   title       = "0887.09n2Organizational.5-09.n 09.06 Network Security Management"
-  description = "The organization requires external/outsourced service providers to identify the specific functions, ports, and protocols used in the provision of the external/outsourced services"
+  description = "The organization requires external/outsourced service providers to identify the specific functions, ports, and protocols used in the provision of the external/outsourced services."
   children = [
     control.compute_vm_network_traffic_data_collection_windows_agent_installed
   ]
@@ -410,7 +410,7 @@ benchmark "hipaa_hitrust_v92_0887_09n2organizational" {
 
 benchmark "hipaa_hitrust_v92_0888_09n2Organizational" {
   title       = "0888.09n2Organizational.6-09.n 09.06 Network Security Management"
-  description = "The contract with the external/outsourced service provider includes the specification that the service provider is responsible for the protection of covered information shared"
+  description = "The contract with the external/outsourced service provider includes the specification that the service provider is responsible for the protection of covered information shared."
   children = [
     control.network_watcher_enabled
   ]
@@ -422,7 +422,7 @@ benchmark "hipaa_hitrust_v92_0888_09n2Organizational" {
 
 benchmark "hipaa_hitrust_v92_0894_01m2organizational" {
   title       = "0894.01m2Organizational.7-01.m 01.04 Network Access Control"
-  description = "Networks are segregated from production-level networks when migrating physical servers, applications or data to virtualized servers"
+  description = "Networks are segregated from production-level networks when migrating physical servers, applications or data to virtualized servers."
   children = [
     control.appservice_web_app_use_virtual_service_endpoint,
     control.compute_vm_attached_with_network,

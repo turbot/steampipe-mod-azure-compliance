@@ -21,7 +21,7 @@ benchmark "hipaa_hitrust_v92_transmission_protection" {
 
 benchmark "hipaa_hitrust_v92_0901_09s1organizational" {
   title       = "0901.09s1Organizational.1-09.s 09.08 Exchange of Information"
-  description = "The organization formally addresses multiple safeguards before allowing the use of information systems for information exchange"
+  description = "The organization formally addresses multiple safeguards before allowing the use of information systems for information exchange."
   children = [
     control.appservice_api_app_cors_no_star
   ]
@@ -33,7 +33,7 @@ benchmark "hipaa_hitrust_v92_0901_09s1organizational" {
 
 benchmark "hipaa_hitrust_v92_0902_09s2organizational" {
   title       = "0902.09s2Organizational.13-09.s 09.08 Exchange of Information"
-  description = "Remote (external) access to the organization's information assets and access to external information assets (for which the organization has no control) is based on clearly defined terms and conditions"
+  description = "Remote (external) access to the organization's information assets and access to external information assets (for which the organization has no control) is based on clearly defined terms and conditions."
   children = [
     control.appservice_function_app_cors_no_star
   ]
@@ -45,7 +45,7 @@ benchmark "hipaa_hitrust_v92_0902_09s2organizational" {
 
 benchmark "hipaa_hitrust_v92_0912_09s1organizational" {
   title       = "0912.09s1Organizational.4-09.s 09.08 Exchange of Information"
-  description = "Cryptography is used to protect the confidentiality and integrity of remote access sessions to the internal network and to external systems"
+  description = "Cryptography is used to protect the confidentiality and integrity of remote access sessions to the internal network and to external systems."
   children = [
     control.appservice_api_app_remote_debugging_disabled
   ]
@@ -57,7 +57,7 @@ benchmark "hipaa_hitrust_v92_0912_09s1organizational" {
 
 benchmark "hipaa_hitrust_v92_0913_09s1organizational" {
   title       = "0913.09s1Organizational.5-09.s 09.08 Exchange of Information"
-  description = "Strong cryptography protocols are used to safeguard covered information during transmission over less trusted / open public networks"
+  description = "Strong cryptography protocols are used to safeguard covered information during transmission over less trusted / open public networks."
   children = [
     control.appservice_function_app_remote_debugging_disabled
   ]
@@ -69,7 +69,7 @@ benchmark "hipaa_hitrust_v92_0913_09s1organizational" {
 
 benchmark "hipaa_hitrust_v92_0915_09s2organizational" {
   title       = "0915.09s2Organizational.2-09.s 09.08 Exchange of Information"
-  description = "The organization limits the use of organization-controlled portable storage media by authorized individuals on external information systems"
+  description = "The organization limits the use of organization-controlled portable storage media by authorized individuals on external information systems."
   children = [
     control.appservice_api_app_client_certificates_on
   ]
@@ -81,7 +81,7 @@ benchmark "hipaa_hitrust_v92_0915_09s2organizational" {
 
 benchmark "hipaa_hitrust_v92_0916_09s2organizational" {
   title       = "0916.09s2Organizational.4-09.s 09.08 Exchange of Information"
-  description = "The information system prohibits remote activation of collaborative computing devices and provides an explicit indication of use to users physically present at the devices"
+  description = "The information system prohibits remote activation of collaborative computing devices and provides an explicit indication of use to users physically present at the devices."
   children = [
     control.appservice_api_app_cors_no_star
   ]
@@ -93,7 +93,7 @@ benchmark "hipaa_hitrust_v92_0916_09s2organizational" {
 
 benchmark "hipaa_hitrust_v92_0943_09y1organizational" {
   title       = "0943.09y1Organizational.1-09.y 09.09 Electronic Commerce Services"
-  description = "The organization verifies every ninety (90) days for each extract of covered information recorded that the data is erased or its use is still required"
+  description = "The organization verifies every ninety (90) days for each extract of covered information recorded that the data is erased or its use is still required."
   children = [
     control.storage_account_secure_transfer_required_enabled,
   ]
@@ -105,7 +105,7 @@ benchmark "hipaa_hitrust_v92_0943_09y1organizational" {
 
 benchmark "hipaa_hitrust_v92_0945_09y1organizational" {
   title       = "0945.09y1Organizational.3-09.y 09.09 Electronic Commerce Services"
-  description = "Protocols used to communicate between all involved parties are secured using cryptographic techniques (e.g., SSL)"
+  description = "Protocols used to communicate between all involved parties are secured using cryptographic techniques (e.g., SSL)."
   children = [
     control.compute_vm_with_no_specified_certificates_in_trusted_root_windows
   ]
@@ -141,7 +141,7 @@ benchmark "hipaa_hitrust_v92_0948_09y2organizational" {
 
 benchmark "hipaa_hitrust_v92_0949_09y2organizational" {
   title       = "0949.09y2Organizational.5-09.y 09.09 Electronic Commerce Services"
-  description = "The protocols used for communications are enhanced to address any new vulnerability, and the updated versions of the protocols are adopted as soon as possible"
+  description = "The protocols used for communications are enhanced to address any new vulnerability, and the updated versions of the protocols are adopted as soon as possible."
   children = [
     control.appservice_api_app_latest_tls_version,
     control.appservice_api_app_use_https,

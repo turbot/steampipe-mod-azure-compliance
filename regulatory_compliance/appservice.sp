@@ -16,16 +16,6 @@ control "appservice_web_app_use_https" {
   })
 }
 
-// control "appservice_web_app_incoming_client_cert_on" {
-//   title       = "Ensure WEB app has 'Client Certificates (Incoming client certificates)' set to 'On'"
-//   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
-//   query       = query.appservice_web_app_incoming_client_cert_on
-
-//   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-//     hipaa_hitrust_v92 = "true"
-//   })
-// }
-
 control "appservice_web_app_remote_debugging_disabled" {
   title       = "Remote debugging should be turned off for Web Applications"
   description = "Remote debugging requires inbound ports to be opened on a web application. Remote debugging should be turned off."

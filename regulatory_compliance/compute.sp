@@ -47,7 +47,7 @@ control "compute_vm_tcp_udp_access_restricted_internet" {
 }
 
 control "compute_vm_jit_access_protected" {
-  title       = "Management ports of virtual machines should be protected with just-in-time network access control."
+  title       = "Management ports of virtual machines should be protected with just-in-time network access control"
   description = "Possible network Just In Time (JIT) access will be monitored by Azure Security Center as recommendations"
   query       = query.compute_vm_jit_access_protected
 
@@ -681,6 +681,16 @@ control "compute_vm_meet_security_options_requirement_windows" {
 control "compute_vm_scale_set_system_updates_installed" {
   title       = "System updates on virtual machine scale sets should be installed"
   description = "Audit whether there are any missing system security updates and critical updates that should be installed to ensure that your Windows and Linux virtual machine scale sets are secure."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_meet_security_options_network_access_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - Network Access'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Network Access' for including access for anonymous users, local accounts, and remote access to the registry. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope. For details, visit https://aka.ms/gcpol."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {

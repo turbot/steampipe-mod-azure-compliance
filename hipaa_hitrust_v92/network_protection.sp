@@ -259,12 +259,11 @@ benchmark "hipaa_hitrust_v92_0861_09m2organizational" {
   title       = "0861.09m2Organizational.67-09.m 09.06 Network Security Management"
   description = "To identify and authenticate devices on local and/or wide area networks, including wireless networks, the information system uses either a (i) shared known information solution or (ii) an organizational authentication solution, the exact selection and strength of which is dependent on the security categorization of the information system."
   children = [
-    control.appservice_web_app_use_virtual_service_endpoint
+    control.appservice_web_app_use_virtual_service_endpoint,
+    control.compute_vm_meet_security_options_network_access_requirement_windows
   ]
 
-  tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/AppService"
-  })
+  tags = local.hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_0862_09m2organizational" {

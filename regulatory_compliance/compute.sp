@@ -608,7 +608,7 @@ control "compute_vm_temp_disks_cache_and_data_flows_encrypted" {
 }
 
 control "compute_vm_container_security_configurations_vulnerabilities_remediated" {
-  title       = "Vulnerabilities in container security configurations should be remediate"
+  title       = "Vulnerabilities in container security configurations should be remediated"
   description = "Audit vulnerabilities in security configuration on machines with Docker installed and display as recommendations in Azure Security Center."
   query       = query.manual_control
 

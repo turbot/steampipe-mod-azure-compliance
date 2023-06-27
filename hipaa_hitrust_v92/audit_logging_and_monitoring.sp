@@ -334,7 +334,7 @@ benchmark "hipaa_hitrust_v92_1277_09c2organizational" {
   title       = "1277.09c2Organizational.4-09.c 09.01 Documented Operating Procedures"
   description = "The initiation of an event is separated from its authorization to reduce the possibility of collusion."
   children = [
-    // control.
+    control.compute_vm_meet_security_options_user_account_control_requirement_windows
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {

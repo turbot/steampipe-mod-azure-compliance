@@ -698,6 +698,16 @@ control "compute_vm_meet_security_options_network_access_requirement_windows" {
   })
 }
 
+control "compute_vm_meet_security_options_user_account_control_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - User Account Control'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - User Account Control' for mode for admins, behavior of elevation prompt, and virtualizing file and registry write failures. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope. For details, visit https://aka.ms/gcpol."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
 query "compute_os_and_data_disk_encrypted_with_cmk" {
   sql = <<-EOQ
     select

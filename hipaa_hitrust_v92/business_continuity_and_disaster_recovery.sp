@@ -15,7 +15,7 @@ benchmark "hipaa_hitrust_v92_business_continuity_and_disaster_recovery" {
     benchmark.hipaa_hitrust_v92_1627_09l3organizational,
     benchmark.hipaa_hitrust_v92_1634_12b1organizational,
     benchmark.hipaa_hitrust_v92_1635_12b1organizational,
-    // benchmark.hipaa_hitrust_v92_1637_12b2organizational,
+    benchmark.hipaa_hitrust_v92_1637_12b2organizational,
     benchmark.hipaa_hitrust_v92_1638_12b2organizational
   ]
 
@@ -167,17 +167,17 @@ benchmark "hipaa_hitrust_v92_1635_12b1organizational" {
   })
 }
 
-// benchmark "hipaa_hitrust_v92_1637_12b2organizational" {
-//   title       = "1637.12b2Organizational.2-12.b 12.01 Information Security Aspects of Business Continuity Management"
-//   description = "Business impact analysis are used to evaluate the consequences of disasters, security failures, loss of service, and service availability."
-//   children = [
-//     control.
-//   ]
+benchmark "hipaa_hitrust_v92_1637_12b2organizational" {
+  title       = "1637.12b2Organizational.2-12.b 12.01 Information Security Aspects of Business Continuity Management"
+  description = "Business impact analysis are used to evaluate the consequences of disasters, security failures, loss of service, and service availability."
+  children = [
+    control.compute_vm_meet_security_options_requirement_windows
+  ]
 
-//   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-//     service = "Azure/Compute"
-//   })
-// }
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Compute"
+  })
+}
 
 benchmark "hipaa_hitrust_v92_1638_12b2organizational" {
   title       = "1638.12b2Organizational.345-12.b 12.01 Information Security Aspects of Business Continuity Management"

@@ -37,12 +37,11 @@ benchmark "hipaa_hitrust_v92_1202_09aa1system" {
   title       = "1202.09aa1System.1-09.aa 09.10 Monitoring"
   description = "A secure audit record is created for all activities on the system (create, read, update, delete) involving covered information"
   children = [
-    control.datalake_store_account_logging_enabled
+    control.datalake_store_account_logging_enabled,
+    control.compute_vm_scale_set_system_updates_installed
   ]
 
-  tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/DataLakeStorage"
-  })
+  tags = hipaa_hitrust_v92_common_tags
 }
 
 benchmark "hipaa_hitrust_v92_1203_09aa1system" {

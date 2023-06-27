@@ -668,6 +668,26 @@ control "compute_vm_guest_configuration_with_no_managed_identity" {
   })
 }
 
+control "compute_vm_meet_security_options_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - Recovery console'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Recovery console' for allowing floppy copy and access to all drives and folders. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_scale_set_system_updates_installed" {
+  title       = "System updates on virtual machine scale sets should be installed"
+  description = "Audit whether there are any missing system security updates and critical updates that should be installed to ensure that your Windows and Linux virtual machine scale sets are secure."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
 query "compute_os_and_data_disk_encrypted_with_cmk" {
   sql = <<-EOQ
     select

@@ -10,7 +10,8 @@ benchmark "pci_dss_v321_requirement_7" {
 }
 
 benchmark "pci_dss_v321_requirement_7_1" {
-  title = "Limit access to system components and cardholder data to only those individuals whose job requires such access"
+  title       = "PCI DSS requirement 7.1"
+  description = "Limit access to system components and cardholder data to only those individuals whose job requires such access."
   children = [
     benchmark.pci_dss_v321_requirement_7_1_1,
     benchmark.pci_dss_v321_requirement_7_1_2,
@@ -21,7 +22,8 @@ benchmark "pci_dss_v321_requirement_7_1" {
 }
 
 benchmark "pci_dss_v321_requirement_7_1_1" {
-  title = "Define access needs for each role, including: - System components and data resources that each role needs to access for their job function - Level of privilege required (for example, user, administrator, etc.) for accessing resources"
+  title       = "PCI DSS requirement 7.1.1"
+  description = "Define access needs for each role, including: - System components and data resources that each role needs to access for their job function - Level of privilege required (for example, user, administrator, etc.) for accessing resources."
   children = [
     control.iam_subscription_owner_max_3,
     control.iam_subscription_owner_more_than_1
@@ -33,7 +35,8 @@ benchmark "pci_dss_v321_requirement_7_1_1" {
 }
 
 benchmark "pci_dss_v321_requirement_7_1_2" {
-  title = "Restrict access to privileged user IDs to least privileges necessary to perform job responsibilities"
+  title       = "PCI DSS requirement 7.1.2"
+  description = "Restrict access to privileged user IDs to least privileges necessary to perform job responsibilities."
   children = [
     control.iam_subscription_owner_max_3,
     control.iam_subscription_owner_more_than_1
@@ -45,7 +48,8 @@ benchmark "pci_dss_v321_requirement_7_1_2" {
 }
 
 benchmark "pci_dss_v321_requirement_7_1_3" {
-  title = "Assign access based on individual personnel's job classification and function"
+  title       = "PCI DSS requirement 7.1.3"
+  description = "Assign access based on individual personnel's job classification and function."
   children = [
     control.iam_subscription_owner_max_3,
     control.iam_subscription_owner_more_than_1
@@ -57,7 +61,8 @@ benchmark "pci_dss_v321_requirement_7_1_3" {
 }
 
 benchmark "pci_dss_v321_requirement_7_2" {
-  title = "Establish an access control system(s) for systems components that restricts access based on a user's need to know, and is set to “deny all” unless specifically allowed"
+  title       = "PCI DSS requirement 7.2"
+  description = "Establish an access control system(s) for systems components that restricts access based on a user's need to know, and is set to “deny all” unless specifically allowed."
   children = [
     benchmark.pci_dss_v321_requirement_7_2_1
   ]
@@ -66,7 +71,8 @@ benchmark "pci_dss_v321_requirement_7_2" {
 }
 
 benchmark "pci_dss_v321_requirement_7_2_1" {
-  title = "Coverage of all system components"
+  title       = "PCI DSS requirement 7.2.1"
+  description = "Coverage of all system components."
   children = [
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,

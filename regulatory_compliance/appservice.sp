@@ -71,7 +71,7 @@ control "appservice_web_app_latest_tls_version" {
 }
 
 control "appservice_function_app_only_https_accessible" {
-  title       = "Function App should only be accessible over HTTPS"
+  title       = "Function apps should only be accessible over HTTPS"
   description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
   query       = query.appservice_function_app_only_https_accessible
 
@@ -93,7 +93,7 @@ control "appservice_web_app_use_virtual_service_endpoint" {
 }
 
 control "appservice_api_app_use_https" {
-  title       = "API App should only be accessible over HTTPS"
+  title       = "App Service apps should only be accessible over HTTPS"
   description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
   query       = query.appservice_api_app_use_https
 

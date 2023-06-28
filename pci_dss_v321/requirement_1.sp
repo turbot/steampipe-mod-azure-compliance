@@ -9,7 +9,8 @@ benchmark "pci_dss_v321_requirement_1" {
 }
 
 benchmark "pci_dss_v321_requirement_1_3" {
-  title = "Prohibit direct public access between the Internet and any system component in the cardholder data environment"
+  title       = "PCI DSS requirement 1.3"
+  description = "Prohibit direct public access between the Internet and any system component in the cardholder data environment."
   children = [
     benchmark.pci_dss_v321_requirement_1_3_2,
     benchmark.pci_dss_v321_requirement_1_3_4
@@ -19,7 +20,8 @@ benchmark "pci_dss_v321_requirement_1_3" {
 }
 
 benchmark "pci_dss_v321_requirement_1_3_2" {
-  title = "Limit inbound Internet traffic to IP addresses within the DMZ"
+  title       = "PCI DSS requirement 1.3.2"
+  description = "Limit inbound Internet traffic to IP addresses within the DMZ."
   children = [
     control.compute_vm_remote_access_restricted_all_ports,
     control.storage_account_default_network_access_rule_denied
@@ -29,9 +31,9 @@ benchmark "pci_dss_v321_requirement_1_3_2" {
 }
 
 benchmark "pci_dss_v321_requirement_1_3_4" {
-  title = "Do not allow unauthorized outbound traffic from the cardholder data environment to the Internet"
+  title       = "PCI DSS requirement 1.3.4"
+  description = "Do not allow unauthorized outbound traffic from the cardholder data environment to the Internet."
   children = [
-    control.automation_account_variable_encryption_enabled,
     control.compute_vm_remote_access_restricted_all_ports,
     control.storage_account_default_network_access_rule_denied
   ]

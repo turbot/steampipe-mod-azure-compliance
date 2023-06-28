@@ -95,7 +95,7 @@ benchmark "hipaa_hitrust_v92_0943_09y1organizational" {
   title       = "0943.09y1Organizational.1-09.y 09.09 Electronic Commerce Services"
   description = "The organization verifies every ninety (90) days for each extract of covered information recorded that the data is erased or its use is still required."
   children = [
-    control.storage_account_secure_transfer_required_enabled,
+    control.storage_account_secure_transfer_required_enabled
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {

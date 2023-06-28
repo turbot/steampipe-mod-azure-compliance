@@ -290,7 +290,7 @@ benchmark "hipaa_hitrust_v92_1230_09c2organizational" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/ActiveDirectory"
+    service = "Azure/IAM"
   })
 }
 
@@ -338,6 +338,6 @@ benchmark "hipaa_hitrust_v92_1277_09c2organizational" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/ActiveDirectory"
+    service = "Azure/Compute"
   })
 }

@@ -321,7 +321,9 @@ benchmark "hipaa_hitrust_v92_0866_09m3organizational" {
     control.storage_account_default_network_access_rule_denied
   ]
 
-  tags = local.hipaa_hitrust_v92_common_tags
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Storage"
+  })
 }
 
 benchmark "hipaa_hitrust_v92_0868_09m3organizational" {

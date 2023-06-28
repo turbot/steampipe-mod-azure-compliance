@@ -10,6 +10,7 @@ control "iam_subscription_owner_more_than_1" {
   query       = query.iam_subscription_owner_more_than_1
 
   tags = merge(local.regulatory_compliance_iam_common_tags, {
+    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -32,6 +33,7 @@ control "iam_deprecated_account_with_owner_roles" {
   query       = query.iam_deprecated_account_with_owner_roles
 
   tags = merge(local.regulatory_compliance_iam_common_tags, {
+    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })

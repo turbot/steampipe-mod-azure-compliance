@@ -52,6 +52,7 @@ control "compute_vm_jit_access_protected" {
   query       = query.compute_vm_jit_access_protected
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -62,8 +63,8 @@ control "compute_vm_log_analytics_agent_installed" {
   query       = query.compute_vm_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -303,8 +304,8 @@ control "compute_vm_vulnerability_assessment_solution_enabled" {
   query       = query.compute_vm_vulnerability_assessment_solution_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
 }
@@ -701,6 +702,16 @@ control "compute_vm_meet_security_options_network_access_requirement_windows" {
 control "compute_vm_meet_security_options_user_account_control_requirement_windows" {
   title       = "Windows machines should meet requirements for 'Security Options - User Account Control'"
   description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - User Account Control' for mode for admins, behavior of elevation prompt, and virtualizing file and registry write failures. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope. For details, visit https://aka.ms/gcpol."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_azure_backup_enabled" {
+  title       = "Azure Backup should be enabled for Virtual Machines"
+  description = "Ensure protection of your Azure Virtual Machines by enabling Azure Backup. Azure Backup is a secure and cost effective data protection solution for Azure."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {

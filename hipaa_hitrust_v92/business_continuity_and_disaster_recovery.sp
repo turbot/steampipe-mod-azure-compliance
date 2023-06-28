@@ -6,11 +6,12 @@ benchmark "hipaa_hitrust_v92_business_continuity_and_disaster_recovery" {
     benchmark.hipaa_hitrust_v92_1617_09l1organizational,
     benchmark.hipaa_hitrust_v92_1618_09l1organizational,
     benchmark.hipaa_hitrust_v92_1619_09l1organizational,
-    // benchmark.hipaa_hitrust_v92_1620_09l1organizational,
+    benchmark.hipaa_hitrust_v92_1620_09l1organizational,
     benchmark.hipaa_hitrust_v92_1621_09l2organizational,
     benchmark.hipaa_hitrust_v92_1622_09l2organizational,
     benchmark.hipaa_hitrust_v92_1623_09l2organizational,
     benchmark.hipaa_hitrust_v92_1624_09l3organizational,
+    benchmark.hipaa_hitrust_v92_1625_09l3organizational,
     benchmark.hipaa_hitrust_v92_1626_09l3organizational,
     benchmark.hipaa_hitrust_v92_1627_09l3organizational,
     benchmark.hipaa_hitrust_v92_1634_12b1organizational,
@@ -50,7 +51,7 @@ benchmark "hipaa_hitrust_v92_1618_09l1organizational" {
   title       = "1618.09l1Organizational.45-09.l 09.05 Information Back-Up"
   description = "The backups are stored in a physically secure remote location, at a sufficient distance to make them reasonably immune from damage to data at the primary site, and reasonable physical and environmental controls are in place to ensure their protection at the remote location."
   children = [
-    control.postgres_db_server_geo_redundant_backup_enabled,
+    control.postgres_db_server_geo_redundant_backup_enabled
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
@@ -62,11 +63,23 @@ benchmark "hipaa_hitrust_v92_1619_09l1organizational" {
   title       = "1619.09l1Organizational.7-09.l 09.05 Information Back-Up"
   description = "Inventory records for the backup copies, including content and current location, are maintained."
   children = [
-    control.mariadb_server_geo_redundant_backup_enabled,
+    control.mariadb_server_geo_redundant_backup_enabled
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
     service = "Azure/MariaDB"
+  })
+}
+
+benchmark "hipaa_hitrust_v92_1620_09l1organizational" {
+  title       = "1620.09l1Organizational.8-09.l 09.05 Information Back-Up"
+  description = "When the backup service is delivered by the third party, the service level agreement includes the detailed protections to control confidentiality, integrity and availability of the backup information."
+  children = [
+    control.compute_vm_azure_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Compute"
   })
 }
 
@@ -118,6 +131,18 @@ benchmark "hipaa_hitrust_v92_1624_09l3organizational" {
   })
 }
 
+benchmark "hipaa_hitrust_v92_1625_09l3organizational" {
+  title       = "1625.09l3Organizational.34-09.l 09.05 Information Back-Up"
+  description = "Three (3) generations of backups (full plus all related incremental or differential backups) are stored off-site, and both on-site and off-site backups are logged with name, date, time and action."
+  children = [
+    control.compute_vm_azure_backup_enabled
+  ]
+
+  tags = merge(local.hipaa_hitrust_v92_common_tags, {
+    service = "Azure/Compute"
+  })
+}
+
 benchmark "hipaa_hitrust_v92_1626_09l3organizational" {
   title       = "1626.09l3Organizational.5-09.l 09.05 Information Back-Up"
   description = "The organization ensures a current, retrievable copy of covered information is available before movement of servers."
@@ -138,7 +163,7 @@ benchmark "hipaa_hitrust_v92_1627_09l3organizational" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/MySQL"
+    service = "Azure/MariaDB"
   })
 }
 

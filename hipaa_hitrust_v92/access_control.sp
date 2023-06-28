@@ -161,7 +161,7 @@ benchmark "hipaa_hitrust_v92_1125_01q2system" {
   title       = "1125.01q2System.1-01.q 01.05 Operating System Access Control"
   description = "Multi-factor authentication methods are used in accordance with organizational policy, (e.g., for remote network access)."
   children = [
-    control.compute_vm_administrators_group_with_specified_members_windows,
+    control.compute_vm_administrators_group_with_specified_members_windows
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {

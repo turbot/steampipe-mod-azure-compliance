@@ -20,7 +20,7 @@ _Bug fixes_
 
 - Fixed the `cis_v130_4_1_2`, `cis_v140_4_1_2`, `cis_v150_4_1_5`, `cis_v200_4_1_5` controls to correctly use `sql_database_transparent_data_encryption_enabled` query instead of `sql_server_transparent_data_encryption_enabled` query. ([#178](https://github.com/turbot/steampipe-mod-azure-compliance/pull/178))
 
-## v0.27 [2023-07-21]
+## v0.27 [2023-06-21]
 
 _Enhancements_
 

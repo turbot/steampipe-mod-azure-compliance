@@ -1,3 +1,19 @@
+## v0.28 [2023-06-29]
+
+- The `HIPAA HITRUST v9.2` benchmark has been updated to better align with the matching [HIPAA HITRUST 9.2 Regulatory Compliance](https://learn.microsoft.com/en-us/azure/governance/policy/samples/hipaa-hitrust-9-2). The following updates have been made to the benchmark: ([#175](https://github.com/turbot/steampipe-mod-azure-compliance/pull/175))
+  - The following controls have been added across the benchmarks:
+    - `appservice_api_app_client_certificates_on`
+    - `appservice_web_app_client_certificates_on`
+    - `sql_database_transparent_data_encryption_enabled`
+  - The following controls are no longer included in the benchmarks:
+    - `appservice_web_app_cors_no_star`
+    - `appservice_web_app_incoming_client_cert_on`
+    - `appservice_web_app_latest_tls_version`
+    - `compute_os_and_data_disk_encrypted_with_cmk`
+    - `compute_unattached_disk_encrypted_with_cmk`
+    - `iam_no_custom_subscription_owner_roles_created`
+    - `sql_server_transparent_data_encryption_enabled`
+
 ## v0.27 [2023-07-21]
 
 _Enhancements_

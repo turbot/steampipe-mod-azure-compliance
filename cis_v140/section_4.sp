@@ -104,7 +104,7 @@ control "cis_v140_4_1_1" {
 
 control "cis_v140_4_1_2" {
   title         = "4.1.2 Ensure that 'Data encryption' is set to 'On' on a SQL Database"
-  query         = query.sql_server_transparent_data_encryption_enabled
+  query         = query.sql_database_transparent_data_encryption_enabled
   documentation = file("./cis_v140/docs/cis_v140_4_1_2.md")
 
   tags = merge(local.cis_v140_4_1_common_tags, {

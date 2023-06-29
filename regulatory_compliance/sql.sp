@@ -21,7 +21,7 @@ control "sql_server_transparent_data_encryption_enabled" {
   query       = query.sql_server_transparent_data_encryption_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -91,12 +91,13 @@ control "sql_database_server_azure_defender_enabled" {
 }
 
 control "sql_database_transparent_data_encryption_enabled" {
-  title       = "Azure Defender for Azure SQL Database servers should be enabled"
+  title       = "Transparent Data Encryption on SQL databases should be enabled"
   description = "Transparent data encryption should be enabled to protect data-at-rest and meet compliance requirements."
   query       = query.sql_database_transparent_data_encryption_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    pci_dss_v321 = "true"
+    hipaa_hitrust_v92 = "true"
+    pci_dss_v321      = "true"
   })
 }
 

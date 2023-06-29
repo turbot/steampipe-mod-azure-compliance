@@ -5,7 +5,7 @@ locals {
 }
 
 control "keyvault_purge_protection_enabled" {
-  title       = "Key vaults should have purge protection enabled"
+  title       = "Key vaults should have deletion protection enabled"
   description = "Malicious deletion of a key vault can lead to permanent data loss. A malicious insider in your organization can potentially delete and purge key vaults. Purge protection protects you from insider attacks by enforcing a mandatory retention period for soft deleted key vaults. No one inside your organization or Microsoft will be able to purge your key vaults during the soft delete retention period."
   query       = query.keyvault_purge_protection_enabled
 

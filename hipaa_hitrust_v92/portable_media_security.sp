@@ -14,7 +14,7 @@ benchmark "hipaa_hitrust_v92_0301_09o1organizational" {
   title       = "0301.09o1Organizational.123-09.o 09.07 Media Handling"
   description = "The organization, based on the data classification level, registers media (including laptops) prior to use, places reasonable restrictions on how such media be used, and provides an appropriate level of physical and logical protection (including encryption) for media containing covered information until properly destroyed or sanitized."
   children = [
-    control.sql_server_transparent_data_encryption_enabled
+    control.sql_database_transparent_data_encryption_enabled
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {

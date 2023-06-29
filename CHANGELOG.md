@@ -1,5 +1,7 @@
 ## v0.28 [2023-06-29]
 
+_Breaking changes_
+
 - The `HIPAA HITRUST v9.2` benchmark has been updated to better align with the matching [HIPAA HITRUST 9.2 Regulatory Compliance](https://learn.microsoft.com/en-us/azure/governance/policy/samples/hipaa-hitrust-9-2). The following updates have been made to the benchmark: ([#175](https://github.com/turbot/steampipe-mod-azure-compliance/pull/175))
   - The following controls have been added across the benchmarks:
     - `appservice_api_app_client_certificates_on`

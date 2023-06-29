@@ -27,18 +27,8 @@ control "iam_subscription_owner_max_3" {
   })
 }
 
-control "iam_no_custom_subscription_owner_roles_created" {
-  title       = "Custom subscription owner roles should not exist"
-  description = "This policy ensures that no custom subscription owner roles exist."
-  query       = query.iam_no_custom_subscription_owner_roles_created
-
-  tags = merge(local.regulatory_compliance_iam_common_tags, {
-    hipaa_hitrust_v92 = "true"
-  })
-}
-
 control "iam_deprecated_account_with_owner_roles" {
-  title       = "Deprecated accounts with owner permissions should be removed from your subscription"
+  title       = "Blocked accounts with owner permissions on Azure resources should be removed"
   description = "Deprecated accounts with owner permissions should be removed from your subscription. Deprecated accounts are accounts that have been blocked from signing in."
   query       = query.iam_deprecated_account_with_owner_roles
 
@@ -50,7 +40,7 @@ control "iam_deprecated_account_with_owner_roles" {
 }
 
 control "iam_no_custom_role" {
-  title       = "Audit usage of custom RBAC rules"
+  title       = "Audit usage of custom RBAC roles"
   description = "Audit built-in roles such as 'Owner, Contributor, Reader' instead of custom RBAC roles, which are error prone. Using custom roles is treated as an exception and requires a rigorous review and threat modeling."
   query       = query.iam_no_custom_role
 
@@ -62,7 +52,7 @@ control "iam_no_custom_role" {
 }
 
 control "iam_external_user_with_owner_role" {
-  title       = "External accounts with owner permissions should be removed from your subscription"
+  title       = "Guest accounts with owner permissions on Azure resources should be removed"
   description = "External accounts with owner permissions should be removed from your subscription in order to prevent unmonitored access."
   query       = query.iam_external_user_with_owner_role
 
@@ -110,22 +100,34 @@ control "iam_external_user_with_write_permission" {
 }
 
 control "iam_user_with_write_permission_on_subscription_mfa_enabled" {
-  title       = "MFA should be enabled for accounts with write permissions on your subscription"
+  title       = "Accounts with write permissions on Azure resources should be MFA enabled"
   description = "Multi-Factor Authentication (MFA) should be enabled for all subscription accounts with write privileges to prevent a breach of accounts or resources."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    pci_dss_v321 = "true"
+    hipaa_hitrust_v92 = "true"
+    pci_dss_v321      = "true"
+  })
+}
+
+control "iam_user_with_read_permission_on_subscription_mfa_enabled" {
+  title       = "Accounts with read permissions on Azure resources should be MFA enabled"
+  description = "Multi-Factor Authentication (MFA) should be enabled for all subscription accounts with read privileges to prevent a breach of accounts or resources."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
+    hipaa_hitrust_v92 = "true"
   })
 }
 
 control "iam_user_with_owner_permission_on_subscription_mfa_enabled" {
-  title       = "MFA should be enabled on accounts with owner permissions on your subscription"
+  title       = "Accounts with owner permissions on Azure resources should be MFA enabled"
   description = "Multi-Factor Authentication (MFA) should be enabled for all subscription accounts with owner permissions to prevent a breach of accounts or resources."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    pci_dss_v321 = "true"
+    hipaa_hitrust_v92 = "true"
+    pci_dss_v321      = "true"
   })
 }
 

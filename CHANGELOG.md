@@ -1,3 +1,9 @@
+## v0.29 [2023-07-07]
+
+_Enhancements_
+
+- Updated the titles and descriptions of several `PCI DSS v3.2.1` sub-benchmarks to better align with the matching [PCI DSS 3.2.1 built-in Regulatory Compliance](https://learn.microsoft.com/en-us/azure/governance/policy/samples/pci-dss-3-2-1). ([#176](https://github.com/turbot/steampipe-mod-azure-compliance/pull/176))
+
 ## v0.28 [2023-06-29]
 
 _Breaking changes_

@@ -35,8 +35,8 @@ control "monitor_log_profile_enabled_for_all_regions" {
 }
 
 control "audit_diagnostic_setting" {
-  title       = "Audit diagnostic setting"
-  description = "Audit diagnostic setting for selected resource types."
+  title       = "Audit diagnostic setting for selected resource types"
+  description = "Audit diagnostic setting for selected resource types. Be sure to select only resource types which support diagnostics settings."
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {

@@ -4,26 +4,6 @@ locals {
   }
 }
 
-control "compute_os_and_data_disk_encrypted_with_cmk" {
-  title       = "Disk encryption should be applied on virtual machines"
-  description = "Virtual machines without an enabled disk encryption will be monitored by Azure Security Center as recommendations."
-  query       = query.compute_os_and_data_disk_encrypted_with_cmk
-
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
-  })
-}
-
-control "compute_unattached_disk_encrypted_with_cmk" {
-  title       = "Unattached disks should be encrypted"
-  description = "This policy audits any unattached disk without encryption enabled."
-  query       = query.compute_unattached_disk_encrypted_with_cmk
-
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
-  })
-}
-
 control "compute_vm_attached_with_network" {
   title       = "Virtual machines should be connected to an approved virtual network"
   description = "This policy audits any virtual machine connected to a virtual network that is not approved."
@@ -67,7 +47,7 @@ control "compute_vm_tcp_udp_access_restricted_internet" {
 }
 
 control "compute_vm_jit_access_protected" {
-  title       = "Management ports of virtual machines should be protected with just-in-time network access control."
+  title       = "Management ports of virtual machines should be protected with just-in-time network access control"
   description = "Possible network Just In Time (JIT) access will be monitored by Azure Security Center as recommendations"
   query       = query.compute_vm_jit_access_protected
 
@@ -78,13 +58,13 @@ control "compute_vm_jit_access_protected" {
 }
 
 control "compute_vm_log_analytics_agent_installed" {
-  title       = "The Log Analytics agent should be installed on virtual machines"
-  description = "This policy audits any Windows/Linux virtual machines if the Log Analytics agent is not installed."
+  title       = "Virtual machines should have the Log Analytics extension installed"
+  description = "This policy audits any Windows/Linux virtual machines if the Log Analytics extension is not installed."
   query       = query.compute_vm_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -109,8 +89,8 @@ control "compute_vm_malware_agent_installed" {
 }
 
 control "compute_vm_scale_set_log_analytics_agent_installed" {
-  title       = "The Log Analytics agent should be installed on Virtual Machine Scale Sets"
-  description = "This policy audits any Windows/Linux Virtual Machine Scale Sets if the Log Analytics agent is not installed."
+  title       = "The Log Analytics extension should be installed on Virtual Machine Scale Sets"
+  description = "This policy audits any Windows/Linux Virtual Machine Scale Sets if the Log Analytics extension is not installed."
   query       = query.compute_vm_scale_set_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -198,8 +178,8 @@ control "compute_vm_security_configuration_vulnerabilities_remediated" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
 }
@@ -277,6 +257,16 @@ control "compute_vm_meet_security_option_requirement_windows" {
   })
 }
 
+control "compute_vm_meet_security_option_audit_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - Audit'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Audit' for forcing audit policy subcategory and shutting down if unable to log security audits. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
+  query       = query.manual_control_hipaa
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
 control "compute_vm_with_no_specified_certificates_in_trusted_root_windows" {
   title       = "Audit Windows machines that do not contain the specified certificates in Trusted Root"
   description = "Requires that prerequisites are deployed to the policy assignment scope. Machines are non-compliant if the machine Trusted Root certificate store does not contain one or more of the certificates listed by the policy parameter."
@@ -314,8 +304,8 @@ control "compute_vm_vulnerability_assessment_solution_enabled" {
   query       = query.compute_vm_vulnerability_assessment_solution_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
 }
@@ -571,6 +561,7 @@ control "compute_vm_scale_set_endpoint_protection_solution_installed" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -607,21 +598,23 @@ control "compute_vm_password_file_permissions_0644_linux" {
 
 control "compute_vm_temp_disks_cache_and_data_flows_encrypted" {
   title       = "Virtual machines should encrypt temp disks, caches, and data flows between Compute and Storage resources"
-  description = "Virtual machines without an enabled disk encryption will be monitored by Azure Security Center as recommendations."
+  description = "By default, a virtual machine's OS and data disks are encrypted-at-rest using platform-managed keys. Temp disks, data caches and data flowing between compute and storage aren't encrypted. Disregard this recommendation if: 1. using encryption-at-host, or 2. server-side encryption on Managed Disks meets your security requirements. Learn more in: Server-side encryption of Azure Disk Storage: https://aka.ms/disksse, Different disk encryption offerings: https://aka.ms/diskencryptioncomparison"
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
 }
 
 control "compute_vm_container_security_configurations_vulnerabilities_remediated" {
-  title       = "Vulnerabilities in container security configurations should be remediate"
+  title       = "Vulnerabilities in container security configurations should be remediated"
   description = "Audit vulnerabilities in security configuration on machines with Docker installed and display as recommendations in Azure Security Center."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -673,6 +666,56 @@ control "compute_vm_guest_configuration_with_no_managed_identity" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     pci_dss_v321 = "true"
+  })
+}
+
+control "compute_vm_meet_security_options_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - Recovery console'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Recovery console' for allowing floppy copy and access to all drives and folders. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_scale_set_system_updates_installed" {
+  title       = "System updates on virtual machine scale sets should be installed"
+  description = "Audit whether there are any missing system security updates and critical updates that should be installed to ensure that your Windows and Linux virtual machine scale sets are secure."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_meet_security_options_network_access_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - Network Access'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Network Access' for including access for anonymous users, local accounts, and remote access to the registry. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope. For details, visit https://aka.ms/gcpol."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_meet_security_options_user_account_control_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - User Account Control'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - User Account Control' for mode for admins, behavior of elevation prompt, and virtualizing file and registry write failures. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope. For details, visit https://aka.ms/gcpol."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_azure_backup_enabled" {
+  title       = "Azure Backup should be enabled for Virtual Machines"
+  description = "Ensure protection of your Azure Virtual Machines by enabling Azure Backup. Azure Backup is a secure and cost effective data protection solution for Azure."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
   })
 }
 

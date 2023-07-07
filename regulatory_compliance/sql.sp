@@ -21,7 +21,7 @@ control "sql_server_transparent_data_encryption_enabled" {
   query       = query.sql_server_transparent_data_encryption_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -96,7 +96,8 @@ control "sql_database_transparent_data_encryption_enabled" {
   query       = query.sql_database_transparent_data_encryption_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    pci_dss_v321 = "true"
+    hipaa_hitrust_v92 = "true"
+    pci_dss_v321      = "true"
   })
 }
 

@@ -9,7 +9,7 @@ benchmark "pci_dss_v321_requirement_11" {
 }
 
 benchmark "pci_dss_v321_requirement_11_2" {
-  title = "PCI DSS requirement 11.2"
+  title       = "PCI DSS requirement 11.2"
   description = "Run internal and external network vulnerability scans at least quarterly and after any significant change in the network. Address vulnerabilities and perform rescans as needed, until passing scans are achieved. After passing a scan for initial PCI DSS compliance, an entity must, in subsequent years, complete four consecutive quarters of passing scans. Quarterly external scans must be performed by an Approved Scanning Vendor (ASV). Scans conducted after network changes and internal scans may be performed by internal staff."
   children = [
     benchmark.pci_dss_v321_requirement_11_2_1

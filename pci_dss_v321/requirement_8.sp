@@ -42,8 +42,8 @@ benchmark "pci_dss_v321_requirement_8_1_3" {
   title       = "PCI DSS requirement 8.1.3"
   description = "Immediately revoke access for any terminated users."
   children = [
-    control.iam_deprecated_account_with_owner_roles,
-    control.iam_deprecated_account
+    control.iam_deprecated_account,
+    control.iam_deprecated_account_with_owner_roles
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {

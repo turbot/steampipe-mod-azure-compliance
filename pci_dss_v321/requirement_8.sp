@@ -42,8 +42,8 @@ benchmark "pci_dss_v321_requirement_8_1_3" {
   title       = "PCI DSS requirement 8.1.3"
   description = "Immediately revoke access for any terminated users."
   children = [
-    control.iam_deprecated_account,
-    control.iam_deprecated_account_with_owner_roles
+    control.iam_deprecated_account_with_owner_roles,
+    control.iam_deprecated_account
   ]
 
   tags = merge(local.pci_dss_v321_common_tags, {
@@ -55,8 +55,8 @@ benchmark "pci_dss_v321_requirement_8_1_5" {
   title       = "PCI DSS requirement 8.1.5"
   description = "Manage IDs used by thid parties to access, support, or maintain system components via remote access. Remote access are as follows: - Enabled only during the time period needed and disabled when not in use. - Monitored when in use."
   children = [
-    control.iam_deprecated_account,
     control.iam_deprecated_account_with_owner_roles,
+    control.iam_deprecated_account,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
     control.iam_external_user_with_write_permission

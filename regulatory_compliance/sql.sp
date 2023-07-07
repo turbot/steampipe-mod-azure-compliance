@@ -91,7 +91,7 @@ control "sql_database_server_azure_defender_enabled" {
 }
 
 control "sql_database_transparent_data_encryption_enabled" {
-  title       = "Transparent Data Encryption on SQL databases should be enabled"
+  title       = "SQL databases transparent data encryption should be enabled"
   description = "Transparent data encryption should be enabled to protect data-at-rest and meet compliance requirements."
   query       = query.sql_database_transparent_data_encryption_enabled
 

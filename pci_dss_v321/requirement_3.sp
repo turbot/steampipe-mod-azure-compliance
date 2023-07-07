@@ -10,8 +10,8 @@ benchmark "pci_dss_v321_requirement_3" {
 }
 
 benchmark "pci_dss_v321_requirement_3_2" {
-  title       = "Do not store sensitive authentication data after authorization (even if it is encrypted)"
-  description = "Render all sensitive authentication data unrecoverable upon completion of the authorization process. Issuers and related entities may store sensitive authentication data if there is a business justification, and the data is stored securely."
+  title       = "PCI DSS requirement 3.2"
+  description = "Do not store sensitive authentication data after authorization (even if it is encrypted). Render all sensitive authentication data unrecoverable upon completion of the authorization process. Issuers and related entities may store sensitive authentication data if there is a business justification, and the data is stored securely."
   children = [
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
@@ -26,11 +26,12 @@ benchmark "pci_dss_v321_requirement_3_2" {
 }
 
 benchmark "pci_dss_v321_requirement_3_4" {
-  title       = "Render PAN unreadable anywhere it is stored – including on portable digital media, backup media, in logs, and data received from or stored by wireless networks"
-  description = "Technology solutions for this requirement may include strong one-way hash functions of the entire PAN, truncation, index tokens with securely stored pads, or strong cryptography."
+  title       = "PCI DSS requirement 3.4"
+  description = "Render PAN unreadable anywhere it is stored - including on portable digital media, backup media, in logs, and data received from or stored by wireless networks. Technology solutions for this requirement may include strong one-way hash functions of the entire PAN, truncation, index tokens with securely stored pads, or strong cryptography."
   children = [
+    control.appservice_api_app_use_https,
     control.appservice_function_app_only_https_accessible,
-    control.appservice_web_app_use_https,
+    control.automation_account_variable_encryption_enabled,
     control.azure_redis_cache_ssl_enabled,
     control.compute_vm_temp_disks_cache_and_data_flows_encrypted,
     control.servicefabric_cluster_protection_level_as_encrypt_and_sign,

@@ -9,7 +9,8 @@ benchmark "pci_dss_v321_requirement_10" {
 }
 
 benchmark "pci_dss_v321_requirement_10_5" {
-  title = "Secure audit trails so they cannot be altered"
+  title       = "PCI DSS requirement 10.5"
+  description = "Secure audit trails so they cannot be altered."
   children = [
     benchmark.pci_dss_v321_requirement_10_5_4
   ]
@@ -18,7 +19,8 @@ benchmark "pci_dss_v321_requirement_10_5" {
 }
 
 benchmark "pci_dss_v321_requirement_10_5_4" {
-  title = "Write logs for external-facing technologies onto a secure, centralized, internal log server or media device"
+  title       = "PCI DSS requirement 10.5.4"
+  description = "Write logs for external-facing technologies onto a secure, centralized, internal log server or media device."
   children = [
     control.audit_diagnostic_setting,
     control.compute_vm_uses_azure_resource_manager,

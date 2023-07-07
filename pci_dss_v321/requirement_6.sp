@@ -11,21 +11,22 @@ benchmark "pci_dss_v321_requirement_6" {
 }
 
 benchmark "pci_dss_v321_requirement_6_2" {
-  title       = "Protect all system components and software from known vulnerabilities by installing applicable vendor-supplied security patches"
-  description = "Install critical security patches within one month of release."
+  title       = "PCI DSS requirement 6.2"
+  description = "Protect all system components and software from known vulnerabilities by installing applicable vendor-supplied security patches. Install critical security patches within one month of release."
   children = [
-    control.compute_vm_vulnerability_assessment_solution_enabled,
     control.compute_vm_endpoint_protection_agent_installed,
-    control.sql_database_vulnerability_findings_resolved,
+    control.compute_vm_security_configuration_vulnerabilities_remediated,
     control.compute_vm_system_updates_installed,
-    control.compute_vm_security_configuration_vulnerabilities_remediated
+    control.compute_vm_vulnerability_assessment_solution_enabled,
+    control.sql_database_vulnerability_findings_resolved
   ]
 
   tags = local.pci_dss_v321_common_tags
 }
 
 benchmark "pci_dss_v321_requirement_6_5" {
-  title = "Prevent common coding vulnerabilities in software development processes by training developers in secure coding techniques and developing applications based on secure coding guidelines - including how sensitive data is handled in memory"
+  title       = "PCI DSS requirement 6.5"
+  description = "Prevent common coding vulnerabilities in software development processes by training developers in secure coding techniques and developing applications based on secure coding guidelines - including how sensitive data is handled in memory."
   children = [
     benchmark.pci_dss_v321_requirement_6_5_3
   ]
@@ -34,10 +35,11 @@ benchmark "pci_dss_v321_requirement_6_5" {
 }
 
 benchmark "pci_dss_v321_requirement_6_5_3" {
-  title = "Insecure cryptographic storage"
+  title       = "PCI DSS requirement 6.5.3"
+  description = "Insecure cryptographic storage."
   children = [
+    control.appservice_api_app_use_https,
     control.appservice_function_app_only_https_accessible,
-    control.appservice_web_app_use_https,
     control.automation_account_variable_encryption_enabled,
     control.azure_redis_cache_ssl_enabled,
     control.compute_vm_temp_disks_cache_and_data_flows_encrypted,
@@ -50,7 +52,8 @@ benchmark "pci_dss_v321_requirement_6_5_3" {
 }
 
 benchmark "pci_dss_v321_requirement_6_6" {
-  title = "Ensure all public-facing web applications are protected against known attacks, either by performing application vulnerability assessment at least annually and after any changes, or by installing an automated technical solution that detects and prevents web-based attacks (for example, a web-application firewall) in front of public-facing web applications, to continually check all traffic"
+  title       = "PCI DSS requirement 6.6"
+  description = "Ensure all public-facing web applications are protected against known attacks, either by performing application vulnerability assessment at least annually and after any changes, or by installing an automated technical solution that detects and prevents web-based attacks (for example, a web-application firewall) in front of public-facing web applications, to continually check all traffic."
   children = [
     control.compute_vm_endpoint_protection_agent_installed,
     control.compute_vm_security_configuration_vulnerabilities_remediated,

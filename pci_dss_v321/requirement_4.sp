@@ -9,8 +9,8 @@ benchmark "pci_dss_v321_requirement_4" {
 }
 
 benchmark "pci_dss_v321_requirement_4_1" {
-  title       = "Use strong cryptography and security protocols to safeguard sensitive cardholder data during transmission over open, public networks (eg. Internet, wireless technologies, cellular technologies, General Packet Radio Service [GPRS], satellite communications)"
-  description = "Ensure wireless networks transmitting cardholder data or connected to the cardholder data environment use industry best practices to implement strong encryption for authentication and transmission."
+  title       = "PCI DSS requirement 4.1"
+  description = "Use strong cryptography and security protocols to safeguard sensitive cardholder data during transmission over open, public networks (eg. Internet, wireless technologies, cellular technologies, General Packet Radio Service [GPRS], satellite communications). Ensure wireless networks transmitting cardholder data or connected to the cardholder data environment use industry best practices to implement strong encryption for authentication and transmission."
   children = [
     control.appservice_api_app_use_https,
     control.appservice_function_app_only_https_accessible,

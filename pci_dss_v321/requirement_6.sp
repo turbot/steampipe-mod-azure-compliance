@@ -52,7 +52,7 @@ benchmark "pci_dss_v321_requirement_6_5_3" {
 }
 
 benchmark "pci_dss_v321_requirement_6_6" {
-  title = "PCI DSS requirement 6.6"
+  title       = "PCI DSS requirement 6.6"
   description = "Ensure all public-facing web applications are protected against known attacks, either by performing application vulnerability assessment at least annually and after any changes, or by installing an automated technical solution that detects and prevents web-based attacks (for example, a web-application firewall) in front of public-facing web applications, to continually check all traffic."
   children = [
     control.compute_vm_endpoint_protection_agent_installed,

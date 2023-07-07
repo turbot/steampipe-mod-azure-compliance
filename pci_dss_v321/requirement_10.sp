@@ -19,7 +19,7 @@ benchmark "pci_dss_v321_requirement_10_5" {
 }
 
 benchmark "pci_dss_v321_requirement_10_5_4" {
-  title      = "PCI DSS requirement 10.5.4"
+  title       = "PCI DSS requirement 10.5.4"
   description = "Write logs for external-facing technologies onto a secure, centralized, internal log server or media device."
   children = [
     control.audit_diagnostic_setting,

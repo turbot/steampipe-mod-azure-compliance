@@ -159,7 +159,7 @@ control "appservice_api_app_cors_no_star" {
 }
 
 control "appservice_web_app_uses_managed_identity" {
-  title       = "Managed identity should be used in your Web App"
+  title       = "App Service apps should use managed identity"
   description = "Use a managed identity for enhanced authentication security."
   query       = query.appservice_web_app_uses_managed_identity
 

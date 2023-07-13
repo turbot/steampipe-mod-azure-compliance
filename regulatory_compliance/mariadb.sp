@@ -25,6 +25,16 @@ control "mariadb_server_public_network_access_disabled" {
   })
 }
 
+control "mariadb_server_private_link_used" {
+  title       = "Private endpoint should be enabled for MariaDB servers"
+  description = "Private endpoint connections enforce secure communication by enabling private connectivity to Azure Database for MariaDB. Configure a private endpoint connection to enable access to traffic coming only from known networks and prevent access from all other IP addresses, including within Azure."
+  query       = query.mariadb_server_private_link_used
+
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "mariadb_server_geo_redundant_backup_enabled" {
   sql = <<-EOQ
     select
@@ -64,6 +74,32 @@ query "mariadb_server_public_network_access_disabled" {
     from
       azure_mariadb_server as s,
       azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mariadb_server_private_link_used" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        -- Only applicable to standard tier
+        when sku_tier = 'Basic' then 'skip'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sku_tier = 'Basic' then a.name || ' is of ' || sku_tier || ' tier.'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
+        else a.name || ' not using private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mariadb_server a,
+      azure_subscription sub
     where
       sub.subscription_id = s.subscription_id;
   EOQ

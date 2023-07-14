@@ -21,16 +21,12 @@ benchmark "nist_sp_800_53_rev_5_au_6" {
     control.compute_vm_azure_defender_enabled,
     control.compute_vm_network_traffic_data_collection_linux_agent_installed,
     control.compute_vm_network_traffic_data_collection_windows_agent_installed,
-    control.container_registry_azure_defender_enabled,
     control.dns_azure_defender_enabled,
     control.keyvault_azure_defender_enabled,
-    control.kubernetes_azure_defender_enabled,
     control.network_watcher_enabled,
     control.resource_manager_azure_defender_enabled,
     control.securitycenter_azure_defender_on_for_sqlservervm,
-    control.sql_database_server_azure_defender_enabled,
     control.sql_server_azure_defender_enabled,
-    control.sql_server_vm_azure_defender_enabled,
     control.storage_azure_defender_enabled
   ]
 
@@ -50,7 +46,6 @@ benchmark "nist_sp_800_53_rev_5_au_6_4" {
     control.compute_vm_azure_defender_enabled,
     control.compute_vm_guest_configuration_installed,
     control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
-    control.compute_vm_log_analytics_agent_health_issues_resolved,
     control.compute_vm_log_analytics_agent_installed,
     control.compute_vm_network_traffic_data_collection_linux_agent_installed,
     control.compute_vm_network_traffic_data_collection_windows_agent_installed,

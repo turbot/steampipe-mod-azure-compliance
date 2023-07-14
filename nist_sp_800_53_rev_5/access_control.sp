@@ -92,6 +92,7 @@ benchmark "nist_sp_800_53_rev_5_ac_3" {
     benchmark.nist_sp_800_53_rev_5_ac_3_7,
     control.appservice_function_app_uses_managed_identity,
     control.appservice_web_app_uses_managed_identity,
+    control.authorize_access_to_security_functions_and_information,
     control.cognitive_service_local_auth_disabled,
     control.compute_vm_account_with_password_linux,
     control.compute_vm_guest_configuration_installed_linux,

@@ -76,8 +76,8 @@ control "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
 }
 
 control "arc_kubernetes_cluster_azure_defender_extension_installed" {
-  title       = "Azure Arc enabled Kubernetes clusters should have Azure Defender's extension installed"
-  description = "Azure Defender's extension for Azure Arc provides threat protection for your Arc enabled Kubernetes clusters. The extension collects data from nodes in the cluster and sends it to the Azure Defender for Kubernetes backend in the cloud for further analysis."
+  title       = "Azure Arc enabled Kubernetes clusters should have Microsoft Defender for Cloud extension installed"
+  description = "Microsoft Defender for Cloud extension for Azure Arc provides threat protection for your Arc enabled Kubernetes clusters. The extension collects data from all nodes in the cluster and sends it to the Azure Defender for Kubernetes backend in the cloud for further analysis."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {

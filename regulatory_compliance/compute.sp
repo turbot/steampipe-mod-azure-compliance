@@ -382,8 +382,8 @@ control "compute_vm_guest_configuration_installed" {
 }
 
 control "arc_compute_machine_linux_log_analytics_agent_installed" {
-  title       = "Log Analytics agent should be installed on your Linux Azure Arc machines"
-  description = "This policy audits Linux Azure Arc machines if the Log Analytics agent is not installed."
+  title       = "Log Analytics extension should be installed on your Linux Azure Arc machines"
+  description = "This policy audits Linux Azure Arc machines if the Log Analytics extension is not installed."
   query       = query.arc_compute_machine_linux_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -476,7 +476,7 @@ control "network_interface_ip_forwarding_disabled" {
 }
 
 control "arc_compute_machine_windows_log_analytics_agent_installed" {
-  title       = "Log Analytics agent should be installed on your Windows Azure Arc machines"
+  title       = "Log Analytics extension should be installed on your Windows Azure Arc machines"
   description = "This policy audits Windows Azure Arc machines if the Log Analytics agent is not installed."
   query       = query.arc_compute_machine_windows_log_analytics_agent_installed
 

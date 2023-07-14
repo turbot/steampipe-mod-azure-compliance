@@ -35,6 +35,16 @@ control "eventhub_namespace_private_link_used" {
   })
 }
 
+control "eventhub_namespace_cmk_encryption_enabled" {
+  title       = "Event Hub namespaces should use a customer-managed key for encryption"
+  description = "Azure Event Hubs supports the option of encrypting data at rest with either Microsoft-managed keys (default) or customer-managed keys. Choosing to encrypt data using customer-managed keys enables you to assign, rotate, disable, and revoke access to the keys that Event Hub will use to encrypt data in your namespace. Note that Event Hub only supports encryption with customer-managed keys for namespaces in dedicated clusters."
+  query       = query.eventhub_namespace_cmk_encryption_enabled
+
+  tags = merge(local.regulatory_compliance_eventhub_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "eventhub_namespace_logging_enabled" {
   sql = <<-EOQ
     with logging_details as (

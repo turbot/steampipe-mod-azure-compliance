@@ -731,6 +731,16 @@ control "compute_vm_image_builder_uses_private_link" {
   })
 }
 
+control "compute_os_and_data_disk_encrypted_with_cmk" {
+  title       = "OS and data disks should be encrypted with a customer-managed key"
+  description = "Use customer-managed keys to manage the encryption at rest of the contents of your managed disks. By default, the data is encrypted at rest with platform-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management. Learn more at https://aka.ms/disks-cmk."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "compute_os_and_data_disk_encrypted_with_cmk" {
   sql = <<-EOQ
     select

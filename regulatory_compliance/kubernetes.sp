@@ -215,6 +215,16 @@ control "kubernetes_cluster_container_privilege_escalation_restricted" {
   })
 }
 
+control "kubernetes_cluster_https_enabled" {
+  title       = "Kubernetes clusters should be accessible only over HTTPS"
+  description = "Use of HTTPS ensures authentication and protects data in transit from network layer eavesdropping attacks. This capability is currently generally available for Kubernetes Service (AKS), and in preview for Azure Arc enabled Kubernetes. For more info, visit https://aka.ms/kubepolicydoc"
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "kubernetes_instance_rbac_enabled" {
   sql = <<-EOQ
     select

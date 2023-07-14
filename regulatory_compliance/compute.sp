@@ -686,7 +686,8 @@ control "compute_vm_scale_set_system_updates_installed" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

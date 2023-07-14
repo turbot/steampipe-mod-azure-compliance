@@ -26,15 +26,15 @@ control "azure_redis_cache_uses_private_link" {
   })
 }
 
-control "azure_redis_cache_in_virtual_network" {
-  title       = "Azure Cache for Redis should reside within a virtual network"
-  description = "Azure Virtual Network deployment provides enhanced security and isolation for your Azure Cache for Redis, as well as subnets, access control policies, and other features to further restrict access.When an Azure Cache for Redis instance is configured with a virtual network, it is not publicly addressable and can only be accessed from virtual machines and applications within the virtual network."
-  query       = query.azure_redis_cache_in_virtual_network
+// control "azure_redis_cache_in_virtual_network" {
+//   title       = "Azure Cache for Redis should reside within a virtual network"
+//   description = "Azure Virtual Network deployment provides enhanced security and isolation for your Azure Cache for Redis, as well as subnets, access control policies, and other features to further restrict access.When an Azure Cache for Redis instance is configured with a virtual network, it is not publicly addressable and can only be accessed from virtual machines and applications within the virtual network."
+//   query       = query.azure_redis_cache_in_virtual_network
 
-  tags = merge(local.regulatory_compliance_redis_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
+  // tags = merge(local.regulatory_compliance_redis_common_tags, {
+  //   nist_sp_800_53_rev_5 = "true"
+  // })
+// }
 
 control "redis_cache_no_basic_sku" {
   title       = "Azure Cache for Redis should use standard SKUs as a minimum"

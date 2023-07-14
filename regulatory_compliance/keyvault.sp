@@ -67,8 +67,8 @@ control "keyvault_azure_defender_enabled" {
 }
 
 control "keyvault_vault_private_link_used" {
-  title       = "Private endpoint should be configured for Key Vault"
-  description = "Private link provides a way to connect Key Vault to your Azure resources without sending traffic over the public internet. Private link provides defense in depth protection against data exfiltration."
+  title       = "Azure Key Vaults should use private link"
+  description = "Azure Private Link lets you connect your virtual networks to Azure services without a public IP address at the source or destination. The Private Link platform handles the connectivity between the consumer and services over the Azure backbone network. By mapping private endpoints to key vault, you can reduce data leakage risks."
   query       = query.keyvault_vault_private_link_used
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
@@ -110,6 +110,16 @@ control "keyvault_soft_delete_enabled" {
   title       = "Key vaults should have soft delete enabled"
   description = "Deleting a key vault without soft delete enabled permanently deletes all secrets, keys, and certificates stored in the key vault. Accidental deletion of a key vault can lead to permanent data loss. Soft delete allows you to recover an accidentally deleted key vault for a configurable retention period."
   query       = query.keyvault_soft_delete_enabled
+
+  tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "keyvault_firewall_enabled" {
+  title       = "Azure Key Vault should have firewall enabled"
+  description = "Enable the key vault firewall so that the key vault is not accessible by default to any public IPs. Optionally, you can configure specific IP ranges to limit access to those networks."
+  query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
     nist_sp_800_53_rev_5 = "true"

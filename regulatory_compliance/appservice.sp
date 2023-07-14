@@ -127,7 +127,7 @@ control "appservice_web_app_diagnostic_logs_enabled" {
 }
 
 control "appservice_web_app_cors_no_star" {
-  title       = "CORS should not allow every resource to access your Web Applications"
+  title       = "App Service apps should not have CORS configured to allow every resource to access your apps"
   description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your web application. Allow only required domains to interact with your web app."
   query       = query.appservice_web_app_cors_no_star
 
@@ -181,7 +181,7 @@ control "appservice_api_app_uses_managed_identity" {
 }
 
 control "appservice_function_app_uses_managed_identity" {
-  title       = "Managed identity should be used in your Function App"
+  title       = "Function apps should use managed identity"
   description = "Use a managed identity for enhanced authentication security."
   query       = query.appservice_function_app_uses_managed_identity
 

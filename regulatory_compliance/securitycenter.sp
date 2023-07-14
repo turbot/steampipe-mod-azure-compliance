@@ -60,9 +60,9 @@ control "securitycenter_azure_defender_on_for_containers" {
   description = "Microsoft Defender for Containers provides hardening, vulnerability assessment and run-time protections for your Azure, hybrid, and multi-cloud Kubernetes environments."
   query       = query.securitycenter_azure_defender_on_for_containers
 
-  # tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-  #   nist_sp_800_53_rev_5 = "true"
-  # })
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
 }
 
 query "securitycenter_automatic_provisioning_monitoring_agent_on" {

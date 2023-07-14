@@ -665,7 +665,8 @@ control "compute_vm_guest_configuration_with_no_managed_identity" {
   query       = query.compute_vm_guest_configuration_with_no_managed_identity
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    pci_dss_v321 = "true"
+    nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -716,6 +717,16 @@ control "compute_vm_azure_backup_enabled" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_image_builder_uses_private_link" {
+  title       = "VM Image Builder templates should use private link"
+  description = "Azure Private Link lets you connect your virtual network to Azure services without a public IP address at the source or destination. The Private Link platform handles the connectivity between the consumer and services over the Azure backbone network. By mapping private endpoints to your VM Image Builder building resources, data leakage risks are reduced."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

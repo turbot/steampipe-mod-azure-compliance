@@ -64,7 +64,7 @@ control "iam_external_user_with_owner_role" {
 }
 
 control "iam_deprecated_account" {
-  title       = "Deprecated accounts should be removed from your subscription"
+  title       = "Blocked accounts with read and write permissions on Azure resources should be removed"
   description = "Deprecated accounts should be removed from your subscriptions. Deprecated accounts are accounts that have been blocked from signing in."
   query       = query.iam_deprecated_account
 
@@ -76,7 +76,7 @@ control "iam_deprecated_account" {
 }
 
 control "iam_external_user_with_read_permission" {
-  title       = "External accounts with read permissions should be removed from your subscription"
+  title       = "Guest accounts with read permissions on Azure resources should be removed"
   description = "External accounts with read privileges should be removed from your subscription in order to prevent unmonitored access."
   query       = query.iam_external_user_with_read_permission
 
@@ -88,7 +88,7 @@ control "iam_external_user_with_read_permission" {
 }
 
 control "iam_external_user_with_write_permission" {
-  title       = "External accounts with write permissions should be removed from your subscription"
+  title       = "Guest accounts with write permissions on Azure resources should be removed"
   description = "External accounts with write privileges should be removed from your subscription in order to prevent unmonitored access."
   query       = query.iam_external_user_with_write_permission
 

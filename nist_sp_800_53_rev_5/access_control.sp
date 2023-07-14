@@ -73,7 +73,6 @@ benchmark "nist_sp_800_53_rev_5_ac_2_12" {
     control.compute_vm_jit_access_protected,
     control.dns_azure_defender_enabled,
     control.keyvault_azure_defender_enabled,
-    control.kubernetes_azure_defender_enabled,
     control.resource_manager_azure_defender_enabled,
     control.securitycenter_azure_defender_on_for_containers,
     control.securitycenter_azure_defender_on_for_sqlservervm,

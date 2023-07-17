@@ -31,7 +31,7 @@ benchmark "nist_sp_800_53_rev_5_ia_2" {
 
 benchmark "nist_sp_800_53_rev_5_ia_2_1" {
   title       = "Multi-factor Authentication to Privileged Accounts IA-2(1)"
-  description = "TODO"
+  description = "Implement multi-factor authentication for access to privileged accounts."
   children = [
     control.iam_user_with_owner_permission_on_subscription_mfa_enabled,
     control.iam_user_with_write_permission_on_subscription_mfa_enabled
@@ -42,7 +42,7 @@ benchmark "nist_sp_800_53_rev_5_ia_2_1" {
 
 benchmark "nist_sp_800_53_rev_5_ia_2_2" {
   title       = "Multi-factor Authentication to Non-privileged Accounts"
-  description = "TODO"
+  description = "Implement multi-factor authentication for access to non-privileged accounts."
   children = [
     control.iam_user_with_read_permission_on_subscription_mfa_enabled
   ]

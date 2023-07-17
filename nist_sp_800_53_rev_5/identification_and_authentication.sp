@@ -15,6 +15,7 @@ benchmark "nist_sp_800_53_rev_5_ia_2" {
   description = "Identify and authenticate organization users and processes."
   children = [
     benchmark.nist_sp_800_53_rev_5_ia_2_1,
+    benchmark.nist_sp_800_53_rev_5_ia_2_2,
     control.appservice_function_app_uses_managed_identity,
     control.appservice_web_app_uses_managed_identity,
     control.cognitive_service_local_auth_disabled,

@@ -101,6 +101,6 @@ query "mariadb_server_private_link_used" {
       azure_mariadb_server a,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = a.subscription_id;
   EOQ
 }

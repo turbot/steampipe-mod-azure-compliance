@@ -58,7 +58,7 @@ control "compute_vm_jit_access_protected" {
 }
 
 control "compute_vm_log_analytics_agent_installed" {
-  title       = "Virtual machines should have the Log Analytics extension installed"
+  title       = "Log Analytics agent should be installed on your virtual machine for Azure Security Center monitoring"
   description = "This policy audits any Windows/Linux virtual machines if the Log Analytics extension is not installed."
   query       = query.compute_vm_log_analytics_agent_installed
 
@@ -89,7 +89,7 @@ control "compute_vm_malware_agent_installed" {
 }
 
 control "compute_vm_scale_set_log_analytics_agent_installed" {
-  title       = "The Log Analytics extension should be installed on Virtual Machine Scale Sets"
+  title       = "Log Analytics agent should be installed on your virtual machine scale sets for Azure Security Center monitoring"
   description = "This policy audits any Windows/Linux Virtual Machine Scale Sets if the Log Analytics extension is not installed."
   query       = query.compute_vm_scale_set_log_analytics_agent_installed
 
@@ -115,17 +115,6 @@ control "compute_vm_malware_agent_automatic_upgrade_enabled" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
-  })
-}
-
-control "compute_vm_scale_set_logging_enabled" {
-  title       = "Resource logs in Virtual Machine Scale Sets should be enabled"
-  description = "It is recommended to enable Logs so that activity trail can be recreated when investigations are required in the event of an incident or a compromise."
-  query       = query.compute_vm_scale_set_logging_enabled
-
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -642,16 +631,6 @@ control "compute_vm_meet_security_baseline_requirements_windows" {
 control "compute_vm_vulnerability_findings_resolved_for_sql_server" {
   title       = "SQL servers on machines should have vulnerability findings resolved"
   description = "SQL vulnerability assessment scans your database for security vulnerabilities, and exposes any deviations from best practices such as misconfigurations, excessive permissions, and unprotected sensitive data. Resolving the vulnerabilities found can greatly improve your database security posture."
-  query       = query.manual_control
-
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
-
-control "compute_vm_log_analytics_agent_health_issues_resolved" {
-  title       = "Log Analytics agent health issues should be resolved on your machines"
-  description = "Security Center uses the Log Analytics agent, formerly known as the Microsoft Monitoring Agent (MMA). To make sure your virtual machines are successfully monitored, you need to make sure the agent is installed on the virtual machines and properly collects security events to the configured workspace."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {

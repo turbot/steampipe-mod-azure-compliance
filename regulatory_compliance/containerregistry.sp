@@ -14,6 +14,16 @@ control "container_registry_use_virtual_service_endpoint" {
   })
 }
 
+control "container_registry_azure_defender_enabled" {
+  title       = "Azure Defender for container registries should be enabled"
+  description = "Azure Defender for container registries provides vulnerability scanning of any images pulled within the last 30 days, pushed to your registry, or imported, and exposes detailed findings per image."
+  query       = query.container_registry_azure_defender_enabled
+
+  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
+    other_checks = "true"
+  })
+}
+
 control "container_registry_restrict_public_access" {
   title       = "Container registries should not allow unrestricted network access"
   description = "Azure container registries by default accept connections over the internet from hosts on any network. To protect your registries from potential threats, allow access from only specific public IP addresses or address ranges. If your registry doesn't have an IP/firewall rule or a configured virtual network, it will appear in the unhealthy resources."

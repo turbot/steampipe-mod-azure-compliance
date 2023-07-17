@@ -118,6 +118,16 @@ control "compute_vm_malware_agent_automatic_upgrade_enabled" {
   })
 }
 
+control "compute_vm_scale_set_logging_enabled" {
+  title       = "Resource logs in Virtual Machine Scale Sets should be enabled"
+  description = "It is recommended to enable Logs so that activity trail can be recreated when investigations are required in the event of an incident or a compromise."
+  query       = query.compute_vm_scale_set_logging_enabled
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    other_checks = "true"
+  })
+}
+
 control "compute_vm_meet_system_audit_policies_requirement_windows" {
   title       = "Windows machines should meet requirements for 'System Audit Policies - Detailed Tracking'"
   description = "Windows machines should have the specified Group Policy settings in the category 'System Audit Policies - Detailed Tracking' for auditing DPAPI, process creation/termination, RPC events, and PNP activity. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
@@ -625,6 +635,16 @@ control "compute_vm_meet_security_baseline_requirements_windows" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_vm_log_analytics_agent_health_issues_resolved" {
+  title       = "Log Analytics agent health issues should be resolved on your machines"
+  description = "Security Center uses the Log Analytics agent, formerly known as the Microsoft Monitoring Agent (MMA). To make sure your virtual machines are successfully monitored, you need to make sure the agent is installed on the virtual machines and properly collects security events to the configured workspace."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    other_checks = "true"
   })
 }
 

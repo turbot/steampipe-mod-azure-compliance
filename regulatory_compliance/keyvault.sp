@@ -76,6 +76,16 @@ control "keyvault_vault_private_link_used" {
   })
 }
 
+control "keyvault_vault_public_network_access_disabled" {
+  title       = "Azure Key Vault should disable public network access"
+  description = "Disable public network access for your key vault so that it's not accessible over the public internet. This can reduce data leakage risks."
+  query       = query.keyvault_vault_public_network_access_disabled
+
+  tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    other_checks = "true"
+  })
+}
+
 control "keyvault_key_expiration_set" {
   title       = "Key Vault keys should have an expiration date"
   description = "Cryptographic keys should have a defined expiration date and not be permanent. Keys that are valid forever provide a potential attacker with more time to compromise the key. It is a recommended security practice to set expiration dates on cryptographic keys."

@@ -16,6 +16,16 @@ control "appservice_web_app_use_https" {
   })
 }
 
+control "appservice_web_app_remote_debugging_disabled" {
+  title       = "Remote debugging should be turned off for Web Applications"
+  description = "Remote debugging requires inbound ports to be opened on a web application. Remote debugging should be turned off."
+  query       = query.appservice_web_app_remote_debugging_disabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
 control "appservice_function_app_remote_debugging_disabled" {
   title       = "Function apps should have remote debugging turned off"
   description = "Remote debugging requires inbound ports to be opened on function apps. Remote debugging should be turned off."
@@ -35,6 +45,16 @@ control "appservice_function_app_latest_tls_version" {
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_web_app_latest_tls_version" {
+  title       = "Latest TLS version should be used in your Web App"
+  description = "Upgrade to the latest TLS version."
+  query       = query.appservice_web_app_latest_tls_version
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
   })
 }
 
@@ -126,6 +146,16 @@ control "appservice_function_app_cors_no_star" {
   })
 }
 
+control "appservice_api_app_uses_managed_identity" {
+  title       = "Managed identity should be used in your API App"
+  description = "Use a managed identity for enhanced authentication security."
+  query       = query.appservice_api_app_uses_managed_identity
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
 control "appservice_api_app_cors_no_star" {
   title       = "App Service apps should not have CORS configured to allow every resource to access your apps"
   description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your app. Allow only required domains to interact with your app."
@@ -191,6 +221,16 @@ control "appservice_web_app_client_certificates_on" {
   })
 }
 
+control "appservice_web_app_ftps_enabled" {
+  title       = "FTPS should be required in your Web App"
+  description = "Enable FTPS enforcement for enhanced security."
+  query       = query.appservice_web_app_ftps_enabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
 control "appservice_function_app_client_certificates_on" {
   title       = "Function apps should have 'Client Certificates (Incoming client certificates)' enabled"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients with valid certificates will be able to reach the app."
@@ -248,6 +288,56 @@ control "app_service_environment_internal_encryption_enabled" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_function_app_latest_java_version" {
+  title       = "Ensure that 'Java version' is the latest, if used as a part of the Function app"
+  description = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for Function apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
+  query       = query.appservice_function_app_latest_java_version
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_latest_java_version" {
+  title       = "Ensure that 'Java version' is the latest, if used as a part of the Web app"
+  description = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
+  query       = query.appservice_web_app_latest_java_version
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_latest_php_version" {
+  title       = "Ensure that 'PHP version' is the latest, if used as a part of the WEB app"
+  description = "Periodically, newer versions are released for PHP software either due to security flaws or to include additional functionality. Using the latest PHP version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
+  query       = query.appservice_web_app_latest_php_version
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_function_app_latest_python_version" {
+  title       = "Ensure that 'Python version' is the latest, if used as a part of the Function app"
+  description = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest Python version for Function apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
+  query       = query.appservice_function_app_latest_python_version
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_latest_python_version" {
+  title       = "Ensure that 'Python version' is the latest, if used as a part of the Web app"
+  description = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest Python version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
+  query       = query.appservice_web_app_latest_python_version
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
   })
 }
 

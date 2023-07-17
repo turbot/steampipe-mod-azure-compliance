@@ -126,6 +126,16 @@ control "keyvault_firewall_enabled" {
   })
 }
 
+control "keyvault_certificate_validity_12_months" {
+  title       = "Certificates should have the specified maximum validity period"
+  description = "Manage your organizational compliance requirements by specifying the maximum amount of time that a certificate can be valid within your key vault."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "keyvault_purge_protection_enabled" {
   sql = <<-EOQ
     select

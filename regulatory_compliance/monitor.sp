@@ -45,6 +45,36 @@ control "audit_diagnostic_setting" {
   })
 }
 
+control "monitor_log_cluster_infrastructure_encryption_enabled" {
+  title       = "Azure Monitor Logs clusters should be created with infrastructure-encryption enabled (double encryption)"
+  description = "To ensure secure data encryption is enabled at the service level and the infrastructure level with two different encryption algorithms and two different keys, use an Azure Monitor dedicated cluster. This option is enabled by default when supported at the region, see https://docs.microsoft.com/azure/azure-monitor/platform/customer-managed-keys#customer-managed-key-overview."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "monitor_log_analytics_workspace_integrated_with_encrypted_storage_account" {
+  title       = "Saved-queries in Azure Monitor should be saved in customer storage account for logs encryption"
+  description = "Link storage account to Log Analytics workspace to protect saved-queries with storage account encryption. Customer-managed keys are commonly required to meet regulatory compliance and for more control over the access to your saved-queries in Azure Monitor. For more details on the above, see https://docs.microsoft.com/azure/azure-monitor/platform/customer-managed-keys?tabs=portal#customer-managed-key-for-saved-queries."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "monitor_log_cluster_encrypted_with_cmk" {
+  title       = "Azure Monitor Logs clusters should be encrypted with customer-managed key"
+  description = "Create Azure Monitor logs cluster with customer-managed keys encryption. By default, the log data is encrypted with service-managed keys, but customer-managed keys are commonly required to meet regulatory compliance. Customer-managed key in Azure Monitor gives you more control over the access to you data, see https://docs.microsoft.com/azure/azure-monitor/platform/customer-managed-keys."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "monitor_log_profile_enabled_for_all_categories" {
   sql = <<-EOQ
     select

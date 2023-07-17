@@ -154,6 +154,7 @@ benchmark "nist_sp_800_53_rev_5_ac_4" {
     control.keyvault_firewall_enabled,
     control.keyvault_vault_private_link_used,
     control.kubernetes_cluster_authorized_ip_range_defined,
+    control.machine_learning_workspace_private_link_used,
     control.mariadb_server_private_link_used,
     control.mariadb_server_public_network_access_disabled,
     control.mysql_server_private_link_used,
@@ -161,6 +162,7 @@ benchmark "nist_sp_800_53_rev_5_ac_4" {
     control.network_interface_ip_forwarding_disabled,
     control.network_security_group_remote_access_restricted,
     control.network_security_group_subnet_associated,
+    control.network_subnet_protected_by_firewall,
     control.postgres_server_private_link_used,
     control.postgresql_server_public_network_access_disabled,
     control.search_service_public_network_access_disabled,
@@ -175,7 +177,8 @@ benchmark "nist_sp_800_53_rev_5_ac_4" {
     control.storage_account_restrict_network_access,
     control.storage_account_uses_private_link,
     control.storage_sync_private_link_used,
-    control.synapse_workspace_private_link_used
+    control.synapse_workspace_private_link_used,
+    control.web_pub_sub_private_link_used
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -270,6 +273,7 @@ benchmark "nist_sp_800_53_rev_5_ac_17" {
     control.healthcare_fhir_uses_private_link,
     control.iot_hub_private_link_used,
     control.keyvault_vault_private_link_used,
+    control.machine_learning_workspace_private_link_used,
     control.mariadb_server_private_link_used,
     control.mysql_server_private_link_used,
     control.postgres_server_private_link_used,
@@ -282,7 +286,8 @@ benchmark "nist_sp_800_53_rev_5_ac_17" {
     control.storage_account_default_network_access_rule_denied,
     control.storage_account_uses_private_link,
     control.storage_sync_private_link_used,
-    control.synapse_workspace_private_link_used
+    control.synapse_workspace_private_link_used,
+    control.web_pub_sub_private_link_used
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -313,6 +318,7 @@ benchmark "nist_sp_800_53_rev_5_ac_17_1" {
     control.healthcare_fhir_uses_private_link,
     control.iot_hub_private_link_used,
     control.keyvault_vault_private_link_used,
+    control.machine_learning_workspace_private_link_used,
     control.mariadb_server_private_link_used,
     control.mysql_server_private_link_used,
     control.postgres_server_private_link_used,
@@ -325,7 +331,8 @@ benchmark "nist_sp_800_53_rev_5_ac_17_1" {
     control.storage_account_default_network_access_rule_denied,
     control.storage_account_uses_private_link,
     control.storage_sync_private_link_used,
-    control.synapse_workspace_private_link_used
+    control.synapse_workspace_private_link_used,
+    control.web_pub_sub_private_link_used
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

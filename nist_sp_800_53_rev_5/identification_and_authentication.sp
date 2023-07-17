@@ -76,6 +76,7 @@ benchmark "nist_sp_800_53_rev_5_ia_5" {
     control.compute_vm_password_file_permissions_0644_linux,
     control.compute_vm_passwords_stored_using_reversible_encryption_windows,
     control.compute_vm_ssh_key_authentication_linux,
+    control.keyvault_certificate_validity_12_months,
     control.keyvault_key_expiration_set,
     control.keyvault_secret_expiration_set
   ]

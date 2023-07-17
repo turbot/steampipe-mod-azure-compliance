@@ -82,6 +82,7 @@ benchmark "nist_sp_800_53_rev_5_si_4" {
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.dns_azure_defender_enabled,
     control.keyvault_azure_defender_enabled,
+    control.network_subnet_protected_by_firewall,
     control.network_watcher_enabled,
     control.resource_manager_azure_defender_enabled,
     control.securitycenter_automatic_provisioning_monitoring_agent_on,

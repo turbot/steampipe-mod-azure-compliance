@@ -98,7 +98,7 @@ control "cis_v150_5_1_2" {
 control "cis_v150_5_1_3" {
   title         = "5.1.3 Ensure the storage container storing the activity logs is not publicly accessible"
   description   = "The storage account container containing the activity log export should not be publicly accessible."
-  query         = query.monitor_logs_storage_container_not_public_accessible
+  query         = query.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
   documentation = file("./cis_v150/docs/cis_v150_5_1_3.md")
 
   tags = merge(local.cis_v150_5_1_common_tags, {

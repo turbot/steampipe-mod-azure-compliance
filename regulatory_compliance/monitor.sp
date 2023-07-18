@@ -908,7 +908,7 @@ query "monitor_logs_storage_container_encryptes_with_byok" {
   EOQ
 }
 
-query "monitor_logs_storage_container_not_public_accessible" {
+query "monitor_logs_storage_container_insights_operational_logs_not_public_accessible" {
   sql = <<-EOQ
     select
       sc.id as resource,
@@ -928,6 +928,30 @@ query "monitor_logs_storage_container_not_public_accessible" {
       azure_subscription sub
     where
       name = 'insights-operational-logs'
+      and sub.subscription_id = sc.subscription_id;
+  EOQ
+}
+
+query "monitor_logs_storage_container_insights_activity_logs_not_public_accessible" {
+  sql = <<-EOQ
+    select
+      sc.id as resource,
+      case
+        when public_access != 'None' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_access != 'None'
+          then account_name || ' container insights-activity-logs storing activity logs publicly accessible.'
+        else account_name || ' container insights-activity-logs storing activity logs not publicly accessible.'
+      end as reason
+      ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "sc.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_container sc,
+      azure_subscription sub
+    where
+      name = 'insights-activity-logs'
       and sub.subscription_id = sc.subscription_id;
   EOQ
 }

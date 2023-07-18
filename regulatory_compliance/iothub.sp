@@ -24,6 +24,7 @@ control "iot_hub_private_link_used" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
 control "iot_hub_encrypted_with_cmk" {
   title       = "IoT Hub device provisioning service data should be encrypted using customer-managed keys (CMK)"
   description = "Use customer-managed keys to manage the encryption at rest of your IoT Hub device provisioning service. The data is automatically encrypted at rest with service-managed keys, but customer-managed keys (CMK) are commonly required to meet regulatory compliance standards. CMKs enable the data to be encrypted with an Azure Key Vault key created and owned by you. Learn more about CMK encryption at https://aka.ms/dps/CMK."

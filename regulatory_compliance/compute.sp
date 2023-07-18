@@ -20,7 +20,8 @@ control "compute_vm_adaptive_network_hardening_recommendation_applied" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -42,7 +43,8 @@ control "compute_vm_tcp_udp_access_restricted_internet" {
   query       = query.compute_vm_tcp_udp_access_restricted_internet
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -94,7 +96,8 @@ control "compute_vm_scale_set_log_analytics_agent_installed" {
   query       = query.compute_vm_scale_set_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -104,7 +107,8 @@ control "compute_vm_disaster_recovery_enabled" {
   query       = query.compute_vm_disaster_recovery_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -201,7 +205,8 @@ control "compute_vm_scale_set_security_configuration_vulnerabilities_remediated"
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -211,8 +216,9 @@ control "compute_vm_system_updates_installed" {
   query       = query.compute_vm_system_updates_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
-    pci_dss_v321      = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 

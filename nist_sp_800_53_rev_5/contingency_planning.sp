@@ -47,7 +47,7 @@ benchmark "nist_sp_800_53_rev_5_cp_7" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/Compute"
+    service = "Azure/Compute"
   })
 }
 

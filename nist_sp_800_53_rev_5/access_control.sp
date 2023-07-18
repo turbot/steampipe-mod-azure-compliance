@@ -19,13 +19,13 @@ benchmark "nist_sp_800_53_rev_5_ac_2" {
   description = "Manage system accounts, group memberships, privileges, workflow, notifications, deactivations, and authorizations."
   children = [
     benchmark.nist_sp_800_53_rev_5_ac_2_1,
-    benchmark.nist_sp_800_53_rev_5_ac_2_12,
     benchmark.nist_sp_800_53_rev_5_ac_2_7,
+    benchmark.nist_sp_800_53_rev_5_ac_2_12,
     control.appservice_function_app_uses_managed_identity,
     control.appservice_web_app_uses_managed_identity,
     control.cognitive_service_local_auth_disabled,
-    control.iam_deprecated_account,
     control.iam_deprecated_account_with_owner_roles,
+    control.iam_deprecated_account,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
     control.iam_external_user_with_write_permission,
@@ -118,7 +118,7 @@ benchmark "nist_sp_800_53_rev_5_ac_3_7" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/KubernetesService"
+    service = "Azure/KubernetesService"
   })
 }
 
@@ -193,7 +193,7 @@ benchmark "nist_sp_800_53_rev_5_ac_4_3" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/Compute"
+    service = "Azure/Compute"
   })
 }
 
@@ -205,7 +205,7 @@ benchmark "nist_sp_800_53_rev_5_ac_5" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/ActiveDirectory"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -219,7 +219,7 @@ benchmark "nist_sp_800_53_rev_5_ac_6" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/ActiveDirectory"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -232,7 +232,7 @@ benchmark "nist_sp_800_53_rev_5_ac_6_7" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/ActiveDirectory"
+    service = "Azure/ActiveDirectory"
   })
 }
 

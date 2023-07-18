@@ -90,8 +90,8 @@ benchmark "nist_sp_800_53_rev_5_ia_5_1" {
   description = "The information system, for password-based authentication, enforces minimum password complexity of organization-defined requirements for case sensitivity, number of characters, mix of upper-case letters, lower-case letters, numbers, and special characters, including minimum requirements for each type; enforces at least the organization-defined number of changed characters when new passwords are created; stores and transmits only cryptographically-protected passwords; enforces password minimum and maximum lifetime restrictions of organization-defined numbers for lifetime minimum, lifetime maximum; prohibits password reuse for organization-defined number generations; and allows the use of a temporary password for system logons with an immediate change to a permanent password."
   children = [
     control.compute_vm_guest_configuration_installed_linux,
-    control.compute_vm_guest_configuration_with_no_managed_identity,
     control.compute_vm_guest_configuration_installed_windows,
+    control.compute_vm_guest_configuration_with_no_managed_identity,
     control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
     control.compute_vm_max_password_age_70_days_windows,
     control.compute_vm_min_password_age_1_day_windows,

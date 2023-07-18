@@ -7,7 +7,7 @@ benchmark "nist_sp_800_53_rev_5_sc" {
     benchmark.nist_sp_800_53_rev_5_sc_7,
     benchmark.nist_sp_800_53_rev_5_sc_8,
     benchmark.nist_sp_800_53_rev_5_sc_12,
-    benchmark.nist_sp_800_53_rev_5_sc_28,
+    benchmark.nist_sp_800_53_rev_5_sc_28
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -180,10 +180,10 @@ benchmark "nist_sp_800_53_rev_5_sc_8" {
     control.azure_redis_cache_ssl_enabled,
     control.compute_vm_secure_communication_protocols_configured,
     control.hdinsight_cluster_encryption_in_transit_enabled,
+    control.kubernetes_cluster_https_enabled,
     control.mysql_ssl_enabled,
     control.postgres_sql_ssl_enabled,
-    control.storage_account_secure_transfer_required_enabled,
-    control.kubernetes_cluster_https_enabled
+    control.storage_account_secure_transfer_required_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -202,10 +202,10 @@ benchmark "nist_sp_800_53_rev_5_sc_8_1" {
     control.azure_redis_cache_ssl_enabled,
     control.compute_vm_secure_communication_protocols_configured,
     control.hdinsight_cluster_encryption_in_transit_enabled,
+    control.kubernetes_cluster_https_enabled,
     control.mysql_ssl_enabled,
     control.postgres_sql_ssl_enabled,
-    control.storage_account_secure_transfer_required_enabled,
-    control.kubernetes_cluster_https_enabled
+    control.storage_account_secure_transfer_required_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

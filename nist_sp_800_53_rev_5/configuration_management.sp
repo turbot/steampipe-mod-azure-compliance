@@ -36,7 +36,7 @@ benchmark "nist_sp_800_53_rev_5_cm_6" {
     control.kubernetes_cluster_pod_use_approved_host_network_and_port_range,
     control.kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id,
     control.kubernetes_cluster_privilege_containers_restricted,
-    control.kubernetes_cluster_service_listen_to_allowed_ports,
+    control.kubernetes_cluster_service_listen_to_allowed_ports
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -75,8 +75,8 @@ benchmark "nist_sp_800_53_rev_5_cm_7_5" {
   title       = "Authorized Software ??? Allow-by-exception CM-7(5)"
   description = "The organization identifies organization-defined software programs authorized to execute on the information system, employs a deny-all, permit-by-exception policy to allow the execution of authorized software programs on the information system, and reviews and updates the list of authorized software programs."
   children = [
-    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated,
-    control.compute_vm_adaptive_application_controls_enabled
+    control.compute_vm_adaptive_application_controls_enabled,
+    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {

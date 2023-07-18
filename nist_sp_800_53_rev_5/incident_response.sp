@@ -27,7 +27,7 @@ benchmark "nist_sp_800_53_rev_5_ir_4" {
     control.sql_database_server_azure_defender_enabled,
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled,
+    control.storage_azure_defender_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -50,7 +50,7 @@ benchmark "nist_sp_800_53_rev_5_ir_5" {
     control.sql_database_server_azure_defender_enabled,
     control.sql_server_azure_defender_enabled,
     control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled,
+    control.storage_azure_defender_enabled
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

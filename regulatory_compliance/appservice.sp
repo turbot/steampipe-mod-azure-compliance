@@ -87,7 +87,6 @@ control "appservice_api_app_use_https" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
 }

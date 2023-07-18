@@ -31,10 +31,9 @@ benchmark "nist_sp_800_53_rev_5_cm_6" {
     control.kubernetes_cluster_container_use_allowed_capabilities,
     control.kubernetes_cluster_container_use_allowed_images,
     control.kubernetes_cluster_container_with_read_only_root_file_system,
-    control.kubernetes_cluster_pod_and_container_with_approved_user_and_group_id,
+    control.kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id,
     control.kubernetes_cluster_pod_host_path_volume_use_allowed_host_path,
     control.kubernetes_cluster_pod_use_approved_host_network_and_port_range,
-    control.kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id,
     control.kubernetes_cluster_privilege_containers_restricted,
     control.kubernetes_cluster_service_listen_to_allowed_ports
   ]

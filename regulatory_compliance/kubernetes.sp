@@ -165,16 +165,6 @@ control "kubernetes_cluster_pod_host_path_volume_use_allowed_host_path" {
   })
 }
 
-control "kubernetes_cluster_pod_and_container_with_approved_user_and_group_id" {
-  title       = "Kubernetes cluster pods and containers should only run with approved user and group IDs"
-  description = "Control the user, primary group, supplemental group and file system group IDs that pods and containers can use to run in a Kubernetes Cluster. This policy is generally available for Kubernetes Service (AKS), and preview for Azure Arc enabled Kubernetes. For more information, see https://aka.ms/kubepolicydoc."
-  query       = query.manual_control
-
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
-
 control "kubernetes_cluster_pod_use_approved_host_network_and_port_range" {
   title       = "Kubernetes cluster pods should only use approved host network and port range"
   description = "Restrict pod access to the host network and the allowable host port range in a Kubernetes cluster. This recommendation is part of CIS 5.2.4 which is intended to improve the security of your Kubernetes environments. This policy is generally available for Kubernetes Service (AKS), and preview for Azure Arc enabled Kubernetes. For more information, see https://aka.ms/kubepolicydoc."

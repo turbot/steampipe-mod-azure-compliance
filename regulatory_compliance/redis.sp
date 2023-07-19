@@ -32,7 +32,7 @@ control "azure_redis_cache_in_virtual_network" {
   query       = query.azure_redis_cache_in_virtual_network
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 

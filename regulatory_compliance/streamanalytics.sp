@@ -15,6 +15,16 @@ control "stream_analytics_job_logging_enabled" {
   })
 }
 
+control "stream_analytics_job_encrypted_with_cmk" {
+  title       = "Azure Stream Analytics jobs should use customer-managed keys to encrypt data"
+  description = "Use customer-managed keys when you want to securely store any metadata and private data assets of your Stream Analytics jobs in your storage account. This gives you total control over how your Stream Analytics data is encrypted."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_streamanalytics_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "stream_analytics_job_logging_enabled" {
   sql = <<-EOQ
     with logging_details as (

@@ -15,6 +15,16 @@ control "logic_app_workflow_logging_enabled" {
   })
 }
 
+control "logic_app_integration_service_environment_encrypted_with_cmk" {
+  title       = "Logic Apps Integration Service Environment should be encrypted with customer-managed keys"
+  description = "Deploy into Integration Service Environment to manage encryption at rest of Logic Apps data using customer-managed keys. By default, customer data is encrypted with service-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_logic_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "logic_app_workflow_logging_enabled" {
   sql = <<-EOQ
     with logging_details as (

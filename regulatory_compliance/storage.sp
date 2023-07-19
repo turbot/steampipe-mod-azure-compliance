@@ -39,7 +39,7 @@ control "storage_account_use_virtual_service_endpoint" {
 }
 
 control "storage_azure_defender_enabled" {
-  title       = "Azure Defender for Storage should be enabled"
+  title       = "Microsoft Defender for Storage (Classic) should be enabled"
   description = "Azure Defender for Storage provides detections of unusual and potentially harmful attempts to access or exploit storage accounts."
   query       = query.storage_azure_defender_enabled
 

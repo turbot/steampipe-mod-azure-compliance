@@ -22,8 +22,7 @@ control "appservice_web_app_remote_debugging_disabled" {
   query       = query.appservice_web_app_remote_debugging_disabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 
@@ -55,7 +54,7 @@ control "appservice_web_app_latest_tls_version" {
   query       = query.appservice_web_app_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 
@@ -88,7 +87,6 @@ control "appservice_api_app_use_https" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
 }
@@ -127,7 +125,7 @@ control "appservice_web_app_diagnostic_logs_enabled" {
 }
 
 control "appservice_web_app_cors_no_star" {
-  title       = "CORS should not allow every resource to access your Web Applications"
+  title       = "App Service apps should not have CORS configured to allow every resource to access your apps"
   description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your web application. Allow only required domains to interact with your web app."
   query       = query.appservice_web_app_cors_no_star
 
@@ -147,6 +145,16 @@ control "appservice_function_app_cors_no_star" {
   })
 }
 
+control "appservice_api_app_uses_managed_identity" {
+  title       = "Managed identity should be used in your API App"
+  description = "Use a managed identity for enhanced authentication security."
+  query       = query.appservice_api_app_uses_managed_identity
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
 control "appservice_api_app_cors_no_star" {
   title       = "App Service apps should not have CORS configured to allow every resource to access your apps"
   description = "Cross-Origin Resource Sharing (CORS) should not allow all domains to access your app. Allow only required domains to interact with your app."
@@ -159,7 +167,7 @@ control "appservice_api_app_cors_no_star" {
 }
 
 control "appservice_web_app_uses_managed_identity" {
-  title       = "Managed identity should be used in your Web App"
+  title       = "App Service apps should use managed identity"
   description = "Use a managed identity for enhanced authentication security."
   query       = query.appservice_web_app_uses_managed_identity
 
@@ -169,19 +177,8 @@ control "appservice_web_app_uses_managed_identity" {
   })
 }
 
-control "appservice_api_app_uses_managed_identity" {
-  title       = "Managed identity should be used in your API App"
-  description = "Use a managed identity for enhanced authentication security."
-  query       = query.appservice_api_app_uses_managed_identity
-
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
-
 control "appservice_function_app_uses_managed_identity" {
-  title       = "Managed identity should be used in your Function App"
+  title       = "Function apps should use managed identity"
   description = "Use a managed identity for enhanced authentication security."
   query       = query.appservice_function_app_uses_managed_identity
 
@@ -219,7 +216,16 @@ control "appservice_web_app_client_certificates_on" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "appservice_web_app_ftps_enabled" {
+  title       = "FTPS should be required in your Web App"
+  description = "Enable FTPS enforcement for enhanced security."
+  query       = query.appservice_web_app_ftps_enabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
   })
 }
 
@@ -247,16 +253,6 @@ control "appservice_function_app_ftps_enabled" {
   title       = "FTPS only should be required in your Function App"
   description = "Enable FTPS enforcement for enhanced security."
   query       = query.appservice_function_app_ftps_enabled
-
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
-
-control "appservice_web_app_ftps_enabled" {
-  title       = "FTPS should be required in your Web App"
-  description = "Enable FTPS enforcement for enhanced security."
-  query       = query.appservice_web_app_ftps_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -299,7 +295,7 @@ control "appservice_function_app_latest_java_version" {
   query       = query.appservice_function_app_latest_java_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 
@@ -309,7 +305,7 @@ control "appservice_web_app_latest_java_version" {
   query       = query.appservice_web_app_latest_java_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 
@@ -319,7 +315,7 @@ control "appservice_web_app_latest_php_version" {
   query       = query.appservice_web_app_latest_php_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 
@@ -329,7 +325,7 @@ control "appservice_function_app_latest_python_version" {
   query       = query.appservice_function_app_latest_python_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 
@@ -339,7 +335,7 @@ control "appservice_web_app_latest_python_version" {
   query       = query.appservice_web_app_latest_python_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 

@@ -55,6 +55,16 @@ control "securitycenter_azure_defender_on_for_sqlservervm" {
   })
 }
 
+control "securitycenter_azure_defender_on_for_containers" {
+  title       = "Microsoft Defender for Containers should be enabled"
+  description = "Microsoft Defender for Containers provides hardening, vulnerability assessment and run-time protections for your Azure, hybrid, and multi-cloud Kubernetes environments."
+  query       = query.securitycenter_azure_defender_on_for_containers
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "securitycenter_automatic_provisioning_monitoring_agent_on" {
   sql = <<-EOQ
     select
@@ -589,5 +599,27 @@ query "securitycenter_wdatp_integration" {
       right join azure_subscription sub on sc_sett.subscription_id = sub.subscription_id
     where
       name = 'WDATP';
+  EOQ
+}
+
+query "securitycenter_azure_defender_on_for_containers" {
+  sql = <<-EOQ
+    select
+      sub_pricing.id as resource,
+      case
+        when pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when pricing_tier = 'Standard' then 'Azure Defender on for Containers.'
+        else 'Azure Defender off for Containers.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_subscription_pricing sub_pricing
+      right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id
+    where
+      name = 'Containers';
   EOQ
 }

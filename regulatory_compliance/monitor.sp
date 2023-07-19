@@ -881,7 +881,34 @@ query "monitor_log_alert_sql_firewall_rule" {
   EOQ
 }
 
-query "monitor_logs_storage_container_encryptes_with_byok" {
+query "monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when a.encryption_key_source = 'Microsoft.Keyvault' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.encryption_key_source = 'Microsoft.Keyvault'
+          then a.name || ' container insights-activity-logs encrypted with BYOK.'
+        else a.name || ' container insights-activity-logs not encrypted with BYOK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_container c,
+      azure_storage_account a,
+      azure_subscription sub
+    where
+      c.name = 'insights-activity-logs'
+      and c.account_name = a.name
+      and sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok" {
   sql = <<-EOQ
     select
       a.id as resource,

@@ -1,3 +1,41 @@
+## v0.30 [2023-07-20]
+
+_Breaking changes_
+
+- The `NIST SP 800-53 Rev 5` benchmark has been updated to better align with the matching [NIST SP 800-53 Rev. 5 Regulatory Compliance](https://learn.microsoft.com/en-us/azure/governance/policy/samples/nist-sp-800-53-r5). The following updates have been made to the benchmark: ([#189](https://github.com/turbot/steampipe-mod-azure-compliance/pull/189))
+  - The following controls have been added across the benchmarks:
+    - `appservice_api_app_client_certificates_on`
+    - `appservice_web_app_client_certificates_on`
+    - `sql_database_transparent_data_encryption_enabled`
+    - `sql_server_tde_protector_cmk_encrypted`
+  - The following controls are no longer included in the benchmarks:
+    - `appservice_api_app_use_https`
+    - `appservice_api_app_uses_managed_identity`
+    - `appservice_function_app_latest_java_version`
+    - `appservice_function_app_latest_python_version`
+    - `appservice_web_app_client_certificates_on`
+    - `appservice_web_app_ftps_enabled`
+    - `appservice_web_app_latest_java_version`
+    - `appservice_web_app_latest_php_version`
+    - `appservice_web_app_latest_python_version`
+    - `appservice_web_app_latest_tls_version`
+    - `appservice_web_app_remote_debugging_disabled`
+    - `azure_redis_cache_in_virtual_network`
+    - `compute_vm_log_analytics_agent_health_issues_resolved`
+    - `compute_vm_scale_set_logging_enabled`
+    - `container_registry_azure_defender_enabled`
+    - `keyvault_vault_public_network_access_disabled`
+    - `kubernetes_azure_defender_enabled`
+
+_What's new?_
+
+- Added Other Compliance Checks benchmark (steampipe check benchmark.other). ([#189](https://github.com/turbot/steampipe-mod-azure-compliance/pull/189))
+
+_Bug fixes_
+
+- Fixed the `cis_v130_5_1_3`, `cis_v140_5_1_3`, `cis_v150_5_1_3`, and `cis_v200_5_1_3` controls to correctly use `monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok` query instead of `monitor_logs_storage_container_encryptes_with_byok` query. ([#187](https://github.com/turbot/steampipe-mod-azure-compliance/pull/187)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+- Fixed the `cis_v130_5_1_2`, `cis_v140_5_1_2`, `cis_v150_5_1_2`, and `cis_v200_5_1_2` controls to correctly use `monitor_logs_storage_container_insights_operational_logs_not_public_accessible` query instead of `monitor_logs_storage_container_not_public_accessible` query. ([#185](https://github.com/turbot/steampipe-mod-azure-compliance/pull/185)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+
 ## v0.29 [2023-07-07]
 
 _Enhancements_

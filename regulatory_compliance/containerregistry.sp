@@ -20,7 +20,7 @@ control "container_registry_azure_defender_enabled" {
   query       = query.container_registry_azure_defender_enabled
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 
@@ -55,8 +55,8 @@ control "container_registry_encrypted_with_cmk" {
 }
 
 control "container_registry_vulnerabilities_remediated" {
-  title       = "Vulnerabilities in Azure Container Registry images should be remediated"
-  description = "Container image vulnerability assessment scans your registry for security vulnerabilities on each pushed container image and exposes detailed findings for each image (powered by Qualys). Resolving the vulnerabilities can greatly improve your containers' security posture and protect them from attacks."
+  title       = "Container registry images should have vulnerability findings resolved"
+  description = "Container image vulnerability assessment scans your registry for security vulnerabilities and exposes detailed findings for each image. Resolving the vulnerabilities can greatly improve your containers' security posture and protect them from attacks."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {

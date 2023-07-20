@@ -53,7 +53,8 @@ control "sql_server_tde_protector_cmk_encrypted" {
   query       = query.sql_server_tde_protector_cmk_encrypted
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

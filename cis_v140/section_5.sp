@@ -96,7 +96,7 @@ control "cis_v140_5_1_2" {
 control "cis_v140_5_1_3" {
   title         = "5.1.3 Ensure the storage container storing the activity logs is not publicly accessible"
   description   = "The storage account container containing the activity log export should not be publicly accessible."
-  query         = query.monitor_logs_storage_container_not_public_accessible
+  query         = query.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
   documentation = file("./cis_v140/docs/cis_v140_5_1_3.md")
 
   tags = merge(local.cis_v140_5_1_common_tags, {
@@ -110,7 +110,7 @@ control "cis_v140_5_1_3" {
 control "cis_v140_5_1_4" {
   title         = "5.1.4 Ensure the storage account containing the container with activity logs is encrypted with BYOK (Use Your Own Key)"
   description   = "The storage account with the activity log export container is configured to use BYOK (Use Your Own Key)."
-  query         = query.monitor_logs_storage_container_encryptes_with_byok
+  query         = query.monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok
   documentation = file("./cis_v140/docs/cis_v140_5_1_4.md")
 
   tags = merge(local.cis_v140_5_1_common_tags, {

@@ -127,6 +127,16 @@ control "network_public_ip_no_basic_sku" {
   })
 }
 
+control "network_subnet_protected_by_firewall" {
+  title       = "All Internet traffic should be routed via your deployed Azure Firewall"
+  description = "Azure Security Center has identified that some of your subnets aren't protected with a next generation firewall. Protect your subnets from potential threats by restricting access to them with Azure Firewall or a supported next generation firewall."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (

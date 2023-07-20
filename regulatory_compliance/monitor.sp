@@ -45,6 +45,36 @@ control "audit_diagnostic_setting" {
   })
 }
 
+control "monitor_log_cluster_infrastructure_encryption_enabled" {
+  title       = "Azure Monitor Logs clusters should be created with infrastructure-encryption enabled (double encryption)"
+  description = "To ensure secure data encryption is enabled at the service level and the infrastructure level with two different encryption algorithms and two different keys, use an Azure Monitor dedicated cluster. This option is enabled by default when supported at the region, see https://docs.microsoft.com/azure/azure-monitor/platform/customer-managed-keys#customer-managed-key-overview."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "monitor_log_analytics_workspace_integrated_with_encrypted_storage_account" {
+  title       = "Saved-queries in Azure Monitor should be saved in customer storage account for logs encryption"
+  description = "Link storage account to Log Analytics workspace to protect saved-queries with storage account encryption. Customer-managed keys are commonly required to meet regulatory compliance and for more control over the access to your saved-queries in Azure Monitor. For more details on the above, see https://docs.microsoft.com/azure/azure-monitor/platform/customer-managed-keys?tabs=portal#customer-managed-key-for-saved-queries."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "monitor_log_cluster_encrypted_with_cmk" {
+  title       = "Azure Monitor Logs clusters should be encrypted with customer-managed key"
+  description = "Create Azure Monitor logs cluster with customer-managed keys encryption. By default, the log data is encrypted with service-managed keys, but customer-managed keys are commonly required to meet regulatory compliance. Customer-managed key in Azure Monitor gives you more control over the access to you data, see https://docs.microsoft.com/azure/azure-monitor/platform/customer-managed-keys."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "monitor_log_profile_enabled_for_all_categories" {
   sql = <<-EOQ
     select
@@ -881,7 +911,34 @@ query "monitor_log_alert_sql_firewall_rule" {
   EOQ
 }
 
-query "monitor_logs_storage_container_encryptes_with_byok" {
+query "monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when a.encryption_key_source = 'Microsoft.Keyvault' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.encryption_key_source = 'Microsoft.Keyvault'
+          then a.name || ' container insights-activity-logs encrypted with BYOK.'
+        else a.name || ' container insights-activity-logs not encrypted with BYOK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_container c,
+      azure_storage_account a,
+      azure_subscription sub
+    where
+      c.name = 'insights-activity-logs'
+      and c.account_name = a.name
+      and sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok" {
   sql = <<-EOQ
     select
       a.id as resource,
@@ -908,7 +965,7 @@ query "monitor_logs_storage_container_encryptes_with_byok" {
   EOQ
 }
 
-query "monitor_logs_storage_container_not_public_accessible" {
+query "monitor_logs_storage_container_insights_operational_logs_not_public_accessible" {
   sql = <<-EOQ
     select
       sc.id as resource,
@@ -928,6 +985,30 @@ query "monitor_logs_storage_container_not_public_accessible" {
       azure_subscription sub
     where
       name = 'insights-operational-logs'
+      and sub.subscription_id = sc.subscription_id;
+  EOQ
+}
+
+query "monitor_logs_storage_container_insights_activity_logs_not_public_accessible" {
+  sql = <<-EOQ
+    select
+      sc.id as resource,
+      case
+        when public_access != 'None' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_access != 'None'
+          then account_name || ' container insights-activity-logs storing activity logs publicly accessible.'
+        else account_name || ' container insights-activity-logs storing activity logs not publicly accessible.'
+      end as reason
+      ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "sc.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_container sc,
+      azure_subscription sub
+    where
+      name = 'insights-activity-logs'
       and sub.subscription_id = sc.subscription_id;
   EOQ
 }

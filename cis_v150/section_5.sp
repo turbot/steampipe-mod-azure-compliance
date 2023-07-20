@@ -98,7 +98,7 @@ control "cis_v150_5_1_2" {
 control "cis_v150_5_1_3" {
   title         = "5.1.3 Ensure the storage container storing the activity logs is not publicly accessible"
   description   = "The storage account container containing the activity log export should not be publicly accessible."
-  query         = query.monitor_logs_storage_container_not_public_accessible
+  query         = query.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
   documentation = file("./cis_v150/docs/cis_v150_5_1_3.md")
 
   tags = merge(local.cis_v150_5_1_common_tags, {
@@ -112,7 +112,7 @@ control "cis_v150_5_1_3" {
 control "cis_v150_5_1_4" {
   title         = "5.1.4 Ensure the storage account containing the container with activity logs is encrypted with Customer Managed Key"
   description   = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
-  query         = query.monitor_logs_storage_container_encryptes_with_byok
+  query         = query.monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok
   documentation = file("./cis_v150/docs/cis_v150_5_1_4.md")
 
   tags = merge(local.cis_v150_5_1_common_tags, {

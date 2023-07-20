@@ -14,6 +14,16 @@ control "machine_learning_workspace_encrypted_with_cmk" {
   })
 }
 
+control "machine_learning_workspace_private_link_used" {
+  title       = "Azure Machine Learning workspaces should use private link"
+  description = "Azure Private Link lets you connect your virtual network to Azure services without a public IP address at the source or destination. The Private Link platform handles the connectivity between the consumer and services over the Azure backbone network. By mapping private endpoints to Azure Machine Learning workspaces, data leakage risks are reduced. Learn more about private links at: https://docs.microsoft.com/azure/machine-learning/how-to-configure-private-link."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_machinelearning_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "machine_learning_workspace_encrypted_with_cmk" {
   sql = <<-EOQ
     select

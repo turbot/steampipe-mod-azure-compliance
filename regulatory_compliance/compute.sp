@@ -20,7 +20,8 @@ control "compute_vm_adaptive_network_hardening_recommendation_applied" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -42,7 +43,8 @@ control "compute_vm_tcp_udp_access_restricted_internet" {
   query       = query.compute_vm_tcp_udp_access_restricted_internet
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -58,7 +60,7 @@ control "compute_vm_jit_access_protected" {
 }
 
 control "compute_vm_log_analytics_agent_installed" {
-  title       = "Virtual machines should have the Log Analytics extension installed"
+  title       = "Log Analytics agent should be installed on your virtual machine for Azure Security Center monitoring"
   description = "This policy audits any Windows/Linux virtual machines if the Log Analytics extension is not installed."
   query       = query.compute_vm_log_analytics_agent_installed
 
@@ -89,12 +91,13 @@ control "compute_vm_malware_agent_installed" {
 }
 
 control "compute_vm_scale_set_log_analytics_agent_installed" {
-  title       = "The Log Analytics extension should be installed on Virtual Machine Scale Sets"
+  title       = "Log Analytics agent should be installed on your virtual machine scale sets for Azure Security Center monitoring"
   description = "This policy audits any Windows/Linux Virtual Machine Scale Sets if the Log Analytics extension is not installed."
   query       = query.compute_vm_scale_set_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -104,7 +107,8 @@ control "compute_vm_disaster_recovery_enabled" {
   query       = query.compute_vm_disaster_recovery_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -124,8 +128,7 @@ control "compute_vm_scale_set_logging_enabled" {
   query       = query.compute_vm_scale_set_logging_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    other_checks = "true"
   })
 }
 
@@ -202,7 +205,8 @@ control "compute_vm_scale_set_security_configuration_vulnerabilities_remediated"
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -212,8 +216,9 @@ control "compute_vm_system_updates_installed" {
   query       = query.compute_vm_system_updates_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
-    pci_dss_v321      = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -382,8 +387,8 @@ control "compute_vm_guest_configuration_installed" {
 }
 
 control "arc_compute_machine_linux_log_analytics_agent_installed" {
-  title       = "Log Analytics agent should be installed on your Linux Azure Arc machines"
-  description = "This policy audits Linux Azure Arc machines if the Log Analytics agent is not installed."
+  title       = "Log Analytics extension should be installed on your Linux Azure Arc machines"
+  description = "This policy audits Linux Azure Arc machines if the Log Analytics extension is not installed."
   query       = query.arc_compute_machine_linux_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -476,7 +481,7 @@ control "network_interface_ip_forwarding_disabled" {
 }
 
 control "arc_compute_machine_windows_log_analytics_agent_installed" {
-  title       = "Log Analytics agent should be installed on your Windows Azure Arc machines"
+  title       = "Log Analytics extension should be installed on your Windows Azure Arc machines"
   description = "This policy audits Windows Azure Arc machines if the Log Analytics agent is not installed."
   query       = query.arc_compute_machine_windows_log_analytics_agent_installed
 
@@ -639,19 +644,19 @@ control "compute_vm_meet_security_baseline_requirements_windows" {
   })
 }
 
-control "compute_vm_vulnerability_findings_resolved_for_sql_server" {
-  title       = "SQL servers on machines should have vulnerability findings resolved"
-  description = "SQL vulnerability assessment scans your database for security vulnerabilities, and exposes any deviations from best practices such as misconfigurations, excessive permissions, and unprotected sensitive data. Resolving the vulnerabilities found can greatly improve your database security posture."
-  query       = query.manual_control
-
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
-
 control "compute_vm_log_analytics_agent_health_issues_resolved" {
   title       = "Log Analytics agent health issues should be resolved on your machines"
   description = "Security Center uses the Log Analytics agent, formerly known as the Microsoft Monitoring Agent (MMA). To make sure your virtual machines are successfully monitored, you need to make sure the agent is installed on the virtual machines and properly collects security events to the configured workspace."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "compute_vm_vulnerability_findings_resolved_for_sql_server" {
+  title       = "SQL servers on machines should have vulnerability findings resolved"
+  description = "SQL vulnerability assessment scans your database for security vulnerabilities, and exposes any deviations from best practices such as misconfigurations, excessive permissions, and unprotected sensitive data. Resolving the vulnerabilities found can greatly improve your database security posture."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -665,7 +670,8 @@ control "compute_vm_guest_configuration_with_no_managed_identity" {
   query       = query.compute_vm_guest_configuration_with_no_managed_identity
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    pci_dss_v321 = "true"
+    nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -685,7 +691,8 @@ control "compute_vm_scale_set_system_updates_installed" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -716,6 +723,26 @@ control "compute_vm_azure_backup_enabled" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_image_builder_uses_private_link" {
+  title       = "VM Image Builder templates should use private link"
+  description = "Azure Private Link lets you connect your virtual network to Azure services without a public IP address at the source or destination. The Private Link platform handles the connectivity between the consumer and services over the Azure backbone network. By mapping private endpoints to your VM Image Builder building resources, data leakage risks are reduced."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "compute_os_and_data_disk_encrypted_with_cmk" {
+  title       = "OS and data disks should be encrypted with a customer-managed key"
+  description = "Use customer-managed keys to manage the encryption at rest of the contents of your managed disks. By default, the data is encrypted at rest with platform-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management. Learn more at https://aka.ms/disks-cmk."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

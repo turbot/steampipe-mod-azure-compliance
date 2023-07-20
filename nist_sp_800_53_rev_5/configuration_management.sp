@@ -21,13 +21,21 @@ benchmark "nist_sp_800_53_rev_5_cm_6" {
     control.appservice_function_app_client_certificates_on,
     control.appservice_function_app_cors_no_star,
     control.appservice_function_app_remote_debugging_disabled,
-    control.appservice_web_app_client_certificates_on,
-    control.appservice_web_app_cors_no_star,
-    control.appservice_web_app_remote_debugging_disabled,
     control.compute_vm_meet_security_baseline_requirements_linux,
     control.compute_vm_meet_security_baseline_requirements_windows,
     control.kubernetes_cluster_add_on_azure_policy_enabled,
-    control.kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id
+    control.kubernetes_cluster_container_cpu_and_memory_resource_limit,
+    control.kubernetes_cluster_container_host_process_id_not_shared,
+    control.kubernetes_cluster_container_privilege_escalation_restricted,
+    control.kubernetes_cluster_container_use_allowed_apparmor_profile,
+    control.kubernetes_cluster_container_use_allowed_capabilities,
+    control.kubernetes_cluster_container_use_allowed_images,
+    control.kubernetes_cluster_container_with_read_only_root_file_system,
+    control.kubernetes_cluster_pod_host_path_volume_use_allowed_host_path,
+    control.kubernetes_cluster_pod_use_approved_host_network_and_port_range,
+    control.kubernetes_cluster_pods_and_containers_uses_approved_user_and_group_id,
+    control.kubernetes_cluster_privilege_containers_restricted,
+    control.kubernetes_cluster_service_listen_to_allowed_ports
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags
@@ -45,7 +53,7 @@ benchmark "nist_sp_800_53_rev_5_cm_7" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/Compute"
+    service = "Azure/Compute"
   })
 }
 
@@ -58,7 +66,7 @@ benchmark "nist_sp_800_53_rev_5_cm_7_2" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/Compute"
+    service = "Azure/Compute"
   })
 }
 
@@ -66,12 +74,12 @@ benchmark "nist_sp_800_53_rev_5_cm_7_5" {
   title       = "Authorized Software ??? Allow-by-exception CM-7(5)"
   description = "The organization identifies organization-defined software programs authorized to execute on the information system, employs a deny-all, permit-by-exception policy to allow the execution of authorized software programs on the information system, and reviews and updates the list of authorized software programs."
   children = [
-    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated,
-    control.compute_vm_adaptive_application_controls_enabled
+    control.compute_vm_adaptive_application_controls_enabled,
+    control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/Compute"
+    service = "Azure/Compute"
   })
 }
 
@@ -84,7 +92,7 @@ benchmark "nist_sp_800_53_rev_5_cm_10" {
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/Compute"
+    service = "Azure/Compute"
   })
 }
 
@@ -95,8 +103,8 @@ benchmark "nist_sp_800_53_rev_5_cm_11" {
     control.compute_vm_adaptive_application_controls_enabled,
     control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated
   ]
-  
+
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {
-    service       = "Azure/Compute"
+    service = "Azure/Compute"
   })
 }

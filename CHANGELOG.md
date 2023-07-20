@@ -29,7 +29,7 @@ _Breaking changes_
 
 _What's new?_
 
-- Added Other Compliance Checks benchmark (steampipe check benchmark.other). ([#189](https://github.com/turbot/steampipe-mod-azure-compliance/pull/189))
+- Added `Other Compliance Checks` benchmark (steampipe check benchmark.other). ([#189](https://github.com/turbot/steampipe-mod-azure-compliance/pull/189))
 
 _Bug fixes_
 

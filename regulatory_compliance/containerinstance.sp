@@ -35,4 +35,4 @@ query "container_instance_container_group_encrypted_using_cmk" {
     where
       sub.subscription_id = cg.subscription_id;
   EOQ
-}
+} 

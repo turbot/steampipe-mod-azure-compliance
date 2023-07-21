@@ -3,7 +3,7 @@ control "container_instance_container_group_encryption_using_cmk" {
   description = "Secure your containers with greater flexibility using customer-managed keys. When you specify a customer-managed key, that key is used to protect and control access to the key that encrypts your data. Using customer-managed keys provides additional capabilities to control rotation of the key encryption key or cryptographically erase data."
   query       = query.container_instance_container_group_encryption_using_cmk
 
-  tags = merge(local.regulatory_compliance_synapse_common_tags, {
+  tags = merge(local.regulatory_compliance_containerinstance_common_tags, {
     nist_sp_800_53_rev_5 = "true"
   })
 }

@@ -81,16 +81,6 @@ control "sql_database_vulnerability_findings_resolved" {
   })
 }
 
-control "sql_database_server_azure_defender_enabled" {
-  title       = "Azure Defender for Azure SQL Database servers should be enabled"
-  description = "Azure Defender for SQL provides functionality for surfacing and mitigating potential database vulnerabilities, detecting anomalous activities that could indicate threats to SQL databases, and discovering and classifying sensitive data."
-  query       = query.sql_database_server_azure_defender_enabled
-
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
-
 control "sql_database_transparent_data_encryption_enabled" {
   title       = "SQL databases transparent data encryption should be enabled"
   description = "Transparent data encryption should be enabled to protect data-at-rest and meet compliance requirements."
@@ -99,16 +89,6 @@ control "sql_database_transparent_data_encryption_enabled" {
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     hipaa_hitrust_v92 = "true"
     pci_dss_v321      = "true"
-  })
-}
-
-control "sql_server_vm_azure_defender_enabled" {
-  title       = "Azure Defender for SQL servers on machines should be enabled"
-  description = "Azure Defender for SQL provides functionality for surfacing and mitigating potential database vulnerabilities, detecting anomalous activities that could indicate threats to SQL databases, and discovering and classifying sensitive data."
-  query       = query.sql_server_vm_azure_defender_enabled
-
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -359,29 +339,6 @@ query "sql_database_vulnerability_findings_resolved" {
   EOQ
 }
 
-query "sql_database_server_azure_defender_enabled" {
-  sql = <<-EOQ
-    select
-      pricing.id as resource,
-      case
-        when name = 'SqlServers' and pricing_tier = 'Standard' then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when name = 'SqlServers' and pricing_tier = 'Standard' then 'SqlServers azure defender enabled.'
-        else name || 'SqlServers azure defender disabled.'
-      end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_security_center_subscription_pricing as pricing,
-      azure_subscription as sub
-    where
-      sub.subscription_id = pricing.subscription_id
-      and name = 'SqlServers';
-  EOQ
-}
-
 query "sql_database_transparent_data_encryption_enabled" {
   sql = <<-EOQ
     select
@@ -403,29 +360,6 @@ query "sql_database_transparent_data_encryption_enabled" {
     where
       sub.subscription_id = s.subscription_id
       and s.name <> 'master';
-  EOQ
-}
-
-query "sql_server_vm_azure_defender_enabled" {
-  sql = <<-EOQ
-    select
-      pricing.id as resource,
-      case
-        when name = 'SqlServerVirtualMachines' and pricing_tier = 'Standard' then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when name = 'SqlServerVirtualMachines' and pricing_tier = 'Standard' then 'SqlServerVirtualMachines azure defender enabled.'
-        else name || 'SqlServerVirtualMachines azure defender disabled.'
-      end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_security_center_subscription_pricing as pricing,
-      azure_subscription as sub
-    where
-      sub.subscription_id = pricing.subscription_id
-      and name = 'SqlServerVirtualMachines';
   EOQ
 }
 

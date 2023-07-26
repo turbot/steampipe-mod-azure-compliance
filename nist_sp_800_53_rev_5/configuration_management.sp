@@ -49,7 +49,7 @@ benchmark "nist_sp_800_53_rev_5_cm_7" {
     benchmark.nist_sp_800_53_rev_5_cm_7_5,
     control.compute_vm_adaptive_application_controls_enabled,
     control.compute_vm_allowlist_rules_in_adaptive_application_control_policy_updated,
-    control.compute_vm_azure_defender_enabled
+    control.securitycenter_azure_defender_on_for_server
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {

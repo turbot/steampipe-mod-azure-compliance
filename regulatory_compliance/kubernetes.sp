@@ -15,16 +15,6 @@ control "kubernetes_instance_rbac_enabled" {
   })
 }
 
-control "kubernetes_azure_defender_enabled" {
-  title       = "Azure Defender for Kubernetes should be enabled"
-  description = "Azure Defender for Kubernetes provides real-time threat protection for containerized environments and generates alerts for suspicious activities."
-  query       = query.kubernetes_azure_defender_enabled
-
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
-}
-
 control "kubernetes_cluster_add_on_azure_policy_enabled" {
   title       = "Azure Policy Add-on for Kubernetes service (AKS) should be installed and enabled on your clusters"
   description = "Azure Policy Add-on for Kubernetes service (AKS) extends Gatekeeper v3, an admission controller webhook for Open Policy Agent (OPA), to apply at-scale enforcements and safeguards on your clusters in a centralized, consistent manner."
@@ -236,29 +226,6 @@ query "kubernetes_instance_rbac_enabled" {
       azure_subscription sub
     where
       sub.subscription_id = kc.subscription_id;
-  EOQ
-}
-
-query "kubernetes_azure_defender_enabled" {
-  sql = <<-EOQ
-    select
-      pricing.id as resource,
-      case
-        when name = 'KubernetesService' and pricing_tier = 'Standard' then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when name = 'KubernetesService' and pricing_tier = 'Standard' then 'KubernetesService azure defender enabled.'
-        else name || 'KubernetesService azure defender disabled.'
-      end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_security_center_subscription_pricing as pricing,
-      azure_subscription as sub
-    where
-      sub.subscription_id = pricing.subscription_id
-      and name = 'KubernetesService';
   EOQ
 }
 

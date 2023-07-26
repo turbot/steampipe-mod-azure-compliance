@@ -188,16 +188,6 @@ control "appservice_function_app_uses_managed_identity" {
   })
 }
 
-control "appservice_azure_defender_enabled" {
-  title       = "Azure Defender for App Service should be enabled"
-  description = "Azure Defender for App Service leverages the scale of the cloud, and the visibility that Azure has as a cloud provider, to monitor for common web app attacks."
-  query       = query.appservice_azure_defender_enabled
-
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
-
 control "appservice_api_app_client_certificates_on" {
   title       = "App Service apps should have 'Client Certificates (Incoming client certificates)' enabled"
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
@@ -884,29 +874,6 @@ query "appservice_function_app_uses_managed_identity" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;
-  EOQ
-}
-
-query "appservice_azure_defender_enabled" {
-  sql = <<-EOQ
-    select
-      pricing.id as resource,
-      case
-        when name = 'AppServices' and pricing_tier = 'Standard' then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when name = 'AppServices' and pricing_tier = 'Standard' then 'AppServices azure defender enabled.'
-        else name || 'AppServices azure defender disabled.'
-      end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_security_center_subscription_pricing as pricing,
-      azure_subscription as sub
-    where
-      sub.subscription_id = pricing.subscription_id
-      and name = 'AppServices';
   EOQ
 }
 

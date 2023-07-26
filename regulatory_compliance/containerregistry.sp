@@ -14,16 +14,6 @@ control "container_registry_use_virtual_service_endpoint" {
   })
 }
 
-control "container_registry_azure_defender_enabled" {
-  title       = "Azure Defender for container registries should be enabled"
-  description = "Azure Defender for container registries provides vulnerability scanning of any images pulled within the last 30 days, pushed to your registry, or imported, and exposes detailed findings per image."
-  query       = query.container_registry_azure_defender_enabled
-
-  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    other_checks = "true"
-  })
-}
-
 control "container_registry_restrict_public_access" {
   title       = "Container registries should not allow unrestricted network access"
   description = "Azure container registries by default accept connections over the internet from hosts on any network. To protect your registries from potential threats, allow access from only specific public IP addresses or address ranges. If your registry doesn't have an IP/firewall rule or a configured virtual network, it will appear in the unhealthy resources."
@@ -62,29 +52,6 @@ control "container_registry_vulnerabilities_remediated" {
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
     nist_sp_800_53_rev_5 = "true"
   })
-}
-
-query "container_registry_azure_defender_enabled" {
-  sql = <<-EOQ
-    select
-      pricing.id as resource,
-      case
-        when name = 'ContainerRegistry' and pricing_tier = 'Standard' then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when name = 'ContainerRegistry' and pricing_tier = 'Standard' then 'ContainerRegistry azure defender enabled.'
-        else name || 'ContainerRegistry azure defender disabled.'
-      end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_security_center_subscription_pricing as pricing,
-      azure_subscription as sub
-    where
-      sub.subscription_id = pricing.subscription_id
-      and name = 'ContainerRegistry';
-  EOQ
 }
 
 query "container_registry_encrypted_with_cmk" {

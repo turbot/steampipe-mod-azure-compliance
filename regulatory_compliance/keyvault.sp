@@ -56,16 +56,6 @@ control "keyvault_managed_hms_logging_enabled" {
   })
 }
 
-control "keyvault_azure_defender_enabled" {
-  title       = "Azure Defender for Key Vault should be enabled"
-  description = "Azure Defender for Key Vault provides an additional layer of protection and security intelligence by detecting unusual and potentially harmful attempts to access or exploit key vault accounts."
-  query       = query.keyvault_azure_defender_enabled
-
-  tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
-
 control "keyvault_vault_private_link_used" {
   title       = "Azure Key Vaults should use private link"
   description = "Azure Private Link lets you connect your virtual networks to Azure services without a public IP address at the source or destination. The Private Link platform handles the connectivity between the consumer and services over the Azure backbone network. By mapping private endpoints to key vault, you can reduce data leakage risks."
@@ -296,29 +286,6 @@ query "keyvault_managed_hms_logging_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = v.subscription_id;
-  EOQ
-}
-
-query "keyvault_azure_defender_enabled" {
-  sql = <<-EOQ
-    select
-      pricing.id as resource,
-      case
-        when name = 'KeyVaults' and pricing_tier = 'Standard' then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when name = 'KeyVaults' and pricing_tier = 'Standard' then 'KeyVaults azure defender enabled.'
-        else name || 'KeyVaults azure defender disabled.'
-      end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_security_center_subscription_pricing as pricing,
-      azure_subscription as sub
-    where
-      sub.subscription_id = pricing.subscription_id
-      and name = 'KeyVaults';
   EOQ
 }
 

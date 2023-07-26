@@ -20,9 +20,9 @@ benchmark "other" {
     control.azure_redis_cache_in_virtual_network,
     control.compute_vm_log_analytics_agent_health_issues_resolved,
     control.compute_vm_scale_set_logging_enabled,
-    control.container_registry_azure_defender_enabled,
     control.keyvault_vault_public_network_access_disabled,
-    control.kubernetes_azure_defender_enabled
+    control.securitycenter_azure_defender_on_for_containerregistry,
+    control.securitycenter_azure_defender_on_for_k8s
   ]
 
   tags = merge(local.other_common_tags, {

@@ -86,11 +86,11 @@ mod "azure_compliance" {
   }
 
   require {
-    plugin "aws" {
-      min_version = "0.46.0"
+    plugin "azure" {
+      version = "0.46.0"
     }
     plugin "azuread" {
-      min_version = "0.0.3"
+      version = "0.0.3"
     }
   }
 }

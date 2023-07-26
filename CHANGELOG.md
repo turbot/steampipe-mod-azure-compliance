@@ -1,3 +1,25 @@
+## v0.31 [2023-07-26]
+
+_Breaking changes_
+
+- The following duplicate controls have been removed:
+  - `appservice_azure_defender_enabled`
+  - `compute_vm_azure_defender_enabled`
+  - `container_registry_azure_defender_enabled`
+  - `dns_azure_defender_enabled`
+  - `keyvault_azure_defender_enabled`
+  - `kubernetes_azure_defender_enabled`
+  - `resource_manager_azure_defender_enabled`
+  - `sql_database_server_azure_defender_enabled`
+  - `sql_server_vm_azure_defender_enabled`
+  - `storage_azure_defender_enabled`
+
+_Enhancements_
+
+- The `NIST SP 800-53 Rev 5` benchmark has been updated to better align with the matching [NIST SP 800-53 Rev. 5 Regulatory Compliance](https://learn.microsoft.com/en-us/azure/governance/policy/samples/nist-sp-800-53-r5). The following updates have been made to the benchmark: ([#194](https://github.com/turbot/steampipe-mod-azure-compliance/pull/194))
+  - The following controls have been added across the benchmarks:
+    - `container_instance_container_group_encrypted_using_cmk`
+
 ## v0.30 [2023-07-20]
 
 _Breaking changes_

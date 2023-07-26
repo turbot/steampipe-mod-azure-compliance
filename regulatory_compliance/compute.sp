@@ -315,16 +315,6 @@ control "compute_vm_vulnerability_assessment_solution_enabled" {
   })
 }
 
-control "compute_vm_azure_defender_enabled" {
-  title       = "Azure Defender for servers should be enabled"
-  description = "Azure Defender for servers provides real-time threat protection for server workloads and generates hardening recommendations as well as alerts about suspicious activities."
-  query       = query.compute_vm_azure_defender_enabled
-
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
-  })
-}
-
 control "compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity" {
   title       = "Add system-assigned managed identity to enable Guest Configuration assignments on VMs with a user-assigned identity"
   description = "This policy adds a system-assigned managed identity to virtual machines hosted in Azure that are supported by Guest Configuration and have at least one user-assigned identity but do not have a system-assigned managed identity. A system-assigned managed identity is a prerequisite for all Guest Configuration assignments and must be added to machines before using any Guest Configuration policy definitions."
@@ -1456,29 +1446,6 @@ query "compute_vm_vulnerability_assessment_solution_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;
-  EOQ
-}
-
-query "compute_vm_azure_defender_enabled" {
-  sql = <<-EOQ
-    select
-      pricing.id as resource,
-      case
-        when name = 'VirtualMachines' and pricing_tier = 'Standard' then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when name = 'VirtualMachines' and pricing_tier = 'Standard' then 'VirtualMachines azure defender enabled.'
-        else name || 'VirtualMachines azure defender disabled.'
-      end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_security_center_subscription_pricing as pricing,
-      azure_subscription as sub
-    where
-      sub.subscription_id = pricing.subscription_id
-      and name = 'VirtualMachines';
   EOQ
 }
 

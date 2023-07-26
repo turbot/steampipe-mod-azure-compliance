@@ -67,18 +67,17 @@ benchmark "nist_sp_800_53_rev_5_ac_2_12" {
   title       = "Account Monitoring for Atypical Usage AC-2(12)"
   description = "The organization monitors information system accounts for organization-defined atypical use and reports atypical usage of information system accounts to organization-defined personnel or roles."
   children = [
-    control.appservice_azure_defender_enabled,
     control.arc_kubernetes_cluster_azure_defender_extension_installed,
-    control.compute_vm_azure_defender_enabled,
     control.compute_vm_jit_access_protected,
-    control.dns_azure_defender_enabled,
-    control.keyvault_azure_defender_enabled,
-    control.resource_manager_azure_defender_enabled,
+    control.securitycenter_azure_defender_on_for_appservice,
     control.securitycenter_azure_defender_on_for_containers,
+    control.securitycenter_azure_defender_on_for_dns,
+    control.securitycenter_azure_defender_on_for_keyvault,
+    control.securitycenter_azure_defender_on_for_resource_manager,
+    control.securitycenter_azure_defender_on_for_server,
+    control.securitycenter_azure_defender_on_for_sqldb,
     control.securitycenter_azure_defender_on_for_sqlservervm,
-    control.sql_database_server_azure_defender_enabled,
-    control.sql_server_vm_azure_defender_enabled,
-    control.storage_azure_defender_enabled
+    control.securitycenter_azure_defender_on_for_storage,
   ]
 
   tags = local.nist_sp_800_53_rev_5_common_tags

@@ -65,6 +65,96 @@ control "securitycenter_azure_defender_on_for_containers" {
   })
 }
 
+control "securitycenter_azure_defender_on_for_k8s" {
+  title       = "Azure Defender for Kubernetes should be enabled"
+  description = "Azure Defender for Kubernetes provides real-time threat protection for containerized environments and generates alerts for suspicious activities."
+  query       = query.securitycenter_azure_defender_on_for_k8s
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "securitycenter_azure_defender_on_for_appservice" {
+  title       = "Azure Defender for App Service should be enabled"
+  description = "Azure Defender for App Service leverages the scale of the cloud, and the visibility that Azure has as a cloud provider, to monitor for common web app attacks."
+  query       = query.securitycenter_azure_defender_on_for_appservice
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "securitycenter_azure_defender_on_for_keyvault" {
+  title       = "Azure Defender for Key Vault should be enabled"
+  description = "Azure Defender for Key Vault provides an additional layer of protection and security intelligence by detecting unusual and potentially harmful attempts to access or exploit key vault accounts."
+  query       = query.securitycenter_azure_defender_on_for_keyvault
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "securitycenter_azure_defender_on_for_server" {
+  title       = "Azure Defender for servers should be enabled"
+  description = "Azure Defender for servers provides real-time threat protection for server workloads and generates hardening recommendations as well as alerts about suspicious activities."
+  query       = query.securitycenter_azure_defender_on_for_server
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "securitycenter_azure_defender_on_for_sqldb" {
+  title       = "Azure Defender for Azure SQL Database servers should be enabled"
+  description = "Azure Defender for SQL provides functionality for surfacing and mitigating potential database vulnerabilities, detecting anomalous activities that could indicate threats to SQL databases, and discovering and classifying sensitive data."
+  query       = query.securitycenter_azure_defender_on_for_sqldb
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "securitycenter_azure_defender_on_for_storage" {
+  title       = "Microsoft Defender for Storage (Classic) should be enabled"
+  description = "Azure Defender for Storage provides detections of unusual and potentially harmful attempts to access or exploit storage accounts."
+  query       = query.securitycenter_azure_defender_on_for_storage
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "securitycenter_azure_defender_on_for_containerregistry" {
+  title       = "Azure Defender for container registries should be enabled"
+  description = "Azure Defender for container registries provides vulnerability scanning of any images pulled within the last 30 days, pushed to your registry, or imported, and exposes detailed findings per image."
+  query       = query.securitycenter_azure_defender_on_for_containerregistry
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "securitycenter_azure_defender_on_for_dns" {
+  title       = "Azure Defender for DNS should be enabled"
+  description = "Azure Defender for DNS provides an additional layer of protection for your cloud resources by continuously monitoring all DNS queries from your Azure resources. Azure Defender alerts you about suspicious activity at the DNS layer."
+  query       = query.securitycenter_azure_defender_on_for_dns
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
+control "securitycenter_azure_defender_on_for_resource_manager" {
+  title       = "Azure Defender for Resource Manager should be enabled"
+  description = "Azure Defender for Resource Manager automatically monitors the resource management operations in your organization. Azure Defender detects threats and alerts you about suspicious activity."
+  query       = query.securitycenter_azure_defender_on_for_resource_manager
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_53_rev_5 = "true"
+  })
+}
+
 query "securitycenter_automatic_provisioning_monitoring_agent_on" {
   sql = <<-EOQ
     select

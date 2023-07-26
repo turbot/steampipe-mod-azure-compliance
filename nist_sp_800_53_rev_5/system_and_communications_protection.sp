@@ -17,10 +17,10 @@ benchmark "nist_sp_800_53_rev_5_sc_3" {
   title       = "Security Function Isolation (SC-3)"
   description = "The information system isolates security functions from nonsecurity functions."
   children = [
-    control.compute_vm_azure_defender_enabled,
     control.compute_vm_monitor_missing_endpoint_protection_in_asc,
     control.compute_vm_scale_set_endpoint_protection_solution_installed,
-    control.compute_vm_windows_defender_exploit_guard_enabled
+    control.compute_vm_windows_defender_exploit_guard_enabled,
+    control.securitycenter_azure_defender_on_for_server
   ]
 
   tags = merge(local.nist_sp_800_53_rev_5_common_tags, {

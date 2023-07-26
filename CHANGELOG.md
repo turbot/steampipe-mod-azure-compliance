@@ -2,7 +2,7 @@
 
 _Breaking changes_
 
-- The following duplicate controls have been removed:
+- The following duplicate controls have been removed: ([#197](https://github.com/turbot/steampipe-mod-azure-compliance/pull/197))
   - `appservice_azure_defender_enabled`
   - `compute_vm_azure_defender_enabled`
   - `container_registry_azure_defender_enabled`

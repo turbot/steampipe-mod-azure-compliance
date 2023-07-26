@@ -14,9 +14,13 @@ _Breaking changes_
   - `sql_server_vm_azure_defender_enabled`
   - `storage_azure_defender_enabled`
 
+_Dependencies_
+
+- Azure plugin `v0.46.0` or higher is now required. ([#195](https://github.com/turbot/steampipe-mod-azure-compliance/pull/195))
+
 _Enhancements_
 
-- The following controls have been added across the `nist_sp_800_53_rev_5` benchmark: ([#194](https://github.com/turbot/steampipe-mod-azure-compliance/pull/194))
+- Added the following control to `nist_sp_800_53_rev_5` benchmark: ([#194](https://github.com/turbot/steampipe-mod-azure-compliance/pull/194))
   - `container_instance_container_group_encrypted_using_cmk`
 
 ## v0.30 [2023-07-20]

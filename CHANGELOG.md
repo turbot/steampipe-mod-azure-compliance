@@ -1,3 +1,28 @@
+## v0.31 [2023-07-26]
+
+_Breaking changes_
+
+- The following duplicate controls that were used in the `nist_sp_800_53_rev_5` and `other_checks` benchmarks have been removed: ([#197](https://github.com/turbot/steampipe-mod-azure-compliance/pull/197))
+  - `appservice_azure_defender_enabled`
+  - `compute_vm_azure_defender_enabled`
+  - `container_registry_azure_defender_enabled`
+  - `dns_azure_defender_enabled`
+  - `keyvault_azure_defender_enabled`
+  - `kubernetes_azure_defender_enabled`
+  - `resource_manager_azure_defender_enabled`
+  - `sql_database_server_azure_defender_enabled`
+  - `sql_server_vm_azure_defender_enabled`
+  - `storage_azure_defender_enabled`
+
+_Dependencies_
+
+- Azure plugin `v0.46.0` or higher is now required. ([#195](https://github.com/turbot/steampipe-mod-azure-compliance/pull/195))
+
+_Enhancements_
+
+- Added the following control to `nist_sp_800_53_rev_5` benchmark: ([#194](https://github.com/turbot/steampipe-mod-azure-compliance/pull/194))
+  - `container_instance_container_group_encrypted_using_cmk`
+
 ## v0.30 [2023-07-20]
 
 _Breaking changes_

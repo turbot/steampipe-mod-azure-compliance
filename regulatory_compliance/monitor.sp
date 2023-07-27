@@ -109,7 +109,7 @@ query "monitor_log_alert_for_administrative_operations" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
@@ -262,7 +262,7 @@ query "monitor_log_alert_create_policy_assignment" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
@@ -306,7 +306,7 @@ query "monitor_log_alert_create_update_nsg_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
@@ -359,7 +359,7 @@ query "monitor_log_alert_create_update_nsg" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
@@ -413,7 +413,7 @@ query "monitor_log_alert_create_update_public_ip_address" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and
@@ -466,7 +466,7 @@ query "monitor_log_alert_create_update_security_solution" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
@@ -520,7 +520,7 @@ query "monitor_log_alert_create_update_sql_servers_firewall_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and
@@ -573,7 +573,7 @@ query "monitor_log_alert_delete_nsg_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
@@ -627,7 +627,7 @@ query "monitor_log_alert_delete_nsg" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
@@ -680,7 +680,7 @@ query "monitor_log_alert_delete_policy_assignment" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
@@ -723,7 +723,7 @@ query "monitor_log_alert_delete_public_ip_address" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and
@@ -776,7 +776,7 @@ query "monitor_log_alert_delete_security_solution" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
@@ -829,7 +829,7 @@ query "monitor_log_alert_delete_sql_servers_firewall_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and
@@ -881,7 +881,7 @@ query "monitor_log_alert_sql_firewall_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'

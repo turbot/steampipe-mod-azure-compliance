@@ -1,3 +1,9 @@
+## v0.32 [2023-07-28]
+
+_Bug fixes_
+
+- Fixed the `monitor_log_alert_*` queries to correctly evaluate the activity log alerts of different Azure resource types. ([#203](https://github.com/turbot/steampipe-mod-azure-compliance/pull/203)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+
 ## v0.31 [2023-07-26]
 
 _Breaking changes_

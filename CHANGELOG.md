@@ -2,21 +2,7 @@
 
 _Bug fixes_
 
-- Fixed the following queries to correctly evaluate the associated controls: ([#203](https://github.com/turbot/steampipe-mod-azure-compliance/pull/203)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
-  - `monitor_log_alert_create_policy_assignment`
-  - `monitor_log_alert_create_update_nsg_rule`
-  - `monitor_log_alert_create_update_nsg`
-  - `monitor_log_alert_create_update_public_ip_address`
-  - `monitor_log_alert_create_update_security_solution`
-  - `monitor_log_alert_create_update_sql_servers_firewall_rule`
-  - `monitor_log_alert_delete_nsg_rule`
-  - `monitor_log_alert_delete_nsg`
-  - `monitor_log_alert_delete_policy_assignment`
-  - `monitor_log_alert_delete_public_ip_address`
-  - `monitor_log_alert_delete_security_solution`
-  - `monitor_log_alert_delete_sql_servers_firewall_rule`
-  - `monitor_log_alert_for_administrative_operations`
-  - `monitor_log_alert_sql_firewall_rule`
+- FIxed the `monitor_log_alert_*` queries to correctly evaluate the activity log alerts of different Azure resource types. ([#203](https://github.com/turbot/steampipe-mod-azure-compliance/pull/203)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
 
 ## v0.31 [2023-07-26]
 

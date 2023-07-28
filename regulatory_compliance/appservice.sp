@@ -1544,3 +1544,141 @@ query "appservice_web_app_register_with_active_directory_enabled" {
       sub.subscription_id = app.subscription_id;
   EOQ
 }
+
+query "appservice_web_app_latest_dotnet_framework_version" {
+  sql = <<-EOQ
+    with all_web_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem like 'app%'
+        )
+        and
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem = 'linux'
+        )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null then 'skip'
+        when configuration -> 'properties' ->> 'netFrameworkVersion' = 'v6.0' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null then a.title || ' is not of linux kind.'
+        when configuration -> 'properties' ->> 'netFrameworkVersion' = 'v6.0' then a.name ||  ' is using latest dotnet version.'
+        else a.name || ' not using latest dotnet version.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_web_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_failed_request_tracing_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when diagnostic_logs_configuration -> 'properties' -> 'failedRequestsTracing' ->> 'enabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when diagnostic_logs_configuration -> 'properties' -> 'failedRequestsTracing' ->> 'enabled' = 'true' then a.name || ' failed requests tracing enabled.'
+        else a.name || ' failed requests tracing disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_http_logs_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when configuration -> 'properties' ->> 'httpLoggingEnabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when configuration -> 'properties' ->> 'httpLoggingEnabled' = 'true' then a.name || ' HTTP logs enabled.'
+        else a.name || ' HTTP logs disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_worker_more_than_one" {
+  sql = <<-EOQ
+    select
+      p ->> 'ID' as resource,
+      case
+        when (p -> 'SiteProperties' -> 'siteConfig' ->> 'numberOfWorkers')::int > 1 then 'ok'
+        else 'alarm'
+      end as status,
+        a.name || ' has ' || (p -> 'SiteProperties' -> 'siteConfig' ->> 'numberOfWorkers') || ' no of workers.' as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_plan as a,
+      jsonb_array_elements(apps) as p,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_slot_only_https_accessible" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when https_only then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when https_only then name || ' https-only accessible enabled.'
+        else name || ' https-only accessible disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app_slot as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}

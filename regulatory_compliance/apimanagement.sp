@@ -31,3 +31,24 @@ query "apimanagement_service_with_virtual_network" {
       azure_subscription sub;
   EOQ
 }
+
+query "apimanagement_service_client_certificate_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when enable_client_certificate then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when enable_client_certificate then a.name || ' client certificate enabled.'
+        else a.name || ' client certificate disabled.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_api_management a,
+      azure_subscription sub;
+  EOQ
+}

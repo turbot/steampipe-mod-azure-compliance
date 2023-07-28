@@ -75,3 +75,45 @@ query "eventgrid_topic_private_link_used" {
       azure_subscription sub;
   EOQ
 }
+
+query "eventgrid_domain_prohibit_public_access" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when public_network_access = 'Enabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_network_access = 'Enabled' then a.name || ' publicly accessible.'
+        else a.name || ' not publicly accessible.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_eventgrid_domain a,
+      azure_subscription sub;
+  EOQ
+}
+
+query "eventgrid_domain_identity_provider_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when identity_type = 'None' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when identity_type = 'None' then a.name || ' identity provider disabled.'
+        else a.name || ' identity provider enabled.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_eventgrid_domain a,
+      azure_subscription sub;
+  EOQ
+}

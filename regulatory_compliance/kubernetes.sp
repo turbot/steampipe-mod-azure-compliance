@@ -364,3 +364,84 @@ query "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
       sub.subscription_id = a.subscription_id;
   EOQ
 }
+
+query "kubernetes_cluster_not_public_accessible" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when api_server_access_profile ->> 'enablePrivateCluster' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when api_server_access_profile ->> 'enablePrivateCluster' = 'true' then c.name || ' not publicly accessible.'
+        else c.name || ' publicly accessibe.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_addon_azure_policy_enabled" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when addon_profiles -> 'azurepolicy' ->> 'enabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when addon_profiles -> 'azurepolicy' ->> 'enabled' = 'true' then c.name || ' addon azure policy enabled .'
+        else c.name || ' addon azure policy disabled .'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_node_prohibit_public_access" {
+  sql = <<-EOQ
+    with public_node as (
+      select
+        distinct id
+      from
+        azure_kubernetes_cluster,
+        jsonb_array_elements(agent_pool_profiles) as p
+      where
+        p ->> 'enableNodePublicIP' = 'true'
+      group by
+        id
+    )
+    select
+      c.id as resource,
+      case
+        when n.id is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when n.id is null then c.name || ' has no public node.'
+        else c.name || ' has public node.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c
+      left join public_node as n on n.id = c.id,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}

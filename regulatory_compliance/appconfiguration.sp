@@ -41,3 +41,63 @@ query "app_configuration_private_link_used" {
       azure_subscription as sub;
   EOQ
 }
+
+query "app_configuration_prohibit_public_access" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when public_network_access = 'Enabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_network_access = 'Enabled' then a.name ||  ' publicly accessible.'
+        else a.name || ' not publicly accessible.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_configuration as a,
+      azure_subscription as sub;
+  EOQ
+}
+
+query "app_configuration_encryption_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when encryption -> 'keyVaultProperties' ->> 'keyIdentifier' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when encryption -> 'keyVaultProperties' ->> 'keyIdentifier' is not null then a.name ||  'encryption enabked.'
+        else a.name || ' encryption disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_configuration as a,
+      azure_subscription as sub;
+  EOQ
+}
+
+query "app_configuration_sku_standard" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when sku_name = 'standard' then 'ok'
+        else 'alarm'
+      end as status,
+        a.name || ' has ' || sku_name || ' SKU tier.' as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_configuration as a,
+      azure_subscription as sub;
+  EOQ
+}

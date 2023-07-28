@@ -109,7 +109,7 @@ query "monitor_log_alert_for_administrative_operations" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
@@ -262,11 +262,10 @@ query "monitor_log_alert_create_policy_assignment" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.authorization/policyassignments"}]'
         and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Authorization/policyAssignments/write"}]'
       limit 1
     )
@@ -306,13 +305,12 @@ query "monitor_log_alert_create_update_nsg_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
           (
             alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups/securityrules"}]'
             and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networksecuritygroups/securityrules/write"}]'
           )
           or
@@ -359,13 +357,12 @@ query "monitor_log_alert_create_update_nsg" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
           (
             alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
             and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networkSecurityGroups/write"}]'
           )
           or
@@ -413,13 +410,12 @@ query "monitor_log_alert_create_update_public_ip_address" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and
         (
           ( alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/publicipaddresses"}]'
             and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/publicIPAddresses/write"}]'
           )
           or
@@ -466,13 +462,12 @@ query "monitor_log_alert_create_update_security_solution" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
           (
             alert.condition -> 'allOf' @> '[{"equals":"Security","field":"category"}]'
-            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.security/securitysolutions"}]'
             and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Security/securitySolutions/write"}]'
           )
           or
@@ -520,13 +515,12 @@ query "monitor_log_alert_create_update_sql_servers_firewall_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and
         (
           ( alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-          and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.sql/servers/firewallrules"}]'
           and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Sql/servers/firewallRules/write"}]'
           )
           or
@@ -573,13 +567,12 @@ query "monitor_log_alert_delete_nsg_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
           (
             alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups/securityrules"}]'
             and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networksecuritygroups/securityrules/delete"}]'
           )
           or
@@ -627,13 +620,12 @@ query "monitor_log_alert_delete_nsg" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
           (
             alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/networksecuritygroups"}]'
             and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/networkSecurityGroups/delete"}]'
           )
           or
@@ -680,11 +672,10 @@ query "monitor_log_alert_delete_policy_assignment" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-        and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.authorization/policyassignments"}]'
         and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Authorization/policyAssignments/delete"}]'
       limit 1
     )
@@ -723,13 +714,12 @@ query "monitor_log_alert_delete_public_ip_address" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and
         (
           ( alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-          and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.network/publicipaddresses"}]'
           and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Network/publicIPAddresses/delete"}]'
           )
           or
@@ -776,13 +766,12 @@ query "monitor_log_alert_delete_security_solution" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and (
           (
             alert.condition -> 'allOf' @> '[{"equals":"Security","field":"category"}]'
-            and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.security/securitysolutions"}]'
             and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Security/securitySolutions/delete"}]'
           )
           or
@@ -829,13 +818,12 @@ query "monitor_log_alert_delete_sql_servers_firewall_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and
         (
           ( alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'
-          and alert.condition -> 'allOf' @> '[{"field": "resourceType", "equals": "microsoft.sql/servers/firewallrules"}]'
           and alert.condition -> 'allOf' @> '[{"field": "operationName", "equals": "Microsoft.Sql/servers/firewallRules/delete"}]' )
           or
           (
@@ -881,7 +869,7 @@ query "monitor_log_alert_sql_firewall_rule" {
         azure_log_alert as alert,
         jsonb_array_elements_text(scopes) as sc
       where
-        alert.location = 'Global'
+        alert.location = 'global'
         and alert.enabled
         and sc = '/subscriptions/' || alert.subscription_id
         and alert.condition -> 'allOf' @> '[{"equals":"Administrative","field":"category"}]'

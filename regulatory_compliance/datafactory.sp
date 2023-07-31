@@ -24,6 +24,26 @@ control "data_factory_encrypted_with_cmk" {
   })
 }
 
+control "data_factory_public_network_access_disabled" {
+  title       = "Data factories should disable public network access"
+  description = "Disabling public network access improves security by ensuring that your Data Factory is not exposed on the public internet."
+  query       = query.data_factory_public_network_access_disabled
+
+  tags = merge(local.regulatory_compliance_datafactory_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "data_factory_uses_git_repository" {
+  title       = "Data factories should use GitHub repository"
+  description = "Ensure that Data Factory utilizes a Git repository as its source control mechanism. This control is non-compliant if Data Factory Git repository is not configured."
+  query       = query.data_factory_uses_git_repository
+
+  tags = merge(local.regulatory_compliance_datafactory_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "data_factory_uses_private_link" {
   sql = <<-EOQ
     with data_factory_connection as (
@@ -68,6 +88,52 @@ query "data_factory_encrypted_with_cmk" {
       case
         when encryption ->> 'vaultBaseUrl' is not null then a.name || ' encrypted with CMK.'
         else a.name || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_data_factory as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "data_factory_public_network_access_disabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when public_network_access = 'Enabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_network_access = 'Enabled' then a.name || ' public network_access enabled.'
+        else a.name || ' public network_access disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_data_factory as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "data_factory_uses_git_repository" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when repo_configuration ->> 'repositoryName' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when repo_configuration ->> 'repositoryName' is not null then a.name || ' uses git repository.'
+        else a.name || ' not uses git repository.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

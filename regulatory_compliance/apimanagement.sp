@@ -14,6 +14,16 @@ control "apimanagement_service_with_virtual_network" {
   })
 }
 
+control "apimanagement_service_client_certificate_enabled" {
+  title       = "API Management client certificate should be enabled"
+  description = "Ensure API Management client certificate is enabled. This control is non-compliant if API Management client certificate is disabled."
+  query       = query.apimanagement_service_client_certificate_enabled
+
+  tags = merge(local.regulatory_compliance_apimanagement_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "apimanagement_service_with_virtual_network" {
   sql = <<-EOQ
     select

@@ -44,6 +44,16 @@ control "cosmosdb_account_encryption_at_rest_using_cmk" {
   })
 }
 
+control "cosmosdb_account_key_based_metadata_write_access_disabled" {
+  title       = "Cosmos DB accounts should disable key based metadata write access"
+  description = "Ensure Cosmos DB accounts have key based metadata write_access disabled. This control is non-compliant if Cosmos DB account have key based metadata write access enabled."
+  query       = query.cosmosdb_account_key_based_metadata_write_access_disabled
+
+  tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "cosmosdb_use_virtual_service_endpoint" {
   sql = <<-EOQ
     with cosmosdb_with_virtual_network as (
@@ -152,6 +162,29 @@ query "cosmosdb_account_encryption_at_rest_using_cmk" {
       case
         when key_vault_key_uri is not null then a.name || ' encrypted at rest using CMK.'
         else a.name || ' not encrypted at rest using CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_cosmosdb_account as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "cosmosdb_account_key_based_metadata_write_access_disabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when disable_key_based_metadata_write_access then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when disable_key_based_metadata_write_access then a.name || ' key based metadata write_access disabled.'
+        else a.name || ' key based metadata write_access enabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

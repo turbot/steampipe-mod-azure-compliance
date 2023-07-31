@@ -205,6 +205,56 @@ control "kubernetes_cluster_https_enabled" {
   })
 }
 
+control "kubernetes_cluster_restrict_public_access" {
+  title       = "Kubernetes cluster should restrict public access"
+  description = "Ensure that Kubernetes cluster enables private clusters to restrict public access."
+  query       = query.kubernetes_cluster_restrict_public_access
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "kubernetes_cluster_addon_azure_policy_enabled" {
+  title       = "Kubernetes cluster addon Azure policy should be enabled"
+  description = "Ensure that Kubernetes cluster uses Azure Policies Add-on."
+  query       = query.kubernetes_cluster_addon_azure_policy_enabled
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "kubernetes_cluster_node_restrict_public_access" {
+  title       = "Kubernetes cluster nodes should prohibit public access"
+  description = "Ensure Kubernetes cluster node do not have public IP addresses. This control is non-compliant if Kubernetes cluster node have public IP address assigned."
+  query       = query.kubernetes_cluster_node_restrict_public_access
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "kubernetes_cluster_sku_standard" {
+  title       = "Kubernetes clusters should use standard SKU"
+  description = "Ensure that Kubernetes clusters uses standard SKU tier for production workloads. This control is non-compliant if App Configuration does not use standard SKU."
+  query       = query.kubernetes_cluster_sku_standard
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "kubernetes_cluster_upgrade_channel" {
+  title       = "Kubernetes clusters upgrade channel should be configured"
+  description = "Ensure Kubernetes clusters upgrade channel is configured. This control is non-compliant if Kubernetes clusters upgrade channel is set to none."
+  query       = query.kubernetes_cluster_upgrade_channel
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "kubernetes_instance_rbac_enabled" {
   sql = <<-EOQ
     select
@@ -365,7 +415,7 @@ query "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
   EOQ
 }
 
-query "kubernetes_cluster_not_public_accessible" {
+query "kubernetes_cluster_restrict_public_access" {
   sql = <<-EOQ
     select
       c.id as resource,
@@ -411,7 +461,7 @@ query "kubernetes_cluster_addon_azure_policy_enabled" {
   EOQ
 }
 
-query "kubernetes_cluster_node_prohibit_public_access" {
+query "kubernetes_cluster_node_restrict_public_access" {
   sql = <<-EOQ
     with public_node as (
       select
@@ -440,6 +490,52 @@ query "kubernetes_cluster_node_prohibit_public_access" {
     from
       azure_kubernetes_cluster c
       left join public_node as n on n.id = c.id,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_sku_standard" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when sku ->> 'tier' = 'Paid' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sku ->> 'tier' = 'Paid' then c.name || ' uses standard SKU tier.'
+        else c.name || ' uses free SKU tier.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_upgrade_channel" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when auto_upgrade_profile ->> 'upgradeChannel' = 'none' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when auto_upgrade_profile ->> 'upgradeChannel' = 'none' then c.name || ' upgrade channel not configured.'
+        else c.name || ' upgrade channel configured.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
       azure_subscription sub
     where
       sub.subscription_id = c.subscription_id;

@@ -329,6 +329,56 @@ control "appservice_web_app_latest_python_version" {
   })
 }
 
+control "appservice_web_app_latest_dotnet_framework_version" {
+  title       = "Web app should use the latest 'Net Framework' version"
+  description = "Periodically, newer versions are released for Net Framework software either due to security flaws or to include additional functionality. Using the latest Net Framework for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version."
+  query       = query.appservice_web_app_latest_dotnet_framework_version
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_failed_request_tracing_enabled" {
+  title       = "Web app failed request tracing should be enabled"
+  description = "Ensure that Web app enables failed request tracing. This control is non-compliant if Web app failed request tracing is disabled."
+  query       = query.appservice_web_app_failed_request_tracing_enabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_http_logs_enabled" {
+  title       = "Web app HTTP logs should be enabled"
+  description = "Ensure that Web app HTTP logs is enabled. This control is non-compliant if Web app HTTP logs is disabled."
+  query       = query.appservice_web_app_http_logs_enabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_worker_more_than_one" {
+  title       = "Web app should have more than one worker"
+  description = "It is recommended to have more than one worker for failover. This control is non-compliant if Web app have one or less than one worker."
+  query       = query.appservice_web_app_worker_more_than_one
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_slot_use_https" {
+  title       = "Web app slot should only be accessible over HTTPS"
+  description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
+  query       = query.appservice_web_app_slot_use_https
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks         = "true"
+  })
+}
+
 query "appservice_web_app_use_https" {
   sql = <<-EOQ
     select
@@ -1660,7 +1710,7 @@ query "appservice_web_app_worker_more_than_one" {
   EOQ
 }
 
-query "appservice_web_app_slot_only_https_accessible" {
+query "appservice_web_app_slot_use_https" {
   sql = <<-EOQ
     select
       s.id as resource,

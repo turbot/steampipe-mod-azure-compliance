@@ -10,6 +10,7 @@ benchmark "other" {
   children = [
     control.apimanagement_service_client_certificate_enabled,
     control.app_configuration_encryption_enabled,
+    control.app_configuration_restrict_public_access,
     control.app_configuration_sku_standard,
     control.appservice_api_app_uses_managed_identity,
     control.appservice_function_app_latest_java_version,

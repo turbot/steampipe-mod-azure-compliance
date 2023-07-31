@@ -14,6 +14,16 @@ control "app_configuration_private_link_used" {
   })
 }
 
+control "app_configuration_restrict_public_access" {
+  title       = "App Configuration should restrict public access"
+  description = "Ensure that App Configuration public network access is disabled. This control is non-compliant if App Configuration have public network access enabled."
+  query       = query.app_configuration_restrict_public_access
+
+  tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
+    other_checks = "true"
+  })
+}
+
 control "app_configuration_sku_standard" {
   title       = "App Configuration should use standard SKU"
   description = "Ensure that App Configuration uses standard SKU tier. This control is non-compliant if App Configuration does not use standard SKU."
@@ -27,7 +37,7 @@ control "app_configuration_sku_standard" {
 control "app_configuration_encryption_enabled" {
   title       = "App Configuration encryption should be enabled"
   description = "Enabling App Configuration encryption helps protect and safeguard your data to meet your organizational security and compliance commitments."
-  query       = query.app_configuration_sku_standard
+  query       = query.app_configuration_encryption_enabled
 
   tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
     other_checks = "true"
@@ -62,7 +72,7 @@ query "app_configuration_private_link_used" {
   EOQ
 }
 
-query "app_configuration_prohibit_public_access" {
+query "app_configuration_restrict_public_access" {
   sql = <<-EOQ
     select
       a.id as resource,

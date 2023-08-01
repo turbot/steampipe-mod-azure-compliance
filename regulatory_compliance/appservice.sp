@@ -1625,9 +1625,9 @@ query "appservice_web_app_latest_dotnet_framework_version" {
         when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' in ('DOTNETCORE|6.0', 'DOTNETCORE|7.0') then a.name || ' using latest dotnet vframework ersion.'
         else a.name || ' not using latest dotnet framework version.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
       left join all_linux_web_app as b on a.id = b.id,

@@ -1597,20 +1597,12 @@ query "appservice_web_app_register_with_active_directory_enabled" {
 
 query "appservice_web_app_latest_dotnet_framework_version" {
   sql = <<-EOQ
-    with all_web_app as (
+    with all_linux_web_app as (
       select
         id
       from
         azure_app_service_web_app
       where
-        exists (
-          select
-          from
-            unnest(regexp_split_to_array(kind, ',')) elem
-          where
-            elem like 'app%'
-        )
-        and
         exists (
           select
           from
@@ -1622,21 +1614,23 @@ query "appservice_web_app_latest_dotnet_framework_version" {
     select
       a.id as resource,
       case
-        when b.id is null then 'skip'
-        when configuration -> 'properties' ->> 'netFrameworkVersion' = 'v6.0' then 'ok'
+        when b.id is null and configuration -> 'properties' ->> 'netFrameworkVersion' in ('v6.0', 'v7.0') then 'ok'
+        when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' not like 'DOTNETCORE|%' then 'ok'
+        when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' in ('DOTNETCORE|6.0', 'DOTNETCORE|7.0') then 'ok'
         else 'alarm'
       end as status,
       case
-        when b.id is null then a.title || ' is not of linux kind.'
-        when configuration -> 'properties' ->> 'netFrameworkVersion' = 'v6.0' then a.name ||  ' is using latest dotnet version.'
-        else a.name || ' not using latest dotnet version.'
+        when b.id is null and configuration -> 'properties' ->> 'netFrameworkVersion' in ('v6.0', 'v7.0') then a.name || ' using latest dotnet framework version.'
+        when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' not like 'DOTNETCORE|%' then a.name || ' not using dotnet framework.'
+        when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' in ('DOTNETCORE|6.0', 'DOTNETCORE|7.0') then a.name || ' using latest dotnet vframework ersion.'
+        else a.name || ' not using latest dotnet framework version.'
       end as reason
-      ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
-      left join all_web_app as b on a.id = b.id,
+      left join all_linux_web_app as b on a.id = b.id,
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;

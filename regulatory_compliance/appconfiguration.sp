@@ -14,10 +14,10 @@ control "app_configuration_private_link_used" {
   })
 }
 
-control "app_configuration_restrict_public_access" {
-  title       = "App Configuration should restrict public access"
+control "app_configuration_public_network_access_disabled" {
+  title       = "App Configuration public network access should be disabled"
   description = "Ensure that App Configuration public network access is disabled. This control is non-compliant if App Configuration have public network access enabled."
-  query       = query.app_configuration_restrict_public_access
+  query       = query.app_configuration_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
     other_checks = "true"
@@ -72,7 +72,7 @@ query "app_configuration_private_link_used" {
   EOQ
 }
 
-query "app_configuration_restrict_public_access" {
+query "app_configuration_public_network_access_disabled" {
   sql = <<-EOQ
     select
       a.id as resource,

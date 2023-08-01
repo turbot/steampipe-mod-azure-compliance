@@ -14,16 +14,6 @@ control "app_configuration_private_link_used" {
   })
 }
 
-control "app_configuration_public_network_access_disabled" {
-  title       = "App Configuration public network access should be disabled"
-  description = "Ensure that App Configuration public network access is disabled. This control is non-compliant if App Configuration have public network access enabled."
-  query       = query.app_configuration_public_network_access_disabled
-
-  tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
-    other_checks = "true"
-  })
-}
-
 control "app_configuration_sku_standard" {
   title       = "App Configuration should use standard SKU"
   description = "Ensure that App Configuration uses standard SKU tier. This control is non-compliant if App Configuration does not use standard SKU."
@@ -62,27 +52,6 @@ query "app_configuration_private_link_used" {
         when public_network_access = 'Enabled' and private_endpoint_connections is null then ' using public networks.'
         when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
         else a.name || ' not using private link.'
-      end as reason
-      ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_app_configuration as a,
-      azure_subscription as sub;
-  EOQ
-}
-
-query "app_configuration_public_network_access_disabled" {
-  sql = <<-EOQ
-    select
-      a.id as resource,
-      case
-        when public_network_access = 'Enabled' then 'alarm'
-        else 'ok'
-      end as status,
-      case
-        when public_network_access = 'Enabled' then a.name ||  ' publicly accessible.'
-        else a.name || ' not publicly accessible.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

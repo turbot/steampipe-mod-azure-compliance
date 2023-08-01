@@ -1691,7 +1691,7 @@ query "appservice_web_app_worker_more_than_one" {
         when (p -> 'SiteProperties' -> 'siteConfig' ->> 'numberOfWorkers')::int > 1 then 'ok'
         else 'alarm'
       end as status,
-        a.name || ' has ' || (p -> 'SiteProperties' -> 'siteConfig' ->> 'numberOfWorkers') || ' no of workers.' as reason
+        a.name || ' has ' || (p -> 'SiteProperties' -> 'siteConfig' ->> 'numberOfWorkers') || ' no of worker(s).' as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}

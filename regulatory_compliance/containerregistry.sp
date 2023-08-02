@@ -279,12 +279,12 @@ query "container_registry_retention_policy_enabled" {
     select
       distinct a.name as resource,
       case
-        when policies -> 'retentionPolicy' ->>  'status' = 'enabled' then 'ok'
+        when policies -> 'retentionPolicy' ->> 'status' = 'enabled' then 'ok'
         else 'alarm'
       end as status,
       case
-        when policies -> 'retentionPolicy' ->>  'status' = 'enabled'  then a.name || ' retention policy enabled.'
-        else a.name || ' retention policy  disabled.'
+        when policies -> 'retentionPolicy' ->> 'status' = 'enabled' then a.name || ' retention policy enabled.'
+        else a.name || ' retention policy disabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -319,7 +319,7 @@ query "container_registry_geo_replication_enabled" {
         else 'alarm'
       end as status,
       case
-        when sku_name <> 'Premium' then  a.name || ' is of ' || sku_tier || ' tier.'
+        when sku_name <> 'Premium' then a.name || ' is of ' || sku_tier || ' tier.'
         when c.geo_replication_count > 1 then a.name || ' ' || c.geo_replication_count || ' geo replication configured.'
         else a.name || ' geo replication not configured.'
       end as reason

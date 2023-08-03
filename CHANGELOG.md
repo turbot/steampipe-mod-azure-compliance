@@ -1,3 +1,34 @@
+## v0.33 [2023-08-03]
+
+_Enhancements_
+
+- Added the following controls to `Other Compliance Checks` benchmark: ([#206](https://github.com/turbot/steampipe-mod-azure-compliance/pull/206))
+  - `apimanagement_service_client_certificate_enabled`
+  - `app_configuration_encryption_enabled`
+  - `app_configuration_restrict_public_access`
+  - `app_configuration_sku_standard`
+  - `appservice_web_app_failed_request_tracing_enabled`
+  - `appservice_web_app_http_logs_enabled`
+  - `appservice_web_app_latest_dotnet_framework_version`
+  - `appservice_web_app_slot_use_https`
+  - `appservice_web_app_worker_more_than_one`
+  - `container_registry_admin_user_disabled`
+  - `container_registry_geo_replication_enabled`
+  - `container_registry_public_network_access_disabled`
+  - `container_registry_quarantine_policy_enabled`
+  - `container_registry_retention_policy_enabled`
+  - `container_registry_trust_policy_enabled`
+  - `cosmosdb_account_key_based_metadata_write_access_disabled`
+  - `data_factory_public_network_access_disabled`
+  - `data_factory_uses_git_repository`
+  - `eventgrid_domain_identity_provider_enabled`
+  - `eventgrid_domain_restrict_public_access`
+  - `kubernetes_cluster_addon_azure_policy_enabled`
+  - `kubernetes_cluster_node_restrict_public_access`
+  - `kubernetes_cluster_restrict_public_access`
+  - `kubernetes_cluster_sku_standard`
+  - `kubernetes_cluster_upgrade_channel`
+
 ## v0.32 [2023-07-28]
 
 _Bug fixes_

@@ -36,7 +36,7 @@ control "eventgrid_domain_restrict_public_access" {
 
 control "eventgrid_domain_identity_provider_enabled" {
   title       = "Event Grid domains identity provider should be enabled"
-  description = "Ensure that managed identity provider is enabled for Event Grid Domain. This control is non-compliant if Event Grid domain identity provides disabled."
+  description = "Ensure that managed identity provider is enabled for Event Grid Domain. This control is non-compliant if Event Grid domain identity provider is disabled."
   query       = query.eventgrid_domain_identity_provider_enabled
 
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {

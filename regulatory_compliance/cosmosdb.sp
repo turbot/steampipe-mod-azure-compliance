@@ -46,7 +46,7 @@ control "cosmosdb_account_encryption_at_rest_using_cmk" {
 
 control "cosmosdb_account_key_based_metadata_write_access_disabled" {
   title       = "Cosmos DB accounts should disable key based metadata write access"
-  description = "Ensure Cosmos DB accounts have key based metadata write_access disabled. This control is non-compliant if Cosmos DB account have key based metadata write access enabled."
+  description = "Ensure Cosmos DB accounts have key-based metadata write_access disabled. This control is non-compliant if Cosmos DB accounts have key-based metadata write access enabled."
   query       = query.cosmosdb_account_key_based_metadata_write_access_disabled
 
   tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {

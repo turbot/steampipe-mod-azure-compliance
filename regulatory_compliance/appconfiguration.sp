@@ -14,6 +14,26 @@ control "app_configuration_private_link_used" {
   })
 }
 
+control "app_configuration_sku_standard" {
+  title       = "App Configuration should use standard SKU"
+  description = "Ensure that App Configuration uses standard SKU tier. This control is non-compliant if App Configuration does not use standard SKU."
+  query       = query.app_configuration_sku_standard
+
+  tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "app_configuration_encryption_enabled" {
+  title       = "App Configuration encryption should be enabled"
+  description = "Enabling App Configuration encryption helps protect and safeguard your data to meet your organizational security and compliance commitments."
+  query       = query.app_configuration_encryption_enabled
+
+  tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "app_configuration_private_link_used" {
   sql = <<-EOQ
     select
@@ -32,6 +52,45 @@ query "app_configuration_private_link_used" {
         when public_network_access = 'Enabled' and private_endpoint_connections is null then ' using public networks.'
         when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
         else a.name || ' not using private link.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_configuration as a,
+      azure_subscription as sub;
+  EOQ
+}
+
+query "app_configuration_sku_standard" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when sku_name = 'standard' then 'ok'
+        else 'alarm'
+      end as status,
+        a.name || ' has ' || sku_name || ' SKU tier.' as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_configuration as a,
+      azure_subscription as sub;
+  EOQ
+}
+
+query "app_configuration_encryption_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when encryption -> 'keyVaultProperties' ->> 'keyIdentifier' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when encryption -> 'keyVaultProperties' ->> 'keyIdentifier' is not null then a.name ||  'encryption enabled.'
+        else a.name || ' encryption disabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

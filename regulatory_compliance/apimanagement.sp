@@ -14,6 +14,16 @@ control "apimanagement_service_with_virtual_network" {
   })
 }
 
+control "apimanagement_service_client_certificate_enabled" {
+  title       = "API Management client certificate should be enabled"
+  description = "Ensure API Management client certificate is enabled. This control is non-compliant if API Management client certificate is disabled."
+  query       = query.apimanagement_service_client_certificate_enabled
+
+  tags = merge(local.regulatory_compliance_apimanagement_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "apimanagement_service_with_virtual_network" {
   sql = <<-EOQ
     select
@@ -23,6 +33,27 @@ query "apimanagement_service_with_virtual_network" {
         else 'alarm'
       end as status,
       a.name || ' Virtual network is set to '  ||  virtual_network_type as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_api_management a,
+      azure_subscription sub;
+  EOQ
+}
+
+query "apimanagement_service_client_certificate_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when enable_client_certificate then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when enable_client_certificate then a.name || ' client certificate enabled.'
+        else a.name || ' client certificate disabled.'
+      end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}

@@ -329,6 +329,56 @@ control "appservice_web_app_latest_python_version" {
   })
 }
 
+control "appservice_web_app_latest_dotnet_framework_version" {
+  title       = "Web app should use the latest 'Net Framework' version"
+  description = "Periodically, newer versions are released for Net Framework software either due to security flaws or to include additional functionality. Using the latest Net Framework for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version."
+  query       = query.appservice_web_app_latest_dotnet_framework_version
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_failed_request_tracing_enabled" {
+  title       = "Web app failed request tracing should be enabled"
+  description = "Ensure that Web app enables failed request tracing. This control is non-compliant if Web app failed request tracing is disabled."
+  query       = query.appservice_web_app_failed_request_tracing_enabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_http_logs_enabled" {
+  title       = "Web app HTTP logs should be enabled"
+  description = "Ensure that Web app HTTP logs is enabled. This control is non-compliant if Web app HTTP logs is disabled."
+  query       = query.appservice_web_app_http_logs_enabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_worker_more_than_one" {
+  title       = "Web app should have more than one worker"
+  description = "It is recommended to have more than one worker for failover. This control is non-compliant if Web apps have one or less than one worker."
+  query       = query.appservice_web_app_worker_more_than_one
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "appservice_web_app_slot_use_https" {
+  title       = "Web app slot should only be accessible over HTTPS"
+  description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
+  query       = query.appservice_web_app_slot_use_https
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks         = "true"
+  })
+}
+
 query "appservice_web_app_use_https" {
   sql = <<-EOQ
     select
@@ -1542,5 +1592,137 @@ query "appservice_web_app_register_with_active_directory_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = app.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_latest_dotnet_framework_version" {
+  sql = <<-EOQ
+    with all_linux_web_app as (
+      select
+        id
+      from
+        azure_app_service_web_app
+      where
+        exists (
+          select
+          from
+            unnest(regexp_split_to_array(kind, ',')) elem
+          where
+            elem = 'linux'
+        )
+    )
+    select
+      a.id as resource,
+      case
+        when b.id is null and configuration -> 'properties' ->> 'netFrameworkVersion' in ('v6.0', 'v7.0') then 'ok'
+        when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' not like 'DOTNETCORE|%' then 'ok'
+        when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' in ('DOTNETCORE|6.0', 'DOTNETCORE|7.0') then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.id is null and configuration -> 'properties' ->> 'netFrameworkVersion' in ('v6.0', 'v7.0') then a.name || ' using latest dotnet framework version.'
+        when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' not like 'DOTNETCORE|%' then a.name || ' not using dotnet framework.'
+        when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' in ('DOTNETCORE|6.0', 'DOTNETCORE|7.0') then a.name || ' using latest dotnet vframework ersion.'
+        else a.name || ' not using latest dotnet framework version.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join all_linux_web_app as b on a.id = b.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_failed_request_tracing_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when diagnostic_logs_configuration -> 'properties' -> 'failedRequestsTracing' ->> 'enabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when diagnostic_logs_configuration -> 'properties' -> 'failedRequestsTracing' ->> 'enabled' = 'true' then a.name || ' failed requests tracing enabled.'
+        else a.name || ' failed requests tracing disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_http_logs_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when configuration -> 'properties' ->> 'httpLoggingEnabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when configuration -> 'properties' ->> 'httpLoggingEnabled' = 'true' then a.name || ' HTTP logs enabled.'
+        else a.name || ' HTTP logs disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_worker_more_than_one" {
+  sql = <<-EOQ
+    select
+      p ->> 'ID' as resource,
+      case
+        when (p -> 'SiteProperties' -> 'siteConfig' ->> 'numberOfWorkers')::int > 1 then 'ok'
+        else 'alarm'
+      end as status,
+        a.name || ' has ' || (p -> 'SiteProperties' -> 'siteConfig' ->> 'numberOfWorkers') || ' no of worker(s).' as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_plan as a,
+      jsonb_array_elements(apps) as p,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_slot_use_https" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when https_only then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when https_only then name || ' https-only accessible enabled.'
+        else name || ' https-only accessible disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app_slot as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
   EOQ
 }

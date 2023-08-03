@@ -361,7 +361,7 @@ control "appservice_web_app_http_logs_enabled" {
 
 control "appservice_web_app_worker_more_than_one" {
   title       = "Web app should have more than one worker"
-  description = "It is recommended to have more than one worker for failover. This control is non-compliant if Web app have one or less than one worker."
+  description = "It is recommended to have more than one worker for failover. This control is non-compliant if Web apps have one or less than one worker."
   query       = query.appservice_web_app_worker_more_than_one
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {

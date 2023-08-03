@@ -26,7 +26,7 @@ control "eventgrid_topic_private_link_used" {
 
 control "eventgrid_domain_restrict_public_access" {
   title       = "Event Grid domains should restrict public network access"
-  description = "Ensure that Event Grid Domain public network access is disabled. This control is non-compliant if Event Grid domain have public network access enabled."
+  description = "Ensure that Event Grid Domain public network access is disabled. This control is non-compliant if Event Grid domains have public network access enabled."
   query       = query.eventgrid_domain_restrict_public_access
 
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {

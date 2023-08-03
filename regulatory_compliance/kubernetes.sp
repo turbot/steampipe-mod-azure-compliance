@@ -227,7 +227,7 @@ control "kubernetes_cluster_addon_azure_policy_enabled" {
 
 control "kubernetes_cluster_node_restrict_public_access" {
   title       = "Kubernetes cluster nodes should prohibit public access"
-  description = "Ensure Kubernetes cluster node do not have public IP addresses. This control is non-compliant if Kubernetes cluster node have public IP address assigned."
+  description = "Ensure Kubernetes cluster nodes do not have public IP addresses. This control is non-compliant if Kubernetes cluster nodes have a public IP address assigned."
   query       = query.kubernetes_cluster_node_restrict_public_access
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {

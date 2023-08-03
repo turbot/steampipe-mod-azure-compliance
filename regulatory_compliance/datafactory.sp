@@ -109,8 +109,8 @@ query "data_factory_public_network_access_disabled" {
         else 'ok'
       end as status,
       case
-        when public_network_access = 'Enabled' then a.name || ' public network_access enabled.'
-        else a.name || ' public network_access disabled.'
+        when public_network_access = 'Enabled' then a.name || ' public network access enabled.'
+        else a.name || ' public network access disabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

@@ -89,7 +89,7 @@ query "app_configuration_encryption_enabled" {
         else 'alarm'
       end as status,
       case
-        when encryption -> 'keyVaultProperties' ->> 'keyIdentifier' is not null then a.name ||  'encryption enabked.'
+        when encryption -> 'keyVaultProperties' ->> 'keyIdentifier' is not null then a.name ||  'encryption enabled.'
         else a.name || ' encryption disabled.'
       end as reason
       ${local.tag_dimensions_sql}

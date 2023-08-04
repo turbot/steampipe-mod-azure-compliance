@@ -34,6 +34,16 @@ control "synapse_workspace_encryption_at_rest_using_cmk" {
   })
 }
 
+control "synapse_workspace_data_exfil_protection_enabled" {
+  title       = "Synapse workspaces should have data exfiltration protection enabled"
+  description = "This control checks whether Synapse workspace has data exfiltration protection enabled."
+  query       = query.synapse_workspace_data_exfil_protection_enabled
+
+  tags = merge(local.regulatory_compliance_synapse_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "synapse_workspace_private_link_used" {
   sql = <<-EOQ
     select
@@ -104,6 +114,29 @@ query "synapse_workspace_encryption_at_rest_using_cmk" {
       case
         when encryption -> 'CmkKey' ->> 'name' is not null then s.title || ' encrypted with CMK.'
         else s.title || ' not encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_synapse_workspace as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "synapse_workspace_data_exfil_protection_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when managed_virtual_network_settings  ->> 'preventDataExfiltration' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when managed_virtual_network_settings  ->> 'preventDataExfiltration' = 'true'  then s.title || ' data exfiltration protection enabled.'
+        else s.title || ' data exfiltration protection disabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}

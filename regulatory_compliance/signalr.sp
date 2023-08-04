@@ -14,6 +14,16 @@ control "signalr_service_private_link_used" {
   })
 }
 
+control "signalr_service_no_free_tier_sku" {
+  title       = "SignalR Service should not use free tier SKU"
+  description = "This control checks whether SignalR service uses paid SKU for its SLA."
+  query       = query.signalr_service_no_free_tier_sku
+
+  tags = merge(local.regulatory_compliance_signalr_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "signalr_service_private_link_used" {
   sql = <<-EOQ
     with signalr_service_connection as (
@@ -43,6 +53,26 @@ query "signalr_service_private_link_used" {
     from
       azure_signalr_service as a
       left join signalr_service_connection as c on c.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "signalr_service_no_free_tier_sku" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when sku ->> 'tier' = 'Free' then 'alarm'
+        else 'ok'
+      end as status,
+      a.name || ' is of ' || (sku ->>'tier' )|| ' tier.' as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_signalr_service as a,
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;

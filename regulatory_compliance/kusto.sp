@@ -34,6 +34,16 @@ control "kusto_cluster_double_encryption_enabled" {
   })
 }
 
+control "kusto_cluster_sku_with_sla" {
+  title       = "Kusto clusters should use SKU with an SLA"
+  description = "This control checks if Kusto clusters use SKU with a SLA. This control is considered non-compliant if Kusto clusters use SKUs without an SLA."
+  query       = query.kusto_cluster_sku_with_sla
+
+  tags = merge(local.regulatory_compliance_kusto_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "kusto_cluster_encrypted_at_rest_with_cmk" {
   sql = <<-EOQ
     select
@@ -100,6 +110,26 @@ query "kusto_cluster_double_encryption_enabled" {
         when enable_double_encryption then name || ' double encryption enabled.'
         else name || ' double encryption disabled.'
       end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kusto_cluster as kv,
+      azure_subscription as sub
+    where
+      sub.subscription_id = kv.subscription_id;
+  EOQ
+}
+
+query "kusto_cluster_sku_with_sla" {
+  sql = <<-EOQ
+    select
+      kv.id as resource,
+      case
+        when sku_name in ('Dev(No SLA)_Standard_E2a_v4' , 'Dev(No SLA)_Standard_D11_v2') then 'alarm'
+        else 'ok'
+      end as status,
+      name || ' using ' ||  sku_name || ' SKU tier.' as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}

@@ -379,6 +379,36 @@ control "appservice_web_app_slot_use_https" {
   })
 }
 
+control "appservice_web_app_always_on" {
+  title       = "Web apps should be configured to always be on"
+  description = "This control ensures that if a web app is configured with settings to keep it consistently active. Always On feature of Azure App Service, keeps the host process running. This allows your site to be more responsive to request after significant idle periods."
+  query       = query.appservice_web_app_always_on
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks         = "true"
+  })
+}
+
+control "appservice_plan_minimum_sku" {
+  title       = "Appservice plan should not use free, shared or basic SKU"
+  description = "The Free, Shared, and Basic plans are suitable for constrained testing and development purposes. This control is considered non-compliant when free, fhared, or fasic SKUs are utilized."
+  query       = query.appservice_plan_minimum_sku
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks         = "true"
+  })
+}
+
+control "appservice_web_app_health_check_enabled" {
+  title       = "Web apps should have health check enabled"
+  description = "Health check increases your application's availability by rerouting requests away from unhealthy instances and replacing instances if they remain unhealthy."
+  query       = query.appservice_web_app_health_check_enabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks         = "true"
+  })
+}
+
 query "appservice_web_app_use_https" {
   sql = <<-EOQ
     select
@@ -1724,5 +1754,71 @@ query "appservice_web_app_slot_use_https" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_always_on" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when configuration -> 'properties' ->> 'alwaysOn' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when configuration -> 'properties' ->> 'alwaysOn' = 'true' then a.name || ' alwaysOn is enabled.'
+        else a.name || ' alwaysOn is disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_plan_minimum_sku" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when sku_name in ( 'F1', 'D1', 'B1', 'B2', 'B3') then 'alarm'
+        else 'ok'
+      end as status,
+      a.name || ' is of ' || sku_family || ' SKU family.'  as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_plan as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_health_check_enabled" {
+  sql = <<-EOQ
+   select
+      a.id as resource,
+      case
+        when configuration -> 'properties' ->> 'healthCheckPath' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when configuration -> 'properties' ->> 'healthCheckPath' is not null then a.name || ' health check enabled.'
+        else a.name || ' health check disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
   EOQ
 }

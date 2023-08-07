@@ -45,6 +45,36 @@ control "search_service_uses_private_link" {
   })
 }
 
+control "search_service_uses_managed_identity" {
+  title       = "Cognitive Search services should use managed identity"
+  description = "Use a managed identity for enhanced authentication security."
+  query       = query.search_service_uses_managed_identity
+
+  tags = merge(local.regulatory_compliance_search_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "search_service_replica_count_3" {
+  title       = "Cognitive Search services should maintain SLA for index updates"
+  description = "This control checks if Cognitive Search maintains SLA for index updates."
+  query       = query.search_service_replica_count_3
+
+  tags = merge(local.regulatory_compliance_search_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "search_service_replica_count_2" {
+  title       = "Cognitive Search services should maintain SLA for search index queries"
+  description = "This control checks if Cognitive Search maintains SLA for search index queries."
+  query       = query.search_service_replica_count_2
+
+  tags = merge(local.regulatory_compliance_search_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "search_service_logging_enabled" {
   sql = <<-EOQ
     with logging_details as (
@@ -172,5 +202,68 @@ query "search_service_uses_private_link" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "search_service_uses_managed_identity" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when identity ->> 'type' = 'SystemAssigned' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when identity ->> 'type' = 'SystemAssigned' then name || ' uses managed identity.'
+        else name || ' not uses managed identity.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_search_service as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "search_service_replica_count_3" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when replica_count > 3 then 'ok'
+        else 'alarm'
+      end as status,
+        name || ' has ' || replica_count || ' replica count.' as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_search_service as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "search_service_replica_count_2" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when replica_count >= 2 then 'ok'
+        else 'alarm'
+      end as status,
+        name || ' has ' || replica_count || ' replica count.' as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_search_service as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
   EOQ
 }

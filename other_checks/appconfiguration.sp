@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_appconfiguration" {
-  title = "AppConfiguration"
+  title = "App Configuration"
   children = [
     control.app_configuration_encryption_enabled,
     control.app_configuration_sku_standard

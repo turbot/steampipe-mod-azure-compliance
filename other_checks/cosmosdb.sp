@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_cosmosdb" {
-  title = "CosmosDB"
+  title = "Cosmos DB"
   children = [
     control.cosmosdb_account_key_based_metadata_write_access_disabled
   ]

@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_datafactory" {
-  title = "DataFactory"
+  title = "Data Factory"
   children = [
     control.data_factory_public_network_access_disabled,
     control.data_factory_uses_git_repository

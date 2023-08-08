@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_containerinstance" {
-  title = "ContainerInstance"
+  title = "Container Instance"
   children = [
     control.container_instance_container_group_in_virtual_network
   ]

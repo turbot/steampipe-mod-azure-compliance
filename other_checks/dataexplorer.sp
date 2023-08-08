@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_dataexplorer" {
-  title = "DataExplorer"
+  title = "Data Explorer"
   children = [
     control.kusto_cluster_sku_with_sla
   ]

@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_eventgrid" {
-  title = "EventGrid"
+  title = "Event Grid"
   children = [
     control.eventgrid_domain_identity_provider_enabled,
     control.eventgrid_domain_restrict_public_access,

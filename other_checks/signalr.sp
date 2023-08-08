@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_signalr" {
-  title = "SignalRService"
+  title = "SignalR Service"
   children = [
     control.signalr_service_no_free_tier_sku
   ]

@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_containerregistry" {
-  title = "ContainerRegistry"
+  title = "Container Registry"
   children = [
     control.container_registry_admin_user_disabled,
     control.container_registry_geo_replication_enabled,

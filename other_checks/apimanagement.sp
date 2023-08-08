@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_apimanagement" {
-  title         = "APIManagement"
+  title         = "API Management"
   children = [
     control.apimanagement_service_client_certificate_enabled
   ]

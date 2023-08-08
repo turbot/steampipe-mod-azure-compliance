@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_synapse" {
-  title = "SynapseAnalytics"
+  title = "Synapse Analytics"
   children = [
     control.synapse_workspace_data_exfil_protection_enabled
   ]

@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_keyvault" {
-  title = "KeyVault"
+  title = "Key Vault"
   children = [
     control.keyvault_vault_public_network_access_disabled
   ]

@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_appservice" {
-  title = "AppService"
+  title = "App Service"
   children = [
     control.appservice_api_app_uses_managed_identity,
     control.appservice_function_app_latest_java_version,

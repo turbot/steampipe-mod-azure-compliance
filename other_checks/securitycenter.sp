@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "other_securitycenter" {
-  title = "SecurityCenter"
+  title = "Security Center"
   children = [
     control.securitycenter_azure_defender_on_for_containerregistry,
     control.securitycenter_azure_defender_on_for_k8s,

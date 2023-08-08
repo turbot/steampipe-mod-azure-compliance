@@ -23,11 +23,12 @@ benchmark "other" {
     benchmark.other_keyvault,
     benchmark.other_mariadb,
     benchmark.other_monitor,
+    benchmark.other_postgres,
     benchmark.other_redis,
     benchmark.other_securitycenter,
     benchmark.other_signalr,
     benchmark.other_sql,
-    benchmark.other_synapse
+    benchmark.other_synapse,
   ]
 
   tags = merge(local.other_common_tags, {

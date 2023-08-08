@@ -7,7 +7,7 @@ locals {
 benchmark "other_mariadb" {
   title = "MariaDB"
   children = [
-    control.mariadb_server_ssl_enabled,
+    control.mariadb_server_ssl_enabled
   ]
 
   tags = merge(local.other_mariadb_common_tags, {

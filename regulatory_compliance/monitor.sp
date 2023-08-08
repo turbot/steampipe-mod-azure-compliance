@@ -75,6 +75,16 @@ control "monitor_log_cluster_encrypted_with_cmk" {
   })
 }
 
+control "monitor_log_profile_retention_365_days" {
+  title       = "Monitor log profiles should have retention set to 365 days or greater"
+  description = "This control is non-compliant if Monitor log profile retention is set to less than 365 days."
+  query       = query.monitor_log_profile_retention_365_days
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "monitor_log_profile_enabled_for_all_categories" {
   sql = <<-EOQ
     select
@@ -998,5 +1008,27 @@ query "monitor_logs_storage_container_insights_activity_logs_not_public_accessib
     where
       name = 'insights-activity-logs'
       and sub.subscription_id = sc.subscription_id;
+  EOQ
+}
+
+query "monitor_log_profile_retention_365_days" {
+  sql = <<-EOQ
+    select
+      p.id as resource,
+      case
+        when p.retention_policy ->> 'enabled' = 'false' then 'alarm'
+        when p.retention_policy ->> 'enabled' = 'true' and (p.retention_policy ->> 'days')::int >= 365 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.retention_policy ->> 'enabled' = 'false' then p.name || ' retention policy disabled.'
+        else p.name || ' retention is set to ' || (p.retention_policy ->> 'days') || ' day(s).'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_log_profile as p
+      left join azure_subscription sub on sub.subscription_id = p.subscription_id;
   EOQ
 }

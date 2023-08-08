@@ -22,9 +22,11 @@ benchmark "other" {
     benchmark.other_eventgrid,
     benchmark.other_keyvault,
     benchmark.other_mariadb,
+    benchmark.other_monitor,
     benchmark.other_redis,
     benchmark.other_securitycenter,
     benchmark.other_signalr,
+    benchmark.other_sql,
     benchmark.other_synapse
   ]
 

@@ -757,7 +757,7 @@ control "compute_vm_scale_set_automatic_upgrade_enabled" {
 }
 
 control "compute_vm_scale_set_ssh_key_authentication_linux" {
-  title       = "Compute virtual machine scale sets with linux OS  should have SSH key authentication enabled"
+  title       = "Compute virtual machine scale sets with linux OS should have SSH key authentication enabled"
   description = "This control checkes whether virtual machine scale sets have SSH key authentication enable. This control is only applicable for linux type operating system."
   query       = query.compute_vm_scale_set_ssh_key_authentication_linux
 

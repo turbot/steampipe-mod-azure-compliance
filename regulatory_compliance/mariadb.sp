@@ -127,9 +127,9 @@ query "mariadb_server_ssl_enabled" {
         when ssl_enforcement = 'Enabled' then name || ' SSL connection enabled.'
         else name || ' SSL connection disabled.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mariadb_server as s,
       azure_subscription as sub

@@ -266,8 +266,8 @@ control "kubernetes_cluster_logging_enabled" {
 }
 
 control "kubernetes_cluster_key_vault_secret_rotation_enabled" {
-  title       = "Kubernetes clusters key vault secret rotation  should be enabled"
-  description = "This control checks if key vault secret rotation  should is enabled for Kubernetes cluster."
+  title       = "Kubernetes clusters key vault secret rotation should be enabled"
+  description = "This control checks if key vault secret rotation should is enabled for Kubernetes cluster."
   query       = query.kubernetes_cluster_key_vault_secret_rotation_enabled
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
@@ -673,9 +673,9 @@ query "kubernetes_cluster_network_policy_enabled" {
         when network_profile ->> 'networkPolicy' is not null then c.name || ' network policy enabled.'
         else c.name || ' network policy disabled.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_kubernetes_cluster c,
       azure_subscription sub

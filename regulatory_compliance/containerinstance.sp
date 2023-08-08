@@ -15,7 +15,7 @@ control "container_instance_container_group_encrypted_using_cmk" {
 }
 
 control "container_instance_container_group_in_virtual_network" {
-  title       = "Container instance container group should be in virtual network"
+  title       = "Container instance container groups should be in virtual network"
   description = "This control ensure that container group is deployed into virtual network."
   query       = query.container_instance_container_group_in_virtual_network
 

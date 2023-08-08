@@ -191,9 +191,9 @@ query "eventgrid_topic_identity_provider_enabled" {
         when identity ->> 'type' = 'None' then a.name || ' identity provider disabled.'
         else a.name || ' identity provider enabled.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_eventgrid_topic a,
       azure_subscription sub;

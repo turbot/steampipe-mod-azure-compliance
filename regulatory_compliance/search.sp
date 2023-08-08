@@ -237,9 +237,9 @@ query "search_service_replica_count_3" {
         else 'alarm'
       end as status,
         name || ' has ' || replica_count || ' replica count.' as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_search_service as s,
       azure_subscription as sub
@@ -256,10 +256,10 @@ query "search_service_replica_count_2" {
         when replica_count >= 2 then 'ok'
         else 'alarm'
       end as status,
-        name || ' has ' || replica_count || ' replica count.' as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      name || ' has ' || replica_count || ' replica count.' as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_search_service as s,
       azure_subscription as sub

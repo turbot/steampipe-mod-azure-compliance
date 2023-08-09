@@ -129,7 +129,7 @@ query "kusto_cluster_sku_with_sla" {
         when sku_name in ('Dev(No SLA)_Standard_E2a_v4' , 'Dev(No SLA)_Standard_D11_v2') then 'alarm'
         else 'ok'
       end as status,
-      name || ' using ' ||  sku_name || ' SKU tier.' as reason
+      name || ' using ' || sku_name || ' SKU tier.' as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}

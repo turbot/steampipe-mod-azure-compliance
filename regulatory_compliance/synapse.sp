@@ -131,11 +131,11 @@ query "synapse_workspace_data_exfiltration_protection_enabled" {
     select
       s.id as resource,
       case
-        when managed_virtual_network_settings  ->> 'preventDataExfiltration' = 'true' then 'ok'
+        when managed_virtual_network_settings ->> 'preventDataExfiltration' = 'true' then 'ok'
         else 'alarm'
       end as status,
       case
-        when managed_virtual_network_settings  ->> 'preventDataExfiltration' = 'true'  then s.title || ' data exfiltration protection enabled.'
+        when managed_virtual_network_settings ->> 'preventDataExfiltration' = 'true' then s.title || ' data exfiltration protection enabled.'
         else s.title || ' data exfiltration protection disabled.'
       end as reason
       ${local.tag_dimensions_sql}

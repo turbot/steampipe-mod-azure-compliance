@@ -732,7 +732,7 @@ query "securitycenter_pricing_standard" {
         when pricing_tier = 'Standard' then 'ok'
         else 'alarm'
       end as status,
-      sub_pricing.name || ' is using ' || pricing_tier  || ' pricing tier.' as reason
+      sub_pricing.name || ' is using ' || pricing_tier || ' pricing tier.' as reason
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

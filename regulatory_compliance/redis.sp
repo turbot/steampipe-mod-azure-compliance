@@ -168,7 +168,7 @@ query "redis_cache_min_tls_1_2" {
         else 'alarm'
       end as status,
       case
-        when minimum_tls_version is null then  c.name || ' minimum TLS version not set.'
+        when minimum_tls_version is null then c.name || ' minimum TLS version not set.'
         when minimum_tls_version = '1.2' then c.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
         else c.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
       end as reason

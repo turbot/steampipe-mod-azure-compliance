@@ -7,7 +7,6 @@ locals {
 benchmark "other_cognitivesearch" {
   title = "Cognitive Search"
   children = [
-    control.search_service_replica_count_2,
     control.search_service_replica_count_3,
     control.search_service_uses_managed_identity
   ]

@@ -1785,6 +1785,7 @@ query "appservice_plan_minimum_sku" {
     select
       a.id as resource,
       case
+        -- The below basic plans are used for development and testing purposes.
         when sku_name in ( 'F1', 'D1', 'B1', 'B2', 'B3') then 'alarm'
         else 'ok'
       end as status,

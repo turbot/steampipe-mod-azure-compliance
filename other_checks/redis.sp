@@ -7,7 +7,7 @@ locals {
 benchmark "other_redis" {
   title = "Redis"
   children = [
-    control.azure_redis_cache_in_virtual_network,
+    control.redis_cache_in_virtual_network,
     control.redis_cache_min_tls_1_2
   ]
 

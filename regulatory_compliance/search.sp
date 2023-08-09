@@ -65,16 +65,6 @@ control "search_service_replica_count_3" {
   })
 }
 
-control "search_service_replica_count_2" {
-  title       = "Cognitive Search services should maintain SLA for search index queries"
-  description = "This control checks if Cognitive Search maintains SLA for search index queries."
-  query       = query.search_service_replica_count_2
-
-  tags = merge(local.regulatory_compliance_search_common_tags, {
-    other_checks = "true"
-  })
-}
-
 query "search_service_logging_enabled" {
   sql = <<-EOQ
     with logging_details as (
@@ -237,26 +227,6 @@ query "search_service_replica_count_3" {
         else 'alarm'
       end as status,
         name || ' has ' || replica_count || ' replica count.' as reason
-      ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_search_service as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
-  EOQ
-}
-
-query "search_service_replica_count_2" {
-  sql = <<-EOQ
-    select
-      s.id as resource,
-      case
-        when replica_count >= 2 then 'ok'
-        else 'alarm'
-      end as status,
-      name || ' has ' || replica_count || ' replica count.' as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}

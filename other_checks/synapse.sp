@@ -7,7 +7,7 @@ locals {
 benchmark "other_synapse" {
   title = "Synapse Analytics"
   children = [
-    control.synapse_workspace_data_exfil_protection_enabled
+    control.synapse_workspace_data_exfiltration_protection_enabled
   ]
 
   tags = merge(local.other_synapse_common_tags, {

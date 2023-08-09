@@ -2440,8 +2440,8 @@ query "compute_vm_data_and_os_disk_uses_managed_disk" {
       end as status,
       case
         when managed_disk_id is null and d.count > 0 then vm.name || ' is utilizing managed disks for both data and OS disk.'
-        when managed_disk_id is null then vm.name || ' is not utilizing managed disks for OS disk.'
-        when d.count > 0 then vm.name || ' is not utilizing managed disks for data disk.'
+        when managed_disk_id is null then vm.name || ' not utilizing managed disks for OS disk.'
+        when d.count > 0 then vm.name || ' not utilizing managed disks for data disk.'
         else vm.name || ' utilizing managed disks for both data and OS disk.'
       end as reason
       ${local.tag_dimensions_sql}

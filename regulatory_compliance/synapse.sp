@@ -34,10 +34,10 @@ control "synapse_workspace_encryption_at_rest_using_cmk" {
   })
 }
 
-control "synapse_workspace_data_exfil_protection_enabled" {
+control "synapse_workspace_data_exfiltration_protection_enabled" {
   title       = "Synapse workspaces should have data exfiltration protection enabled"
   description = "This control checks whether Synapse workspace has data exfiltration protection enabled."
-  query       = query.synapse_workspace_data_exfil_protection_enabled
+  query       = query.synapse_workspace_data_exfiltration_protection_enabled
 
   tags = merge(local.regulatory_compliance_synapse_common_tags, {
     other_checks = "true"
@@ -126,7 +126,7 @@ query "synapse_workspace_encryption_at_rest_using_cmk" {
   EOQ
 }
 
-query "synapse_workspace_data_exfil_protection_enabled" {
+query "synapse_workspace_data_exfiltration_protection_enabled" {
   sql = <<-EOQ
     select
       s.id as resource,

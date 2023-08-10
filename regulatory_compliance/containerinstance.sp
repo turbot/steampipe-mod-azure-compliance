@@ -14,6 +14,16 @@ control "container_instance_container_group_encrypted_using_cmk" {
   })
 }
 
+control "container_instance_container_group_in_virtual_network" {
+  title       = "Container instance container groups should be in virtual network"
+  description = "This control ensures that the container group is deployed into a virtual network."
+  query       = query.container_instance_container_group_in_virtual_network
+
+  tags = merge(local.regulatory_compliance_containerinstance_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "container_instance_container_group_encrypted_using_cmk" {
   sql = <<-EOQ
     select
@@ -35,4 +45,27 @@ query "container_instance_container_group_encrypted_using_cmk" {
     where
       sub.subscription_id = cg.subscription_id;
   EOQ
-} 
+}
+
+query "container_instance_container_group_in_virtual_network" {
+  sql = <<-EOQ
+    select
+      cg.id as resource,
+      case
+        when subnet_ids is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when subnet_ids is not null then cg.title || ' in virtual network.'
+        else cg.title || ' not in virtual network.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_container_group as cg,
+      azure_subscription as sub
+    where
+      sub.subscription_id = cg.subscription_id;
+  EOQ
+}

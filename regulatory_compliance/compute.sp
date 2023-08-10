@@ -736,6 +736,36 @@ control "compute_os_and_data_disk_encrypted_with_cmk" {
   })
 }
 
+control "compute_vm_data_and_os_disk_uses_managed_disk" {
+  title       = "Compute virtual machines should use managed disk for OS and data disk"
+  description = "This control checks whether virtual machines use managed disks for OS and data disks."
+  query       = query.compute_vm_data_and_os_disk_uses_managed_disk
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "compute_vm_scale_set_automatic_upgrade_enabled" {
+  title       = "Compute virtual machine scale sets should have automatic OS image patching enabled"
+  description = "This control checks whether virtual machine scale sets have automatic OS image patching enabled."
+  query       = query.compute_vm_scale_set_automatic_upgrade_enabled
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "compute_vm_scale_set_ssh_key_authentication_linux" {
+  title       = "Compute virtual machine scale sets with linux OS should have SSH key authentication enabled"
+  description = "This control checks whether virtual machine scale sets have SSH key authentication enabled. This control is only applicable for Linux-type operating systems."
+  query       = query.compute_vm_scale_set_ssh_key_authentication_linux
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "compute_os_and_data_disk_encrypted_with_cmk" {
   sql = <<-EOQ
     select
@@ -2383,5 +2413,95 @@ query "compute_vm_utilizing_managed_disk" {
       azure_subscription as sub
     where
       sub.subscription_id = vm.subscription_id;
+  EOQ
+}
+
+query "compute_vm_data_and_os_disk_uses_managed_disk" {
+  sql = <<-EOQ
+    with data_disk_with_no_managed_disk as (
+      select
+        id as vm_id,
+        count(*) as count
+      from
+        azure_compute_virtual_machine,
+        jsonb_array_elements(data_disks) as d
+      where
+        d -> 'managedDisk' ->> 'id' is null
+      group by
+        id
+    )
+    select
+      vm.id as resource,
+      case
+        when managed_disk_id is null and d.count > 0 then 'alarm'
+        when managed_disk_id is null then 'alarm'
+        when d.count > 0 then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when managed_disk_id is null and d.count > 0 then vm.name || ' not utilizing managed disks for both data and OS disk.'
+        when managed_disk_id is null then vm.name || ' not utilizing managed disks for OS disk.'
+        when d.count > 0 then vm.name || ' not utilizing managed disks for data disk.'
+        else vm.name || ' utilizing managed disks for both data and OS disk.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine as vm
+      left join data_disk_with_no_managed_disk as d on d.vm_id = vm.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = vm.subscription_id;
+  EOQ
+}
+
+query "compute_vm_scale_set_automatic_upgrade_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when upgrade_policy is null then 'skip'
+        when upgrade_policy ->> 'mode' = 'Automatic' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when upgrade_policy is null then a.title || ' upgrade policy not applicable.'
+        when upgrade_policy ->> 'mode' = 'Automatic' then a.title || ' automatic update enabled.'
+        else a.title || ' automatic update disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine_scale_set as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_scale_set_ssh_key_authentication_linux" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when virtual_machine_storage_profile -> 'osDisk' ->> 'osType' = 'Windows' then 'skip'
+        when virtual_machine_os_profile -> 'linuxConfiguration' ->> 'disablePasswordAuthentication' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when virtual_machine_storage_profile -> 'osDisk' ->> 'osType' = 'Windows' then a.title || ' is using windows OS.'
+        when virtual_machine_os_profile -> 'linuxConfiguration' ->> 'disablePasswordAuthentication' = 'true' then a.title || ' has SSK key authentication enabled.'
+        else a.title || ' has password authentication enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine_scale_set as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
   EOQ
 }

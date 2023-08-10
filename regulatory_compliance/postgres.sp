@@ -66,6 +66,16 @@ control "postgres_sql_server_encrypted_at_rest_using_cmk" {
   })
 }
 
+control "postgres_db_server_latest_tls_version" {
+  title       = "PostgreSQL servers should have the latest TLS version"
+  description = "This control checks if the PostgreSQL server is upgraded to the latest TLS version."
+  query       = query.postgres_db_server_latest_tls_version
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "postgres_db_server_geo_redundant_backup_enabled" {
   sql = <<-EOQ
     select
@@ -375,3 +385,25 @@ query "postgres_db_server_allow_access_to_azure_services_disabled" {
   EOQ
 }
 
+query "postgres_db_server_latest_tls_version" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when minimal_tls_version = 'TLS1_2' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when minimal_tls_version = 'TLS1_2' then name || ' uses the latest version of TLS encryption.'
+        else name || ' does not use the latest version of TLS encryption.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}

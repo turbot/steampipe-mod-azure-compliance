@@ -44,6 +44,26 @@ control "eventgrid_domain_identity_provider_enabled" {
   })
 }
 
+control "eventgrid_topic_local_auth_enabled" {
+  title       = "Event Grid topics should have local authentication enabled"
+  description = "This control checks if Event Grid topics have local authentication enabled."
+  query       = query.eventgrid_topic_local_auth_enabled
+
+  tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "eventgrid_topic_identity_provider_enabled" {
+  title       = "Event Grid topics identity provider should be enabled"
+  description = "Ensure that managed identity provider is enabled for the Event Grid Topic. This control is non-compliant if Event Grid topic identity provider is disabled."
+  query       = query.eventgrid_topic_identity_provider_enabled
+
+  tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "eventgrid_domain_private_link_used" {
   sql = <<-EOQ
     select
@@ -134,6 +154,48 @@ query "eventgrid_domain_identity_provider_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_eventgrid_domain a,
+      azure_subscription sub;
+  EOQ
+}
+
+query "eventgrid_topic_local_auth_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when disable_local_auth then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when disable_local_auth then a.name || ' local authentication disabled.'
+        else a.name || ' local authentication enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_eventgrid_domain a,
+      azure_subscription sub;
+  EOQ
+}
+
+query "eventgrid_topic_identity_provider_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when identity ->> 'type' = 'None' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when identity ->> 'type' = 'None' then a.name || ' identity provider disabled.'
+        else a.name || ' identity provider enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_eventgrid_topic a,
       azure_subscription sub;
   EOQ
 }

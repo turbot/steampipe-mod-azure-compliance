@@ -155,6 +155,16 @@ control "securitycenter_azure_defender_on_for_resource_manager" {
   })
 }
 
+control "securitycenter_pricing_standard" {
+  title       = "Security center pricing should be set to standard"
+  description = "This control checks whether Security center pricing is set to standard. This control is non-compliant if pricing is set to free."
+  query       = query.securitycenter_pricing_standard
+
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "securitycenter_automatic_provisioning_monitoring_agent_on" {
   sql = <<-EOQ
     select
@@ -711,5 +721,22 @@ query "securitycenter_azure_defender_on_for_containers" {
       right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id
     where
       name = 'Containers';
+  EOQ
+}
+
+query "securitycenter_pricing_standard" {
+  sql = <<-EOQ
+    select
+      sub_pricing.id as resource,
+      case
+        when pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      sub_pricing.name || ' is using ' || pricing_tier || ' pricing tier.' as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_subscription_pricing sub_pricing
+      right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id;
   EOQ
 }

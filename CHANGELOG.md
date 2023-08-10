@@ -1,3 +1,33 @@
+## v0.34 [2023-08-10]
+
+_Enhancements_
+
+- Added the following controls to `Other Compliance Checks` benchmark: ([#209](https://github.com/turbot/steampipe-mod-azure-compliance/pull/209))
+  - `compute_vm_data_and_os_disk_uses_managed_disk`
+  - `appservice_plan_minimum_sku`
+  - `appservice_web_app_always_on`
+  - `appservice_web_app_health_check_enabled`
+  - `compute_vm_scale_set_automatic_upgrade_enabled`
+  - `compute_vm_scale_set_ssh_key_authentication_linux`
+  - `container_instance_container_group_in_virtual_network`
+  - `eventgrid_topic_identity_provider_enabled`
+  - `eventgrid_topic_local_auth_enabled`
+  - `kubernetes_cluster_key_vault_secret_rotation_enabled`
+  - `kubernetes_cluster_logging_enabled`
+  - `kubernetes_cluster_max_pod_50`
+  - `kubernetes_cluster_network_policy_enabled`
+  - `kusto_cluster_sku_with_sla`
+  - `mariadb_server_ssl_enabled`
+  - `monitor_log_profile_retention_365_days`
+  - `postgres_db_server_latest_tls_version`
+  - `redis_cache_min_tls_1_2`
+  - `search_service_replica_count_3`
+  - `search_service_uses_managed_identity`
+  - `securitycenter_pricing_standard`
+  - `signalr_service_no_free_tier_sku`
+  - `sql_server_threat_detection_all_enabled`
+  - `synapse_workspace_data_exfiltration_protection_enabled`
+
 ## v0.33 [2023-08-03]
 
 _Enhancements_

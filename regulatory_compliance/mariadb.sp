@@ -35,6 +35,16 @@ control "mariadb_server_private_link_used" {
   })
 }
 
+control "mariadb_server_ssl_enabled" {
+  title       = "MariaDB servers should have 'Enforce SSL connection' set to 'ENABLED'"
+  description = "This control checks whether MariaDB servers SSL enforcement is enabled. This control is non-compliant if SSL enforcement is disabled."
+  query       = query.mariadb_server_ssl_enabled
+
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "mariadb_server_geo_redundant_backup_enabled" {
   sql = <<-EOQ
     select
@@ -102,5 +112,28 @@ query "mariadb_server_private_link_used" {
       azure_subscription sub
     where
       sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "mariadb_server_ssl_enabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when ssl_enforcement = 'Enabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when ssl_enforcement = 'Enabled' then name || ' SSL connection enabled.'
+        else name || ' SSL connection disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mariadb_server as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
   EOQ
 }

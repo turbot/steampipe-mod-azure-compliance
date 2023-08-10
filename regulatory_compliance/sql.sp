@@ -143,6 +143,16 @@ control "sql_server_auditing_storage_account_destination_retention_90_days" {
   })
 }
 
+control "sql_server_threat_detection_all_enabled" {
+  title       = "SQL server threat detection should be enabled for all"
+  description = "This control ensures that SQL server threat detection is enabled for all."
+  query       = query.sql_server_threat_detection_all_enabled
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "sql_server_and_databases_va_enabled" {
   sql = <<-EOQ
     select
@@ -748,6 +758,39 @@ query "sql_server_va_setting_scan_reports_configured" {
       azure_sql_server s,
       jsonb_array_elements(server_security_alert_policy) security,
       jsonb_array_elements(server_vulnerability_assessment) assessment,
+      azure_subscription sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "sql_server_threat_detection_all_enabled" {
+  sql = <<-EOQ
+    with threat_detection_disabled as (
+      select
+        distinct id
+      from
+        azure_sql_server s,
+        jsonb_array_elements(server_security_alert_policy) p
+      where
+        not (p -> 'properties' -> 'disabledAlerts' = '[""]')
+    )
+    select
+      s.id as resource,
+      case
+        when t.id is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when t.id is null then name || ' threat detection enabled for all.'
+        else  name || ' threat detection not enabled for all.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_sql_server s
+      left join threat_detection_disabled as t on t.id = s.id,
       azure_subscription sub
     where
       sub.subscription_id = s.subscription_id;

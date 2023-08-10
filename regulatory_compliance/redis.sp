@@ -26,10 +26,10 @@ control "azure_redis_cache_uses_private_link" {
   })
 }
 
-control "azure_redis_cache_in_virtual_network" {
+control "redis_cache_in_virtual_network" {
   title       = "Azure Cache for Redis should reside within a virtual network"
   description = "Azure Virtual Network deployment provides enhanced security and isolation for your Azure Cache for Redis, as well as subnets, access control policies, and other features to further restrict access.When an Azure Cache for Redis instance is configured with a virtual network, it is not publicly addressable and can only be accessed from virtual machines and applications within the virtual network."
-  query       = query.azure_redis_cache_in_virtual_network
+  query       = query.redis_cache_in_virtual_network
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
     other_checks = "true"
@@ -43,6 +43,16 @@ control "redis_cache_no_basic_sku" {
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
     cis = "true"
+  })
+}
+
+control "redis_cache_min_tls_1_2" {
+  title       = "Redis Caches 'Minimum TLS version' should be set to 'Version 1.2'"
+  description = "This control checks whether 'Minimum TLS version' is set to 1.2. TLS 1.0 is a legacy version and has known vulnerabilities. This minimum TLS version can be configured to later protocols such as TLS 1.2."
+  query       = query.redis_cache_min_tls_1_2
+
+  tags = merge(local.regulatory_compliance_redis_common_tags, {
+    other_checks = "true"
   })
 }
 
@@ -102,7 +112,7 @@ query "azure_redis_cache_uses_private_link" {
   EOQ
 }
 
-query "azure_redis_cache_in_virtual_network" {
+query "redis_cache_in_virtual_network" {
   sql = <<-EOQ
     select
       redis.id as resource,
@@ -143,6 +153,30 @@ query "redis_cache_no_basic_sku" {
     from
       azure_redis_cache as c,
       azure_subscription as sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "redis_cache_min_tls_1_2" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when minimum_tls_version is null then 'alarm'
+        when minimum_tls_version = '1.2' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when minimum_tls_version is null then c.name || ' minimum TLS version not set.'
+        else c.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_redis_cache as c,
+      azure_subscription sub
     where
       sub.subscription_id = c.subscription_id;
   EOQ

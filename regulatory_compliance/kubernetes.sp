@@ -255,6 +255,46 @@ control "kubernetes_cluster_upgrade_channel" {
   })
 }
 
+control "kubernetes_cluster_logging_enabled" {
+  title       = "Kubernetes clusters should have logging enabled"
+  description = "This control checks if OMS agent is enabled for Kubernetes cluster."
+  query       = query.kubernetes_cluster_logging_enabled
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "kubernetes_cluster_key_vault_secret_rotation_enabled" {
+  title       = "Kubernetes clusters key vault secret rotation should be enabled"
+  description = "This control checks if key vault secret rotation should is enabled for Kubernetes cluster."
+  query       = query.kubernetes_cluster_key_vault_secret_rotation_enabled
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "kubernetes_cluster_max_pod_50" {
+  title       = "Kubernetes clusters should use a minimum number of 50 pods"
+  description = "This control checks if Kubernetes clusters is using a minimum number of 50 pods."
+  query       = query.kubernetes_cluster_max_pod_50
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    other_checks = "true"
+  })
+}
+
+control "kubernetes_cluster_network_policy_enabled" {
+  title       = "Kubernetes clusters should have network policy enabled"
+  description = "This control checks if network policy is enabled for Kubernetes cluster."
+  query       = query.kubernetes_cluster_network_policy_enabled
+
+  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    other_checks = "true"
+  })
+}
+
 query "kubernetes_instance_rbac_enabled" {
   sql = <<-EOQ
     select
@@ -530,6 +570,108 @@ query "kubernetes_cluster_upgrade_channel" {
       case
         when auto_upgrade_profile ->> 'upgradeChannel' = 'none' then c.name || ' upgrade channel not configured.'
         else c.name || ' upgrade channel configured.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_logging_enabled" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when addon_profiles -> 'omsAgent' ->> 'enabled' = 'true' and addon_profiles -> 'omsAgent' ->> 'config' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when addon_profiles -> 'omsAgent' ->> 'enabled' = 'true' and addon_profiles -> 'omsAgent' ->> 'config' is not null  then c.name || ' logging enabled.'
+        else c.name || ' logging disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_key_vault_secret_rotation_enabled" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when addon_profiles -> 'azureKeyvaultSecretsProvider' -> 'config' ->> 'enableSecretRotation' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when addon_profiles -> 'azureKeyvaultSecretsProvider' -> 'config' ->> 'enableSecretRotation' = 'true' then c.name || ' key vault secret rotation enabled.'
+        else c.name || ' key vault secret rotation disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_max_pod_50" {
+  sql = <<-EOQ
+    with max_node as (
+      select
+        distinct id
+      from
+        azure_kubernetes_cluster,
+        jsonb_array_elements(agent_pool_profiles) as p
+      where
+        (p ->> 'maxPods')::int < 50
+    )
+    select
+      c.id as resource,
+      case
+        when n.id is not null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when n.id is not null then c.name || ' nodes have less than 50 pods.'
+        else c.name || ' nodes have greater than 50 pods.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c
+      left join max_node as n on n.id = c.id,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_network_policy_enabled" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when network_profile ->> 'networkPolicy' is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when network_profile ->> 'networkPolicy' is not null then c.name || ' network policy enabled.'
+        else c.name || ' network policy disabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}

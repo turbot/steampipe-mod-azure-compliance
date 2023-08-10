@@ -28,7 +28,7 @@ benchmark "other" {
     benchmark.other_securitycenter,
     benchmark.other_signalr,
     benchmark.other_sql,
-    benchmark.other_synapse,
+    benchmark.other_synapse
   ]
 
   tags = merge(local.other_common_tags, {

@@ -738,7 +738,7 @@ control "compute_os_and_data_disk_encrypted_with_cmk" {
 
 control "compute_vm_data_and_os_disk_uses_managed_disk" {
   title       = "Compute virtual machines should use managed disk for OS and data disk"
-  description = "This control checkes whether virtual machines uses managed disks."
+  description = "This control checks whether virtual machines use managed disks for OS and data disks."
   query       = query.compute_vm_data_and_os_disk_uses_managed_disk
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -748,7 +748,7 @@ control "compute_vm_data_and_os_disk_uses_managed_disk" {
 
 control "compute_vm_scale_set_automatic_upgrade_enabled" {
   title       = "Compute virtual machine scale sets should have automatic OS image patching enabled"
-  description = "This control checkes whether virtual machine scale sets have automatic OS image patching enabled."
+  description = "This control checks whether virtual machine scale sets have automatic OS image patching enabled."
   query       = query.compute_vm_scale_set_automatic_upgrade_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -758,7 +758,7 @@ control "compute_vm_scale_set_automatic_upgrade_enabled" {
 
 control "compute_vm_scale_set_ssh_key_authentication_linux" {
   title       = "Compute virtual machine scale sets with linux OS should have SSH key authentication enabled"
-  description = "This control checkes whether virtual machine scale sets have SSH key authentication enable. This control is only applicable for linux type operating system."
+  description = "This control checks whether virtual machine scale sets have SSH key authentication enabled. This control is only applicable for Linux-type operating systems."
   query       = query.compute_vm_scale_set_ssh_key_authentication_linux
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -2439,7 +2439,7 @@ query "compute_vm_data_and_os_disk_uses_managed_disk" {
         else 'ok'
       end as status,
       case
-        when managed_disk_id is null and d.count > 0 then vm.name || ' is utilizing managed disks for both data and OS disk.'
+        when managed_disk_id is null and d.count > 0 then vm.name || ' not utilizing managed disks for both data and OS disk.'
         when managed_disk_id is null then vm.name || ' not utilizing managed disks for OS disk.'
         when d.count > 0 then vm.name || ' not utilizing managed disks for data disk.'
         else vm.name || ' utilizing managed disks for both data and OS disk.'
@@ -2468,7 +2468,7 @@ query "compute_vm_scale_set_automatic_upgrade_enabled" {
       case
         when upgrade_policy is null then a.title || ' upgrade policy not applicable.'
         when upgrade_policy ->> 'mode' = 'Automatic' then a.title || ' automatic update enabled.'
-        else a.title || ' utomatic update disabled.'
+        else a.title || ' automatic update disabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -2492,7 +2492,7 @@ query "compute_vm_scale_set_ssh_key_authentication_linux" {
       end as status,
       case
         when virtual_machine_storage_profile -> 'osDisk' ->> 'osType' = 'Windows' then a.title || ' is using windows OS.'
-        when virtual_machine_os_profile -> 'linuxConfiguration' ->> 'disablePasswordAuthentication' = 'true' then a.title || ' has SSK key authentication enabled'
+        when virtual_machine_os_profile -> 'linuxConfiguration' ->> 'disablePasswordAuthentication' = 'true' then a.title || ' has SSK key authentication enabled.'
         else a.title || ' has password authentication enabled.'
       end as reason
       ${local.tag_dimensions_sql}

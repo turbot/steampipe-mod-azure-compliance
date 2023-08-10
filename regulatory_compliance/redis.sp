@@ -47,8 +47,8 @@ control "redis_cache_no_basic_sku" {
 }
 
 control "redis_cache_min_tls_1_2" {
-  title       = "Redis Caches 'Minimum TLS version' should be set 'Version 1.2'"
-  description = "This control checks whether 'Minimum TLS version' is set to 1.2. TLS 1.0 is a legacy version and has known vulnerabilities. This minimum TLS version can be configured to be later protocols such as TLS 1.2."
+  title       = "Redis Caches 'Minimum TLS version' should be set to 'Version 1.2'"
+  description = "This control checks whether 'Minimum TLS version' is set to 1.2. TLS 1.0 is a legacy version and has known vulnerabilities. This minimum TLS version can be configured to later protocols such as TLS 1.2."
   query       = query.redis_cache_min_tls_1_2
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
@@ -169,7 +169,6 @@ query "redis_cache_min_tls_1_2" {
       end as status,
       case
         when minimum_tls_version is null then c.name || ' minimum TLS version not set.'
-        when minimum_tls_version = '1.2' then c.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
         else c.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
       end as reason
       ${local.tag_dimensions_sql}

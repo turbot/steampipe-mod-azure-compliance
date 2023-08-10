@@ -381,7 +381,7 @@ control "appservice_web_app_slot_use_https" {
 
 control "appservice_web_app_always_on" {
   title       = "Web apps should be configured to always be on"
-  description = "This control ensures that if a web app is configured with settings to keep it consistently active. Always On feature of Azure App Service, keeps the host process running. This allows your site to be more responsive to request after significant idle periods."
+  description = "This control ensures that a web app is configured with settings to keep it consistently active. Always On feature of Azure App Service, keeps the host process running. This allows your site to be more responsive to requests after significant idle periods."
   query       = query.appservice_web_app_always_on
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
@@ -391,7 +391,7 @@ control "appservice_web_app_always_on" {
 
 control "appservice_plan_minimum_sku" {
   title       = "Appservice plan should not use free, shared or basic SKU"
-  description = "The Free, Shared, and Basic plans are suitable for constrained testing and development purposes. This control is considered non-compliant when free, fhared, or fasic SKUs are utilized."
+  description = "The Free, Shared, and Basic plans are suitable for constrained testing and development purposes. This control is considered non-compliant when free, shared, or basic SKUs are utilized."
   query       = query.appservice_plan_minimum_sku
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
@@ -1786,7 +1786,7 @@ query "appservice_plan_minimum_sku" {
       a.id as resource,
       case
         -- The below basic plans are used for development and testing purposes.
-        when sku_name in ( 'F1', 'D1', 'B1', 'B2', 'B3') then 'alarm'
+        when sku_name in ('F1', 'D1', 'B1', 'B2', 'B3') then 'alarm'
         else 'ok'
       end as status,
       a.name || ' is of ' || sku_family || ' SKU family.'  as reason

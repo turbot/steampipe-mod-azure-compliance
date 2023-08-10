@@ -56,7 +56,7 @@ control "eventgrid_topic_local_auth_enabled" {
 
 control "eventgrid_topic_identity_provider_enabled" {
   title       = "Event Grid topics identity provider should be enabled"
-  description = "Ensure that managed identity provider is enabled for Event Grid Topic. This control is non-compliant if Event Grid topic identity provider is disabled."
+  description = "Ensure that managed identity provider is enabled for the Event Grid Topic. This control is non-compliant if Event Grid topic identity provider is disabled."
   query       = query.eventgrid_topic_identity_provider_enabled
 
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {

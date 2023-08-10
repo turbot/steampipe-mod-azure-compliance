@@ -47,7 +47,7 @@ control "search_service_uses_private_link" {
 
 control "search_service_uses_managed_identity" {
   title       = "Cognitive Search services should use managed identity"
-  description = "Use a managed identity for enhanced authentication security."
+  description = "Cognitive Search services should use a managed identity for enhanced authentication security."
   query       = query.search_service_uses_managed_identity
 
   tags = merge(local.regulatory_compliance_search_common_tags, {
@@ -204,8 +204,8 @@ query "search_service_uses_managed_identity" {
         else 'alarm'
       end as status,
       case
-        when identity ->> 'type' = 'SystemAssigned' then name || ' uses managed identity.'
-        else name || ' not uses managed identity.'
+        when identity ->> 'type' = 'SystemAssigned' then name || ' use managed identity.'
+        else name || ' not use managed identity.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}

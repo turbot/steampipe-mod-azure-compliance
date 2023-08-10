@@ -646,8 +646,8 @@ query "kubernetes_cluster_max_pod_50" {
         else 'ok'
       end as status,
       case
-        when n.id is not null then c.name || ' nodes have pods less than 50.'
-        else c.name || ' nodes have pods greater than 50.'
+        when n.id is not null then c.name || ' nodes have less than 50 pods.'
+        else c.name || ' nodes have greater than 50 pods.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}

@@ -36,7 +36,7 @@ control "kusto_cluster_double_encryption_enabled" {
 
 control "kusto_cluster_sku_with_sla" {
   title       = "Kusto clusters should use SKU with an SLA"
-  description = "This control checks if Kusto clusters use SKU with a SLA. This control is considered non-compliant if Kusto clusters use SKUs without an SLA."
+  description = "This control checks if Kusto clusters use SKU with an SLA. This control is considered non-compliant if Kusto clusters use SKUs without an SLA."
   query       = query.kusto_cluster_sku_with_sla
 
   tags = merge(local.regulatory_compliance_kusto_common_tags, {

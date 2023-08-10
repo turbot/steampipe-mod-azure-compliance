@@ -36,8 +36,8 @@ control "mariadb_server_private_link_used" {
 }
 
 control "mariadb_server_ssl_enabled" {
-  title       = "MariaDB servers should habe 'Enforce SSL connection' is set to 'ENABLED'"
-  description = "This control checks whether MariaDB servers SSL enforcement enabled. This control is non-compliant if SSL enforcement is disabled."
+  title       = "MariaDB servers should have 'Enforce SSL connection' set to 'ENABLED'"
+  description = "This control checks whether MariaDB servers SSL enforcement is enabled. This control is non-compliant if SSL enforcement is disabled."
   query       = query.mariadb_server_ssl_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {

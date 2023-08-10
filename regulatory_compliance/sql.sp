@@ -144,7 +144,7 @@ control "sql_server_auditing_storage_account_destination_retention_90_days" {
 }
 
 control "sql_server_threat_detection_all_enabled" {
-  title       = "SQL servers threat detection should be enabled for all"
+  title       = "SQL server threat detection should be enabled for all"
   description = "This control ensures that SQL server threat detection is enabled for all."
   query       = query.sql_server_threat_detection_all_enabled
 

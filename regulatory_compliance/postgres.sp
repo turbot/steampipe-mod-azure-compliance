@@ -68,7 +68,7 @@ control "postgres_sql_server_encrypted_at_rest_using_cmk" {
 
 control "postgres_db_server_latest_tls_version" {
   title       = "PostgreSQL servers should have the latest TLS version"
-  description = "Upgrade to the latest TLS version."
+  description = "This control checks if the PostgreSQL server is upgraded to the latest TLS version."
   query       = query.postgres_db_server_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
@@ -394,8 +394,8 @@ query "postgres_db_server_latest_tls_version" {
         else 'alarm'
       end as status,
       case
-        when minimal_tls_version = 'TLS1_2' then name || ' using the latest version of TLS encryption.'
-        else name || ' not using the latest version of TLS encryption.'
+        when minimal_tls_version = 'TLS1_2' then name || ' use the latest version of TLS encryption.'
+        else name || ' not use the latest version of TLS encryption.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}

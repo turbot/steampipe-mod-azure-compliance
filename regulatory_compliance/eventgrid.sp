@@ -163,8 +163,8 @@ query "eventgrid_topic_local_auth_enabled" {
     select
       a.id as resource,
       case
-        when disable_local_auth then 'ok'
-        else 'alarm'
+        when disable_local_auth then 'alarm'
+        else 'ok'
       end as status,
       case
         when disable_local_auth then a.name || ' local authentication disabled.'

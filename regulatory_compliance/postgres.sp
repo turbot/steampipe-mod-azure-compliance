@@ -394,8 +394,8 @@ query "postgres_db_server_latest_tls_version" {
         else 'alarm'
       end as status,
       case
-        when minimal_tls_version = 'TLS1_2' then name || ' use the latest version of TLS encryption.'
-        else name || ' not use the latest version of TLS encryption.'
+        when minimal_tls_version = 'TLS1_2' then name || ' uses the latest version of TLS encryption.'
+        else name || ' does not use the latest version of TLS encryption.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}

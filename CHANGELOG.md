@@ -2,7 +2,7 @@
 
 _Enhancements_
 
-- The `Other Compliance Checks` benchmark has been restructured to include sub-benchmarks for the various azure services.
+- The `Other Compliance Checks` benchmark has been restructured to include sub-benchmarks for the various Azure services.
   - The following controls have been added across the benchmarks: ([#209](https://github.com/turbot/steampipe-mod-azure-compliance/pull/209))
     - `compute_vm_data_and_os_disk_uses_managed_disk`
     - `appservice_plan_minimum_sku`

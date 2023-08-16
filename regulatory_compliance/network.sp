@@ -137,6 +137,57 @@ control "network_subnet_protected_by_firewall" {
   })
 }
 
+control "network_bastion_host_min_1" {
+  title         = "Ensure an Azure Bastion Host Exists"
+  description   = "The Azure Bastion service allows secure remote access to Azure Virtual Machines over the Internet without exposing remote access protocol ports and services directly to the Internet. The Azure Bastion service provides this access using TLS over 443/TCP, and subscribes to hardened configurations within an organization's Azure Active Directory service."
+  query         = query.network_bastion_host_min_1
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "network_security_group_https_access_restricted" {
+  title         = "Ensure that HTTP(S) access from the Internet is evaluated and restricted"
+  description   = "Network security groups should be periodically evaluated for port misconfigurations. Where certain ports and protocols may be exposed to the Internet, they should be evaluated for necessity and restricted wherever they are not explicitly required and narrowly configured."
+  query         = query.network_security_group_https_access_restricted
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "network_security_group_ssh_access_restricted" {
+  title         = "Ensure that SSH access is restricted from the internet"
+  description   = "Disable SSH access on network security groups from the Internet."
+  query         = query.network_security_group_ssh_access_restricted
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "network_security_group_udp_service_restricted" {
+  title         = "Ensure that UDP Services are restricted from the Internet"
+  description   = "Disable Internet exposed UDP ports on network security groups."
+  query         = query.network_security_group_udp_service_restricted
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+
+control "network_sg_flowlog_retention_period_greater_than_90" {
+  title         = "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'"
+  description   = "Network Security Group Flow Logs should be enabled and the retention period is set to greater than or equal to 90 days."
+  query         = query.network_sg_flowlog_retention_period_greater_than_90
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (

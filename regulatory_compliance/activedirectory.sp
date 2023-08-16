@@ -1,4 +1,18 @@
-# Non-Config rule query
+locals {
+  regulatory_compliance_activedirectory_common_tags = {
+    service = "Azure/ActiveDirectory"
+  }
+}
+
+control "ad_guest_user_reviewed_monthly" {
+  title         = "Ensure guest users are reviewed on a monthly basis"
+  description   = "Guest users allow you to share your company's applications and services with users from any other organization, while maintaining control over your own corporate data. Guest users should be review on a monthly basis to ensure that inactive and unneeded accounts are removed."
+  query         = query.ad_guest_user_reviewed_monthly
+
+  tags = merge(local.regulatory_compliance_activedirectory_common_tags, {
+    fundamental_security = "true"
+  })
+}
 
 query "ad_guest_user_reviewed_monthly" {
   sql = <<-EOQ

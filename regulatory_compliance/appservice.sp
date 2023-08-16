@@ -409,6 +409,46 @@ control "appservice_web_app_health_check_enabled" {
   })
 }
 
+control "appservice_web_app_incoming_client_cert_on" {
+  title         = "Ensure the web app has 'Client Certificates (Incoming client certificates)' set to 'On'"
+  description   = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
+  query         = query.appservice_web_app_incoming_client_cert_on
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "appservice_authentication_enabled" {
+  title         = "Ensure App Service Authentication is set up for apps in Azure App Service"
+  description   = "Azure App Service Authentication is a feature that can prevent anonymous HTTP requests from reaching a Web Application or authenticate those with tokens before they reach the app. If an anonymous request is received from a browser, App Service will redirect to a logon page. To handle the logon process, a choice from a set of identity providers can be made, or a custom authentication mechanism can be implemented."
+  query         = query.appservice_authentication_enabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "appservice_ftp_deployment_disabled" {
+  title         = "Ensure FTP deployments are Disabled"
+  description   = "By default, Azure Functions, Web, and API Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Service Apps and Functions."
+  query         = query.appservice_ftp_deployment_disabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "appservice_web_app_register_with_active_directory_enabled" {
+  title         = "Ensure that Register with Azure Active Directory is enabled on App Service"
+  description   = "Managed service identity in App Service provides more security by eliminating secrets from the app, such as credentials in the connection strings. When registering with Azure Active Directory in App Service, the app will connect to other Azure services securely without the need for usernames and passwords."
+  query         = query.appservice_web_app_register_with_active_directory_enabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
 query "appservice_web_app_use_https" {
   sql = <<-EOQ
     select

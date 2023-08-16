@@ -88,6 +88,36 @@ control "mysql_server_encrypted_at_rest_using_cmk" {
   })
 }
 
+control "mysql_server_audit_logging_enabled" {
+  title         = "Ensure server parameter 'audit_log_enabled' is set to 'ON' for MySQL Database Server"
+  description   = "Enable audit_log_enabled on MySQL Servers."
+  query         = query.mysql_server_audit_logging_enabled
+
+  tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "mysql_server_audit_logging_events_connection_set" {
+  title         = "Ensure server parameter 'audit_log_events' has 'CONNECTION' set for MySQL Database Server"
+  description   = "Set audit_log_enabled to include CONNECTION on MySQL Servers."
+  query         = query.mysql_server_audit_logging_events_connection_set
+
+  tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "mysql_server_min_tls_1_2" {
+  title         = "Ensure 'TLS Version' is set to 'TLSV1.2' for MySQL flexible Database Server"
+  description   = "Ensure TLS version on MySQL flexible servers is set to the default value."
+  query         = query.mysql_server_min_tls_1_2
+
+  tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
 query "mysql_ssl_enabled" {
   sql = <<-EOQ
     select

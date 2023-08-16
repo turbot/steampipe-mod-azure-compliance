@@ -153,6 +153,76 @@ control "sql_server_threat_detection_all_enabled" {
   })
 }
 
+control "sql_database_allow_internet_access" {
+  title         = "Ensure no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)"
+  description   = "Ensure that no SQL Databases allow ingress from 0.0.0.0/0 (ANY IP)."
+  query         = query.sql_database_allow_internet_access
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "sql_db_active_directory_admin_configured" {
+  title         = "Ensure that Azure Active Directory Admin is configured"
+  description   = "Use Azure Active Directory Authentication for authentication with SQL Database."
+  query         = query.sql_db_active_directory_admin_configured
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "sql_server_atp_enabled" {
+  title         = "Ensure that Microsoft Defender for SQL is set to 'On' for critical SQL Servers"
+  description   = "Enable \"Azure Defender for SQL\" on critical SQL Servers."
+  query         = query.sql_server_atp_enabled
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "sql_server_auditing_retention_period_90" {
+  title         = "Ensure that 'Auditing' Retention is 'greater than 90 days'"
+  description   = "SQL Server Audit Retention should be configured to be greater than 90 days."
+  query         = query.sql_server_auditing_retention_period_90
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "sql_server_va_setting_periodic_scan_enabled" {
+  title         = "Ensure that VA setting Periodic Recurring Scans is enabled on a SQL server"
+  description   = "Enable Vulnerability Assessment (VA) Periodic recurring scans for critical SQL servers and corresponding SQL databases."
+  query         = query.sql_server_va_setting_periodic_scan_enabled
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "sql_server_va_setting_reports_notify_admins" {
+  title         = "Ensure that Vulnerability Assessment (VA) setting 'Also send email notifications to admins and subscription owners' is set for each SQL Server"
+  description   = "Enable Vulnerability Assessment (VA) setting 'Also send email notifications to admins and subscription owners'."
+  query         = query.sql_server_va_setting_reports_notify_admins
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "sql_server_va_setting_scan_reports_configured" {
+  title         = "Ensure that VA setting 'Send scan reports to' is configured for a SQL server"
+  description   = "Configure 'Send scan reports to' with email ids of concerned data owners/stakeholders for a critical SQL servers."
+  query         = query.sql_server_va_setting_scan_reports_configured
+
+  tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
 query "sql_server_and_databases_va_enabled" {
   sql = <<-EOQ
     select

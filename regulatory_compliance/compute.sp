@@ -729,7 +729,7 @@ control "compute_vm_image_builder_uses_private_link" {
 control "compute_os_and_data_disk_encrypted_with_cmk" {
   title       = "OS and data disks should be encrypted with a customer-managed key"
   description = "Use customer-managed keys to manage the encryption at rest of the contents of your managed disks. By default, the data is encrypted at rest with platform-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management. Learn more at https://aka.ms/disks-cmk."
-  query       = query.manual_control
+  query       = query.compute_os_and_data_disk_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -763,6 +763,34 @@ control "compute_vm_scale_set_ssh_key_authentication_linux" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     other_checks = "true"
+  })
+}
+
+control "compute_unattached_disk_encrypted_with_cmk" {
+  title         = "7.4 Ensure that 'Unattached disks' are encrypted with 'Customer Managed Key' (CMK)"
+  description   = "Ensure that unattached disks in a subscription are encrypted with a Customer Managed Key (CMK)."
+  query         = query.compute_unattached_disk_encrypted_with_cmk
+  documentation = file("./cis_v200/docs/cis_v200_7_4.md")
+
+  tags = merge(local.cis_v200_7_common_tags, {
+    cis_item_id = "7.4"
+    cis_level   = "2"
+    cis_type    = "automated"
+    service     = "Azure/Compute"
+  })
+}
+
+control "compute_vm_utilizing_managed_disk" {
+  title         = "7.1 Ensure Virtual Machines are utilizing Managed Disks"
+  description   = "Migrate BLOB based VHD's to Managed Disks on Virtual Machines to exploit the default features of this configuration."
+  query         = query.compute_vm_utilizing_managed_disk
+  documentation = file("./cis_v130/docs/cis_v130_7_1.md")
+
+  tags = merge(local.cis_v130_7_common_tags, {
+    cis_item_id = "7.1"
+    cis_level   = "1"
+    cis_type    = "manual"
+    service     = "Azure/Compute"
   })
 }
 

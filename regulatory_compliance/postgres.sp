@@ -76,6 +76,67 @@ control "postgres_db_server_latest_tls_version" {
   })
 }
 
+control "postgres_db_server_connection_throttling_on" {
+  title         = "4.3.6 Ensure server parameter 'connection_throttling' is set to 'ON' for PostgreSQL Database Server"
+  description   = "Enable connection_throttling on PostgreSQL Servers."
+  query         = query.postgres_db_server_connection_throttling_on
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "postgres_db_server_log_checkpoints_on" {
+  title         = "4.3.3 Ensure server parameter 'log_checkpoints' is set to 'ON' for PostgreSQL Database Server"
+  description   = "Enable log_checkpoints on PostgreSQL Servers."
+  query         = query.postgres_db_server_log_checkpoints_on
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "postgres_db_server_log_connections_on" {
+  title         = "4.3.4 Ensure server parameter 'log_connections' is set to 'ON' for PostgreSQL Database Server"
+  description   = "Enable log_connections on PostgreSQL Servers."
+  query         = query.postgres_db_server_log_connections_on
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "postgres_db_server_log_disconnections_on" {
+  title         = "4.3.5 Ensure server parameter 'log_disconnections' is set to 'ON' for PostgreSQL Database Server"
+  description   = "Enable log_disconnections on PostgreSQL Servers."
+  query         = query.postgres_db_server_log_disconnections_on
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "postgres_db_server_log_retention_days_3" {
+  title         = "4.3.7 Ensure server parameter 'log_retention_days' is greater than 3 days for PostgreSQL Database Server"
+  description   = "Enable log_retention_days on PostgreSQL Servers."
+  query         = query.postgres_db_server_log_retention_days_3
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "postgres_db_server_allow_access_to_azure_services_disabled" {
+  title         = "4.3.7 Ensure 'Allow access to Azure services' for PostgreSQL Database Server is disabled"
+  description   = "Disable access from Azure services to PostgreSQL Database Server."
+  query         = query.postgres_db_server_allow_access_to_azure_services_disabled
+
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+
 query "postgres_db_server_geo_redundant_backup_enabled" {
   sql = <<-EOQ
     select

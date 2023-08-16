@@ -1,0 +1,18 @@
+locals {
+  fundamental_security_eventgrid_common_tags = {
+    service = "Azure/EventGrid"
+  }
+}
+
+benchmark "fundamental_security_eventgrid" {
+  title       = "EventGrid"
+  description = "This section contains recommendations for configuring EventGrid resources."
+  children = [
+    control.eventgrid_domain_identity_provider_enabled,
+    control.eventgrid_domain_private_link_used,
+    control.eventgrid_domain_restrict_public_access,
+    control.eventgrid_topic_identity_provider_enabled,
+    control.eventgrid_topic_local_auth_enabled,
+    control.eventgrid_topic_private_link_used
+  ]
+}

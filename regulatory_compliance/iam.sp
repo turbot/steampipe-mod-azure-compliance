@@ -135,6 +135,48 @@ control "iam_user_with_owner_permission_on_subscription_mfa_enabled" {
   })
 }
 
+control "iam_no_custom_subscription_owner_roles_created" {
+  title         = "Ensure That No Custom Subscription Administrator Roles Exist"
+  description   = "The principle of least privilege should be followed and only necessary privileges should be assigned instead of allowing full administrative access."
+  query         = query.iam_no_custom_subscription_owner_roles_created
+
+  tags = merge(local.regulatory_compliance_iam_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "iam_conditional_access_mfa_enabled" {
+  title         = "Ensure Multi-factor Authentication is Required for Azure Management"
+  description   = "For designated users, they will be prompted to use their multi-factor authentication (MFA) process on logins."
+  query         = query.iam_conditional_access_mfa_enabled
+
+  tags = merge(local.regulatory_compliance_iam_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+
+control "iam_user_not_allowed_to_create_security_group" {
+  title         = "Ensure that 'Users can create security groups in Azure portals, API or PowerShell' is set to 'No'"
+  description   = "Restrict security group creation to administrators only."
+  query         = query.iam_user_not_allowed_to_create_security_group
+
+  tags = merge(local.regulatory_compliance_iam_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
+control "iam_user_not_allowed_to_register_application" {
+  title         = "1.14 Ensure That 'Users Can Register Applications' Is Set to 'No'"
+  description   = "Require administrators or appropriately delegated users to register third-party applications."
+  query         = query.iam_user_not_allowed_to_register_application
+  documentation = file("./cis_v200/docs/cis_v200_1_14.md")
+
+  tags = merge(local.cis_v200_1_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
 query "iam_subscription_owner_more_than_1" {
   sql = <<-EOQ
     with owner_roles as (

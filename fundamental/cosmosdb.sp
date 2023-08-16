@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_cosmosdb_common_tags = {
+  fundamental_security_cosmosdb_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/CosmosDB"
-  }
+  })
 }
 
 benchmark "fundamental_security_cosmosdb" {
@@ -15,4 +15,8 @@ benchmark "fundamental_security_cosmosdb" {
     control.cosmosdb_account_with_firewall_rules,
     control.cosmosdb_use_virtual_service_endpoint
   ]
+
+  tags = merge(local.fundamental_security_cosmosdb_common_tags, {
+    type = "Benchmark"
+  })
 }

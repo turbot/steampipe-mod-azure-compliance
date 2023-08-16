@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_storage_common_tags = {
+  fundamental_security_storage_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/Storage"
-  }
+  })
 }
 
 benchmark "fundamental_security_storage" {
@@ -27,4 +27,8 @@ benchmark "fundamental_security_storage" {
     control.storage_account_uses_azure_resource_manager,
     control.storage_account_uses_private_link
   ]
+
+  tags = merge(local.fundamental_security_storage_common_tags, {
+    type = "Benchmark"
+  })
 }

@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_activedirectory_common_tags = {
+  fundamental_security_activedirectory_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/ActiveDirectory"
-  }
+  })
 }
 
 benchmark "fundamental_security_activedirectory" {
@@ -22,4 +22,8 @@ benchmark "fundamental_security_activedirectory" {
     control.iam_user_not_allowed_to_create_security_group,
     control.iam_user_not_allowed_to_register_application
   ]
+
+  tags = merge(local.fundamental_security_activedirectory_common_tags, {
+    type = "Benchmark"
+  })
 }

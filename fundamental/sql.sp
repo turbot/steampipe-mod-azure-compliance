@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_sql_common_tags = {
+  fundamental_security_sql_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/SQL"
-  }
+  })
 }
 
 benchmark "fundamental_security_sql" {
@@ -30,4 +30,8 @@ benchmark "fundamental_security_sql" {
     control.sql_server_va_setting_reports_notify_admins,
     control.sql_server_va_setting_scan_reports_configured
   ]
+
+  tags = merge(local.fundamental_security_sql_common_tags, {
+    type = "Benchmark"
+  })
 }

@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_kubernetes_common_tags = {
+  fundamental_security_kubernetes_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/KubernetesService"
-  }
+  })
 }
 
 benchmark "fundamental_security_kubernetes" {
@@ -24,4 +24,8 @@ benchmark "fundamental_security_kubernetes" {
     control.kubernetes_cluster_upgraded_with_non_vulnerable_version,
     control.kubernetes_instance_rbac_enabled
   ]
+
+  tags = merge(local.fundamental_security_kubernetes_common_tags, {
+    type = "Benchmark"
+  })
 }

@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_compute_common_tags = {
+  fundamental_security_compute_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/Compute"
-  }
+  })
 }
 
 benchmark "fundamental_security_compute" {
@@ -56,4 +56,8 @@ benchmark "fundamental_security_compute" {
     control.compute_vm_windows_defender_exploit_guard_enabled,
     control.network_interface_ip_forwarding_disabled
   ]
+
+  tags = merge(local.fundamental_security_compute_common_tags, {
+    type = "Benchmark"
+  })
 }

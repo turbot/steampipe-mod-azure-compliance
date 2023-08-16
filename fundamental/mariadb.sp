@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_mariadb_common_tags = {
+  fundamental_security_mariadb_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/MariaDB"
-  }
+  })
 }
 
 benchmark "fundamental_security_mariadb" {
@@ -13,4 +13,8 @@ benchmark "fundamental_security_mariadb" {
     control.mariadb_server_public_network_access_disabled,
     control.mariadb_server_ssl_enabled
   ]
+
+  tags = merge(local.fundamental_security_mariadb_common_tags, {
+    type = "Benchmark"
+  })
 }

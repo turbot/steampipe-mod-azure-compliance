@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_securitycenter_common_tags = {
+  fundamental_security_securitycenter_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/SecurityCenter"
-  }
+  })
 }
 
 benchmark "fundamental_security_securitycenter" {
@@ -32,4 +32,8 @@ benchmark "fundamental_security_securitycenter" {
     control.securitycenter_security_alerts_to_owner_enabled,
     control.securitycenter_wdatp_integration
   ]
+
+  tags = merge(local.fundamental_security_securitycenter_common_tags, {
+    type = "Benchmark"
+  })
 }

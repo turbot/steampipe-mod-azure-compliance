@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_automation_common_tags = {
+  fundamental_security_automation_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/Automation"
-  }
+  })
 }
 
 benchmark "fundamental_security_automation" {
@@ -10,4 +10,8 @@ benchmark "fundamental_security_automation" {
   children = [
     control.automation_account_variable_encryption_enabled
   ]
+
+  tags = merge(local.fundamental_security_automation_common_tags, {
+    type = "Benchmark"
+  })
 }

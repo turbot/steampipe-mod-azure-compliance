@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_redis_common_tags = {
+  fundamental_security_redis_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/Redis"
-  }
+  })
 }
 
 benchmark "fundamental_security_redis" {
@@ -14,4 +14,8 @@ benchmark "fundamental_security_redis" {
     control.redis_cache_min_tls_1_2,
     control.redis_cache_no_basic_sku
   ]
+
+  tags = merge(local.fundamental_security_redis_common_tags, {
+    type = "Benchmark"
+  })
 }

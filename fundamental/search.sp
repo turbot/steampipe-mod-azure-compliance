@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_search_common_tags = {
+  fundamental_security_search_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/CognitiveSearch"
-  }
+  })
 }
 
 benchmark "fundamental_security_search" {
@@ -15,4 +15,8 @@ benchmark "fundamental_security_search" {
     control.search_service_uses_private_link,
     control.search_service_uses_sku_supporting_private_link
   ]
+
+  tags = merge(local.fundamental_security_search_common_tags, {
+    type = "Benchmark"
+  })
 }

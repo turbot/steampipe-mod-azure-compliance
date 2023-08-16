@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_eventhub_common_tags = {
+  fundamental_security_eventhub_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/EventHub"
-  }
+  })
 }
 
 benchmark "fundamental_security_eventhub" {
@@ -13,4 +13,8 @@ benchmark "fundamental_security_eventhub" {
     control.eventhub_namespace_private_link_used,
     control.eventhub_namespace_use_virtual_service_endpoint
   ]
+
+  tags = merge(local.fundamental_security_eventhub_common_tags, {
+    type = "Benchmark"
+  })
 }

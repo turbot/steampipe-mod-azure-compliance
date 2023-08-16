@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_network_common_tags = {
+  fundamental_security_network_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/Network"
-  }
+  })
 }
 
 benchmark "fundamental_security_network" {
@@ -26,4 +26,8 @@ benchmark "fundamental_security_network" {
     control.network_watcher_enabled,
     control.network_watcher_in_regions_with_virtual_network
   ]
+
+  tags = merge(local.fundamental_security_network_common_tags, {
+    type = "Benchmark"
+  })
 }

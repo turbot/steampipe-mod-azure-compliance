@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_postgres_common_tags = {
+  fundamental_security_postgres_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/PostgreSQL"
-  }
+  })
 }
 
 benchmark "fundamental_security_postgres" {
@@ -22,4 +22,8 @@ benchmark "fundamental_security_postgres" {
     control.postgresql_server_infrastructure_encryption_enabled,
     control.postgresql_server_public_network_access_disabled
   ]
+
+  tags = merge(local.fundamental_security_postgres_common_tags, {
+    type = "Benchmark"
+  })
 }

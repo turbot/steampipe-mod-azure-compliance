@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_mysql_common_tags = {
+  fundamental_security_mysql_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/MySQL"
-  }
+  })
 }
 
 benchmark "fundamental_security_mysql" {
@@ -20,4 +20,8 @@ benchmark "fundamental_security_mysql" {
     control.mysql_server_public_network_access_disabled,
     control.mysql_ssl_enabled
   ]
+
+  tags = merge(local.fundamental_security_mysql_common_tags, {
+    type = "Benchmark"
+  })
 }

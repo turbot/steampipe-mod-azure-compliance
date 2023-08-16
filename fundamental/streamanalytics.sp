@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_streamanalytics_common_tags = {
+  fundamental_security_streamanalytics_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/StreamAnalytics"
-  }
+  })
 }
 
 benchmark "fundamental_security_streamanalytics" {
@@ -10,4 +10,8 @@ benchmark "fundamental_security_streamanalytics" {
   children = [
     control.stream_analytics_job_logging_enabled
   ]
+
+  tags = merge(local.fundamental_security_streamanalytics_common_tags, {
+    type = "Benchmark"
+  })
 }

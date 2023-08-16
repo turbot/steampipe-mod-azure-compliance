@@ -1,12 +1,12 @@
 locals {
-  foundational_security_common_tags = merge(local.azure_compliance_common_tags, {
-    foundational_security = "true"
+  fundamental_security_common_tags = merge(local.azure_compliance_common_tags, {
+    fundamental_security = "true"
   })
 }
 
-benchmark "foundational_security" {
-  title       = "Azure Foundational Security Best Practices"
-  description = "The Azure Foundational Security Best Practices standard is a set of controls that detect when your deployed subscriptions and resources deviate from security best practices."
+benchmark "fundamental_security" {
+  title       = "Azure Fundamental Security Best Practices"
+  description = "The Azure Fundamental Security Best Practices standard is a set of controls that detect when your deployed subscriptions and resources deviate from security best practices."
   children = [
     benchmark.fundamental_security_activedirectory,
     benchmark.fundamental_security_apimanagement,
@@ -53,7 +53,7 @@ benchmark "foundational_security" {
     benchmark.fundamental_security_synapse
   ]
 
-  tags = merge(local.foundational_security_common_tags, {
+  tags = merge(local.fundamental_security_common_tags, {
     type = "Benchmark"
   })
 }

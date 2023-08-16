@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_monitor_common_tags = {
+  fundamental_security_monitor_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/Monitor"
-  }
+  })
 }
 
 benchmark "fundamental_security_monitor" {
@@ -31,4 +31,8 @@ benchmark "fundamental_security_monitor" {
     control.monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok,
     control.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
   ]
+
+  tags = merge(local.fundamental_security_monitor_common_tags, {
+    type = "Benchmark"
+  })
 }

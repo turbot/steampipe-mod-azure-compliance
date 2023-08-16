@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_appservice_common_tags = {
+  fundamental_security_appservice_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/AppService"
-  }
+  })
 }
 
 benchmark "fundamental_security_appservice" {
@@ -52,4 +52,8 @@ benchmark "fundamental_security_appservice" {
     control.appservice_web_app_uses_managed_identity,
     control.appservice_web_app_worker_more_than_one
   ]
+
+  tags = merge(local.fundamental_security_appservice_common_tags, {
+    type = "Benchmark"
+  })
 }

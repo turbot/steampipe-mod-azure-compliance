@@ -1,7 +1,7 @@
 locals {
-  fundamental_security_synapse_common_tags = {
+  fundamental_security_synapse_common_tags = merge(local.fundamental_security_common_tags, {
     service = "Azure/SynapseAnalytics"
-  }
+  })
 }
 
 benchmark "fundamental_security_synapse" {
@@ -13,4 +13,8 @@ benchmark "fundamental_security_synapse" {
     control.synapse_workspace_private_link_used,
     control.synapse_workspace_vulnerability_assessment_enabled
   ]
+
+  tags = merge(local.fundamental_security_synapse_common_tags, {
+    type = "Benchmark"
+  })
 }

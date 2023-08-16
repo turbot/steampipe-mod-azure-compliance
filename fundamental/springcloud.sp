@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_springcloud" {
-  title       = "SpringCloud"
+  title       = "Spring Cloud"
   description = "This section contains recommendations for configuring SpringCloud resources."
   children = [
     control.spring_cloud_service_network_injection_enabled

@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_storagesync" {
-  title       = "FileSync"
+  title       = "File Sync"
   description = "This section contains recommendations for configuring FileSync resources."
   children = [
     control.storage_sync_private_link_used

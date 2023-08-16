@@ -28,7 +28,6 @@ benchmark "foundational_security" {
     benchmark.fundamental_security_hdinsight,
     benchmark.fundamental_security_healthcare,
     benchmark.fundamental_security_hpccache,
-    benchmark.fundamental_security_iam,
     benchmark.fundamental_security_iothub,
     benchmark.fundamental_security_keyvault,
     benchmark.fundamental_security_kubernetes,

@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_iothub" {
-  title       = "IoTHub"
+  title       = "IoT Hub"
   description = "This section contains recommendations for configuring IoTHub resources."
   children = [
     control.iot_hub_logging_enabled,

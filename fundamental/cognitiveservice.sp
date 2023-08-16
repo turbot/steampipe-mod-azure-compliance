@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_cognitiveservice" {
-  title       = "CognitiveServices"
+  title       = "Cognitive Services"
   description = "This section contains recommendations for configuring CognitiveServices resources."
   children = [
     control.cognitive_account_encrypted_with_cmk,

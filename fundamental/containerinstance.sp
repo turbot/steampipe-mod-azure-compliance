@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_containerinstance" {
-  title       = "ContainerInstance"
+  title       = "Container Instance"
   description = "This section contains recommendations for configuring ContainerInstance resources."
   children = [
     control.container_instance_container_group_encrypted_using_cmk,

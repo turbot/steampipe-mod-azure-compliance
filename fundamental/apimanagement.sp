@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_apimanagement" {
-  title       = "APIManagement"
+  title       = "API Management"
   description = "This section contains recommendations for configuring APIManagement resources."
   children = [
     control.apimanagement_service_client_certificate_enabled,

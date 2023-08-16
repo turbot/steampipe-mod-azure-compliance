@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_containerregistry" {
-  title       = "ContainerRegistry"
+  title       = "Container Registry"
   description = "This section contains recommendations for configuring ContainerRegistry resources."
   children = [
     control.container_registry_admin_user_disabled,

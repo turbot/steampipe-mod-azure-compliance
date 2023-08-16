@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_machinelearning" {
-  title       = "MachineLearning"
+  title       = "Machine Learning"
   description = "This section contains recommendations for configuring MachineLearning resources."
   children = [
     control.machine_learning_workspace_encrypted_with_cmk

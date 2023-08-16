@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_synapse" {
-  title       = "SynapseAnalytics"
+  title       = "Synapse Analytics"
   description = "This section contains recommendations for configuring SynapseAnalytics resources."
   children = [
     control.synapse_workspace_data_exfiltration_protection_enabled,

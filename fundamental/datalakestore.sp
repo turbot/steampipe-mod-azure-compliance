@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_datalakestore" {
-  title       = "DataLakeStorage"
+  title       = "Data Lake Storage"
   description = "This section contains recommendations for configuring DataLakeStorage resources."
   children = [
     control.datalake_store_account_encryption_enabled,

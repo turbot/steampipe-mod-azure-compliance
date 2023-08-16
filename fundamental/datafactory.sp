@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_datafactory" {
-  title       = "DataFactory"
+  title       = "Data Factory"
   description = "This section contains recommendations for configuring DataFactory resources."
   children = [
     control.data_factory_encrypted_with_cmk,

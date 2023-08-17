@@ -40,6 +40,7 @@ control "container_registry_encrypted_with_cmk" {
   query       = query.container_registry_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -60,7 +61,8 @@ control "container_registry_admin_user_disabled" {
   query       = query.container_registry_admin_user_disabled
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -70,7 +72,8 @@ control "container_registry_quarantine_policy_enabled" {
   query       = query.container_registry_quarantine_policy_enabled
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -80,7 +83,8 @@ control "container_registry_retention_policy_enabled" {
   query       = query.container_registry_retention_policy_enabled
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -90,7 +94,8 @@ control "container_registry_geo_replication_enabled" {
   query       = query.container_registry_geo_replication_enabled
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -100,7 +105,8 @@ control "container_registry_public_network_access_disabled" {
   query       = query.container_registry_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -110,7 +116,8 @@ control "container_registry_trust_policy_enabled" {
   query       = query.container_registry_trust_policy_enabled
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 

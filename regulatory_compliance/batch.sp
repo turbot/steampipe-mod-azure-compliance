@@ -10,6 +10,7 @@ control "batch_account_logging_enabled" {
   query       = query.batch_account_logging_enabled
 
   tags = merge(local.regulatory_compliance_batch_common_tags, {
+    fundamental_security = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -21,6 +22,7 @@ control "batch_account_encrypted_with_cmk" {
   query       = query.batch_account_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_batch_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

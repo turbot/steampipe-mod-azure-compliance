@@ -10,6 +10,7 @@ control "hpc_cache_encrypted_with_cmk" {
   query       = query.hpc_cache_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_hpc_cache_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

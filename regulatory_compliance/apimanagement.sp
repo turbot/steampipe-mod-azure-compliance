@@ -10,6 +10,7 @@ control "apimanagement_service_with_virtual_network" {
   query       = query.apimanagement_service_with_virtual_network
 
   tags = merge(local.regulatory_compliance_apimanagement_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -20,7 +21,8 @@ control "apimanagement_service_client_certificate_enabled" {
   query       = query.apimanagement_service_client_certificate_enabled
 
   tags = merge(local.regulatory_compliance_apimanagement_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 

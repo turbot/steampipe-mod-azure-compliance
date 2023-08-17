@@ -10,6 +10,7 @@ control "postgres_db_server_geo_redundant_backup_enabled" {
   query       = query.postgres_db_server_geo_redundant_backup_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    fundamental_security = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -21,6 +22,7 @@ control "postgres_sql_ssl_enabled" {
   query       = query.postgres_sql_ssl_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    fundamental_security = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -32,6 +34,7 @@ control "postgresql_server_public_network_access_disabled" {
   query       = query.postgresql_server_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -42,6 +45,7 @@ control "postgresql_server_infrastructure_encryption_enabled" {
   query       = query.postgresql_server_infrastructure_encryption_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -52,6 +56,7 @@ control "postgres_server_private_link_used" {
   query       = query.postgres_server_private_link_used
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -62,6 +67,7 @@ control "postgres_sql_server_encrypted_at_rest_using_cmk" {
   query       = query.postgres_sql_server_encrypted_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -71,71 +77,71 @@ control "postgres_db_server_latest_tls_version" {
   description = "This control checks if the PostgreSQL server is upgraded to the latest TLS version."
   query       = query.postgres_db_server_latest_tls_version
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    fundamental_security = "true"
     other_checks = "true"
   })
 }
 
 control "postgres_db_server_connection_throttling_on" {
-  title         = "Ensure server parameter 'connection_throttling' is set to 'ON' for PostgreSQL Database Server"
-  description   = "Enable connection_throttling on PostgreSQL Servers."
-  query         = query.postgres_db_server_connection_throttling_on
+  title       = "Ensure server parameter 'connection_throttling' is set to 'ON' for PostgreSQL Database Server"
+  description = "Enable connection_throttling on PostgreSQL Servers."
+  query       = query.postgres_db_server_connection_throttling_on
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
     fundamental_security = "true"
   })
 }
 
 control "postgres_db_server_log_checkpoints_on" {
-  title         = "Ensure server parameter 'log_checkpoints' is set to 'ON' for PostgreSQL Database Server"
-  description   = "Enable log_checkpoints on PostgreSQL Servers."
-  query         = query.postgres_db_server_log_checkpoints_on
+  title       = "Ensure server parameter 'log_checkpoints' is set to 'ON' for PostgreSQL Database Server"
+  description = "Enable log_checkpoints on PostgreSQL Servers."
+  query       = query.postgres_db_server_log_checkpoints_on
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
     fundamental_security = "true"
   })
 }
 
 control "postgres_db_server_log_connections_on" {
-  title         = "Ensure server parameter 'log_connections' is set to 'ON' for PostgreSQL Database Server"
-  description   = "Enable log_connections on PostgreSQL Servers."
-  query         = query.postgres_db_server_log_connections_on
+  title       = "Ensure server parameter 'log_connections' is set to 'ON' for PostgreSQL Database Server"
+  description = "Enable log_connections on PostgreSQL Servers."
+  query       = query.postgres_db_server_log_connections_on
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
     fundamental_security = "true"
   })
 }
 
 control "postgres_db_server_log_disconnections_on" {
-  title         = "Ensure server parameter 'log_disconnections' is set to 'ON' for PostgreSQL Database Server"
-  description   = "Enable log_disconnections on PostgreSQL Servers."
-  query         = query.postgres_db_server_log_disconnections_on
+  title       = "Ensure server parameter 'log_disconnections' is set to 'ON' for PostgreSQL Database Server"
+  description = "Enable log_disconnections on PostgreSQL Servers."
+  query       = query.postgres_db_server_log_disconnections_on
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
     fundamental_security = "true"
   })
 }
 
 control "postgres_db_server_log_retention_days_3" {
-  title         = "Ensure server parameter 'log_retention_days' is greater than 3 days for PostgreSQL Database Server"
-  description   = "Enable log_retention_days on PostgreSQL Servers."
-  query         = query.postgres_db_server_log_retention_days_3
+  title       = "Ensure server parameter 'log_retention_days' is greater than 3 days for PostgreSQL Database Server"
+  description = "Enable log_retention_days on PostgreSQL Servers."
+  query       = query.postgres_db_server_log_retention_days_3
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
     fundamental_security = "true"
   })
 }
 
 control "postgres_db_server_allow_access_to_azure_services_disabled" {
-  title         = "Ensure 'Allow access to Azure services' for PostgreSQL Database Server is disabled"
-  description   = "Disable access from Azure services to PostgreSQL Database Server."
-  query         = query.postgres_db_server_allow_access_to_azure_services_disabled
+  title       = "Ensure 'Allow access to Azure services' for PostgreSQL Database Server is disabled"
+  description = "Disable access from Azure services to PostgreSQL Database Server."
+  query       = query.postgres_db_server_allow_access_to_azure_services_disabled
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
     fundamental_security = "true"
   })
 }
-
 
 query "postgres_db_server_geo_redundant_backup_enabled" {
   sql = <<-EOQ

@@ -10,6 +10,7 @@ control "mariadb_server_geo_redundant_backup_enabled" {
   query       = query.mariadb_server_geo_redundant_backup_enabled
 
   tags = merge(local.regulatory_compliance_mariadb_common_tags, {
+    fundamental_security = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -21,6 +22,7 @@ control "mariadb_server_public_network_access_disabled" {
   query       = query.mariadb_server_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_mariadb_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -31,6 +33,7 @@ control "mariadb_server_private_link_used" {
   query       = query.mariadb_server_private_link_used
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -41,7 +44,8 @@ control "mariadb_server_ssl_enabled" {
   query       = query.mariadb_server_ssl_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 

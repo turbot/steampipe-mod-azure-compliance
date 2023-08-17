@@ -10,6 +10,7 @@ control "spring_cloud_service_network_injection_enabled" {
   query       = query.spring_cloud_service_network_injection_enabled
 
   tags = merge(local.regulatory_compliance_springcloud_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

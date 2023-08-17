@@ -10,6 +10,7 @@ control "signalr_service_private_link_used" {
   query       = query.signalr_service_private_link_used
 
   tags = merge(local.regulatory_compliance_signalr_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -20,7 +21,8 @@ control "signalr_service_no_free_tier_sku" {
   query       = query.signalr_service_no_free_tier_sku
 
   tags = merge(local.regulatory_compliance_signalr_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 

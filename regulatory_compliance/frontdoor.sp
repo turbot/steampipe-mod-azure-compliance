@@ -10,6 +10,7 @@ control "frontdoor_waf_enabled" {
   query       = query.frontdoor_waf_enabled
 
   tags = merge(local.regulatory_compliance_frontdoor_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

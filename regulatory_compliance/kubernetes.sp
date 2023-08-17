@@ -10,6 +10,7 @@ control "kubernetes_instance_rbac_enabled" {
   query       = query.kubernetes_instance_rbac_enabled
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    fundamental_security = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -21,6 +22,7 @@ control "kubernetes_cluster_add_on_azure_policy_enabled" {
   query       = query.kubernetes_cluster_add_on_azure_policy_enabled
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -31,6 +33,7 @@ control "kubernetes_cluster_authorized_ip_range_defined" {
   query       = query.kubernetes_cluster_authorized_ip_range_defined
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -41,6 +44,7 @@ control "kubernetes_cluster_os_and_data_disks_encrypted_with_cmk" {
   query       = query.kubernetes_cluster_os_and_data_disks_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -51,6 +55,7 @@ control "kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_ho
   query       = query.kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -61,6 +66,7 @@ control "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
   query       = query.kubernetes_cluster_upgraded_with_non_vulnerable_version
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -211,7 +217,8 @@ control "kubernetes_cluster_restrict_public_access" {
   query       = query.kubernetes_cluster_restrict_public_access
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -221,7 +228,8 @@ control "kubernetes_cluster_addon_azure_policy_enabled" {
   query       = query.kubernetes_cluster_addon_azure_policy_enabled
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -231,7 +239,8 @@ control "kubernetes_cluster_node_restrict_public_access" {
   query       = query.kubernetes_cluster_node_restrict_public_access
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -241,7 +250,8 @@ control "kubernetes_cluster_sku_standard" {
   query       = query.kubernetes_cluster_sku_standard
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -251,7 +261,8 @@ control "kubernetes_cluster_upgrade_channel" {
   query       = query.kubernetes_cluster_upgrade_channel
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -261,7 +272,8 @@ control "kubernetes_cluster_logging_enabled" {
   query       = query.kubernetes_cluster_logging_enabled
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -271,7 +283,8 @@ control "kubernetes_cluster_key_vault_secret_rotation_enabled" {
   query       = query.kubernetes_cluster_key_vault_secret_rotation_enabled
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -281,7 +294,8 @@ control "kubernetes_cluster_max_pod_50" {
   query       = query.kubernetes_cluster_max_pod_50
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -291,7 +305,8 @@ control "kubernetes_cluster_network_policy_enabled" {
   query       = query.kubernetes_cluster_network_policy_enabled
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 

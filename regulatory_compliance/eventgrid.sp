@@ -10,6 +10,7 @@ control "eventgrid_domain_private_link_used" {
   query       = query.eventgrid_domain_private_link_used
 
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -20,6 +21,7 @@ control "eventgrid_topic_private_link_used" {
   query       = query.eventgrid_topic_private_link_used
 
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -30,7 +32,8 @@ control "eventgrid_domain_restrict_public_access" {
   query       = query.eventgrid_domain_restrict_public_access
 
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -40,7 +43,8 @@ control "eventgrid_domain_identity_provider_enabled" {
   query       = query.eventgrid_domain_identity_provider_enabled
 
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -50,7 +54,8 @@ control "eventgrid_topic_local_auth_enabled" {
   query       = query.eventgrid_topic_local_auth_enabled
 
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -60,7 +65,8 @@ control "eventgrid_topic_identity_provider_enabled" {
   query       = query.eventgrid_topic_identity_provider_enabled
 
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 

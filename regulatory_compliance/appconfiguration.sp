@@ -10,6 +10,7 @@ control "app_configuration_private_link_used" {
   query       = query.app_configuration_private_link_used
 
   tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -20,7 +21,8 @@ control "app_configuration_sku_standard" {
   query       = query.app_configuration_sku_standard
 
   tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
@@ -30,7 +32,8 @@ control "app_configuration_encryption_enabled" {
   query       = query.app_configuration_encryption_enabled
 
   tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 

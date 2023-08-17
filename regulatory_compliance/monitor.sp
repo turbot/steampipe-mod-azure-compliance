@@ -10,7 +10,8 @@ control "monitor_log_profile_enabled_for_all_categories" {
   query       = query.monitor_log_profile_enabled_for_all_categories
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    fundamental_security = "true"
+    hipaa_hitrust_v92    = "true"
   })
 }
 
@@ -20,7 +21,8 @@ control "monitor_log_alert_for_administrative_operations" {
   query       = query.monitor_log_alert_for_administrative_operations
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    fundamental_security = "true"
+    hipaa_hitrust_v92    = "true"
   })
 }
 
@@ -30,7 +32,8 @@ control "monitor_log_profile_enabled_for_all_regions" {
   query       = query.monitor_log_profile_enabled_for_all_regions
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    fundamental_security = "true"
+    hipaa_hitrust_v92    = "true"
   })
 }
 
@@ -81,14 +84,15 @@ control "monitor_log_profile_retention_365_days" {
   query       = query.monitor_log_profile_retention_365_days
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    other_checks = "true"
+    fundamental_security = "true"
+    other_checks         = "true"
   })
 }
 
 control "monitor_diagnostic_settings_captures_proper_categories" {
-  title         = "Ensure Diagnostic Setting captures appropriate categories"
-  description   = "A Diagnostic Setting must exist. If a Diagnostic Setting does not exist, the navigation and options within this recommendation will not be available. Please review the recommendation at the beginning of this subsection titled: 'Ensure that a 'Diagnostic Setting' exists.' The diagnostic setting should be configured to log the appropriate activities from the control/management plane."
-  query         = query.monitor_diagnostic_settings_captures_proper_categories
+  title       = "Ensure Diagnostic Setting captures appropriate categories"
+  description = "A Diagnostic Setting must exist. If a Diagnostic Setting does not exist, the navigation and options within this recommendation will not be available. Please review the recommendation at the beginning of this subsection titled: 'Ensure that a 'Diagnostic Setting' exists.' The diagnostic setting should be configured to log the appropriate activities from the control/management plane."
+  query       = query.monitor_diagnostic_settings_captures_proper_categories
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -96,9 +100,9 @@ control "monitor_diagnostic_settings_captures_proper_categories" {
 }
 
 control "monitor_log_alert_create_policy_assignment" {
-  title         = "Ensure that Activity Log Alert exists for Create Policy Assignment"
-  description   = "Create an activity log alert for the Create Policy Assignment event."
-  query         = query.monitor_log_alert_create_policy_assignment
+  title       = "Ensure that Activity Log Alert exists for Create Policy Assignment"
+  description = "Create an activity log alert for the Create Policy Assignment event."
+  query       = query.monitor_log_alert_create_policy_assignment
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -106,9 +110,9 @@ control "monitor_log_alert_create_policy_assignment" {
 }
 
 control "monitor_log_alert_create_update_nsg_rule" {
-  title         = "Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
-  description   = "Create an activity log alert for the Create or Update Network Security Group Rule event."
-  query         = query.monitor_log_alert_create_update_nsg_rule
+  title       = "Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule"
+  description = "Create an activity log alert for the Create or Update Network Security Group Rule event."
+  query       = query.monitor_log_alert_create_update_nsg_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -116,9 +120,9 @@ control "monitor_log_alert_create_update_nsg_rule" {
 }
 
 control "monitor_log_alert_create_update_nsg" {
-  title         = "Ensure that Activity Log Alert exists for Create or Update Network Security Group"
-  description   = "Create an Activity Log Alert for the Create or Update Network Security Group event."
-  query         = query.monitor_log_alert_create_update_nsg
+  title       = "Ensure that Activity Log Alert exists for Create or Update Network Security Group"
+  description = "Create an Activity Log Alert for the Create or Update Network Security Group event."
+  query       = query.monitor_log_alert_create_update_nsg
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -126,9 +130,9 @@ control "monitor_log_alert_create_update_nsg" {
 }
 
 control "monitor_log_alert_create_update_public_ip_address" {
-  title         = "Ensure that Activity Log Alert exists for Create or Update Public IP Address rule"
-  description   = "Create an activity log alert for the Create or Update Public IP Addresses rule."
-  query         = query.monitor_log_alert_create_update_public_ip_address
+  title       = "Ensure that Activity Log Alert exists for Create or Update Public IP Address rule"
+  description = "Create an activity log alert for the Create or Update Public IP Addresses rule."
+  query       = query.monitor_log_alert_create_update_public_ip_address
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -136,9 +140,9 @@ control "monitor_log_alert_create_update_public_ip_address" {
 }
 
 control "monitor_log_alert_create_update_security_solution" {
-  title         = "Ensure that Activity Log Alert exists for Create or Update Security Solution"
-  description   = "Create an activity log alert for the Create or Update Security Solution event."
-  query         = query.monitor_log_alert_create_update_security_solution
+  title       = "Ensure that Activity Log Alert exists for Create or Update Security Solution"
+  description = "Create an activity log alert for the Create or Update Security Solution event."
+  query       = query.monitor_log_alert_create_update_security_solution
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -146,9 +150,9 @@ control "monitor_log_alert_create_update_security_solution" {
 }
 
 control "monitor_log_alert_create_update_sql_servers_firewall_rule" {
-  title         = "Ensure that Activity Log Alert exists for Create or Update SQL Server Firewall Rule"
-  description   = "Create an activity log alert for the Create or Update SQL Server Firewall Rule event."
-  query         = query.monitor_log_alert_create_update_sql_servers_firewall_rule
+  title       = "Ensure that Activity Log Alert exists for Create or Update SQL Server Firewall Rule"
+  description = "Create an activity log alert for the Create or Update SQL Server Firewall Rule event."
+  query       = query.monitor_log_alert_create_update_sql_servers_firewall_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -156,9 +160,9 @@ control "monitor_log_alert_create_update_sql_servers_firewall_rule" {
 }
 
 control "monitor_log_alert_delete_nsg_rule" {
-  title         = "Ensure that Activity Log Alert exists for Delete Network Security Group Rule"
-  description   = "Create an activity log alert for the Delete Network Security Group Rule event."
-  query         = query.monitor_log_alert_delete_nsg_rule
+  title       = "Ensure that Activity Log Alert exists for Delete Network Security Group Rule"
+  description = "Create an activity log alert for the Delete Network Security Group Rule event."
+  query       = query.monitor_log_alert_delete_nsg_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -166,9 +170,9 @@ control "monitor_log_alert_delete_nsg_rule" {
 }
 
 control "monitor_log_alert_delete_nsg" {
-  title         = "Ensure that Activity Log Alert exists for Delete Network Security Group"
-  description   = "Create an activity log alert for the Delete Network Security Group event."
-  query         = query.monitor_log_alert_delete_nsg
+  title       = "Ensure that Activity Log Alert exists for Delete Network Security Group"
+  description = "Create an activity log alert for the Delete Network Security Group event."
+  query       = query.monitor_log_alert_delete_nsg
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -176,9 +180,9 @@ control "monitor_log_alert_delete_nsg" {
 }
 
 control "monitor_log_alert_delete_policy_assignment" {
-  title         = "Ensure that Activity Log Alert exists for Delete Policy Assignment"
-  description   = "Create an activity log alert for the Delete Policy Assignment event."
-  query         = query.monitor_log_alert_delete_policy_assignment
+  title       = "Ensure that Activity Log Alert exists for Delete Policy Assignment"
+  description = "Create an activity log alert for the Delete Policy Assignment event."
+  query       = query.monitor_log_alert_delete_policy_assignment
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -186,9 +190,9 @@ control "monitor_log_alert_delete_policy_assignment" {
 }
 
 control "monitor_log_alert_delete_public_ip_address" {
-  title         = "Ensure that Activity Log Alert exists for Delete Public IP Address rule"
-  description   = "Create an activity log alert for the Delete Public IP Address rule."
-  query         = query.monitor_log_alert_delete_public_ip_address
+  title       = "Ensure that Activity Log Alert exists for Delete Public IP Address rule"
+  description = "Create an activity log alert for the Delete Public IP Address rule."
+  query       = query.monitor_log_alert_delete_public_ip_address
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -196,9 +200,9 @@ control "monitor_log_alert_delete_public_ip_address" {
 }
 
 control "monitor_log_alert_delete_security_solution" {
-  title         = "Ensure that Activity Log Alert exists for Delete Security Solution"
-  description   = "Create an activity log alert for the Delete Security Solution event."
-  query         = query.monitor_log_alert_delete_security_solution
+  title       = "Ensure that Activity Log Alert exists for Delete Security Solution"
+  description = "Create an activity log alert for the Delete Security Solution event."
+  query       = query.monitor_log_alert_delete_security_solution
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -206,9 +210,9 @@ control "monitor_log_alert_delete_security_solution" {
 }
 
 control "monitor_log_alert_delete_sql_servers_firewall_rule" {
-  title         = "Ensure that Activity Log Alert exists for Delete SQL Server Firewall Rule"
-  description   = "Create an activity log alert for the 'Delete SQL Server Firewall Rule.'"
-  query         = query.monitor_log_alert_delete_sql_servers_firewall_rule
+  title       = "Ensure that Activity Log Alert exists for Delete SQL Server Firewall Rule"
+  description = "Create an activity log alert for the 'Delete SQL Server Firewall Rule.'"
+  query       = query.monitor_log_alert_delete_sql_servers_firewall_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -216,9 +220,9 @@ control "monitor_log_alert_delete_sql_servers_firewall_rule" {
 }
 
 control "monitor_log_alert_sql_firewall_rule" {
-  title         = "Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule"
-  description   = "Create an activity log alert for the Create or Update or Delete SQL Server Firewall Rule event."
-  query         = query.monitor_log_alert_sql_firewall_rule
+  title       = "Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule"
+  description = "Create an activity log alert for the Create or Update or Delete SQL Server Firewall Rule event."
+  query       = query.monitor_log_alert_sql_firewall_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -226,9 +230,9 @@ control "monitor_log_alert_sql_firewall_rule" {
 }
 
 control "monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok" {
-  title         = "Ensure the storage account containing the container with activity logs is encrypted with Customer Managed Key"
-  description   = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
-  query         = query.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
+  title       = "Ensure the storage account containing the container with activity logs is encrypted with Customer Managed Key"
+  description = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
+  query       = query.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -236,9 +240,9 @@ control "monitor_logs_storage_container_insights_activity_logs_encrypted_with_by
 }
 
 control "monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok" {
-  title         = "Ensure the storage account containing the container with activity logs is encrypted with Customer Managed Key"
-  description   = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
-  query         = query.monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok
+  title       = "Ensure the storage account containing the container with activity logs is encrypted with Customer Managed Key"
+  description = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
+  query       = query.monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -246,9 +250,9 @@ control "monitor_logs_storage_container_insights_operational_logs_encrypted_with
 }
 
 control "monitor_logs_storage_container_insights_operational_logs_not_public_accessible" {
-  title         = "Ensure the storage container storing the activity logs is not publicly accessible"
-  description   = "The storage account container containing the activity log export should not be publicly accessible."
-  query         = query.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
+  title       = "Ensure the storage container storing the activity logs is not publicly accessible"
+  description = "The storage account container containing the activity log export should not be publicly accessible."
+  query       = query.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"
@@ -256,9 +260,9 @@ control "monitor_logs_storage_container_insights_operational_logs_not_public_acc
 }
 
 control "monitor_logs_storage_container_insights_activity_logs_not_public_accessible" {
-  title         = "Ensure the Storage Container Storing the Activity Logs is not Publicly Accessible"
-  description   = "The storage account container containing the activity log export should not be publicly accessible."
-  query         = query.monitor_logs_storage_container_insights_activity_logs_not_public_accessible
+  title       = "Ensure the Storage Container Storing the Activity Logs is not Publicly Accessible"
+  description = "The storage account container containing the activity log export should not be publicly accessible."
+  query       = query.monitor_logs_storage_container_insights_activity_logs_not_public_accessible
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     fundamental_security = "true"

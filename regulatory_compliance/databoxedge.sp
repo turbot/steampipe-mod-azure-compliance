@@ -10,6 +10,7 @@ control "databox_edge_device_double_encryption_enabled" {
   query       = query.databox_edge_device_double_encryption_enabled
 
   tags = merge(local.regulatory_compliance_databoxedge_common_tags, {
+    fundamental_security = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security" {
   title       = "Fundamental Security"
-  description = "The Fundamental Security is a set of controls that detect your deployed resources in the subscriptions deviating from security best practices."
+  description = "The Fundamental Security is a set of controls that detect your deployed resources in the subscription(s) deviating from security best practices."
   children = [
     benchmark.fundamental_security_activedirectory,
     benchmark.fundamental_security_apimanagement,

@@ -5,8 +5,8 @@ locals {
 }
 
 benchmark "fundamental_security" {
-  title       = "Azure Fundamental Security Best Practices"
-  description = "The Azure Fundamental Security Best Practices standard is a set of controls that detect when your deployed subscriptions and resources deviate from security best practices."
+  title       = "Fundamental Security"
+  description = "The Fundamental Security is a set of controls that detect your deployed subscriptions and resources deviating from security best practices."
   children = [
     benchmark.fundamental_security_activedirectory,
     benchmark.fundamental_security_apimanagement,

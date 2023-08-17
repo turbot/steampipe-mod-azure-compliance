@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_servicebus" {
   title       = "Service Bus"
-  description = "This section contains recommendations for configuring ServiceBus resources."
+  description = "This section contains recommendations for configuring Service Bus resources."
   children = [
     control.servicebus_name_space_private_link_used,
     control.servicebus_namespace_logging_enabled,

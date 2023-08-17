@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_securitycenter" {
   title       = "Security Center"
-  description = "This section contains recommendations for configuring SecurityCenter resources."
+  description = "This section contains recommendations for configuring Security Center resources."
   children = [
     control.securitycenter_additional_email_configured,
     control.securitycenter_asc_default_setting_not_disabled,

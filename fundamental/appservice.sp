@@ -5,8 +5,8 @@ locals {
 }
 
 benchmark "fundamental_security_appservice" {
-  title       = "AppService"
-  description = "This section contains recommendations for configuring AppService resources."
+  title       = "App Service"
+  description = "This section contains recommendations for configuring App Service resources."
   children = [
     control.app_service_environment_internal_encryption_enabled,
     control.appservice_api_app_client_certificates_on,

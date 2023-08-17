@@ -5,8 +5,8 @@ locals {
 }
 
 benchmark "fundamental_security_kusto" {
-  title       = "DataExplorer"
-  description = "This section contains recommendations for configuring DataExplorer resources."
+  title       = "Data Explorer"
+  description = "This section contains recommendations for configuring Data Explorer resources."
   children = [
     control.kusto_cluster_disk_encryption_enabled,
     control.kusto_cluster_double_encryption_enabled,

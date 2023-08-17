@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_eventhub" {
   title       = "Event Hub"
-  description = "This section contains recommendations for configuring EventHub resources."
+  description = "This section contains recommendations for configuring Event Hub resources."
   children = [
     control.eventhub_namespace_cmk_encryption_enabled,
     control.eventhub_namespace_logging_enabled,

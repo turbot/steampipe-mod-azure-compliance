@@ -4,10 +4,9 @@ locals {
   })
 }
 
-
 benchmark "fundamental_security_appconfiguration" {
   title       = "App Configuration"
-  description = "This section contains recommendations for configuring AppConfiguration resources."
+  description = "This section contains recommendations for configuring App Configuration resources."
   children = [
     control.app_configuration_encryption_enabled,
     control.app_configuration_private_link_used,

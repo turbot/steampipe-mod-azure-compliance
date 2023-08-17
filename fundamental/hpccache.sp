@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_hpccache" {
   title       = "HPC Cache"
-  description = "This section contains recommendations for configuring HPCCache resources."
+  description = "This section contains recommendations for configuring HPC Cache resources."
   children = [
     control.hpc_cache_encrypted_with_cmk
   ]

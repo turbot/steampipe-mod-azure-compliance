@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_streamanalytics" {
   title       = "Stream Analytics"
-  description = "This section contains recommendations for configuring StreamAnalytics resources."
+  description = "This section contains recommendations for configuring Stream Analytics resources."
   children = [
     control.stream_analytics_job_logging_enabled
   ]

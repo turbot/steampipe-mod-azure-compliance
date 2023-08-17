@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_eventgrid" {
   title       = "Event Grid"
-  description = "This section contains recommendations for configuring EventGrid resources."
+  description = "This section contains recommendations for configuring Event Grid resources."
   children = [
     control.eventgrid_domain_identity_provider_enabled,
     control.eventgrid_domain_private_link_used,

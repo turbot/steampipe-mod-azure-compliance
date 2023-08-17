@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_activedirectory" {
   title       = "Active Directory"
-  description = "This section contains recommendations for configuring ActiveDirectory resources."
+  description = "This section contains recommendations for configuring Active Directory resources."
   children = [
     control.ad_guest_user_reviewed_monthly,
     control.iam_conditional_access_mfa_enabled,

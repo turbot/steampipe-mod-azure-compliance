@@ -5,8 +5,8 @@ locals {
 }
 
 benchmark "fundamental_security_search" {
-  title       = "CognitiveSearch"
-  description = "This section contains recommendations for configuring CognitiveSearch resources."
+  title       = "Cognitive Search"
+  description = "This section contains recommendations for configuring Cognitive Search resources."
   children = [
     control.search_service_logging_enabled,
     control.search_service_public_network_access_disabled,

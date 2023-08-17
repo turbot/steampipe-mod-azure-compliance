@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_frontdoor" {
   title       = "Front Door"
-  description = "This section contains recommendations for configuring FrontDoor resources."
+  description = "This section contains recommendations for configuring Front Door resources."
   children = [
     control.frontdoor_waf_enabled
   ]

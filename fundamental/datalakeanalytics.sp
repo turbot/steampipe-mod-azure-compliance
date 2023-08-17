@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_datalakeanalytics" {
   title       = "Data Lake Analytics"
-  description = "This section contains recommendations for configuring DataLakeAnalytics resources."
+  description = "This section contains recommendations for configuring Data Lake Analytics resources."
   children = [
     control.datalake_analytics_account_logging_enabled
   ]

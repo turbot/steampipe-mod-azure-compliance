@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_keyvault" {
   title       = "Key Vault"
-  description = "This section contains recommendations for configuring KeyVault resources."
+  description = "This section contains recommendations for configuring Key Vault resources."
   children = [
     control.keyvault_key_expiration_set,
     control.keyvault_logging_enabled,

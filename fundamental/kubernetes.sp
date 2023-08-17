@@ -5,8 +5,8 @@ locals {
 }
 
 benchmark "fundamental_security_kubernetes" {
-  title       = "KubernetesService"
-  description = "This section contains recommendations for configuring KubernetesService resources."
+  title       = "Kubernetes Service"
+  description = "This section contains recommendations for configuring Kubernetes Service resources."
   children = [
     control.kubernetes_cluster_add_on_azure_policy_enabled,
     control.kubernetes_cluster_addon_azure_policy_enabled,

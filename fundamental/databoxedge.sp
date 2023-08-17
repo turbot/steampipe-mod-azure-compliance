@@ -6,7 +6,7 @@ locals {
 
 benchmark "fundamental_security_databoxedge" {
   title       = "Data Box"
-  description = "This section contains recommendations for configuring DataBox resources."
+  description = "This section contains recommendations for configuring Data Box resources."
   children = [
     control.databox_edge_device_double_encryption_enabled
   ]

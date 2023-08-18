@@ -5,7 +5,7 @@ locals {
 }
 
 control "container_instance_container_group_encrypted_using_cmk" {
-  title       = "Azure Container Instance container group should use customer-managed key for encryption"
+  title       = "Container Instance container group should use customer-managed key for encryption"
   description = "Secure your containers with greater flexibility using customer-managed keys. When you specify a customer-managed key, that key is used to protect and control access to the key that encrypts your data. Using customer-managed keys provides additional capabilities to control rotation of the key encryption key or cryptographically erase data."
   query       = query.container_instance_container_group_encrypted_using_cmk
 

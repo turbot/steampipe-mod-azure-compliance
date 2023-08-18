@@ -10,4 +10,8 @@ benchmark "fundamental_security_databoxedge" {
   children = [
     control.databox_edge_device_double_encryption_enabled
   ]
+
+  tags = merge(local.fundamental_security_databoxedge_common_tags, {
+    type = "Benchmark"
+  })
 }

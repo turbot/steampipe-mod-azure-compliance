@@ -10,7 +10,8 @@ benchmark "fundamental_security_servicebus" {
   children = [
     control.servicebus_name_space_private_link_used,
     control.servicebus_namespace_logging_enabled,
-    control.servicebus_premium_namespace_cmk_encrypted
+    control.servicebus_premium_namespace_cmk_encrypted,
+    control.servicebus_use_virtual_service_endpoint
   ]
 
   tags = merge(local.fundamental_security_servicebus_common_tags, {

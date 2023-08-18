@@ -38,6 +38,16 @@ control "servicebus_premium_namespace_cmk_encrypted" {
   })
 }
 
+control "servicebus_use_virtual_service_endpoint" {
+  title       = "Service Bus should use virtual service endpoint"
+  description = "Ensure that Service Bus uses virtual service endpoint. This contol is non-compliant if service bus does not uses virtual service endpoint."
+  query       = query.servicebus_use_virtual_service_endpoint
+
+  tags = merge(local.regulatory_compliance_servicebus_common_tags, {
+    fundamental_security = "true"
+  })
+}
+
 query "servicebus_namespace_logging_enabled" {
   sql = <<-EOQ
     with logging_details as (

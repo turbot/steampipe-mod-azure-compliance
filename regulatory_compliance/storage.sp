@@ -182,7 +182,7 @@ control "storage_account_queue_services_logging_enabled" {
 }
 
 control "storage_account_soft_delete_enabled" {
-  title       = "3.8 Ensure soft delete is enabled for Azure Storage"
+  title       = "Ensure soft delete is enabled for Azure Storage"
   description = "The Azure Storage blobs contain data like ePHI, Financial, secret or personal. Erroneously modified or deleted accidentally by an application or other storage account user cause data loss or data unavailability. It is recommended the Azure Storage be made recoverable by enabling soft delete configuration. This is to save and recover data when blobs or blob snapshots are deleted."
   query       = query.storage_account_soft_delete_enabled
 
@@ -192,7 +192,7 @@ control "storage_account_soft_delete_enabled" {
 }
 
 control "storage_account_trusted_microsoft_services_enabled" {
-  title       = "3.9 Ensure 'Allow Azure services on the trusted services list to access this storage account' is Enabled for Storage Account Access"
+  title       = "Ensure 'Allow Azure services on the trusted services list to access this storage account' is Enabled for Storage Account Access"
   description = "Some Azure services that interact with storage accounts operate from networks that can't be granted access through network rules. To help this type of service work as intended, allow the set of trusted Azure services to bypass the network rules. These services will then use strong authentication to access the storage account."
   query       = query.storage_account_trusted_microsoft_services_enabled
 

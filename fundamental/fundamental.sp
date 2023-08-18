@@ -22,6 +22,7 @@ benchmark "fundamental_security" {
     benchmark.fundamental_security_databoxedge,
     benchmark.fundamental_security_datafactory,
     benchmark.fundamental_security_datalakeanalytics,
+    benchmark.fundamental_security_datalakestore,
     benchmark.fundamental_security_eventgrid,
     benchmark.fundamental_security_eventhub,
     benchmark.fundamental_security_frontdoor,

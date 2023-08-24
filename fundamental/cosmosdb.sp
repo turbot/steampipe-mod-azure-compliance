@@ -5,7 +5,7 @@ locals {
 }
 
 benchmark "fundamental_security_cosmosdb" {
-  title       = "CosmosDB"
+  title       = "Cosmos DB"
   description = "This section contains recommendations for configuring CosmosDB resources."
   children = [
     control.cosmosdb_account_encryption_at_rest_using_cmk,

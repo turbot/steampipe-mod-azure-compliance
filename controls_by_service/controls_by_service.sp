@@ -5,7 +5,7 @@ locals {
 }
 benchmark "controls_by_service" {
   title       = "Controls by Service"
-  description = "The Controls by Service contains all the controls segregated by services provided in Azure compliance mod; that detect your deployed resources in the subscription(s) deviating from security best practices."
+  description = "This benchmark contains all controls grouped by service to help you detect resource configurations that do not meet best practices."
   children = [
     benchmark.controls_by_service_activedirectory,
     benchmark.controls_by_service_apimanagement,

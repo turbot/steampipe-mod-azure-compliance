@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_appconfiguration_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_appconfiguration_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/AppConfiguration"
   })
 }
 
-benchmark "fundamental_security_appconfiguration" {
+benchmark "controls_by_service_appconfiguration" {
   title       = "App Configuration"
   description = "This section contains recommendations for configuring App Configuration resources."
   children = [
@@ -13,7 +13,7 @@ benchmark "fundamental_security_appconfiguration" {
     control.app_configuration_sku_standard
   ]
 
-  tags = merge(local.fundamental_security_appconfiguration_common_tags, {
+  tags = merge(local.controls_by_service_appconfiguration_common_tags, {
     type = "Benchmark"
   })
 }

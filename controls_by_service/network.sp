@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_network_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_network_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/Network"
   })
 }
 
-benchmark "fundamental_security_network" {
+benchmark "controls_by_service_network" {
   title       = "Network"
   description = "This section contains recommendations for configuring Network resources."
   children = [
@@ -27,7 +27,7 @@ benchmark "fundamental_security_network" {
     control.network_watcher_in_regions_with_virtual_network
   ]
 
-  tags = merge(local.fundamental_security_network_common_tags, {
+  tags = merge(local.controls_by_service_network_common_tags, {
     type = "Benchmark"
   })
 }

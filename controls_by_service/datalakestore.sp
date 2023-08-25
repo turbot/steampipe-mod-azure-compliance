@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_datalakestore_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_datalakestore_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/DataLakeStorage"
   })
 }
 
-benchmark "fundamental_security_datalakestore" {
+benchmark "controls_by_service_datalakestore" {
   title       = "Data Lake Storage"
   description = "This section contains recommendations for configuring Data Lake Storage resources."
   children = [
@@ -12,7 +12,7 @@ benchmark "fundamental_security_datalakestore" {
     control.datalake_store_account_logging_enabled
   ]
 
-  tags = merge(local.fundamental_security_datalakestore_common_tags, {
+  tags = merge(local.controls_by_service_datalakestore_common_tags, {
     type = "Benchmark"
   })
 }

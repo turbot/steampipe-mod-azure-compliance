@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_eventgrid_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_eventgrid_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/EventGrid"
   })
 }
 
-benchmark "fundamental_security_eventgrid" {
+benchmark "controls_by_service_eventgrid" {
   title       = "Event Grid"
   description = "This section contains recommendations for configuring Event Grid resources."
   children = [
@@ -16,7 +16,7 @@ benchmark "fundamental_security_eventgrid" {
     control.eventgrid_topic_private_link_used
   ]
 
-  tags = merge(local.fundamental_security_eventgrid_common_tags, {
+  tags = merge(local.controls_by_service_eventgrid_common_tags, {
     type = "Benchmark"
   })
 }

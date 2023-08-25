@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_datafactory_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_datafactory_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/DataFactory"
   })
 }
 
-benchmark "fundamental_security_datafactory" {
+benchmark "controls_by_service_datafactory" {
   title       = "Data Factory"
   description = "This section contains recommendations for configuring Data Factory resources."
   children = [
@@ -14,7 +14,7 @@ benchmark "fundamental_security_datafactory" {
     control.data_factory_uses_private_link
   ]
 
-  tags = merge(local.fundamental_security_datafactory_common_tags, {
+  tags = merge(local.controls_by_service_datafactory_common_tags, {
     type = "Benchmark"
   })
 }

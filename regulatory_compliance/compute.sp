@@ -680,7 +680,7 @@ control "compute_vm_log_analytics_agent_health_issues_resolved" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    other_checks = "true"
+    # other_checks = "true"
   })
 }
 

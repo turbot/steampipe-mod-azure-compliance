@@ -79,7 +79,7 @@ control "postgres_db_server_latest_tls_version" {
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
     fundamental_security = "true"
-    other_checks = "true"
+    # other_checks = "true"
   })
 }
 

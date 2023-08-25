@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_monitor_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_monitor_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/Monitor"
   })
 }
 
-benchmark "fundamental_security_monitor" {
+benchmark "controls_by_service_monitor" {
   title       = "Monitor"
   description = "This section contains recommendations for configuring Monitor resources."
   children = [
@@ -32,7 +32,7 @@ benchmark "fundamental_security_monitor" {
     control.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
   ]
 
-  tags = merge(local.fundamental_security_monitor_common_tags, {
+  tags = merge(local.controls_by_service_monitor_common_tags, {
     type = "Benchmark"
   })
 }

@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_containerregistry_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_containerregistry_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/ContainerRegistry"
   })
 }
 
-benchmark "fundamental_security_containerregistry" {
+benchmark "controls_by_service_containerregistry" {
   title       = "Container Registry"
   description = "This section contains recommendations for configuring Container Registry resources."
   children = [
@@ -20,7 +20,7 @@ benchmark "fundamental_security_containerregistry" {
     control.container_registry_uses_private_link
   ]
 
-  tags = merge(local.fundamental_security_containerregistry_common_tags, {
+  tags = merge(local.controls_by_service_containerregistry_common_tags, {
     type = "Benchmark"
   })
 }

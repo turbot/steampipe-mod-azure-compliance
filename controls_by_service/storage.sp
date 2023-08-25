@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_storage_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_storage_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/Storage"
   })
 }
 
-benchmark "fundamental_security_storage" {
+benchmark "controls_by_service_storage" {
   title       = "Storage"
   description = "This section contains recommendations for configuring Storage resources."
   children = [
@@ -28,7 +28,7 @@ benchmark "fundamental_security_storage" {
     control.storage_account_uses_private_link
   ]
 
-  tags = merge(local.fundamental_security_storage_common_tags, {
+  tags = merge(local.controls_by_service_storage_common_tags, {
     type = "Benchmark"
   })
 }

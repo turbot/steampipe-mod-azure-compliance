@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_activedirectory_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_activedirectory_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/ActiveDirectory"
   })
 }
 
-benchmark "fundamental_security_activedirectory" {
+benchmark "controls_by_service_activedirectory" {
   title       = "Active Directory"
   description = "This section contains recommendations for configuring Active Directory resources."
   children = [
@@ -23,7 +23,7 @@ benchmark "fundamental_security_activedirectory" {
     control.iam_user_not_allowed_to_register_application
   ]
 
-  tags = merge(local.fundamental_security_activedirectory_common_tags, {
+  tags = merge(local.controls_by_service_activedirectory_common_tags, {
     type = "Benchmark"
   })
 }

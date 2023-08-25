@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_servicefabric_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_servicefabric_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/ServiceFabric"
   })
 }
 
-benchmark "fundamental_security_servicefabric" {
+benchmark "controls_by_service_servicefabric" {
   title       = "Service Fabric"
   description = "This section contains recommendations for configuring Service Fabric resources."
   children = [
@@ -12,7 +12,7 @@ benchmark "fundamental_security_servicefabric" {
     control.servicefabric_cluster_protection_level_as_encrypt_and_sign
   ]
 
-  tags = merge(local.fundamental_security_servicefabric_common_tags, {
+  tags = merge(local.controls_by_service_servicefabric_common_tags, {
     type = "Benchmark"
   })
 }

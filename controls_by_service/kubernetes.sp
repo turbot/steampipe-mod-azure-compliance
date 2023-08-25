@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_kubernetes_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_kubernetes_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/KubernetesService"
   })
 }
 
-benchmark "fundamental_security_kubernetes" {
+benchmark "controls_by_service_kubernetes" {
   title       = "Kubernetes Service"
   description = "This section contains recommendations for configuring Kubernetes Service resources."
   children = [
@@ -25,7 +25,7 @@ benchmark "fundamental_security_kubernetes" {
     control.kubernetes_instance_rbac_enabled
   ]
 
-  tags = merge(local.fundamental_security_kubernetes_common_tags, {
+  tags = merge(local.controls_by_service_kubernetes_common_tags, {
     type = "Benchmark"
   })
 }

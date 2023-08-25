@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_batch_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_batch_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/Batch"
   })
 }
 
-benchmark "fundamental_security_batch" {
+benchmark "controls_by_service_batch" {
   title       = "Batch"
   description = "This section contains recommendations for configuring Batch resources."
   children = [
@@ -12,7 +12,7 @@ benchmark "fundamental_security_batch" {
     control.batch_account_logging_enabled
   ]
 
-  tags = merge(local.fundamental_security_batch_common_tags, {
+  tags = merge(local.controls_by_service_batch_common_tags, {
     type = "Benchmark"
   })
 }

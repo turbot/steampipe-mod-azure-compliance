@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_eventhub_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_eventhub_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/EventHub"
   })
 }
 
-benchmark "fundamental_security_eventhub" {
+benchmark "controls_by_service_eventhub" {
   title       = "Event Hub"
   description = "This section contains recommendations for configuring Event Hub resources."
   children = [
@@ -14,7 +14,7 @@ benchmark "fundamental_security_eventhub" {
     control.eventhub_namespace_use_virtual_service_endpoint
   ]
 
-  tags = merge(local.fundamental_security_eventhub_common_tags, {
+  tags = merge(local.controls_by_service_eventhub_common_tags, {
     type = "Benchmark"
   })
 }

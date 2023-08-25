@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_keyvault_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_keyvault_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/KeyVault"
   })
 }
 
-benchmark "fundamental_security_keyvault" {
+benchmark "controls_by_service_keyvault" {
   title       = "Key Vault"
   description = "This section contains recommendations for configuring Key Vault resources."
   children = [
@@ -26,7 +26,7 @@ benchmark "fundamental_security_keyvault" {
     control.keyvault_with_rbac_secret_expiration_set
   ]
 
-  tags = merge(local.fundamental_security_keyvault_common_tags, {
+  tags = merge(local.controls_by_service_keyvault_common_tags, {
     type = "Benchmark"
   })
 }

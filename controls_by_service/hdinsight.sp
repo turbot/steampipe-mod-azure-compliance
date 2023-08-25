@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_hdinsight_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_hdinsight_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/HDInsight"
   })
 }
 
-benchmark "fundamental_security_hdinsight" {
+benchmark "controls_by_service_hdinsight" {
   title       = "HDInsight"
   description = "This section contains recommendations for configuring HDInsight resources."
   children = [
@@ -13,7 +13,7 @@ benchmark "fundamental_security_hdinsight" {
     control.hdinsight_cluster_encryption_in_transit_enabled
   ]
 
-  tags = merge(local.fundamental_security_hdinsight_common_tags, {
+  tags = merge(local.controls_by_service_hdinsight_common_tags, {
     type = "Benchmark"
   })
 }

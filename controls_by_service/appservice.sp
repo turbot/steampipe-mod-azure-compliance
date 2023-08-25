@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_appservice_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_appservice_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/AppService"
   })
 }
 
-benchmark "fundamental_security_appservice" {
+benchmark "controls_by_service_appservice" {
   title       = "App Service"
   description = "This section contains recommendations for configuring App Service resources."
   children = [
@@ -53,7 +53,7 @@ benchmark "fundamental_security_appservice" {
     control.appservice_web_app_worker_more_than_one
   ]
 
-  tags = merge(local.fundamental_security_appservice_common_tags, {
+  tags = merge(local.controls_by_service_appservice_common_tags, {
     type = "Benchmark"
   })
 }

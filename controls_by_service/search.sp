@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_search_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_search_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/CognitiveSearch"
   })
 }
 
-benchmark "fundamental_security_search" {
+benchmark "controls_by_service_search" {
   title       = "Cognitive Search"
   description = "This section contains recommendations for configuring Cognitive Search resources."
   children = [
@@ -16,7 +16,7 @@ benchmark "fundamental_security_search" {
     control.search_service_uses_sku_supporting_private_link
   ]
 
-  tags = merge(local.fundamental_security_search_common_tags, {
+  tags = merge(local.controls_by_service_search_common_tags, {
     type = "Benchmark"
   })
 }

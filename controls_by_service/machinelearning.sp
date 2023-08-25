@@ -1,17 +1,17 @@
 locals {
-  fundamental_security_machinelearning_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_machinelearning_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/MachineLearning"
   })
 }
 
-benchmark "fundamental_security_machinelearning" {
+benchmark "controls_by_service_machinelearning" {
   title       = "Machine Learning"
   description = "This section contains recommendations for configuring Machine Learning resources."
   children = [
     control.machine_learning_workspace_encrypted_with_cmk
   ]
 
-  tags = merge(local.fundamental_security_machinelearning_common_tags, {
+  tags = merge(local.controls_by_service_machinelearning_common_tags, {
     type = "Benchmark"
   })
 }

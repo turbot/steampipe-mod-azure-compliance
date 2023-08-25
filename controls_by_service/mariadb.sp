@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_mariadb_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_mariadb_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/MariaDB"
   })
 }
 
-benchmark "fundamental_security_mariadb" {
+benchmark "controls_by_service_mariadb" {
   title       = "MariaDB"
   description = "This section contains recommendations for configuring MariaDB resources."
   children = [
@@ -14,7 +14,7 @@ benchmark "fundamental_security_mariadb" {
     control.mariadb_server_ssl_enabled
   ]
 
-  tags = merge(local.fundamental_security_mariadb_common_tags, {
+  tags = merge(local.controls_by_service_mariadb_common_tags, {
     type = "Benchmark"
   })
 }

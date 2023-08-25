@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_synapse_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_synapse_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/SynapseAnalytics"
   })
 }
 
-benchmark "fundamental_security_synapse" {
+benchmark "controls_by_service_synapse" {
   title       = "Synapse Analytics"
   description = "This section contains recommendations for configuring Synapse Analytics resources."
   children = [
@@ -14,7 +14,7 @@ benchmark "fundamental_security_synapse" {
     control.synapse_workspace_vulnerability_assessment_enabled
   ]
 
-  tags = merge(local.fundamental_security_synapse_common_tags, {
+  tags = merge(local.controls_by_service_synapse_common_tags, {
     type = "Benchmark"
   })
 }

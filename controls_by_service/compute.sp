@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_compute_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_compute_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/Compute"
   })
 }
 
-benchmark "fundamental_security_compute" {
+benchmark "controls_by_service_compute" {
   title       = "Compute"
   description = "This section contains recommendations for configuring Compute resources."
   children = [
@@ -57,7 +57,7 @@ benchmark "fundamental_security_compute" {
     control.network_interface_ip_forwarding_disabled
   ]
 
-  tags = merge(local.fundamental_security_compute_common_tags, {
+  tags = merge(local.controls_by_service_compute_common_tags, {
     type = "Benchmark"
   })
 }

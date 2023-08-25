@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_iothub_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_iothub_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/IoTHub"
   })
 }
 
-benchmark "fundamental_security_iothub" {
+benchmark "controls_by_service_iothub" {
   title       = "IoT Hub"
   description = "This section contains recommendations for configuring IoT Hub resources."
   children = [
@@ -12,7 +12,7 @@ benchmark "fundamental_security_iothub" {
     control.iot_hub_private_link_used
   ]
 
-  tags = merge(local.fundamental_security_iothub_common_tags, {
+  tags = merge(local.controls_by_service_iothub_common_tags, {
     type = "Benchmark"
   })
 }

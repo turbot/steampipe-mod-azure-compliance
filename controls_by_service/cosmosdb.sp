@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_cosmosdb_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_cosmosdb_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/CosmosDB"
   })
 }
 
-benchmark "fundamental_security_cosmosdb" {
+benchmark "controls_by_service_cosmosdb" {
   title       = "Cosmos DB"
   description = "This section contains recommendations for configuring CosmosDB resources."
   children = [
@@ -16,7 +16,7 @@ benchmark "fundamental_security_cosmosdb" {
     control.cosmosdb_use_virtual_service_endpoint
   ]
 
-  tags = merge(local.fundamental_security_cosmosdb_common_tags, {
+  tags = merge(local.controls_by_service_cosmosdb_common_tags, {
     type = "Benchmark"
   })
 }

@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_kusto_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_kusto_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/DataExplorer"
   })
 }
 
-benchmark "fundamental_security_kusto" {
+benchmark "controls_by_service_kusto" {
   title       = "Data Explorer"
   description = "This section contains recommendations for configuring Data Explorer resources."
   children = [
@@ -14,7 +14,7 @@ benchmark "fundamental_security_kusto" {
     control.kusto_cluster_sku_with_sla
   ]
 
-  tags = merge(local.fundamental_security_kusto_common_tags, {
+  tags = merge(local.controls_by_service_kusto_common_tags, {
     type = "Benchmark"
   })
 }

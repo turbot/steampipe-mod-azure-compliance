@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_postgres_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_postgres_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/PostgreSQL"
   })
 }
 
-benchmark "fundamental_security_postgres" {
+benchmark "controls_by_service_postgres" {
   title       = "PostgreSQL"
   description = "This section contains recommendations for configuring PostgreSQL resources."
   children = [
@@ -23,7 +23,7 @@ benchmark "fundamental_security_postgres" {
     control.postgresql_server_public_network_access_disabled
   ]
 
-  tags = merge(local.fundamental_security_postgres_common_tags, {
+  tags = merge(local.controls_by_service_postgres_common_tags, {
     type = "Benchmark"
   })
 }

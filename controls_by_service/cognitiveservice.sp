@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_cognitiveservice_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_cognitiveservice_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/CognitiveServices"
   })
 }
 
-benchmark "fundamental_security_cognitiveservice" {
+benchmark "controls_by_service_cognitiveservice" {
   title       = "Cognitive Services"
   description = "This section contains recommendations for configuring Cognitive Services resources."
   children = [
@@ -15,7 +15,7 @@ benchmark "fundamental_security_cognitiveservice" {
     control.cognitive_service_local_auth_disabled
   ]
 
-  tags = merge(local.fundamental_security_cognitiveservice_common_tags, {
+  tags = merge(local.controls_by_service_cognitiveservice_common_tags, {
     type = "Benchmark"
   })
 }

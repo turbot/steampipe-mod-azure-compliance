@@ -1,10 +1,10 @@
 locals {
-  fundamental_security_sql_common_tags = merge(local.fundamental_security_common_tags, {
+  controls_by_service_sql_common_tags = merge(local.controls_by_service_common_tags, {
     service = "Azure/SQL"
   })
 }
 
-benchmark "fundamental_security_sql" {
+benchmark "controls_by_service_sql" {
   title       = "SQL"
   description = "This section contains recommendations for configuring SQL resources."
   children = [
@@ -31,7 +31,7 @@ benchmark "fundamental_security_sql" {
     control.sql_server_va_setting_scan_reports_configured
   ]
 
-  tags = merge(local.fundamental_security_sql_common_tags, {
+  tags = merge(local.controls_by_service_sql_common_tags, {
     type = "Benchmark"
   })
 }

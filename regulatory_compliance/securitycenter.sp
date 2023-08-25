@@ -10,7 +10,7 @@ control "securitycenter_automatic_provisioning_monitoring_agent_on" {
   query       = query.securitycenter_automatic_provisioning_monitoring_agent_on
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,7 +22,7 @@ control "securitycenter_notify_alerts_configured" {
   query       = query.securitycenter_notify_alerts_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -33,7 +33,7 @@ control "securitycenter_security_alerts_to_owner_enabled" {
   query       = query.securitycenter_security_alerts_to_owner_enabled
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -44,7 +44,7 @@ control "securitycenter_email_configured" {
   query       = query.securitycenter_email_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -55,7 +55,7 @@ control "securitycenter_azure_defender_on_for_sqlservervm" {
   query       = query.securitycenter_azure_defender_on_for_sqlservervm
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -66,7 +66,7 @@ control "securitycenter_azure_defender_on_for_containers" {
   query       = query.securitycenter_azure_defender_on_for_containers
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -77,8 +77,7 @@ control "securitycenter_azure_defender_on_for_k8s" {
   query       = query.securitycenter_azure_defender_on_for_k8s
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
-    other_checks         = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -88,7 +87,7 @@ control "securitycenter_azure_defender_on_for_appservice" {
   query       = query.securitycenter_azure_defender_on_for_appservice
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -99,7 +98,7 @@ control "securitycenter_azure_defender_on_for_keyvault" {
   query       = query.securitycenter_azure_defender_on_for_keyvault
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -110,7 +109,7 @@ control "securitycenter_azure_defender_on_for_server" {
   query       = query.securitycenter_azure_defender_on_for_server
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -121,7 +120,7 @@ control "securitycenter_azure_defender_on_for_sqldb" {
   query       = query.securitycenter_azure_defender_on_for_sqldb
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -132,7 +131,7 @@ control "securitycenter_azure_defender_on_for_storage" {
   query       = query.securitycenter_azure_defender_on_for_storage
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -143,8 +142,7 @@ control "securitycenter_azure_defender_on_for_containerregistry" {
   query       = query.securitycenter_azure_defender_on_for_containerregistry
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
-    other_checks         = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -154,7 +152,7 @@ control "securitycenter_azure_defender_on_for_dns" {
   query       = query.securitycenter_azure_defender_on_for_dns
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -165,7 +163,7 @@ control "securitycenter_azure_defender_on_for_resource_manager" {
   query       = query.securitycenter_azure_defender_on_for_resource_manager
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -176,8 +174,7 @@ control "securitycenter_pricing_standard" {
   query       = query.securitycenter_pricing_standard
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
-    other_checks         = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -187,7 +184,7 @@ control "securitycenter_additional_email_configured" {
   query       = query.securitycenter_additional_email_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -197,7 +194,7 @@ control "securitycenter_asc_default_setting_not_disabled" {
   query       = query.securitycenter_asc_default_setting_not_disabled
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -207,7 +204,7 @@ control "securitycenter_azure_defender_on_for_cosmosdb" {
   query       = query.securitycenter_azure_defender_on_for_cosmosdb
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -217,7 +214,7 @@ control "securitycenter_azure_defender_on_for_database" {
   query       = query.securitycenter_azure_defender_on_for_database
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -227,7 +224,7 @@ control "securitycenter_azure_defender_on_for_opensource_relational_db" {
   query       = query.securitycenter_azure_defender_on_for_opensource_relational_db
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -237,7 +234,7 @@ control "securitycenter_mcas_integration" {
   query       = query.securitycenter_mcas_integration
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -247,7 +244,7 @@ control "securitycenter_wdatp_integration" {
   query       = query.securitycenter_wdatp_integration
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 

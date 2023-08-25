@@ -10,7 +10,7 @@ control "keyvault_purge_protection_enabled" {
   query       = query.keyvault_purge_protection_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,7 +22,7 @@ control "keyvault_logging_enabled" {
   query       = query.keyvault_logging_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -34,8 +34,8 @@ control "keyvault_vault_use_virtual_service_endpoint" {
   query       = query.keyvault_vault_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -45,8 +45,8 @@ control "keyvault_managed_hms_purge_protection_enabled" {
   query       = query.keyvault_managed_hms_purge_protection_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -56,8 +56,8 @@ control "keyvault_managed_hms_logging_enabled" {
   query       = query.keyvault_managed_hms_logging_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -67,7 +67,7 @@ control "keyvault_vault_private_link_used" {
   query       = query.keyvault_vault_private_link_used
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -78,8 +78,7 @@ control "keyvault_vault_public_network_access_disabled" {
   query       = query.keyvault_vault_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
-    other_checks         = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -89,7 +88,7 @@ control "keyvault_key_expiration_set" {
   query       = query.keyvault_key_expiration_set
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -100,7 +99,7 @@ control "keyvault_secret_expiration_set" {
   query       = query.keyvault_secret_expiration_set
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -111,7 +110,7 @@ control "keyvault_soft_delete_enabled" {
   query       = query.keyvault_soft_delete_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -142,7 +141,7 @@ control "keyvault_rbac_enabled" {
   query       = query.keyvault_rbac_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -152,7 +151,7 @@ control "keyvault_with_non_rbac_key_expiration_set" {
   query       = query.keyvault_with_non_rbac_key_expiration_set
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -162,7 +161,7 @@ control "keyvault_vault_recoverable" {
   query       = query.keyvault_vault_recoverable
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -172,7 +171,7 @@ control "keyvault_with_non_rbac_secret_expiration_set" {
   query       = query.keyvault_with_non_rbac_secret_expiration_set
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -182,7 +181,7 @@ control "keyvault_with_rbac_key_expiration_set" {
   query       = query.keyvault_with_rbac_key_expiration_set
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -192,7 +191,7 @@ control "keyvault_with_rbac_secret_expiration_set" {
   query       = query.keyvault_with_rbac_secret_expiration_set
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 

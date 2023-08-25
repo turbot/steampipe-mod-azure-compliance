@@ -10,7 +10,7 @@ control "data_factory_uses_private_link" {
   query       = query.data_factory_uses_private_link
 
   tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -21,7 +21,7 @@ control "data_factory_encrypted_with_cmk" {
   query       = query.data_factory_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -32,8 +32,7 @@ control "data_factory_public_network_access_disabled" {
   query       = query.data_factory_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    fundamental_security = "true"
-    other_checks         = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -43,8 +42,7 @@ control "data_factory_uses_git_repository" {
   query       = query.data_factory_uses_git_repository
 
   tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    fundamental_security = "true"
-    other_checks         = "true"
+    controls_by_service = "true"
   })
 }
 

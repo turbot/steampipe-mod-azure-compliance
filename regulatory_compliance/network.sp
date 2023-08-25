@@ -10,7 +10,7 @@ control "network_security_group_remote_access_restricted" {
   query       = query.network_security_group_remote_access_restricted
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,8 +22,8 @@ control "network_security_group_rdp_access_restricted" {
   query       = query.network_security_group_rdp_access_restricted
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -33,7 +33,7 @@ control "network_watcher_enabled" {
   query       = query.network_watcher_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -45,7 +45,7 @@ control "network_security_group_subnet_associated" {
   query       = query.network_security_group_subnet_associated
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -57,8 +57,8 @@ control "network_security_group_not_configured_gateway_subnets" {
   query       = query.network_security_group_not_configured_gateway_subnets
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -68,8 +68,8 @@ control "network_watcher_in_regions_with_virtual_network" {
   query       = query.network_watcher_in_regions_with_virtual_network
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -79,8 +79,8 @@ control "network_security_group_diagnostic_setting_deployed" {
   query       = query.network_security_group_diagnostic_setting_deployed
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -90,7 +90,7 @@ control "application_gateway_waf_enabled" {
   query       = query.application_gateway_waf_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -101,7 +101,7 @@ control "network_ddos_enabled" {
   query       = query.network_ddos_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -112,7 +112,7 @@ control "network_virtual_network_gateway_no_basic_sku" {
   query       = query.network_virtual_network_gateway_no_basic_sku
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -122,7 +122,7 @@ control "network_lb_no_basic_sku" {
   query       = query.network_lb_no_basic_sku
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -132,7 +132,7 @@ control "network_public_ip_no_basic_sku" {
   query       = query.network_public_ip_no_basic_sku
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -152,7 +152,7 @@ control "network_bastion_host_min_1" {
   query       = query.network_bastion_host_min_1
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -162,7 +162,7 @@ control "network_security_group_https_access_restricted" {
   query       = query.network_security_group_https_access_restricted
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -172,7 +172,7 @@ control "network_security_group_ssh_access_restricted" {
   query       = query.network_security_group_ssh_access_restricted
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -182,7 +182,7 @@ control "network_security_group_udp_service_restricted" {
   query       = query.network_security_group_udp_service_restricted
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -193,7 +193,7 @@ control "network_sg_flowlog_retention_period_greater_than_90" {
   query       = query.network_sg_flowlog_retention_period_greater_than_90
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 

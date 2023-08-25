@@ -10,7 +10,7 @@ control "postgres_db_server_geo_redundant_backup_enabled" {
   query       = query.postgres_db_server_geo_redundant_backup_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,7 +22,7 @@ control "postgres_sql_ssl_enabled" {
   query       = query.postgres_sql_ssl_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -34,7 +34,7 @@ control "postgresql_server_public_network_access_disabled" {
   query       = query.postgresql_server_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -45,7 +45,7 @@ control "postgresql_server_infrastructure_encryption_enabled" {
   query       = query.postgresql_server_infrastructure_encryption_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -56,7 +56,7 @@ control "postgres_server_private_link_used" {
   query       = query.postgres_server_private_link_used
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -67,7 +67,7 @@ control "postgres_sql_server_encrypted_at_rest_using_cmk" {
   query       = query.postgres_sql_server_encrypted_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -78,8 +78,7 @@ control "postgres_db_server_latest_tls_version" {
   query       = query.postgres_db_server_latest_tls_version
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
-    # other_checks = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -89,7 +88,7 @@ control "postgres_db_server_connection_throttling_on" {
   query       = query.postgres_db_server_connection_throttling_on
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -99,7 +98,7 @@ control "postgres_db_server_log_checkpoints_on" {
   query       = query.postgres_db_server_log_checkpoints_on
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -109,7 +108,7 @@ control "postgres_db_server_log_connections_on" {
   query       = query.postgres_db_server_log_connections_on
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -119,7 +118,7 @@ control "postgres_db_server_log_disconnections_on" {
   query       = query.postgres_db_server_log_disconnections_on
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -129,7 +128,7 @@ control "postgres_db_server_log_retention_days_3" {
   query       = query.postgres_db_server_log_retention_days_3
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -139,7 +138,7 @@ control "postgres_db_server_allow_access_to_azure_services_disabled" {
   query       = query.postgres_db_server_allow_access_to_azure_services_disabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 

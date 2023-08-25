@@ -10,7 +10,7 @@ control "azure_redis_cache_ssl_enabled" {
   query       = query.azure_redis_cache_ssl_enabled
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
@@ -23,7 +23,7 @@ control "azure_redis_cache_uses_private_link" {
   query       = query.azure_redis_cache_uses_private_link
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -34,8 +34,7 @@ control "redis_cache_in_virtual_network" {
   query       = query.redis_cache_in_virtual_network
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
-    fundamental_security = "true"
-    other_checks         = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -45,7 +44,7 @@ control "redis_cache_no_basic_sku" {
   query       = query.redis_cache_no_basic_sku
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -55,8 +54,7 @@ control "redis_cache_min_tls_1_2" {
   query       = query.redis_cache_min_tls_1_2
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
-    fundamental_security = "true"
-    other_checks         = "true"
+    controls_by_service = "true"
   })
 }
 

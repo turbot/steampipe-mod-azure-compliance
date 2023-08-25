@@ -10,8 +10,8 @@ control "monitor_log_profile_enabled_for_all_categories" {
   query       = query.monitor_log_profile_enabled_for_all_categories
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -21,8 +21,8 @@ control "monitor_log_alert_for_administrative_operations" {
   query       = query.monitor_log_alert_for_administrative_operations
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -32,8 +32,8 @@ control "monitor_log_profile_enabled_for_all_regions" {
   query       = query.monitor_log_profile_enabled_for_all_regions
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -84,8 +84,7 @@ control "monitor_log_profile_retention_365_days" {
   query       = query.monitor_log_profile_retention_365_days
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
-    other_checks         = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -95,7 +94,7 @@ control "monitor_diagnostic_settings_captures_proper_categories" {
   query       = query.monitor_diagnostic_settings_captures_proper_categories
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -105,7 +104,7 @@ control "monitor_log_alert_create_policy_assignment" {
   query       = query.monitor_log_alert_create_policy_assignment
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -115,7 +114,7 @@ control "monitor_log_alert_create_update_nsg_rule" {
   query       = query.monitor_log_alert_create_update_nsg_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -125,7 +124,7 @@ control "monitor_log_alert_create_update_nsg" {
   query       = query.monitor_log_alert_create_update_nsg
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -135,7 +134,7 @@ control "monitor_log_alert_create_update_public_ip_address" {
   query       = query.monitor_log_alert_create_update_public_ip_address
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -145,7 +144,7 @@ control "monitor_log_alert_create_update_security_solution" {
   query       = query.monitor_log_alert_create_update_security_solution
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -155,7 +154,7 @@ control "monitor_log_alert_create_update_sql_servers_firewall_rule" {
   query       = query.monitor_log_alert_create_update_sql_servers_firewall_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -165,7 +164,7 @@ control "monitor_log_alert_delete_nsg_rule" {
   query       = query.monitor_log_alert_delete_nsg_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -175,7 +174,7 @@ control "monitor_log_alert_delete_nsg" {
   query       = query.monitor_log_alert_delete_nsg
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -185,7 +184,7 @@ control "monitor_log_alert_delete_policy_assignment" {
   query       = query.monitor_log_alert_delete_policy_assignment
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -195,7 +194,7 @@ control "monitor_log_alert_delete_public_ip_address" {
   query       = query.monitor_log_alert_delete_public_ip_address
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -205,7 +204,7 @@ control "monitor_log_alert_delete_security_solution" {
   query       = query.monitor_log_alert_delete_security_solution
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -215,7 +214,7 @@ control "monitor_log_alert_delete_sql_servers_firewall_rule" {
   query       = query.monitor_log_alert_delete_sql_servers_firewall_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -225,7 +224,7 @@ control "monitor_log_alert_sql_firewall_rule" {
   query       = query.monitor_log_alert_sql_firewall_rule
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -235,7 +234,7 @@ control "monitor_logs_storage_container_insights_activity_logs_encrypted_with_by
   query       = query.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -245,7 +244,7 @@ control "monitor_logs_storage_container_insights_operational_logs_encrypted_with
   query       = query.monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -255,7 +254,7 @@ control "monitor_logs_storage_container_insights_operational_logs_not_public_acc
   query       = query.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -265,7 +264,7 @@ control "monitor_logs_storage_container_insights_activity_logs_not_public_access
   query       = query.monitor_logs_storage_container_insights_activity_logs_not_public_accessible
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 

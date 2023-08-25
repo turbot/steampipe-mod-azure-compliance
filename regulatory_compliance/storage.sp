@@ -10,7 +10,7 @@ control "storage_account_secure_transfer_required_enabled" {
   query       = query.storage_account_secure_transfer_required_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
@@ -23,7 +23,7 @@ control "storage_account_default_network_access_rule_denied" {
   query       = query.storage_account_default_network_access_rule_denied
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
@@ -36,8 +36,8 @@ control "storage_account_use_virtual_service_endpoint" {
   query       = query.storage_account_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
-    hipaa_hitrust_v92    = "true"
+    controls_by_service = "true"
+    hipaa_hitrust_v92   = "true"
   })
 }
 
@@ -47,7 +47,7 @@ control "storage_account_uses_private_link" {
   query       = query.storage_account_uses_private_link
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -58,7 +58,7 @@ control "storage_account_infrastructure_encryption_enabled" {
   query       = query.storage_account_infrastructure_encryption_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -69,7 +69,7 @@ control "storage_account_block_public_access" {
   query       = query.storage_account_block_public_access
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -80,7 +80,7 @@ control "storage_account_restrict_network_access" {
   query       = query.storage_account_restrict_network_access
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -92,7 +92,7 @@ control "storage_account_geo_redundant_enabled" {
   query       = query.storage_account_geo_redundant_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -103,7 +103,7 @@ control "storage_account_encryption_at_rest_using_cmk" {
   query       = query.storage_account_encryption_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -114,7 +114,7 @@ control "storage_account_uses_azure_resource_manager" {
   query       = query.storage_account_uses_azure_resource_manager
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -126,7 +126,7 @@ control "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
   query       = query.storage_account_encryption_scopes_encrypted_at_rest_with_cmk
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -137,7 +137,7 @@ control "storage_account_blob_containers_public_access_private" {
   query       = query.storage_account_blob_containers_public_access_private
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -147,7 +147,7 @@ control "storage_account_blob_service_logging_enabled" {
   query       = query.storage_account_blob_service_logging_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -157,7 +157,7 @@ control "storage_account_table_service_logging_enabled" {
   query       = query.storage_account_table_service_logging_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -167,7 +167,7 @@ control "storage_account_min_tls_1_2" {
   query       = query.storage_account_min_tls_1_2
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -177,7 +177,7 @@ control "storage_account_queue_services_logging_enabled" {
   query       = query.storage_account_queue_services_logging_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -187,7 +187,7 @@ control "storage_account_soft_delete_enabled" {
   query       = query.storage_account_soft_delete_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 
@@ -197,7 +197,7 @@ control "storage_account_trusted_microsoft_services_enabled" {
   query       = query.storage_account_trusted_microsoft_services_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 

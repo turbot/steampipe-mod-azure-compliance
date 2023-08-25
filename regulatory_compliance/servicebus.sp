@@ -10,7 +10,7 @@ control "servicebus_namespace_logging_enabled" {
   query       = query.servicebus_namespace_logging_enabled
 
   tags = merge(local.regulatory_compliance_servicebus_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,7 +22,7 @@ control "servicebus_name_space_private_link_used" {
   query       = query.servicebus_name_space_private_link_used
 
   tags = merge(local.regulatory_compliance_servicebus_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -33,7 +33,7 @@ control "servicebus_premium_namespace_cmk_encrypted" {
   query       = query.servicebus_premium_namespace_cmk_encrypted
 
   tags = merge(local.regulatory_compliance_servicebus_common_tags, {
-    fundamental_security = "true"
+    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -44,7 +44,7 @@ control "servicebus_use_virtual_service_endpoint" {
   query       = query.servicebus_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_servicebus_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 

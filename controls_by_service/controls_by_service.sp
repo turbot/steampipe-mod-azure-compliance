@@ -1,6 +1,6 @@
 locals {
   controls_by_service_common_tags = merge(local.azure_compliance_common_tags, {
-    fundamental_security = "true"
+    controls_by_service = "true"
   })
 }
 benchmark "controls_by_service" {

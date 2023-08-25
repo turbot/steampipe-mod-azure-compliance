@@ -3,10 +3,9 @@ locals {
     fundamental_security = "true"
   })
 }
-
-benchmark "fundamental_security" {
-  title       = "Fundamental Security"
-  description = "The Fundamental Security is a set of controls that detect your deployed resources in the subscription(s) deviating from security best practices."
+benchmark "controls_by_service" {
+  title       = "Controls by Service"
+  description = "The Controls by Service contains all the controls segregated by services provided in Azure compliance mod; that detect your deployed resources in the subscription(s) deviating from security best practices."
   children = [
     benchmark.fundamental_security_activedirectory,
     benchmark.fundamental_security_apimanagement,

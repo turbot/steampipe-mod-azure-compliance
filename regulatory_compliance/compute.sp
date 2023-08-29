@@ -10,7 +10,7 @@ control "compute_vm_attached_with_network" {
   query       = query.compute_vm_attached_with_network
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -76,7 +76,7 @@ control "compute_vm_log_analytics_agent_installed_windows" {
   query       = query.compute_vm_log_analytics_agent_installed_windows
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -86,7 +86,7 @@ control "compute_vm_malware_agent_installed" {
   query       = query.compute_vm_malware_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -118,7 +118,7 @@ control "compute_vm_malware_agent_automatic_upgrade_enabled" {
   query       = query.compute_vm_malware_agent_automatic_upgrade_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 

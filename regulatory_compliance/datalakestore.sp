@@ -10,7 +10,7 @@ control "datalake_store_account_encryption_enabled" {
   query       = query.datalake_store_account_encryption_enabled
 
   tags = merge(local.regulatory_compliance_datalakestore_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 

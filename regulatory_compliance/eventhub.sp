@@ -21,7 +21,7 @@ control "eventhub_namespace_use_virtual_service_endpoint" {
   query       = query.eventhub_namespace_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_eventhub_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 

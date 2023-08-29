@@ -10,7 +10,7 @@ control "monitor_log_profile_enabled_for_all_categories" {
   query       = query.monitor_log_profile_enabled_for_all_categories
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -20,7 +20,7 @@ control "monitor_log_alert_for_administrative_operations" {
   query       = query.monitor_log_alert_for_administrative_operations
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -30,7 +30,7 @@ control "monitor_log_profile_enabled_for_all_regions" {
   query       = query.monitor_log_profile_enabled_for_all_regions
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 

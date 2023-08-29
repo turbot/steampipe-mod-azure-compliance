@@ -43,7 +43,7 @@ control "sql_server_use_virtual_service_endpoint" {
   query       = query.sql_server_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -87,8 +87,8 @@ control "sql_database_transparent_data_encryption_enabled" {
   query       = query.sql_database_transparent_data_encryption_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    hipaa_hitrust_v92   = "true"
-    pci_dss_v321        = "true"
+    hipaa_hitrust_v92 = "true"
+    pci_dss_v321      = "true"
   })
 }
 

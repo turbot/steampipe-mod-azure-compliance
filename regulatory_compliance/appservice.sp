@@ -72,7 +72,7 @@ control "appservice_web_app_use_virtual_service_endpoint" {
   query       = query.appservice_web_app_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -82,8 +82,8 @@ control "appservice_api_app_use_https" {
   query       = query.appservice_api_app_use_https
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92   = "true"
-    pci_dss_v321        = "true"
+    hipaa_hitrust_v92 = "true"
+    pci_dss_v321      = "true"
   })
 }
 
@@ -199,7 +199,7 @@ control "appservice_web_app_client_certificates_on" {
   query       = query.appservice_web_app_client_certificates_on
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 

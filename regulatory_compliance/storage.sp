@@ -34,7 +34,7 @@ control "storage_account_use_virtual_service_endpoint" {
   query       = query.storage_account_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 

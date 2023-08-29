@@ -55,7 +55,6 @@ control "cosmosdb_account_key_based_metadata_write_access_disabled" {
 control "cosmosdb_account_virtual_network_filter_enabled" {
   title         = "Ensure That 'Firewalls & Networks' Is Limited to Use Selected Networks Instead of All Networks"
   query         = query.cosmosdb_account_virtual_network_filter_enabled
-  documentation = file("./cis_v150/docs/cis_v150_4_5_1.md")
 
   tags = local.regulatory_compliance_cosmosdb_common_tags
 }

@@ -10,7 +10,6 @@ control "synapse_workspace_private_link_used" {
   query       = query.synapse_workspace_private_link_used
 
   tags = merge(local.regulatory_compliance_synapse_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -21,7 +20,6 @@ control "synapse_workspace_vulnerability_assessment_enabled" {
   query       = query.synapse_workspace_vulnerability_assessment_enabled
 
   tags = merge(local.regulatory_compliance_synapse_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -32,7 +30,6 @@ control "synapse_workspace_encryption_at_rest_using_cmk" {
   query       = query.synapse_workspace_encryption_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_synapse_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -42,9 +39,7 @@ control "synapse_workspace_data_exfiltration_protection_enabled" {
   description = "This control checks whether Synapse workspace has data exfiltration protection enabled."
   query       = query.synapse_workspace_data_exfiltration_protection_enabled
 
-  tags = merge(local.regulatory_compliance_synapse_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_synapse_common_tags
 }
 
 query "synapse_workspace_private_link_used" {

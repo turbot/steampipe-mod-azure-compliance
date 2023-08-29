@@ -10,7 +10,6 @@ control "search_service_logging_enabled" {
   query       = query.search_service_logging_enabled
 
   tags = merge(local.regulatory_compliance_search_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,7 +21,6 @@ control "search_service_uses_sku_supporting_private_link" {
   query       = query.search_service_uses_sku_supporting_private_link
 
   tags = merge(local.regulatory_compliance_search_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -33,7 +31,6 @@ control "search_service_public_network_access_disabled" {
   query       = query.search_service_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_search_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -44,7 +41,6 @@ control "search_service_uses_private_link" {
   query       = query.search_service_uses_private_link
 
   tags = merge(local.regulatory_compliance_search_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -54,9 +50,7 @@ control "search_service_uses_managed_identity" {
   description = "Cognitive Search services should use a managed identity for enhanced authentication security."
   query       = query.search_service_uses_managed_identity
 
-  tags = merge(local.regulatory_compliance_search_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_search_common_tags
 }
 
 control "search_service_replica_count_3" {
@@ -64,9 +58,7 @@ control "search_service_replica_count_3" {
   description = "This control checks if Cognitive Search maintains SLA for index updates."
   query       = query.search_service_replica_count_3
 
-  tags = merge(local.regulatory_compliance_search_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_search_common_tags
 }
 
 query "search_service_logging_enabled" {

@@ -10,7 +10,6 @@ control "cognitive_service_local_auth_disabled" {
   query       = query.cognitive_service_local_auth_disabled
 
   tags = merge(local.regulatory_compliance_cognitive_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -21,7 +20,6 @@ control "cognitive_account_private_link_used" {
   query       = query.cognitive_account_private_link_used
 
   tags = merge(local.regulatory_compliance_cognitive_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -32,7 +30,6 @@ control "cognitive_account_public_network_access_disabled" {
   query       = query.cognitive_account_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_cognitive_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -43,7 +40,6 @@ control "cognitive_account_restrict_public_access" {
   query       = query.cognitive_account_restrict_public_access
 
   tags = merge(local.regulatory_compliance_cognitive_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -54,7 +50,6 @@ control "cognitive_account_encrypted_with_cmk" {
   query       = query.cognitive_account_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_cognitive_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

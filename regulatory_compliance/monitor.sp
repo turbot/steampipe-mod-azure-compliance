@@ -10,7 +10,6 @@ control "monitor_log_profile_enabled_for_all_categories" {
   query       = query.monitor_log_profile_enabled_for_all_categories
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
     hipaa_hitrust_v92   = "true"
   })
 }
@@ -21,7 +20,6 @@ control "monitor_log_alert_for_administrative_operations" {
   query       = query.monitor_log_alert_for_administrative_operations
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
     hipaa_hitrust_v92   = "true"
   })
 }
@@ -32,7 +30,6 @@ control "monitor_log_profile_enabled_for_all_regions" {
   query       = query.monitor_log_profile_enabled_for_all_regions
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
     hipaa_hitrust_v92   = "true"
   })
 }
@@ -83,9 +80,7 @@ control "monitor_log_profile_retention_365_days" {
   description = "This control is non-compliant if Monitor log profile retention is set to less than 365 days."
   query       = query.monitor_log_profile_retention_365_days
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_diagnostic_settings_captures_proper_categories" {
@@ -93,9 +88,7 @@ control "monitor_diagnostic_settings_captures_proper_categories" {
   description = "A Diagnostic Setting must exist. If a Diagnostic Setting does not exist, the navigation and options within this recommendation will not be available. Please review the recommendation at the beginning of this subsection titled: 'Ensure that a 'Diagnostic Setting' exists.' The diagnostic setting should be configured to log the appropriate activities from the control/management plane."
   query       = query.monitor_diagnostic_settings_captures_proper_categories
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_create_policy_assignment" {
@@ -103,9 +96,7 @@ control "monitor_log_alert_create_policy_assignment" {
   description = "Create an activity log alert for the Create Policy Assignment event."
   query       = query.monitor_log_alert_create_policy_assignment
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_create_update_nsg_rule" {
@@ -113,9 +104,7 @@ control "monitor_log_alert_create_update_nsg_rule" {
   description = "Create an activity log alert for the Create or Update Network Security Group Rule event."
   query       = query.monitor_log_alert_create_update_nsg_rule
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_create_update_nsg" {
@@ -123,9 +112,7 @@ control "monitor_log_alert_create_update_nsg" {
   description = "Create an Activity Log Alert for the Create or Update Network Security Group event."
   query       = query.monitor_log_alert_create_update_nsg
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_create_update_public_ip_address" {
@@ -133,9 +120,7 @@ control "monitor_log_alert_create_update_public_ip_address" {
   description = "Create an activity log alert for the Create or Update Public IP Addresses rule."
   query       = query.monitor_log_alert_create_update_public_ip_address
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_create_update_security_solution" {
@@ -143,9 +128,7 @@ control "monitor_log_alert_create_update_security_solution" {
   description = "Create an activity log alert for the Create or Update Security Solution event."
   query       = query.monitor_log_alert_create_update_security_solution
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_create_update_sql_servers_firewall_rule" {
@@ -153,9 +136,7 @@ control "monitor_log_alert_create_update_sql_servers_firewall_rule" {
   description = "Create an activity log alert for the Create or Update SQL Server Firewall Rule event."
   query       = query.monitor_log_alert_create_update_sql_servers_firewall_rule
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_delete_nsg_rule" {
@@ -163,9 +144,7 @@ control "monitor_log_alert_delete_nsg_rule" {
   description = "Create an activity log alert for the Delete Network Security Group Rule event."
   query       = query.monitor_log_alert_delete_nsg_rule
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_delete_nsg" {
@@ -173,9 +152,7 @@ control "monitor_log_alert_delete_nsg" {
   description = "Create an activity log alert for the Delete Network Security Group event."
   query       = query.monitor_log_alert_delete_nsg
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_delete_policy_assignment" {
@@ -183,9 +160,7 @@ control "monitor_log_alert_delete_policy_assignment" {
   description = "Create an activity log alert for the Delete Policy Assignment event."
   query       = query.monitor_log_alert_delete_policy_assignment
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_delete_public_ip_address" {
@@ -193,9 +168,7 @@ control "monitor_log_alert_delete_public_ip_address" {
   description = "Create an activity log alert for the Delete Public IP Address rule."
   query       = query.monitor_log_alert_delete_public_ip_address
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_delete_security_solution" {
@@ -203,9 +176,7 @@ control "monitor_log_alert_delete_security_solution" {
   description = "Create an activity log alert for the Delete Security Solution event."
   query       = query.monitor_log_alert_delete_security_solution
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_delete_sql_servers_firewall_rule" {
@@ -213,9 +184,7 @@ control "monitor_log_alert_delete_sql_servers_firewall_rule" {
   description = "Create an activity log alert for the 'Delete SQL Server Firewall Rule.'"
   query       = query.monitor_log_alert_delete_sql_servers_firewall_rule
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_log_alert_sql_firewall_rule" {
@@ -223,9 +192,7 @@ control "monitor_log_alert_sql_firewall_rule" {
   description = "Create an activity log alert for the Create or Update or Delete SQL Server Firewall Rule event."
   query       = query.monitor_log_alert_sql_firewall_rule
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok" {
@@ -233,9 +200,7 @@ control "monitor_logs_storage_container_insights_activity_logs_encrypted_with_by
   description = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
   query       = query.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok" {
@@ -243,9 +208,7 @@ control "monitor_logs_storage_container_insights_operational_logs_encrypted_with
   description = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
   query       = query.monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_logs_storage_container_insights_operational_logs_not_public_accessible" {
@@ -253,9 +216,7 @@ control "monitor_logs_storage_container_insights_operational_logs_not_public_acc
   description = "The storage account container containing the activity log export should not be publicly accessible."
   query       = query.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 control "monitor_logs_storage_container_insights_activity_logs_not_public_accessible" {
@@ -263,9 +224,7 @@ control "monitor_logs_storage_container_insights_activity_logs_not_public_access
   description = "The storage account container containing the activity log export should not be publicly accessible."
   query       = query.monitor_logs_storage_container_insights_activity_logs_not_public_accessible
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_monitor_common_tags
 }
 
 query "monitor_log_profile_enabled_for_all_categories" {

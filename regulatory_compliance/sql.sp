@@ -10,7 +10,6 @@ control "sql_server_and_databases_va_enabled" {
   query       = query.sql_server_and_databases_va_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,7 +21,6 @@ control "sql_server_transparent_data_encryption_enabled" {
   query       = query.sql_server_transparent_data_encryption_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -33,7 +31,6 @@ control "sql_server_auditing_on" {
   query       = query.sql_server_auditing_on
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
@@ -46,7 +43,6 @@ control "sql_server_use_virtual_service_endpoint" {
   query       = query.sql_server_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
     hipaa_hitrust_v92   = "true"
   })
 }
@@ -57,7 +53,6 @@ control "sql_server_tde_protector_cmk_encrypted" {
   query       = query.sql_server_tde_protector_cmk_encrypted
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -69,7 +64,6 @@ control "sql_database_long_term_geo_redundant_backup_enabled" {
   query       = query.sql_database_long_term_geo_redundant_backup_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -81,7 +75,6 @@ control "sql_database_vulnerability_findings_resolved" {
   query       = query.sql_database_vulnerability_findings_resolved
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
@@ -94,7 +87,6 @@ control "sql_database_transparent_data_encryption_enabled" {
   query       = query.sql_database_transparent_data_encryption_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
     hipaa_hitrust_v92   = "true"
     pci_dss_v321        = "true"
   })
@@ -106,7 +98,6 @@ control "sql_server_azure_defender_enabled" {
   query       = query.sql_server_azure_defender_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -117,7 +108,6 @@ control "sql_server_azure_ad_authentication_enabled" {
   query       = query.sql_server_azure_ad_authentication_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -129,7 +119,6 @@ control "sql_db_public_network_access_disabled" {
   query       = query.sql_db_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -140,7 +129,6 @@ control "sql_server_uses_private_link" {
   query       = query.sql_server_uses_private_link
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -151,7 +139,6 @@ control "sql_server_auditing_storage_account_destination_retention_90_days" {
   query       = query.sql_server_auditing_storage_account_destination_retention_90_days
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -161,9 +148,7 @@ control "sql_server_threat_detection_all_enabled" {
   description = "This control ensures that SQL server threat detection is enabled for all."
   query       = query.sql_server_threat_detection_all_enabled
 
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_sql_common_tags
 }
 
 control "sql_database_allow_internet_access" {
@@ -171,9 +156,7 @@ control "sql_database_allow_internet_access" {
   description = "Ensure that no SQL Databases allow ingress from 0.0.0.0/0 (ANY IP)."
   query       = query.sql_database_allow_internet_access
 
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_sql_common_tags
 }
 
 control "sql_db_active_directory_admin_configured" {
@@ -181,9 +164,7 @@ control "sql_db_active_directory_admin_configured" {
   description = "Use Azure Active Directory Authentication for authentication with SQL Database."
   query       = query.sql_db_active_directory_admin_configured
 
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_sql_common_tags
 }
 
 control "sql_server_atp_enabled" {
@@ -191,9 +172,7 @@ control "sql_server_atp_enabled" {
   description = "Enable \"Azure Defender for SQL\" on critical SQL Servers."
   query       = query.sql_server_atp_enabled
 
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_sql_common_tags
 }
 
 control "sql_server_auditing_retention_period_90" {
@@ -201,9 +180,7 @@ control "sql_server_auditing_retention_period_90" {
   description = "SQL Server Audit Retention should be configured to be greater than 90 days."
   query       = query.sql_server_auditing_retention_period_90
 
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_sql_common_tags
 }
 
 control "sql_server_va_setting_periodic_scan_enabled" {
@@ -211,9 +188,7 @@ control "sql_server_va_setting_periodic_scan_enabled" {
   description = "Enable Vulnerability Assessment (VA) Periodic recurring scans for critical SQL servers and corresponding SQL databases."
   query       = query.sql_server_va_setting_periodic_scan_enabled
 
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_sql_common_tags
 }
 
 control "sql_server_va_setting_reports_notify_admins" {
@@ -221,9 +196,7 @@ control "sql_server_va_setting_reports_notify_admins" {
   description = "Enable Vulnerability Assessment (VA) setting 'Also send email notifications to admins and subscription owners'."
   query       = query.sql_server_va_setting_reports_notify_admins
 
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_sql_common_tags
 }
 
 control "sql_server_va_setting_scan_reports_configured" {
@@ -231,9 +204,7 @@ control "sql_server_va_setting_scan_reports_configured" {
   description = "Configure 'Send scan reports to' with email ids of concerned data owners/stakeholders for a critical SQL servers."
   query       = query.sql_server_va_setting_scan_reports_configured
 
-  tags = merge(local.regulatory_compliance_sql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_sql_common_tags
 }
 
 query "sql_server_and_databases_va_enabled" {

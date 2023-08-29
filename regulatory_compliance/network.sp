@@ -10,7 +10,6 @@ control "network_security_group_remote_access_restricted" {
   query       = query.network_security_group_remote_access_restricted
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,8 +21,7 @@ control "network_security_group_rdp_access_restricted" {
   query       = query.network_security_group_rdp_access_restricted
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -33,7 +31,6 @@ control "network_watcher_enabled" {
   query       = query.network_watcher_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -45,7 +42,6 @@ control "network_security_group_subnet_associated" {
   query       = query.network_security_group_subnet_associated
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -57,8 +53,7 @@ control "network_security_group_not_configured_gateway_subnets" {
   query       = query.network_security_group_not_configured_gateway_subnets
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -68,8 +63,7 @@ control "network_watcher_in_regions_with_virtual_network" {
   query       = query.network_watcher_in_regions_with_virtual_network
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -79,8 +73,7 @@ control "network_security_group_diagnostic_setting_deployed" {
   query       = query.network_security_group_diagnostic_setting_deployed
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-    hipaa_hitrust_v92   = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -90,7 +83,6 @@ control "application_gateway_waf_enabled" {
   query       = query.application_gateway_waf_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -101,7 +93,6 @@ control "network_ddos_enabled" {
   query       = query.network_ddos_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -111,9 +102,7 @@ control "network_virtual_network_gateway_no_basic_sku" {
   description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
   query       = query.network_virtual_network_gateway_no_basic_sku
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_lb_no_basic_sku" {
@@ -121,9 +110,7 @@ control "network_lb_no_basic_sku" {
   description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
   query       = query.network_lb_no_basic_sku
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_public_ip_no_basic_sku" {
@@ -131,9 +118,7 @@ control "network_public_ip_no_basic_sku" {
   description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
   query       = query.network_public_ip_no_basic_sku
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_subnet_protected_by_firewall" {
@@ -151,9 +136,7 @@ control "network_bastion_host_min_1" {
   description = "The Azure Bastion service allows secure remote access to Azure Virtual Machines over the Internet without exposing remote access protocol ports and services directly to the Internet. The Azure Bastion service provides this access using TLS over 443/TCP, and subscribes to hardened configurations within an organization's Azure Active Directory service."
   query       = query.network_bastion_host_min_1
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_https_access_restricted" {
@@ -161,9 +144,7 @@ control "network_security_group_https_access_restricted" {
   description = "Network security groups should be periodically evaluated for port misconfigurations. Where certain ports and protocols may be exposed to the Internet, they should be evaluated for necessity and restricted wherever they are not explicitly required and narrowly configured."
   query       = query.network_security_group_https_access_restricted
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_ssh_access_restricted" {
@@ -171,9 +152,7 @@ control "network_security_group_ssh_access_restricted" {
   description = "Disable SSH access on network security groups from the Internet."
   query       = query.network_security_group_ssh_access_restricted
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_udp_service_restricted" {
@@ -181,9 +160,7 @@ control "network_security_group_udp_service_restricted" {
   description = "Disable Internet exposed UDP ports on network security groups."
   query       = query.network_security_group_udp_service_restricted
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 
@@ -192,9 +169,7 @@ control "network_sg_flowlog_retention_period_greater_than_90" {
   description = "Network Security Group Flow Logs should be enabled and the retention period is set to greater than or equal to 90 days."
   query       = query.network_sg_flowlog_retention_period_greater_than_90
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 query "network_security_group_remote_access_restricted" {

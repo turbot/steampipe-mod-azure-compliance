@@ -10,7 +10,6 @@ control "data_factory_uses_private_link" {
   query       = query.data_factory_uses_private_link
 
   tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -21,7 +20,6 @@ control "data_factory_encrypted_with_cmk" {
   query       = query.data_factory_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -31,9 +29,7 @@ control "data_factory_public_network_access_disabled" {
   description = "Disabling public network access improves security by ensuring that your Data Factory is not exposed on the public internet."
   query       = query.data_factory_public_network_access_disabled
 
-  tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_datafactory_common_tags
 }
 
 control "data_factory_uses_git_repository" {
@@ -41,9 +37,7 @@ control "data_factory_uses_git_repository" {
   description = "Ensure that Data Factory utilizes a Git repository as its source control mechanism. This control is non-compliant if Data Factory Git repository is not configured."
   query       = query.data_factory_uses_git_repository
 
-  tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_datafactory_common_tags
 }
 
 query "data_factory_uses_private_link" {

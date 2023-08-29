@@ -9,9 +9,7 @@ control "ad_guest_user_reviewed_monthly" {
   description = "Guest users allow you to share your company's applications and services with users from any other organization, while maintaining control over your own corporate data. Guest users should be review on a monthly basis to ensure that inactive and unneeded accounts are removed."
   query       = query.ad_guest_user_reviewed_monthly
 
-  tags = merge(local.regulatory_compliance_activedirectory_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_activedirectory_common_tags
 }
 
 query "ad_guest_user_reviewed_monthly" {

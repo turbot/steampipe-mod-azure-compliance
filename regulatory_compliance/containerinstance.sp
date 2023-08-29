@@ -10,7 +10,6 @@ control "container_instance_container_group_encrypted_using_cmk" {
   query       = query.container_instance_container_group_encrypted_using_cmk
 
   tags = merge(local.regulatory_compliance_containerinstance_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -20,9 +19,7 @@ control "container_instance_container_group_in_virtual_network" {
   description = "This control ensures that the container group is deployed into a virtual network."
   query       = query.container_instance_container_group_in_virtual_network
 
-  tags = merge(local.regulatory_compliance_containerinstance_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_containerinstance_common_tags
 }
 
 query "container_instance_container_group_encrypted_using_cmk" {

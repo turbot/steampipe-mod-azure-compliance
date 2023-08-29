@@ -10,7 +10,6 @@ control "kusto_cluster_encrypted_at_rest_with_cmk" {
   query       = query.kusto_cluster_encrypted_at_rest_with_cmk
 
   tags = merge(local.regulatory_compliance_kusto_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -21,7 +20,6 @@ control "kusto_cluster_disk_encryption_enabled" {
   query       = query.kusto_cluster_disk_encryption_enabled
 
   tags = merge(local.regulatory_compliance_kusto_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -32,7 +30,6 @@ control "kusto_cluster_double_encryption_enabled" {
   query       = query.kusto_cluster_double_encryption_enabled
 
   tags = merge(local.regulatory_compliance_kusto_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -42,9 +39,7 @@ control "kusto_cluster_sku_with_sla" {
   description = "This control checks if Kusto clusters use SKU with an SLA. This control is considered non-compliant if Kusto clusters use SKUs without an SLA."
   query       = query.kusto_cluster_sku_with_sla
 
-  tags = merge(local.regulatory_compliance_kusto_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_kusto_common_tags
 }
 
 query "kusto_cluster_encrypted_at_rest_with_cmk" {

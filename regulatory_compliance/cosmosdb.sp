@@ -10,7 +10,6 @@ control "cosmosdb_use_virtual_service_endpoint" {
   query       = query.cosmosdb_use_virtual_service_endpoint
 
   tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    controls_by_service = "true"
     hipaa_hitrust_v92   = "true"
   })
 }
@@ -21,7 +20,6 @@ control "cosmosdb_account_with_firewall_rules" {
   query       = query.cosmosdb_account_with_firewall_rules
 
   tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -32,7 +30,6 @@ control "cosmosdb_account_uses_private_link" {
   query       = query.cosmosdb_account_uses_private_link
 
   tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -43,7 +40,6 @@ control "cosmosdb_account_encryption_at_rest_using_cmk" {
   query       = query.cosmosdb_account_encryption_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -53,9 +49,7 @@ control "cosmosdb_account_key_based_metadata_write_access_disabled" {
   description = "Ensure Cosmos DB accounts have key-based metadata write_access disabled. This control is non-compliant if Cosmos DB accounts have key-based metadata write access enabled."
   query       = query.cosmosdb_account_key_based_metadata_write_access_disabled
 
-  tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_cosmosdb_common_tags
 }
 
 control "cosmosdb_account_virtual_network_filter_enabled" {
@@ -63,9 +57,7 @@ control "cosmosdb_account_virtual_network_filter_enabled" {
   query         = query.cosmosdb_account_virtual_network_filter_enabled
   documentation = file("./cis_v150/docs/cis_v150_4_5_1.md")
 
-  tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_cosmosdb_common_tags
 }
 
 query "cosmosdb_use_virtual_service_endpoint" {

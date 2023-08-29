@@ -10,7 +10,6 @@ control "securitycenter_automatic_provisioning_monitoring_agent_on" {
   query       = query.securitycenter_automatic_provisioning_monitoring_agent_on
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,7 +21,6 @@ control "securitycenter_notify_alerts_configured" {
   query       = query.securitycenter_notify_alerts_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -33,7 +31,6 @@ control "securitycenter_security_alerts_to_owner_enabled" {
   query       = query.securitycenter_security_alerts_to_owner_enabled
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -44,7 +41,6 @@ control "securitycenter_email_configured" {
   query       = query.securitycenter_email_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -55,7 +51,6 @@ control "securitycenter_azure_defender_on_for_sqlservervm" {
   query       = query.securitycenter_azure_defender_on_for_sqlservervm
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -66,7 +61,6 @@ control "securitycenter_azure_defender_on_for_containers" {
   query       = query.securitycenter_azure_defender_on_for_containers
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -76,9 +70,7 @@ control "securitycenter_azure_defender_on_for_k8s" {
   description = "Azure Defender for Kubernetes provides real-time threat protection for containerized environments and generates alerts for suspicious activities."
   query       = query.securitycenter_azure_defender_on_for_k8s
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 control "securitycenter_azure_defender_on_for_appservice" {
@@ -87,7 +79,6 @@ control "securitycenter_azure_defender_on_for_appservice" {
   query       = query.securitycenter_azure_defender_on_for_appservice
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -98,7 +89,6 @@ control "securitycenter_azure_defender_on_for_keyvault" {
   query       = query.securitycenter_azure_defender_on_for_keyvault
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -109,7 +99,6 @@ control "securitycenter_azure_defender_on_for_server" {
   query       = query.securitycenter_azure_defender_on_for_server
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -120,7 +109,6 @@ control "securitycenter_azure_defender_on_for_sqldb" {
   query       = query.securitycenter_azure_defender_on_for_sqldb
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -131,7 +119,6 @@ control "securitycenter_azure_defender_on_for_storage" {
   query       = query.securitycenter_azure_defender_on_for_storage
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -141,9 +128,7 @@ control "securitycenter_azure_defender_on_for_containerregistry" {
   description = "Azure Defender for container registries provides vulnerability scanning of any images pulled within the last 30 days, pushed to your registry, or imported, and exposes detailed findings per image."
   query       = query.securitycenter_azure_defender_on_for_containerregistry
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 control "securitycenter_azure_defender_on_for_dns" {
@@ -152,7 +137,6 @@ control "securitycenter_azure_defender_on_for_dns" {
   query       = query.securitycenter_azure_defender_on_for_dns
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -163,7 +147,6 @@ control "securitycenter_azure_defender_on_for_resource_manager" {
   query       = query.securitycenter_azure_defender_on_for_resource_manager
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -173,9 +156,7 @@ control "securitycenter_pricing_standard" {
   description = "This control checks whether Security center pricing is set to standard. This control is non-compliant if pricing is set to free."
   query       = query.securitycenter_pricing_standard
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 control "securitycenter_additional_email_configured" {
@@ -183,9 +164,7 @@ control "securitycenter_additional_email_configured" {
   description = "Security Center emails the subscription owners whenever a high-severity alert is triggered for their subscription. You should provide a security contact email address as an additional email address."
   query       = query.securitycenter_additional_email_configured
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 control "securitycenter_asc_default_setting_not_disabled" {
@@ -193,9 +172,7 @@ control "securitycenter_asc_default_setting_not_disabled" {
   description = "None of the settings offered by ASC Default policy should be set to effect \"Disabled\"."
   query       = query.securitycenter_asc_default_setting_not_disabled
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 control "securitycenter_azure_defender_on_for_cosmosdb" {
@@ -203,9 +180,7 @@ control "securitycenter_azure_defender_on_for_cosmosdb" {
   description = "Microsoft Defender for Azure Cosmos DB scans all incoming network requests for threats to your Azure Cosmos DB resources."
   query       = query.securitycenter_azure_defender_on_for_cosmosdb
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 control "securitycenter_azure_defender_on_for_database" {
@@ -213,9 +188,7 @@ control "securitycenter_azure_defender_on_for_database" {
   description = "Turning on Microsoft Defender for Databases enables threat detection for the instances running your database software. This provides threat intelligence, anomaly detection, and behavior analytics in the Azure Microsoft Defender for Cloud. Instead of being enabled on services like Platform as a Service (PaaS), this implementation will run within your instances as Infrastructure as a Service (IaaS) on the Operating Systems hosting your databases."
   query       = query.securitycenter_azure_defender_on_for_database
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 control "securitycenter_azure_defender_on_for_opensource_relational_db" {
@@ -223,9 +196,7 @@ control "securitycenter_azure_defender_on_for_opensource_relational_db" {
   description = "Turning on Microsoft Defender for Open-source relational databases enables threat detection for Open-source relational databases, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud."
   query       = query.securitycenter_azure_defender_on_for_opensource_relational_db
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 control "securitycenter_mcas_integration" {
@@ -233,9 +204,7 @@ control "securitycenter_mcas_integration" {
   description = "This setting enables Microsoft Defender for Cloud Apps (MCAS) integration with Microsoft Defender for Cloud."
   query       = query.securitycenter_mcas_integration
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 control "securitycenter_wdatp_integration" {
@@ -243,9 +212,7 @@ control "securitycenter_wdatp_integration" {
   description = "This setting enables Windows Defender ATP (WDATP) integration with Security Center."
   query       = query.securitycenter_wdatp_integration
 
-  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
 query "securitycenter_automatic_provisioning_monitoring_agent_on" {

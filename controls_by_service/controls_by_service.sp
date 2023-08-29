@@ -1,6 +1,6 @@
 locals {
   controls_by_service_common_tags = merge(local.azure_compliance_common_tags, {
-    controls_by_service = "true"
+    type = "Benchmark"
   })
 }
 benchmark "controls_by_service" {
@@ -53,7 +53,5 @@ benchmark "controls_by_service" {
     benchmark.controls_by_service_synapse
   ]
 
-  tags = merge(local.controls_by_service_common_tags, {
-    type = "Benchmark"
-  })
+  tags = local.controls_by_service_common_tags
 }

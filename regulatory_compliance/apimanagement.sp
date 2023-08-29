@@ -10,7 +10,6 @@ control "apimanagement_service_with_virtual_network" {
   query       = query.apimanagement_service_with_virtual_network
 
   tags = merge(local.regulatory_compliance_apimanagement_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -20,9 +19,7 @@ control "apimanagement_service_client_certificate_enabled" {
   description = "Ensure API Management client certificate is enabled. This control is non-compliant if API Management client certificate is disabled."
   query       = query.apimanagement_service_client_certificate_enabled
 
-  tags = merge(local.regulatory_compliance_apimanagement_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_apimanagement_common_tags
 }
 
 query "apimanagement_service_with_virtual_network" {

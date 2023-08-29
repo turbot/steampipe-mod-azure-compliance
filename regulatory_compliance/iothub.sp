@@ -10,7 +10,6 @@ control "iot_hub_logging_enabled" {
   query       = query.iot_hub_logging_enabled
 
   tags = merge(local.regulatory_compliance_iothub_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,7 +21,6 @@ control "iot_hub_private_link_used" {
   query       = query.iot_hub_private_link_used
 
   tags = merge(local.regulatory_compliance_iothub_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

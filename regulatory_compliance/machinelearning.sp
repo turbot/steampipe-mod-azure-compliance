@@ -10,7 +10,6 @@ control "machine_learning_workspace_encrypted_with_cmk" {
   query       = query.machine_learning_workspace_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_machinelearning_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

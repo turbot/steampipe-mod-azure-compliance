@@ -10,7 +10,6 @@ control "mysql_ssl_enabled" {
   query       = query.mysql_ssl_enabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -22,7 +21,6 @@ control "mysql_db_server_geo_redundant_backup_enabled" {
   query       = query.mysql_db_server_geo_redundant_backup_enabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -34,7 +32,6 @@ control "mssql_managed_instance_encryption_at_rest_using_cmk" {
   query       = query.mssql_managed_instance_encryption_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -46,7 +43,6 @@ control "mssql_managed_instance_vulnerability_assessment_enabled" {
   query       = query.mssql_managed_instance_vulnerability_assessment_enabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })
@@ -58,7 +54,6 @@ control "mysql_server_public_network_access_disabled" {
   query       = query.mysql_server_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -69,7 +64,6 @@ control "mysql_server_infrastructure_encryption_enabled" {
   query       = query.mysql_server_infrastructure_encryption_enabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -80,7 +74,6 @@ control "mysql_server_private_link_used" {
   query       = query.mysql_server_private_link_used
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -91,7 +84,6 @@ control "mysql_server_encrypted_at_rest_using_cmk" {
   query       = query.mysql_server_encrypted_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -101,9 +93,7 @@ control "mysql_server_audit_logging_enabled" {
   description = "Enable audit_log_enabled on MySQL Servers."
   query       = query.mysql_server_audit_logging_enabled
 
-  tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_mysql_common_tags
 }
 
 control "mysql_server_audit_logging_events_connection_set" {
@@ -111,9 +101,7 @@ control "mysql_server_audit_logging_events_connection_set" {
   description = "Set audit_log_enabled to include CONNECTION on MySQL Servers."
   query       = query.mysql_server_audit_logging_events_connection_set
 
-  tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_mysql_common_tags
 }
 
 control "mysql_server_min_tls_1_2" {
@@ -121,9 +109,7 @@ control "mysql_server_min_tls_1_2" {
   description = "Ensure TLS version on MySQL flexible servers is set to the default value."
   query       = query.mysql_server_min_tls_1_2
 
-  tags = merge(local.regulatory_compliance_mysql_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_mysql_common_tags
 }
 
 query "mysql_ssl_enabled" {

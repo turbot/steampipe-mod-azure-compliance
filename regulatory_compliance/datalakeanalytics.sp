@@ -10,7 +10,6 @@ control "datalake_analytics_account_logging_enabled" {
   query       = query.datalake_analytics_account_logging_enabled
 
   tags = merge(local.regulatory_compliance_datalakeanalytics_common_tags, {
-    controls_by_service  = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
   })

@@ -40,7 +40,6 @@ control "container_registry_encrypted_with_cmk" {
   query       = query.container_registry_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    controls_by_service  = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -60,9 +59,7 @@ control "container_registry_admin_user_disabled" {
   description = "Ensure container registry admin user is disabled. This control is non-compliant if admin user is enabled."
   query       = query.container_registry_admin_user_disabled
 
-  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_containerregistry_common_tags
 }
 
 control "container_registry_quarantine_policy_enabled" {
@@ -70,9 +67,7 @@ control "container_registry_quarantine_policy_enabled" {
   description = "Ensure container registry quarantine policy is enabled. This control is non-compliant if quarantine policy is disabled."
   query       = query.container_registry_quarantine_policy_enabled
 
-  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_containerregistry_common_tags
 }
 
 control "container_registry_retention_policy_enabled" {
@@ -80,9 +75,7 @@ control "container_registry_retention_policy_enabled" {
   description = "Ensure container registry retention policy is enabled. This control is non-compliant if retention policy is disabled."
   query       = query.container_registry_retention_policy_enabled
 
-  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_containerregistry_common_tags
 }
 
 control "container_registry_geo_replication_enabled" {
@@ -90,9 +83,7 @@ control "container_registry_geo_replication_enabled" {
   description = "Ensure that container registries are geo-replicated to align with multi-region container deployments."
   query       = query.container_registry_geo_replication_enabled
 
-  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_containerregistry_common_tags
 }
 
 control "container_registry_public_network_access_disabled" {
@@ -100,9 +91,7 @@ control "container_registry_public_network_access_disabled" {
   description = "Ensure that container registries public network access is disabled."
   query       = query.container_registry_public_network_access_disabled
 
-  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_containerregistry_common_tags
 }
 
 control "container_registry_trust_policy_enabled" {
@@ -110,9 +99,7 @@ control "container_registry_trust_policy_enabled" {
   description = "Ensure container registry trust policy is enabled. This control is non-compliant if trust policy is disabled."
   query       = query.container_registry_trust_policy_enabled
 
-  tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
-    controls_by_service = "true"
-  })
+  tags = local.regulatory_compliance_containerregistry_common_tags
 }
 
 query "container_registry_encrypted_with_cmk" {

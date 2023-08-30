@@ -136,7 +136,7 @@ control "iam_user_with_owner_permission_on_subscription_mfa_enabled" {
 }
 
 control "iam_no_custom_subscription_owner_roles_created" {
-  title       = "Ensure That No Custom Subscription Administrator Roles Exist"
+  title       = "Ensure that no Custom Subscription Administrator roles exist"
   description = "The principle of least privilege should be followed and only necessary privileges should be assigned instead of allowing full administrative access."
   query       = query.iam_no_custom_subscription_owner_roles_created
 
@@ -144,7 +144,7 @@ control "iam_no_custom_subscription_owner_roles_created" {
 }
 
 control "iam_conditional_access_mfa_enabled" {
-  title       = "Ensure Multi-factor Authentication is Required for Azure Management"
+  title       = "Ensure Multi-factor Authentication is required for Azure Management"
   description = "For designated users, they will be prompted to use their multi-factor authentication (MFA) process on logins."
   query       = query.iam_conditional_access_mfa_enabled
 
@@ -161,7 +161,7 @@ control "iam_user_not_allowed_to_create_security_group" {
 }
 
 control "iam_user_not_allowed_to_register_application" {
-  title       = "Ensure That 'Users Can Register Applications' Is Set to 'No'"
+  title       = "Ensure that 'Users Can Register Applications' is set to 'No'"
   description = "Require administrators or appropriately delegated users to register third-party applications."
   query       = query.iam_user_not_allowed_to_register_application
 

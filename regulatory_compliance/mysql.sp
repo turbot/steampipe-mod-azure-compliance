@@ -90,7 +90,7 @@ control "mysql_server_encrypted_at_rest_using_cmk" {
 
 control "mysql_server_audit_logging_enabled" {
   title       = "Ensure server parameter 'audit_log_enabled' is set to 'ON' for MySQL Database Server"
-  description = "Enable audit_log_enabled on MySQL Servers."
+  description = "Enable audit logging on MySQL Servers."
   query       = query.mysql_server_audit_logging_enabled
 
   tags = local.regulatory_compliance_mysql_common_tags

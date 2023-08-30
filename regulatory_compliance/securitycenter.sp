@@ -176,7 +176,7 @@ control "securitycenter_asc_default_setting_not_disabled" {
 }
 
 control "securitycenter_azure_defender_on_for_cosmosdb" {
-  title       = "Ensure That Microsoft Defender for Azure Cosmos DB Is Set To 'On'"
+  title       = "Ensure That Microsoft Defender for Azure Cosmos DB is set to 'On'"
   description = "Microsoft Defender for Azure Cosmos DB scans all incoming network requests for threats to your Azure Cosmos DB resources."
   query       = query.securitycenter_azure_defender_on_for_cosmosdb
 
@@ -184,7 +184,7 @@ control "securitycenter_azure_defender_on_for_cosmosdb" {
 }
 
 control "securitycenter_azure_defender_on_for_database" {
-  title       = "Ensure That Microsoft Defender for Databases Is Set To 'On'"
+  title       = "Ensure That Microsoft Defender for Databases is set to 'On'"
   description = "Turning on Microsoft Defender for Databases enables threat detection for the instances running your database software. This provides threat intelligence, anomaly detection, and behavior analytics in the Azure Microsoft Defender for Cloud. Instead of being enabled on services like Platform as a Service (PaaS), this implementation will run within your instances as Infrastructure as a Service (IaaS) on the Operating Systems hosting your databases."
   query       = query.securitycenter_azure_defender_on_for_database
 
@@ -192,7 +192,7 @@ control "securitycenter_azure_defender_on_for_database" {
 }
 
 control "securitycenter_azure_defender_on_for_opensource_relational_db" {
-  title       = "Ensure That Microsoft Defender for Open-Source Relational Databases Is Set To 'On'"
+  title       = "Ensure That Microsoft Defender for Open-Source Relational Databases is set to 'On'"
   description = "Turning on Microsoft Defender for Open-source relational databases enables threat detection for Open-source relational databases, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud."
   query       = query.securitycenter_azure_defender_on_for_opensource_relational_db
 
@@ -200,7 +200,7 @@ control "securitycenter_azure_defender_on_for_opensource_relational_db" {
 }
 
 control "securitycenter_mcas_integration" {
-  title       = "Ensure that Microsoft Defender for Cloud Apps (MCAS) Integration with Microsoft Defender for Cloud is Selected"
+  title       = "Ensure that Microsoft Defender for Cloud Apps (MCAS) Integration with Microsoft Defender for Cloud is selected"
   description = "This setting enables Microsoft Defender for Cloud Apps (MCAS) integration with Microsoft Defender for Cloud."
   query       = query.securitycenter_mcas_integration
 

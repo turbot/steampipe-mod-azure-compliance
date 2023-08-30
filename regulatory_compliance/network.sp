@@ -132,7 +132,7 @@ control "network_subnet_protected_by_firewall" {
 }
 
 control "network_bastion_host_min_1" {
-  title       = "Ensure an Azure Bastion Host Exists"
+  title       = "Ensure an Azure Bastion Host exists"
   description = "The Azure Bastion service allows secure remote access to Azure Virtual Machines over the Internet without exposing remote access protocol ports and services directly to the Internet. The Azure Bastion service provides this access using TLS over 443/TCP, and subscribes to hardened configurations within an organization's Azure Active Directory service."
   query       = query.network_bastion_host_min_1
 

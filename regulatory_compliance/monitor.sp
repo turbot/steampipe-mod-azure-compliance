@@ -212,8 +212,8 @@ control "monitor_logs_storage_container_insights_operational_logs_encrypted_with
 }
 
 control "monitor_logs_storage_container_insights_operational_logs_not_public_accessible" {
-  title       = "Ensure the storage container storing the activity logs is not publicly accessible"
-  description = "The storage account container containing the activity log export should not be publicly accessible."
+  title       = "Ensure the storage container storing the operational logs is not publicly accessible"
+  description = "The storage account container containing the operational log export should not be publicly accessible."
   query       = query.monitor_logs_storage_container_insights_operational_logs_not_public_accessible
 
   tags = local.regulatory_compliance_monitor_common_tags

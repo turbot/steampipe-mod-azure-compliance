@@ -2,7 +2,7 @@
 
 _Breaking changes_
 
-- The `Other Compliance Checks` benchmark has been removed and 353 service specific controls are now placed under `All Controls` benchmark. (`steampipe check benchmark.all_controls`) ([#212](https://github.com/turbot/steampipe-mod-azure-compliance/pull/212))
+- The `Other Compliance Checks` benchmark (`steampipe check benchmark.other_checks`) has been removed and replaced by the new `All Controls` benchmark (`steampipe check benchmark.all_controls`). This new benchmark includes 353 service-specific controls. ([#212](https://github.com/turbot/steampipe-mod-azure-compliance/pull/212))
 
 ## v0.34 [2023-08-10]
 

@@ -25,7 +25,7 @@ benchmark "hipaa_hitrust_v92_1451_05icsporganizational" {
   title       = "1451.05iCSPOrganizational.2-05.i 05.02 External Parties"
   description = "Cloud service providers design and implement controls to mitigate and contain data security risks through proper separation of duties, role-based access, and least-privilege access for all personnel within their supply chain."
   children = [
-    control.azure_redis_cache_ssl_enabled
+    control.redis_cache_ssl_enabled
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {

@@ -127,9 +127,7 @@ control "compute_vm_scale_set_logging_enabled" {
   description = "It is recommended to enable Logs so that activity trail can be recreated when investigations are required in the event of an incident or a compromise."
   query       = query.compute_vm_scale_set_logging_enabled
 
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_compute_common_tags
 }
 
 control "compute_vm_meet_system_audit_policies_requirement_windows" {
@@ -634,15 +632,15 @@ control "compute_vm_meet_security_baseline_requirements_windows" {
   })
 }
 
-control "compute_vm_log_analytics_agent_health_issues_resolved" {
-  title       = "Log Analytics agent health issues should be resolved on your machines"
-  description = "Security Center uses the Log Analytics agent, formerly known as the Microsoft Monitoring Agent (MMA). To make sure your virtual machines are successfully monitored, you need to make sure the agent is installed on the virtual machines and properly collects security events to the configured workspace."
-  query       = query.manual_control
+# control "compute_vm_log_analytics_agent_health_issues_resolved" {
+#   title       = "Log Analytics agent health issues should be resolved on your machines"
+#   description = "Security Center uses the Log Analytics agent, formerly known as the Microsoft Monitoring Agent (MMA). To make sure your virtual machines are successfully monitored, you need to make sure the agent is installed on the virtual machines and properly collects security events to the configured workspace."
+#   query       = query.manual_control
 
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    other_checks = "true"
-  })
-}
+#   tags = merge(local.regulatory_compliance_compute_common_tags, {
+#     other_checks = "true"
+#   })
+# }
 
 control "compute_vm_vulnerability_findings_resolved_for_sql_server" {
   title       = "SQL servers on machines should have vulnerability findings resolved"
@@ -729,7 +727,7 @@ control "compute_vm_image_builder_uses_private_link" {
 control "compute_os_and_data_disk_encrypted_with_cmk" {
   title       = "OS and data disks should be encrypted with a customer-managed key"
   description = "Use customer-managed keys to manage the encryption at rest of the contents of your managed disks. By default, the data is encrypted at rest with platform-managed keys, but customer-managed keys are commonly required to meet regulatory compliance standards. Customer-managed keys enable the data to be encrypted with an Azure Key Vault key created and owned by you. You have full control and responsibility for the key lifecycle, including rotation and management. Learn more at https://aka.ms/disks-cmk."
-  query       = query.manual_control
+  query       = query.compute_os_and_data_disk_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -741,9 +739,7 @@ control "compute_vm_data_and_os_disk_uses_managed_disk" {
   description = "This control checks whether virtual machines use managed disks for OS and data disks."
   query       = query.compute_vm_data_and_os_disk_uses_managed_disk
 
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_compute_common_tags
 }
 
 control "compute_vm_scale_set_automatic_upgrade_enabled" {
@@ -751,9 +747,7 @@ control "compute_vm_scale_set_automatic_upgrade_enabled" {
   description = "This control checks whether virtual machine scale sets have automatic OS image patching enabled."
   query       = query.compute_vm_scale_set_automatic_upgrade_enabled
 
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_compute_common_tags
 }
 
 control "compute_vm_scale_set_ssh_key_authentication_linux" {
@@ -761,9 +755,23 @@ control "compute_vm_scale_set_ssh_key_authentication_linux" {
   description = "This control checks whether virtual machine scale sets have SSH key authentication enabled. This control is only applicable for Linux-type operating systems."
   query       = query.compute_vm_scale_set_ssh_key_authentication_linux
 
-  tags = merge(local.regulatory_compliance_compute_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_compute_common_tags
+}
+
+control "compute_unattached_disk_encrypted_with_cmk" {
+  title       = "Ensure that 'Unattached disks' are encrypted with 'Customer Managed Key' (CMK)"
+  description = "Ensure that unattached disks in a subscription are encrypted with a Customer Managed Key (CMK)."
+  query       = query.compute_unattached_disk_encrypted_with_cmk
+
+  tags = local.regulatory_compliance_compute_common_tags
+}
+
+control "compute_vm_utilizing_managed_disk" {
+  title       = "Ensure Virtual Machines are utilizing Managed Disks"
+  description = "Migrate BLOB based VHD's to Managed Disks on Virtual Machines to exploit the default features of this configuration."
+  query       = query.compute_vm_utilizing_managed_disk
+
+  tags = local.regulatory_compliance_compute_common_tags
 }
 
 query "compute_os_and_data_disk_encrypted_with_cmk" {

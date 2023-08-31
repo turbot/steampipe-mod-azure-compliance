@@ -40,9 +40,7 @@ control "mariadb_server_ssl_enabled" {
   description = "This control checks whether MariaDB servers SSL enforcement is enabled. This control is non-compliant if SSL enforcement is disabled."
   query       = query.mariadb_server_ssl_enabled
 
-  tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_postgres_common_tags
 }
 
 query "mariadb_server_geo_redundant_backup_enabled" {

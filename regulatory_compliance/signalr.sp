@@ -19,9 +19,7 @@ control "signalr_service_no_free_tier_sku" {
   description = "This control checks whether SignalR service uses paid SKU for its SLA."
   query       = query.signalr_service_no_free_tier_sku
 
-  tags = merge(local.regulatory_compliance_signalr_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_signalr_common_tags
 }
 
 query "signalr_service_private_link_used" {

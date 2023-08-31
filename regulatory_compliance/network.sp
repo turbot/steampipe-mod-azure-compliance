@@ -102,9 +102,7 @@ control "network_virtual_network_gateway_no_basic_sku" {
   description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
   query       = query.network_virtual_network_gateway_no_basic_sku
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    cis = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_lb_no_basic_sku" {
@@ -112,9 +110,7 @@ control "network_lb_no_basic_sku" {
   description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
   query       = query.network_lb_no_basic_sku
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    cis = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_public_ip_no_basic_sku" {
@@ -122,9 +118,7 @@ control "network_public_ip_no_basic_sku" {
   description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
   query       = query.network_public_ip_no_basic_sku
 
-  tags = merge(local.regulatory_compliance_network_common_tags, {
-    cis = "true"
-  })
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_subnet_protected_by_firewall" {
@@ -135,6 +129,47 @@ control "network_subnet_protected_by_firewall" {
   tags = merge(local.regulatory_compliance_network_common_tags, {
     nist_sp_800_53_rev_5 = "true"
   })
+}
+
+control "network_bastion_host_min_1" {
+  title       = "Ensure an Azure Bastion Host exists"
+  description = "The Azure Bastion service allows secure remote access to Azure Virtual Machines over the Internet without exposing remote access protocol ports and services directly to the Internet. The Azure Bastion service provides this access using TLS over 443/TCP, and subscribes to hardened configurations within an organization's Azure Active Directory service."
+  query       = query.network_bastion_host_min_1
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_https_access_restricted" {
+  title       = "Ensure that HTTP(S) access from the Internet is evaluated and restricted"
+  description = "Network security groups should be periodically evaluated for port misconfigurations. Where certain ports and protocols may be exposed to the Internet, they should be evaluated for necessity and restricted wherever they are not explicitly required and narrowly configured."
+  query       = query.network_security_group_https_access_restricted
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_ssh_access_restricted" {
+  title       = "Ensure that SSH access is restricted from the internet"
+  description = "Disable SSH access on network security groups from the Internet."
+  query       = query.network_security_group_ssh_access_restricted
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_udp_service_restricted" {
+  title       = "Ensure that UDP Services are restricted from the Internet"
+  description = "Disable Internet exposed UDP ports on network security groups."
+  query       = query.network_security_group_udp_service_restricted
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+
+control "network_sg_flowlog_retention_period_greater_than_90" {
+  title       = "Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'"
+  description = "Network Security Group Flow Logs should be enabled and the retention period is set to greater than or equal to 90 days."
+  query       = query.network_sg_flowlog_retention_period_greater_than_90
+
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 query "network_security_group_remote_access_restricted" {

@@ -21,9 +21,7 @@ control "appservice_web_app_remote_debugging_disabled" {
   description = "Remote debugging requires inbound ports to be opened on a web application. Remote debugging should be turned off."
   query       = query.appservice_web_app_remote_debugging_disabled
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_function_app_remote_debugging_disabled" {
@@ -53,9 +51,7 @@ control "appservice_web_app_latest_tls_version" {
   description = "Upgrade to the latest TLS version."
   query       = query.appservice_web_app_latest_tls_version
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_function_app_only_https_accessible" {
@@ -150,9 +146,7 @@ control "appservice_api_app_uses_managed_identity" {
   description = "Use a managed identity for enhanced authentication security."
   query       = query.appservice_api_app_uses_managed_identity
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_api_app_cors_no_star" {
@@ -214,9 +208,7 @@ control "appservice_web_app_ftps_enabled" {
   description = "Enable FTPS enforcement for enhanced security."
   query       = query.appservice_web_app_ftps_enabled
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_function_app_client_certificates_on" {
@@ -284,9 +276,7 @@ control "appservice_function_app_latest_java_version" {
   description = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for Function apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
   query       = query.appservice_function_app_latest_java_version
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_latest_java_version" {
@@ -294,9 +284,7 @@ control "appservice_web_app_latest_java_version" {
   description = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
   query       = query.appservice_web_app_latest_java_version
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_latest_php_version" {
@@ -304,9 +292,7 @@ control "appservice_web_app_latest_php_version" {
   description = "Periodically, newer versions are released for PHP software either due to security flaws or to include additional functionality. Using the latest PHP version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
   query       = query.appservice_web_app_latest_php_version
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_function_app_latest_python_version" {
@@ -314,9 +300,7 @@ control "appservice_function_app_latest_python_version" {
   description = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest Python version for Function apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
   query       = query.appservice_function_app_latest_python_version
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_latest_python_version" {
@@ -324,9 +308,7 @@ control "appservice_web_app_latest_python_version" {
   description = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest Python version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version. Currently, this policy only applies to Linux web apps."
   query       = query.appservice_web_app_latest_python_version
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_latest_dotnet_framework_version" {
@@ -334,9 +316,7 @@ control "appservice_web_app_latest_dotnet_framework_version" {
   description = "Periodically, newer versions are released for Net Framework software either due to security flaws or to include additional functionality. Using the latest Net Framework for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the latest version."
   query       = query.appservice_web_app_latest_dotnet_framework_version
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_failed_request_tracing_enabled" {
@@ -344,9 +324,7 @@ control "appservice_web_app_failed_request_tracing_enabled" {
   description = "Ensure that Web app enables failed request tracing. This control is non-compliant if Web app failed request tracing is disabled."
   query       = query.appservice_web_app_failed_request_tracing_enabled
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_http_logs_enabled" {
@@ -354,9 +332,7 @@ control "appservice_web_app_http_logs_enabled" {
   description = "Ensure that Web app HTTP logs is enabled. This control is non-compliant if Web app HTTP logs is disabled."
   query       = query.appservice_web_app_http_logs_enabled
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_worker_more_than_one" {
@@ -364,9 +340,7 @@ control "appservice_web_app_worker_more_than_one" {
   description = "It is recommended to have more than one worker for failover. This control is non-compliant if Web apps have one or less than one worker."
   query       = query.appservice_web_app_worker_more_than_one
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_slot_use_https" {
@@ -374,9 +348,7 @@ control "appservice_web_app_slot_use_https" {
   description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
   query       = query.appservice_web_app_slot_use_https
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_always_on" {
@@ -384,9 +356,7 @@ control "appservice_web_app_always_on" {
   description = "This control ensures that a web app is configured with settings to keep it consistently active. Always On feature of Azure App Service, keeps the host process running. This allows your site to be more responsive to requests after significant idle periods."
   query       = query.appservice_web_app_always_on
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_plan_minimum_sku" {
@@ -394,9 +364,7 @@ control "appservice_plan_minimum_sku" {
   description = "The Free, Shared, and Basic plans are suitable for constrained testing and development purposes. This control is considered non-compliant when free, shared, or basic SKUs are utilized."
   query       = query.appservice_plan_minimum_sku
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 control "appservice_web_app_health_check_enabled" {
@@ -404,9 +372,39 @@ control "appservice_web_app_health_check_enabled" {
   description = "Health check increases your application's availability by rerouting requests away from unhealthy instances and replacing instances if they remain unhealthy."
   query       = query.appservice_web_app_health_check_enabled
 
-  tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appservice_common_tags
+}
+
+control "appservice_web_app_incoming_client_cert_on" {
+  title       = "Ensure the web app has 'Client Certificates (Incoming client certificates)' set to 'On'"
+  description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
+  query       = query.appservice_web_app_incoming_client_cert_on
+
+  tags = local.regulatory_compliance_appservice_common_tags
+}
+
+control "appservice_authentication_enabled" {
+  title       = "Ensure App Service authentication is set up for apps in Azure App Service"
+  description = "Azure App Service authentication is a feature that can prevent anonymous HTTP requests from reaching a Web Application or authenticate those with tokens before they reach the app. If an anonymous request is received from a browser, App Service will redirect to a logon page. To handle the logon process, a choice from a set of identity providers can be made, or a custom authentication mechanism can be implemented."
+  query       = query.appservice_authentication_enabled
+
+  tags = local.regulatory_compliance_appservice_common_tags
+}
+
+control "appservice_ftp_deployment_disabled" {
+  title       = "Ensure FTP deployments are Disabled"
+  description = "By default, Azure Functions, Web, and API Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Service Apps and Functions."
+  query       = query.appservice_ftp_deployment_disabled
+
+  tags = local.regulatory_compliance_appservice_common_tags
+}
+
+control "appservice_web_app_register_with_active_directory_enabled" {
+  title       = "Ensure that Register with Azure Active Directory is enabled on App Service"
+  description = "Managed service identity in App Service provides more security by eliminating secrets from the app, such as credentials in the connection strings. When registering with Azure Active Directory in App Service, the app will connect to other Azure services securely without the need for usernames and passwords."
+  query       = query.appservice_web_app_register_with_active_directory_enabled
+
+  tags = local.regulatory_compliance_appservice_common_tags
 }
 
 query "appservice_web_app_use_https" {

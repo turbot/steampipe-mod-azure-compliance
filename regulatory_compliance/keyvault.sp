@@ -71,9 +71,7 @@ control "keyvault_vault_public_network_access_disabled" {
   description = "Disable public network access for your key vault so that it's not accessible over the public internet. This can reduce data leakage risks."
   query       = query.keyvault_vault_public_network_access_disabled
 
-  tags = merge(local.regulatory_compliance_keyvault_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_keyvault_common_tags
 }
 
 control "keyvault_key_expiration_set" {
@@ -124,6 +122,54 @@ control "keyvault_certificate_validity_12_months" {
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
     nist_sp_800_53_rev_5 = "true"
   })
+}
+
+control "keyvault_rbac_enabled" {
+  title       = "Enable Role Based Access Control for Azure Key Vault"
+  description = "Role assignments disappear when a Key Vault has been deleted (soft- delete) and recovered. Afterwards it will be required to recreate all role assignments. This is a limitation of the soft-delete feature across all Azure services."
+  query       = query.keyvault_rbac_enabled
+
+  tags = local.regulatory_compliance_keyvault_common_tags
+}
+
+control "keyvault_with_non_rbac_key_expiration_set" {
+  title       = "Ensure that the Expiration Date is set for all Keys in Non-RBAC Key Vaults"
+  description = "Ensure that all Keys in Non Role Based Access Control (RBAC) Azure Key Vaults have an expiration time set."
+  query       = query.keyvault_with_non_rbac_key_expiration_set
+
+  tags = local.regulatory_compliance_keyvault_common_tags
+}
+
+control "keyvault_vault_recoverable" {
+  title       = "Ensure the key vault is recoverable"
+  description = "The key vault contains object keys, secrets and certificates. Accidental unavailability of a key vault can cause immediate data loss or loss of security functions (authentication, validation, verification, non-repudiation, etc.) supported by the key vault objects. It is recommended the key vault be made recoverable by enabling the \"Do Not Purge\" and \"Soft Delete\" functions."
+  query       = query.keyvault_vault_recoverable
+
+  tags = local.regulatory_compliance_keyvault_common_tags
+}
+
+control "keyvault_with_non_rbac_secret_expiration_set" {
+  title       = "Ensure that the Expiration Date is set for all Secrets in Non-RBAC Key Vaults"
+  description = "Ensure that all Secrets in Non Role Based Access Control (RBAC) Azure Key Vaults have an expiration time set."
+  query       = query.keyvault_with_non_rbac_secret_expiration_set
+
+  tags = local.regulatory_compliance_keyvault_common_tags
+}
+
+control "keyvault_with_rbac_key_expiration_set" {
+  title       = "Ensure that the Expiration Date is set for all Keys in RBAC Key Vaults"
+  description = "Ensure that all Keys in Role Based Access Control (RBAC) Azure Key Vaults have an expiration date set."
+  query       = query.keyvault_with_rbac_key_expiration_set
+
+  tags = local.regulatory_compliance_keyvault_common_tags
+}
+
+control "keyvault_with_rbac_secret_expiration_set" {
+  title       = "Ensure that the Expiration Date is set for all Secrets in RBAC Key Vaults"
+  description = "Ensure that all Secrets in Role Based Access Control (RBAC) Azure Key Vaults have an expiration date set."
+  query       = query.keyvault_with_rbac_secret_expiration_set
+
+  tags = local.regulatory_compliance_keyvault_common_tags
 }
 
 query "keyvault_purge_protection_enabled" {

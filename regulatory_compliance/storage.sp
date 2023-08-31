@@ -120,6 +120,62 @@ control "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
   })
 }
 
+control "storage_account_blob_containers_public_access_private" {
+  title       = "Ensure that 'Public access level' is set to Private for blob containers"
+  description = "Disable anonymous access to blob containers and disallow blob public access on storage account."
+  query       = query.storage_account_blob_containers_public_access_private
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_blob_service_logging_enabled" {
+  title       = "Ensure Storage logging is enabled for Blob service for read, write, and delete requests"
+  description = "The Storage Blob service provides scalable, cost-efficient objective storage in the cloud. Storage Logging happens server-side and allows details for both successful and failed requests to be recorded in the storage account. These logs allow users to see the details of read, write, and delete operations against the blobs. Storage Logging log entries contain the following information about individual requests: Timing information such as start time, end-to-end latency, and server latency, authentication details, concurrency information, and the sizes of the request and response messages."
+  query       = query.storage_account_blob_service_logging_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_table_service_logging_enabled" {
+  title       = "Ensure Storage Logging is Enabled for Table Service for 'Read', 'Write', and 'Delete' requests"
+  description = "Azure Table storage is a service that stores structured NoSQL data in the cloud, providing a key/attribute store with a schema-less design. Storage Logging happens server-side and allows details for both successful and failed requests to be recorded in the storage account. These logs allow users to see the details of read, write, and delete operations against the tables. Storage Logging log entries contain the following information about individual requests: timing information such as start time, end-to-end latency, and server latency; authentication details; concurrency information; and the sizes of the request and response messages."
+  query       = query.storage_account_table_service_logging_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_min_tls_1_2" {
+  title       = "Ensure the 'Minimum TLS version' for storage accounts is set to 'Version 1.2'"
+  description = "In some cases, Azure Storage sets the minimum TLS version to be version 1.0 by default. TLS 1.0 is a legacy version and has known vulnerabilities. This minimum TLS version can be configured to be later protocols such as TLS 1.2."
+  query       = query.storage_account_min_tls_1_2
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_queue_services_logging_enabled" {
+  title       = "Ensure Storage logging is enabled for Queue service for read, write, and delete requests"
+  description = "The Storage Queue service stores messages that may be read by any client who has access to the storage account. A queue can contain an unlimited number of messages, each of which can be up to 64KB in size using version 2011-08-18 or newer. Storage Logging happens server-side and allows details for both successful and failed requests to be recorded in the storage account. These logs allow users to see the details of read, write, and delete operations against the queues. Storage Logging log entries contain the following information about individual requests: Timing information such as start time, end-to-end latency, and server latency, authentication details, concurrency information, and the sizes of the request and response messages."
+  query       = query.storage_account_queue_services_logging_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_soft_delete_enabled" {
+  title       = "Ensure soft delete is enabled for Azure Storage"
+  description = "The Azure Storage blobs contain data like ePHI, Financial, secret or personal. Erroneously modified or deleted accidentally by an application or other storage account user cause data loss or data unavailability. It is recommended the Azure Storage be made recoverable by enabling soft delete configuration. This is to save and recover data when blobs or blob snapshots are deleted."
+  query       = query.storage_account_soft_delete_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_trusted_microsoft_services_enabled" {
+  title       = "Ensure 'Allow Azure services on the trusted services list to access this storage account' is Enabled for Storage Account Access"
+  description = "Some Azure services that interact with storage accounts operate from networks that can't be granted access through network rules. To help this type of service work as intended, allow the set of trusted Azure services to bypass the network rules. These services will then use strong authentication to access the storage account."
+  query       = query.storage_account_trusted_microsoft_services_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select

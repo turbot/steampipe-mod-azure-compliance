@@ -39,9 +39,7 @@ control "synapse_workspace_data_exfiltration_protection_enabled" {
   description = "This control checks whether Synapse workspace has data exfiltration protection enabled."
   query       = query.synapse_workspace_data_exfiltration_protection_enabled
 
-  tags = merge(local.regulatory_compliance_synapse_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_synapse_common_tags
 }
 
 query "synapse_workspace_private_link_used" {

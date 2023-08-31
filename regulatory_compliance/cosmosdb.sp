@@ -49,9 +49,14 @@ control "cosmosdb_account_key_based_metadata_write_access_disabled" {
   description = "Ensure Cosmos DB accounts have key-based metadata write_access disabled. This control is non-compliant if Cosmos DB accounts have key-based metadata write access enabled."
   query       = query.cosmosdb_account_key_based_metadata_write_access_disabled
 
-  tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_cosmosdb_common_tags
+}
+
+control "cosmosdb_account_virtual_network_filter_enabled" {
+  title         = "Ensure That 'Firewalls & Networks' Is Limited to Use Selected Networks Instead of All Networks"
+  query         = query.cosmosdb_account_virtual_network_filter_enabled
+
+  tags = local.regulatory_compliance_cosmosdb_common_tags
 }
 
 query "cosmosdb_use_virtual_service_endpoint" {

@@ -29,9 +29,7 @@ control "eventgrid_domain_restrict_public_access" {
   description = "Ensure that Event Grid Domain public network access is disabled. This control is non-compliant if Event Grid domains have public network access enabled."
   query       = query.eventgrid_domain_restrict_public_access
 
-  tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_eventgrid_common_tags
 }
 
 control "eventgrid_domain_identity_provider_enabled" {
@@ -39,9 +37,7 @@ control "eventgrid_domain_identity_provider_enabled" {
   description = "Ensure that managed identity provider is enabled for Event Grid Domain. This control is non-compliant if Event Grid domain identity provider is disabled."
   query       = query.eventgrid_domain_identity_provider_enabled
 
-  tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_eventgrid_common_tags
 }
 
 control "eventgrid_topic_local_auth_enabled" {
@@ -49,9 +45,7 @@ control "eventgrid_topic_local_auth_enabled" {
   description = "This control checks if Event Grid topics have local authentication enabled."
   query       = query.eventgrid_topic_local_auth_enabled
 
-  tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_eventgrid_common_tags
 }
 
 control "eventgrid_topic_identity_provider_enabled" {
@@ -59,9 +53,7 @@ control "eventgrid_topic_identity_provider_enabled" {
   description = "Ensure that managed identity provider is enabled for the Event Grid Topic. This control is non-compliant if Event Grid topic identity provider is disabled."
   query       = query.eventgrid_topic_identity_provider_enabled
 
-  tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_eventgrid_common_tags
 }
 
 query "eventgrid_domain_private_link_used" {

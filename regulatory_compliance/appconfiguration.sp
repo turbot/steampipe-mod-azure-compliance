@@ -19,9 +19,7 @@ control "app_configuration_sku_standard" {
   description = "Ensure that App Configuration uses standard SKU tier. This control is non-compliant if App Configuration does not use standard SKU."
   query       = query.app_configuration_sku_standard
 
-  tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appconfiguration_common_tags
 }
 
 control "app_configuration_encryption_enabled" {
@@ -29,9 +27,7 @@ control "app_configuration_encryption_enabled" {
   description = "Enabling App Configuration encryption helps protect and safeguard your data to meet your organizational security and compliance commitments."
   query       = query.app_configuration_encryption_enabled
 
-  tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_appconfiguration_common_tags
 }
 
 query "app_configuration_private_link_used" {

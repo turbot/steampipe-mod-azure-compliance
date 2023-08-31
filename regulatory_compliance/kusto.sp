@@ -39,9 +39,7 @@ control "kusto_cluster_sku_with_sla" {
   description = "This control checks if Kusto clusters use SKU with an SLA. This control is considered non-compliant if Kusto clusters use SKUs without an SLA."
   query       = query.kusto_cluster_sku_with_sla
 
-  tags = merge(local.regulatory_compliance_kusto_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kusto_common_tags
 }
 
 query "kusto_cluster_encrypted_at_rest_with_cmk" {

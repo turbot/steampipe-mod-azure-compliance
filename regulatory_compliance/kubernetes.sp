@@ -210,9 +210,7 @@ control "kubernetes_cluster_restrict_public_access" {
   description = "Ensure that Kubernetes cluster enables private clusters to restrict public access."
   query       = query.kubernetes_cluster_restrict_public_access
 
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
 control "kubernetes_cluster_addon_azure_policy_enabled" {
@@ -220,9 +218,7 @@ control "kubernetes_cluster_addon_azure_policy_enabled" {
   description = "Ensure that Kubernetes cluster uses Azure Policies Add-on."
   query       = query.kubernetes_cluster_addon_azure_policy_enabled
 
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
 control "kubernetes_cluster_node_restrict_public_access" {
@@ -230,9 +226,7 @@ control "kubernetes_cluster_node_restrict_public_access" {
   description = "Ensure Kubernetes cluster nodes do not have public IP addresses. This control is non-compliant if Kubernetes cluster nodes have a public IP address assigned."
   query       = query.kubernetes_cluster_node_restrict_public_access
 
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
 control "kubernetes_cluster_sku_standard" {
@@ -240,9 +234,7 @@ control "kubernetes_cluster_sku_standard" {
   description = "Ensure that Kubernetes clusters uses standard SKU tier for production workloads. This control is non-compliant if App Configuration does not use standard SKU."
   query       = query.kubernetes_cluster_sku_standard
 
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
 control "kubernetes_cluster_upgrade_channel" {
@@ -250,9 +242,7 @@ control "kubernetes_cluster_upgrade_channel" {
   description = "Ensure Kubernetes clusters upgrade channel is configured. This control is non-compliant if Kubernetes clusters upgrade channel is set to none."
   query       = query.kubernetes_cluster_upgrade_channel
 
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
 control "kubernetes_cluster_logging_enabled" {
@@ -260,9 +250,7 @@ control "kubernetes_cluster_logging_enabled" {
   description = "This control checks if OMS agent is enabled for Kubernetes cluster."
   query       = query.kubernetes_cluster_logging_enabled
 
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
 control "kubernetes_cluster_key_vault_secret_rotation_enabled" {
@@ -270,9 +258,7 @@ control "kubernetes_cluster_key_vault_secret_rotation_enabled" {
   description = "This control checks if key vault secret rotation should is enabled for Kubernetes cluster."
   query       = query.kubernetes_cluster_key_vault_secret_rotation_enabled
 
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
 control "kubernetes_cluster_max_pod_50" {
@@ -280,9 +266,7 @@ control "kubernetes_cluster_max_pod_50" {
   description = "This control checks if Kubernetes clusters is using a minimum number of 50 pods."
   query       = query.kubernetes_cluster_max_pod_50
 
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
 control "kubernetes_cluster_network_policy_enabled" {
@@ -290,9 +274,7 @@ control "kubernetes_cluster_network_policy_enabled" {
   description = "This control checks if network policy is enabled for Kubernetes cluster."
   query       = query.kubernetes_cluster_network_policy_enabled
 
-  tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    other_checks = "true"
-  })
+  tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
 query "kubernetes_instance_rbac_enabled" {

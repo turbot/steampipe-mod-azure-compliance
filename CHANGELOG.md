@@ -1,3 +1,9 @@
+## v0.35 [2023-08-31]
+
+_Breaking changes_
+
+- The `Other Compliance Checks` benchmark has been removed and all service specific controls are now placed under `All Controls` benchmark. ([#212](https://github.com/turbot/steampipe-mod-azure-compliance/pull/212))
+
 ## v0.34 [2023-08-10]
 
 _Enhancements_

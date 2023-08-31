@@ -40,7 +40,7 @@ benchmark "all_controls" {
     benchmark.all_controls_network,
     benchmark.all_controls_postgres,
     benchmark.all_controls_redis,
-    benchmark.all_controls_search,
+    benchmark.all_controls_cognitivesearch,
     benchmark.all_controls_securitycenter,
     benchmark.all_controls_servicebus,
     benchmark.all_controls_servicefabric,

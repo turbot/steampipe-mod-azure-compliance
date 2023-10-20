@@ -2,8 +2,7 @@
 
 _Bug fixes_
 
-- Fix the `README.md` file to include `All Controls` benchmark to the list of supported benchmarks. ([#218](https://github.com/turbot/steampipe-mod-azure-compliance/pull/218)) (Thanks [@vil02](https://github.com/vil02) for the contribution!)
-
+- Fix README to include correct reference to the `All Controls` benchmark. ([#218](https://github.com/turbot/steampipe-mod-azure-compliance/pull/218)) (Thanks [@vil02](https://github.com/vil02) for the contribution!)
 
 ## v0.35 [2023-08-31]
 

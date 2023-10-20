@@ -11,13 +11,13 @@ Or in a terminal:
 ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v130_console.png)
 
 Includes support for:
+* [All Controls](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.all_controls) 🚀 New!
 * [Azure CIS v1.3.0](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v130)
 * [Azure CIS v1.4.0](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v140)
 * [Azure CIS v1.5.0](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v150)
 * [Azure CIS v2.0.0](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.cis_v200)
 * [HIPAA HITRUST 9.2](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.hipaa_hitrust_v92)
 * [NIST SP 800-53 Revision 5](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.nist_sp_800_53_rev_5)
-* [Other Compliance Checks](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.other) 🚀 New!
 * [PCI DSS v3.2.1](https://hub.steampipe.io/mods/turbot/azure_compliance/controls/benchmark.pci_dss_v321)
 
 ## Getting started

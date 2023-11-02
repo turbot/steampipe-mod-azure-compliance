@@ -87,10 +87,10 @@ mod "azure_compliance" {
 
   require {
     plugin "azure" {
-      version = "0.46.0"
+      min_version = "0.46.0"
     }
     plugin "azuread" {
-      version = "0.0.3"
+      min_version = "0.0.3"
     }
   }
 }

@@ -1,3 +1,13 @@
+## v0.37 [2023-11-03]
+
+_Breaking changes_
+
+- Updated the plugin dependency section of the mod to use `min_version` instead of `version`. ([#222](https://github.com/turbot/steampipe-mod-azure-compliance/pull/222))
+
+_Bug fixes_
+
+- Fixed the `compute_vm_tcp_udp_access_restricted_internet` query to ensure internet-facing virtual machines are protected with network security groups. ([#224](https://github.com/turbot/steampipe-mod-azure-compliance/pull/224)) 
+
 ## v0.36 [2023-10-20]
 
 _Bug fixes_

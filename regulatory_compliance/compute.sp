@@ -975,29 +975,47 @@ query "compute_vm_tcp_udp_access_restricted_internet" {
   sql = <<-EOQ
     with network_sg as (
       select
-        distinct name as sg_name,
+        distinct id as sg_id,
+        subscription_id,
         network_interfaces
       from
         azure_network_security_group as nsg,
         jsonb_array_elements(security_rules) as sg,
-        jsonb_array_elements_text(sg -> 'properties' -> 'destinationPortRanges' || (sg -> 'properties' -> 'destinationPortRange') :: jsonb) as dport,
-        jsonb_array_elements_text(sg -> 'properties' -> 'sourceAddressPrefixes' || (sg -> 'properties' -> 'sourceAddressPrefix') :: jsonb) as sip
+        jsonb_array_elements_text(
+          sg -> 'properties' -> 'destinationPortRanges' || (sg -> 'properties' -> 'destinationPortRange') :: jsonb
+        ) as dport,
+        jsonb_array_elements_text(
+          sg -> 'properties' -> 'sourceAddressPrefixes' || (sg -> 'properties' -> 'sourceAddressPrefix') :: jsonb
+        ) as sip
       where
         sg -> 'properties' ->> 'access' = 'Allow'
         and sg -> 'properties' ->> 'direction' = 'Inbound'
         and sg -> 'properties' ->> 'protocol' in ('TCP', 'UDP')
-        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and sip in (
+          '*',
+          '0.0.0.0',
+          '0.0.0.0/0',
+          'Internet',
+          'any',
+          '<nw>/0',
+          '/0'
+        )
         and (
           dport in ('22', '3389', '*')
           or (
             dport like '%-%'
             and (
               (
-              53 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
-              or 123 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
-              or 161 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
-              or 389 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
-              or 1900 between split_part(dport, '-', 1) :: integer and split_part(dport, '-', 2) :: integer
+                53 between split_part(dport, '-', 1) :: integer
+                and split_part(dport, '-', 2) :: integer
+                or 123 between split_part(dport, '-', 1) :: integer
+                and split_part(dport, '-', 2) :: integer
+                or 161 between split_part(dport, '-', 1) :: integer
+                and split_part(dport, '-', 2) :: integer
+                or 389 between split_part(dport, '-', 1) :: integer
+                and split_part(dport, '-', 2) :: integer
+                or 1900 between split_part(dport, '-', 1) :: integer
+                and split_part(dport, '-', 2) :: integer
               )
               or (
                 split_part(dport, '-', 1) :: integer <= 3389
@@ -1010,24 +1028,53 @@ query "compute_vm_tcp_udp_access_restricted_internet" {
             )
           )
         )
-    )
+    ), network_security_group_subnets as (
     select
-      vm.vm_id as resource,
-      case
-        when sg.sg_name is null then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when sg.sg_name is null then vm.title || ' restricts remote access from internet.'
-        else vm.title || ' allows remote access from internet.'
-      end as reason
-      ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      nsg.id as nsg_id,
+      sub ->> 'id' as subnet_id
     from
-      azure_compute_virtual_machine as vm
-      left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
-      join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
+      azure_network_security_group as nsg,
+      jsonb_array_elements(nsg.subnets) as sub
+    where
+      nsg.id in (select sg_id from network_sg )
+  ),
+  virtual_machines_with_access as (
+    select
+      nic.virtual_machine_id as virtual_machine_id
+    from
+      azure_network_interface as nic,
+      jsonb_array_elements(nic.ip_configurations) as config
+      left join network_security_group_subnets as sub on config -> 'properties' -> 'subnet' ->> 'id' = sub.subnet_id
+  where
+    nic.virtual_machine_id is not null
+    and sub.nsg_id is not null
+  union
+    select
+      n.virtual_machine_id as virtual_machine_id
+  from
+    network_sg as nsg,
+    jsonb_array_elements(network_interfaces)  as vm_nic
+    left join azure_network_interface as n on n.id = vm_nic ->> 'id'
+  )
+  select
+    vm.id as resource,
+    case
+      when m.virtual_machine_id is not null then 'alarm'
+      else 'ok'
+    end as status,
+    case
+      when m.virtual_machine_id is not null then vm.title || ' restricts remote access from internet.'
+      else vm.title || ' allows remote access from internet.'
+    end as reason,
+    vm.resource_group as resource_group,
+    sub.display_name as subscription
+    ${local.tag_dimensions_sql}
+    ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+    ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+  from
+    azure_compute_virtual_machine as vm
+    left join virtual_machines_with_access as m on lower(m.virtual_machine_id) = lower(vm.id)
+    join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
   EOQ
 }
 

@@ -287,6 +287,12 @@ query "iam_no_custom_subscription_owner_roles_created" {
 
 query "iam_deprecated_account_with_owner_roles" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id
+      from
+        azure_tenant
+    )
     select
       distinct u.user_principal_name as resource,
       case
@@ -300,7 +306,7 @@ query "iam_deprecated_account_with_owner_roles" {
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      azure_tenant as t,
+      distinct_tenant as t,
       azuread_user as u
       left join azure_role_assignment as a on a.principal_id = u.id
       left join azure_role_definition as d on d.id = a.role_definition_id
@@ -358,6 +364,11 @@ query "iam_external_user_with_owner_role" {
         left join azure_role_assignment as a on a.principal_id = u.id
         left join azure_role_definition as d on d.id = a.role_definition_id
         where d.role_name = 'Owner'
+    ), distinct_tenant as (
+      select
+        distinct tenant_id
+      from
+        azure_tenant
     )
     select
       a.user_principal_name as resource,
@@ -372,7 +383,7 @@ query "iam_external_user_with_owner_role" {
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      azure_tenant as t,
+      distinct_tenant as t,
       all_owner_users as a;
   EOQ
 }
@@ -392,6 +403,11 @@ query "iam_deprecated_account" {
         left join azure_role_assignment as a on a.principal_id = u.id
         left join azure_role_definition as d on d.id = a.role_definition_id
         where not u.account_enabled
+    ), distinct_tenant as (
+      select
+        distinct tenant_id
+      from
+        azure_tenant
     )
     select
       u.user_principal_name as resource,
@@ -406,7 +422,7 @@ query "iam_deprecated_account" {
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      azure_tenant as t,
+      distinct_tenant as t,
       azuread_user as u
       left join disabled_users as d on d.id = u.id;
   EOQ
@@ -427,6 +443,11 @@ query "iam_external_user_with_read_permission" {
         left join azure_role_assignment as a on a.principal_id = u.id
         left join azure_role_definition as d on d.id = a.role_definition_id
         where d.role_name = 'Reader'
+    ), distinct_tenant as (
+      select
+        distinct tenant_id
+      from
+        azure_tenant
     )
     select
       a.user_principal_name as resource,
@@ -441,7 +462,7 @@ query "iam_external_user_with_read_permission" {
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      azure_tenant as t,
+      distinct_tenant as t,
       all_write_permission_users as a;
   EOQ
 }
@@ -462,6 +483,11 @@ query "iam_external_user_with_write_permission" {
         left join azure_role_definition as d on d.id = a.role_definition_id
       where
         d.role_name = any(array['Owner', 'Contributor'])
+    ), distinct_tenant as (
+      select
+        distinct tenant_id
+      from
+        azure_tenant
     )
     select
       a.user_principal_name as resource,
@@ -476,13 +502,19 @@ query "iam_external_user_with_write_permission" {
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      azure_tenant as t,
+      distinct_tenant as t,
       all_write_permission_users as a;
   EOQ
 }
 
 query "iam_conditional_access_mfa_enabled" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id
+      from
+        azure_tenant
+    )
     select
       p.id as resource,
       case
@@ -496,13 +528,19 @@ query "iam_conditional_access_mfa_enabled" {
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      azure_tenant as t,
+      distinct_tenant as t,
       azuread_conditional_access_policy as p;
   EOQ
 }
 
 query "iam_user_not_allowed_to_create_security_group" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id
+      from
+        azure_tenant
+    )
     select
       a.id as resource,
       case
@@ -516,13 +554,19 @@ query "iam_user_not_allowed_to_create_security_group" {
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      azure_tenant as t,
+      distinct_tenant as t,
       azuread_authorization_policy as a;
   EOQ
 }
 
 query "iam_user_not_allowed_to_register_application" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id
+      from
+        azure_tenant
+    )
     select
       a.id as resource,
       case
@@ -536,7 +580,7 @@ query "iam_user_not_allowed_to_register_application" {
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      azure_tenant as t,
+      distinct_tenant as t,
       azuread_authorization_policy as a;
   EOQ
 }

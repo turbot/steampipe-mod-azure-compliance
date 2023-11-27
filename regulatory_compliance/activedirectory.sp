@@ -14,6 +14,12 @@ control "ad_guest_user_reviewed_monthly" {
 
 query "ad_guest_user_reviewed_monthly" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id
+      from
+        azure_tenant
+    )
     select
       u.display_name as resource,
       case
@@ -29,7 +35,7 @@ query "ad_guest_user_reviewed_monthly" {
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azuread_user as u
-      left join azure_tenant as t on t.tenant_id = u.tenant_id
+      left join distinct_tenant as t on t.tenant_id = u.tenant_id
     where
       u.user_type = 'Guest';
   EOQ

@@ -1,3 +1,9 @@
+## v0.38 [2023-11-27]
+
+_Bug fixes_
+
+- Fixed `ad_guest_user_reviewed_monthly`, `iam_deprecated_account_with_owner_roles`, `iam_external_user_with_read_permission`, `iam_external_user_with_write_permission`, `iam_user_not_allowed_to_create_security_group` and `iam_user_not_allowed_to_register_application` queries to remove duplicate benchmark results. ([#228](https://github.com/turbot/steampipe-mod-azure-compliance/pull/228))
+
 ## v0.37 [2023-11-03]
 
 _Breaking changes_

@@ -64,7 +64,7 @@ benchmark "cis_v150_2_1" {
 
 
 control "cis_v150_2_1_1" {
-  title         = "2.1.1 Ensure That Microsoft Defender for Servers Is Set to 'On''"
+  title         = "2.1.1 Ensure That Microsoft Defender for Servers Is Set to 'On'"
   description   = "Turning on Microsoft Defender for Servers enables threat detection for Servers, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud."
   query         = query.securitycenter_azure_defender_on_for_server
   documentation = file("./cis_v150/docs/cis_v150_2_1_1.md")

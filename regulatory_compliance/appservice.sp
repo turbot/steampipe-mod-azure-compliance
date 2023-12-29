@@ -1821,3 +1821,60 @@ query "appservice_web_app_health_check_enabled" {
       sub.subscription_id = a.subscription_id;
   EOQ
 }
+
+query "appservice_function_app_authentication_on" {
+  sql = <<-EOQ
+    select
+      fa.id as resource,
+      case
+        when auth_settings -> 'properties' ->> 'enabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when auth_settings -> 'properties' ->> 'enabled' = 'true' then name || ' authentication enabled.'
+        else name || ' authentication disabled.'
+      end as reason
+    --${local.tag_dimensions_sql}
+    --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
+    --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app fa,
+      azure_subscription sub
+    where
+      sub.subscription_id = fa.subscription_id
+  EOQ
+}
+
+query "appservice_function_app_publicly_accessible" {
+  sql = <<-EOQ
+    with public_function_app as (
+      select
+        id
+      from
+        azure_app_service_function_app,
+        jsonb_array_elements(configuration -> 'properties' -> 'ipSecurityRestrictions') as r
+      where
+        r ->> 'ipAddress' = 'Any'
+        and r ->> 'action' = 'Allow'
+    )
+    select
+      fa.id as resource,
+      case
+        when p.id is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.id is null then name || ' not publicly accessible.'
+        else name || ' publicly accessible.'
+      end as reason
+    --${local.tag_dimensions_sql}
+    --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
+    --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app fa
+      left join public_function_app as p on p.id = fa.id,
+      azure_subscription sub
+    where
+      sub.subscription_id = fa.subscription_id;
+  EOQ
+}

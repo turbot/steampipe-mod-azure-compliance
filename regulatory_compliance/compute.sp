@@ -774,6 +774,22 @@ control "compute_vm_utilizing_managed_disk" {
   tags = local.regulatory_compliance_compute_common_tags
 }
 
+control "compute_disk_unattached_and_encrypted_with_default_encryption_key" {
+  title       = "Azure disk is unattached and is encrypted with the default encryption key instead of ADE/CMK"
+  description = "This policy identifies the disks which are unattached and are encrypted with default encryption instead of ADE/CMK. Azure encrypts disks by default Server-Side Encryption (SSE) with platform-managed keys [SSE with PMK]. It is recommended to use either SSE with Azure Disk Encryption [SSE with PMK+ADE] or Customer Managed Key [SSE with CMK] which improves on platform-managed keys by giving you control of the encryption keys to meet your compliance need."
+  query       = query.compute_disk_unattached_and_encrypted_with_default_encryption_key
+
+  tags = local.regulatory_compliance_compute_common_tags
+}
+
+control "compute_vm_scale_set_not_utilising_managed_disks" {
+  title       = "Azure Virtual machine scale sets are not utilising Managed Disks"
+  description = "This policy identifies Azure Virtual machine scale sets which are not utilising Managed Disks. Using Azure Managed disk over traditional BLOB storage based VHD's has more advantage features like Managed disks are by default encrypted, reduces cost over storage accounts and more resilient as Microsoft will manage the disk storage and move around if underlying hardware goes faulty. It is recommended to move BLOB based VHD's to Managed Disks."
+  query       = query.compute_vm_scale_set_not_utilising_managed_disks
+
+  tags = local.regulatory_compliance_compute_common_tags
+}
+
 query "compute_os_and_data_disk_encrypted_with_cmk" {
   sql = <<-EOQ
     select
@@ -2549,6 +2565,61 @@ query "compute_vm_scale_set_ssh_key_authentication_linux" {
         when virtual_machine_storage_profile -> 'osDisk' ->> 'osType' = 'Windows' then a.title || ' is using windows OS.'
         when virtual_machine_os_profile -> 'linuxConfiguration' ->> 'disablePasswordAuthentication' = 'true' then a.title || ' has SSK key authentication enabled.'
         else a.title || ' has password authentication enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine_scale_set as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_disk_unattached_and_encrypted_with_default_encryption_key" {
+  sql = <<-EOQ
+    select
+      disk.id as resource,
+      case
+        when managed_by is not null
+        or managed_by != ''
+        or encryption_type = 'EncryptionAtRestWithCustomerKey'
+        or encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys'
+         then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when managed_by is not null
+        or managed_by != ''
+        or encryption_type = 'EncryptionAtRestWithCustomerKey'
+        or encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys'
+         then disk.name || ' attached and encrypted with ADE/CMK.'
+        else disk.name || ' unattached and encrypted with default encryption key.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_disk disk,
+      azure_subscription sub
+    where
+      disk_state != 'Attached'
+      and sub.subscription_id = disk.subscription_id;
+  EOQ
+}
+
+query "compute_vm_scale_set_not_utilising_managed_disks" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when virtual_machine_storage_profile -> 'osDisk' -> 'osType' -> 'vhdContainers' != null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when virtual_machine_storage_profile -> 'osDisk' -> 'osType' -> 'vhdContainers' != null then a.title || ' utilising managed disks.'
+        else a.title || ' not utilising managed disks.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

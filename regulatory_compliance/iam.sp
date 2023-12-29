@@ -168,6 +168,14 @@ control "iam_user_not_allowed_to_register_application" {
   tags = local.regulatory_compliance_iam_common_tags
 }
 
+control "iam_subscriptions_with_custom_roles_are_overly_permissive" {
+  title       = "Subscriptions with custom roles are overly permissive"
+  description = "This policy identifies azure subscriptions with custom roles are overly permissive. Least privilege access rule should be followed and only necessary privileges should be assigned instead of allowing full administrative access."
+  query       = query.iam_subscriptions_with_custom_roles_are_overly_permissive
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
 query "iam_subscription_owner_more_than_1" {
   sql = <<-EOQ
     with owner_roles as (
@@ -582,5 +590,49 @@ query "iam_user_not_allowed_to_register_application" {
     from
       distinct_tenant as t,
       azuread_authorization_policy as a;
+  EOQ
+}
+
+query "iam_subscriptions_with_custom_roles_are_overly_permissive" {
+  sql = <<-EOQ
+    with custom_roles as (
+      select
+        role_name,
+        role_type,
+        title,
+        action,
+        _ctx,
+        subscription_id
+      from
+        azure_role_definition,
+        jsonb_array_elements(permissions) as s,
+        jsonb_array_elements_text(s -> 'actions') as action
+      where
+        role_type = 'CustomRole'
+        and assignable_scopes @> '["/"]'
+        and action in ('*', '*:*')
+    )
+    select
+      cr.subscription_id as resource,
+      case
+        when count(*) > 0 then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when count(*) = 1 then 'There is one subscription where custom roles are overly permissive.'
+        when count(*) > 1 then 'There are ' || count(*) || ' subscriptions where custom roles are overly permissive.'
+        else 'There is no subscription where custom roles are overly permissive.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "cr.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      custom_roles cr,
+      azure_subscription sub
+    where
+      sub.subscription_id = cr.subscription_id
+    group by
+      cr.subscription_id,
+      cr._ctx,
+      sub.display_name;
   EOQ
 }

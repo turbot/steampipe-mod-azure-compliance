@@ -176,6 +176,30 @@ control "storage_account_trusted_microsoft_services_enabled" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_logging_for_blobs_disabled" {
+  title       = "Azure storage account logging (Classic Diagnostic Setting) for blobs is disabled"
+  description = "Storage Logging records details of requests (read, write, and delete operations) against your Azure blobs. This policy identifies Azure storage accounts that do not have logging enabled for blobs. As a best practice, enable logging for read, write, and delete request types on blobs."
+  query       = query.storage_account_logging_for_blobs_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_logging_for_tables_disabled" {
+  title       = "Azure storage account logging (Classic Diagnostic Setting) for tables is disabled"
+  description = "Storage Logging records details of requests (read, write, and delete operations) against your Azure tables. This policy identifies Azure storage accounts that do not have logging enabled for tables. As a best practice, enable logging for read, write, and delete request types on tables."
+  query       = query.storage_account_logging_for_tables_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_logging_for_queues_disabled" {
+  title       = "Azure storage account logging (Classic Diagnostic Setting) for queues is disabled"
+  description = "Storage Logging records details of requests (read, write, and delete operations) against your Azure queues. This policy identifies Azure storage accounts that do not have logging enabled for queues. As a best practice, enable logging for read, write, and delete request types on queues."
+  query       = query.storage_account_logging_for_queues_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select
@@ -644,6 +668,102 @@ query "storage_account_trusted_microsoft_services_enabled" {
       case
         when network_rule_bypass not like '%AzureServices%' then sa.name || ' trusted Microsoft services not enabled.'
         else sa.name || ' trusted Microsoft services enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_logging_for_blobs_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when lower(sa.sku_tier) = 'standard'
+        and (not (sa.blob_service_logging ->> 'Read') :: boolean
+        or not (sa.blob_service_logging ->> 'Write') :: boolean
+        or not (sa.blob_service_logging ->> 'Delete') :: boolean) then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when lower(sa.sku_tier) = 'standard'
+        and (not (sa.blob_service_logging ->> 'Read') :: boolean
+        or not (sa.blob_service_logging ->> 'Write') :: boolean
+        or not (sa.blob_service_logging ->> 'Delete') :: boolean) then name || ' storage account logging for blobs is disabled for' ||
+          concat_ws(', ',
+            case when not (sa.blob_service_logging ->> 'Write') :: boolean then 'write' end,
+            case when not (sa.blob_service_logging ->> 'Read') :: boolean then 'read' end,
+            case when not (sa.blob_service_logging ->> 'Delete') :: boolean then 'delete' end
+          ) || ' requests.'
+        else name || ' storage account logging for blobs is enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_logging_for_tables_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when lower(sa.sku_tier) = 'standard'
+        and (table_logging_write and table_logging_read and table_logging_delete) then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when lower(sa.sku_tier) = 'standard'
+        and (table_logging_write and table_logging_read and table_logging_delete)
+          then sa.name || ' storage account logging for tables is enabled.'
+        else sa.name || ' storage account logging for tables is disabled for ' ||
+          concat_ws(', ',
+            case when not table_logging_write then 'write' end,
+            case when not table_logging_read then 'read' end,
+            case when not table_logging_delete then 'delete' end
+          ) || ' requests.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_logging_for_queues_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when lower(sa.sku_tier) = 'standard'
+        and (queue_logging_write and queue_logging_read and queue_logging_delete) then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when lower(sa.sku_tier) = 'standard'
+        and (queue_logging_write and queue_logging_read and queue_logging_delete)
+          then sa.name || ' storage account logging for queues is enabled.'
+        else sa.name || ' storage account logging for queues is disabled for ' ||
+          concat_ws(', ',
+            case when not queue_logging_write then 'write' end,
+            case when not queue_logging_read then 'read' end,
+            case when not queue_logging_delete then 'delete' end
+          ) || ' requests.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}

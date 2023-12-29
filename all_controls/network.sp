@@ -24,7 +24,8 @@ benchmark "all_controls_network" {
     control.network_sg_flowlog_retention_period_greater_than_90,
     control.network_virtual_network_gateway_no_basic_sku,
     control.network_watcher_enabled,
-    control.network_watcher_in_regions_with_virtual_network
+    control.network_watcher_in_regions_with_virtual_network,
+    control.network_network_peering_connected
   ]
 
   tags = merge(local.all_controls_network_common_tags, {

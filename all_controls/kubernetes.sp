@@ -22,7 +22,9 @@ benchmark "all_controls_kubernetes" {
     control.kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host,
     control.kubernetes_cluster_upgrade_channel,
     control.kubernetes_cluster_upgraded_with_non_vulnerable_version,
-    control.kubernetes_instance_rbac_enabled
+    control.kubernetes_instance_rbac_enabled,
+    control.kubernetes_cluster_network_plugin_azure,
+    control.kubernetes_cluster_http_application_routing_dsiabled
   ]
 
   tags = merge(local.all_controls_kubernetes_common_tags, {

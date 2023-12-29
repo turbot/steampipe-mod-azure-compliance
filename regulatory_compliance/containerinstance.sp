@@ -67,3 +67,60 @@ query "container_instance_container_group_in_virtual_network" {
       sub.subscription_id = cg.subscription_id;
   EOQ
 }
+
+query "container_instance_container_group_identity_provider_enabled" {
+  sql = <<-EOQ
+    select
+      cg.id as resource,
+      case
+        when identity is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when identity is null then cg.name || ' identity provider disabled.'
+        else cg.name || ' identity provider enabled.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_container_group as cg,
+      azure_subscription as sub
+    where
+      sub.subscription_id = cg.subscription_id;
+  EOQ
+}
+
+query "container_instance_container_group_secured_environment_variable" {
+  sql = <<-EOQ
+    with not_secured_environment_variable_container_group as (
+      select
+        id
+      from
+        azure_container_group,
+        jsonb_array_elements(containers) as c,
+        jsonb_array_elements(c -> 'properties' -> 'environmentVariables') as v
+      where
+       v  ->'value' is not null
+    )
+    select
+      cg.id as resource,
+      case
+        when g.id is not null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when g.id is not null then cg.name || ' have unsecured environment variable.'
+        else cg.name || ' have secured environment variable.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_container_group as cg
+      left join not_secured_environment_variable_container_group as g on g.id = cg.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = cg.subscription_id;
+  EOQ
+}

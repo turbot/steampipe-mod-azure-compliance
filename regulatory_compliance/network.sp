@@ -172,6 +172,14 @@ control "network_sg_flowlog_retention_period_greater_than_90" {
   tags = local.regulatory_compliance_network_common_tags
 }
 
+control "network_network_peering_connected" {
+  title       = "Virtual network network peering should be in connetecd state"
+  description = "This control checks that Virtual network network peering is in connetecd state."
+  query       = query.network_network_peering_connected
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (
@@ -728,5 +736,38 @@ query "network_sg_flowlog_retention_period_greater_than_90" {
       azure_network_security_group sg
       left join azure_network_watcher_flow_log fl on sg.id = fl.target_resource_id
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_network_peering_connected" {
+  sql = <<-EOQ
+    with disconnected_network_peering as (
+      select
+        distinct id as vn_id
+      from
+        azure_virtual_network as n,
+        jsonb_array_elements(network_peerings) as p
+      where
+        p -> 'properties' ->> 'peeringState' = 'Disconnected'
+    )
+    select
+      n.id as resource,
+      case
+        when jsonb_array_length(network_peerings) = 0 then 'ok'
+        when p.vn_id is not null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when jsonb_array_length(network_peerings) = 0 then n.title || ' has no network peering.'
+        when p.vn_id is not null then n.title || ' has network peering in disconnected state.'
+        else n.title || ' has network peering in connected state.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_virtual_network as n
+      left join disconnected_network_peering as p on p.vn_id = n.id
+      join azure_subscription sub on sub.subscription_id = n.subscription_id;
   EOQ
 }

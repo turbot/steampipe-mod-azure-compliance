@@ -98,3 +98,26 @@ query "batch_account_encrypted_with_cmk" {
       sub.subscription_id = batch.subscription_id;
   EOQ
 }
+
+query "batch_account_identity_provider_enabled" {
+  sql = <<-EOQ
+    select
+      b.id as resource,
+      case
+        when identity ->> 'type' = 'None' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when identity ->> 'type' = 'None' then b.name || ' identity provider disabled.'
+        else b.name || ' identity provider enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_batch_account as b,
+      azure_subscription as sub
+    where
+      sub.subscription_id = b.subscription_id;
+  EOQ
+}

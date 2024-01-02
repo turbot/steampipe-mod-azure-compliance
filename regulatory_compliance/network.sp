@@ -771,3 +771,1023 @@ query "network_network_peering_connected" {
       join azure_subscription sub on sub.subscription_id = n.subscription_id;
   EOQ
 }
+
+query "network_security_group_udp_port_445_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'UDP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('445', '*')
+          or (
+            dport like '%-%'
+            and split_part(dport, '-', 1) :: integer <= 445
+            and split_part(dport, '-', 2) :: integer >= 445
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts UDP port 445 access from internet.'
+        else sg.title || ' allows UDP port 445 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_20_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('20', '*')
+          or (
+            dport like '%-%'
+            and split_part(dport, '-', 1) :: integer <= 20
+            and split_part(dport, '-', 2) :: integer >= 20
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 20 access from internet.'
+        else sg.title || ' allows TCP port 20 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_21_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('21', '*')
+          or (
+            dport like '%-%'
+            and split_part(dport, '-', 1) :: integer <= 21
+            and split_part(dport, '-', 2) :: integer >= 21
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 21 access from internet.'
+        else sg.title || ' allows TCP port 21 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_icmp_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'ICMP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport = '*'
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 0
+              and split_part(dport, '-', 2) :: integer = 65535
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts ICMP access from internet.'
+        else sg.title || ' allows ICMP access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_4333_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('4333', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 4333
+              and split_part(dport, '-', 2) :: integer = 4333
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 4333 access from internet.'
+        else sg.title || ' allows TCP port 4333 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_3306_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('3306', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 3306
+              and split_part(dport, '-', 2) :: integer = 3306
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 3306 access from internet.'
+        else sg.title || ' allows TCP port 3306 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_53_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('53', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 53
+              and split_part(dport, '-', 2) :: integer = 53
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 53 access from internet.'
+        else sg.title || ' allows TCP port 53 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_udp_port_53_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'UDP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('53', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 53
+              and split_part(dport, '-', 2) :: integer = 53
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts UDP port 53 access from internet.'
+        else sg.title || ' allows UDP port 53 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_udp_port_137_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'UDP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('137', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 137
+              and split_part(dport, '-', 2) :: integer = 137
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts UDP port 137 access from internet.'
+        else sg.title || ' allows UDP port 137 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_udp_port_138_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'UDP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('138', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 138
+              and split_part(dport, '-', 2) :: integer = 138
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts UDP port 138 access from internet.'
+        else sg.title || ' allows UDP port 138 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_5432_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('5432', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 5432
+              and split_part(dport, '-', 2) :: integer = 5432
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 5432 access from internet.'
+        else sg.title || ' allows TCP port 5432 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_25_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('25', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 25
+              and split_part(dport, '-', 2) :: integer = 25
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 25 access from internet.'
+        else sg.title || ' allows TCP port 25 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_1433_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('1433', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 1433
+              and split_part(dport, '-', 2) :: integer = 214335
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 1433 access from internet.'
+        else sg.title || ' allows TCP port 1433 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_udp_port_1434_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'UDP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('1434', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 1434
+              and split_part(dport, '-', 2) :: integer = 1434
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts UDP port 1434 access from internet.'
+        else sg.title || ' allows UDP port 1434 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_23_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('23', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 23
+              and split_part(dport, '-', 2) :: integer = 23
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 23 access from internet.'
+        else sg.title || ' allows TCP port 23 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_5500_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('5500', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 5500
+              and split_part(dport, '-', 2) :: integer = 5500
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 5500 access from internet.'
+        else sg.title || ' allows TCP port 5500 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_5900_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('5900', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 5900
+              and split_part(dport, '-', 2) :: integer = 5900
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 5900 access from internet.'
+        else sg.title || ' allows TCP port 5900 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_135_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('135', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 135
+              and split_part(dport, '-', 2) :: integer = 135
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 135 access from internet.'
+        else sg.title || ' allows TCP port 135 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_tcp_port_445_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_inbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and (
+          dport in ('445', '*')
+          or (
+            dport like '%-%'
+            and (
+              split_part(dport, '-', 1) :: integer = 445
+              and split_part(dport, '-', 2) :: integer = 445
+            )
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is nul then sg.title || ' restricts TCP port 445 access from internet.'
+        else sg.title || ' allows TCP port 445 access from internet.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}

@@ -11,6 +11,7 @@ benchmark "all_controls_storage" {
     control.storage_account_blob_containers_public_access_private,
     control.storage_account_blob_service_logging_enabled,
     control.storage_account_block_public_access,
+    control.storage_account_containing_vhd_os_disk_not_cmk_encrypted,
     control.storage_account_default_network_access_rule_denied,
     control.storage_account_encryption_at_rest_using_cmk,
     control.storage_account_encryption_scopes_encrypted_at_rest_with_cmk,

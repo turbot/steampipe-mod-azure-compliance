@@ -43,6 +43,22 @@ control "servicebus_use_virtual_service_endpoint" {
   tags = local.regulatory_compliance_servicebus_common_tags
 }
 
+control "servicebus_namespace_not_using_azure_ad_authentication" {
+  title       = "Azure Service bus namespace not configured with Azure Active Directory (Azure AD) authentication"
+  description = "This policy identifies Service bus namespaces that are not configured with Azure Active Directory (Azure AD) authentication and are enabled with local authentication. Azure AD provides superior security and ease of use over shared access signatures (SAS). With Azure AD, there's no need to store the tokens in your code and risk potential security vulnerabilities. It is recommended to configure the Service bus namespaces with Azure AD authentication so that all actions are strongly authenticated."
+  query       = query.servicebus_namespace_not_using_azure_ad_authentication
+
+  tags = local.regulatory_compliance_servicebus_common_tags
+}
+
+control "servicebus_namespace_using_overly_permissive_network_access" {
+  title       = "Azure Service bus namespace configured with overly permissive network access"
+  description = "This policy identifies Azure Service bus namespaces configured with overly permissive network access. By default, Service Bus namespaces are accessible from the internet as long as the request comes with valid authentication and authorization. With an IP firewall, you can restrict it further to only a set of IPv4 addresses or IPv4 address ranges. With Virtual Networks, the network traffic path is secured on both ends. It is recommended to configure the Service bus namespace with an IP firewall or by Virtual Network; so that the Service bus namespace is accessible only to restricted entities."
+  query       = query.servicebus_namespace_using_overly_permissive_network_access
+
+  tags = local.regulatory_compliance_servicebus_common_tags
+}
+
 query "servicebus_namespace_logging_enabled" {
   sql = <<-EOQ
     with logging_details as (
@@ -185,5 +201,55 @@ query "servicebus_use_virtual_service_endpoint" {
       left join service_bus on true
     where
       sub.subscription_id = bus.subscription_id;
+  EOQ
+}
+
+query "servicebus_namespace_not_using_azure_ad_authentication" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when status = 'Active'
+        and not disable_local_auth then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when status = 'Active'
+        and not disable_local_auth then a.name || ' namespace not configured with Azure AD authentication.'
+        else a.name || ' namespace configured with Azure AD authentication.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_servicebus_namespace a,
+      azure_subscription sub;
+  EOQ
+}
+
+query "servicebus_namespace_using_overly_permissive_network_access" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when status = 'Active'
+        and sku_tier = 'Premium'
+        and network_rule_set -> 'properties' ->> 'defaultAction' = 'Allow'
+        and network_rule_set -> 'properties' ->> 'publicNetworkAccess' = 'Enabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when status = 'Active'
+        and sku_tier = 'Premium'
+        and network_rule_set -> 'properties' ->> 'defaultAction' = 'Allow'
+        and network_rule_set -> 'properties' ->> 'publicNetworkAccess' = 'Enabled' then a.name || ' namespace configured with overly permissive network access.'
+        else a.name || ' namespace not configured with overly permissive network access.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_servicebus_namespace a,
+      azure_subscription sub;
   EOQ
 }

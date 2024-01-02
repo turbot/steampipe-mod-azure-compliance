@@ -10,6 +10,8 @@ benchmark "all_controls_servicebus" {
   children = [
     control.servicebus_name_space_private_link_used,
     control.servicebus_namespace_logging_enabled,
+    control.servicebus_namespace_not_using_azure_ad_authentication,
+    control.servicebus_namespace_using_overly_permissive_network_access,
     control.servicebus_premium_namespace_cmk_encrypted,
     control.servicebus_use_virtual_service_endpoint
   ]

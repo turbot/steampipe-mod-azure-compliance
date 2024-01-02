@@ -200,6 +200,14 @@ control "storage_account_logging_for_queues_disabled" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_containing_vhd_os_disk_not_cmk_encrypted" {
+  title       = "Azure Storage account containing VHD OS disk not encrypted with CMK"
+  description = "This policy identifies Azure Storage account containing VHD OS disk which are not encrypted with CMK. VHD's attached to Virtual Machines are stored in Azure storage. By default Azure Storage account is encrypted using Microsoft Managed Keys. It is recommended to use Customer Managed Keys to encrypt data in Azure Storage accounts for better control on the data."
+  query       = query.storage_account_containing_vhd_os_disk_not_cmk_encrypted
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select
@@ -773,5 +781,33 @@ query "storage_account_logging_for_queues_disabled" {
       azure_subscription sub
     where
       sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_containing_vhd_os_disk_not_cmk_encrypted" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when sa.encryption_key_source = 'Microsoft.Storage'
+        and vm.os_disk_vhd_uri is not null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when sa.encryption_key_source = 'Microsoft.Storage'
+        and vm.os_disk_vhd_uri is not null then sa.name || ' storage account containing VHD OS disk not encrypted with CMK.'
+        else sa.name || ' storage account containing VHD OS disk encrypted with CMK.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_compute_virtual_machine vm,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id
+      and vm.os_disk_vhd_uri like '%' || sa.name || '%';
   EOQ
 }

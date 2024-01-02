@@ -44,6 +44,7 @@ benchmark "all_controls_compute" {
     control.compute_vm_restrict_previous_24_passwords_resuse_windows,
     control.compute_vm_restrict_remote_connection_from_accounts_without_password_linux,
     control.compute_vm_scale_set_automatic_upgrade_enabled,
+    control.compute_vm_scale_set_boot_diagnostics_disabled,
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.compute_vm_scale_set_logging_enabled,
     control.compute_vm_scale_set_not_utilising_managed_disks,

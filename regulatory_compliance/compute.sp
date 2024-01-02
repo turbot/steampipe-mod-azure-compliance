@@ -790,6 +790,14 @@ control "compute_vm_scale_set_not_utilising_managed_disks" {
   tags = local.regulatory_compliance_compute_common_tags
 }
 
+control "compute_vm_scale_set_boot_diagnostics_disabled" {
+  title       = "Azure Virtual Machine scale sets Boot Diagnostics Disabled"
+  description = "This policy identifies Azure Virtual Machines scale sets which has Boot Diagnostics setting Disabled. Boot Diagnostics when enabled for virtual machine, captures Screenshot and Console Output during virtual machine startup. This would help in troubleshooting virtual machine when it enters a non-bootable state."
+  query       = query.compute_vm_scale_set_boot_diagnostics_disabled
+
+  tags = local.regulatory_compliance_compute_common_tags
+}
+
 query "compute_os_and_data_disk_encrypted_with_cmk" {
   sql = <<-EOQ
     select
@@ -2620,6 +2628,29 @@ query "compute_vm_scale_set_not_utilising_managed_disks" {
       case
         when virtual_machine_storage_profile -> 'osDisk' -> 'osType' -> 'vhdContainers' != null then a.title || ' utilising managed disks.'
         else a.title || ' not utilising managed disks.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine_scale_set as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_vm_scale_set_boot_diagnostics_disabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when (virtual_machine_diagnostics_profile -> 'bootDiagnostics' ->> 'enabled') :: boolean then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (virtual_machine_diagnostics_profile -> 'bootDiagnostics' ->> 'enabled') :: boolean then a.title || ' boot diagnostics enabled.'
+        else a.title || ' boot diagnostics disabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

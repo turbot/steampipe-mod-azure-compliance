@@ -2,7 +2,7 @@
 
 _Bug fixes_
 
-- Updated the regex pattern of kubernetes version for the `kubernetes_cluster_upgraded_with_non_vulnerable_version` query. ([#235](https://github.com/turbot/steampipe-mod-azure-compliance/pull/235))
+- Fixed the `kubernetes_cluster_upgraded_with_non_vulnerable_version` query to correctly check if a Kubernetes cluster is using an outdated software version. ([#235](https://github.com/turbot/steampipe-mod-azure-compliance/pull/235))
 
 ## v0.38 [2023-11-27]
 

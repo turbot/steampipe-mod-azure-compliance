@@ -415,7 +415,7 @@ query "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
           a.kubernetes_version ~ '1\.13\.[0-4]'
           or a.kubernetes_version ~ '1\.12\.[0-6]'
           or a.kubernetes_version ~ '1\.11\.[0-8]'
-          or a.kubernetes_version ~ '1\.\d|10\.*' then 'alarm'
+          or a.kubernetes_version ~ '1.([0-9]|10).[0-9]{1,2}' then 'alarm'
         else 'ok'
       end as status,
       case
@@ -423,7 +423,7 @@ query "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
           a.kubernetes_version ~ '1\.13\.[0-4]'
           or a.kubernetes_version ~ '1\.12\.[0-6]'
           or a.kubernetes_version ~ '1\.11\.[0-8]'
-          or a.kubernetes_version ~ '1\.\d|10\.*' then a.name || ' not upgraded to a non-vulnerable Kubernetes version.'
+          or a.kubernetes_version ~ '1.([0-9]|10).[0-9]{1,2}' then a.name || ' not upgraded to a non-vulnerable Kubernetes version.'
         else a.name || ' upgraded to a non-vulnerable Kubernetes version.'
       end as reason
       ${local.tag_dimensions_sql}

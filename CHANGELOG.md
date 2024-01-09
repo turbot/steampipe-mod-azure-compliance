@@ -1,3 +1,9 @@
+## v0.39 [2024-01-09]
+
+_Bug fixes_
+
+- Fixed the `kubernetes_cluster_upgraded_with_non_vulnerable_version` query to correctly check if a Kubernetes cluster is using an outdated software version. ([#235](https://github.com/turbot/steampipe-mod-azure-compliance/pull/235))
+
 ## v0.38 [2023-11-27]
 
 _Bug fixes_
@@ -12,7 +18,7 @@ _Breaking changes_
 
 _Bug fixes_
 
-- Fixed the `compute_vm_tcp_udp_access_restricted_internet` query to ensure internet-facing virtual machines are protected with network security groups. ([#224](https://github.com/turbot/steampipe-mod-azure-compliance/pull/224)) 
+- Fixed the `compute_vm_tcp_udp_access_restricted_internet` query to ensure internet-facing virtual machines are protected with network security groups. ([#224](https://github.com/turbot/steampipe-mod-azure-compliance/pull/224))
 
 ## v0.36 [2023-10-20]
 

@@ -9,6 +9,7 @@ benchmark "all_controls_batch" {
   description = "This section contains recommendations for configuring Batch resources."
   children = [
     control.batch_account_encrypted_with_cmk,
+    control.batch_account_identity_provider_enabled,
     control.batch_account_logging_enabled
   ]
 

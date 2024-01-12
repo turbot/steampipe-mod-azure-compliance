@@ -13,3 +13,26 @@ control "recovery_service_vault_encrypted_with_cmk" {
     nist_sp_800_53_rev_5 = "true"
   })
 }
+
+query "recovery_service_vault_uses_managed_identity" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when identity is null or identity ->> 'type' = 'None' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when identity is null or identity ->> 'type' = 'None' then name || ' not uses managed identity.'
+        else name || ' uses managed identity.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_recovery_services_vault as s,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}

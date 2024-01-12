@@ -22,6 +22,22 @@ control "container_instance_container_group_in_virtual_network" {
   tags = local.regulatory_compliance_containerinstance_common_tags
 }
 
+control "container_instance_container_group_identity_provider_enabled" {
+  title       = "Container instance container groups identity provider should be enabled"
+  description = "Ensure that managed identity provider is enabled for the container instance container group. This control is non-compliant if container instance container group identity provider is disabled."
+  query       = query.container_instance_container_group_identity_provider_enabled
+
+  tags = local.regulatory_compliance_containerinstance_common_tags
+}
+
+control "container_instance_container_group_secured_environment_variable" {
+  title       = "Container instance container groups should use secured environment variable"
+  description = "Ensure that container instance container group should use secured environment variables. This control is non-compliant if container instance container group does not uses secured environment variables."
+  query       = query.container_instance_container_group_secured_environment_variable
+
+  tags = local.regulatory_compliance_containerinstance_common_tags
+}
+
 query "container_instance_container_group_encrypted_using_cmk" {
   sql = <<-EOQ
     select

@@ -717,9 +717,9 @@ query "kubernetes_cluster_http_application_routing_dsiabled" {
         when addon_profiles -> 'httpApplicationRouting'  ->> 'enabled' = 'true' then c.name || ' HTTP application routing enabled.'
         else c.name || ' HTTP application routing disabled.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_kubernetes_cluster c,
       azure_subscription sub

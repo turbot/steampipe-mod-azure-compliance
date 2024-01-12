@@ -180,6 +180,166 @@ control "network_network_peering_connected" {
   tags = local.regulatory_compliance_network_common_tags
 }
 
+control "network_security_group_restrict_inbound_udp_port_445" {
+  title       = "Network security groups should restrict ingress UDP port 445 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 445."
+  query       = query.network_security_group_restrict_inbound_udp_port_445
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_20" {
+  title       = "Network security groups should restrict ingress TCP port 20 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 20."
+  query       = query.network_security_group_restrict_inbound_tcp_port_20
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_21" {
+  title       = "Network security groups should restrict ingress TCP port 21 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 20."
+  query       = query.network_security_group_restrict_inbound_tcp_port_21
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_icmp_port" {
+  title       = "Network security groups should restrict ingress ICMP port access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to ICMP port."
+  query       = query.network_security_group_restrict_inbound_icmp_port
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_4333" {
+  title       = "Network security groups should restrict ingress TCP port 4333 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 4333."
+  query       = query.network_security_group_restrict_inbound_tcp_port_4333
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_3306" {
+  title       = "Network security groups should restrict ingress TCP port 3306 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 3306."
+  query       = query.network_security_group_restrict_inbound_tcp_port_3306
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_53" {
+  title       = "Network security groups should restrict ingress TCP port 53 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 53."
+  query       = query.network_security_group_restrict_inbound_tcp_port_53
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_udp_port_53" {
+  title       = "Network security groups should restrict ingress UDP port 53 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 53."
+  query       = query.network_security_group_restrict_inbound_udp_port_53
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_udp_port_137" {
+  title       = "Network security groups should restrict ingress UDP port 137 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 137."
+  query       = query.network_security_group_restrict_inbound_udp_port_137
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_udp_port_138" {
+  title       = "Network security groups should restrict ingress UDP port 137 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 137."
+  query       = query.network_security_group_restrict_inbound_udp_port_138
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_5432" {
+  title       = "Network security groups should restrict ingress TCP port 5432 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 5432."
+  query       = query.network_security_group_restrict_inbound_tcp_port_5432
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_25" {
+  title       = "Network security groups should restrict ingress TCP port 25 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 25."
+  query       = query.network_security_group_restrict_inbound_tcp_port_25
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_1433" {
+  title       = "Network security groups should restrict ingress TCP port 25 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 25."
+  query       = query.network_security_group_restrict_inbound_tcp_port_1433
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_udp_port_1434" {
+  title       = "Network security groups should restrict ingress UDP port 1434 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 1434."
+  query       = query.network_security_group_restrict_inbound_udp_port_1434
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_23" {
+  title       = "Network security groups should restrict ingress TCP port 23 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 23."
+  query       = query.network_security_group_restrict_inbound_tcp_port_23
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_5500" {
+  title       = "Network security groups should restrict ingress TCP port 5500 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 5500."
+  query       = query.network_security_group_restrict_inbound_tcp_port_5500
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_5900" {
+  title       = "Network security groups should restrict ingress TCP port 5900 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 5900."
+  query       = query.network_security_group_restrict_inbound_tcp_port_5900
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_135" {
+  title       = "Network security groups should restrict ingress TCP port 135 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 135."
+  query       = query.network_security_group_restrict_inbound_tcp_port_135
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_restrict_inbound_tcp_port_445" {
+  title       = "Network security groups should restrict ingress TCP port 445 access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 445."
+  query       = query.network_security_group_restrict_inbound_tcp_port_445
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_outbound_access_restricted" {
+  title       = "Network security groups should restrict outbound access from internet"
+  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted outbound access."
+  query       = query.network_security_group_outbound_access_restricted
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (
@@ -762,9 +922,9 @@ query "network_network_peering_connected" {
         when p.vn_id is not null then n.title || ' has network peering in disconnected state.'
         else n.title || ' has network peering in connected state.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "n.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_virtual_network as n
       left join disconnected_network_peering as p on p.vn_id = n.id
@@ -772,7 +932,7 @@ query "network_network_peering_connected" {
   EOQ
 }
 
-query "network_security_group_udp_port_445_access_restricted" {
+query "network_security_group_restrict_inbound_udp_port_445" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -811,20 +971,20 @@ query "network_security_group_udp_port_445_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts UDP port 445 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts UDP port 445 access from internet.'
         else sg.title || ' allows UDP port 445 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_20_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_20" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -863,7 +1023,7 @@ query "network_security_group_tcp_port_20_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 20 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 20 access from internet.'
         else sg.title || ' allows TCP port 20 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -871,12 +1031,12 @@ query "network_security_group_tcp_port_20_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_21_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_21" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -915,7 +1075,7 @@ query "network_security_group_tcp_port_21_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 21 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 21 access from internet.'
         else sg.title || ' allows TCP port 21 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -923,12 +1083,12 @@ query "network_security_group_tcp_port_21_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_icmp_access_restricted" {
+query "network_security_group_restrict_inbound_icmp_port" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -969,7 +1129,7 @@ query "network_security_group_icmp_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts ICMP access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts ICMP access from internet.'
         else sg.title || ' allows ICMP access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -977,12 +1137,12 @@ query "network_security_group_icmp_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_4333_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_4333" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1023,7 +1183,7 @@ query "network_security_group_tcp_port_4333_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 4333 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 4333 access from internet.'
         else sg.title || ' allows TCP port 4333 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1031,12 +1191,12 @@ query "network_security_group_tcp_port_4333_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_3306_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_3306" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1077,7 +1237,7 @@ query "network_security_group_tcp_port_3306_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 3306 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 3306 access from internet.'
         else sg.title || ' allows TCP port 3306 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1085,12 +1245,12 @@ query "network_security_group_tcp_port_3306_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_53_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_53" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1131,7 +1291,7 @@ query "network_security_group_tcp_port_53_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 53 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 53 access from internet.'
         else sg.title || ' allows TCP port 53 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1139,12 +1299,12 @@ query "network_security_group_tcp_port_53_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_udp_port_53_access_restricted" {
+query "network_security_group_restrict_inbound_udp_port_53" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1185,7 +1345,7 @@ query "network_security_group_udp_port_53_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts UDP port 53 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts UDP port 53 access from internet.'
         else sg.title || ' allows UDP port 53 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1193,12 +1353,12 @@ query "network_security_group_udp_port_53_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_udp_port_137_access_restricted" {
+query "network_security_group_restrict_inbound_udp_port_137" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1239,7 +1399,7 @@ query "network_security_group_udp_port_137_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts UDP port 137 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts UDP port 137 access from internet.'
         else sg.title || ' allows UDP port 137 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1247,12 +1407,12 @@ query "network_security_group_udp_port_137_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_udp_port_138_access_restricted" {
+query "network_security_group_restrict_inbound_udp_port_138" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1293,7 +1453,7 @@ query "network_security_group_udp_port_138_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts UDP port 138 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts UDP port 138 access from internet.'
         else sg.title || ' allows UDP port 138 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1301,12 +1461,12 @@ query "network_security_group_udp_port_138_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_5432_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_5432" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1347,7 +1507,7 @@ query "network_security_group_tcp_port_5432_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 5432 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 5432 access from internet.'
         else sg.title || ' allows TCP port 5432 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1355,12 +1515,12 @@ query "network_security_group_tcp_port_5432_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_25_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_25" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1401,7 +1561,7 @@ query "network_security_group_tcp_port_25_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 25 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 25 access from internet.'
         else sg.title || ' allows TCP port 25 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1409,12 +1569,12 @@ query "network_security_group_tcp_port_25_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_1433_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_1433" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1455,7 +1615,7 @@ query "network_security_group_tcp_port_1433_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 1433 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 1433 access from internet.'
         else sg.title || ' allows TCP port 1433 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1463,12 +1623,12 @@ query "network_security_group_tcp_port_1433_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_udp_port_1434_access_restricted" {
+query "network_security_group_restrict_inbound_udp_port_1434" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1509,7 +1669,7 @@ query "network_security_group_udp_port_1434_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts UDP port 1434 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts UDP port 1434 access from internet.'
         else sg.title || ' allows UDP port 1434 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1517,12 +1677,12 @@ query "network_security_group_udp_port_1434_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_23_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_23" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1563,7 +1723,7 @@ query "network_security_group_tcp_port_23_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 23 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 23 access from internet.'
         else sg.title || ' allows TCP port 23 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1571,12 +1731,12 @@ query "network_security_group_tcp_port_23_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_5500_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_5500" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1617,7 +1777,7 @@ query "network_security_group_tcp_port_5500_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 5500 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 5500 access from internet.'
         else sg.title || ' allows TCP port 5500 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1625,12 +1785,12 @@ query "network_security_group_tcp_port_5500_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_5900_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_5900" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1671,7 +1831,7 @@ query "network_security_group_tcp_port_5900_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 5900 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 5900 access from internet.'
         else sg.title || ' allows TCP port 5900 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1679,12 +1839,12 @@ query "network_security_group_tcp_port_5900_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_135_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_135" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1725,7 +1885,7 @@ query "network_security_group_tcp_port_135_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 135 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 135 access from internet.'
         else sg.title || ' allows TCP port 135 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1733,12 +1893,12 @@ query "network_security_group_tcp_port_135_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }
 
-query "network_security_group_tcp_port_445_access_restricted" {
+query "network_security_group_restrict_inbound_tcp_port_445" {
   sql = <<-EOQ
     with unrestricted_inbound as (
       select
@@ -1779,7 +1939,7 @@ query "network_security_group_tcp_port_445_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when nsg.sg_name is nul then sg.title || ' restricts TCP port 445 access from internet.'
+        when nsg.sg_name is null then sg.title || ' restricts TCP port 445 access from internet.'
         else sg.title || ' allows TCP port 445 access from internet.'
       end as reason
       --${local.tag_dimensions_sql}
@@ -1787,7 +1947,95 @@ query "network_security_group_tcp_port_445_access_restricted" {
       --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
-      left join network_sg nsg on nsg.sg_name = sg.name
+      left join unrestricted_inbound nsg on nsg.sg_name = sg.name
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_outbound_access_restricted" {
+  sql = <<-EOQ
+    with unrestricted_outbound as (
+      select
+        distinct name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules || default_security_rules ) sg,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'destinationPortRanges') > 0 then (sg -> 'properties' -> 'destinationPortRanges')
+            else jsonb_build_array(sg -> 'properties' -> 'destinationPortRange')
+          end ) as dport,
+        jsonb_array_elements_text(
+          case
+            when jsonb_array_length(sg -> 'properties' -> 'sourceAddressPrefixes') > 0 then (sg -> 'properties' -> 'sourceAddressPrefixes')
+            else jsonb_build_array(sg -> 'properties' -> 'sourceAddressPrefix')
+          end ) as sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Outbound'
+        and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
+        and dport = '*'
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is null then sg.title || ' restricts outbound access from internet.'
+        else sg.title || ' allows outbound access from internet.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join unrestricted_outbound nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_sg_flowlog_enabled" {
+  sql = <<-EOQ
+    select
+      sg.id resource,
+      case
+        when sg.flow_logs is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sg.flow_logs is not null then sg.name || ' flowlog enabled.'
+        else sg.name || ' flowlog disabled.'
+      end as reason
+      --${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group as sg
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_lb_diagnostics_logs_enabled" {
+  sql = <<-EOQ
+    select
+      l.id as resource,
+      case
+        when jsonb_array_length(diagnostic_settings) > 0  then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when jsonb_array_length(diagnostic_settings) > 0 then l.title || ' diagnostics logs enabled.'
+        else l.title || 'diagnostics logs disabled.'
+      end as reason
+      --${local.tag_dimensions_sql}
+      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "l.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_lb as l,
+      azure_subscription as sub
+    where
+      sub.subscription_id = l.subscription_id;
   EOQ
 }

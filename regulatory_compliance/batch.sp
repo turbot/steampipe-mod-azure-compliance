@@ -25,6 +25,14 @@ control "batch_account_encrypted_with_cmk" {
   })
 }
 
+control "batch_account_identity_provider_enabled" {
+  title       = "Batch accounts identity provider should be enabled"
+  description = "Ensure that managed identity provider is enabled for the batch account. This control is non-compliant if batch account identity provider is disabled."
+  query       = query.batch_account_identity_provider_enabled
+
+  tags = local.regulatory_compliance_batch_common_tags
+}
+
 query "batch_account_logging_enabled" {
   sql = <<-EOQ
     with logging_details as (

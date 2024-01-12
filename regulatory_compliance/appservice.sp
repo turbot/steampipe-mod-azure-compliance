@@ -407,6 +407,22 @@ control "appservice_web_app_register_with_active_directory_enabled" {
   tags = local.regulatory_compliance_appservice_common_tags
 }
 
+control "appservice_function_app_authentication_on" {
+  title       = "Ensure App Service authentication is set up for function apps in Azure App Service"
+  description = "Azure App Service authentication is a feature that can prevent anonymous HTTP requests from reaching a Web Application or authenticate those with tokens before they reach the app. If an anonymous request is received from a browser, App Service will redirect to a logon page. To handle the logon process, a choice from a set of identity providers can be made, or a custom authentication mechanism can be implemented."
+  query       = query.appservice_function_app_authentication_on
+
+  tags = local.regulatory_compliance_appservice_common_tags
+}
+
+control "appservice_function_app_publicly_accessible" {
+  title       = "App Service function apps public access should be restricted"
+  description = "Anonymous public read access to function app in Azure App Service is a convenient way to share data but might present security risks. To prevent data breaches caused by undesired anonymous access, Microsoft recommends preventing public access to a function app unless your scenario requires it."
+  query       = query.appservice_function_app_publicly_accessible
+
+  tags = local.regulatory_compliance_appservice_common_tags
+}
+
 query "appservice_web_app_use_https" {
   sql = <<-EOQ
     select
@@ -1834,9 +1850,9 @@ query "appservice_function_app_authentication_on" {
         when auth_settings -> 'properties' ->> 'enabled' = 'true' then name || ' authentication enabled.'
         else name || ' authentication disabled.'
       end as reason
-    --${local.tag_dimensions_sql}
-    --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
-    --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_function_app fa,
       azure_subscription sub
@@ -1867,9 +1883,9 @@ query "appservice_function_app_publicly_accessible" {
         when p.id is null then name || ' not publicly accessible.'
         else name || ' publicly accessible.'
       end as reason
-    --${local.tag_dimensions_sql}
-    --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
-    --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_function_app fa
       left join public_function_app as p on p.id = fa.id,

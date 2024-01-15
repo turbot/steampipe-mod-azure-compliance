@@ -32,7 +32,7 @@ control "container_instance_container_group_identity_provider_enabled" {
 
 control "container_instance_container_group_secured_environment_variable" {
   title       = "Container instance container groups should use secured environment variable"
-  description = "Ensure that container instance container group should use secured environment variables. This control is non-compliant if container instance container group does not uses secured environment variables."
+  description = "Ensure that container instance container group uses secured environment variables. This control is non-compliant if container instance container group does not uses secured environment variables."
   query       = query.container_instance_container_group_secured_environment_variable
 
   tags = local.regulatory_compliance_containerinstance_common_tags
@@ -96,9 +96,9 @@ query "container_instance_container_group_identity_provider_enabled" {
         when identity is null then cg.name || ' identity provider disabled.'
         else cg.name || ' identity provider enabled.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_group as cg,
       azure_subscription as sub
@@ -129,9 +129,9 @@ query "container_instance_container_group_secured_environment_variable" {
         when g.id is not null then cg.name || ' have unsecured environment variable.'
         else cg.name || ' have secured environment variable.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_group as cg
       left join not_secured_environment_variable_container_group as g on g.id = cg.id,

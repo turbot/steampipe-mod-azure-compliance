@@ -14,6 +14,14 @@ control "recovery_service_vault_encrypted_with_cmk" {
   })
 }
 
+control "recovery_service_vault_uses_managed_identity" {
+  title       = "Recovery Services vaults should use managed identity"
+  description = "Recovery Services vaults should use a managed identity for enhanced authentication security."
+  query       = query.recovery_service_vault_uses_managed_identity
+
+  tags = local.regulatory_compliance_recoveryservice_common_tags
+}
+
 query "recovery_service_vault_uses_managed_identity" {
   sql = <<-EOQ
     select
@@ -26,9 +34,9 @@ query "recovery_service_vault_uses_managed_identity" {
         when identity is null or identity ->> 'type' = 'None' then name || ' not uses managed identity.'
         else name || ' uses managed identity.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_recovery_services_vault as s,
       azure_subscription as sub

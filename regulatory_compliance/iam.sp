@@ -169,8 +169,8 @@ control "iam_user_not_allowed_to_register_application" {
 }
 
 control "iam_user_no_built_in_contributor_role" {
-  title       = "IAM user should not have built in contributor role"
-  description = "Ensure that IAM uses does not have built in contributor role. This rule is non-compliant if IAM user have built in contributor role."
+  title       = "IAM users should not have built in contributor role"
+  description = "Ensure that IAM user does not have built in contributor role. This rule is non-compliant if IAM user have built in contributor role."
   query       = query.iam_user_no_built_in_contributor_role
 
   tags = local.regulatory_compliance_iam_common_tags
@@ -656,13 +656,13 @@ query "iam_user_consent_to_apps_accessing_data_on_their_behalf_disabled" {
         else 'alarm'
       end as status,
       case
-        when a.tenant_id is null then a.display_name || ' user consent to apps accessing company data on their behalf is disabled .'
-        else a.display_name ||  ' user consent to apps accessing company data on their behalf is enabled.'
+        when a.tenant_id is null then a.display_name || ' user consent to apps accessing company data on their behalf disabled.'
+        else a.display_name ||  ' user consent to apps accessing company data on their behalf enabled.'
       end as reason,
       t.tenant_id
-      --${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
-      authorization_policy_with_overly_permission as a
+      authorization_policy_with_overly_permission as a;
   EOQ
 }

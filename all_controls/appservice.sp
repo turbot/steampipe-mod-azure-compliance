@@ -27,7 +27,7 @@ benchmark "all_controls_appservice" {
     control.appservice_function_app_latest_python_version,
     control.appservice_function_app_latest_tls_version,
     control.appservice_function_app_only_https_accessible,
-    control.appservice_function_app_publicly_accessible,
+    control.appservice_function_app_restrict_public_acces,
     control.appservice_function_app_remote_debugging_disabled,
     control.appservice_function_app_uses_managed_identity,
     control.appservice_plan_minimum_sku,

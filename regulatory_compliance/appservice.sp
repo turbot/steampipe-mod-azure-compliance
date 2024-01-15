@@ -415,10 +415,10 @@ control "appservice_function_app_authentication_on" {
   tags = local.regulatory_compliance_appservice_common_tags
 }
 
-control "appservice_function_app_publicly_accessible" {
+control "appservice_function_app_restrict_public_acces" {
   title       = "App Service function apps public access should be restricted"
   description = "Anonymous public read access to function app in Azure App Service is a convenient way to share data but might present security risks. To prevent data breaches caused by undesired anonymous access, Microsoft recommends preventing public access to a function app unless your scenario requires it."
-  query       = query.appservice_function_app_publicly_accessible
+  query       = query.appservice_function_app_restrict_public_acces
 
   tags = local.regulatory_compliance_appservice_common_tags
 }
@@ -1861,7 +1861,7 @@ query "appservice_function_app_authentication_on" {
   EOQ
 }
 
-query "appservice_function_app_publicly_accessible" {
+query "appservice_function_app_restrict_public_acces" {
   sql = <<-EOQ
     with public_function_app as (
       select

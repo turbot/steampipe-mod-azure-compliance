@@ -173,160 +173,160 @@ control "network_sg_flowlog_retention_period_greater_than_90" {
 }
 
 control "network_network_peering_connected" {
-  title       = "Virtual network network peering should be in connetecd state"
-  description = "This control checks that Virtual network network peering is in connetecd state."
+  title       = "Virtual network network peering should be in connected state"
+  description = "This control ensures whether virtual network network peering is in connetecd state. This contol is non-compliant if network peering is not in connected state."
   query       = query.network_network_peering_connected
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_udp_port_445" {
-  title       = "Network security groups should restrict ingress UDP port 445 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 445."
+  title       = "Network security groups should restrict inbound UDP port 445 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to UDP port 445."
   query       = query.network_security_group_restrict_inbound_udp_port_445
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_20" {
-  title       = "Network security groups should restrict ingress TCP port 20 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 20."
+  title       = "Network security groups should restrict inbound TCP port 20 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 20."
   query       = query.network_security_group_restrict_inbound_tcp_port_20
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_21" {
-  title       = "Network security groups should restrict ingress TCP port 21 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 20."
+  title       = "Network security groups should restrict inbound TCP port 21 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 20."
   query       = query.network_security_group_restrict_inbound_tcp_port_21
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_icmp_port" {
-  title       = "Network security groups should restrict ingress ICMP port access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to ICMP port."
+  title       = "Network security groups should restrict inbound ICMP port access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to ICMP port."
   query       = query.network_security_group_restrict_inbound_icmp_port
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_4333" {
-  title       = "Network security groups should restrict ingress TCP port 4333 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 4333."
+  title       = "Network security groups should restrict inbound TCP port 4333 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 4333."
   query       = query.network_security_group_restrict_inbound_tcp_port_4333
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_3306" {
-  title       = "Network security groups should restrict ingress TCP port 3306 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 3306."
+  title       = "Network security groups should restrict inbound TCP port 3306 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 3306."
   query       = query.network_security_group_restrict_inbound_tcp_port_3306
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_53" {
-  title       = "Network security groups should restrict ingress TCP port 53 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 53."
+  title       = "Network security groups should restrict inbound TCP port 53 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 53."
   query       = query.network_security_group_restrict_inbound_tcp_port_53
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_udp_port_53" {
-  title       = "Network security groups should restrict ingress UDP port 53 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 53."
+  title       = "Network security groups should restrict inbound UDP port 53 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to UDP port 53."
   query       = query.network_security_group_restrict_inbound_udp_port_53
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_udp_port_137" {
-  title       = "Network security groups should restrict ingress UDP port 137 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 137."
+  title       = "Network security groups should restrict inbound UDP port 137 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to UDP port 137."
   query       = query.network_security_group_restrict_inbound_udp_port_137
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_udp_port_138" {
-  title       = "Network security groups should restrict ingress UDP port 137 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 137."
+  title       = "Network security groups should restrict inbound UDP port 137 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to UDP port 137."
   query       = query.network_security_group_restrict_inbound_udp_port_138
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_5432" {
-  title       = "Network security groups should restrict ingress TCP port 5432 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 5432."
+  title       = "Network security groups should restrict inbound TCP port 5432 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 5432."
   query       = query.network_security_group_restrict_inbound_tcp_port_5432
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_25" {
-  title       = "Network security groups should restrict ingress TCP port 25 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 25."
+  title       = "Network security groups should restrict inbound TCP port 25 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 25."
   query       = query.network_security_group_restrict_inbound_tcp_port_25
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_1433" {
-  title       = "Network security groups should restrict ingress TCP port 25 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 25."
+  title       = "Network security groups should restrict inbound TCP port 1433 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 1433."
   query       = query.network_security_group_restrict_inbound_tcp_port_1433
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_udp_port_1434" {
-  title       = "Network security groups should restrict ingress UDP port 1434 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to UDP port 1434."
+  title       = "Network security groups should restrict inbound UDP port 1434 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to UDP port 1434."
   query       = query.network_security_group_restrict_inbound_udp_port_1434
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_23" {
-  title       = "Network security groups should restrict ingress TCP port 23 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 23."
+  title       = "Network security groups should restrict inbound TCP port 23 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 23."
   query       = query.network_security_group_restrict_inbound_tcp_port_23
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_5500" {
-  title       = "Network security groups should restrict ingress TCP port 5500 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 5500."
+  title       = "Network security groups should restrict inbound TCP port 5500 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 5500."
   query       = query.network_security_group_restrict_inbound_tcp_port_5500
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_5900" {
-  title       = "Network security groups should restrict ingress TCP port 5900 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 5900."
+  title       = "Network security groups should restrict inbound TCP port 5900 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 5900."
   query       = query.network_security_group_restrict_inbound_tcp_port_5900
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_135" {
-  title       = "Network security groups should restrict ingress TCP port 135 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 135."
+  title       = "Network security groups should restrict inbound TCP port 135 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 135."
   query       = query.network_security_group_restrict_inbound_tcp_port_135
 
   tags = local.regulatory_compliance_network_common_tags
 }
 
 control "network_security_group_restrict_inbound_tcp_port_445" {
-  title       = "Network security groups should restrict ingress TCP port 445 access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted ingress access to TCP port 445."
+  title       = "Network security groups should restrict inbound TCP port 445 access from internet"
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted inbound access to TCP port 445."
   query       = query.network_security_group_restrict_inbound_tcp_port_445
 
   tags = local.regulatory_compliance_network_common_tags
@@ -334,7 +334,7 @@ control "network_security_group_restrict_inbound_tcp_port_445" {
 
 control "network_security_group_outbound_access_restricted" {
   title       = "Network security groups should restrict outbound access from internet"
-  description = "Network security group provide stateful filtering of ingress/egress network traffic to Azure resources. It is recommended that no network security group allows unrestricted outbound access."
+  description = "Network security group provide stateful filtering of inbound/outbound network traffic to Azure resources. It is recommended that no network security group allows unrestricted outbound access."
   query       = query.network_security_group_outbound_access_restricted
 
   tags = local.regulatory_compliance_network_common_tags

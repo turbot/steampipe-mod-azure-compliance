@@ -287,7 +287,7 @@ control "kubernetes_cluster_network_plugin_azure" {
 
 control "kubernetes_cluster_http_application_routing_dsiabled" {
   title       = "Kubernetes clusters HTTP application routing should be disabled"
-  description = "This control checks if HTTP application routing is  disabled for Kubernetes cluster."
+  description = "This control checks if HTTP application routing is disabled for Kubernetes cluster."
   query       = query.kubernetes_cluster_http_application_routing_dsiabled
 
   tags = local.regulatory_compliance_kubernetes_common_tags

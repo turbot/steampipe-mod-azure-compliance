@@ -297,7 +297,9 @@ query "iam_deprecated_account_with_owner_roles" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -374,7 +376,9 @@ query "iam_external_user_with_owner_role" {
         where d.role_name = 'Owner'
     ), distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -413,7 +417,9 @@ query "iam_deprecated_account" {
         where not u.account_enabled
     ), distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -453,7 +459,9 @@ query "iam_external_user_with_read_permission" {
         where d.role_name = 'Reader'
     ), distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -493,7 +501,9 @@ query "iam_external_user_with_write_permission" {
         d.role_name = any(array['Owner', 'Contributor'])
     ), distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -519,7 +529,9 @@ query "iam_conditional_access_mfa_enabled" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -545,7 +557,9 @@ query "iam_user_not_allowed_to_create_security_group" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -571,7 +585,9 @@ query "iam_user_not_allowed_to_register_application" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -611,7 +627,9 @@ query "iam_user_no_built_in_contributor_role" {
         d.role_name = 'Contributor'
     ), distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -637,7 +655,9 @@ query "iam_user_consent_to_apps_accessing_data_on_their_behalf_disabled" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     ), authorization_policy_with_overly_permission as (

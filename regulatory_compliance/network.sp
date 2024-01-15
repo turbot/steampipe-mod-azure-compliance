@@ -1026,9 +1026,9 @@ query "network_security_group_restrict_inbound_tcp_port_20" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 20 access from internet.'
         else sg.title || ' allows TCP port 20 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1078,9 +1078,9 @@ query "network_security_group_restrict_inbound_tcp_port_21" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 21 access from internet.'
         else sg.title || ' allows TCP port 21 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1132,9 +1132,9 @@ query "network_security_group_restrict_inbound_icmp_port" {
         when nsg.sg_name is null then sg.title || ' restricts ICMP access from internet.'
         else sg.title || ' allows ICMP access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1186,9 +1186,9 @@ query "network_security_group_restrict_inbound_tcp_port_4333" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 4333 access from internet.'
         else sg.title || ' allows TCP port 4333 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1240,9 +1240,9 @@ query "network_security_group_restrict_inbound_tcp_port_3306" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 3306 access from internet.'
         else sg.title || ' allows TCP port 3306 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1294,9 +1294,9 @@ query "network_security_group_restrict_inbound_tcp_port_53" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 53 access from internet.'
         else sg.title || ' allows TCP port 53 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1348,9 +1348,9 @@ query "network_security_group_restrict_inbound_udp_port_53" {
         when nsg.sg_name is null then sg.title || ' restricts UDP port 53 access from internet.'
         else sg.title || ' allows UDP port 53 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1402,9 +1402,9 @@ query "network_security_group_restrict_inbound_udp_port_137" {
         when nsg.sg_name is null then sg.title || ' restricts UDP port 137 access from internet.'
         else sg.title || ' allows UDP port 137 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1456,9 +1456,9 @@ query "network_security_group_restrict_inbound_udp_port_138" {
         when nsg.sg_name is null then sg.title || ' restricts UDP port 138 access from internet.'
         else sg.title || ' allows UDP port 138 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1510,9 +1510,9 @@ query "network_security_group_restrict_inbound_tcp_port_5432" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 5432 access from internet.'
         else sg.title || ' allows TCP port 5432 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1564,9 +1564,9 @@ query "network_security_group_restrict_inbound_tcp_port_25" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 25 access from internet.'
         else sg.title || ' allows TCP port 25 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1618,9 +1618,9 @@ query "network_security_group_restrict_inbound_tcp_port_1433" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 1433 access from internet.'
         else sg.title || ' allows TCP port 1433 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1672,9 +1672,9 @@ query "network_security_group_restrict_inbound_udp_port_1434" {
         when nsg.sg_name is null then sg.title || ' restricts UDP port 1434 access from internet.'
         else sg.title || ' allows UDP port 1434 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1726,9 +1726,9 @@ query "network_security_group_restrict_inbound_tcp_port_23" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 23 access from internet.'
         else sg.title || ' allows TCP port 23 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1780,9 +1780,9 @@ query "network_security_group_restrict_inbound_tcp_port_5500" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 5500 access from internet.'
         else sg.title || ' allows TCP port 5500 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1834,9 +1834,9 @@ query "network_security_group_restrict_inbound_tcp_port_5900" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 5900 access from internet.'
         else sg.title || ' allows TCP port 5900 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1888,9 +1888,9 @@ query "network_security_group_restrict_inbound_tcp_port_135" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 135 access from internet.'
         else sg.title || ' allows TCP port 135 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -1942,9 +1942,9 @@ query "network_security_group_restrict_inbound_tcp_port_445" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 445 access from internet.'
         else sg.title || ' allows TCP port 445 access from internet.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
@@ -2029,9 +2029,9 @@ query "network_lb_diagnostics_logs_enabled" {
         when jsonb_array_length(diagnostic_settings) > 0 then l.title || ' diagnostics logs enabled.'
         else l.title || 'diagnostics logs disabled.'
       end as reason
-      --${local.tag_dimensions_sql}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "l.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "l.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_lb as l,
       azure_subscription as sub

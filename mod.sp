@@ -16,7 +16,7 @@ variable "common_dimensions" {
   # - resource_group
   # - subscription
   # - subscription_id
-  default = ["resource_group", "subscription"]
+  default = ["resource_group", "subscription", "connection_name", "subscription_id", "region"]
 }
 
 variable "tag_dimensions" {
@@ -25,7 +25,7 @@ variable "tag_dimensions" {
   # A list of tag names to include as dimensions for resources that support
   # tags (e.g. "department", "environment"). Default to empty since tag names are
   # a personal choice
-  default = []
+  default = [ "foo"]
 }
 
 locals {

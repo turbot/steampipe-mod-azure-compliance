@@ -611,7 +611,7 @@ query "iam_user_not_allowed_to_register_application" {
 
 query "iam_user_no_built_in_contributor_role" {
   sql = <<-EOQ
-    with all_write_permission_users as (
+    with all_contributor_permission_users as (
       select
         distinct
         u.display_name,
@@ -634,20 +634,20 @@ query "iam_user_no_built_in_contributor_role" {
         azure_tenant
     )
     select
-      a.user_principal_name as resource,
+      u.user_principal_name as resource,
       case
-        when a.user_principal_name like '%EXT%' then 'alarm'
+        when c.user_principal_name is not null then 'alarm'
         else 'ok'
       end as status,
       case
-        when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
-        else a.display_name || ' is domain user with ' || a.role_name || ' role.'
+        when c.user_principal_name is not null then u.display_name || ' have contributor role assigned.'
+        else u.display_name || ' does not have contributor role assigned.'
       end as reason,
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
-      all_write_permission_users as a;
+      azuread_user as u left join all_contributor_permission_users as c on c.user_principal_name = u.user_principal_name;
   EOQ
 }
 

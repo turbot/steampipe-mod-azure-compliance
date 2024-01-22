@@ -1,3 +1,24 @@
+## v0.40 [2024-01-22]
+
+_Enhancements_
+
+- Added 41 new controls to the `All Controls` benchmark across the following services: ([#234](https://github.com/turbot/steampipe-mod-azure-compliance/pull/234) [#233](https://github.com/turbot/steampipe-mod-azure-compliance/pull/233))
+  - `Active Directory`
+  - `App Service`
+  - `Batch`
+  - `Compute`
+  - `Container Instance`
+  - `Key Vault`
+  - `Kubernetes Service`
+  - `Network`
+  - `Recovery Service`
+  - `Service Bus`
+  - `Storage`
+
+_Bug fixes_
+
+- Fixed copy paste error in description of `CIS_v150_2_1_9.md` file. ([#238](https://github.com/turbot/steampipe-mod-azure-compliance/pull/238))
+
 ## v0.39 [2024-01-09]
 
 _Bug fixes_

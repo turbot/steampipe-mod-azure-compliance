@@ -176,34 +176,34 @@ control "storage_account_trusted_microsoft_services_enabled" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
-control "storage_account_logging_for_blobs_disabled" {
-  title       = "Azure storage account logging (Classic Diagnostic Setting) for blobs is disabled"
+control "storage_account_logging_for_blobs_enabled" {
+  title       = "Storage account logging (Classic Diagnostic Setting) for blobs should be enabled"
   description = "Storage Logging records details of requests (read, write, and delete operations) against your Azure blobs. This policy identifies Azure storage accounts that do not have logging enabled for blobs. As a best practice, enable logging for read, write, and delete request types on blobs."
-  query       = query.storage_account_logging_for_blobs_disabled
+  query       = query.storage_account_logging_for_blobs_enabled
 
   tags = local.regulatory_compliance_storage_common_tags
 }
 
-control "storage_account_logging_for_tables_disabled" {
-  title       = "Azure storage account logging (Classic Diagnostic Setting) for tables is disabled"
+control "storage_account_logging_for_tables_enabled" {
+  title       = "Storage account logging (Classic Diagnostic Setting) for tables should be enabled"
   description = "Storage Logging records details of requests (read, write, and delete operations) against your Azure tables. This policy identifies Azure storage accounts that do not have logging enabled for tables. As a best practice, enable logging for read, write, and delete request types on tables."
-  query       = query.storage_account_logging_for_tables_disabled
+  query       = query.storage_account_logging_for_tables_enabled
 
   tags = local.regulatory_compliance_storage_common_tags
 }
 
-control "storage_account_logging_for_queues_disabled" {
-  title       = "Azure storage account logging (Classic Diagnostic Setting) for queues is disabled"
+control "storage_account_logging_for_queues_enabled" {
+  title       = "Storage account logging (Classic Diagnostic Setting) for queues should be enabled"
   description = "Storage Logging records details of requests (read, write, and delete operations) against your Azure queues. This policy identifies Azure storage accounts that do not have logging enabled for queues. As a best practice, enable logging for read, write, and delete request types on queues."
-  query       = query.storage_account_logging_for_queues_disabled
+  query       = query.storage_account_logging_for_queues_enabled
 
   tags = local.regulatory_compliance_storage_common_tags
 }
 
-control "storage_account_containing_vhd_os_disk_not_cmk_encrypted" {
-  title       = "Azure Storage account containing VHD OS disk not encrypted with CMK"
+control "storage_account_containing_vhd_os_disk_cmk_encrypted" {
+  title       = "Storage account containing VHD OS disk not encrypted with CMK"
   description = "This policy identifies Azure Storage account containing VHD OS disk which are not encrypted with CMK. VHD's attached to Virtual Machines are stored in Azure storage. By default Azure Storage account is encrypted using Microsoft Managed Keys. It is recommended to use Customer Managed Keys to encrypt data in Azure Storage accounts for better control on the data."
-  query       = query.storage_account_containing_vhd_os_disk_not_cmk_encrypted
+  query       = query.storage_account_containing_vhd_os_disk_cmk_encrypted
 
   tags = local.regulatory_compliance_storage_common_tags
 }
@@ -688,7 +688,7 @@ query "storage_account_trusted_microsoft_services_enabled" {
   EOQ
 }
 
-query "storage_account_logging_for_blobs_disabled" {
+query "storage_account_logging_for_blobs_enabled" {
   sql = <<-EOQ
     select
       sa.id as resource,
@@ -722,7 +722,7 @@ query "storage_account_logging_for_blobs_disabled" {
   EOQ
 }
 
-query "storage_account_logging_for_tables_disabled" {
+query "storage_account_logging_for_tables_enabled" {
   sql = <<-EOQ
     select
       sa.id as resource,
@@ -753,7 +753,7 @@ query "storage_account_logging_for_tables_disabled" {
   EOQ
 }
 
-query "storage_account_logging_for_queues_disabled" {
+query "storage_account_logging_for_queues_enabled" {
   sql = <<-EOQ
     select
       sa.id as resource,
@@ -784,7 +784,7 @@ query "storage_account_logging_for_queues_disabled" {
   EOQ
 }
 
-query "storage_account_containing_vhd_os_disk_not_cmk_encrypted" {
+query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
   sql = <<-EOQ
     select
       sa.id as resource,

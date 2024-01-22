@@ -774,26 +774,26 @@ control "compute_vm_utilizing_managed_disk" {
   tags = local.regulatory_compliance_compute_common_tags
 }
 
-control "compute_disk_unattached_and_encrypted_with_default_encryption_key" {
-  title       = "Azure disk is unattached and is encrypted with the default encryption key instead of ADE/CMK"
+control "compute_disk_unattached_encrypted_with_cmk" {
+  title       = "Unattached Compute disks should be encrypted with ADE/CMK"
   description = "This policy identifies the disks which are unattached and are encrypted with default encryption instead of ADE/CMK. Azure encrypts disks by default Server-Side Encryption (SSE) with platform-managed keys [SSE with PMK]. It is recommended to use either SSE with Azure Disk Encryption [SSE with PMK+ADE] or Customer Managed Key [SSE with CMK] which improves on platform-managed keys by giving you control of the encryption keys to meet your compliance need."
-  query       = query.compute_disk_unattached_and_encrypted_with_default_encryption_key
+  query       = query.compute_disk_unattached_encrypted_with_cmk
 
   tags = local.regulatory_compliance_compute_common_tags
 }
 
-control "compute_vm_scale_set_not_utilising_managed_disks" {
-  title       = "Azure Virtual machine scale sets are not utilising Managed Disks"
+control "compute_vm_scale_set_uses_managed_disks" {
+  title       = "Virtual machine scale sets should use managed disks"
   description = "This policy identifies Azure Virtual machine scale sets which are not utilising Managed Disks. Using Azure Managed disk over traditional BLOB storage based VHD's has more advantage features like Managed disks are by default encrypted, reduces cost over storage accounts and more resilient as Microsoft will manage the disk storage and move around if underlying hardware goes faulty. It is recommended to move BLOB based VHD's to Managed Disks."
-  query       = query.compute_vm_scale_set_not_utilising_managed_disks
+  query       = query.compute_vm_scale_set_uses_managed_disks
 
   tags = local.regulatory_compliance_compute_common_tags
 }
 
-control "compute_vm_scale_set_boot_diagnostics_disabled" {
+control "compute_vm_scale_set_boot_diagnostics_enabled" {
   title       = "Azure Virtual Machine scale sets Boot Diagnostics Disabled"
   description = "This policy identifies Azure Virtual Machines scale sets which has Boot Diagnostics setting Disabled. Boot Diagnostics when enabled for virtual machine, captures Screenshot and Console Output during virtual machine startup. This would help in troubleshooting virtual machine when it enters a non-bootable state."
-  query       = query.compute_vm_scale_set_boot_diagnostics_disabled
+  query       = query.compute_vm_scale_set_boot_diagnostics_enabled
 
   tags = local.regulatory_compliance_compute_common_tags
 }
@@ -2585,7 +2585,7 @@ query "compute_vm_scale_set_ssh_key_authentication_linux" {
   EOQ
 }
 
-query "compute_disk_unattached_and_encrypted_with_default_encryption_key" {
+query "compute_disk_unattached_encrypted_with_cmk" {
   sql = <<-EOQ
     select
       disk.id as resource,
@@ -2617,7 +2617,7 @@ query "compute_disk_unattached_and_encrypted_with_default_encryption_key" {
   EOQ
 }
 
-query "compute_vm_scale_set_not_utilising_managed_disks" {
+query "compute_vm_scale_set_uses_managed_disks" {
   sql = <<-EOQ
     select
       a.id as resource,
@@ -2640,7 +2640,7 @@ query "compute_vm_scale_set_not_utilising_managed_disks" {
   EOQ
 }
 
-query "compute_vm_scale_set_boot_diagnostics_disabled" {
+query "compute_vm_scale_set_boot_diagnostics_enabled" {
   sql = <<-EOQ
     select
       a.id as resource,

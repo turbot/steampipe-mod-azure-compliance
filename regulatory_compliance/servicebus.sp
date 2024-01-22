@@ -43,10 +43,10 @@ control "servicebus_use_virtual_service_endpoint" {
   tags = local.regulatory_compliance_servicebus_common_tags
 }
 
-control "servicebus_namespace_not_using_azure_ad_authentication" {
+control "servicebus_namespace_azure_ad_authentication_enabled" {
   title       = "Azure Service bus namespace not configured with Azure Active Directory (Azure AD) authentication"
   description = "This policy identifies Service bus namespaces that are not configured with Azure Active Directory (Azure AD) authentication and are enabled with local authentication. Azure AD provides superior security and ease of use over shared access signatures (SAS). With Azure AD, there's no need to store the tokens in your code and risk potential security vulnerabilities. It is recommended to configure the Service bus namespaces with Azure AD authentication so that all actions are strongly authenticated."
-  query       = query.servicebus_namespace_not_using_azure_ad_authentication
+  query       = query.servicebus_namespace_azure_ad_authentication_enabled
 
   tags = local.regulatory_compliance_servicebus_common_tags
 }
@@ -204,7 +204,7 @@ query "servicebus_use_virtual_service_endpoint" {
   EOQ
 }
 
-query "servicebus_namespace_not_using_azure_ad_authentication" {
+query "servicebus_namespace_azure_ad_authentication_enabled" {
   sql = <<-EOQ
     select
       a.id as resource,

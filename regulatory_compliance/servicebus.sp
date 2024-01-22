@@ -51,10 +51,10 @@ control "servicebus_namespace_azure_ad_authentication_enabled" {
   tags = local.regulatory_compliance_servicebus_common_tags
 }
 
-control "servicebus_namespace_using_overly_permissive_network_access" {
+control "servicebus_namespace_no_overly_permissive_network_access" {
   title       = "Azure Service bus namespace configured with overly permissive network access"
   description = "This policy identifies Azure Service bus namespaces configured with overly permissive network access. By default, Service Bus namespaces are accessible from the internet as long as the request comes with valid authentication and authorization. With an IP firewall, you can restrict it further to only a set of IPv4 addresses or IPv4 address ranges. With Virtual Networks, the network traffic path is secured on both ends. It is recommended to configure the Service bus namespace with an IP firewall or by Virtual Network; so that the Service bus namespace is accessible only to restricted entities."
-  query       = query.servicebus_namespace_using_overly_permissive_network_access
+  query       = query.servicebus_namespace_no_overly_permissive_network_access
 
   tags = local.regulatory_compliance_servicebus_common_tags
 }
@@ -227,7 +227,7 @@ query "servicebus_namespace_azure_ad_authentication_enabled" {
   EOQ
 }
 
-query "servicebus_namespace_using_overly_permissive_network_access" {
+query "servicebus_namespace_no_overly_permissive_network_access" {
   sql = <<-EOQ
     select
       a.id as resource,

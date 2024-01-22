@@ -168,10 +168,10 @@ control "iam_user_not_allowed_to_register_application" {
   tags = local.regulatory_compliance_iam_common_tags
 }
 
-control "iam_subscriptions_with_custom_roles_are_overly_permissive" {
+control "iam_subscriptions_with_custom_roles_no_overly_permissive" {
   title       = "Subscriptions with custom roles are overly permissive"
   description = "This policy identifies azure subscriptions with custom roles are overly permissive. Least privilege access rule should be followed and only necessary privileges should be assigned instead of allowing full administrative access."
-  query       = query.iam_subscriptions_with_custom_roles_are_overly_permissive
+  query       = query.iam_subscriptions_with_custom_roles_no_overly_permissive
 
   tags = local.regulatory_compliance_iam_common_tags
 }
@@ -593,7 +593,7 @@ query "iam_user_not_allowed_to_register_application" {
   EOQ
 }
 
-query "iam_subscriptions_with_custom_roles_are_overly_permissive" {
+query "iam_subscriptions_with_custom_roles_no_overly_permissive" {
   sql = <<-EOQ
     with custom_roles as (
       select

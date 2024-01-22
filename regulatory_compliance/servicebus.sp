@@ -44,7 +44,7 @@ control "servicebus_use_virtual_service_endpoint" {
 }
 
 control "servicebus_namespace_azure_ad_authentication_enabled" {
-  title       = "Azure Service bus namespace not configured with Azure Active Directory (Azure AD) authentication"
+  title       = "Service bus namespace should be configured with Azure Active Directory (Azure AD) authentication"
   description = "This policy identifies Service bus namespaces that are not configured with Azure Active Directory (Azure AD) authentication and are enabled with local authentication. Azure AD provides superior security and ease of use over shared access signatures (SAS). With Azure AD, there's no need to store the tokens in your code and risk potential security vulnerabilities. It is recommended to configure the Service bus namespaces with Azure AD authentication so that all actions are strongly authenticated."
   query       = query.servicebus_namespace_azure_ad_authentication_enabled
 
@@ -52,7 +52,7 @@ control "servicebus_namespace_azure_ad_authentication_enabled" {
 }
 
 control "servicebus_namespace_no_overly_permissive_network_access" {
-  title       = "Azure Service bus namespace configured with overly permissive network access"
+  title       = "Service bus namespace should not be configured with overly permissive network access"
   description = "This policy identifies Azure Service bus namespaces configured with overly permissive network access. By default, Service Bus namespaces are accessible from the internet as long as the request comes with valid authentication and authorization. With an IP firewall, you can restrict it further to only a set of IPv4 addresses or IPv4 address ranges. With Virtual Networks, the network traffic path is secured on both ends. It is recommended to configure the Service bus namespace with an IP firewall or by Virtual Network; so that the Service bus namespace is accessible only to restricted entities."
   query       = query.servicebus_namespace_no_overly_permissive_network_access
 

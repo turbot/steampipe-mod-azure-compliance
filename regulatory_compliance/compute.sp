@@ -791,7 +791,7 @@ control "compute_vm_scale_set_uses_managed_disks" {
 }
 
 control "compute_vm_scale_set_boot_diagnostics_enabled" {
-  title       = "Azure Virtual Machine scale sets Boot Diagnostics Disabled"
+  title       = "Virtual Machine scale sets boot diagnostics should be enabled"
   description = "This policy identifies Azure Virtual Machines scale sets which has Boot Diagnostics setting Disabled. Boot Diagnostics when enabled for virtual machine, captures Screenshot and Console Output during virtual machine startup. This would help in troubleshooting virtual machine when it enters a non-bootable state."
   query       = query.compute_vm_scale_set_boot_diagnostics_enabled
 

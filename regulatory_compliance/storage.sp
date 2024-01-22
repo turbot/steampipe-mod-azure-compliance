@@ -176,26 +176,26 @@ control "storage_account_trusted_microsoft_services_enabled" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
-control "storage_account_logging_for_blobs_enabled" {
+control "storage_account_blobs_logging_enabled" {
   title       = "Storage account logging (Classic Diagnostic Setting) for blobs should be enabled"
   description = "Storage Logging records details of requests (read, write, and delete operations) against your Azure blobs. This policy identifies Azure storage accounts that do not have logging enabled for blobs. As a best practice, enable logging for read, write, and delete request types on blobs."
-  query       = query.storage_account_logging_for_blobs_enabled
+  query       = query.storage_account_blobs_logging_enabled
 
   tags = local.regulatory_compliance_storage_common_tags
 }
 
-control "storage_account_logging_for_tables_enabled" {
+control "storage_account_tables_logging_enabled" {
   title       = "Storage account logging (Classic Diagnostic Setting) for tables should be enabled"
   description = "Storage Logging records details of requests (read, write, and delete operations) against your Azure tables. This policy identifies Azure storage accounts that do not have logging enabled for tables. As a best practice, enable logging for read, write, and delete request types on tables."
-  query       = query.storage_account_logging_for_tables_enabled
+  query       = query.storage_account_tables_logging_enabled
 
   tags = local.regulatory_compliance_storage_common_tags
 }
 
-control "storage_account_logging_for_queues_enabled" {
+control "storage_account_queues_logging_enabled" {
   title       = "Storage account logging (Classic Diagnostic Setting) for queues should be enabled"
   description = "Storage Logging records details of requests (read, write, and delete operations) against your Azure queues. This policy identifies Azure storage accounts that do not have logging enabled for queues. As a best practice, enable logging for read, write, and delete request types on queues."
-  query       = query.storage_account_logging_for_queues_enabled
+  query       = query.storage_account_queues_logging_enabled
 
   tags = local.regulatory_compliance_storage_common_tags
 }
@@ -688,7 +688,7 @@ query "storage_account_trusted_microsoft_services_enabled" {
   EOQ
 }
 
-query "storage_account_logging_for_blobs_enabled" {
+query "storage_account_blobs_logging_enabled" {
   sql = <<-EOQ
     select
       sa.id as resource,
@@ -722,7 +722,7 @@ query "storage_account_logging_for_blobs_enabled" {
   EOQ
 }
 
-query "storage_account_logging_for_tables_enabled" {
+query "storage_account_tables_logging_enabled" {
   sql = <<-EOQ
     select
       sa.id as resource,
@@ -753,7 +753,7 @@ query "storage_account_logging_for_tables_enabled" {
   EOQ
 }
 
-query "storage_account_logging_for_queues_enabled" {
+query "storage_account_queues_logging_enabled" {
   sql = <<-EOQ
     select
       sa.id as resource,

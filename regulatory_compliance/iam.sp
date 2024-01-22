@@ -169,7 +169,7 @@ control "iam_user_not_allowed_to_register_application" {
 }
 
 control "iam_subscriptions_with_custom_roles_no_overly_permissive" {
-  title       = "Subscriptions with custom roles are overly permissive"
+  title       = "Subscriptions with custom roles shoulde not be overly permissive"
   description = "This policy identifies azure subscriptions with custom roles are overly permissive. Least privilege access rule should be followed and only necessary privileges should be assigned instead of allowing full administrative access."
   query       = query.iam_subscriptions_with_custom_roles_no_overly_permissive
 

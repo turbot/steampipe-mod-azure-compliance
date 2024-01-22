@@ -10,8 +10,8 @@ benchmark "all_controls_activedirectory" {
   children = [
     control.ad_guest_user_reviewed_monthly,
     control.iam_conditional_access_mfa_enabled,
-    control.iam_deprecated_account,
     control.iam_deprecated_account_with_owner_roles,
+    control.iam_deprecated_account,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
     control.iam_external_user_with_write_permission,
@@ -20,6 +20,7 @@ benchmark "all_controls_activedirectory" {
     control.iam_subscription_owner_max_3,
     control.iam_subscription_owner_more_than_1,
     control.iam_subscriptions_with_custom_roles_no_overly_permissive,
+    control.iam_user_no_built_in_contributor_role,
     control.iam_user_not_allowed_to_create_security_group,
     control.iam_user_not_allowed_to_register_application
   ]

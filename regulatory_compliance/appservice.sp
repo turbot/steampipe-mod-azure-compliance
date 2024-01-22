@@ -407,6 +407,22 @@ control "appservice_web_app_register_with_active_directory_enabled" {
   tags = local.regulatory_compliance_appservice_common_tags
 }
 
+control "appservice_function_app_authentication_on" {
+  title       = "Ensure App Service authentication is set up for function apps in Azure App Service"
+  description = "Azure App Service authentication is a feature that can prevent anonymous HTTP requests from reaching a Web Application or authenticate those with tokens before they reach the app. If an anonymous request is received from a browser, App Service will redirect to a logon page. To handle the logon process, a choice from a set of identity providers can be made, or a custom authentication mechanism can be implemented."
+  query       = query.appservice_function_app_authentication_on
+
+  tags = local.regulatory_compliance_appservice_common_tags
+}
+
+control "appservice_function_app_restrict_public_acces" {
+  title       = "App Service function apps public access should be restricted"
+  description = "Anonymous public read access to function app in Azure App Service is a convenient way to share data but might present security risks. To prevent data breaches caused by undesired anonymous access, Microsoft recommends preventing public access to a function app unless your scenario requires it."
+  query       = query.appservice_function_app_restrict_public_acces
+
+  tags = local.regulatory_compliance_appservice_common_tags
+}
+
 query "appservice_web_app_use_https" {
   sql = <<-EOQ
     select
@@ -1819,5 +1835,62 @@ query "appservice_web_app_health_check_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "appservice_function_app_authentication_on" {
+  sql = <<-EOQ
+    select
+      fa.id as resource,
+      case
+        when auth_settings -> 'properties' ->> 'enabled' = 'true' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when auth_settings -> 'properties' ->> 'enabled' = 'true' then name || ' authentication enabled.'
+        else name || ' authentication disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app fa,
+      azure_subscription sub
+    where
+      sub.subscription_id = fa.subscription_id
+  EOQ
+}
+
+query "appservice_function_app_restrict_public_acces" {
+  sql = <<-EOQ
+    with public_function_app as (
+      select
+        id
+      from
+        azure_app_service_function_app,
+        jsonb_array_elements(configuration -> 'properties' -> 'ipSecurityRestrictions') as r
+      where
+        r ->> 'ipAddress' = 'Any'
+        and r ->> 'action' = 'Allow'
+    )
+    select
+      fa.id as resource,
+      case
+        when p.id is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.id is null then name || ' not publicly accessible.'
+        else name || ' publicly accessible.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_function_app fa
+      left join public_function_app as p on p.id = fa.id,
+      azure_subscription sub
+    where
+      sub.subscription_id = fa.subscription_id;
   EOQ
 }

@@ -25,6 +25,14 @@ control "batch_account_encrypted_with_cmk" {
   })
 }
 
+control "batch_account_identity_provider_enabled" {
+  title       = "Batch accounts identity provider should be enabled"
+  description = "Ensure that managed identity provider is enabled for the batch account. This control is non-compliant if batch account identity provider is disabled."
+  query       = query.batch_account_identity_provider_enabled
+
+  tags = local.regulatory_compliance_batch_common_tags
+}
+
 query "batch_account_logging_enabled" {
   sql = <<-EOQ
     with logging_details as (
@@ -96,5 +104,28 @@ query "batch_account_encrypted_with_cmk" {
       azure_subscription as sub
     where
       sub.subscription_id = batch.subscription_id;
+  EOQ
+}
+
+query "batch_account_identity_provider_enabled" {
+  sql = <<-EOQ
+    select
+      b.id as resource,
+      case
+        when identity ->> 'type' = 'None' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when identity ->> 'type' = 'None' then b.name || ' identity provider disabled.'
+        else b.name || ' identity provider enabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_batch_account as b,
+      azure_subscription as sub
+    where
+      sub.subscription_id = b.subscription_id;
   EOQ
 }

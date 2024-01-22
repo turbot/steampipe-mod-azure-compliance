@@ -107,7 +107,7 @@ control "keyvault_soft_delete_enabled" {
 control "keyvault_firewall_enabled" {
   title       = "Azure Key Vault should have firewall enabled"
   description = "Enable the key vault firewall so that the key vault is not accessible by default to any public IPs. Optionally, you can configure specific IP ranges to limit access to those networks."
-  query       = query.manual_control
+  query       = query.keyvault_firewall_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
     nist_sp_800_53_rev_5 = "true"
@@ -645,5 +645,28 @@ query "keyvault_with_rbac_secret_expiration_set" {
       azure_subscription sub
     where
       sub.subscription_id = kvs.subscription_id;
+  EOQ
+}
+
+query "keyvault_firewall_enabled" {
+  sql = <<-EOQ
+    select
+      kv.id as resource,
+      case
+        when jsonb_array_length(network_acls -> 'ipRules') > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when jsonb_array_length(network_acls -> 'ipRules') > 0 then name || ' firewall enabled.'
+        else name || ' firewall disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_key_vault kv,
+      azure_subscription sub
+    where
+      sub.subscription_id = kv.subscription_id;
   EOQ
 }

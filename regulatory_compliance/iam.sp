@@ -168,6 +168,14 @@ control "iam_user_not_allowed_to_register_application" {
   tags = local.regulatory_compliance_iam_common_tags
 }
 
+control "iam_user_no_built_in_contributor_role" {
+  title       = "IAM users should not have built in contributor role"
+  description = "Ensure that IAM user does not have built in contributor role. This rule is non-compliant if IAM user have built in contributor role."
+  query       = query.iam_user_no_built_in_contributor_role
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
 query "iam_subscription_owner_more_than_1" {
   sql = <<-EOQ
     with owner_roles as (
@@ -289,7 +297,9 @@ query "iam_deprecated_account_with_owner_roles" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -366,7 +376,9 @@ query "iam_external_user_with_owner_role" {
         where d.role_name = 'Owner'
     ), distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -405,7 +417,9 @@ query "iam_deprecated_account" {
         where not u.account_enabled
     ), distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -445,7 +459,9 @@ query "iam_external_user_with_read_permission" {
         where d.role_name = 'Reader'
     ), distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -485,7 +501,9 @@ query "iam_external_user_with_write_permission" {
         d.role_name = any(array['Owner', 'Contributor'])
     ), distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -511,7 +529,9 @@ query "iam_conditional_access_mfa_enabled" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -537,7 +557,9 @@ query "iam_user_not_allowed_to_create_security_group" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -563,7 +585,9 @@ query "iam_user_not_allowed_to_register_application" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )
@@ -582,5 +606,83 @@ query "iam_user_not_allowed_to_register_application" {
     from
       distinct_tenant as t,
       azuread_authorization_policy as a;
+  EOQ
+}
+
+query "iam_user_no_built_in_contributor_role" {
+  sql = <<-EOQ
+    with all_contributor_permission_users as (
+      select
+        distinct
+        u.display_name,
+        d.role_name,
+        u.account_enabled,
+        u.user_principal_name,
+        d.subscription_id
+      from
+        azuread_user as u
+        left join azure_role_assignment as a on a.principal_id = u.id
+        left join azure_role_definition as d on d.id = a.role_definition_id
+      where
+        d.role_name = 'Contributor'
+    ), distinct_tenant as (
+      select
+        distinct tenant_id,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
+    select
+      u.user_principal_name as resource,
+      case
+        when c.user_principal_name is not null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when c.user_principal_name is not null then u.display_name || ' have contributor role assigned.'
+        else u.display_name || ' does not have contributor role assigned.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      distinct_tenant as t,
+      azuread_user as u left join all_contributor_permission_users as c on c.user_principal_name = u.user_principal_name;
+  EOQ
+}
+
+query "iam_user_consent_to_apps_accessing_data_on_their_behalf_disabled" {
+  sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    ), authorization_policy_with_overly_permission as (
+      select
+        *
+      from
+        azuread_authorization_policy,
+        jsonb_array_elements_text(default_user_role_permissions -> 'permissionGrantPoliciesAssigned') as a
+      where
+        a like '%microsoft-user-default-legacy'
+    )
+    select
+      a.id as resource,
+      case
+        when a.tenant_id is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.tenant_id is null then a.display_name || ' user consent to apps accessing company data on their behalf disabled.'
+        else a.display_name ||  ' user consent to apps accessing company data on their behalf enabled.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      distinct_tenant as t,
+      authorization_policy_with_overly_permission as a;
   EOQ
 }

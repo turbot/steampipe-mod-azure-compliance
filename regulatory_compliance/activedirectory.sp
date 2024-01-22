@@ -16,7 +16,9 @@ query "ad_guest_user_reviewed_monthly" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        distinct tenant_id
+        distinct tenant_id,
+        subscription_id,
+        _ctx
       from
         azure_tenant
     )

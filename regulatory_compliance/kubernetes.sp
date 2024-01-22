@@ -285,10 +285,10 @@ control "kubernetes_cluster_network_plugin_azure" {
   tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
-control "kubernetes_cluster_http_application_routing_dsiabled" {
+control "kubernetes_cluster_http_application_routing_disabled" {
   title       = "Kubernetes clusters HTTP application routing should be disabled"
   description = "This control checks if HTTP application routing is disabled for Kubernetes cluster."
-  query       = query.kubernetes_cluster_http_application_routing_dsiabled
+  query       = query.kubernetes_cluster_http_application_routing_disabled
 
   tags = local.regulatory_compliance_kubernetes_common_tags
 }
@@ -705,7 +705,7 @@ query "kubernetes_cluster_network_plugin_azure" {
   EOQ
 }
 
-query "kubernetes_cluster_http_application_routing_dsiabled" {
+query "kubernetes_cluster_http_application_routing_disabled" {
   sql = <<-EOQ
     select
       c.id as resource,

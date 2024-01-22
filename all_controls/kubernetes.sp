@@ -11,7 +11,7 @@ benchmark "all_controls_kubernetes" {
     control.kubernetes_cluster_add_on_azure_policy_enabled,
     control.kubernetes_cluster_addon_azure_policy_enabled,
     control.kubernetes_cluster_authorized_ip_range_defined,
-    control.kubernetes_cluster_http_application_routing_dsiabled,
+    control.kubernetes_cluster_http_application_routing_disabled,
     control.kubernetes_cluster_key_vault_secret_rotation_enabled,
     control.kubernetes_cluster_logging_enabled,
     control.kubernetes_cluster_max_pod_50,

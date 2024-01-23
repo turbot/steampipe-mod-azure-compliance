@@ -692,7 +692,7 @@ query "iam_user_no_built_in_contributor_role" {
         else 'ok'
       end as status,
       case
-        when c.user_principal_name is not null then u.display_name || ' have contributor role assigned.'
+        when c.user_principal_name is not null then u.display_name || ' has contributor role assigned.'
         else u.display_name || ' does not have contributor role assigned.'
       end as reason,
       t.tenant_id

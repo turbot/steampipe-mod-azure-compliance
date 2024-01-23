@@ -1857,7 +1857,7 @@ query "appservice_function_app_authentication_on" {
       azure_app_service_function_app fa,
       azure_subscription sub
     where
-      sub.subscription_id = fa.subscription_id
+      sub.subscription_id = fa.subscription_id;
   EOQ
 }
 

@@ -17,7 +17,7 @@ _Enhancements_
 
 _Bug fixes_
 
-- Fixed copy paste error in description of `CIS_v150_2_1_9.md` file. ([#238](https://github.com/turbot/steampipe-mod-azure-compliance/pull/238))
+- Fixed the description of `CIS_v150_2_1_9` control. ([#238](https://github.com/turbot/steampipe-mod-azure-compliance/pull/238)) (Thanks [@sfunkernw](https://github.com/sfunkernw) for the contribution!)
 
 ## v0.39 [2024-01-09]
 

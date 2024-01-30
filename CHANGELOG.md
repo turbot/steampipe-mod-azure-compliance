@@ -15,6 +15,10 @@ _Enhancements_
   - `Service Bus`
   - `Storage`
 
+_Dependencies_
+
+- Azure plugin `v0.53.0` or higher is now required. ([#242](https://github.com/turbot/steampipe-mod-azure-compliance/pull/242))
+
 _Bug fixes_
 
 - Fixed the description of `CIS_v150_2_1_9` control. ([#238](https://github.com/turbot/steampipe-mod-azure-compliance/pull/238)) (Thanks [@sfunkernw](https://github.com/sfunkernw) for the contribution!)

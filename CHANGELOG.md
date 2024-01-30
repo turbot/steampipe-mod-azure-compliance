@@ -1,3 +1,28 @@
+## v0.40 [2024-01-22]
+
+_Enhancements_
+
+- Added 41 new controls to the `All Controls` benchmark across the following services: ([#234](https://github.com/turbot/steampipe-mod-azure-compliance/pull/234) [#233](https://github.com/turbot/steampipe-mod-azure-compliance/pull/233))
+  - `Active Directory`
+  - `App Service`
+  - `Batch`
+  - `Compute`
+  - `Container Instance`
+  - `Key Vault`
+  - `Kubernetes Service`
+  - `Network`
+  - `Recovery Service`
+  - `Service Bus`
+  - `Storage`
+
+_Dependencies_
+
+- Azure plugin `v0.53.0` or higher is now required. ([#242](https://github.com/turbot/steampipe-mod-azure-compliance/pull/242))
+
+_Bug fixes_
+
+- Fixed the description of `CIS_v150_2_1_9` control. ([#238](https://github.com/turbot/steampipe-mod-azure-compliance/pull/238)) (Thanks [@sfunkernw](https://github.com/sfunkernw) for the contribution!)
+
 ## v0.39 [2024-01-09]
 
 _Bug fixes_

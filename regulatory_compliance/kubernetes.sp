@@ -277,6 +277,22 @@ control "kubernetes_cluster_network_policy_enabled" {
   tags = local.regulatory_compliance_kubernetes_common_tags
 }
 
+control "kubernetes_cluster_network_plugin_azure" {
+  title       = "Kubernetes clusters should have Azure network plugin"
+  description = "This control checks if Azure CNI networking is enabled for Kubernetes cluster."
+  query       = query.kubernetes_cluster_network_plugin_azure
+
+  tags = local.regulatory_compliance_kubernetes_common_tags
+}
+
+control "kubernetes_cluster_http_application_routing_disabled" {
+  title       = "Kubernetes clusters HTTP application routing should be disabled"
+  description = "This control checks if HTTP application routing is disabled for Kubernetes cluster."
+  query       = query.kubernetes_cluster_http_application_routing_disabled
+
+  tags = local.regulatory_compliance_kubernetes_common_tags
+}
+
 query "kubernetes_instance_rbac_enabled" {
   sql = <<-EOQ
     select
@@ -654,6 +670,52 @@ query "kubernetes_cluster_network_policy_enabled" {
       case
         when network_profile ->> 'networkPolicy' is not null then c.name || ' network policy enabled.'
         else c.name || ' network policy disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_network_plugin_azure" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when network_profile ->> 'networkPlugin' = 'azure' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when network_profile ->> 'networkPlugin' = 'azure' then c.name || ' Azure CNI networking enabled.'
+        else c.name || ' Azure CNI networking disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_kubernetes_cluster c,
+      azure_subscription sub
+    where
+      sub.subscription_id = c.subscription_id;
+  EOQ
+}
+
+query "kubernetes_cluster_http_application_routing_disabled" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when addon_profiles -> 'httpApplicationRouting' ->> 'enabled' = 'true' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when addon_profiles -> 'httpApplicationRouting'  ->> 'enabled' = 'true' then c.name || ' HTTP application routing enabled.'
+        else c.name || ' HTTP application routing disabled.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}

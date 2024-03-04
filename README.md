@@ -1,4 +1,4 @@
-# Azure Compliance Mod for Steampipe
+# Azure Compliance Mod for Powerpipe
 
 > [!IMPORTANT]
 > Steampipe mods are [migrating to Powerpipe format](https://powerpipe.io) to gain new features. This mod currently works with both Steampipe and Powerpipe, but will only support Powerpipe from v1.x onward.

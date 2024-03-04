@@ -1,5 +1,5 @@
 mod "azure_compliance" {
-  # hub metadata
+  # Hub metadata
   title         = "Azure Compliance"
   description   = "Run individual configuration, compliance and security controls or full compliance benchmarks for CIS, HIPAA HITRUST, NIST, PCI DSS across all your Azure subscriptions using Powerpipe and Steampipe."
   color         = "#0089D6"

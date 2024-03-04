@@ -8,9 +8,12 @@
 **Includes full support for the CIS v1.3 Azure Benchmarks**.
 
 Run checks in a dashboard:
-![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png)
+<!-- ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png) -->
+![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/add-new-checks/docs/azure_compliance_dashboard.png)
+
 
 Or in a terminal:
+<!-- ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v200_console.png) -->
 ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/add-new-checks/docs/azure_cis_v200_console.png)
 
 ## Documentation
@@ -18,7 +21,7 @@ Or in a terminal:
 - **[Benchmarks and controls →](https://hub.powerpipe.io/mods/turbot/azure_compliance/controls)**
 - **[Named queries →](https://hub.powerpipe.io/mods/turbot/azure_compliance/queries)**
 
-## Getting started
+## Getting Started
 
 ### Installation
 
@@ -45,7 +48,7 @@ Finally, install the mod:
 mkdir dashboards
 cd dashboards
 powerpipe mod init
-powerpipe mod install github.com/turbot/powerpipe-mod-azure-compliance
+powerpipe mod install github.com/turbot/steampipe-mod-azure-compliance
 ```
 
 ### Browsing Dashboards

@@ -28,14 +28,16 @@ Install Powerpipe (https://powerpipe.io/downloads), or use Brew:
 brew install turbot/tap/powerpipe
 ```
 
-This mod also requires [Steampipe](https://steampipe.io) with the [Azure plugin](https://hub.steampipe.io/plugins/turbot/azure) as the data source. Install Steampipe (https://steampipe.io/downloads), or use Brew:
+This mod also requires [Steampipe](https://steampipe.io) with the [Azure plugin](https://hub.steampipe.io/plugins/turbot/azure) and the [Azure Active Directory plugin](https://hub.steampipe.io/plugins/turbot/azuread) as the data source. Install Steampipe (https://steampipe.io/downloads), or use Brew:
 
 ```sh
 brew install turbot/tap/steampipe
 steampipe plugin install azure
+steampipe plugin install azuread
 ```
 
-Steampipe will automatically use your default Azure credentials. Optionally, you can [setup multiple accounts](https://hub.steampipe.io/plugins/turbot/azure#multi-subscription-connections) or [customize Azure credentials](https://hub.steampipe.io/plugins/turbot/azure#configuring-azure-credentials).
+Steampipe will automatically use your default Azure and Azure Active Directory credentials. Optionally, you can [setup multiple subscriptions](https://hub.steampipe.io/plugins/turbot/azure#multi-subscription-connections) for Azure or [customize Azure credentials](https://hub.steampipe.io/plugins/turbot/azure#configuring-azure-credentials) or you can [setup multiple tenants](https://hub.steampipe.io/plugins/turbot/azuread#multi-tenant-connections) for Azure Active Directory or [customize Azure Active Directory credentials](https://hub.steampipe.io/plugins/turbot/azuread#configuring-azure-active-directory-credentials).
+
 
 Finally, install the mod:
 

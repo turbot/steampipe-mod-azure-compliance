@@ -738,3 +738,38 @@ query "iam_user_consent_to_apps_accessing_data_on_their_behalf_disabled" {
       authorization_policy_with_overly_permission as a;
   EOQ
 }
+
+query "iam_custom_roles_no_overly_permissive" {
+  sql = <<-EOQ
+    with custom_roles as (
+      select
+        distinct id
+      from
+        azure_role_definition,
+        jsonb_array_elements(permissions) as s,
+        jsonb_array_elements_text(s -> 'actions') as action
+      where
+        role_type = 'CustomRole'
+        and action like 'Microsoft.Authorization/locks/%'
+    )
+    select
+      d.id as resource,
+      case
+        when r.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when r.id is not null then d.title ||  ' has Microsoft.Authorization/lock permission.'
+        else d.title ||  ' does not have  Microsoft.Authorization/lock permission.'
+      end as reason
+      --${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "cr.")}
+      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_role_definition as d
+      left join custom_roles as r on r.id = d.id,
+      azure_subscription sub
+    where
+      role_type = 'CustomRole'
+      and sub.subscription_id = d.subscription_id;
+  EOQ
+}

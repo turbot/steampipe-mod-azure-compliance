@@ -36,13 +36,14 @@ steampipe plugin install azuread
 
 Steampipe will automatically use your default Azure and Azure Active Directory credentials. Optionally, you can [setup multiple subscriptions](https://hub.steampipe.io/plugins/turbot/azure#multi-subscription-connections) for Azure or [customize Azure credentials](https://hub.steampipe.io/plugins/turbot/azure#configuring-azure-credentials) or you can [setup multiple tenants](https://hub.steampipe.io/plugins/turbot/azuread#multi-tenant-connections) for Azure Active Directory or [customize Azure Active Directory credentials](https://hub.steampipe.io/plugins/turbot/azuread#configuring-azure-active-directory-credentials).
 
+
 Finally, install the mod:
 
 ```sh
 mkdir dashboards
 cd dashboards
 powerpipe mod init
-powerpipe mod install github.com/turbot/powerpipe-mod-azure-compliance
+powerpipe mod install github.com/turbot/steampipe-mod-azure-compliance
 ```
 
 ### Browsing Dashboards
@@ -59,7 +60,7 @@ Start the dashboard server:
 powerpipe server
 ```
 
-Browse and view your dashboards at **https://localhost:9033**.
+Browse and view your dashboards at **http://localhost:9033**.
 
 ### Running Checks in Your Terminal
 

@@ -8,13 +8,10 @@
 **Includes full support for the CIS v1.3 Azure Benchmarks**.
 
 Run checks in a dashboard:
-<!-- ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png) -->
-![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/add-new-checks/docs/azure_compliance_dashboard.png)
-
+![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png)
 
 Or in a terminal:
-<!-- ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v200_console.png) -->
-![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/add-new-checks/docs/azure_cis_v200_console.png)
+![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v200_console.png)
 
 ## Documentation
 
@@ -89,13 +86,13 @@ Different output formats are also available, for more information please see
 
 ### Common and Tag Dimensions
 
-The benchmark queries use common properties (like `connection_name`, `resource_group`, `region`, `subscription` and `subscription_id`) and tags that are defined in the form of a default list of strings in the `mod.sp` file. These properties can be overwritten in several ways:
+The benchmark queries use common properties (like `connection_name`, `resource_group`, `region`, `subscription` and `subscription_id`) and tags that are defined in the form of a default list of strings in the `variables.sp` file. These properties can be overwritten in several ways:
 
 It's easiest to setup your vars file, starting with the sample:
 
 ```sh
-cp powerpipe.ppvar.example powerpipe.ppvars
-vi powerpipe.ppvars
+cp steampipe.spvars.example steampipe.spvars
+vi steampipe.spvars
 ```
 
 Alternatively you can pass variables on the command line:

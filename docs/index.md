@@ -2,15 +2,10 @@
 
 Run individual configuration, compliance and security controls or full `CIS`, `HIPAA HITRUST`, `NIST` and `PCI DSS` compliance benchmarks across all your Azure subscriptions.
 
-<!-- <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png" width="50%" type="thumbnail"/>
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v200_dashboard.png" width="50%" type="thumbnail"/>
 <img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_cis_v200_console.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_hipaa_hitrust_dashboard.png" width="50%" type="thumbnail"/> -->
-
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/add-new-checks/docs/azure_compliance_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/add-new-checks/docs/azure_cis_v200_dashboard.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/add-new-checks/docs/azure_cis_v200_console.png" width="50%" type="thumbnail"/>
-<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/add-new-checks/docs/azure_hipaa_hitrust_dashboard.png" width="50%" type="thumbnail"/>
+<img src="https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_hipaa_hitrust_dashboard.png" width="50%" type="thumbnail"/>
 
 ## Documentation
 
@@ -90,8 +85,8 @@ The benchmark queries use common properties (like `connection_name`, `resource_g
 It's easiest to setup your vars file, starting with the sample:
 
 ```sh
-cp powerpipe.ppvar.example powerpipe.ppvars
-vi powerpipe.ppvars
+cp steampipe.spvars.example steampipe.spvars
+vi steampipe.spvars
 ```
 
 Alternatively you can pass variables on the command line:

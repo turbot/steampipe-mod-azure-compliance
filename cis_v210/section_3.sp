@@ -23,6 +23,8 @@ benchmark "cis_v210_3" {
     control.cis_v210_3_13,
     control.cis_v210_3_14,
     control.cis_v210_3_15,
+    control.cis_v210_3_16,
+    control.cis_v210_3_17
   ]
 
   tags = merge(local.cis_v210_3_common_tags, {

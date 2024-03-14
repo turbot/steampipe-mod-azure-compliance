@@ -767,3 +767,31 @@ query "iam_user_consent_to_apps_accessing_data_on_their_behalf_disabled" {
       authorization_policy_with_overly_permission as a;
   EOQ
 }
+
+query "iam_global_administrator_max_5" {
+  sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        title,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
+    select
+      t.tenant_id as resource,
+      case
+        when jsonb_array_length(member_ids) <= 5 then 'ok'
+        else 'alarm'
+      end as status,
+      t.title || ' has ' ||  (jsonb_array_length(member_ids)) || ' users with global administrator assignment.'  as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      distinct_tenant as t,
+      azuread_directory_role
+    where
+      display_name = 'Global Administrator'
+  EOQ
+}

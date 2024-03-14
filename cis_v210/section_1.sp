@@ -550,7 +550,7 @@ control "cis_v210_1_24" {
 control "cis_v210_1_25" {
   title         = "1.25 Ensure fewer than 5 users have global administrator assignment"
   description   = "This recommendation aims to maintain a balance between security and operational efficiency by ensuring that a minimum of 2 and a maximum of 4 users are assigned the Global Administrator role in Microsoft Entra ID. Having at least two Global Administrators ensures redundancy, while limiting the number to four reduces the risk of excessive privileged access."
-  query         = query.ad_manual_control
+  query         = query.iam_global_administrator_max_5
   documentation = file("./cis_v210/docs/cis_v210_1_25.md")
 
   tags = merge(local.cis_v210_1_common_tags, {

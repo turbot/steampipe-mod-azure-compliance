@@ -11,9 +11,6 @@ locals {
   cis_v210_2_2_common_tags = merge(local.cis_v210_2_common_tags, {
     cis_section_id = "2.2"
   })
-  cis_v210_2_3_common_tags = merge(local.cis_v210_2_common_tags, {
-    cis_section_id = "2.3"
-  })
 }
 
 benchmark "cis_v210_2" {
@@ -21,8 +18,7 @@ benchmark "cis_v210_2" {
   documentation = file("./cis_v210/docs/cis_v210_2.md")
   children = [
     benchmark.cis_v210_2_1,
-    benchmark.cis_v210_2_2,
-    benchmark.cis_v210_2_3
+    benchmark.cis_v210_2_2
   ]
 
   tags = merge(local.cis_v210_2_common_tags, {
@@ -64,7 +60,6 @@ benchmark "cis_v210_2_1" {
     service = "Azure/SecurityCenter"
   })
 }
-
 
 control "cis_v210_2_1_1" {
   title         = "2.1.1 Ensure That Microsoft Defender for Servers Is Set to 'On'"
@@ -291,7 +286,7 @@ control "cis_v210_2_1_16" {
 }
 
 control "cis_v210_2_1_17" {
-  title         = "2.1.18 Ensure That 'All users with the following roles' is set to 'Owner'"
+  title         = "2.1.17 Ensure That 'All users with the following roles' is set to 'Owner'"
   description   = "Enable security alert emails to subscription owners."
   query         = query.securitycenter_security_alerts_to_owner_enabled
   documentation = file("./cis_v210/docs/cis_v210_2_1_17.md")

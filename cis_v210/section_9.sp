@@ -70,36 +70,36 @@ control "cis_v210_9_3" {
 }
 
 control "cis_v210_9_4" {
-  title         = "9.4 Ensure the web app has 'Client Certificates (Incoming client certificates)' set to 'On'"
-  description   = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
-  query         = query.appservice_web_app_incoming_client_cert_on
+  title         = "9.4 Ensure that Register with Entra ID is enabled on App Service"
+  description   = "Managed service identity in App Service provides more security by eliminating secrets from the app, such as credentials in the connection strings. When registering an App Service with Entra ID, the app will connect to other Azure services securely without the need for usernames and passwords."
+  query         = query.appservice_web_app_register_with_active_directory_enabled
   documentation = file("./cis_v210/docs/cis_v210_9_4.md")
 
   tags = merge(local.cis_v210_9_common_tags, {
     cis_item_id = "9.4"
-    cis_level   = "2"
-    cis_type    = "automated"
-    service     = "Azure/AppService"
-  })
-}
-
-control "cis_v210_9_5" {
-  title         = "9.5 Ensure that Register with Azure Active Directory is enabled on App Service"
-  description   = "Managed service identity in App Service provides more security by eliminating secrets from the app, such as credentials in the connection strings. When registering with Azure Active Directory in App Service, the app will connect to other Azure services securely without the need for usernames and passwords."
-  query         = query.appservice_web_app_register_with_active_directory_enabled
-  documentation = file("./cis_v210/docs/cis_v210_9_5.md")
-
-  tags = merge(local.cis_v210_9_common_tags, {
-    cis_item_id = "9.5"
     cis_level   = "1"
     cis_type    = "automated"
     service     = "Azure/AppService"
   })
 }
 
-control "cis_v210_9_6" {
-  title         = "9.6 Ensure That 'PHP version' is the Latest, If Used to Run the Web App"
+control "cis_v210_9_5" {
+  title         = "9.5 Ensure That 'PHP version' is the Latest, If Used to Run the Web App"
   description   = "Periodically newer versions are released for PHP software either due to security flaws or to include additional functionality. Using the latest PHP version for web apps is recommended in order to take advantage of security fixes, if any, and/or additional functionalities of the newer version."
+  query         = query.manual_control
+  documentation = file("./cis_v210/docs/cis_v210_9_5.md")
+
+  tags = merge(local.cis_v210_9_common_tags, {
+    cis_item_id = "9.5"
+    cis_level   = "1"
+    cis_type    = "manual"
+    service     = "Azure/AppService"
+  })
+}
+
+control "cis_v210_9_6" {
+  title         = "9.6 Ensure that 'Python version' is the Latest Stable Version, if Used to Run the Web App"
+  description   = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest full Python version for web apps is recommended in order to take advantage of security fixes, if any, and/or additional functionalities of the newer version."
   query         = query.manual_control
   documentation = file("./cis_v210/docs/cis_v210_9_6.md")
 
@@ -112,8 +112,8 @@ control "cis_v210_9_6" {
 }
 
 control "cis_v210_9_7" {
-  title         = "9.7 Ensure that 'Python version' is the Latest Stable Version, if Used to Run the Web App"
-  description   = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest full Python version for web apps is recommended in order to take advantage of security fixes, if any, and/or additional functionalities of the newer version."
+  title         = "9.7 Ensure that 'Java version' is the latest, if used to run the Web App"
+  description   = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the newer version."
   query         = query.manual_control
   documentation = file("./cis_v210/docs/cis_v210_9_7.md")
 
@@ -126,23 +126,23 @@ control "cis_v210_9_7" {
 }
 
 control "cis_v210_9_8" {
-  title         = "9.8 Ensure that 'Java version' is the latest, if used to run the Web App"
-  description   = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the newer version."
-  query         = query.manual_control
+  title         = "9.8 Ensure that 'HTTP Version' is the Latest, if Used to Run the Web App"
+  description   = "Periodically, newer versions are released for HTTP either due to security flaws or to include additional functionality. Using the latest HTTP version for web apps to take advantage of security fixes, if any, and/or new functionalities of the newer version."
+  query         = query.appservice_web_app_latest_http_version
   documentation = file("./cis_v210/docs/cis_v210_9_8.md")
 
   tags = merge(local.cis_v210_9_common_tags, {
     cis_item_id = "9.8"
     cis_level   = "1"
-    cis_type    = "manual"
+    cis_type    = "automated"
     service     = "Azure/AppService"
   })
 }
 
 control "cis_v210_9_9" {
-  title         = "9.9 Ensure that 'HTTP Version' is the Latest, if Used to Run the Web App"
-  description   = "Periodically, newer versions are released for HTTP either due to security flaws or to include additional functionality. Using the latest HTTP version for web apps to take advantage of security fixes, if any, and/or new functionalities of the newer version."
-  query         = query.appservice_web_app_latest_http_version
+  title         = "9.9 Ensure FTP deployments are Disabled"
+  description   = "By default, Azure Functions, Web, and API Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Service Apps and Functions."
+  query         = query.appservice_ftp_deployment_disabled
   documentation = file("./cis_v210/docs/cis_v210_9_9.md")
 
   tags = merge(local.cis_v210_9_common_tags, {
@@ -154,27 +154,13 @@ control "cis_v210_9_9" {
 }
 
 control "cis_v210_9_10" {
-  title         = "9.10 Ensure FTP deployments are Disabled"
-  description   = "By default, Azure Functions, Web, and API Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Service Apps and Functions."
-  query         = query.appservice_ftp_deployment_disabled
+  title         = "9.10 Ensure Azure Key Vaults are Used to Store Secrets"
+  description   = "Azure Key Vault will store multiple types of sensitive information such as encryption keys, certificate thumbprints, and Managed Identity Credentials. Access to these 'Secrets' can be controlled through granular permissions."
+  query         = query.manual_control
   documentation = file("./cis_v210/docs/cis_v210_9_10.md")
 
   tags = merge(local.cis_v210_9_common_tags, {
     cis_item_id = "9.10"
-    cis_level   = "1"
-    cis_type    = "automated"
-    service     = "Azure/AppService"
-  })
-}
-
-control "cis_v210_9_11" {
-  title         = "9.11 Ensure Azure Key Vaults are Used to Store Secrets"
-  description   = "Azure Key Vault will store multiple types of sensitive information such as encryption keys, certificate thumbprints, and Managed Identity Credentials. Access to these 'Secrets' can be controlled through granular permissions."
-  query         = query.manual_control
-  documentation = file("./cis_v210/docs/cis_v210_9_11.md")
-
-  tags = merge(local.cis_v210_9_common_tags, {
-    cis_item_id = "9.11"
     cis_level   = "2"
     cis_type    = "manual"
     service     = "Azure/AppService"

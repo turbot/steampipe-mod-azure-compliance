@@ -66,7 +66,7 @@ control "cis_v210_8_3" {
 }
 
 control "cis_v210_8_4" {
-  title         = "8.4 Ensure that the Expiration Date is set for all Secrets in Non- RBAC Key Vaults"
+  title         = "8.4 Ensure that the Expiration Date is set for all Secrets in Non-RBAC Key Vaults"
   description   = "Ensure that all Secrets in Non Role Based Access Control (RBAC) Azure Key Vaults have an expiration date set."
   query         = query.keyvault_with_non_rbac_secret_expiration_set
   documentation = file("./cis_v210/docs/cis_v210_8_4.md")
@@ -95,7 +95,7 @@ control "cis_v210_8_5" {
 
 control "cis_v210_8_6" {
   title         = "8.6 Enable Role Based Access Control for Azure Key Vault"
-  description   = "Role assignments disappear when a Key Vault has been deleted (soft- delete) and recovered. Afterwards it will be required to recreate all role assignments. This is a limitation of the soft-delete feature across all Azure services."
+  description   = "Role assignments disappear when a Key Vault has been deleted (soft-delete) and recovered. Afterwards it will be required to recreate all role assignments. This is a limitation of the soft-delete feature across all Azure services."
   query         = query.keyvault_rbac_enabled
   documentation = file("./cis_v210/docs/cis_v210_8_6.md")
 

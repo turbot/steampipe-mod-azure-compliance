@@ -248,7 +248,7 @@ control "cis_v210_1_3" {
   tags = merge(local.cis_v210_1_common_tags, {
     cis_item_id = "1.3"
     cis_level   = "1"
-    cis_type    = "automated"
+    cis_type    = "manual"
     service     = "Azure/ActiveDirectory"
   })
 }
@@ -422,7 +422,7 @@ control "cis_v210_1_15" {
 }
 
 control "cis_v210_1_16" {
-  title         = "1.16 Ensure That 'Restrict access to Azure AD administration portal' is Set to 'Yes'"
+  title         = "1.16 Ensure That 'Restrict access to Microsoft Entra admin center' is Set to 'Yes'"
   description   = "Restrict access to the Azure AD administration portal to administrators only."
   query         = query.ad_manual_control
   documentation = file("./cis_v210/docs/cis_v210_1_16.md")

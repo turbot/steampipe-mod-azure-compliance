@@ -14,7 +14,9 @@ benchmark "cis_v210_7" {
     control.cis_v210_7_4,
     control.cis_v210_7_5,
     control.cis_v210_7_6,
-    control.cis_v210_7_7
+    control.cis_v210_7_7,
+    control.cis_v210_7_8,
+    control.cis_v210_7_9
   ]
 
   tags = merge(local.cis_v210_7_common_tags, {
@@ -108,7 +110,7 @@ control "cis_v210_7_6" {
 }
 
 control "cis_v210_7_7" {
-  title         = "7.7 Ensure that VHDs are Encrypted"
+  title         = "7.7 [Legacy] Ensure that VHDs are Encrypted"
   description   = "VHD (Virtual Hard Disks) are stored in blob storage and are the old-style disks that were attached to Virtual Machines. The blob VHD was then leased to the VM. By default, storage accounts are not encrypted, and Microsoft Defender will then recommend that the OS disks should be encrypted. Storage accounts can be encrypted as a whole using PMK or CMK. This should be turned on for storage accounts containing VHDs."
   query         = query.manual_control
   documentation = file("./cis_v210/docs/cis_v210_7_7.md")
@@ -117,6 +119,34 @@ control "cis_v210_7_7" {
     cis_item_id = "7.7"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/Compute"
+  })
+}
+
+control "cis_v210_7_8" {
+  title         = "7.8 Ensure only MFA enabled identities can access privileged Virtual Machine"
+  description   = "Verify identities without MFA that can log in to a privileged virtual machine using separate login credentials. An adversary can leverage the access to move laterally and perform actions with the virtual machine's managed identity. Make sure the virtual machine only has necessary permissions, and revoke the admin-level permissions according to the least privileges principal."
+  query         = query.manual_control
+  documentation = file("./cis_v210/docs/cis_v210_7_8.md")
+
+  tags = merge(local.cis_v210_7_common_tags, {
+    cis_item_id = "7.8"
+    cis_level   = "2"
+    cis_type    = "automated"
+    service     = "Azure/Compute"
+  })
+}
+
+control "cis_v210_7_9" {
+  title         = "7.9 Ensure Trusted Launch is enabled on Virtual Machines"
+  description   = "When Secure Boot and vTPM are enabled together, they provide a strong foundation for protecting your VM from boot attacks. For example, if an attacker attempts to replace the bootloader with a malicious version, Secure Boot will prevent the VM from booting."
+  query         = query.manual_control
+  documentation = file("./cis_v210/docs/cis_v210_7_9.md")
+
+  tags = merge(local.cis_v210_7_common_tags, {
+    cis_item_id = "7.9"
+    cis_level   = "1"
+    cis_type    = "automated"
     service     = "Azure/Compute"
   })
 }

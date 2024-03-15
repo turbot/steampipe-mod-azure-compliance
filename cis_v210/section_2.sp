@@ -204,7 +204,7 @@ control "cis_v210_2_1_10" {
 control "cis_v210_2_1_11" {
   title         = "2.1.11 Ensure That Microsoft Defender for Resource Manager Is Set To 'On'"
   description   = "Microsoft Defender for Resource Manager scans incoming administrative requests to change your infrastructure from both CLI and the Azure portal."
-  query         = query.manual_control
+  query         = query.securitycenter_azure_defender_on_for_resource_manager
   documentation = file("./cis_v210/docs/cis_v210_2_1_11.md")
 
   tags = merge(local.cis_v210_2_1_common_tags, {
@@ -274,7 +274,7 @@ control "cis_v210_2_1_15" {
 control "cis_v210_2_1_16" {
   title         = "2.1.16 Ensure that Auto provisioning of 'Microsoft Defender for Containers components' is Set to 'On'"
   description   = "Enable automatic provisioning of the Microsoft Defender for Containers components."
-  query         = query.manual_control
+  query         = query.securitycenter_azure_defender_on_for_containers
   documentation = file("./cis_v210/docs/cis_v210_2_1_16.md")
 
   tags = merge(local.cis_v210_2_1_common_tags, {

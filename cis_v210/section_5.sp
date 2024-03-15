@@ -80,7 +80,7 @@ control "cis_v210_5_1_2" {
 control "cis_v210_5_1_3" {
   title         = "5.1.3 Ensure the storage account containing the container with activity logs is encrypted with Customer Managed Key"
   description   = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
-  query         = query.monitor_logs_storage_container_insights_activity_logs_not_public_accessible
+  query         = query.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
   documentation = file("./cis_v210/docs/cis_v210_5_1_3.md")
 
   tags = merge(local.cis_v210_5_1_common_tags, {

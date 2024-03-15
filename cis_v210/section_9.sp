@@ -85,7 +85,7 @@ control "cis_v210_9_4" {
 control "cis_v210_9_5" {
   title         = "9.5 Ensure That 'PHP version' is the Latest, If Used to Run the Web App"
   description   = "Periodically newer versions are released for PHP software either due to security flaws or to include additional functionality. Using the latest PHP version for web apps is recommended in order to take advantage of security fixes, if any, and/or additional functionalities of the newer version."
-  query         = query.manual_control
+  query         = query.appservice_web_app_latest_php_version
   documentation = file("./cis_v210/docs/cis_v210_9_5.md")
 
   tags = merge(local.cis_v210_9_common_tags, {
@@ -99,7 +99,7 @@ control "cis_v210_9_5" {
 control "cis_v210_9_6" {
   title         = "9.6 Ensure that 'Python version' is the Latest Stable Version, if Used to Run the Web App"
   description   = "Periodically, newer versions are released for Python software either due to security flaws or to include additional functionality. Using the latest full Python version for web apps is recommended in order to take advantage of security fixes, if any, and/or additional functionalities of the newer version."
-  query         = query.manual_control
+  query         = query.appservice_web_app_latest_python_version
   documentation = file("./cis_v210/docs/cis_v210_9_6.md")
 
   tags = merge(local.cis_v210_9_common_tags, {
@@ -113,7 +113,7 @@ control "cis_v210_9_6" {
 control "cis_v210_9_7" {
   title         = "9.7 Ensure that 'Java version' is the latest, if used to run the Web App"
   description   = "Periodically, newer versions are released for Java software either due to security flaws or to include additional functionality. Using the latest Java version for web apps is recommended in order to take advantage of security fixes, if any, and/or new functionalities of the newer version."
-  query         = query.manual_control
+  query         = query.appservice_web_app_latest_java_version
   documentation = file("./cis_v210/docs/cis_v210_9_7.md")
 
   tags = merge(local.cis_v210_9_common_tags, {

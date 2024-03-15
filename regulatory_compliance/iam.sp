@@ -565,7 +565,8 @@ query "iam_conditional_access_mfa_enabled_for_administrators" {
   sql = <<-EOQ
     with distinct_tenant as (
       select
-        u.id
+        u.id,
+        tenant_id
       from
         azuread_user as u
         left join azure_role_assignment as a on a.principal_id = u.id

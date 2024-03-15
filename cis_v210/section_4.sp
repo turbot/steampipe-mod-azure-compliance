@@ -8,9 +8,6 @@ locals {
   cis_v210_4_1_common_tags = merge(local.cis_v210_4_common_tags, {
     cis_section_id = "4.1"
   })
-  cis_v210_4_2_common_tags = merge(local.cis_v210_4_common_tags, {
-    cis_section_id = "4.2"
-  })
   cis_v210_4_3_common_tags = merge(local.cis_v210_4_common_tags, {
     cis_section_id = "4.3"
   })
@@ -27,7 +24,6 @@ benchmark "cis_v210_4" {
   documentation = file("./cis_v210/docs/cis_v210_4.md")
   children = [
     benchmark.cis_v210_4_1,
-    benchmark.cis_v210_4_2,
     benchmark.cis_v210_4_3,
     benchmark.cis_v210_4_4,
     benchmark.cis_v210_4_5

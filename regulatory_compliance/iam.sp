@@ -561,6 +561,36 @@ query "iam_conditional_access_mfa_enabled" {
   EOQ
 }
 
+query "iam_conditional_access_mfa_enabled_for_administrators" {
+  sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        u.id,
+        tenant_id
+      from
+        azuread_user as u
+        left join azure_role_assignment as a on a.principal_id = u.id
+        left join azure_role_definition as d on d.id = a.role_definition_id
+      where role_type = 'BuiltInRole' and (role_name like '%Administrator%' or role_name = 'Owner')
+    )
+    select
+      p.id as resource,
+      case
+        when p.built_in_controls @> '["mfa"]' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.built_in_controls @> '["mfa"]' then p.display_name || ' MFA enabled.'
+        else p.display_name || ' MFA disabled.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      distinct_tenant as t,
+      azuread_conditional_access_policy as p;
+  EOQ
+}
+
 query "iam_user_not_allowed_to_create_security_group" {
   sql = <<-EOQ
     with distinct_tenant as (
@@ -736,5 +766,33 @@ query "iam_user_consent_to_apps_accessing_data_on_their_behalf_disabled" {
     from
       distinct_tenant as t,
       authorization_policy_with_overly_permission as a;
+  EOQ
+}
+
+query "iam_global_administrator_max_5" {
+  sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        title,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
+    select
+      t.tenant_id as resource,
+      case
+        when jsonb_array_length(member_ids) <= 5 then 'ok'
+        else 'alarm'
+      end as status,
+      t.title || ' has ' ||  (jsonb_array_length(member_ids)) || ' users with global administrator assignment.'  as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      distinct_tenant as t,
+      azuread_directory_role
+    where
+      display_name = 'Global Administrator'
   EOQ
 }

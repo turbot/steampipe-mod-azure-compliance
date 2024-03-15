@@ -120,7 +120,7 @@ control "cis_v210_3_6" {
 control "cis_v210_3_7" {
   title         = "3.7 Ensure that 'Public Network Access' is `Disabled' for storage accounts"
   description   = "Disallowing public network access for a storage account overrides the public access settings for individual containers in that storage account for Azure Resource Manager Deployment Model storage accounts. Azure Storage accounts that use the classic deployment model will be retired on August 31, 2024."
-  query         = query.storage_account_blob_containers_public_access_private
+  query         = query.storage_account_block_public_access
   documentation = file("./cis_v210/docs/cis_v210_3_7.md")
 
   tags = merge(local.cis_v210_3_common_tags, {
@@ -246,7 +246,7 @@ control "cis_v210_3_15" {
 control "cis_v210_3_16" {
   title         = "3.16 Ensure 'Cross Tenant Replication' is not enabled"
   description   = "Cross Tenant Replication in Azure allows data to be replicated across multiple Azure tenants. While this feature can be beneficial for data sharing and availability, it also poses a significant security risk if not properly managed. Unauthorized data access, data leakage, and compliance violations are potential risks. Disabling Cross Tenant Replication ensures that data is not inadvertently replicated across different tenant boundaries without explicit authorization."
-  query         = query.storage_account_min_tls_1_2
+  query         = query.manual_control
   documentation = file("./cis_v210/docs/cis_v210_3_16.md")
 
   tags = merge(local.cis_v210_3_common_tags, {
@@ -260,7 +260,7 @@ control "cis_v210_3_16" {
 control "cis_v210_3_17" {
   title         = "3.17 Ensure that `Allow Blob Anonymous Access` is set to `Disabled`"
   description   = "The Azure Storage setting 'Allow Blob Anonymous Access' (aka 'allowBlobPublicAccess') controls whether anonymous access is allowed for blob data in a storage account. When this property is set to True, it enables public read access to blob data, which can be convenient for sharing data but may carry security risks. When set to False, it disallows public access to blob data, providing a more secure storage environment."
-  query         = query.storage_account_min_tls_1_2
+  query         = query.storage_account_blob_containers_public_access_private
   documentation = file("./cis_v210/docs/cis_v210_3_17.md")
 
   tags = merge(local.cis_v210_3_common_tags, {

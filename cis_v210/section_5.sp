@@ -50,7 +50,7 @@ benchmark "cis_v210_5_1" {
 }
 
 control "cis_v210_5_1_1" {
-  title         = "5.1.1 Ensure that a 'Diagnostic Setting' exists"
+  title         = "5.1.1 Ensure that a 'Diagnostic Setting' exists for Subscription Activity Logs"
   description   = "Enable Diagnostic settings for exporting activity logs. Diagnostic settings are available for each individual resource within a subscription. Settings should be configured for all appropriate resources for your environment."
   query         = query.manual_control
   documentation = file("./cis_v210/docs/cis_v210_5_1_1.md")
@@ -350,7 +350,7 @@ benchmark "cis_v210_5_5" {
   tags = merge(local.cis_v210_5_common_tags, {
     cis_item_id = "5.5"
     cis_level   = "2"
-    cis_type    = "automated"
+    cis_type    = "manual"
     service     = "Azure/Monitor"
   })
 }

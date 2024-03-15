@@ -2,7 +2,7 @@
 
 _What's new?_
 
-- Added CIS v2.1.0 benchmark (`steampipe check azure_compliance.benchmark.cis_v210`). ([#250](https://github.com/turbot/steampipe-mod-azure-compliance/pull/250))
+- Added CIS v2.1.0 benchmark (`powerpipe benchmark run azure_compliance.benchmark.cis_v210`). ([#250](https://github.com/turbot/steampipe-mod-azure-compliance/pull/250))
 
 ## v0.41 [2024-04-06]
 

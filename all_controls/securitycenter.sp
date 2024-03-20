@@ -26,6 +26,7 @@ benchmark "all_controls_securitycenter" {
     control.securitycenter_azure_defender_on_for_sqlservervm,
     control.securitycenter_azure_defender_on_for_storage,
     control.securitycenter_email_configured,
+    control.securitycenter_image_scan_enabled,
     control.securitycenter_mcas_integration,
     control.securitycenter_notify_alerts_configured,
     control.securitycenter_pricing_standard,

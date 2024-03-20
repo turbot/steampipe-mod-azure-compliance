@@ -59,6 +59,14 @@ control "cosmosdb_account_virtual_network_filter_enabled" {
   tags = local.regulatory_compliance_cosmosdb_common_tags
 }
 
+control "cosmosdb_account_uses_aad_and_rbac" {
+  title         = "Ensure that 'Access Control' is configured to use Azure Active Directory (AAD) and Role-Based Access Control (RBAC)"
+  description   = "Azure Cosmos DB accounts should use Azure Active Directory (AAD) Client Authentication and Role-Based Access Control (RBAC) for access control."
+  query         = query.cosmosdb_account_uses_aad_and_rbac
+
+  tags = local.regulatory_compliance_cosmosdb_common_tags
+}
+
 query "cosmosdb_use_virtual_service_endpoint" {
   sql = <<-EOQ
     with cosmosdb_with_virtual_network as (
@@ -217,6 +225,29 @@ query "cosmosdb_account_virtual_network_filter_enabled" {
         when public_network_access = 'Disabled' then a.name || ' public network access disabled.'
         when public_network_access = 'Enabled' and is_virtual_network_filter_enabled = 'true' then a.name || ' virtual network filter enabled.'
         else a.name || ' virtual network filter disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_cosmosdb_account as a,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "cosmosdb_account_uses_aad_and_rbac" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when disable_local_auth then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when disable_local_auth then a.name || ' is using AAD and RBAC.'
+        else a.name || ' is not using AAD and RBAC.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

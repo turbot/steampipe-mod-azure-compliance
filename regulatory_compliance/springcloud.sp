@@ -19,7 +19,7 @@ query "spring_cloud_service_network_injection_enabled" {
     select
       distinct a.name as resource,
       case
-        when sku_tier <> 'Standard' then 'Skip'
+        when sku_tier <> 'Standard' then 'skip'
         when sku_tier = 'Standard' and network_profile ->> 'ServiceRuntimeSubnetID' is not null then 'ok'
         else 'alarm'
       end as status,

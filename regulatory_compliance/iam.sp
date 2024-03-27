@@ -160,6 +160,15 @@ control "iam_user_not_allowed_to_create_security_group" {
   tags = local.regulatory_compliance_iam_common_tags
 }
 
+control "iam_user_not_allowed_to_create_tenants" {
+  title       = "Ensure that 'Users Can Create Tenants' is set to 'No'"
+  description = "Restrict tenant creation to administrators only."
+  query       = query.iam_user_not_allowed_to_create_tenants
+
+  tags = local.regulatory_compliance_iam_common_tags
+
+}
+
 control "iam_user_not_allowed_to_register_application" {
   title       = "Ensure that 'Users Can Register Applications' is set to 'No'"
   description = "Require administrators or appropriately delegated users to register third-party applications."
@@ -610,6 +619,34 @@ query "iam_user_not_allowed_to_create_security_group" {
       case
         when a.default_user_role_permissions ->> 'allowedToCreateSecurityGroups' = 'false' then a.display_name || ' does not allow user to create security groups.'
         else a.display_name || ' allows user to create security groups.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      distinct_tenant as t,
+      azuread_authorization_policy as a;
+  EOQ
+}
+
+query "iam_user_not_allowed_to_create_tenants" {
+  sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
+    select
+      a.id as resource,
+      case
+        when a.default_user_role_permissions ->> 'allowedToCreateTenants' = 'true' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when a.default_user_role_permissions ->> 'allowedToCreateTenants' = 'true' then a.display_name || ' allows user to create tenants.'
+        else a.display_name || ' restricts the user to create tenants.'
       end as reason,
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}

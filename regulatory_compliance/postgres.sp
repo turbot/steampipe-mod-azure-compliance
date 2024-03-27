@@ -406,7 +406,7 @@ query "postgres_db_server_allow_access_to_azure_services_disabled" {
         azure_postgresql_server,
         jsonb_array_elements(firewall_rules) as r
       where
-        r -> 'FirewallRuleProperties' ->> 'endIpAddress' = '255.255.255.255'
+        r -> 'FirewallRuleProperties' ->> 'endIpAddress' = '0.0.0.0'
         and r -> 'FirewallRuleProperties' ->> 'startIpAddress' = '0.0.0.0'
     )
     select

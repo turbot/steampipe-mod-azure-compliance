@@ -646,7 +646,7 @@ query "iam_user_not_allowed_to_create_tenants" {
       end as status,
       case
         when a.default_user_role_permissions ->> 'allowedToCreateTenants' = 'true' then a.display_name || ' allows user to create tenants.'
-        else a.display_name || ' restrict user to create tenants.'
+        else a.display_name || ' restricts the user to create tenants.'
       end as reason,
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}

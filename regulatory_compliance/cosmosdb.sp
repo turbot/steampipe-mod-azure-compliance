@@ -60,7 +60,7 @@ control "cosmosdb_account_virtual_network_filter_enabled" {
 }
 
 control "cosmosdb_account_uses_aad_and_rbac" {
-  title         = "Ensure that 'Access Control' is configured to use Azure Active Directory (AAD) and Role-Based Access Control (RBAC)"
+  title         = "Cosmos DB account 'Access Control' should be configured to use Azure Active Directory (AAD) and Role-Based Access Control (RBAC)"
   description   = "Azure Cosmos DB accounts should use Azure Active Directory (AAD) Client Authentication and Role-Based Access Control (RBAC) for access control."
   query         = query.cosmosdb_account_uses_aad_and_rbac
 

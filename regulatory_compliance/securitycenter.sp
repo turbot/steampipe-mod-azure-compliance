@@ -215,6 +215,14 @@ control "securitycenter_wdatp_integration" {
   tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
+control "securitycenter_container_image_scan_enabled" {
+  title       = "Security Center container image scan should be enabled"
+  description = "This control ensures that image scan for container registries are enabled."
+  query       = query.securitycenter_container_image_scan_enabled
+
+  tags = local.regulatory_compliance_securitycenter_common_tags
+}
+
 query "securitycenter_automatic_provisioning_monitoring_agent_on" {
   sql = <<-EOQ
     select
@@ -788,5 +796,25 @@ query "securitycenter_pricing_standard" {
     from
       azure_security_center_subscription_pricing sub_pricing
       right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id;
+  EOQ
+}
+
+query "securitycenter_container_image_scan_enabled" {
+  sql = <<-EOQ
+    select
+      sub_assessment.id as resource,
+      case
+        when container_registry_vulnerability_properties ->> 'AssessedResourceType' = 'ContainerRegistryVulnerability' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when container_registry_vulnerability_properties ->> 'AssessedResourceType' = 'ContainerRegistryVulnerability' then sub_assessment.name || ' container image scan enabled.'
+        else sub_assessment.name || ' container image scan disabled.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_sub_assessment sub_assessment
+      right join azure_subscription sub on sub_assessment.subscription_id = sub.subscription_id;
   EOQ
 }

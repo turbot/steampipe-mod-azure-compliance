@@ -1,3 +1,16 @@
+## v0.43 [2024-04-05]
+
+_Enhancements_
+
+- Added the following controls to the `All Controls` benchmark: ([#253](https://github.com/turbot/steampipe-mod-azure-compliance/pull/253))
+  - `cosmosdb_account_uses_aad_and_rbac`
+  - `iam_user_not_allowed_to_create_tenants`
+  - `securitycenter_image_scan_enabled`
+
+_Bug fixes_
+
+- Updated the `postgres_db_server_allow_access_to_azure_services_disabled` query to check if the `endIpAddress` column is set to `0.0.0.0` instead of `255.255.255.255` as per the CIS documentation. ([#253](https://github.com/turbot/steampipe-mod-azure-compliance/pull/253))
+
 ## v0.42 [2024-03-15]
 
 _What's new?_

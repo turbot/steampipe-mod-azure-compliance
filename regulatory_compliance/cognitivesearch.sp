@@ -21,6 +21,7 @@ control "search_service_uses_sku_supporting_private_link" {
   query       = query.search_service_uses_sku_supporting_private_link
 
   tags = merge(local.regulatory_compliance_cognitivesearch_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -41,6 +42,7 @@ control "search_service_uses_private_link" {
   query       = query.search_service_uses_private_link
 
   tags = merge(local.regulatory_compliance_cognitivesearch_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

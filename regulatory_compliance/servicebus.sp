@@ -21,6 +21,7 @@ control "servicebus_name_space_private_link_used" {
   query       = query.servicebus_name_space_private_link_used
 
   tags = merge(local.regulatory_compliance_servicebus_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

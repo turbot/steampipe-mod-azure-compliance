@@ -22,6 +22,7 @@ control "redis_cache_uses_private_link" {
   query       = query.redis_cache_uses_private_link
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

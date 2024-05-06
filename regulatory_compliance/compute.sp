@@ -192,6 +192,7 @@ control "compute_vm_uses_azure_resource_manager" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -319,6 +320,7 @@ control "compute_vm_guest_configuration_with_user_and_system_assigned_managed_id
   query       = query.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -340,6 +342,7 @@ control "compute_vm_account_with_password_linux" {
   query       = query.compute_vm_account_with_password_linux
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -350,6 +353,7 @@ control "compute_vm_ssh_key_authentication_linux" {
   query       = query.compute_vm_ssh_key_authentication_linux
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -360,6 +364,7 @@ control "compute_vm_guest_configuration_installed_linux" {
   query       = query.compute_vm_guest_configuration_installed_linux
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -454,6 +459,7 @@ control "compute_disk_access_uses_private_link" {
   query       = query.compute_disk_access_uses_private_link
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -514,6 +520,7 @@ control "compute_vm_restrict_remote_connection_from_accounts_without_password_li
   query       = query.compute_vm_restrict_remote_connection_from_accounts_without_password_linux
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -658,6 +665,7 @@ control "compute_vm_guest_configuration_with_no_managed_identity" {
   query       = query.compute_vm_guest_configuration_with_no_managed_identity
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -720,6 +728,7 @@ control "compute_vm_image_builder_uses_private_link" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

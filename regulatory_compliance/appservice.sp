@@ -31,6 +31,7 @@ control "appservice_function_app_remote_debugging_disabled" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -94,6 +95,7 @@ control "appservice_api_app_remote_debugging_disabled" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -167,6 +169,7 @@ control "appservice_web_app_uses_managed_identity" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -178,6 +181,7 @@ control "appservice_function_app_uses_managed_identity" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

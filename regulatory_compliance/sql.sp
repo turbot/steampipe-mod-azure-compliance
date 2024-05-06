@@ -108,6 +108,7 @@ control "sql_server_azure_ad_authentication_enabled" {
   query       = query.sql_server_azure_ad_authentication_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -129,6 +130,7 @@ control "sql_server_uses_private_link" {
   query       = query.sql_server_uses_private_link
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

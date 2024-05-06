@@ -23,6 +23,7 @@ control "storage_account_default_network_access_rule_denied" {
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -44,6 +45,7 @@ control "storage_account_uses_private_link" {
   query       = query.storage_account_uses_private_link
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -105,6 +107,7 @@ control "storage_account_uses_azure_resource_manager" {
   query       = query.storage_account_uses_azure_resource_manager
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })

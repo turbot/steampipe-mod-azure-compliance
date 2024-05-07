@@ -66,6 +66,7 @@ control "storage_account_block_public_access" {
   query       = query.storage_account_block_public_access
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -76,6 +77,7 @@ control "storage_account_restrict_network_access" {
   query       = query.storage_account_restrict_network_access
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })

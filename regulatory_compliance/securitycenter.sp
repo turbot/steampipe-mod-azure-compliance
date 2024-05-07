@@ -51,6 +51,7 @@ control "securitycenter_azure_defender_on_for_sqlservervm" {
   query       = query.securitycenter_azure_defender_on_for_sqlservervm
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -61,6 +62,7 @@ control "securitycenter_azure_defender_on_for_containers" {
   query       = query.securitycenter_azure_defender_on_for_containers
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -79,6 +81,7 @@ control "securitycenter_azure_defender_on_for_appservice" {
   query       = query.securitycenter_azure_defender_on_for_appservice
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -89,6 +92,7 @@ control "securitycenter_azure_defender_on_for_keyvault" {
   query       = query.securitycenter_azure_defender_on_for_keyvault
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -99,6 +103,7 @@ control "securitycenter_azure_defender_on_for_server" {
   query       = query.securitycenter_azure_defender_on_for_server
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -109,6 +114,7 @@ control "securitycenter_azure_defender_on_for_sqldb" {
   query       = query.securitycenter_azure_defender_on_for_sqldb
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -119,6 +125,7 @@ control "securitycenter_azure_defender_on_for_storage" {
   query       = query.securitycenter_azure_defender_on_for_storage
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -147,6 +154,7 @@ control "securitycenter_azure_defender_on_for_resource_manager" {
   query       = query.securitycenter_azure_defender_on_for_resource_manager
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

@@ -21,6 +21,7 @@ control "mariadb_server_public_network_access_disabled" {
   query       = query.mariadb_server_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_mariadb_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

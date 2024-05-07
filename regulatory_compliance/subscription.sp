@@ -10,6 +10,7 @@ control "authorize_access_to_security_functions_and_information" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_subscription_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

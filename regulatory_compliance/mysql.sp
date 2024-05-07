@@ -44,6 +44,7 @@ control "mssql_managed_instance_vulnerability_assessment_enabled" {
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -54,6 +55,7 @@ control "mysql_server_public_network_access_disabled" {
   query       = query.mysql_server_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

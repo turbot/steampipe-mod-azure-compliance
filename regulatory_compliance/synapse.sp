@@ -21,6 +21,7 @@ control "synapse_workspace_vulnerability_assessment_enabled" {
   query       = query.synapse_workspace_vulnerability_assessment_enabled
 
   tags = merge(local.regulatory_compliance_synapse_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

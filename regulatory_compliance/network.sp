@@ -11,6 +11,7 @@ control "network_security_group_remote_access_restricted" {
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -43,6 +44,7 @@ control "network_security_group_subnet_associated" {
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -127,6 +129,7 @@ control "network_subnet_protected_by_firewall" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

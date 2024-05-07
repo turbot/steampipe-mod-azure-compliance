@@ -11,7 +11,8 @@ benchmark "nist_sp_800_171_r2" {
   documentation = file("./nist_sp_800_171_r2/docs/nist_sp_800_171_r2_overview.md")
 
   children = [
-    benchmark.nist_sp_800_171_r2_3_1
+    benchmark.nist_sp_800_171_r2_3_1,
+    benchmark.nist_sp_800_171_r2_3_11
   ]
 
   tags = local.nist_sp_800_171_r2_common_tags

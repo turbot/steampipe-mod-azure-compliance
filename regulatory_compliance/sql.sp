@@ -11,6 +11,7 @@ control "sql_server_and_databases_va_enabled" {
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -76,6 +77,7 @@ control "sql_database_vulnerability_findings_resolved" {
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -98,6 +100,7 @@ control "sql_server_azure_defender_enabled" {
   query       = query.sql_server_azure_defender_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -120,6 +123,7 @@ control "sql_db_public_network_access_disabled" {
   query       = query.sql_db_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

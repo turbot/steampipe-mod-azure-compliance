@@ -10,6 +10,7 @@ control "recovery_service_vault_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_recoveryservice_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

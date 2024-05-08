@@ -85,6 +85,7 @@ control "application_gateway_waf_enabled" {
   query       = query.application_gateway_waf_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

@@ -541,6 +541,7 @@ control "compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed" {
   query       = query.compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -551,6 +552,7 @@ control "compute_vm_and_sacle_set_encryption_at_host_enabled" {
   query       = query.compute_vm_and_sacle_set_encryption_at_host_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -592,6 +594,7 @@ control "compute_vm_non_internet_facing_protected_with_nsg" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -613,6 +616,7 @@ control "compute_vm_temp_disks_cache_and_data_flows_encrypted" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -751,6 +755,7 @@ control "compute_os_and_data_disk_encrypted_with_cmk" {
   query       = query.compute_os_and_data_disk_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

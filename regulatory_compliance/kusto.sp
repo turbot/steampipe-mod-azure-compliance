@@ -10,6 +10,7 @@ control "kusto_cluster_encrypted_at_rest_with_cmk" {
   query       = query.kusto_cluster_encrypted_at_rest_with_cmk
 
   tags = merge(local.regulatory_compliance_kusto_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -20,6 +21,7 @@ control "kusto_cluster_disk_encryption_enabled" {
   query       = query.kusto_cluster_disk_encryption_enabled
 
   tags = merge(local.regulatory_compliance_kusto_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -30,6 +32,7 @@ control "kusto_cluster_double_encryption_enabled" {
   query       = query.kusto_cluster_double_encryption_enabled
 
   tags = merge(local.regulatory_compliance_kusto_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

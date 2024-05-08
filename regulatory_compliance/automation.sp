@@ -10,7 +10,8 @@ control "automation_account_variable_encryption_enabled" {
   query       = query.automation_account_variable_encryption_enabled
 
   tags = merge(local.regulatory_compliance_automation_common_tags, {
-    pci_dss_v321 = "true"
+    nist_sp_800_171_r2 = "true"
+    pci_dss_v321       = "true"
   })
 }
 
@@ -20,6 +21,7 @@ control "automation_account_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_automation_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

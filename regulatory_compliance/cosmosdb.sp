@@ -41,6 +41,7 @@ control "cosmosdb_account_encryption_at_rest_using_cmk" {
   query       = query.cosmosdb_account_encryption_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

@@ -42,6 +42,7 @@ control "eventhub_namespace_cmk_encryption_enabled" {
   query       = query.eventhub_namespace_cmk_encryption_enabled
 
   tags = merge(local.regulatory_compliance_eventhub_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

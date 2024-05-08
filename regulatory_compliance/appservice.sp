@@ -11,6 +11,7 @@ control "appservice_web_app_use_https" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -43,6 +44,7 @@ control "appservice_function_app_latest_tls_version" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -62,6 +64,7 @@ control "appservice_function_app_only_https_accessible" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -107,6 +110,7 @@ control "appservice_api_app_latest_tls_version" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -212,7 +216,9 @@ control "appservice_web_app_ftps_enabled" {
   description = "Enable FTPS enforcement for enhanced security."
   query       = query.appservice_web_app_ftps_enabled
 
-  tags = local.regulatory_compliance_appservice_common_tags
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    nist_sp_800_171_r2 = "true"
+  })
 }
 
 control "appservice_function_app_client_certificates_on" {
@@ -241,6 +247,7 @@ control "appservice_function_app_ftps_enabled" {
   query       = query.appservice_function_app_ftps_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -271,6 +278,7 @@ control "app_service_environment_internal_encryption_enabled" {
   query       = query.app_service_environment_internal_encryption_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

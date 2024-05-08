@@ -41,6 +41,7 @@ control "kubernetes_cluster_os_and_data_disks_encrypted_with_cmk" {
   query       = query.kubernetes_cluster_os_and_data_disks_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -51,6 +52,7 @@ control "kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_ho
   query       = query.kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -201,6 +203,7 @@ control "kubernetes_cluster_https_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

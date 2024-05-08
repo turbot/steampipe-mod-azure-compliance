@@ -21,6 +21,7 @@ control "stream_analytics_job_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_streamanalytics_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

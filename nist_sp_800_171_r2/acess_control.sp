@@ -259,6 +259,7 @@ benchmark "nist_sp_800_171_r2_3_1_3" {
     control.network_interface_ip_forwarding_disabled,
     control.compute_vm_jit_access_protected,
     control.network_security_group_remote_access_restricted,
+    control.compute_vm_non_internet_facing_protected_with_nsg,
     control.sql_server_uses_private_link,
     control.mariadb_server_private_link_used,
     control.mysql_server_private_link_used,

@@ -10,6 +10,7 @@ control "databox_edge_device_double_encryption_enabled" {
   query       = query.databox_edge_device_double_encryption_enabled
 
   tags = merge(local.regulatory_compliance_databoxedge_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -20,6 +21,7 @@ control "databox_job_double_encryption_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_databoxedge_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -30,6 +32,7 @@ control "databox_job_unlock_password_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_databoxedge_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

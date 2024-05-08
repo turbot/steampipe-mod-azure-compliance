@@ -222,6 +222,7 @@ control "compute_vm_system_updates_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
   })
@@ -295,8 +296,9 @@ control "compute_vm_endpoint_protection_agent_installed" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
-    pci_dss_v321      = "true"
+    hipaa_hitrust_v92  = "true"
+    nist_sp_800_171_r2 = "true"
+    pci_dss_v321       = "true"
   })
 }
 
@@ -510,6 +512,7 @@ control "compute_vm_windows_defender_exploit_guard_enabled" {
   query       = query.compute_vm_windows_defender_exploit_guard_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -574,6 +577,7 @@ control "compute_vm_scale_set_endpoint_protection_solution_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -704,6 +708,7 @@ control "compute_vm_scale_set_system_updates_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

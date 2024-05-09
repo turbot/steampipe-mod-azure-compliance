@@ -74,6 +74,7 @@ control "arc_kubernetes_cluster_azure_defender_extension_installed" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

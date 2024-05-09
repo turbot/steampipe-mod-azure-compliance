@@ -70,6 +70,7 @@ control "compute_vm_log_analytics_agent_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -90,7 +91,8 @@ control "compute_vm_malware_agent_installed" {
   query       = query.compute_vm_malware_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    nist_sp_800_171_r2 = "true"
+    hipaa_hitrust_v92  = "true"
   })
 }
 
@@ -101,6 +103,7 @@ control "compute_vm_scale_set_log_analytics_agent_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -122,7 +125,8 @@ control "compute_vm_malware_agent_automatic_upgrade_enabled" {
   query       = query.compute_vm_malware_agent_automatic_upgrade_enabled
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    nist_sp_800_171_r2 = "true"
+    hipaa_hitrust_v92  = "true"
   })
 }
 
@@ -151,6 +155,7 @@ control "compute_vm_network_traffic_data_collection_windows_agent_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -162,6 +167,7 @@ control "compute_vm_network_traffic_data_collection_linux_agent_installed" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -386,6 +392,7 @@ control "compute_vm_guest_configuration_installed" {
   query       = query.compute_vm_guest_configuration_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -396,6 +403,7 @@ control "arc_compute_machine_linux_log_analytics_agent_installed" {
   query       = query.arc_compute_machine_linux_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -492,6 +500,7 @@ control "arc_compute_machine_windows_log_analytics_agent_installed" {
   query       = query.arc_compute_machine_windows_log_analytics_agent_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -502,6 +511,7 @@ control "compute_vm_guest_configuration_with_system_assigned_managed_identity" {
   query       = query.compute_vm_guest_configuration_with_system_assigned_managed_identity
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

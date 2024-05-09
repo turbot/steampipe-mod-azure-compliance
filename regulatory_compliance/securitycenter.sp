@@ -11,6 +11,7 @@ control "securitycenter_automatic_provisioning_monitoring_agent_on" {
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     hipaa_hitrust_v92    = "true"
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -21,6 +22,7 @@ control "securitycenter_notify_alerts_configured" {
   query       = query.securitycenter_notify_alerts_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -31,6 +33,7 @@ control "securitycenter_security_alerts_to_owner_enabled" {
   query       = query.securitycenter_security_alerts_to_owner_enabled
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -41,6 +44,7 @@ control "securitycenter_email_configured" {
   query       = query.securitycenter_email_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_r2   = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }

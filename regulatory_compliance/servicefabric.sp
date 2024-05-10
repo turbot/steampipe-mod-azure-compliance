@@ -42,7 +42,9 @@ query "servicefabric_cluster_active_directory_authentication_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_service_fabric_cluster a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -63,6 +65,8 @@ query "servicefabric_cluster_protection_level_as_encrypt_and_sign" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_service_fabric_cluster a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id;
   EOQ
 }

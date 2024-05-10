@@ -811,7 +811,7 @@ query "securitycenter_container_image_scan_enabled" {
         when container_registry_vulnerability_properties ->> 'AssessedResourceType' = 'ContainerRegistryVulnerability' then sub_assessment.name || ' container image scan enabled.'
         else sub_assessment.name || ' container image scan disabled.'
       end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_assessment.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_sub_assessment sub_assessment

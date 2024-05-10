@@ -223,7 +223,9 @@ query "servicebus_namespace_azure_ad_authentication_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_servicebus_namespace a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -250,6 +252,8 @@ query "servicebus_namespace_no_overly_permissive_network_access" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_servicebus_namespace a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id;
   EOQ
 }

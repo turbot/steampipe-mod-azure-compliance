@@ -506,6 +506,15 @@ query "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
 
 query "storage_account_blob_containers_public_access_private" {
   sql = <<-EOQ
+    with storage_account as (
+      select
+        name,
+        allow_blob_public_access,
+        subscription_id,
+        tags
+      from
+        azure_storage_account
+    )
     select
       container.id as resource,
       case
@@ -522,7 +531,7 @@ query "storage_account_blob_containers_public_access_private" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_container container
-      join azure_storage_account account on container.account_name = account.name
+      join storage_account account on container.account_name = account.name
       join azure_subscription sub on sub.subscription_id = account.subscription_id;
   EOQ
 }
@@ -786,6 +795,19 @@ query "storage_account_queues_logging_enabled" {
 
 query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
   sql = <<-EOQ
+    with storage_account as(
+      select
+        id,
+        encryption_key_source,
+        name,
+        tags,
+        region,
+        resource_group,
+        subscription_id,
+        _ctx
+      from
+        azure_storage_account
+    )
     select
       sa.id as resource,
       case
@@ -798,12 +820,11 @@ query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
         and vm.os_disk_vhd_uri is not null then sa.name || ' storage account containing VHD OS disk not encrypted with CMK.'
         else sa.name || ' storage account containing VHD OS disk encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
+      storage_account sa,
       azure_compute_virtual_machine vm,
       azure_subscription sub
     where

@@ -66,6 +66,8 @@ query "healthcare_fhir_uses_private_link" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_healthcare_service a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id;
   EOQ
 }

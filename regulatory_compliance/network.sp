@@ -439,6 +439,14 @@ query "network_security_group_rdp_access_restricted" {
 
 query "network_watcher_enabled" {
   sql = <<-EOQ
+    with network_watcher as(
+      select
+        id,
+        region,
+        tags
+      from
+        azure_network_watcher
+    )
     select
       loc.id resource,
       case
@@ -455,7 +463,7 @@ query "network_watcher_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_location loc
-      left join azure_network_watcher watcher on watcher.region = loc.name
+      left join network_watcher watcher on watcher.region = loc.name
       join azure_subscription sub on sub.subscription_id = loc.subscription_id;
   EOQ
 }
@@ -506,6 +514,15 @@ query "network_security_group_not_configured_gateway_subnets" {
 
 query "network_watcher_in_regions_with_virtual_network" {
   sql = <<-EOQ
+    with network_watcher as(
+      select
+        id,
+        name,
+        region,
+        resource_group
+      from
+        azure_network_watcher
+    )
     select
       a.id resource,
       case
@@ -523,7 +540,7 @@ query "network_watcher_in_regions_with_virtual_network" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_virtual_network as a
-      left join azure_network_watcher as b on a.region = b.region
+      left join network_watcher as b on a.region = b.region
       left join azure_subscription sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
@@ -2008,9 +2025,9 @@ query "network_sg_flowlog_enabled" {
         when sg.flow_logs is not null then sg.name || ' flowlog enabled.'
         else sg.name || ' flowlog disabled.'
       end as reason
-      --${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group as sg
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;

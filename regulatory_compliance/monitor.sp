@@ -1053,6 +1053,19 @@ query "monitor_log_alert_sql_firewall_rule" {
 
 query "monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok" {
   sql = <<-EOQ
+    with storage_account as (
+      select
+        id,
+        name,
+        encryption_key_source,
+        region,
+        resource_group,
+        subscription_id,
+        tags,
+        _ctx
+      from
+        azure_storage_account
+    )
     select
       a.id as resource,
       case
@@ -1069,7 +1082,7 @@ query "monitor_logs_storage_container_insights_operational_logs_encrypted_with_b
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_container c,
-      azure_storage_account a,
+      storage_account a,
       azure_subscription sub
     where
       c.name = 'insights-operational-logs'
@@ -1080,6 +1093,19 @@ query "monitor_logs_storage_container_insights_operational_logs_encrypted_with_b
 
 query "monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok" {
   sql = <<-EOQ
+    with storage_account as (
+      select
+        id,
+        name,
+        encryption_key_source,
+        region,
+        resource_group,
+        subscription_id,
+        tags,
+        _ctx
+      from
+        azure_storage_account
+    )
     select
       a.id as resource,
       case
@@ -1096,7 +1122,7 @@ query "monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_container c,
-      azure_storage_account a,
+      storage_account a,
       azure_subscription sub
     where
       c.name = 'insights-activity-logs'

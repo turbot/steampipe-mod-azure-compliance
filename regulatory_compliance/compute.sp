@@ -21,7 +21,6 @@ control "compute_vm_adaptive_network_hardening_recommendation_applied" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92     = "true"
-    nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
 }
@@ -190,7 +189,6 @@ control "compute_vm_security_configuration_vulnerabilities_remediated" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92     = "true"
-    nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
   })
@@ -216,7 +214,6 @@ control "compute_vm_scale_set_security_configuration_vulnerabilities_remediated"
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92     = "true"
-    nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
 }
@@ -240,7 +237,6 @@ control "compute_vm_administrators_group_with_no_specified_members_windows" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_171_rev_2 = "true"
     hipaa_hitrust_v92     = "true"
   })
 }
@@ -252,7 +248,6 @@ control "compute_vm_administrators_group_with_specified_members_windows" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92     = "true"
-    nist_sp_800_171_rev_2 = "true"
   })
 }
 

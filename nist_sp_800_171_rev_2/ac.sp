@@ -48,9 +48,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_1" {
     control.iam_external_user_with_write_permission,
     control.iam_no_custom_role,
     control.iam_subscription_owner_max_3,
-    control.iam_user_with_owner_permission_on_subscription_mfa_enabled,
-    control.iam_user_with_read_permission_on_subscription_mfa_enabled,
-    control.iam_user_with_write_permission_on_subscription_mfa_enabled,
     control.iot_hub_private_link_used,
     control.keyvault_vault_private_link_used,
     control.mariadb_server_private_link_used,
@@ -91,9 +88,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_2" {
     control.iam_external_user_with_read_permission,
     control.iam_external_user_with_write_permission,
     control.iam_no_custom_role,
-    control.iam_user_with_owner_permission_on_subscription_mfa_enabled,
-    control.iam_user_with_read_permission_on_subscription_mfa_enabled,
-    control.iam_user_with_write_permission_on_subscription_mfa_enabled,
     control.servicefabric_cluster_active_directory_authentication_enabled,
     control.sql_server_azure_ad_authentication_enabled,
     control.storage_account_uses_azure_resource_manager
@@ -110,7 +104,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_3" {
     control.cognitive_account_private_link_used,
     control.cognitive_service_local_auth_disabled,
     control.compute_disk_access_uses_private_link,
-    control.compute_vm_adaptive_network_hardening_recommendation_applied,
     control.compute_vm_jit_access_protected,
     control.compute_vm_remote_access_restricted_all_ports,
     control.compute_vm_tcp_udp_access_restricted_internet,
@@ -134,7 +127,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_3" {
     control.network_interface_ip_forwarding_disabled,
     control.network_security_group_remote_access_restricted,
     control.network_security_group_subnet_associated,
-    control.network_subnet_protected_by_firewall,
     control.postgres_server_private_link_used,
     control.postgresql_server_public_network_access_disabled,
     control.redis_cache_uses_private_link,
@@ -158,8 +150,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_4" {
   title       = "3.1.4 Separate the duties of individuals to reduce the risk of malevolent activity without collusion"
   description = "Separation of duties addresses the potential for abuse of authorized privileges and helps to reduce the risk of malevolent activity without collusion. Separation of duties includes dividing mission functions and system support functions among different individuals or roles; conducting system support functions with different individuals (e.g., configuration management, quality assurance and testing, system management, programming, and network security); and ensuring that security personnel administering access control functions do not also administer audit functions. Because separation of duty violations can span systems and application domains, organizations consider the entirety of organizational systems and system components when developing policy on separation of duties."
   children = [
-    control.compute_vm_administrators_group_with_no_specified_members_windows,
-    control.compute_vm_administrators_group_with_specified_members_windows,
     control.iam_subscription_owner_more_than_1
   ]
 }

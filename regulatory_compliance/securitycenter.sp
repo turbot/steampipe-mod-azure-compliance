@@ -10,9 +10,9 @@ control "securitycenter_automatic_provisioning_monitoring_agent_on" {
   query       = query.securitycenter_automatic_provisioning_monitoring_agent_on
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -22,8 +22,8 @@ control "securitycenter_notify_alerts_configured" {
   query       = query.securitycenter_notify_alerts_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -33,8 +33,8 @@ control "securitycenter_security_alerts_to_owner_enabled" {
   query       = query.securitycenter_security_alerts_to_owner_enabled
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -44,8 +44,8 @@ control "securitycenter_email_configured" {
   query       = query.securitycenter_email_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -55,8 +55,8 @@ control "securitycenter_azure_defender_on_for_sqlservervm" {
   query       = query.securitycenter_azure_defender_on_for_sqlservervm
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -66,8 +66,8 @@ control "securitycenter_azure_defender_on_for_containers" {
   query       = query.securitycenter_azure_defender_on_for_containers
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -85,8 +85,8 @@ control "securitycenter_azure_defender_on_for_appservice" {
   query       = query.securitycenter_azure_defender_on_for_appservice
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -96,8 +96,8 @@ control "securitycenter_azure_defender_on_for_keyvault" {
   query       = query.securitycenter_azure_defender_on_for_keyvault
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -107,8 +107,8 @@ control "securitycenter_azure_defender_on_for_server" {
   query       = query.securitycenter_azure_defender_on_for_server
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -118,8 +118,8 @@ control "securitycenter_azure_defender_on_for_sqldb" {
   query       = query.securitycenter_azure_defender_on_for_sqldb
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -129,8 +129,8 @@ control "securitycenter_azure_defender_on_for_storage" {
   query       = query.securitycenter_azure_defender_on_for_storage
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -158,8 +158,8 @@ control "securitycenter_azure_defender_on_for_resource_manager" {
   query       = query.securitycenter_azure_defender_on_for_resource_manager
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -200,7 +200,9 @@ control "securitycenter_azure_defender_on_for_database" {
   description = "Turning on Microsoft Defender for Databases enables threat detection for the instances running your database software. This provides threat intelligence, anomaly detection, and behavior analytics in the Azure Microsoft Defender for Cloud. Instead of being enabled on services like Platform as a Service (PaaS), this implementation will run within your instances as Infrastructure as a Service (IaaS) on the Operating Systems hosting your databases."
   query       = query.securitycenter_azure_defender_on_for_database
 
-  tags = local.regulatory_compliance_securitycenter_common_tags
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    nist_sp_800_171_rev_2 = "true"
+  })
 }
 
 control "securitycenter_azure_defender_on_for_opensource_relational_db" {

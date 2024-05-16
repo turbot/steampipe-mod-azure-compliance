@@ -10,8 +10,9 @@ control "postgres_db_server_geo_redundant_backup_enabled" {
   query       = query.postgres_db_server_geo_redundant_backup_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -21,9 +22,9 @@ control "postgres_sql_ssl_enabled" {
   query       = query.postgres_sql_ssl_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -33,8 +34,8 @@ control "postgresql_server_public_network_access_disabled" {
   query       = query.postgresql_server_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -44,8 +45,8 @@ control "postgresql_server_infrastructure_encryption_enabled" {
   query       = query.postgresql_server_infrastructure_encryption_enabled
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -55,8 +56,8 @@ control "postgres_server_private_link_used" {
   query       = query.postgres_server_private_link_used
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -66,8 +67,8 @@ control "postgres_sql_server_encrypted_at_rest_using_cmk" {
   query       = query.postgres_sql_server_encrypted_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

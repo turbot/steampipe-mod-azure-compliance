@@ -43,7 +43,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_1" {
     control.signalr_service_private_link_used,
     control.synapse_workspace_private_link_used,
     control.frontdoor_waf_enabled,
-    control.web_pub_sub_private_link_used,
     control.cognitive_account_private_link_used,
     control.container_registry_restrict_public_access,
     control.container_registry_uses_private_link,
@@ -55,7 +54,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_1" {
     control.network_interface_ip_forwarding_disabled,
     control.compute_vm_jit_access_protected,
     control.network_security_group_remote_access_restricted,
-    control.compute_vm_non_internet_facing_protected_with_nsg,
     control.sql_server_uses_private_link,
     control.mariadb_server_private_link_used,
     control.mysql_server_private_link_used,
@@ -68,7 +66,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_1" {
     control.storage_account_restrict_network_access,
     control.storage_account_uses_private_link,
     control.network_security_group_subnet_associated,
-    control.compute_vm_image_builder_uses_private_link,
     control.application_gateway_waf_enabled
   ]
 }
@@ -130,8 +127,7 @@ benchmark "nist_sp_800_171_rev_2_3_13_16" {
     control.storage_account_infrastructure_encryption_enabled,
     control.kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host,
     control.sql_server_transparent_data_encryption_enabled,
-    control.compute_vm_and_sacle_set_encryption_at_host_enabled,
-    control.compute_vm_temp_disks_cache_and_data_flows_encrypted
+    control.compute_vm_and_sacle_set_encryption_at_host_enabled
   ]
 }
 
@@ -164,7 +160,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_2" {
     control.signalr_service_private_link_used,
     control.synapse_workspace_private_link_used,
     control.frontdoor_waf_enabled,
-    control.web_pub_sub_private_link_used,
     control.cognitive_account_private_link_used,
     control.container_registry_restrict_public_access,
     control.container_registry_uses_private_link,
@@ -176,7 +171,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_2" {
     control.network_interface_ip_forwarding_disabled,
     control.compute_vm_jit_access_protected,
     control.network_security_group_remote_access_restricted,
-    control.compute_vm_non_internet_facing_protected_with_nsg,
     control.sql_server_uses_private_link,
     control.mariadb_server_private_link_used,
     control.mysql_server_private_link_used,
@@ -189,7 +183,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_2" {
     control.storage_account_restrict_network_access,
     control.storage_account_uses_private_link,
     control.network_security_group_subnet_associated,
-    control.compute_vm_image_builder_uses_private_link,
     control.application_gateway_waf_enabled
   ]
 }
@@ -223,7 +216,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_5" {
     control.signalr_service_private_link_used,
     control.synapse_workspace_private_link_used,
     control.frontdoor_waf_enabled,
-    control.web_pub_sub_private_link_used,
     control.cognitive_account_private_link_used,
     control.container_registry_restrict_public_access,
     control.container_registry_uses_private_link,
@@ -235,7 +227,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_5" {
     control.network_interface_ip_forwarding_disabled,
     control.compute_vm_jit_access_protected,
     control.network_security_group_remote_access_restricted,
-    control.compute_vm_non_internet_facing_protected_with_nsg,
     control.sql_server_uses_private_link,
     control.mariadb_server_private_link_used,
     control.mysql_server_private_link_used,
@@ -248,7 +239,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_5" {
     control.storage_account_restrict_network_access,
     control.storage_account_uses_private_link,
     control.network_security_group_subnet_associated,
-    control.compute_vm_image_builder_uses_private_link,
     control.application_gateway_waf_enabled
   ]
 }
@@ -271,7 +261,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_6" {
     control.compute_vm_tcp_udp_access_restricted_internet,
     control.compute_vm_jit_access_protected,
     control.network_security_group_remote_access_restricted,
-    control.compute_vm_non_internet_facing_protected_with_nsg,
     control.sql_db_public_network_access_disabled,
     control.mariadb_server_public_network_access_disabled,
     control.mysql_server_public_network_access_disabled,
@@ -296,7 +285,6 @@ benchmark "nist_sp_800_171_rev_2_3_13_8" {
     control.appservice_function_app_only_https_accessible,
     control.appservice_function_app_ftps_enabled,
     control.appservice_function_app_latest_tls_version,
-    control.kubernetes_cluster_https_enabled,
     control.redis_cache_ssl_enabled,
     control.storage_account_secure_transfer_required_enabled
   ]

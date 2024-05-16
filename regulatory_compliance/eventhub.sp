@@ -10,8 +10,9 @@ control "eventhub_namespace_logging_enabled" {
   query       = query.eventhub_namespace_logging_enabled
 
   tags = merge(local.regulatory_compliance_eventhub_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -31,8 +32,8 @@ control "eventhub_namespace_private_link_used" {
   query       = query.eventhub_namespace_private_link_used
 
   tags = merge(local.regulatory_compliance_eventhub_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -42,8 +43,8 @@ control "eventhub_namespace_cmk_encryption_enabled" {
   query       = query.eventhub_namespace_cmk_encryption_enabled
 
   tags = merge(local.regulatory_compliance_eventhub_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

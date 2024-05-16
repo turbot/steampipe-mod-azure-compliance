@@ -10,8 +10,9 @@ control "iot_hub_logging_enabled" {
   query       = query.iot_hub_logging_enabled
 
   tags = merge(local.regulatory_compliance_iothub_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -21,8 +22,8 @@ control "iot_hub_private_link_used" {
   query       = query.iot_hub_private_link_used
 
   tags = merge(local.regulatory_compliance_iothub_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -32,8 +33,8 @@ control "iot_hub_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_iothub_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

@@ -48,7 +48,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_1" {
     control.signalr_service_private_link_used,
     control.spring_cloud_service_network_injection_enabled,
     control.synapse_workspace_private_link_used,
-    control.web_pub_sub_private_link_used,
     control.iam_deprecated_account_with_owner_roles,
     control.iam_deprecated_account,
     control.cognitive_account_private_link_used,
@@ -72,7 +71,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_1" {
     control.storage_account_default_network_access_rule_denied,
     control.storage_account_uses_private_link,
     control.compute_vm_uses_azure_resource_manager,
-    control.compute_vm_image_builder_uses_private_link
   ]
 
   tags = local.nist_sp_800_171_rev_2_common_tags
@@ -101,7 +99,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_12" {
     control.signalr_service_private_link_used,
     control.spring_cloud_service_network_injection_enabled,
     control.synapse_workspace_private_link_used,
-    control.web_pub_sub_private_link_used,
     control.cognitive_account_private_link_used,
     control.container_registry_uses_private_link,
     control.cosmosdb_account_uses_private_link,
@@ -116,7 +113,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_12" {
     control.postgres_server_private_link_used,
     control.storage_account_default_network_access_rule_denied,
     control.storage_account_uses_private_link,
-    control.compute_vm_image_builder_uses_private_link
   ]
 }
 
@@ -139,7 +135,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_13" {
     control.signalr_service_private_link_used,
     control.spring_cloud_service_network_injection_enabled,
     control.synapse_workspace_private_link_used,
-    control.web_pub_sub_private_link_used,
     control.cognitive_account_private_link_used,
     control.container_registry_uses_private_link,
     control.cosmosdb_account_uses_private_link,
@@ -152,7 +147,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_13" {
     control.postgres_server_private_link_used,
     control.storage_account_default_network_access_rule_denied,
     control.storage_account_uses_private_link,
-    control.compute_vm_image_builder_uses_private_link
   ]
 }
 
@@ -175,7 +169,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_14" {
     control.signalr_service_private_link_used,
     control.spring_cloud_service_network_injection_enabled,
     control.synapse_workspace_private_link_used,
-    control.web_pub_sub_private_link_used,
     control.cognitive_account_private_link_used,
     control.container_registry_uses_private_link,
     control.cosmosdb_account_uses_private_link,
@@ -188,7 +181,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_14" {
     control.postgres_server_private_link_used,
     control.storage_account_default_network_access_rule_denied,
     control.storage_account_uses_private_link,
-    control.compute_vm_image_builder_uses_private_link
   ]
 }
 
@@ -203,7 +195,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_2" {
     control.appservice_api_app_remote_debugging_disabled,
     control.appservice_web_app_uses_managed_identity,
     control.iam_no_custom_role,
-    control.authorize_access_to_security_functions_and_information,
     control.cognitive_service_local_auth_disabled,
     control.iam_deprecated_account_with_owner_roles,
     control.iam_deprecated_account,
@@ -247,7 +238,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_3" {
     control.servicebus_name_space_private_link_used,
     control.signalr_service_private_link_used,
     control.synapse_workspace_private_link_used,
-    control.web_pub_sub_private_link_used,
     control.cognitive_account_private_link_used,
     control.container_registry_restrict_public_access,
     control.container_registry_uses_private_link,
@@ -259,7 +249,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_3" {
     control.network_interface_ip_forwarding_disabled,
     control.compute_vm_jit_access_protected,
     control.network_security_group_remote_access_restricted,
-    control.compute_vm_non_internet_facing_protected_with_nsg,
     control.sql_server_uses_private_link,
     control.mariadb_server_private_link_used,
     control.mysql_server_private_link_used,
@@ -272,7 +261,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_3" {
     control.storage_account_restrict_network_access,
     control.storage_account_uses_private_link,
     control.network_security_group_subnet_associated,
-    control.compute_vm_image_builder_uses_private_link
   ]
 }
 
@@ -291,7 +279,6 @@ benchmark "nist_sp_800_171_rev_2_3_1_5" {
   description = "Organizations employ the principle of least privilege for specific duties and authorized accesses for users and processes. The principle of least privilege is applied with the goal of authorized privileges no higher than necessary to accomplish required organizational missions or business functions. Organizations consider the creation of additional processes, roles, and system accounts as necessary, to achieve least privilege. Organizations also apply least privilege to the development, implementation, and operation of organizational systems. Security functions include establishing system accounts, setting events to be logged, setting intrusion detection parameters, and configuring access authorizations (i.e., permissions, privileges). Privileged accounts, including super user accounts, are typically described as system administrator for various types of commercial off-the-shelf operating systems. Restricting privileged accounts to specific personnel or roles prevents day-to-day users from having access to privileged information or functions. Organizations may differentiate in the application of this requirement between allowed privileges for local accounts and for domain accounts provided organizations retain the ability to control system configurations for key security parameters and as otherwise necessary to sufficiently mitigate risk."
   children = [
     control.iam_subscription_owner_max_3,
-    control.iam_no_custom_role,
-    control.authorize_access_to_security_functions_and_information
+    control.iam_no_custom_role
   ]
 }

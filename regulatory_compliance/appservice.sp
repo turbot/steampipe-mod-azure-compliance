@@ -10,10 +10,10 @@ control "appservice_web_app_use_https" {
   query       = query.appservice_web_app_use_https
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
-    pci_dss_v321         = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
+    pci_dss_v321          = "true"
   })
 }
 
@@ -31,9 +31,9 @@ control "appservice_function_app_remote_debugging_disabled" {
   query       = query.appservice_function_app_remote_debugging_disabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -43,9 +43,9 @@ control "appservice_function_app_latest_tls_version" {
   query       = query.appservice_function_app_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -63,10 +63,10 @@ control "appservice_function_app_only_https_accessible" {
   query       = query.appservice_function_app_only_https_accessible
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
-    pci_dss_v321         = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
+    pci_dss_v321          = "true"
   })
 }
 
@@ -97,9 +97,9 @@ control "appservice_api_app_remote_debugging_disabled" {
   query       = query.appservice_api_app_remote_debugging_disabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -109,9 +109,9 @@ control "appservice_api_app_latest_tls_version" {
   query       = query.appservice_api_app_latest_tls_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -121,8 +121,9 @@ control "appservice_web_app_diagnostic_logs_enabled" {
   query       = query.appservice_web_app_diagnostic_logs_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -132,7 +133,8 @@ control "appservice_web_app_cors_no_star" {
   query       = query.appservice_web_app_cors_no_star
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -142,8 +144,9 @@ control "appservice_function_app_cors_no_star" {
   query       = query.appservice_function_app_cors_no_star
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -172,9 +175,9 @@ control "appservice_web_app_uses_managed_identity" {
   query       = query.appservice_web_app_uses_managed_identity
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -184,9 +187,9 @@ control "appservice_function_app_uses_managed_identity" {
   query       = query.appservice_function_app_uses_managed_identity
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -217,7 +220,7 @@ control "appservice_web_app_ftps_enabled" {
   query       = query.appservice_web_app_ftps_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_171_r2 = "true"
+    nist_sp_800_171_rev_2 = "true"
   })
 }
 
@@ -227,7 +230,8 @@ control "appservice_function_app_client_certificates_on" {
   query       = query.appservice_function_app_client_certificates_on
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -247,8 +251,8 @@ control "appservice_function_app_ftps_enabled" {
   query       = query.appservice_function_app_ftps_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -258,8 +262,8 @@ control "appservice_function_app_latest_http_version" {
   query       = query.appservice_function_app_latest_http_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -269,8 +273,8 @@ control "appservice_web_app_latest_http_version" {
   query       = query.appservice_web_app_latest_http_version
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -280,8 +284,8 @@ control "app_service_environment_internal_encryption_enabled" {
   query       = query.app_service_environment_internal_encryption_enabled
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -394,7 +398,9 @@ control "appservice_web_app_incoming_client_cert_on" {
   description = "Client certificates allow for the app to request a certificate for incoming requests. Only clients that have a valid certificate will be able to reach the app."
   query       = query.appservice_web_app_incoming_client_cert_on
 
-  tags = local.regulatory_compliance_appservice_common_tags
+  tags = merge(local.regulatory_compliance_appservice_common_tags, {
+    nist_sp_800_171_rev_2 = "true"
+  })
 }
 
 control "appservice_authentication_enabled" {

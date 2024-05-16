@@ -1,7 +1,7 @@
 locals {
   nist_sp_800_171_rev_2_common_tags = merge(local.azure_compliance_common_tags, {
     nist_sp_800_171_rev_2 = "true"
-    type               = "Benchmark"
+    type                  = "Benchmark"
   })
 }
 

@@ -10,8 +10,8 @@ control "data_factory_uses_private_link" {
   query       = query.data_factory_uses_private_link
 
   tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -21,8 +21,8 @@ control "data_factory_encrypted_with_cmk" {
   query       = query.data_factory_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_datafactory_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

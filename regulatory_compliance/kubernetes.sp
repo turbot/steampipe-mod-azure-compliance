@@ -21,7 +21,8 @@ control "kubernetes_cluster_add_on_azure_policy_enabled" {
   query       = query.kubernetes_cluster_add_on_azure_policy_enabled
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -31,7 +32,8 @@ control "kubernetes_cluster_authorized_ip_range_defined" {
   query       = query.kubernetes_cluster_authorized_ip_range_defined
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -41,8 +43,8 @@ control "kubernetes_cluster_os_and_data_disks_encrypted_with_cmk" {
   query       = query.kubernetes_cluster_os_and_data_disks_encrypted_with_cmk
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -52,8 +54,8 @@ control "kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_ho
   query       = query.kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -63,8 +65,8 @@ control "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
   query       = query.kubernetes_cluster_upgraded_with_non_vulnerable_version
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -74,8 +76,7 @@ control "arc_kubernetes_cluster_azure_defender_extension_installed" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -205,8 +206,7 @@ control "kubernetes_cluster_https_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

@@ -10,8 +10,8 @@ control "servicefabric_cluster_active_directory_authentication_enabled" {
   query       = query.servicefabric_cluster_active_directory_authentication_enabled
 
   tags = merge(local.regulatory_compliance_servicefabric_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -21,9 +21,9 @@ control "servicefabric_cluster_protection_level_as_encrypt_and_sign" {
   query       = query.servicefabric_cluster_protection_level_as_encrypt_and_sign
 
   tags = merge(local.regulatory_compliance_servicefabric_common_tags, {
-    nist_sp_800_171_r2   = "true"
-    nist_sp_800_53_rev_5 = "true"
-    pci_dss_v321         = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
+    pci_dss_v321          = "true"
   })
 }
 

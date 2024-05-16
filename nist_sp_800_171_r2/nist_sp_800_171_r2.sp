@@ -12,9 +12,14 @@ benchmark "nist_sp_800_171_r2" {
 
   children = [
     benchmark.nist_sp_800_171_r2_3_1,
+    benchmark.nist_sp_800_171_r2_3_3,
+    benchmark.nist_sp_800_171_r2_3_4,
+    benchmark.nist_sp_800_171_r2_3_5,
+    benchmark.nist_sp_800_171_r2_3_6,
+    benchmark.nist_sp_800_171_r2_3_8,
     benchmark.nist_sp_800_171_r2_3_11,
     benchmark.nist_sp_800_171_r2_3_13,
-    benchmark.nist_sp_800_171_r2_3_14,
+    benchmark.nist_sp_800_171_r2_3_14
   ]
 
   tags = local.nist_sp_800_171_r2_common_tags

@@ -215,7 +215,7 @@ query "iam_subscription_owner_more_than_1" {
         d.subscription_id
       from
         azure_role_definition as d
-        left join azure_role_assignment as a on d.id = a.role_definition_id
+        join azure_role_assignment as a on d.id = a.role_definition_id
       where
         d.role_name = 'Owner'
     )
@@ -252,7 +252,7 @@ query "iam_subscription_owner_max_3" {
         d.subscription_id
       from
         azure_role_definition as d
-        left join azure_role_assignment as a on d.id = a.role_definition_id
+        join azure_role_assignment as a on d.id = a.role_definition_id
       where
         d.role_name = 'Owner'
     )

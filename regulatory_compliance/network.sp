@@ -529,7 +529,7 @@ query "network_watcher_in_regions_with_virtual_network" {
     from
       azure_virtual_network as a
       left join azure_network_watcher as b on a.region = b.region
-      join azure_subscription sub on sub.subscription_id = a.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 

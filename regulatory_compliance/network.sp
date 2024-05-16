@@ -10,8 +10,9 @@ control "network_security_group_remote_access_restricted" {
   query       = query.network_security_group_remote_access_restricted
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -31,8 +32,9 @@ control "network_watcher_enabled" {
   query       = query.network_watcher_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -42,8 +44,9 @@ control "network_security_group_subnet_associated" {
   query       = query.network_security_group_subnet_associated
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -83,7 +86,8 @@ control "application_gateway_waf_enabled" {
   query       = query.application_gateway_waf_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -127,7 +131,7 @@ control "network_subnet_protected_by_firewall" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -524,7 +528,7 @@ query "network_watcher_in_regions_with_virtual_network" {
     from
       azure_virtual_network as a
       left join azure_network_watcher as b on a.region = b.region
-      join azure_subscription sub on sub.subscription_id = a.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 

@@ -10,8 +10,9 @@ control "logic_app_workflow_logging_enabled" {
   query       = query.logic_app_workflow_logging_enabled
 
   tags = merge(local.regulatory_compliance_logic_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -21,7 +22,7 @@ control "logic_app_integration_service_environment_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_logic_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

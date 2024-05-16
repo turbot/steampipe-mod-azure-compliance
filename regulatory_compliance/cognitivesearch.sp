@@ -10,8 +10,9 @@ control "search_service_logging_enabled" {
   query       = query.search_service_logging_enabled
 
   tags = merge(local.regulatory_compliance_cognitivesearch_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -21,7 +22,8 @@ control "search_service_uses_sku_supporting_private_link" {
   query       = query.search_service_uses_sku_supporting_private_link
 
   tags = merge(local.regulatory_compliance_cognitivesearch_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -31,7 +33,8 @@ control "search_service_public_network_access_disabled" {
   query       = query.search_service_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_cognitivesearch_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -41,7 +44,8 @@ control "search_service_uses_private_link" {
   query       = query.search_service_uses_private_link
 
   tags = merge(local.regulatory_compliance_cognitivesearch_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

@@ -10,7 +10,8 @@ control "app_configuration_private_link_used" {
   query       = query.app_configuration_private_link_used
 
   tags = merge(local.regulatory_compliance_appconfiguration_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

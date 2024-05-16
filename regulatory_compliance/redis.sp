@@ -10,9 +10,10 @@ control "redis_cache_ssl_enabled" {
   query       = query.redis_cache_ssl_enabled
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
-    hipaa_hitrust_v92    = "true"
-    nist_sp_800_53_rev_5 = "true"
-    pci_dss_v321         = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
+    pci_dss_v321          = "true"
   })
 }
 
@@ -22,7 +23,8 @@ control "redis_cache_uses_private_link" {
   query       = query.redis_cache_uses_private_link
 
   tags = merge(local.regulatory_compliance_redis_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

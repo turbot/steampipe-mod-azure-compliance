@@ -3,7 +3,8 @@ benchmark "nist_sp_800_171_rev_2_3_4" {
   description = "CM controls are specific to an organization's configuration management policies. This includes a baseline configuration to operate as the basis for future builds or changes to information systems. Additionally, this includes information system component inventories and a security impact analysis control."
   children = [
     benchmark.nist_sp_800_171_rev_2_3_4_1,
-    benchmark.nist_sp_800_171_rev_2_3_4_2
+    benchmark.nist_sp_800_171_rev_2_3_4_2,
+    benchmark.nist_sp_800_171_rev_2_3_4_6
   ]
 
   tags = local.nist_sp_800_171_rev_2_common_tags

@@ -1,3 +1,9 @@
+## v0.44 [2024-05-16]
+
+_What's new?_
+
+- Added NIST SP 800-171 Revision 2 benchmark (`powerpipe benchmark run azure_compliance.benchmark.nist_sp_800_171_rev_2`). ([#264](https://github.com/turbot/steampipe-mod-azure-compliance/pull/264))
+
 ## v0.43 [2024-04-05]
 
 _Enhancements_

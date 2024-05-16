@@ -10,7 +10,8 @@ control "container_instance_container_group_encrypted_using_cmk" {
   query       = query.container_instance_container_group_encrypted_using_cmk
 
   tags = merge(local.regulatory_compliance_containerinstance_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

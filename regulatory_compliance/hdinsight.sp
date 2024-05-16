@@ -10,7 +10,8 @@ control "hdinsight_cluster_encryption_at_host_enabled" {
   query       = query.hdinsight_cluster_encryption_at_host_enabled
 
   tags = merge(local.regulatory_compliance_hdinsight_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -20,7 +21,8 @@ control "hdinsight_cluster_encrypted_at_rest_with_cmk" {
   query       = query.hdinsight_cluster_encrypted_at_rest_with_cmk
 
   tags = merge(local.regulatory_compliance_hdinsight_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -30,7 +32,8 @@ control "hdinsight_cluster_encryption_in_transit_enabled" {
   query       = query.hdinsight_cluster_encryption_in_transit_enabled
 
   tags = merge(local.regulatory_compliance_hdinsight_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

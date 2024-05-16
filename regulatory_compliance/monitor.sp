@@ -51,7 +51,7 @@ control "monitor_log_cluster_infrastructure_encryption_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -61,7 +61,7 @@ control "monitor_log_analytics_workspace_integrated_with_encrypted_storage_accou
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -71,7 +71,7 @@ control "monitor_log_cluster_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 

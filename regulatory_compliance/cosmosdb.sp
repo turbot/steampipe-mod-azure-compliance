@@ -20,7 +20,8 @@ control "cosmosdb_account_with_firewall_rules" {
   query       = query.cosmosdb_account_with_firewall_rules
 
   tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -30,7 +31,8 @@ control "cosmosdb_account_uses_private_link" {
   query       = query.cosmosdb_account_uses_private_link
 
   tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -40,7 +42,8 @@ control "cosmosdb_account_encryption_at_rest_using_cmk" {
   query       = query.cosmosdb_account_encryption_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_cosmosdb_common_tags, {
-    nist_sp_800_53_rev_5 = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
   })
 }
 
@@ -53,16 +56,16 @@ control "cosmosdb_account_key_based_metadata_write_access_disabled" {
 }
 
 control "cosmosdb_account_virtual_network_filter_enabled" {
-  title         = "Ensure That 'Firewalls & Networks' Is Limited to Use Selected Networks Instead of All Networks"
-  query         = query.cosmosdb_account_virtual_network_filter_enabled
+  title = "Ensure That 'Firewalls & Networks' Is Limited to Use Selected Networks Instead of All Networks"
+  query = query.cosmosdb_account_virtual_network_filter_enabled
 
   tags = local.regulatory_compliance_cosmosdb_common_tags
 }
 
 control "cosmosdb_account_uses_aad_and_rbac" {
-  title         = "Cosmos DB account 'Access Control' should be configured to use Azure Active Directory (AAD) and Role-Based Access Control (RBAC)"
-  description   = "Azure Cosmos DB accounts should use Azure Active Directory (AAD) Client Authentication and Role-Based Access Control (RBAC) for access control."
-  query         = query.cosmosdb_account_uses_aad_and_rbac
+  title       = "Cosmos DB account 'Access Control' should be configured to use Azure Active Directory (AAD) and Role-Based Access Control (RBAC)"
+  description = "Azure Cosmos DB accounts should use Azure Active Directory (AAD) Client Authentication and Role-Based Access Control (RBAC) for access control."
+  query       = query.cosmosdb_account_uses_aad_and_rbac
 
   tags = local.regulatory_compliance_cosmosdb_common_tags
 }

@@ -13,6 +13,7 @@ control "network_security_group_remote_access_restricted" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 
@@ -131,7 +132,8 @@ control "network_subnet_protected_by_firewall" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
+    nist_sp_800_53_rev_5 = "true"
+    rbi_itf_nbfc_2017    = "true"
   })
 }
 

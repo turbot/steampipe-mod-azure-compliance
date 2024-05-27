@@ -11,6 +11,7 @@ control "monitor_log_profile_enabled_for_all_categories" {
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     hipaa_hitrust_v92 = "true"
+    rbi_itf_nbfc_2017 = "true"
   })
 }
 
@@ -31,6 +32,7 @@ control "monitor_log_profile_enabled_for_all_regions" {
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     hipaa_hitrust_v92 = "true"
+    rbi_itf_nbfc_2017 = "true"
   })
 }
 
@@ -52,6 +54,7 @@ control "monitor_log_cluster_infrastructure_encryption_enabled" {
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 
@@ -72,6 +75,7 @@ control "monitor_log_cluster_encrypted_with_cmk" {
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 

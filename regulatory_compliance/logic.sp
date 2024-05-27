@@ -23,6 +23,7 @@ control "logic_app_integration_service_environment_encrypted_with_cmk" {
 
   tags = merge(local.regulatory_compliance_logic_common_tags, {
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 

@@ -49,6 +49,7 @@ control "mssql_managed_instance_vulnerability_assessment_enabled" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 

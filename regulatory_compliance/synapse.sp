@@ -23,6 +23,7 @@ control "synapse_workspace_vulnerability_assessment_enabled" {
   tags = merge(local.regulatory_compliance_synapse_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 

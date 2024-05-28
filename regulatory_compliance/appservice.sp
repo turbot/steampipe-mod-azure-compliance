@@ -47,6 +47,7 @@ control "appservice_function_app_latest_tls_version" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 
@@ -68,6 +69,7 @@ control "appservice_function_app_only_https_accessible" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 
@@ -114,6 +116,7 @@ control "appservice_api_app_latest_tls_version" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 

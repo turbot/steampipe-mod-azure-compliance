@@ -65,6 +65,7 @@ control "monitor_log_analytics_workspace_integrated_with_encrypted_storage_accou
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 

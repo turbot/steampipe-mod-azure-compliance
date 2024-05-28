@@ -25,6 +25,7 @@ control "sql_server_transparent_data_encryption_enabled" {
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 
@@ -71,6 +72,7 @@ control "sql_database_long_term_geo_redundant_backup_enabled" {
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    rbi_itf_nbfc_2017    = "true"
   })
 }
 

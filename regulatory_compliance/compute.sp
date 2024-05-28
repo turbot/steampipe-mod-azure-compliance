@@ -35,6 +35,7 @@ control "compute_vm_remote_access_restricted_all_ports" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 
@@ -47,6 +48,7 @@ control "compute_vm_tcp_udp_access_restricted_internet" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_2017     = "true"
   })
 }
 
@@ -118,6 +120,7 @@ control "compute_vm_disaster_recovery_enabled" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    rbi_itf_nbfc_2017    = "true"
   })
 }
 
@@ -620,6 +623,7 @@ control "compute_vm_non_internet_facing_protected_with_nsg" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    rbi_itf_nbfc_2017    = "true"
   })
 }
 
@@ -642,6 +646,7 @@ control "compute_vm_temp_disks_cache_and_data_flows_encrypted" {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
+    rbi_itf_nbfc_2017    = "true"
   })
 }
 
@@ -761,6 +766,7 @@ control "compute_vm_azure_backup_enabled" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92 = "true"
+    rbi_itf_nbfc_2017 = "true"
   })
 }
 

@@ -1,8 +1,10 @@
 benchmark "rbi_itf_nbfc_it_information_and_cyber_security" {
   title       = "Information and Cyber Security"
   children = [
-    // benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3,
+    benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3,
     benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3_1,
+    benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3_3,
+    benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3_8
   ]
 
   tags = local.rbi_itf_nbfc_common_tags
@@ -22,7 +24,8 @@ benchmark "rbi_itf_nbfc_it_information_and_cyber_security_3_1" {
     benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3_1_b,
     benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3_1_c,
     benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3_1_f,
-    benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3_1_g
+    benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3_1_g,
+    benchmark.rbi_itf_nbfc_it_information_and_cyber_security_3_1_h
   ]
 }
 
@@ -106,6 +109,7 @@ benchmark "rbi_itf_nbfc_it_information_and_cyber_security_3_1_g" {
     control.securitycenter_azure_defender_on_for_resource_manager,
     control.securitycenter_azure_defender_on_for_server,
     control.sql_server_azure_defender_enabled,
+    control.securitycenter_azure_defender_on_for_storage,
     control.securitycenter_azure_defender_on_for_sqlservervm,
     control.monitor_log_profile_enabled_for_all_categories,
     control.monitor_log_cluster_infrastructure_encryption_enabled,
@@ -115,5 +119,66 @@ benchmark "rbi_itf_nbfc_it_information_and_cyber_security_3_1_g" {
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.logic_app_integration_service_environment_encrypted_with_cmk,
     control.sql_server_auditing_storage_account_destination_retention_90_days
+  ]
+}
+
+benchmark "rbi_itf_nbfc_it_information_and_cyber_security_3_1_h" {
+  title       = "Public Key Infrastructure (PKI)-3.1.h"
+  children = [
+    control.app_configuration_encryption_enabled,
+    control.appservice_api_app_use_https,
+    control.appservice_api_app_latest_tls_version,
+    control.app_service_environment_internal_encryption_enabled,
+    control.automation_account_variable_encryption_enabled,
+    control.keyvault_firewall_enabled,
+    control.keyvault_vault_private_link_used,
+    control.monitor_log_cluster_infrastructure_encryption_enabled,
+    control.keyvault_certificate_validity_12_months,
+    control.kusto_cluster_disk_encryption_enabled,
+    control.mysql_ssl_enabled,
+    control.postgres_sql_ssl_enabled,
+    control.appservice_function_app_only_https_accessible,
+    control.appservice_function_app_latest_tls_version,
+    control.mysql_server_infrastructure_encryption_enabled,
+    control.postgresql_server_infrastructure_encryption_enabled,
+    control.keyvault_secret_expiration_set,
+    control.keyvault_purge_protection_enabled,
+    control.keyvault_soft_delete_enabled,
+    control.mysql_server_encrypted_at_rest_using_cmk,
+    control.postgres_sql_server_encrypted_at_rest_using_cmk,
+    control.monitor_log_analytics_workspace_integrated_with_encrypted_storage_account,
+    control.storage_account_secure_transfer_required_enabled,
+    control.storage_account_encryption_scopes_encrypted_at_rest_with_cmk,
+    control.storage_account_infrastructure_encryption_enabled,
+    control.storage_account_encryption_at_rest_using_cmk,
+    control.sql_server_transparent_data_encryption_enabled,
+    control.compute_vm_temp_disks_cache_and_data_flows_encrypted
+  ]
+}
+
+benchmark "rbi_itf_nbfc_it_information_and_cyber_security_3_3" {
+  title       = "Vulnerability Management-3.3"
+  children = [
+    control.compute_vm_vulnerability_assessment_solution_enabled,
+    control.kubernetes_cluster_upgraded_with_non_vulnerable_version,
+    control.sql_database_vulnerability_findings_resolved,
+    control.compute_vm_vulnerability_findings_resolved_for_sql_server,
+    control.compute_vm_scale_set_system_updates_installed,
+    control.compute_vm_system_updates_installed,
+    control.compute_vm_container_security_configurations_vulnerabilities_remediated,
+    control.compute_vm_security_configuration_vulnerabilities_remediated,
+    control.compute_vm_scale_set_security_configuration_vulnerabilities_remediated,
+    control.mssql_managed_instance_vulnerability_assessment_enabled,
+    control.sql_server_and_databases_va_enabled,
+    control.synapse_workspace_vulnerability_assessment_enabled
+  ]
+}
+
+benchmark "rbi_itf_nbfc_it_information_and_cyber_security_3_8" {
+  title       = "Digital Signatures-3.8"
+  children = [
+    control.appservice_function_app_client_certificates_on,
+    control.appservice_web_app_client_certificates_on,
+    control.keyvault_certificate_validity_12_months
   ]
 }

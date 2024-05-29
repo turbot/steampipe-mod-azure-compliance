@@ -36,7 +36,6 @@ benchmark "rbi_itf_nbfc_it_operations_4_4_b" {
   title       = "IT Operations-4.4.b"
   children = [
     control.compute_vm_network_traffic_data_collection_linux_agent_installed,
-    control.securitycenter_azure_defender_on_for_sqldb,
     control.securitycenter_azure_defender_on_for_sqldb
   ]
 }

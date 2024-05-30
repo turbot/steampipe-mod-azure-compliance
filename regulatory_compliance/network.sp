@@ -348,6 +348,16 @@ control "network_security_group_outbound_access_restricted" {
   tags = local.regulatory_compliance_network_common_tags
 }
 
+control "network_sg_flowlog_enabled" {
+  title       = "Flow logs should be configured for every network security group"
+  description = "Audit for network security groups to verify if flow logs are configured. Enabling flow logs allows to log information about IP traffic flowing through network security group. It can be used for optimizing network flows, monitoring throughput, verifying compliance, detecting intrusions and more."
+  query       = query.network_sg_flowlog_enabled
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (
@@ -2016,9 +2026,9 @@ query "network_sg_flowlog_enabled" {
         when sg.flow_logs is not null then sg.name || ' flowlog enabled.'
         else sg.name || ' flowlog disabled.'
       end as reason
-      --${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group as sg
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
@@ -2045,5 +2055,26 @@ query "network_lb_diagnostics_logs_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = l.subscription_id;
+  EOQ
+}
+
+query "network_watcher_flow_log_enabled" {
+  sql = <<-EOQ
+    select
+      sg.id resource,
+      case
+        when sg.enabled then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sg.enabled then sg.name || ' flowlog enabled.'
+        else sg.name || ' flowlog disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_watcher_flow_log as sg
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }

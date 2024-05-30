@@ -115,9 +115,14 @@ benchmark "rbi_itf_nbfc_it_information_and_cyber_security_3_1_g" {
     control.monitor_log_cluster_infrastructure_encryption_enabled,
     control.monitor_log_cluster_encrypted_with_cmk,
     control.monitor_log_profile_enabled_for_all_regions,
+    control.network_sg_flowlog_enabled,
     control.compute_vm_log_analytics_agent_installed,
     control.compute_vm_scale_set_log_analytics_agent_installed,
+    control.postgres_db_server_log_checkpoints_on,
+    control.postgres_db_server_log_connections_on,
+    control.postgres_db_server_log_duration_on,
     control.logic_app_integration_service_environment_encrypted_with_cmk,
+    control.securitycenter_azure_defender_on_for_storage,
     control.sql_server_auditing_storage_account_destination_retention_90_days
   ]
 }

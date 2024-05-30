@@ -97,7 +97,9 @@ control "postgres_db_server_log_checkpoints_on" {
   description = "Enable log_checkpoints on PostgreSQL Servers."
   query       = query.postgres_db_server_log_checkpoints_on
 
-  tags = local.regulatory_compliance_postgres_common_tags
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
 }
 
 control "postgres_db_server_log_connections_on" {
@@ -105,7 +107,9 @@ control "postgres_db_server_log_connections_on" {
   description = "Enable log_connections on PostgreSQL Servers."
   query       = query.postgres_db_server_log_connections_on
 
-  tags = local.regulatory_compliance_postgres_common_tags
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
 }
 
 control "postgres_db_server_log_disconnections_on" {
@@ -113,7 +117,19 @@ control "postgres_db_server_log_disconnections_on" {
   description = "Enable log_disconnections on PostgreSQL Servers."
   query       = query.postgres_db_server_log_disconnections_on
 
-  tags = local.regulatory_compliance_postgres_common_tags
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
+}
+
+control "postgres_db_server_log_duration_on" {
+  title       = "Ensure server parameter 'log_duration' is set to 'ON' for PostgreSQL Database Server"
+  description = "Enable log_duration on PostgreSQL Servers."
+  query       = query.postgres_db_server_log_duration_on
+
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
 }
 
 control "postgres_db_server_log_retention_days_3" {
@@ -378,6 +394,31 @@ query "postgres_db_server_log_disconnections_on" {
       azure_subscription sub
     where
       config ->> 'Name' = 'log_disconnections'
+      and sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_db_server_log_duration_on" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then name || ' server parameter log_duration off.'
+        else name || ' server parameter log_duration on.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server s,
+      jsonb_array_elements(server_configurations) config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'log_duration'
       and sub.subscription_id = s.subscription_id;
   EOQ
 }

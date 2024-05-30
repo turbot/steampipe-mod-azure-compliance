@@ -358,6 +358,16 @@ control "network_sg_flowlog_enabled" {
   })
 }
 
+control "network_watcher_flow_log_enabled" {
+  title       = "All flow log resources should be in enabled state"
+  description = "Audit for flow log resources to verify if flow log status is enabled. Enabling flow logs allows to log information about IP traffic flowing. It can be used for optimizing network flows, monitoring throughput, verifying compliance, detecting intrusions and more."
+  query       = query.network_watcher_flow_log_enabled
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (

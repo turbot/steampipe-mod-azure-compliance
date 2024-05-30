@@ -103,6 +103,7 @@ benchmark "rbi_itf_nbfc_it_information_and_cyber_security_3_1_g" {
     control.iam_subscription_owner_max_3,
     control.compute_vm_network_traffic_data_collection_linux_agent_installed,
     control.compute_vm_network_traffic_data_collection_windows_agent_installed,
+    control.network_watcher_flow_log_enabled,
     control.securitycenter_automatic_provisioning_monitoring_agent_on,
     control.securitycenter_azure_defender_on_for_appservice,
     control.securitycenter_azure_defender_on_for_sqldb,

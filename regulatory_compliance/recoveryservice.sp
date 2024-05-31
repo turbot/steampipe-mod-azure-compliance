@@ -77,7 +77,9 @@ query "recovery_service_vault_uses_private_link" {
         when private_endpoint_state_for_site_recovery = 'Enabled' then 'Private link for site recovery is enabled.'
         else 'Private link for site recovery is disabled.'
       end as reason
-      
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_recovery_services_vault as s,
       azure_subscription as sub
@@ -98,7 +100,9 @@ query "recovery_service_vault_uses_private_link_for_backup" {
         when private_endpoint_state_for_backup = 'Enabled' then 'Private link for backup is enabled.'
         else 'Private link for backup is disabled.'
       end as reason
-      
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_recovery_services_vault as s,
       azure_subscription as sub

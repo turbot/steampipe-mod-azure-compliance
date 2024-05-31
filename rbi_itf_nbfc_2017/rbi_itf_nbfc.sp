@@ -7,7 +7,7 @@ locals {
 
 benchmark "rbi_itf_nbfc" {
   title         = "Reserve Bank of India - IT Framework for NBFC Regulatory Compliance"
-  // documentation = file("./rbi_itf_nbfc/docs/rbi_itf_nbfc_overview.md")
+  documentation = file("./rbi_itf_nbfc/docs/rbi_itf_nbfc_overview.md")
 
   children = [
     benchmark.rbi_itf_nbfc_it_governance,

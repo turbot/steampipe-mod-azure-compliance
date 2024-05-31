@@ -15,6 +15,7 @@ benchmark "all_controls_postgres" {
     control.postgres_db_server_log_checkpoints_on,
     control.postgres_db_server_log_connections_on,
     control.postgres_db_server_log_disconnections_on,
+    control.postgres_db_server_log_duration_on,
     control.postgres_db_server_log_retention_days_3,
     control.postgres_server_private_link_used,
     control.postgres_sql_server_encrypted_at_rest_using_cmk,

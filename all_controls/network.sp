@@ -42,9 +42,12 @@ benchmark "all_controls_network" {
     control.network_security_group_ssh_access_restricted,
     control.network_security_group_subnet_associated,
     control.network_security_group_udp_service_restricted,
+    control.network_sg_flowlog_enabled,
     control.network_sg_flowlog_retention_period_greater_than_90,
     control.network_virtual_network_gateway_no_basic_sku,
     control.network_watcher_enabled,
+    control.network_watcher_flow_log_enabled,
+    control.network_watcher_flow_log_traffic_analytics_enabled,
     control.network_watcher_in_regions_with_virtual_network
   ]
 

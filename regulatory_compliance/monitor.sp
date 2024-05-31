@@ -10,7 +10,8 @@ control "monitor_log_profile_enabled_for_all_categories" {
   query       = query.monitor_log_profile_enabled_for_all_categories
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92  = "true"
+    rbi_itf_nbfc_v2017 = "true"
   })
 }
 
@@ -30,7 +31,18 @@ control "monitor_log_profile_enabled_for_all_regions" {
   query       = query.monitor_log_profile_enabled_for_all_regions
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92  = "true"
+    rbi_itf_nbfc_v2017 = "true"
+  })
+}
+
+control "log_profile_enabled_for_all_subscription" {
+  title       = "Azure subscriptions should have a log profile for Activity Log"
+  description = "This policy ensures if a log profile is enabled for exporting activity logs. It audits if there is no log profile created to export the logs either to a storage account or to an event hub."
+  query       = query.log_profile_enabled_for_all_subscription
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
   })
 }
 
@@ -51,7 +63,7 @@ control "monitor_log_cluster_infrastructure_encryption_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -61,7 +73,7 @@ control "monitor_log_analytics_workspace_integrated_with_encrypted_storage_accou
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -71,7 +83,7 @@ control "monitor_log_cluster_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -80,7 +92,9 @@ control "monitor_log_profile_retention_365_days" {
   description = "This control is non-compliant if Monitor log profile retention is set to less than 365 days."
   query       = query.monitor_log_profile_retention_365_days
 
-  tags = local.regulatory_compliance_monitor_common_tags
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
 }
 
 control "monitor_diagnostic_settings_captures_proper_categories" {
@@ -200,7 +214,19 @@ control "monitor_logs_storage_container_insights_activity_logs_encrypted_with_by
   description = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
   query       = query.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
 
-  tags = local.regulatory_compliance_monitor_common_tags
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
+}
+
+control "application_insights_linked_to_log_analytics_workspace" {
+  title       = "Azure Monitor Logs for Application Insights should be linked to a Log Analytics workspace"
+  description = "Link the Application Insights component to a Log Analytics workspace for logs encryption. Customer-managed keys are commonly required to meet regulatory compliance and for more control over the access to your data in Azure Monitor. Linking your component to a Log Analytics workspace that's enabled with a customer-managed key, ensures that your Application Insights logs meet this compliance requirement, see https://docs.microsoft.com/azure/azure-monitor/platform/customer-managed-keys."
+  query       = query.application_insights_linked_to_log_analytics_workspace
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
 }
 
 control "monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok" {
@@ -321,6 +347,34 @@ query "monitor_log_profile_enabled_for_all_regions" {
     from
       azure_log_profile as p
       left join azure_subscription sub on sub.subscription_id = p.subscription_id;
+  EOQ
+}
+
+query "log_profile_enabled_for_all_subscription" {
+  sql = <<-EOQ
+    with log_profiles as (
+      select
+        subscription_id
+      from
+        azure_log_profile
+      group by
+        subscription_id
+    )
+    select
+      sub.id as resource,
+      case
+        when i.subscription_id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when i.subscription_id is null then sub.display_name || ' does not collect activity logs.'
+        else sub.display_name || ' collects activity logs.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription as sub
+      left join log_profiles as i on i.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -1172,5 +1226,26 @@ query "monitor_log_profile_retention_365_days" {
     from
       azure_log_profile as p
       left join azure_subscription sub on sub.subscription_id = p.subscription_id;
+  EOQ
+}
+
+query "application_insights_linked_to_log_analytics_workspace" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when type = 'microsoft.insights/components' and workspace_resource_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when type = 'microsoft.insights/components' and workspace_resource_id is not null then a.name || ' linked to log analytics workspace.'
+        else a.name || ' not linked to log analytics workspace.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_application_insight as a
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

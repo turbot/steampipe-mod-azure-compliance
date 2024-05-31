@@ -1,3 +1,10 @@
+## v0.45 [2024-05-31]
+
+_What's new?_
+
+- Added Reserve Bank of India - IT Framework for NBFC Regulatory Compliance
+benchmark (`powerpipe benchmark run azure_compliance.benchmark.rbi_itf_nbfc_v2017`). ([#267](https://github.com/turbot/steampipe-mod-azure-compliance/pull/267))
+
 ## v0.44 [2024-05-16]
 
 _What's new?_

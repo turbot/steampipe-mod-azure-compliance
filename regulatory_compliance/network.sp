@@ -13,6 +13,7 @@ control "network_security_group_remote_access_restricted" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -47,6 +48,7 @@ control "network_security_group_subnet_associated" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -88,6 +90,7 @@ control "application_gateway_waf_enabled" {
   tags = merge(local.regulatory_compliance_network_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -131,7 +134,7 @@ control "network_subnet_protected_by_firewall" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -342,6 +345,36 @@ control "network_security_group_outbound_access_restricted" {
   query       = query.network_security_group_outbound_access_restricted
 
   tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_sg_flowlog_enabled" {
+  title       = "Flow logs should be configured for every network security group"
+  description = "Audit for network security groups to verify if flow logs are configured. Enabling flow logs allows to log information about IP traffic flowing through network security group. It can be used for optimizing network flows, monitoring throughput, verifying compliance, detecting intrusions and more."
+  query       = query.network_sg_flowlog_enabled
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
+}
+
+control "network_watcher_flow_log_enabled" {
+  title       = "All flow log resources should be in enabled state"
+  description = "Audit for flow log resources to verify if flow log status is enabled. Enabling flow logs allows to log information about IP traffic flowing. It can be used for optimizing network flows, monitoring throughput, verifying compliance, detecting intrusions and more."
+  query       = query.network_watcher_flow_log_enabled
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
+}
+
+control "network_watcher_flow_log_traffic_analytics_enabled" {
+  title       = "Network Watcher flow logs should have traffic analytics enabled"
+  description = "Traffic analytics analyzes flow logs to provide insights into traffic flow in your Azure cloud. It can be used to visualize network activity across your Azure subscriptions and identify hot spots, identify security threats, understand traffic flow patterns, pinpoint network misconfigurations and more."
+  query       = query.network_watcher_flow_log_traffic_analytics_enabled
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
 }
 
 query "network_security_group_remote_access_restricted" {
@@ -2012,9 +2045,9 @@ query "network_sg_flowlog_enabled" {
         when sg.flow_logs is not null then sg.name || ' flowlog enabled.'
         else sg.name || ' flowlog disabled.'
       end as reason
-      --${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
-      --${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group as sg
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
@@ -2041,5 +2074,47 @@ query "network_lb_diagnostics_logs_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = l.subscription_id;
+  EOQ
+}
+
+query "network_watcher_flow_log_enabled" {
+  sql = <<-EOQ
+    select
+      sg.id resource,
+      case
+        when sg.enabled then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sg.enabled then sg.name || ' flowlog enabled.'
+        else sg.name || ' flowlog disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_watcher_flow_log as sg
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_watcher_flow_log_traffic_analytics_enabled" {
+  sql = <<-EOQ
+    select
+      sg.id resource,
+      case
+        when sg.enabled and traffic_analytics ->> 'enabled' = 'true' and (traffic_analytics ->> 'trafficAnalyticsInterval')::int between 10 and 60 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sg.enabled and traffic_analytics ->> 'enabled' = 'true' and (traffic_analytics ->> 'trafficAnalyticsInterval')::int between 10 and 60 then sg.name || ' flowlog traffic analytics enabled.'
+        else sg.name || ' flowlog traffic analytics disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_watcher_flow_log as sg
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
   EOQ
 }

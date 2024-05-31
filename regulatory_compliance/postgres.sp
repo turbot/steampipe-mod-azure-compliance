@@ -13,6 +13,7 @@ control "postgres_db_server_geo_redundant_backup_enabled" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -25,6 +26,7 @@ control "postgres_sql_ssl_enabled" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -47,6 +49,7 @@ control "postgresql_server_infrastructure_encryption_enabled" {
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -69,6 +72,7 @@ control "postgres_sql_server_encrypted_at_rest_using_cmk" {
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -93,7 +97,9 @@ control "postgres_db_server_log_checkpoints_on" {
   description = "Enable log_checkpoints on PostgreSQL Servers."
   query       = query.postgres_db_server_log_checkpoints_on
 
-  tags = local.regulatory_compliance_postgres_common_tags
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
 }
 
 control "postgres_db_server_log_connections_on" {
@@ -101,7 +107,9 @@ control "postgres_db_server_log_connections_on" {
   description = "Enable log_connections on PostgreSQL Servers."
   query       = query.postgres_db_server_log_connections_on
 
-  tags = local.regulatory_compliance_postgres_common_tags
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
 }
 
 control "postgres_db_server_log_disconnections_on" {
@@ -109,7 +117,19 @@ control "postgres_db_server_log_disconnections_on" {
   description = "Enable log_disconnections on PostgreSQL Servers."
   query       = query.postgres_db_server_log_disconnections_on
 
-  tags = local.regulatory_compliance_postgres_common_tags
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
+}
+
+control "postgres_db_server_log_duration_on" {
+  title       = "Ensure server parameter 'log_duration' is set to 'ON' for PostgreSQL Database Server"
+  description = "Enable log_duration on PostgreSQL Servers."
+  query       = query.postgres_db_server_log_duration_on
+
+  tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
 }
 
 control "postgres_db_server_log_retention_days_3" {
@@ -374,6 +394,31 @@ query "postgres_db_server_log_disconnections_on" {
       azure_subscription sub
     where
       config ->> 'Name' = 'log_disconnections'
+      and sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_db_server_log_duration_on" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then name || ' server parameter log_duration off.'
+        else name || ' server parameter log_duration on.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_server s,
+      jsonb_array_elements(server_configurations) config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'log_duration'
       and sub.subscription_id = s.subscription_id;
   EOQ
 }

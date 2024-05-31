@@ -13,6 +13,7 @@ control "iam_subscription_owner_more_than_1" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -26,6 +27,7 @@ control "iam_subscription_owner_max_3" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -39,6 +41,7 @@ control "iam_deprecated_account_with_owner_roles" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -52,6 +55,7 @@ control "iam_no_custom_role" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -65,6 +69,7 @@ control "iam_external_user_with_owner_role" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -78,6 +83,7 @@ control "iam_deprecated_account" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -91,6 +97,7 @@ control "iam_external_user_with_read_permission" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -104,6 +111,7 @@ control "iam_external_user_with_write_permission" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -113,9 +121,9 @@ control "iam_user_with_write_permission_on_subscription_mfa_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_iam_common_tags, {
-    hipaa_hitrust_v92     = "true"
-    nist_sp_800_53_rev_5  = "true"
-    pci_dss_v321          = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -125,8 +133,8 @@ control "iam_user_with_read_permission_on_subscription_mfa_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_iam_common_tags, {
-    hipaa_hitrust_v92     = "true"
-    nist_sp_800_53_rev_5  = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -136,9 +144,9 @@ control "iam_user_with_owner_permission_on_subscription_mfa_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_iam_common_tags, {
-    hipaa_hitrust_v92     = "true"
-    nist_sp_800_53_rev_5  = "true"
-    pci_dss_v321          = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 

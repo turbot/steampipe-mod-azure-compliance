@@ -67,6 +67,7 @@ control "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -206,7 +207,7 @@ control "kubernetes_cluster_https_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 

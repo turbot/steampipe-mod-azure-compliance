@@ -20,8 +20,8 @@ control "compute_vm_adaptive_network_hardening_recommendation_applied" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92     = "true"
-    nist_sp_800_53_rev_5  = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -35,6 +35,7 @@ control "compute_vm_remote_access_restricted_all_ports" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -47,6 +48,7 @@ control "compute_vm_tcp_udp_access_restricted_internet" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -59,6 +61,7 @@ control "compute_vm_jit_access_protected" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -71,6 +74,7 @@ control "compute_vm_log_analytics_agent_installed" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -104,6 +108,7 @@ control "compute_vm_scale_set_log_analytics_agent_installed" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -115,6 +120,7 @@ control "compute_vm_disaster_recovery_enabled" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
+    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -156,6 +162,7 @@ control "compute_vm_network_traffic_data_collection_windows_agent_installed" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -168,6 +175,7 @@ control "compute_vm_network_traffic_data_collection_linux_agent_installed" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -188,9 +196,9 @@ control "compute_vm_security_configuration_vulnerabilities_remediated" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92     = "true"
-    nist_sp_800_53_rev_5  = "true"
-    pci_dss_v321          = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
+    pci_dss_v321         = "true"
   })
 }
 
@@ -213,8 +221,8 @@ control "compute_vm_scale_set_security_configuration_vulnerabilities_remediated"
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92     = "true"
-    nist_sp_800_53_rev_5  = "true"
+    hipaa_hitrust_v92    = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -228,6 +236,7 @@ control "compute_vm_system_updates_installed" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -237,7 +246,7 @@ control "compute_vm_administrators_group_with_no_specified_members_windows" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92     = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -247,7 +256,7 @@ control "compute_vm_administrators_group_with_specified_members_windows" {
   query       = query.manual_control_hipaa
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    hipaa_hitrust_v92     = "true"
+    hipaa_hitrust_v92 = "true"
   })
 }
 
@@ -322,6 +331,7 @@ control "compute_vm_vulnerability_assessment_solution_enabled" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -490,6 +500,7 @@ control "network_interface_ip_forwarding_disabled" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -512,6 +523,7 @@ control "compute_vm_guest_configuration_with_system_assigned_managed_identity" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -606,7 +618,7 @@ control "compute_vm_non_internet_facing_protected_with_nsg" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -831,6 +843,16 @@ control "compute_vm_scale_set_boot_diagnostics_enabled" {
   query       = query.compute_vm_scale_set_boot_diagnostics_enabled
 
   tags = local.regulatory_compliance_compute_common_tags
+}
+
+control "compute_windows_vm_secure_boot_enabled" {
+  title       = "Secure Boot should be enabled on supported Windows virtual machines"
+  description = "Enable Secure Boot on supported Windows virtual machines to mitigate against malicious and unauthorized changes to the boot chain. Once enabled, only trusted bootloaders, kernel and kernel drivers will be allowed to run. This assessment applies to Trusted Launch and Confidential Windows virtual machines."
+  query       = query.compute_windows_vm_secure_boot_enabled
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
 }
 
 query "compute_os_and_data_disk_encrypted_with_cmk" {
@@ -2637,7 +2659,7 @@ query "compute_disk_unattached_encrypted_with_cmk" {
         or managed_by != ''
         or encryption_type = 'EncryptionAtRestWithCustomerKey'
         or encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys'
-         then disk.name || ' attached and encrypted with ADE/CMK.'
+        then disk.name || ' attached and encrypted with ADE/CMK.'
         else disk.name || ' unattached and encrypted with default encryption key.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -2695,5 +2717,30 @@ query "compute_vm_scale_set_boot_diagnostics_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "compute_windows_vm_secure_boot_enabled" {
+  sql = <<-EOQ
+      select
+        a.id as resource,
+        case
+          when image_offer not like '%Windows%' or os_type not like 'Windows%' then 'skip'
+          when security_profile ->> 'securityType' in ('TrustedLaunch','ConfidentialVM') and security_profile ->> 'uefiSettings' is not null and security_profile -> 'uefiSettings' ->> 'secureBootEnabled' = 'true' then 'ok'
+          else 'alarm'
+        end as status,
+        case
+          when image_offer not like '%Windows%' or os_type not like 'Windows%' then a.title || ' is not a windows VM.'
+          when security_profile ->> 'securityType' in ('TrustedLaunch','ConfidentialVM') and security_profile ->> 'uefiSettings' is not null and security_profile -> 'uefiSettings' ->> 'secureBootEnabled' = 'true' then a.title || ' secure boot enabled.'
+          else a.title || ' secure boot disabled.'
+        end as reason
+        ${local.tag_dimensions_sql}
+        ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+        ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      from
+        azure_compute_virtual_machine as a,
+        azure_subscription as sub
+      where
+        sub.subscription_id = a.subscription_id
   EOQ
 }

@@ -8,6 +8,8 @@ benchmark "all_controls_monitor" {
   title       = "Monitor"
   description = "This section contains recommendations for configuring Monitor resources."
   children = [
+    control.application_insights_linked_to_log_analytics_workspace,
+    control.log_profile_enabled_for_all_subscription,
     control.monitor_diagnostic_settings_captures_proper_categories,
     control.monitor_log_alert_create_policy_assignment,
     control.monitor_log_alert_create_update_nsg,

@@ -14,8 +14,7 @@ benchmark "rbi_itf_nbfc_v2017" {
     benchmark.rbi_itf_nbfc_v2017_is_audit,
     benchmark.rbi_itf_nbfc_v2017_it_governance,
     benchmark.rbi_itf_nbfc_v2017_it_information_and_cyber_security,
-    benchmark.rbi_itf_nbfc_v2017_it_operations,
-    benchmark.rbi_itf_nbfc_v2017_it_policy
+    benchmark.rbi_itf_nbfc_v2017_it_operations
   ]
 
   tags = local.rbi_itf_nbfc_v2017_common_tags

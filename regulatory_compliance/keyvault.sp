@@ -133,7 +133,6 @@ control "keyvault_certificate_validity_12_months" {
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 

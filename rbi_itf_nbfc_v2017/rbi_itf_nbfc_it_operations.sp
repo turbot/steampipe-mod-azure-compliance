@@ -1,11 +1,18 @@
 benchmark "rbi_itf_nbfc_v2017_it_operations" {
   title = "IT Operations"
   children = [
-    benchmark.rbi_itf_nbfc_v2017_it_operations_4_2,
-    benchmark.rbi_itf_nbfc_v2017_it_operations_4_4
+    benchmark.rbi_itf_nbfc_v2017_it_operations_4
   ]
 
   tags = local.rbi_itf_nbfc_v2017_common_tags
+}
+
+benchmark "rbi_itf_nbfc_v2017_it_operations_4" {
+  title = "IT Operations-4"
+  children = [
+    benchmark.rbi_itf_nbfc_v2017_it_operations_4_2,
+    benchmark.rbi_itf_nbfc_v2017_it_operations_4_4
+  ]
 }
 
 benchmark "rbi_itf_nbfc_v2017_it_operations_4_2" {

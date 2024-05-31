@@ -187,7 +187,6 @@ control "compute_vm_adaptive_application_controls_enabled" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -200,7 +199,6 @@ control "compute_vm_security_configuration_vulnerabilities_remediated" {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -225,7 +223,6 @@ control "compute_vm_scale_set_security_configuration_vulnerabilities_remediated"
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -591,7 +588,6 @@ control "compute_vm_allowlist_rules_in_adaptive_application_control_policy_updat
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -623,7 +619,6 @@ control "compute_vm_non_internet_facing_protected_with_nsg" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -646,7 +641,6 @@ control "compute_vm_temp_disks_cache_and_data_flows_encrypted" {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -658,7 +652,6 @@ control "compute_vm_container_security_configurations_vulnerabilities_remediated
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -701,7 +694,6 @@ control "compute_vm_vulnerability_findings_resolved_for_sql_server" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -735,7 +727,6 @@ control "compute_vm_scale_set_system_updates_installed" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -766,7 +757,6 @@ control "compute_vm_azure_backup_enabled" {
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     hipaa_hitrust_v92  = "true"
-    rbi_itf_nbfc_v2017 = "true"
   })
 }
 
@@ -2659,7 +2649,7 @@ query "compute_disk_unattached_encrypted_with_cmk" {
         or managed_by != ''
         or encryption_type = 'EncryptionAtRestWithCustomerKey'
         or encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys'
-         then disk.name || ' attached and encrypted with ADE/CMK.'
+        then disk.name || ' attached and encrypted with ADE/CMK.'
         else disk.name || ' unattached and encrypted with default encryption key.'
       end as reason
       ${local.tag_dimensions_sql}

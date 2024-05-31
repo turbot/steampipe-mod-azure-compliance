@@ -124,7 +124,6 @@ control "iam_user_with_write_permission_on_subscription_mfa_enabled" {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -136,7 +135,6 @@ control "iam_user_with_read_permission_on_subscription_mfa_enabled" {
   tags = merge(local.regulatory_compliance_iam_common_tags, {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -149,7 +147,6 @@ control "iam_user_with_owner_permission_on_subscription_mfa_enabled" {
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     pci_dss_v321         = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 

@@ -64,7 +64,6 @@ control "monitor_log_cluster_infrastructure_encryption_enabled" {
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -75,7 +74,6 @@ control "monitor_log_analytics_workspace_integrated_with_encrypted_storage_accou
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -86,7 +84,6 @@ control "monitor_log_cluster_encrypted_with_cmk" {
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 

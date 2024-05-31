@@ -135,7 +135,6 @@ control "network_subnet_protected_by_firewall" {
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_v2017   = "true"
   })
 }
 

@@ -13,7 +13,7 @@ control "mariadb_server_geo_redundant_backup_enabled" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 

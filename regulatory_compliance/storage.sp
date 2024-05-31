@@ -14,7 +14,7 @@ control "storage_account_secure_transfer_required_enabled" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
-    rbi_itf_nbfc_2017     = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -60,7 +60,7 @@ control "storage_account_infrastructure_encryption_enabled" {
   tags = merge(local.regulatory_compliance_storage_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -105,7 +105,7 @@ control "storage_account_encryption_at_rest_using_cmk" {
   tags = merge(local.regulatory_compliance_storage_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -129,7 +129,7 @@ control "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
   tags = merge(local.regulatory_compliance_storage_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 

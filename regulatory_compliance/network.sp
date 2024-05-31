@@ -13,7 +13,7 @@ control "network_security_group_remote_access_restricted" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -48,7 +48,7 @@ control "network_security_group_subnet_associated" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -90,7 +90,7 @@ control "application_gateway_waf_enabled" {
   tags = merge(local.regulatory_compliance_network_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    rbi_itf_nbfc_v2017    = "true"
   })
 }
 
@@ -135,7 +135,7 @@ control "network_subnet_protected_by_firewall" {
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
     nist_sp_800_53_rev_5 = "true"
-    rbi_itf_nbfc_2017    = "true"
+    rbi_itf_nbfc_v2017   = "true"
   })
 }
 
@@ -354,7 +354,7 @@ control "network_sg_flowlog_enabled" {
   query       = query.network_sg_flowlog_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    rbi_itf_nbfc_2017 = "true"
+    rbi_itf_nbfc_v2017 = "true"
   })
 }
 
@@ -364,7 +364,7 @@ control "network_watcher_flow_log_enabled" {
   query       = query.network_watcher_flow_log_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    rbi_itf_nbfc_2017 = "true"
+    rbi_itf_nbfc_v2017 = "true"
   })
 }
 
@@ -374,7 +374,7 @@ control "network_watcher_flow_log_traffic_analytics_enabled" {
   query       = query.network_watcher_flow_log_traffic_analytics_enabled
 
   tags = merge(local.regulatory_compliance_network_common_tags, {
-    rbi_itf_nbfc_2017 = "true"
+    rbi_itf_nbfc_v2017 = "true"
   })
 }
 

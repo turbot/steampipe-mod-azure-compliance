@@ -1292,7 +1292,7 @@ query "application_insights_linked_to_log_analytics_workspace" {
         else 'alarm'
       end as status,
       case
-        when type = 'microsoft.insights/components' and and workspace_resource_id is not null then a.name || ' linked to log analytics workspace.'
+        when type = 'microsoft.insights/components' and workspace_resource_id is not null then a.name || ' linked to log analytics workspace.'
         else a.name || ' not linked to log analytics workspace.'
       end as reason
       ${local.tag_dimensions_sql}

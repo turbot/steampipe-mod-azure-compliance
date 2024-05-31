@@ -100,25 +100,25 @@ control "monitor_log_profile_retention_365_days" {
   })
 }
 
-control "log_analytics_workspace_block_log_ingestion_and_querying_from_public" {
-  title       = "Log Analytics workspaces should block log ingestion and querying from public networks"
-  description = "Improve workspace security by blocking log ingestion and querying from public networks. Only private-link connected networks will be able to ingest and query logs on this workspace. Learn more at https://aka.ms/AzMonPrivateLink#configure-log-analytics."
-  query       = query.log_analytics_workspace_block_log_ingestion_and_querying_from_public
+// control "log_analytics_workspace_block_log_ingestion_and_querying_from_public" {
+//   title       = "Log Analytics workspaces should block log ingestion and querying from public networks"
+//   description = "Improve workspace security by blocking log ingestion and querying from public networks. Only private-link connected networks will be able to ingest and query logs on this workspace. Learn more at https://aka.ms/AzMonPrivateLink#configure-log-analytics."
+//   query       = query.log_analytics_workspace_block_log_ingestion_and_querying_from_public
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    rbi_itf_nbfc_2017 = "true"
-  })
-}
+//   tags = merge(local.regulatory_compliance_monitor_common_tags, {
+//     rbi_itf_nbfc_2017 = "true"
+//   })
+// }
 
-control "log_analytics_workspace_block_non_azure_ingestion" {
-  title       = "Log Analytics Workspaces should block non-Azure Active Directory based ingestion"
-  description = "Enforcing log ingestion to require Azure Active Directory authentication prevents unauthenticated logs from an attacker which could lead to incorrect status, false alerts, and incorrect logs stored in the system."
-  query       = query.log_analytics_workspace_block_non_azure_ingestion
+// control "log_analytics_workspace_block_non_azure_ingestion" {
+//   title       = "Log Analytics Workspaces should block non-Azure Active Directory based ingestion"
+//   description = "Enforcing log ingestion to require Azure Active Directory authentication prevents unauthenticated logs from an attacker which could lead to incorrect status, false alerts, and incorrect logs stored in the system."
+//   query       = query.log_analytics_workspace_block_non_azure_ingestion
 
-  tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    rbi_itf_nbfc_2017 = "true"
-  })
-}
+//   tags = merge(local.regulatory_compliance_monitor_common_tags, {
+//     rbi_itf_nbfc_2017 = "true"
+//   })
+// }
 
 control "monitor_diagnostic_settings_captures_proper_categories" {
   title       = "Ensure Diagnostic Setting captures appropriate categories"
@@ -236,6 +236,26 @@ control "monitor_logs_storage_container_insights_activity_logs_encrypted_with_by
   title       = "Ensure the storage account containing the container with activity logs is encrypted with Customer Managed Key"
   description = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
   query       = query.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
+}
+
+// control "application_insights_block_log_ingestion_and_querying_from_public" {
+//   title       = "Application Insights components should block log ingestion and querying from public networks"
+//   description = "Improve Application Insights security by blocking log ingestion and querying from public networks. Only private-link connected networks will be able to ingest and query logs of this component. Learn more at https://aka.ms/AzMonPrivateLink#configure-application-insights."
+//   query       = query.application_insights_block_log_ingestion_and_querying_from_public
+
+//   tags = merge(local.regulatory_compliance_monitor_common_tags, {
+//     rbi_itf_nbfc_2017 = "true"
+//   })
+// }
+
+control "application_insights_linked_to_log_analytics_workspace" {
+  title       = "Azure Monitor Logs for Application Insights should be linked to a Log Analytics workspace"
+  description = "Link the Application Insights component to a Log Analytics workspace for logs encryption. Customer-managed keys are commonly required to meet regulatory compliance and for more control over the access to your data in Azure Monitor. Linking your component to a Log Analytics workspace that's enabled with a customer-managed key, ensures that your Application Insights logs meet this compliance requirement, see https://docs.microsoft.com/azure/azure-monitor/platform/customer-managed-keys."
+  query       = query.application_insights_linked_to_log_analytics_workspace
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     rbi_itf_nbfc_2017 = "true"
@@ -1242,44 +1262,86 @@ query "monitor_log_profile_retention_365_days" {
   EOQ
 }
 
-query "log_analytics_workspace_block_log_ingestion_and_querying_from_public" {
+// query "application_insights_block_log_ingestion_and_querying_from_public" {
+//   sql = <<-EOQ
+//     select
+//       a.id as resource,
+//       case
+//         when type = 'microsoft.insights/components' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then 'ok'
+//         else 'alarm'
+//       end as status,
+//       case
+//         when type = 'microsoft.insights/components' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then a.name || ' allows log ingestion and querying from public network.'
+//         else a.name || ' does not allow log ingestion and querying from public network.'
+//       end as reason
+//       -- ${local.tag_dimensions_sql}
+//       -- ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+//       -- ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+//     from
+//       azure_application_insight as a
+//       left join azure_subscription sub on sub.subscription_id = a.subscription_id;
+//   EOQ
+// }
+
+query "application_insights_linked_to_log_analytics_workspace" {
   sql = <<-EOQ
     select
-      w.id as resource,
+      a.id as resource,
       case
-        when type = 'Microsoft.OperationalInsights/workspaces' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then 'ok'
+        when type = 'microsoft.insights/components' and workspace_resource_id is not null then 'ok'
         else 'alarm'
       end as status,
       case
-        when type = 'Microsoft.OperationalInsights/workspaces' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then w.name || ' workspace allows log ingestion and querying from public network.'
-        else w.name || ' workspace does not allow log ingestion and querying from public network.'
+        when type = 'microsoft.insights/components' and and workspace_resource_id is not null then a.name || ' linked to log analytics workspace.'
+        else a.name || ' not linked to log analytics workspace.'
       end as reason
       ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_log_analytics_workspace as w
-      left join azure_subscription sub on sub.subscription_id = w.subscription_id;
+      azure_application_insight as a
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
-query "log_analytics_workspace_block_non_azure_ingestion" {
-  sql = <<-EOQ
-    select
-      w.id as resource,
-      case
-        when type = 'Microsoft.OperationalInsights/workspaces' and disable_local_auth = 'true' then 'alarm'
-        else 'ok'
-      end as status,
-      case
-        when type = 'Microsoft.OperationalInsights/workspaces' and disable_local_auth = 'true' then w.name || ' workspace allows non-Azure log ingestion.'
-        else w.name || ' workspace does not allow non-Azure log ingestion.'
-      end as reason
-      ${local.tag_dimensions_sql}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_log_analytics_workspace as w
-      left join azure_subscription sub on sub.subscription_id = w.subscription_id;
-  EOQ
-}
+// query "log_analytics_workspace_block_log_ingestion_and_querying_from_public" {
+//   sql = <<-EOQ
+//     select
+//       w.id as resource,
+//       case
+//         when type = 'Microsoft.OperationalInsights/workspaces' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then 'ok'
+//         else 'alarm'
+//       end as status,
+//       case
+//         when type = 'Microsoft.OperationalInsights/workspaces' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then w.name || ' workspace allows log ingestion and querying from public network.'
+//         else w.name || ' workspace does not allow log ingestion and querying from public network.'
+//       end as reason
+//       ${local.tag_dimensions_sql}
+//       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
+//       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+//     from
+//       azure_log_analytics_workspace as w
+//       left join azure_subscription sub on sub.subscription_id = w.subscription_id;
+//   EOQ
+// }
+
+// query "log_analytics_workspace_block_non_azure_ingestion" {
+//   sql = <<-EOQ
+//     select
+//       w.id as resource,
+//       case
+//         when type = 'Microsoft.OperationalInsights/workspaces' and disable_local_auth = 'true' then 'alarm'
+//         else 'ok'
+//       end as status,
+//       case
+//         when type = 'Microsoft.OperationalInsights/workspaces' and disable_local_auth = 'true' then w.name || ' workspace allows non-Azure log ingestion.'
+//         else w.name || ' workspace does not allow non-Azure log ingestion.'
+//       end as reason
+//       ${local.tag_dimensions_sql}
+//       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
+//       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+//     from
+//       azure_log_analytics_workspace as w
+//       left join azure_subscription sub on sub.subscription_id = w.subscription_id;
+//   EOQ
+// }

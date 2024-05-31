@@ -120,12 +120,13 @@ benchmark "rbi_itf_nbfc_it_information_and_cyber_security_3_1_g" {
     control.monitor_log_profile_enabled_for_all_categories,
     control.monitor_log_cluster_infrastructure_encryption_enabled,
     control.monitor_log_cluster_encrypted_with_cmk,
+    control.application_insights_linked_to_log_analytics_workspace,
     control.monitor_log_profile_enabled_for_all_regions,
     control.log_profile_enabled_for_all_subscription,
     control.postgres_db_server_log_disconnections_on,
     control.network_sg_flowlog_enabled,
-    control.log_analytics_workspace_block_log_ingestion_and_querying_from_public,
-    control.log_analytics_workspace_block_non_azure_ingestion,
+    // control.log_analytics_workspace_block_log_ingestion_and_querying_from_public, plugin dependency
+    // control.log_analytics_workspace_block_non_azure_ingestion, plugin dependency
     control.postgres_db_server_log_checkpoints_on,
     control.postgres_db_server_log_connections_on,
     control.postgres_db_server_log_duration_on,

@@ -45,6 +45,7 @@ benchmark "rbi_itf_nbfc_v2017_it_information_and_cyber_security_3_1_b" {
   title = "Segregation of Functions-3.1.b"
   children = [
     control.appservice_api_app_remote_debugging_disabled,
+    control.compute_windows_vm_secure_boot_enabled,
     control.appservice_function_app_client_certificates_on,
     control.appservice_function_app_remote_debugging_disabled,
     control.compute_vm_guest_configuration_with_system_assigned_managed_identity

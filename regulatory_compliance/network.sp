@@ -368,6 +368,16 @@ control "network_watcher_flow_log_enabled" {
   })
 }
 
+control "network_watcher_flow_log_traffic_analytics_enabled" {
+  title       = "Network Watcher flow logs should have traffic analytics enabled"
+  description = "Traffic analytics analyzes flow logs to provide insights into traffic flow in your Azure cloud. It can be used to visualize network activity across your Azure subscriptions and identify hot spots, identify security threats, understand traffic flow patterns, pinpoint network misconfigurations and more."
+  query       = query.network_watcher_flow_log_traffic_analytics_enabled
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (
@@ -2079,6 +2089,27 @@ query "network_watcher_flow_log_enabled" {
       case
         when sg.enabled then sg.name || ' flowlog enabled.'
         else sg.name || ' flowlog disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_watcher_flow_log as sg
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_watcher_flow_log_traffic_analytics_enabled" {
+  sql = <<-EOQ
+    select
+      sg.id resource,
+      case
+        when sg.enabled and traffic_analytics ->> 'enabled' = 'true' and (traffic_analytics ->> 'trafficAnalyticsInterval')::int between 10 and 60 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sg.enabled and traffic_analytics ->> 'enabled' = 'true' and (traffic_analytics ->> 'trafficAnalyticsInterval')::int between 10 and 60 then sg.name || ' flowlog traffic analytics enabled.'
+        else sg.name || ' flowlog traffic analytics disabled.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}

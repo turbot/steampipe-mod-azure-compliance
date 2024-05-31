@@ -221,7 +221,9 @@ control "securitycenter_azure_defender_on_for_opensource_relational_db" {
   description = "Turning on Microsoft Defender for Open-source relational databases enables threat detection for Open-source relational databases, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud."
   query       = query.securitycenter_azure_defender_on_for_opensource_relational_db
 
-  tags = local.regulatory_compliance_securitycenter_common_tags
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
 }
 
 control "securitycenter_mcas_integration" {

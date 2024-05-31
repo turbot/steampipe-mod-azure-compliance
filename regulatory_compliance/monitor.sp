@@ -36,6 +36,16 @@ control "monitor_log_profile_enabled_for_all_regions" {
   })
 }
 
+control "log_profile_enabled_for_all_subscription" {
+  title       = "Azure subscriptions should have a log profile for Activity Log"
+  description = "This policy ensures if a log profile is enabled for exporting activity logs. It audits if there is no log profile created to export the logs either to a storage account or to an event hub."
+  query       = query.log_profile_enabled_for_all_subscription
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
+}
+
 control "audit_diagnostic_setting" {
   title       = "Audit diagnostic setting for selected resource types"
   description = "Audit diagnostic setting for selected resource types. Be sure to select only resource types which support diagnostics settings."
@@ -53,8 +63,8 @@ control "monitor_log_cluster_infrastructure_encryption_enabled" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    nist_sp_800_53_rev_5 = "true"
+    rbi_itf_nbfc_2017    = "true"
   })
 }
 
@@ -64,8 +74,8 @@ control "monitor_log_analytics_workspace_integrated_with_encrypted_storage_accou
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    nist_sp_800_53_rev_5 = "true"
+    rbi_itf_nbfc_2017    = "true"
   })
 }
 
@@ -75,8 +85,8 @@ control "monitor_log_cluster_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
-    rbi_itf_nbfc_2017     = "true"
+    nist_sp_800_53_rev_5 = "true"
+    rbi_itf_nbfc_2017    = "true"
   })
 }
 
@@ -85,7 +95,29 @@ control "monitor_log_profile_retention_365_days" {
   description = "This control is non-compliant if Monitor log profile retention is set to less than 365 days."
   query       = query.monitor_log_profile_retention_365_days
 
-  tags = local.regulatory_compliance_monitor_common_tags
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
+}
+
+control "log_analytics_workspace_block_log_ingestion_and_querying_from_public" {
+  title       = "Log Analytics workspaces should block log ingestion and querying from public networks"
+  description = "Improve workspace security by blocking log ingestion and querying from public networks. Only private-link connected networks will be able to ingest and query logs on this workspace. Learn more at https://aka.ms/AzMonPrivateLink#configure-log-analytics."
+  query       = query.log_analytics_workspace_block_log_ingestion_and_querying_from_public
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
+}
+
+control "log_analytics_workspace_block_non_azure_ingestion" {
+  title       = "Log Analytics Workspaces should block non-Azure Active Directory based ingestion"
+  description = "Enforcing log ingestion to require Azure Active Directory authentication prevents unauthenticated logs from an attacker which could lead to incorrect status, false alerts, and incorrect logs stored in the system."
+  query       = query.log_analytics_workspace_block_non_azure_ingestion
+
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
 }
 
 control "monitor_diagnostic_settings_captures_proper_categories" {
@@ -205,7 +237,9 @@ control "monitor_logs_storage_container_insights_activity_logs_encrypted_with_by
   description = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
   query       = query.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
 
-  tags = local.regulatory_compliance_monitor_common_tags
+  tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_2017 = "true"
+  })
 }
 
 control "monitor_logs_storage_container_insights_operational_logs_encrypted_with_byok" {
@@ -326,6 +360,34 @@ query "monitor_log_profile_enabled_for_all_regions" {
     from
       azure_log_profile as p
       left join azure_subscription sub on sub.subscription_id = p.subscription_id;
+  EOQ
+}
+
+query "log_profile_enabled_for_all_subscription" {
+  sql = <<-EOQ
+    with log_profiles as (
+      select
+        subscription_id
+      from
+        azure_log_profile
+      group by
+        subscription_id
+    )
+    select
+      sub.id as resource,
+      case
+        when i.subscription_id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when i.subscription_id is null then sub.display_name || ' does not collect activity logs.'
+        else sub.display_name || ' collects activity logs.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription as sub
+      left join log_profiles as i on i.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -1177,5 +1239,47 @@ query "monitor_log_profile_retention_365_days" {
     from
       azure_log_profile as p
       left join azure_subscription sub on sub.subscription_id = p.subscription_id;
+  EOQ
+}
+
+query "log_analytics_workspace_block_log_ingestion_and_querying_from_public" {
+  sql = <<-EOQ
+    select
+      w.id as resource,
+      case
+        when type = 'Microsoft.OperationalInsights/workspaces' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when type = 'Microsoft.OperationalInsights/workspaces' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then w.name || ' workspace allows log ingestion and querying from public network.'
+        else w.name || ' workspace does not allow log ingestion and querying from public network.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_log_analytics_workspace as w
+      left join azure_subscription sub on sub.subscription_id = w.subscription_id;
+  EOQ
+}
+
+query "log_analytics_workspace_block_non_azure_ingestion" {
+  sql = <<-EOQ
+    select
+      w.id as resource,
+      case
+        when type = 'Microsoft.OperationalInsights/workspaces' and disable_local_auth = 'true' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when type = 'Microsoft.OperationalInsights/workspaces' and disable_local_auth = 'true' then w.name || ' workspace allows non-Azure log ingestion.'
+        else w.name || ' workspace does not allow non-Azure log ingestion.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_log_analytics_workspace as w
+      left join azure_subscription sub on sub.subscription_id = w.subscription_id;
   EOQ
 }

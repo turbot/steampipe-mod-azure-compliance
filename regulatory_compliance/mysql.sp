@@ -51,6 +51,7 @@ control "mssql_managed_instance_vulnerability_assessment_enabled" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -63,6 +64,7 @@ control "mysql_server_public_network_access_disabled" {
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -86,6 +88,7 @@ control "mysql_server_private_link_used" {
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 

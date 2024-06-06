@@ -11,6 +11,7 @@ control "monitor_log_profile_enabled_for_all_categories" {
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     hipaa_hitrust_v92  = "true"
+    rbi_itf_nbfc_v2016 = "true"
     rbi_itf_nbfc_v2017 = "true"
   })
 }
@@ -32,6 +33,7 @@ control "monitor_log_profile_enabled_for_all_regions" {
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
     hipaa_hitrust_v92  = "true"
+    rbi_itf_nbfc_v2016 = "true"
     rbi_itf_nbfc_v2017 = "true"
   })
 }
@@ -42,6 +44,7 @@ control "log_profile_enabled_for_all_subscription" {
   query       = query.log_profile_enabled_for_all_subscription
 
   tags = merge(local.regulatory_compliance_monitor_common_tags, {
+    rbi_itf_nbfc_v2016 = "true"
     rbi_itf_nbfc_v2017 = "true"
   })
 }

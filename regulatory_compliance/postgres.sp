@@ -38,6 +38,7 @@ control "postgresql_server_public_network_access_disabled" {
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -61,6 +62,7 @@ control "postgres_server_private_link_used" {
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -128,6 +130,7 @@ control "postgres_db_server_log_duration_on" {
   query       = query.postgres_db_server_log_duration_on
 
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
+    rbi_itf_nbfc_v2016 = "true"
     rbi_itf_nbfc_v2017 = "true"
   })
 }

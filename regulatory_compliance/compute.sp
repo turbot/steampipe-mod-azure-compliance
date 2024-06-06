@@ -35,6 +35,7 @@ control "compute_vm_remote_access_restricted_all_ports" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -48,6 +49,7 @@ control "compute_vm_tcp_udp_access_restricted_internet" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -61,6 +63,7 @@ control "compute_vm_jit_access_protected" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -108,6 +111,7 @@ control "compute_vm_scale_set_log_analytics_agent_installed" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -162,6 +166,7 @@ control "compute_vm_network_traffic_data_collection_windows_agent_installed" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -175,6 +180,7 @@ control "compute_vm_network_traffic_data_collection_linux_agent_installed" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -236,6 +242,7 @@ control "compute_vm_system_updates_installed" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -331,6 +338,7 @@ control "compute_vm_vulnerability_assessment_solution_enabled" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -377,6 +385,7 @@ control "compute_vm_ssh_key_authentication_linux" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -410,6 +419,7 @@ control "arc_compute_machine_linux_log_analytics_agent_installed" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -500,6 +510,7 @@ control "network_interface_ip_forwarding_disabled" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -512,6 +523,7 @@ control "arc_compute_machine_windows_log_analytics_agent_installed" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -535,6 +547,7 @@ control "compute_vm_windows_defender_exploit_guard_enabled" {
   tags = merge(local.regulatory_compliance_compute_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 

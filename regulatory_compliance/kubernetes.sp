@@ -34,6 +34,7 @@ control "kubernetes_cluster_authorized_ip_range_defined" {
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 

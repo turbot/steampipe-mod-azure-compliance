@@ -13,6 +13,7 @@ control "sql_server_and_databases_va_enabled" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -86,6 +87,7 @@ control "sql_database_vulnerability_findings_resolved" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -109,6 +111,7 @@ control "sql_server_azure_defender_enabled" {
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -133,6 +136,7 @@ control "sql_db_public_network_access_disabled" {
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -144,6 +148,7 @@ control "sql_server_uses_private_link" {
   tags = merge(local.regulatory_compliance_sql_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 

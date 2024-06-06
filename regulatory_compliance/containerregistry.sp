@@ -22,6 +22,7 @@ control "container_registry_restrict_public_access" {
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -33,6 +34,7 @@ control "container_registry_uses_private_link" {
   tags = merge(local.regulatory_compliance_containerregistry_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 

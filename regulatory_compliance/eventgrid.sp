@@ -12,6 +12,7 @@ control "eventgrid_domain_private_link_used" {
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -23,6 +24,7 @@ control "eventgrid_topic_private_link_used" {
   tags = merge(local.regulatory_compliance_eventgrid_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 

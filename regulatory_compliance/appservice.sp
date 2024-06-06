@@ -34,6 +34,7 @@ control "appservice_function_app_remote_debugging_disabled" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -103,6 +104,7 @@ control "appservice_api_app_remote_debugging_disabled" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -215,7 +217,9 @@ control "appservice_web_app_client_certificates_on" {
   query       = query.appservice_web_app_client_certificates_on
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
+    hipaa_hitrust_v92  = "true"
+    rbi_itf_nbfc_v2016 = "true"
+    rbi_itf_nbfc_v2017 = "true"
   })
 }
 

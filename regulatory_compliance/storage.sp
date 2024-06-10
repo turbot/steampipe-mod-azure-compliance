@@ -14,6 +14,7 @@ control "storage_account_secure_transfer_required_enabled" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }

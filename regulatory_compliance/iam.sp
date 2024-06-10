@@ -41,6 +41,7 @@ control "iam_deprecated_account_with_owner_roles" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -55,6 +56,7 @@ control "iam_no_custom_role" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -84,6 +86,7 @@ control "iam_deprecated_account" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }

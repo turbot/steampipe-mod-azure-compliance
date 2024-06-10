@@ -48,6 +48,7 @@ control "appservice_function_app_latest_tls_version" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -70,6 +71,7 @@ control "appservice_function_app_only_https_accessible" {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -90,8 +92,9 @@ control "appservice_api_app_use_https" {
   query       = query.appservice_api_app_use_https
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
-    hipaa_hitrust_v92 = "true"
-    pci_dss_v321      = "true"
+    hipaa_hitrust_v92  = "true"
+    pci_dss_v321       = "true"
+    rbi_itf_nbfc_v2016 = "true"
   })
 }
 
@@ -118,6 +121,7 @@ control "appservice_api_app_latest_tls_version" {
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -252,6 +256,7 @@ control "appservice_api_app_ftps_enabled" {
 
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_53_rev_5 = "true"
+    rbi_itf_nbfc_v2016   = "true"
   })
 }
 
@@ -263,6 +268,7 @@ control "appservice_function_app_ftps_enabled" {
   tags = merge(local.regulatory_compliance_appservice_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 

@@ -241,6 +241,7 @@ control "compute_vm_system_updates_installed" {
   query       = query.compute_vm_system_updates_installed
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"

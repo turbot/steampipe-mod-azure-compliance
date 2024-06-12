@@ -14,7 +14,6 @@ benchmark "fedramp_high_system_and_communication_protection" {
   tags = local.fedramp_high_common_tags
 }
 
-
 benchmark "fedramp_high_system_and_communication_protection_3" {
   title = "Security Function Isolation-3"
 
@@ -210,16 +209,16 @@ benchmark "fedramp_high_system_and_communication_protection_28" {
     benchmark.fedramp_high_system_and_communication_protection_28_1,
     control.app_service_environment_internal_encryption_enabled,
     control.automation_account_variable_encryption_enabled,
+    control.compute_vm_and_sacle_set_encryption_at_host_enabled,
     control.databox_edge_device_double_encryption_enabled,
+    control.kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host,
     control.kusto_cluster_disk_encryption_enabled,
     control.kusto_cluster_double_encryption_enabled,
     control.mysql_server_infrastructure_encryption_enabled,
     control.postgresql_server_infrastructure_encryption_enabled,
     control.servicefabric_cluster_protection_level_as_encrypt_and_sign,
-    control.storage_account_infrastructure_encryption_enabled,
-    control.kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host,
     control.sql_server_transparent_data_encryption_enabled,
-    control.compute_vm_and_sacle_set_encryption_at_host_enabled
+    control.storage_account_infrastructure_encryption_enabled
   ]
 }
 

@@ -15,9 +15,10 @@ benchmark "fedramp_high" {
     benchmark.fedramp_high_audit_and_accountability,
     benchmark.fedramp_high_configuration_management,
     benchmark.fedramp_high_contingency_planning,
-    benchmark.fedramp_high_risk_assessment,
-    benchmark.fedramp_high_incident_response,
     benchmark.fedramp_high_identication_and_authentication,
+    benchmark.fedramp_high_incident_response,
+    benchmark.fedramp_high_risk_assessment,
+    benchmark.fedramp_high_systam_and_information_integrity,
     benchmark.fedramp_high_system_and_communication_protection,
   ]
 

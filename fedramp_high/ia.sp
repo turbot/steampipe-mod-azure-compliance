@@ -38,14 +38,14 @@ benchmark "fedramp_high_identication_and_authentication_5" {
 
   children = [
     benchmark.fedramp_high_identication_and_authentication_5_1,
+    control.compute_vm_guest_configuration_installed_linux,
+    control.compute_vm_guest_configuration_installed_windows,
     control.compute_vm_guest_configuration_with_no_managed_identity,
     control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
     control.compute_vm_passwords_stored_using_reversible_encryption_windows,
     control.compute_vm_ssh_key_authentication_linux,
-    control.compute_vm_guest_configuration_installed_linux,
-    control.compute_vm_guest_configuration_installed_windows,
     control.keyvault_key_expiration_set,
-    control.keyvault_secret_expiration_set,
+    control.keyvault_secret_expiration_set
   ]
 }
 

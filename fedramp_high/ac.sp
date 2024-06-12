@@ -20,8 +20,8 @@ benchmark "fedramp_high_access_control_2" {
 
   children = [
     benchmark.fedramp_high_access_control_2_1,
-    benchmark.fedramp_high_access_control_2_7,
     benchmark.fedramp_high_access_control_2_12,
+    benchmark.fedramp_high_access_control_2_7,
     control.appservice_function_app_uses_managed_identity,
     control.appservice_web_app_uses_managed_identity,
     control.iam_deprecated_account,

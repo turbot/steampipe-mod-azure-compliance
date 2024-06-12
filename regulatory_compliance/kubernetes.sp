@@ -69,6 +69,7 @@ control "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
   query       = query.kubernetes_cluster_upgraded_with_non_vulnerable_version
 
   tags = merge(local.regulatory_compliance_kubernetes_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"

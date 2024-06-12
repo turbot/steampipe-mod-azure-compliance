@@ -10,6 +10,7 @@ control "synapse_workspace_private_link_used" {
   query       = query.synapse_workspace_private_link_used
 
   tags = merge(local.regulatory_compliance_synapse_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -21,6 +22,7 @@ control "synapse_workspace_vulnerability_assessment_enabled" {
   query       = query.synapse_workspace_vulnerability_assessment_enabled
 
   tags = merge(local.regulatory_compliance_synapse_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -33,6 +35,7 @@ control "synapse_workspace_encryption_at_rest_using_cmk" {
   query       = query.synapse_workspace_encryption_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_synapse_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })

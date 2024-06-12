@@ -10,6 +10,7 @@ control "sql_server_and_databases_va_enabled" {
   query       = query.sql_server_and_databases_va_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -23,6 +24,7 @@ control "sql_server_transparent_data_encryption_enabled" {
   query       = query.sql_server_transparent_data_encryption_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -35,6 +37,7 @@ control "sql_server_auditing_on" {
   query       = query.sql_server_auditing_on
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -58,6 +61,7 @@ control "sql_server_tde_protector_cmk_encrypted" {
   query       = query.sql_server_tde_protector_cmk_encrypted
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -70,6 +74,7 @@ control "sql_database_long_term_geo_redundant_backup_enabled" {
   query       = query.sql_database_long_term_geo_redundant_backup_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high         = "true"
     hipaa_hitrust_v92    = "true"
     nist_sp_800_53_rev_5 = "true"
     rbi_itf_nbfc_v2017   = "true"
@@ -82,6 +87,7 @@ control "sql_database_vulnerability_findings_resolved" {
   query       = query.sql_database_vulnerability_findings_resolved
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -107,6 +113,7 @@ control "sql_server_azure_defender_enabled" {
   query       = query.sql_server_azure_defender_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -119,6 +126,7 @@ control "sql_server_azure_ad_authentication_enabled" {
   query       = query.sql_server_azure_ad_authentication_enabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
@@ -131,6 +139,7 @@ control "sql_db_public_network_access_disabled" {
   query       = query.sql_db_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -142,6 +151,7 @@ control "sql_server_uses_private_link" {
   query       = query.sql_server_uses_private_link
 
   tags = merge(local.regulatory_compliance_sql_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })

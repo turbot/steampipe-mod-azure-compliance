@@ -10,6 +10,7 @@ control "healthcare_fhir_uses_private_link" {
   query       = query.healthcare_fhir_uses_private_link
 
   tags = merge(local.regulatory_compliance_healthcare_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -21,6 +22,7 @@ control "healthcare_fhir_azure_api_encrypted_at_rest_with_cmk" {
   query       = query.healthcare_fhir_azure_api_encrypted_at_rest_with_cmk
 
   tags = merge(local.regulatory_compliance_healthcare_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })

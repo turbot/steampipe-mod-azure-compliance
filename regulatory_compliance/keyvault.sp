@@ -10,6 +10,7 @@ control "keyvault_purge_protection_enabled" {
   query       = query.keyvault_purge_protection_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -23,6 +24,7 @@ control "keyvault_logging_enabled" {
   query       = query.keyvault_logging_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -65,6 +67,7 @@ control "keyvault_vault_private_link_used" {
   query       = query.keyvault_vault_private_link_used
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -85,6 +88,7 @@ control "keyvault_key_expiration_set" {
   query       = query.keyvault_key_expiration_set
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -96,6 +100,7 @@ control "keyvault_secret_expiration_set" {
   query       = query.keyvault_secret_expiration_set
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -108,6 +113,7 @@ control "keyvault_soft_delete_enabled" {
   query       = query.keyvault_soft_delete_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -120,6 +126,7 @@ control "keyvault_firewall_enabled" {
   query       = query.keyvault_firewall_enabled
 
   tags = merge(local.regulatory_compliance_keyvault_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"

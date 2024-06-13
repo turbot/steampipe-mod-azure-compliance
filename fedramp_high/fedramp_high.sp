@@ -6,9 +6,9 @@ locals {
 }
 
 benchmark "fedramp_high" {
-  title = "FedRAMP High Regulatory Compliance"
-  description = "This benchmark ensures that the Azure resources are compliant with the FedRAMP High regulatory standard."
-  // documentation = ("")
+  title         = "FedRAMP High Regulatory Compliance"
+  description   = "This benchmark ensures that the Azure resources are compliant with the FedRAMP High regulatory standard."
+  documentation = ("./docs/fedramp_high_overview.md")
 
   children = [
     benchmark.fedramp_high_access_control,
@@ -19,7 +19,7 @@ benchmark "fedramp_high" {
     benchmark.fedramp_high_incident_response,
     benchmark.fedramp_high_risk_assessment,
     benchmark.fedramp_high_systam_and_information_integrity,
-    benchmark.fedramp_high_system_and_communication_protection,
+    benchmark.fedramp_high_system_and_communication_protection
   ]
 
   tags = local.fedramp_high_common_tags

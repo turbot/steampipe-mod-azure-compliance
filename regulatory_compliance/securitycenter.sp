@@ -25,6 +25,7 @@ control "securitycenter_notify_alerts_configured" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -37,6 +38,7 @@ control "securitycenter_security_alerts_to_owner_enabled" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -49,6 +51,7 @@ control "securitycenter_email_configured" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -61,6 +64,7 @@ control "securitycenter_azure_defender_on_for_sqlservervm" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -73,6 +77,7 @@ control "securitycenter_azure_defender_on_for_containers" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -92,6 +97,7 @@ control "securitycenter_azure_defender_on_for_appservice" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -104,6 +110,7 @@ control "securitycenter_azure_defender_on_for_keyvault" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -116,6 +123,7 @@ control "securitycenter_azure_defender_on_for_server" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -128,6 +136,7 @@ control "securitycenter_azure_defender_on_for_sqldb" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -140,6 +149,7 @@ control "securitycenter_azure_defender_on_for_storage" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -170,6 +180,7 @@ control "securitycenter_azure_defender_on_for_resource_manager" {
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
     rbi_itf_nbfc_v2017    = "true"
   })
 }
@@ -203,7 +214,9 @@ control "securitycenter_azure_defender_on_for_cosmosdb" {
   description = "Microsoft Defender for Azure Cosmos DB scans all incoming network requests for threats to your Azure Cosmos DB resources."
   query       = query.securitycenter_azure_defender_on_for_cosmosdb
 
-  tags = local.regulatory_compliance_securitycenter_common_tags
+  tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    rbi_itf_nbfc_v2016 = "true"
+  })
 }
 
 control "securitycenter_azure_defender_on_for_database" {
@@ -222,6 +235,7 @@ control "securitycenter_azure_defender_on_for_opensource_relational_db" {
   query       = query.securitycenter_azure_defender_on_for_opensource_relational_db
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    rbi_itf_nbfc_v2016 = "true"
     rbi_itf_nbfc_v2017 = "true"
   })
 }

@@ -25,6 +25,7 @@ control "mariadb_server_public_network_access_disabled" {
   tags = merge(local.regulatory_compliance_mariadb_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 
@@ -36,6 +37,7 @@ control "mariadb_server_private_link_used" {
   tags = merge(local.regulatory_compliance_postgres_common_tags, {
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
+    rbi_itf_nbfc_v2016    = "true"
   })
 }
 

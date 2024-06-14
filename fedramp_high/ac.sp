@@ -1,4 +1,3 @@
-
 benchmark "fedramp_high_ac" {
   title       = "Access Control"
   description = "Access control policies and procedures are established and implemented to ensure that access to systems and data is restricted to authorized users, processes, or devices, and to prevent unauthorized access."

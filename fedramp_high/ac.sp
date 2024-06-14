@@ -1,27 +1,27 @@
 
-benchmark "fedramp_high_access_control" {
+benchmark "fedramp_high_ac" {
   title       = "Access Control"
   description = "Access control policies and procedures are established and implemented to ensure that access to systems and data is restricted to authorized users, processes, or devices, and to prevent unauthorized access."
 
   children = [
-    benchmark.fedramp_high_access_control_2,
-    benchmark.fedramp_high_access_control_3,
-    benchmark.fedramp_high_access_control_4,
-    benchmark.fedramp_high_access_control_5,
-    benchmark.fedramp_high_access_control_6,
-    benchmark.fedramp_high_access_control_17
+    benchmark.fedramp_high_ac_2,
+    benchmark.fedramp_high_ac_3,
+    benchmark.fedramp_high_ac_4,
+    benchmark.fedramp_high_ac_5,
+    benchmark.fedramp_high_ac_6,
+    benchmark.fedramp_high_ac_17
   ]
 
   tags = local.fedramp_high_common_tags
 }
 
-benchmark "fedramp_high_access_control_2" {
-  title = "Account Management-2"
-
+benchmark "fedramp_high_ac_2" {
+  title       = "Account Management (AC-2)"
+  description = "Manage system accounts, group memberships, privileges, workflow, notifications, deactivations, and authorizations."
   children = [
-    benchmark.fedramp_high_access_control_2_1,
-    benchmark.fedramp_high_access_control_2_12,
-    benchmark.fedramp_high_access_control_2_7,
+    benchmark.fedramp_high_ac_2_1,
+    benchmark.fedramp_high_ac_2_12,
+    benchmark.fedramp_high_ac_2_7,
     control.appservice_function_app_uses_managed_identity,
     control.appservice_web_app_uses_managed_identity,
     control.iam_deprecated_account,
@@ -36,8 +36,9 @@ benchmark "fedramp_high_access_control_2" {
   ]
 }
 
-benchmark "fedramp_high_access_control_2_1" {
-  title = "Automated System Account Management-2.1"
+benchmark "fedramp_high_ac_2_1" {
+  title       = "AC-2(1) Automated System Account Management"
+  description = "Support the management of system accounts using [Assignment: organization-defined automated mechanisms]."
 
   children = [
     control.servicefabric_cluster_active_directory_authentication_enabled,
@@ -45,8 +46,8 @@ benchmark "fedramp_high_access_control_2_1" {
   ]
 }
 
-benchmark "fedramp_high_access_control_2_7" {
-  title = "Role-Based Schemes-2.7"
+benchmark "fedramp_high_ac_2_7" {
+  title = "AC-2(7) Role-Based Schemes"
 
   children = [
     control.iam_no_custom_role,
@@ -54,8 +55,9 @@ benchmark "fedramp_high_access_control_2_7" {
   ]
 }
 
-benchmark "fedramp_high_access_control_2_12" {
-  title = "Account Monitoring / Atypical Usage-2.12"
+benchmark "fedramp_high_ac_2_12" {
+  title       = "AC-2(12) Account Monitoring"
+  description = "Monitors and reports atypical usage of information system accounts to organization-defined personnel or roles."
 
   children = [
     control.compute_vm_jit_access_protected,
@@ -70,8 +72,9 @@ benchmark "fedramp_high_access_control_2_12" {
   ]
 }
 
-benchmark "fedramp_high_access_control_3" {
-  title = "Access Enforcement-3"
+benchmark "fedramp_high_ac_3" {
+  title       = "Access Enforcement (AC-3)"
+  description = "Enforce approved authorizations for logical access to information and system resources in accordance with applicable access control policies."
 
   children = [
     control.appservice_function_app_uses_managed_identity,
@@ -88,8 +91,9 @@ benchmark "fedramp_high_access_control_3" {
   ]
 }
 
-benchmark "fedramp_high_access_control_4" {
-  title = "Information Flow Enforcement-4"
+benchmark "fedramp_high_ac_4" {
+  title       = "Information Flow Enforcement (AC-4)"
+  description = "Enforce approved authorizations for controlling the flow of information within the system and between connected systems based on [Assignment: organization-defined information flow control policies]."
 
   children = [
     control.apimanagement_service_with_virtual_network,
@@ -139,26 +143,28 @@ benchmark "fedramp_high_access_control_4" {
   ]
 }
 
-benchmark "fedramp_high_access_control_5" {
-  title = "Separation of Duties-5"
+benchmark "fedramp_high_ac_5" {
+  title       = "Separation Of Duties (AC-5)"
+  description = "Separate duties of individuals to prevent malevolent activity. automate separation of duties and access authorizations."
 
   children = [
     control.iam_subscription_owner_more_than_1
   ]
 }
 
-benchmark "fedramp_high_access_control_6" {
-  title = "Least Privilege-6"
+benchmark "fedramp_high_ac_6" {
+  title       = "Least Privilege (AC-6)"
+  description = "Employ the principle of least privilege, allowing only authorized accesses for users (or processes acting on behalf of users) that are necessary to accomplish assigned organizational tasks."
 
   children = [
-    benchmark.fedramp_high_access_control_6_7,
+    benchmark.fedramp_high_ac_6_7,
     control.iam_no_custom_role,
     control.iam_subscription_owner_max_3
   ]
 }
 
-benchmark "fedramp_high_access_control_6_7" {
-  title = "Review Of User Privileges-6.7"
+benchmark "fedramp_high_ac_6_7" {
+  title = "AC-6(7) Review Of User Privileges"
 
   children = [
     control.iam_no_custom_role,
@@ -166,11 +172,12 @@ benchmark "fedramp_high_access_control_6_7" {
   ]
 }
 
-benchmark "fedramp_high_access_control_17" {
-  title = "Remote Access-17"
+benchmark "fedramp_high_ac_17" {
+  title       = "Remote Access (AC-17)"
+  description = "Authorize remote access systems prior to connection. Enforce remote connection requirements to information systems."
 
   children = [
-    benchmark.fedramp_high_access_control_17_1,
+    benchmark.fedramp_high_ac_17_1,
     control.app_configuration_private_link_used,
     control.appservice_api_app_remote_debugging_disabled,
     control.appservice_function_app_remote_debugging_disabled,
@@ -207,8 +214,9 @@ benchmark "fedramp_high_access_control_17" {
   ]
 }
 
-benchmark "fedramp_high_access_control_17_1" {
-  title = "Automated Monitoring / Control-17.1"
+benchmark "fedramp_high_ac_17_1" {
+  title       = "AC-17(1) Automated Monitoring / Control"
+  description = "Employ automated mechanisms to monitor and control remote access methods."
 
   children = [
     control.app_configuration_private_link_used,

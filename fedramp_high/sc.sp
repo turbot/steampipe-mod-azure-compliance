@@ -1,21 +1,21 @@
-benchmark "fedramp_high_system_and_communication_protection" {
-  title       = "System And Communications Protection"
-  description = "The organization: (i) implements cryptographic mechanisms to protect the confidentiality and integrity of remote access sessions; (ii) employs cryptographic mechanisms to protect the confidentiality and integrity of transmitted information; (iii) protects the authenticity of communications; and (iv) implements cryptographic mechanisms to prevent unauthorized disclosure of information during transmission."
+benchmark "fedramp_high_sc" {
+  title       = "System and Communications Protection (SC)"
+  description = "The SC control family is responsible for systems and communications protection procedures. This includes boundary protection, protection of information at rest, collaborative computing devices, cryptographic protection, denial of service protection, and many others."
 
   children = [
-    benchmark.fedramp_high_system_and_communication_protection_3,
-    benchmark.fedramp_high_system_and_communication_protection_5,
-    benchmark.fedramp_high_system_and_communication_protection_7,
-    benchmark.fedramp_high_system_and_communication_protection_8,
-    benchmark.fedramp_high_system_and_communication_protection_12,
-    benchmark.fedramp_high_system_and_communication_protection_28
+    benchmark.fedramp_high_sc_3,
+    benchmark.fedramp_high_sc_5,
+    benchmark.fedramp_high_sc_7,
+    benchmark.fedramp_high_sc_8,
+    benchmark.fedramp_high_sc_12,
+    benchmark.fedramp_high_sc_28
   ]
 
   tags = local.fedramp_high_common_tags
 }
 
-benchmark "fedramp_high_system_and_communication_protection_3" {
-  title = "Security Function Isolation-3"
+benchmark "fedramp_high_sc_3" {
+  title = "Security Function Isolation (SC-3)"
 
   children = [
     control.compute_vm_windows_defender_exploit_guard_enabled,
@@ -23,8 +23,9 @@ benchmark "fedramp_high_system_and_communication_protection_3" {
   ]
 }
 
-benchmark "fedramp_high_system_and_communication_protection_5" {
-  title = "Denial Of Service Protection-5"
+benchmark "fedramp_high_sc_5" {
+  title       = "Denial Of Service Protection (SC-5)"
+  description = "The information system protects against or limits the effects of the following types of denial of service attacks: [Assignment: organization-defined types of denial of service attacks or references to sources for such information] by employing [Assignment: organization-defined security safeguards]."
 
   children = [
     control.application_gateway_waf_enabled,
@@ -33,11 +34,12 @@ benchmark "fedramp_high_system_and_communication_protection_5" {
   ]
 }
 
-benchmark "fedramp_high_system_and_communication_protection_7" {
-  title = "Boundary Protection-7"
+benchmark "fedramp_high_sc_7" {
+  title       = "Boundary Protection (SC-7)"
+  description = "The information system: a. Monitors and controls communications at the external boundary of the system and at key internal boundaries within the system; b. Implements subnetworks for publicly accessible system components that are [Selection: physically; logically] separated from internal organizational networks; and c. Connects to external networks or information systems only through managed interfaces consisting of boundary protection devices arranged in accordance with an organizational security architecture."
 
   children = [
-    benchmark.fedramp_high_system_and_communication_protection_7_3,
+    benchmark.fedramp_high_sc_7_3,
     control.apimanagement_service_with_virtual_network,
     control.app_configuration_private_link_used,
     control.application_gateway_waf_enabled,
@@ -86,8 +88,9 @@ benchmark "fedramp_high_system_and_communication_protection_7" {
   ]
 }
 
-benchmark "fedramp_high_system_and_communication_protection_7_3" {
-  title = "Access Points-7.3"
+benchmark "fedramp_high_sc_7_3" {
+  title       = "SC-7(3) Access Points"
+  description = "The organization limits the number of external network connections to the information system."
 
   children = [
     control.apimanagement_service_with_virtual_network,
@@ -138,11 +141,12 @@ benchmark "fedramp_high_system_and_communication_protection_7_3" {
   ]
 }
 
-benchmark "fedramp_high_system_and_communication_protection_8" {
-  title = "Transmission Confidentiality And Integrity-8"
+benchmark "fedramp_high_sc_8" {
+  title       = "Transmission Confidentiality And Integrity (SC-8)"
+  description = "The information system protects the [Selection (one or more): confidentiality; integrity] of transmitted information."
 
   children = [
-    benchmark.fedramp_high_system_and_communication_protection_8_1,
+    benchmark.fedramp_high_sc_8_1,
     control.appservice_api_app_ftps_enabled,
     control.appservice_api_app_latest_tls_version,
     control.appservice_api_app_use_https,
@@ -156,8 +160,9 @@ benchmark "fedramp_high_system_and_communication_protection_8" {
   ]
 }
 
-benchmark "fedramp_high_system_and_communication_protection_8_1" {
-  title = "Cryptographic Or Alternate Physical Protection-8.1"
+benchmark "fedramp_high_sc_8_1" {
+  title       = "SC-8(1) Cryptographic Or Alternate Physical Protection"
+  description = "The information system implements cryptographic mechanisms to [Selection (one or more): prevent unauthorized disclosure of information; detect changes to information] during transmission unless otherwise protected by [Assignment: organization-defined alternative physical safeguards]."
 
   children = [
     control.appservice_api_app_ftps_enabled,
@@ -173,8 +178,9 @@ benchmark "fedramp_high_system_and_communication_protection_8_1" {
   ]
 }
 
-benchmark "fedramp_high_system_and_communication_protection_12" {
-  title = "Cryptographic Key Establishment And Management-12"
+benchmark "fedramp_high_sc_12" {
+  title       = "Cryptographic Key Establishment And Management (SC-12)"
+  description = "The organization establishes and manages cryptographic keys for required cryptography employed within the information system in accordance with [Assignment: organization-defined requirements for key generation, distribution, storage, access, and destruction]."
 
   children = [
     control.batch_account_encrypted_with_cmk,
@@ -202,11 +208,12 @@ benchmark "fedramp_high_system_and_communication_protection_12" {
   ]
 }
 
-benchmark "fedramp_high_system_and_communication_protection_28" {
-  title = "Protection Of Information At Rest-28"
+benchmark "fedramp_high_sc_28" {
+  title       = "Protection Of Information At Rest (SC-28)"
+  description = "The information system protects the [Selection (one or more): confidentiality; integrity] of [Assignment: organization-defined information at rest]."
 
   children = [
-    benchmark.fedramp_high_system_and_communication_protection_28_1,
+    benchmark.fedramp_high_sc_28_1,
     control.app_service_environment_internal_encryption_enabled,
     control.automation_account_variable_encryption_enabled,
     control.compute_vm_and_sacle_set_encryption_at_host_enabled,
@@ -222,8 +229,8 @@ benchmark "fedramp_high_system_and_communication_protection_28" {
   ]
 }
 
-benchmark "fedramp_high_system_and_communication_protection_28_1" {
-  title = "Cryptographic Protection-28.1"
+benchmark "fedramp_high_sc_28_1" {
+  title = "SC-28(1) Cryptographic Protection"
 
   children = [
     control.app_service_environment_internal_encryption_enabled,

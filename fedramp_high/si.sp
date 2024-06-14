@@ -1,19 +1,20 @@
-benchmark "fedramp_high_systam_and_information_integrity" {
-  title       = "System And Information Integrity"
-  description = "The organization: (i) identifies, reports, and corrects information and information system flaws in a timely manner; (ii) provides protection from malicious code at appropriate locations within the information system; (iii) monitors information system security alerts and advisories and takes action in response; (iv) establishes and maintains a malicious code protection mechanism for the information system; and (v) updates malicious code protection mechanisms when new releases are available."
+benchmark "fedramp_high_si" {
+  title       = "System and Information Integrity (SI)"
+  description = "The SI control family correlates to controls that protect system and information integrity. These include flaw remediation, malicious code protection, information system monitoring, security alerts, software and firmware integrity, and spam protection."
 
   children = [
-    benchmark.fedramp_high_systam_and_information_integrity_2,
-    benchmark.fedramp_high_systam_and_information_integrity_3,
-    benchmark.fedramp_high_systam_and_information_integrity_4,
-    benchmark.fedramp_high_systam_and_information_integrity_16
+    benchmark.fedramp_high_si_2,
+    benchmark.fedramp_high_si_3,
+    benchmark.fedramp_high_si_4,
+    benchmark.fedramp_high_si_16
   ]
 
   tags = local.fedramp_high_common_tags
 }
 
-benchmark "fedramp_high_systam_and_information_integrity_2" {
-  title = "Flaw Remediation-2"
+benchmark "fedramp_high_si_2" {
+  title       = "Flaw Remediation (SI-2)"
+  description = "The organization: a.Identifies, reports, and corrects information system flaws; b.Tests software and firmware updates related to flaw remediation for effectiveness and potential side effects before installation; c.Installs security-relevant software and firmware updates within [Assignment: organization-defined time period] of the release of the updates; and d.Incorporates flaw remediation into the organizational configuration management process."
 
   children = [
     control.appservice_function_app_latest_http_version,
@@ -32,18 +33,18 @@ benchmark "fedramp_high_systam_and_information_integrity_2" {
   ]
 }
 
-benchmark "fedramp_high_systam_and_information_integrity_3" {
-  title = "Malicious Code Protection-3"
+benchmark "fedramp_high_si_3" {
+  title = "Malicious Code Protection (SI-3)"
 
   children = [
-    benchmark.fedramp_high_systam_and_information_integrity_3_1,
+    benchmark.fedramp_high_si_3_1,
     control.compute_vm_windows_defender_exploit_guard_enabled,
     control.securitycenter_azure_defender_on_for_server
   ]
 }
 
-benchmark "fedramp_high_systam_and_information_integrity_3_1" {
-  title = "Central Management-3.1"
+benchmark "fedramp_high_si_3_1" {
+  title = "SI-3(1) Central Management"
 
   children = [
     control.compute_vm_windows_defender_exploit_guard_enabled,
@@ -51,8 +52,9 @@ benchmark "fedramp_high_systam_and_information_integrity_3_1" {
   ]
 }
 
-benchmark "fedramp_high_systam_and_information_integrity_4" {
-  title = "Information System Monitoring-4"
+benchmark "fedramp_high_si_4" {
+  title       = "Information System Monitoring (SI-4)"
+  description = "The organization: a.Monitors the information system to detect: 1. Attacks and indicators of potential attacks in accordance with [Assignment: organization-defined monitoring objectives]; and 2.Unauthorized local, network, and remote connections; b. Identifies unauthorized use of the information system through [Assignment: organization-defined techniques and methods]; c. Deploys monitoring devices: 1. Strategically within the information system to collect organization-determined essential information; and 2. At ad hoc locations within the system to track specific types of transactions of interest to the organization; d. Protects information obtained from intrusion-monitoring tools from unauthorized access, modification, and deletion; e. Heightens the level of information system monitoring activity whenever there is an indication of increased risk to organizational operations and assets, individuals, other organizations, or the Nation based on law enforcement information, intelligence information, or other credible sources of information; f. Obtains legal opinion with regard to information system monitoring activities in accordance with applicable federal laws, Executive Orders, directives, policies, or regulations; and g. Provides [Assignment: organization-defined information system monitoring information] to [Assignment: organization-defined personnel or roles] [Selection (one or more): as needed; [Assignment: organization-defined frequency]]."
 
   children = [
     control.arc_compute_machine_linux_log_analytics_agent_installed,
@@ -76,8 +78,8 @@ benchmark "fedramp_high_systam_and_information_integrity_4" {
   ]
 }
 
-benchmark "fedramp_high_systam_and_information_integrity_16" {
-  title = "Memory Protection-16"
+benchmark "fedramp_high_si_16" {
+  title = "Memory Protection (SI-16)"
 
   children = [
     control.compute_vm_windows_defender_exploit_guard_enabled,

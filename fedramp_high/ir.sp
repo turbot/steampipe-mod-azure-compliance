@@ -1,17 +1,18 @@
-benchmark "fedramp_high_incident_response" {
-  title       = "Incident Response"
-  description = "The organization has an incident response capability that includes preparation, detection, analysis, containment, eradication, recovery, and user response activities. The organization employs automated mechanisms to support the incident response process."
+benchmark "fedramp_high_ir" {
+  title       = "Incident Response (IR)"
+  description = "IR controls are specific to an organization's incident response policies and procedures. This includes incident response training, testing, monitoring, reporting, and response plan."
 
   children = [
-    benchmark.fedramp_high_incident_response_4,
-    benchmark.fedramp_high_incident_response_5,
+    benchmark.fedramp_high_ir_4,
+    benchmark.fedramp_high_ir_5,
   ]
 
   tags = local.fedramp_high_common_tags
 }
 
-benchmark "fedramp_high_incident_response_4" {
-  title      = "Incident Handling-4"
+benchmark "fedramp_high_ir_4" {
+  title       = "Incident Handling (IR-4)"
+  description = "a. Implement an incident handling capability for incidents that is consistent with the incident response plan and includes preparation, detection and analysis, containment, eradication, and recovery;b. Coordinate incident handling activities with contingency planning activities; c. Incorporate lessons learned from ongoing incident handling activities into incident response procedures, training, and testing, and implement the resulting changes accordingly; and d. Ensure the rigor, intensity, scope, and results of incident handling activities are comparable and predictable across the organization."
 
   children = [
     control.securitycenter_azure_defender_on_for_appservice,
@@ -28,8 +29,8 @@ benchmark "fedramp_high_incident_response_4" {
   ]
 }
 
-benchmark "fedramp_high_incident_response_5" {
-  title      = "Incident Monitoring-5"
+benchmark "fedramp_high_ir_5" {
+  title      = "Incident Monitoring (IR-5)"
 
   children = [
     control.securitycenter_azure_defender_on_for_appservice,

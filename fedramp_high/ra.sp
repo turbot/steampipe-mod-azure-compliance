@@ -1,16 +1,17 @@
-benchmark "fedramp_high_risk_assessment" {
-  title       = "Risk Assessment"
-  description = "The organization conducts an assessment of the risk and magnitude of harm that could result from the unauthorized access, use, disclosure, disruption, modification, or destruction of information and information systems that support the operations and assets of the organization."
+benchmark "fedramp_high_ra" {
+  title       = "Risk Assessment (RA)"
+  description = "The RA control family relates to an organization's risk assessment policies and vulnerability scanning capabilities. Using an integrated risk management solution like CyberStrong can help streamline and automate your NIST 800 53 compliance efforts."
 
   children = [
-    benchmark.fedramp_high_risk_assessment_5,
+    benchmark.fedramp_high_ra_5,
   ]
 
   tags = local.fedramp_high_common_tags
 }
 
-benchmark "fedramp_high_risk_assessment_5" {
-  title      = "Vulnerability Scanning-5"
+benchmark "fedramp_high_ra_5" {
+  title       = "Vulnerability Scanning (RA-5)"
+  description = "Scan for system vulnerabilities. Share vulnerability information and security controls that eliminate vulnerabilities."
 
   children = [
     control.compute_vm_vulnerability_assessment_solution_enabled,

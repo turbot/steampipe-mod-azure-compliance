@@ -11,15 +11,15 @@ benchmark "fedramp_high" {
   documentation = ("./docs/fedramp_high_overview.md")
 
   children = [
-    benchmark.fedramp_high_access_control,
-    benchmark.fedramp_high_audit_and_accountability,
-    benchmark.fedramp_high_configuration_management,
-    benchmark.fedramp_high_contingency_planning,
-    benchmark.fedramp_high_identication_and_authentication,
-    benchmark.fedramp_high_incident_response,
-    benchmark.fedramp_high_risk_assessment,
-    benchmark.fedramp_high_systam_and_information_integrity,
-    benchmark.fedramp_high_system_and_communication_protection
+    benchmark.fedramp_high_ac,
+    benchmark.fedramp_high_au,
+    benchmark.fedramp_high_cm,
+    benchmark.fedramp_high_cp,
+    benchmark.fedramp_high_ia,
+    benchmark.fedramp_high_ir,
+    benchmark.fedramp_high_ra,
+    benchmark.fedramp_high_sc,
+    benchmark.fedramp_high_si
   ]
 
   tags = local.fedramp_high_common_tags

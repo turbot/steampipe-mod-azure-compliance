@@ -6,7 +6,7 @@ locals {
 }
 
 benchmark "fedramp_high" {
-  title         = "FedRAMP High Regulatory Compliance"
+  title         = "FedRAMP High"
   description   = "This benchmark ensures that the Azure resources are compliant with the FedRAMP High regulatory standard."
   documentation = ("./docs/fedramp_high_overview.md")
 

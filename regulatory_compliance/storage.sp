@@ -10,6 +10,7 @@ control "storage_account_secure_transfer_required_enabled" {
   query       = query.storage_account_secure_transfer_required_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -24,6 +25,7 @@ control "storage_account_default_network_access_rule_denied" {
   query       = query.storage_account_default_network_access_rule_denied
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -47,6 +49,7 @@ control "storage_account_uses_private_link" {
   query       = query.storage_account_uses_private_link
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -58,6 +61,7 @@ control "storage_account_infrastructure_encryption_enabled" {
   query       = query.storage_account_infrastructure_encryption_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -70,6 +74,7 @@ control "storage_account_block_public_access" {
   query       = query.storage_account_block_public_access
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -81,6 +86,7 @@ control "storage_account_restrict_network_access" {
   query       = query.storage_account_restrict_network_access
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
@@ -93,6 +99,7 @@ control "storage_account_geo_redundant_enabled" {
   query       = query.storage_account_geo_redundant_enabled
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high         = "true"
     nist_sp_800_53_rev_5 = "true"
   })
 }
@@ -103,6 +110,7 @@ control "storage_account_encryption_at_rest_using_cmk" {
   query       = query.storage_account_encryption_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -115,6 +123,7 @@ control "storage_account_uses_azure_resource_manager" {
   query       = query.storage_account_uses_azure_resource_manager
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     pci_dss_v321          = "true"
@@ -127,6 +136,7 @@ control "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
   query       = query.storage_account_encryption_scopes_encrypted_at_rest_with_cmk
 
   tags = merge(local.regulatory_compliance_storage_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"

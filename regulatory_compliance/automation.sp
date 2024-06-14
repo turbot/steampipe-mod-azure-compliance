@@ -10,6 +10,7 @@ control "automation_account_variable_encryption_enabled" {
   query       = query.automation_account_variable_encryption_enabled
 
   tags = merge(local.regulatory_compliance_automation_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     pci_dss_v321          = "true"
     rbi_itf_nbfc_v2017    = "true"

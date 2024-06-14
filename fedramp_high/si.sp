@@ -34,7 +34,8 @@ benchmark "fedramp_high_si_2" {
 }
 
 benchmark "fedramp_high_si_3" {
-  title = "Malicious Code Protection (SI-3)"
+  title       = "Malicious Code Protection (SI-3)"
+  description = "Implement [Assignment (one or more): signature based, non-signature based] malicious code protection mechanisms at system entry and exit points to detect and eradicate malicious code; Automatically update malicious code protection mechanisms as new releases are available in accordance with organizational configuration management policy and procedures;"
 
   children = [
     benchmark.fedramp_high_si_3_1,
@@ -79,7 +80,8 @@ benchmark "fedramp_high_si_4" {
 }
 
 benchmark "fedramp_high_si_16" {
-  title = "Memory Protection (SI-16)"
+  title       = "Memory Protection (SI-16)"
+  description = "Implement the following controls to protect the system memory from unauthorized code execution: [Assignment: organization-defined controls]."
 
   children = [
     control.compute_vm_windows_defender_exploit_guard_enabled,

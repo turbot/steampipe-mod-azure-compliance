@@ -15,7 +15,8 @@ benchmark "fedramp_high_sc" {
 }
 
 benchmark "fedramp_high_sc_3" {
-  title = "Security Function Isolation (SC-3)"
+  title       = "Security Function Isolation (SC-3)"
+  description = "Isolate security functions from nonsecurity functions."
 
   children = [
     control.compute_vm_windows_defender_exploit_guard_enabled,
@@ -230,7 +231,8 @@ benchmark "fedramp_high_sc_28" {
 }
 
 benchmark "fedramp_high_sc_28_1" {
-  title = "SC-28(1) Cryptographic Protection"
+  title       = "SC-28(1) Cryptographic Protection"
+  description = "Implement cryptographic mechanisms to prevent unauthorized disclosure and modification of the following information at rest on [Assignment: organization-defined system components or media]: [Assignment: organization-defined information]."
 
   children = [
     control.app_service_environment_internal_encryption_enabled,

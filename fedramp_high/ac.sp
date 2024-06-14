@@ -46,7 +46,8 @@ benchmark "fedramp_high_ac_2_1" {
 }
 
 benchmark "fedramp_high_ac_2_7" {
-  title = "AC-2(7) Role-Based Schemes"
+  title       = "AC-2(7) Role-Based Schemes"
+  description = "The organization: Establishes and administers privileged user accounts in accordance with a role-based access scheme that organizes allowed information system access and privileges into roles; Monitors privileged role assignments; and Takes [Assignment: organization-defined actions] when privileged role assignments are no longer appropriate."
 
   children = [
     control.iam_no_custom_role,
@@ -163,7 +164,8 @@ benchmark "fedramp_high_ac_6" {
 }
 
 benchmark "fedramp_high_ac_6_7" {
-  title = "AC-6(7) Review Of User Privileges"
+  title       = "AC-6(7) Review Of User Privileges"
+  description = "Centralize access control for all enterprise assets through a directory service or SSO provider, where supported."
 
   children = [
     control.iam_no_custom_role,

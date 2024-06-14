@@ -30,7 +30,8 @@ benchmark "fedramp_high_ir_4" {
 }
 
 benchmark "fedramp_high_ir_5" {
-  title = "Incident Monitoring (IR-5)"
+  title       = "Incident Monitoring (IR-5)"
+  description = "Track incidents and collect and analyze incident information using [Assignment: organization-defined automated mechanisms]."
 
   children = [
     control.securitycenter_azure_defender_on_for_appservice,

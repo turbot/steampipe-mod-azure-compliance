@@ -10,6 +10,7 @@ control "mysql_ssl_enabled" {
   query       = query.mysql_ssl_enabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -23,6 +24,7 @@ control "mysql_db_server_geo_redundant_backup_enabled" {
   query       = query.mysql_db_server_geo_redundant_backup_enabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -36,6 +38,7 @@ control "mssql_managed_instance_encryption_at_rest_using_cmk" {
   query       = query.mssql_managed_instance_encryption_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -48,6 +51,7 @@ control "mssql_managed_instance_vulnerability_assessment_enabled" {
   query       = query.mssql_managed_instance_vulnerability_assessment_enabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -61,6 +65,7 @@ control "mysql_server_public_network_access_disabled" {
   query       = query.mysql_server_public_network_access_disabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -72,6 +77,7 @@ control "mysql_server_infrastructure_encryption_enabled" {
   query       = query.mysql_server_infrastructure_encryption_enabled
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -84,6 +90,7 @@ control "mysql_server_private_link_used" {
   query       = query.mysql_server_private_link_used
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -95,6 +102,7 @@ control "mysql_server_encrypted_at_rest_using_cmk" {
   query       = query.mysql_server_encrypted_at_rest_using_cmk
 
   tags = merge(local.regulatory_compliance_mysql_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"

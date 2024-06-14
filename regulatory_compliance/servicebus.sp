@@ -10,6 +10,7 @@ control "servicebus_namespace_logging_enabled" {
   query       = query.servicebus_namespace_logging_enabled
 
   tags = merge(local.regulatory_compliance_servicebus_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -22,6 +23,7 @@ control "servicebus_name_space_private_link_used" {
   query       = query.servicebus_name_space_private_link_used
 
   tags = merge(local.regulatory_compliance_servicebus_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -33,6 +35,7 @@ control "servicebus_premium_namespace_cmk_encrypted" {
   query       = query.servicebus_premium_namespace_cmk_encrypted
 
   tags = merge(local.regulatory_compliance_servicebus_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })

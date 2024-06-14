@@ -10,6 +10,7 @@ control "apimanagement_service_with_virtual_network" {
   query       = query.apimanagement_service_with_virtual_network
 
   tags = merge(local.regulatory_compliance_apimanagement_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })

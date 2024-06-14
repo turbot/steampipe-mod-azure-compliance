@@ -10,6 +10,7 @@ control "stream_analytics_job_logging_enabled" {
   query       = query.stream_analytics_job_logging_enabled
 
   tags = merge(local.regulatory_compliance_streamanalytics_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"

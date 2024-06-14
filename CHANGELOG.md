@@ -1,3 +1,9 @@
+## v0.46 [2024-06-14]
+
+_What's new?_
+
+- Added FedRAMP High benchmark (`powerpipe benchmark run azure_compliance.benchmark.fedramp_high`). ([#270](https://github.com/turbot/steampipe-mod-azure-compliance/pull/270))
+
 ## v0.45 [2024-05-31]
 
 _What's new?_

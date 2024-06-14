@@ -10,6 +10,7 @@ control "securitycenter_automatic_provisioning_monitoring_agent_on" {
   query       = query.securitycenter_automatic_provisioning_monitoring_agent_on
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     hipaa_hitrust_v92     = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
@@ -23,6 +24,7 @@ control "securitycenter_notify_alerts_configured" {
   query       = query.securitycenter_notify_alerts_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -35,6 +37,7 @@ control "securitycenter_security_alerts_to_owner_enabled" {
   query       = query.securitycenter_security_alerts_to_owner_enabled
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -47,6 +50,7 @@ control "securitycenter_email_configured" {
   query       = query.securitycenter_email_configured
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -59,6 +63,7 @@ control "securitycenter_azure_defender_on_for_sqlservervm" {
   query       = query.securitycenter_azure_defender_on_for_sqlservervm
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -71,6 +76,7 @@ control "securitycenter_azure_defender_on_for_containers" {
   query       = query.securitycenter_azure_defender_on_for_containers
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
   })
@@ -90,6 +96,7 @@ control "securitycenter_azure_defender_on_for_appservice" {
   query       = query.securitycenter_azure_defender_on_for_appservice
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -102,6 +109,7 @@ control "securitycenter_azure_defender_on_for_keyvault" {
   query       = query.securitycenter_azure_defender_on_for_keyvault
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -114,6 +122,7 @@ control "securitycenter_azure_defender_on_for_server" {
   query       = query.securitycenter_azure_defender_on_for_server
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -126,6 +135,7 @@ control "securitycenter_azure_defender_on_for_sqldb" {
   query       = query.securitycenter_azure_defender_on_for_sqldb
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -138,6 +148,7 @@ control "securitycenter_azure_defender_on_for_storage" {
   query       = query.securitycenter_azure_defender_on_for_storage
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"
@@ -168,6 +179,7 @@ control "securitycenter_azure_defender_on_for_resource_manager" {
   query       = query.securitycenter_azure_defender_on_for_resource_manager
 
   tags = merge(local.regulatory_compliance_securitycenter_common_tags, {
+    fedramp_high          = "true"
     nist_sp_800_171_rev_2 = "true"
     nist_sp_800_53_rev_5  = "true"
     rbi_itf_nbfc_v2017    = "true"

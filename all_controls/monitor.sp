@@ -8,7 +8,10 @@ benchmark "all_controls_monitor" {
   title       = "Monitor"
   description = "This section contains recommendations for configuring Monitor resources."
   children = [
+    control.application_insights_block_log_ingestion_and_querying_from_public,
     control.application_insights_linked_to_log_analytics_workspace,
+    control.log_analytics_workspace_block_log_ingestion_and_querying_from_public,
+    control.log_analytics_workspace_block_non_azure_ingestion,
     control.log_profile_enabled_for_all_subscription,
     control.monitor_diagnostic_settings_captures_proper_categories,
     control.monitor_log_alert_create_policy_assignment,

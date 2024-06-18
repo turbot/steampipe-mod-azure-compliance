@@ -97,12 +97,15 @@ benchmark "rbi_itf_nbfc_v2017_it_information_and_cyber_security_3_1_f" {
 benchmark "rbi_itf_nbfc_v2017_it_information_and_cyber_security_3_1_g" {
   title = "Trails-3.1.g"
   children = [
+    control.application_insights_block_log_ingestion_and_querying_from_public,
     control.application_insights_linked_to_log_analytics_workspace,
     control.compute_vm_log_analytics_agent_installed,
     control.compute_vm_network_traffic_data_collection_linux_agent_installed,
     control.compute_vm_network_traffic_data_collection_windows_agent_installed,
     control.compute_vm_scale_set_log_analytics_agent_installed,
     control.iam_subscription_owner_max_3,
+    control.log_analytics_workspace_block_log_ingestion_and_querying_from_public,
+    control.log_analytics_workspace_block_non_azure_ingestion,
     control.log_profile_enabled_for_all_subscription,
     control.monitor_log_profile_enabled_for_all_categories,
     control.monitor_log_profile_enabled_for_all_regions,

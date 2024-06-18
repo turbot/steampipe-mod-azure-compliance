@@ -381,6 +381,16 @@ control "network_watcher_flow_log_traffic_analytics_enabled" {
   })
 }
 
+control "application_gateway_waf_uses_specified_mode" {
+  title       = "Web Application Firewall (WAF) should use the specified mode for Application Gateway"
+  description = "Mandates the use of 'Detection' or 'Prevention' mode to be active on all Web Application Firewall policies for Application Gateway."
+  query       = query.application_gateway_waf_uses_specified_mode
+
+  tags = merge(local.regulatory_compliance_network_common_tags, {
+    rbi_itf_nbfc_v2017 = "true"
+  })
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (
@@ -2120,5 +2130,26 @@ query "network_watcher_flow_log_traffic_analytics_enabled" {
     from
       azure_network_watcher_flow_log as sg
       join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "application_gateway_waf_uses_specified_mode" {
+  sql = <<-EOQ
+    select
+      ag.id as resource,
+      case
+        when (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') in ('Prevention','Detection') then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') in ('Prevention','Detection') then ag.name || ' WAF mode is set to ' || (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode')
+        else ag.name || ' WAF mode is not set to Prevention or Detection.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_application_gateway as ag
+      join azure_subscription as sub on sub.subscription_id = ag.subscription_id;
   EOQ
 }

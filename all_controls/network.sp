@@ -9,6 +9,7 @@ benchmark "all_controls_network" {
   description = "This section contains recommendations for configuring Network resources."
   children = [
     control.application_gateway_waf_enabled,
+    control.application_gateway_waf_uses_specified_mode,
     control.network_bastion_host_min_1,
     control.network_ddos_enabled,
     control.network_lb_no_basic_sku,

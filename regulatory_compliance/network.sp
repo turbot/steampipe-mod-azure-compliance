@@ -2142,8 +2142,8 @@ query "application_gateway_waf_uses_specified_mode" {
         else 'alarm'
       end as status,
       case
-        when (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') in ('Prevention','Detection') then ag.name || ' WAF mode is set to ' || (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode')
-        else ag.name || ' WAF mode is not set to Prevention or Detection.'
+        when (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') in ('Prevention','Detection') then ag.name || ' WAF mode is set to ' || (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') || '.'
+        else ag.name || ' WAF mode is not set to Prevention or Detection mode.' 
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}

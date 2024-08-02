@@ -376,17 +376,11 @@ query "storage_account_block_public_access" {
     select
       sa.id as resource,
       case
-        when sa.id not like '%/resourceGroups/aro-%'
-          and (sa.name not like 'cluster%' or sa.name not like 'imageregistry%')
-          and sa.allow_blob_public_access = 'false'
-          then 'ok'
+        when lower(sa.public_network_access) = 'disabled' then 'ok'
         else 'alarm'
       end as status,
       case
-        when sa.id not like '%/resourceGroups/aro-%'
-          and (sa.name not like 'cluster%' or sa.name not like 'imageregistry%')
-          and sa.allow_blob_public_access = 'false'
-          then sa.name || ' not publicy accessible.'
+        when lower(sa.public_network_access) = 'disabled' then sa.name || ' not publicy accessible.'
         else sa.name || ' publicy accessible.'
       end as reason
       ${local.tag_dimensions_sql}

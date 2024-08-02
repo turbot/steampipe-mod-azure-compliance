@@ -376,11 +376,11 @@ query "storage_account_block_public_access" {
     select
       sa.id as resource,
       case
-        when sa.public_network_access = 'Disabled' then 'ok'
+        when lower(sa.public_network_access) = 'disabled' then 'ok'
         else 'alarm'
       end as status,
       case
-        when sa.public_network_access = 'Disabled' then sa.name || ' not publicy accessible.'
+        when lower(sa.public_network_access) = 'disabled' then sa.name || ' not publicy accessible.'
         else sa.name || ' publicy accessible.'
       end as reason
       ${local.tag_dimensions_sql}

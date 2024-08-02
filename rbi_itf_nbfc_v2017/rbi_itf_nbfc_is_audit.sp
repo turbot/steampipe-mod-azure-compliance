@@ -12,6 +12,7 @@ benchmark "rbi_itf_nbfc_v2017_is_audit_5" {
   children = [
     benchmark.rbi_itf_nbfc_v2017_is_audit_5_2,
     control.application_gateway_waf_enabled,
+    control.application_gateway_waf_uses_specified_mode,
     control.compute_vm_remote_access_restricted_all_ports,
     control.compute_vm_tcp_udp_access_restricted_internet,
     control.cosmosdb_account_with_firewall_rules,

@@ -10,7 +10,7 @@ _Enhancements_
 
 _Bug fixes_
 
-- Updated the `storage_account_block_public_access` query to check if the `public_network_access` column is set to `disabled` as per the CIS documentation. ([#277](https://github.com/turbot/steampipe-mod-azure-compliance/pull/277))
+- Fixed the `storage_account_block_public_access` query to check if the `public_network_access` column is set to `disabled` as per the CIS documentation. ([#277](https://github.com/turbot/steampipe-mod-azure-compliance/pull/277))
 
 ## v0.46 [2024-06-14]
 

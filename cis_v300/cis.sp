@@ -15,7 +15,7 @@ benchmark "cis_v300" {
     // benchmark.cis_v300_3,
     // benchmark.cis_v300_4,
     // benchmark.cis_v300_5,
-    // benchmark.cis_v300_6,
+    benchmark.cis_v300_6,
     benchmark.cis_v300_7,
     benchmark.cis_v300_8,
     benchmark.cis_v300_9,

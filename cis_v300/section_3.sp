@@ -1,4 +1,4 @@
-olocals {
+locals {
   cis_v300_3_common_tags = merge(local.cis_v300_common_tags, {
     cis_section_id = "3"
   })
@@ -123,7 +123,7 @@ control "cis_v300_3_1_3_1" {
   query         = query.securitycenter_azure_defender_on_for_server
   documentation = file("./cis_v300/docs/cis_v300_3_1_3_1.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.3.1"
     cis_type    = "automated"
     cis_level   = "2"
@@ -137,7 +137,7 @@ control "cis_v300_3_1_3_2" {
   query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_3_2.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.3.2"
     cis_type    = "manual"
     cis_level   = "2"
@@ -151,7 +151,7 @@ control "cis_v300_3_1_3_3" {
   query         = query.securitycenter_wdatp_integration
   documentation = file("./cis_v300/docs/cis_v300_3_1_3_3.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.3.3"
     cis_type    = "manual"
     cis_level   = "2"
@@ -165,7 +165,7 @@ control "cis_v300_3_1_3_4" {
   query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_3_4.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.3.4"
     cis_type    = "manual"
     cis_level   = "2"
@@ -179,7 +179,7 @@ control "cis_v300_3_1_3_5" {
   query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_3_5.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.3.5"
     cis_type    = "manual"
     cis_level   = "2"
@@ -187,7 +187,7 @@ control "cis_v300_3_1_3_5" {
   })
 }
 
-control "cis_v300_3_1_4" {
+benchmark "cis_v300_3_1_4" {
   title         = "3.1.4 Defender Plan: Containers"
   documentation = file("./cis_v300/docs/cis_v300_3_1_4.md")
   children = [
@@ -208,7 +208,7 @@ control "cis_v300_3_1_4_1" {
   query         = query.securitycenter_azure_defender_on_for_containerregistry
   documentation = file("./cis_v300/docs/cis_v300_3_1_4_1.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.4.1"
     cis_type    = "automated"
     cis_level   = "2"
@@ -222,7 +222,7 @@ control "cis_v300_3_1_4_2" {
   query         = query.securitycenter_azure_defender_on_for_containers
   documentation = file("./cis_v300/docs/cis_v300_3_1_4_2.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.4.2"
     cis_type    = "automated"
     cis_level   = "2"
@@ -236,7 +236,7 @@ control "cis_v300_3_1_4_3" {
   query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_4_3.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.4.3"
     cis_type    = "automated"
     cis_level   = "2"
@@ -263,7 +263,7 @@ control "cis_v300_3_1_5_1" {
   query         = query.securitycenter_azure_defender_on_for_storage
   documentation = file("./cis_v300/docs/cis_v300_3_1_5_1.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.5.1"
     cis_type    = "automated"
     cis_level   = "2"
@@ -290,7 +290,7 @@ control "cis_v300_3_1_6_1" {
   query         = query.securitycenter_azure_defender_on_for_appservice
   documentation = file("./cis_v300/docs/cis_v300_2_1_2.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.6."
     cis_type    = "automated"
     cis_level   = "2"
@@ -320,7 +320,7 @@ control "cis_v300_3_1_7_1" {
   query         = query.securitycenter_azure_defender_on_for_cosmosdb
   documentation = file("./cis_v300/docs/cis_v300_3_1_7_1.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.7.1"
     cis_type    = "automated"
     cis_level   = "2"
@@ -334,7 +334,7 @@ control "cis_v300_3_1_7_2" {
   query         = query.securitycenter_azure_defender_on_for_opensource_relational_db
   documentation = file("./cis_v300/docs/cis_v300_3_1_7_2.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.7.2"
     cis_type    = "automated"
     cis_level   = "2"
@@ -342,13 +342,13 @@ control "cis_v300_3_1_7_2" {
   })
 }
 
-benchmark "cis_v300_3_1_7_3" {
+control "cis_v300_3_1_7_3" {
   title         = "3.1.7.3 Ensure That Microsoft Defender for (Managed Instance) Azure SQL Databases Is Set To 'On'"
   description   = "Turning on Microsoft Defender for Azure SQL Databases enables threat detection for Azure SQL database servers, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud."
   query         = query.securitycenter_azure_defender_on_for_sqldb
   documentation = file("./cis_v300/docs/cis_v300_3_1_7_3.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.7.3"
     cis_type    = "automated"
     cis_level   = "2"
@@ -356,13 +356,13 @@ benchmark "cis_v300_3_1_7_3" {
   })
 }
 
-benchmark "cis_v300_3_1_7_4" {
+control "cis_v300_3_1_7_4" {
   title         = "3.1.7.4 Ensure That Microsoft Defender for SQL Servers on Machines Is Set To 'On'"
   description   = "Turning on Microsoft Defender for SQL servers on machines enables threat detection for SQL servers on machines, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud."
   query         = query.securitycenter_azure_defender_on_for_sqlservervm
   documentation = file("./cis_v300/docs/cis_v300_3_1_7_4.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.7.4"
     cis_type    = "automated"
     cis_level   = "2"
@@ -389,7 +389,7 @@ control "cis_v300_3_1_8_1" {
   query         = query.securitycenter_azure_defender_on_for_keyvault
   documentation = file("./cis_v300/docs/cis_v300_3_1_8_1.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.8.1"
     cis_type    = "automated"
     cis_level   = "2"
@@ -416,7 +416,7 @@ control "cis_v300_3_1_9_1" {
   query         = query.securitycenter_azure_defender_on_for_resource_manager
   documentation = file("./cis_v300/docs/cis_v300_3_1_9_1.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.9.1"
     cis_type    = "automated"
     cis_level   = "2"
@@ -430,7 +430,7 @@ control "cis_v300_3_1_10" {
   query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_10.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.10"
     cis_type    = "automated"
     cis_level   = "1"
@@ -444,7 +444,7 @@ control "cis_v300_3_1_11" {
   query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_11.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.11"
     cis_type    = "manual"
     cis_level   = "1"
@@ -458,7 +458,7 @@ control "cis_v300_3_1_12" {
   query         = query.securitycenter_security_alerts_to_owner_enabled
   documentation = file("./cis_v300/docs/cis_v300_3_1_12.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.12"
     cis_type    = "automated"
     cis_level   = "1"
@@ -472,7 +472,7 @@ control "cis_v300_3_1_13" {
   query         = query.securitycenter_additional_email_configured
   documentation = file("./cis_v300/docs/cis_v300_3_1_13.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.13"
     cis_type    = "automated"
     cis_level   = "1"
@@ -486,7 +486,7 @@ control "cis_v300_3_1_14" {
   query         = query.securitycenter_notify_alerts_configured
   documentation = file("./cis_v300/docs/cis_v300_3_1_14.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.14"
     cis_type    = "automated"
     cis_level   = "1"
@@ -500,7 +500,7 @@ control "cis_v300_3_1_15" {
   query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_15.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.15"
     cis_type    = "manual"
     cis_level   = "2"
@@ -514,7 +514,7 @@ control "cis_v300_3_1_16" {
   query         = query.securitycenter_azure_defender_on_for_dns
   documentation = file("./cis_v300/docs/cis_v300_3_1_16.md")
 
-  tags = merge(local.cis_v300_2_1_common_tags, {
+  tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.16"
     cis_type    = "automated"
     cis_level   = "2"

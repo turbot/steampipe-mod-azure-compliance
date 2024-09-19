@@ -1,14 +1,14 @@
 locals {
-  cis_v300_1_common_tags = merge(local.cis_v300_common_tags, {
+  cis_v300_2_common_tags = merge(local.cis_v300_common_tags, {
     cis_section_id = "1"
   })
 }
 
 locals {
-  cis_v300_1_1_common_tags = merge(local.cis_v300_1_common_tags, {
+  cis_v300_2_1_common_tags = merge(local.cis_v300_2_common_tags, {
     cis_section_id = "1.1"
   })
-  cis_v300_1_2_common_tags = merge(local.cis_v300_1_common_tags, {
+  cis_v300_2_2_common_tags = merge(local.cis_v300_2_common_tags, {
     cis_section_id = "1.2"
   })
 }
@@ -21,30 +21,30 @@ benchmark "cis_v300_2" {
     benchmark.cis_v300_2_2,
     control.cis_v300_2_3,
     control.cis_v300_2_4,
-    control.cis_v300_1_5,
-    control.cis_v300_1_6,
-    control.cis_v300_1_7,
-    control.cis_v300_1_8,
-    control.cis_v300_1_9,
-    control.cis_v300_1_10,
-    control.cis_v300_1_11,
-    control.cis_v300_1_12,
-    control.cis_v300_1_13,
-    control.cis_v300_1_14,
-    control.cis_v300_1_15,
-    control.cis_v300_1_16,
-    control.cis_v300_1_17,
-    control.cis_v300_1_18,
-    control.cis_v300_1_19,
-    control.cis_v300_1_20,
-    control.cis_v300_1_21,
-    control.cis_v300_1_22,
-    control.cis_v300_1_23,
-    control.cis_v300_1_24,
-    control.cis_v300_1_25
+    control.cis_v300_2_5,
+    control.cis_v300_2_6,
+    control.cis_v300_2_7,
+    control.cis_v300_2_8,
+    control.cis_v300_2_9,
+    control.cis_v300_2_10,
+    control.cis_v300_2_11,
+    control.cis_v300_2_12,
+    control.cis_v300_2_13,
+    control.cis_v300_2_14,
+    control.cis_v300_2_15,
+    control.cis_v300_2_16,
+    control.cis_v300_2_17,
+    control.cis_v300_2_18,
+    control.cis_v300_2_19,
+    control.cis_v300_2_20,
+    control.cis_v300_2_21,
+    control.cis_v300_2_22,
+    control.cis_v300_2_23,
+    control.cis_v300_2_24,
+    control.cis_v300_2_25
   ]
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     type    = "Benchmark"
     service = "Azure/ActiveDirectory"
   })
@@ -60,7 +60,7 @@ benchmark "cis_v300_2_1" {
     control.cis_v300_2_1_4
   ]
 
-  tags = merge(local.cis_v300_1_1_common_tags, {
+  tags = merge(local.cis_v300_2_1_common_tags, {
     type    = "Benchmark"
     service = "Azure/ActiveDirectory"
   })
@@ -72,7 +72,7 @@ control "cis_v300_2_1_1" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_1_1.md")
 
-  tags = merge(local.cis_v300_1_1_common_tags, {
+  tags = merge(local.cis_v300_2_1_common_tags, {
     cis_item_id = "2.1.1"
     cis_level   = "1"
     cis_type    = "manual"
@@ -86,7 +86,7 @@ control "cis_v300_2_1_2" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_1_2.md")
 
-  tags = merge(local.cis_v300_1_1_common_tags, {
+  tags = merge(local.cis_v300_2_1_common_tags, {
     cis_item_id = "2.1.2"
     cis_level   = "1"
     cis_type    = "manual"
@@ -98,9 +98,9 @@ control "cis_v300_2_1_3" {
   title         = "2.1.3 Ensure that 'Multi-Factor Auth Status' is 'Enabled' for all Non-Privileged Users"
   description   = "Enable multi-factor authentication for all non-privileged users."
   query         = query.ad_manual_control
-  documentation = file("./cis_v300/docs/cis_v300_1_1_3.md")
+  documentation = file("./cis_v300/docs/cis_v300_2_1_3.md")
 
-  tags = merge(local.cis_v300_1_1_common_tags, {
+  tags = merge(local.cis_v300_2_1_common_tags, {
     cis_item_id = "2.1.3"
     cis_level   = "2"
     cis_type    = "manual"
@@ -114,7 +114,7 @@ control "cis_v300_2_1_4" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_1_4.md")
 
-  tags = merge(local.cis_v300_1_1_common_tags, {
+  tags = merge(local.cis_v300_2_1_common_tags, {
     cis_item_id = "2.1.4"
     cis_level   = "1"
     cis_type    = "manual"
@@ -128,14 +128,14 @@ benchmark "cis_v300_2_2" {
   children = [
     control.cis_v300_2_2_1,
     control.cis_v300_2_2_2,
-    control.cis_v300_1_2_3,
-    control.cis_v300_1_2_4,
-    control.cis_v300_1_2_5,
-    control.cis_v300_1_2_6,
-    control.cis_v300_1_2_7
+    control.cis_v300_2_2_3,
+    control.cis_v300_2_2_4,
+    control.cis_v300_2_2_5,
+    control.cis_v300_2_2_6,
+    control.cis_v300_2_2_7
   ]
 
-  tags = merge(local.cis_v300_1_2_common_tags, {
+  tags = merge(local.cis_v300_2_2_common_tags, {
     type    = "Benchmark"
     service = "Azure/ActiveDirectory"
   })
@@ -147,7 +147,7 @@ control "cis_v300_2_2_1" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_2_1.md")
 
-  tags = merge(local.cis_v300_1_2_common_tags, {
+  tags = merge(local.cis_v300_2_2_common_tags, {
     cis_item_id = "2.2.1"
     cis_level   = "2"
     cis_type    = "manual"
@@ -161,7 +161,7 @@ control "cis_v300_2_2_2" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_2_2.md")
 
-  tags = merge(local.cis_v300_1_2_common_tags, {
+  tags = merge(local.cis_v300_2_2_common_tags, {
     cis_item_id = "2.2.2"
     cis_level   = "2"
     cis_type    = "manual"
@@ -175,7 +175,7 @@ control "cis_v300_2_2_3" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_2_3.md")
 
-  tags = merge(local.cis_v300_1_2_common_tags, {
+  tags = merge(local.cis_v300_2_2_common_tags, {
     cis_item_id = "2.2.3"
     cis_level   = "2"
     cis_type    = "manual"
@@ -189,7 +189,7 @@ control "cis_v300_2_2_4" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_2_4.md")
 
-  tags = merge(local.cis_v300_1_2_common_tags, {
+  tags = merge(local.cis_v300_2_2_common_tags, {
     cis_item_id = "2.2.4"
     cis_level   = "2"
     cis_type    = "manual"
@@ -203,7 +203,7 @@ control "cis_v300_2_2_5" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_2_5.md")
 
-  tags = merge(local.cis_v300_1_2_common_tags, {
+  tags = merge(local.cis_v300_2_2_common_tags, {
     cis_item_id = "2.2.5"
     cis_level   = "2"
     cis_type    = "manual"
@@ -217,7 +217,7 @@ control "cis_v300_2_2_6" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_2_6.md")
 
-  tags = merge(local.cis_v300_1_2_common_tags, {
+  tags = merge(local.cis_v300_2_2_common_tags, {
     cis_item_id = "2.2.6"
     cis_level   = "2"
     cis_type    = "manual"
@@ -231,7 +231,7 @@ control "cis_v300_2_2_7" {
   query         = query.iam_conditional_access_mfa_enabled
   documentation = file("./cis_v300/docs/cis_v300_2_2_7.md")
 
-  tags = merge(local.cis_v300_1_2_common_tags, {
+  tags = merge(local.cis_v300_2_2_common_tags, {
     cis_item_id = "2.2.7"
     cis_level   = "2"
     cis_type    = "manual"
@@ -245,7 +245,7 @@ control "cis_v300_2_2_8" {
   query         = query.iam_conditional_access_mfa_enabled_for_administrators
   documentation = file("./cis_v300/docs/cis_v300_2_2_8.md")
 
-  tags = merge(local.cis_v300_1_2_common_tags, {
+  tags = merge(local.cis_v300_2_2_common_tags, {
     cis_item_id = "2.2.8"
     cis_level   = "1"
     cis_type    = "manual"
@@ -259,7 +259,7 @@ control "cis_v300_2_3" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_3.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.3"
     cis_level   = "1"
     cis_type    = "manual"
@@ -273,7 +273,7 @@ control "cis_v300_2_4" {
   query         = query.ad_guest_user_reviewed_monthly
   documentation = file("./cis_v300/docs/cis_v300_2_4.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.4"
     cis_level   = "1"
     cis_type    = "manual"
@@ -287,7 +287,7 @@ control "cis_v300_2_5" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_5.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.5"
     cis_level   = "1"
     cis_type    = "manual"
@@ -301,7 +301,7 @@ control "cis_v300_2_6" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_6.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.6"
     cis_level   = "1"
     cis_type    = "manual"
@@ -315,7 +315,7 @@ control "cis_v300_2_7" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_7.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.7"
     cis_level   = "1"
     cis_type    = "manual"
@@ -329,7 +329,7 @@ control "cis_v300_2_8" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_8.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.8"
     cis_level   = "1"
     cis_type    = "manual"
@@ -343,7 +343,7 @@ control "cis_v300_2_9" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_9.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.9"
     cis_level   = "1"
     cis_type    = "manual"
@@ -357,7 +357,7 @@ control "cis_v300_2_10" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_10.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.10"
     cis_level   = "1"
     cis_type    = "manual"
@@ -371,7 +371,7 @@ control "cis_v300_2_11" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_11.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.11"
     cis_level   = "1"
     cis_type    = "manual"
@@ -385,7 +385,7 @@ control "cis_v300_2_12" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_12.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.12"
     cis_level   = "1"
     cis_type    = "manual"
@@ -399,7 +399,7 @@ control "cis_v300_2_13" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_13.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.13"
     cis_level   = "2"
     cis_type    = "manual"
@@ -413,7 +413,7 @@ control "cis_v300_2_14" {
   query         = query.iam_user_not_allowed_to_register_application
   documentation = file("./cis_v300/docs/cis_v300_2_14.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.14"
     cis_level   = "1"
     cis_type    = "automated"
@@ -427,7 +427,7 @@ control "cis_v300_2_15" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_15.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.15"
     cis_level   = "1"
     cis_type    = "manual"
@@ -441,7 +441,7 @@ control "cis_v300_2_16" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_16.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.16"
     cis_level   = "2"
     cis_type    = "automated"
@@ -455,7 +455,7 @@ control "cis_v300_2_17" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_17.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.17"
     cis_level   = "1"
     cis_type    = "manual"
@@ -469,7 +469,7 @@ control "cis_v300_2_18" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_18.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.18"
     cis_level   = "2"
     cis_type    = "manual"
@@ -483,7 +483,7 @@ control "cis_v300_2_19" {
   query         = query.iam_user_not_allowed_to_create_security_group
   documentation = file("./cis_v300/docs/cis_v300_2_19.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.19"
     cis_level   = "2"
     cis_type    = "manual"
@@ -497,7 +497,7 @@ control "cis_v300_2_20" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_20.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.20"
     cis_level   = "2"
     cis_type    = "manual"
@@ -511,7 +511,7 @@ control "cis_v300_2_21" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_21.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.21"
     cis_level   = "2"
     cis_type    = "manual"
@@ -525,7 +525,7 @@ control "cis_v300_2_22" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_22.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.22"
     cis_level   = "1"
     cis_type    = "manual"
@@ -539,7 +539,7 @@ control "cis_v300_2_23" {
   query         = query.iam_no_custom_subscription_owner_roles_created
   documentation = file("./cis_v300/docs/cis_v300_2_23.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.23"
     cis_level   = "1"
     cis_type    = "automated"
@@ -553,7 +553,7 @@ control "cis_v300_2_24" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_24.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.24"
     cis_level   = "2"
     cis_type    = "manual"
@@ -567,7 +567,7 @@ control "cis_v300_2_25" {
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_25.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.25"
     cis_level   = "2"
     cis_type    = "manual"
@@ -581,7 +581,7 @@ control "cis_v300_2_26" {
   query         = query.iam_global_administrator_max_5
   documentation = file("./cis_v300/docs/cis_v300_2_26.md")
 
-  tags = merge(local.cis_v300_1_common_tags, {
+  tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.26"
     cis_level   = "1"
     cis_type    = "manual"

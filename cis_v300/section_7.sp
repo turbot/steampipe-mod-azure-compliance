@@ -93,8 +93,8 @@ control "cis_v300_7_5" {
 }
 
 control "cis_v300_7_6" {
-  title         = "7.6 Ensure that Network Watcher is 'Enabled'"
-  description   = "Enable Network Watcher for Azure subscriptions."
+  title         = "7.6 Ensure that Network Watcher is 'Enabled' for Azure Regions that are in use"
+  description   = "Enable Network Watcher for physical regions in Azure subscriptions."
   query         = query.network_watcher_enabled
   documentation = file("./cis_v300/docs/cis_v300_7_6.md")
 

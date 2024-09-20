@@ -101,7 +101,7 @@ control "cis_v300_3_1_1_2" {
 }
 
 benchmark "cis_v300_3_1_3" {
-  title         = "3.1.3 Microsoft Defender for Identity"
+  title         = "3.1.3 Defender Plan: Servers"
   documentation = file("./cis_v300/docs/cis_v300_3_1_3.md")
   children = [
     control.cis_v300_3_1_3_1,
@@ -288,7 +288,7 @@ control "cis_v300_3_1_6_1" {
   title         = "3.1.6.1 Ensure That Microsoft Defender for App Services Is Set To 'On'"
   description   = "Turning on Microsoft Defender for App Service enables threat detection for App Service, providing threat intelligence, anomaly detection, and behavior analytics in the Microsoft Defender for Cloud."
   query         = query.securitycenter_azure_defender_on_for_appservice
-  documentation = file("./cis_v300/docs/cis_v300_2_1_2.md")
+  documentation = file("./cis_v300/docs/cis_v300_3_1_6_1.md")
 
   tags = merge(local.cis_v300_3_1_common_tags, {
     cis_item_id = "3.1.6."
@@ -398,7 +398,7 @@ control "cis_v300_3_1_8_1" {
 }
 
 benchmark "cis_v300_3_1_9" {
-  title         = "3.1.9 Defender Plan: IoT"
+  title         = "3.1.9 Defender Plan: Resource Manager"
   documentation = file("./cis_v300/docs/cis_v300_3_1_9.md")
   children = [
     control.cis_v300_3_1_9_1
@@ -647,7 +647,7 @@ control "cis_v300_3_3_6" {
   tags = merge(local.cis_v300_3_3_common_tags, {
     cis_item_id = "3.3.6"
     cis_level   = "2"
-    cis_type    = "manual"
+    cis_type    = "automated"
     service     = "Azure/KeyVault"
   })
 }

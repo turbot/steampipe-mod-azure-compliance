@@ -262,7 +262,7 @@ control "cis_v300_2_3" {
   tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.3"
     cis_level   = "1"
-    cis_type    = "manual"
+    cis_type    = "automated"
     service     = "Azure/ActiveDirectory"
   })
 }
@@ -380,7 +380,7 @@ control "cis_v300_2_11" {
 }
 
 control "cis_v300_2_12" {
-  title         = "1.10 Ensure 'User consent for applications' is set to 'Do not allow user consent'"
+  title         = "2.12 Ensure 'User consent for applications' is set to 'Do not allow user consent'"
   description   = "Require administrators to provide consent for applications before use."
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_12.md")
@@ -430,7 +430,7 @@ control "cis_v300_2_15" {
   tags = merge(local.cis_v300_2_common_tags, {
     cis_item_id = "2.15"
     cis_level   = "1"
-    cis_type    = "manual"
+    cis_type    = "automated"
     service     = "Azure/ActiveDirectory"
   })
 }
@@ -465,7 +465,7 @@ control "cis_v300_2_17" {
 
 control "cis_v300_2_18" {
   title         = "2.18 Ensure that 'Restrict user ability to access groups features in the Access Pane' is Set to 'Yes'"
-  description   = "Restricts group creation to administrators with permissions only."
+  description   = "Restrict access to group web interface in the Access Panel portal."
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_18.md")
 

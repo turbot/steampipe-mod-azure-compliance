@@ -2683,7 +2683,7 @@ query "compute_disk_unattached_encrypted_with_cmk" {
         or managed_by != ''
         or encryption_type = 'EncryptionAtRestWithCustomerKey'
         or encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys'
-         then 'ok'
+        then 'ok'
         else 'alarm'
       end as status,
       case

@@ -139,7 +139,7 @@ control "cis_v300_5_1_6" {
 control "cis_v300_5_1_7" {
   title         = "5.1.7 Ensure Public Network Access is Disabled"
   description   = "Disabling public network access restricts the service from accessing public networks."
-  query         = query.sql_server_auditing_retention_period_90
+  query         = query.sql_db_public_network_access_disabled
   documentation = file("./cis_v300/docs/cis_v300_5_1_7.md")
 
   tags = merge(local.cis_v300_5_1_common_tags, {

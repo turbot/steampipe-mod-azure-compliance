@@ -31,7 +31,7 @@ benchmark "cis_v300_9" {
 control "cis_v300_9_1" {
   title         = "9.1 Ensure 'HTTPS Only' is set to `On`"
   description   = "Azure App Service allows apps to run under both HTTP and HTTPS by default. Apps can be accessed by anyone using non-secure HTTP links by default. Non-secure HTTP requests can be restricted and all HTTP requests redirected to the secure HTTPS port. It is recommended to enforce HTTPS-only traffic."
-  query         = query.manual_control
+  query         = query.appservice_web_app_use_https
   documentation = file("./cis_v300/docs/cis_v300_9_1.md")
 
   tags = merge(local.cis_v300_9_common_tags, {
@@ -59,7 +59,7 @@ control "cis_v300_9_2" {
 control "cis_v300_9_3" {
   title         = "9.3 Ensure 'FTP State' is set to 'FTPS Only' or 'Disabled'"
   description   = "By default, App Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Services. If FTPS is not expressly required for the App, the recommended setting is Disabled."
-  query         = query.appservice_authentication_enabled
+  query         = query.appservice_web_app_ftps_enabled
   documentation = file("./cis_v300/docs/cis_v300_9_3.md")
 
   tags = merge(local.cis_v300_9_common_tags, {
@@ -185,7 +185,7 @@ control "cis_v300_9_11" {
 control "cis_v300_9_12" {
   title         = "9.12 Ensure that 'Remote debugging' is set to 'Off'"
   description   = "Remote Debugging allows Azure App Service to be debugged in real-time directly on the Azure environment. When remote debugging is enabled, it opens a communication channel that could potentially be exploited by unauthorized users if not properly secured."
-  query         = query.manual_control
+  query         = query.appservice_web_app_remote_debugging_disabled
   documentation = file("./cis_v300/docs/cis_v300_9_12.md")
 
   tags = merge(local.cis_v300_9_common_tags, {

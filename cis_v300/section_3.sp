@@ -174,7 +174,7 @@ control "cis_v300_3_1_3_4" {
 }
 
 control "cis_v300_3_1_3_5" {
-  title         = "Ensure that 'File Integrity Monitoring' component status is set to 'On'"
+  title         = "3.1.3.5 Ensure that 'File Integrity Monitoring' component status is set to 'On'"
   description   = "File Integrity Monitoring (FIM) is a feature that monitors critical system files in Windows or Linux for potential signs of attack or compromise."
   query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_3_5.md")
@@ -231,7 +231,7 @@ control "cis_v300_3_1_4_2" {
 }
 
 control "cis_v300_3_1_4_3" {
-  title         = "Ensure that 'Agentless container vulnerability assessment' component status is 'On'"
+  title         = "3.1.4.3 Ensure that 'Agentless container vulnerability assessment' component status is 'On'"
   description   = "Enable automatic vulnerability management for images stored in ACR or running in AKS clusters."
   query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_4_3.md")
@@ -550,7 +550,7 @@ control "cis_v300_3_2_1" {
 }
 
 benchmark "cis_v300_3_3" {
-  title         = "3 Key Vault"
+  title         = "3.3 Key Vault"
   documentation = file("./cis_v300/docs/cis_v300_3_3.md")
   children = [
     control.cis_v300_3_3_1,

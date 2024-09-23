@@ -43,7 +43,8 @@ benchmark "cis_v300_5_1" {
     control.cis_v300_5_1_3,
     control.cis_v300_5_1_4,
     control.cis_v300_5_1_5,
-    control.cis_v300_5_1_6
+    control.cis_v300_5_1_6,
+    control.cis_v300_5_1_7
   ]
 
   tags = merge(local.cis_v300_5_1_common_tags, {

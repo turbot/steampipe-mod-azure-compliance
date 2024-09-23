@@ -1,15 +1,15 @@
 locals {
   cis_v300_2_common_tags = merge(local.cis_v300_common_tags, {
-    cis_section_id = "1"
+    cis_section_id = "2"
   })
 }
 
 locals {
   cis_v300_2_1_common_tags = merge(local.cis_v300_2_common_tags, {
-    cis_section_id = "1.1"
+    cis_section_id = "2.1"
   })
   cis_v300_2_2_common_tags = merge(local.cis_v300_2_common_tags, {
-    cis_section_id = "1.2"
+    cis_section_id = "2.2"
   })
 }
 
@@ -172,7 +172,7 @@ control "cis_v300_2_2_2" {
 }
 
 control "cis_v300_2_2_3" {
-  title         = "Ensure that an exclusionary Device code flow policy is considered"
+  title         = "2.2.3 Ensure that an exclusionary Device code flow policy is considered"
   description   = "Conditional Access Policies can be used to prevent the Device code authentication flow. Device code flow should be permitted only for users that regularly perform duties that explicitly require the use of Device Code to authenticate, such as utilizing Azure with PowerShell."
   query         = query.ad_manual_control
   documentation = file("./cis_v300/docs/cis_v300_2_2_3.md")

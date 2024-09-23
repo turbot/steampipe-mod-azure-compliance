@@ -13,6 +13,7 @@ benchmark "cis_v300_7" {
     control.cis_v300_7_3,
     control.cis_v300_7_4,
     control.cis_v300_7_5,
+    control.cis_v300_7_6,
     control.cis_v300_7_7
   ]
 

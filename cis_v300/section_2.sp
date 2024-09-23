@@ -41,7 +41,8 @@ benchmark "cis_v300_2" {
     control.cis_v300_2_22,
     control.cis_v300_2_23,
     control.cis_v300_2_24,
-    control.cis_v300_2_25
+    control.cis_v300_2_25,
+    control.cis_v300_2_26
   ]
 
   tags = merge(local.cis_v300_2_common_tags, {
@@ -132,7 +133,8 @@ benchmark "cis_v300_2_2" {
     control.cis_v300_2_2_4,
     control.cis_v300_2_2_5,
     control.cis_v300_2_2_6,
-    control.cis_v300_2_2_7
+    control.cis_v300_2_2_7,
+    control.cis_v300_2_2_8
   ]
 
   tags = merge(local.cis_v300_2_2_common_tags, {

@@ -1,6 +1,6 @@
 locals {
   cis_v300_5_common_tags = merge(local.cis_v300_common_tags, {
-    cis_section_id = "4"
+    cis_section_id = "5"
   })
 }
 

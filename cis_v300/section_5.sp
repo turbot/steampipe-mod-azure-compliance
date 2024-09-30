@@ -35,7 +35,7 @@ benchmark "cis_v300_5" {
 }
 
 benchmark "cis_v300_5_1" {
-  title         = "5.1 SQL Server - Auditing"
+  title         = "5.1 SQL Azure SQL Database"
   documentation = file("./cis_v300/docs/cis_v300_5_1.md")
   children = [
     control.cis_v300_5_1_1,
@@ -152,7 +152,7 @@ control "cis_v300_5_1_7" {
 }
 
 benchmark "cis_v300_5_2" {
-  title         = "5.2 PostgreSQL Database Server"
+  title         = "5.2 Azure Database for PostgreSQL"
   documentation = file("./cis_v300/docs/cis_v300_5_2.md")
   children = [
     control.cis_v300_5_2_1,
@@ -283,7 +283,7 @@ control "cis_v300_5_2_8" {
 }
 
 benchmark "cis_v300_5_3" {
-  title         = "5.3 MySQL Database"
+  title         = "5.3 Azure Database for MySQL"
   documentation = file("./cis_v300/docs/cis_v300_5_3.md")
   children = [
     control.cis_v300_5_3_1,

@@ -86,7 +86,7 @@ control "cis_v300_8_4" {
 control "cis_v300_8_5" {
   title         = "8.5 Ensure that 'Disk Network Access' is NOT set to 'Enable public access from all networks'"
   description   = "Virtual Machine Disks and snapshots can be configured to allow access from different network resources."
-  query         = query.manual_control
+  query         = query.compute_disk_public_access_disabled
   documentation = file("./cis_v300/docs/cis_v300_8_5.md")
 
   tags = merge(local.cis_v300_8_common_tags, {
@@ -100,7 +100,7 @@ control "cis_v300_8_5" {
 control "cis_v300_8_6" {
   title         = "8.6 Ensure that 'Enable Data Access Authentication Mode' is 'Checked'"
   description   = "Data Access Authentication Mode provides a method of uploading or exporting Virtual Machine Disks."
-  query         = query.manual_control
+  query         = query.compute_disk_data_access_auth_mode_enabled
   documentation = file("./cis_v300/docs/cis_v300_8_6.md")
 
   tags = merge(local.cis_v300_8_common_tags, {

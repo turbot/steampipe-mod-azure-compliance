@@ -173,7 +173,7 @@ benchmark "cis_v300_5_2" {
 control "cis_v300_5_2_1" {
   title         = "5.2.1 Ensure server parameter 'require_secure_transport' is set to 'ON' for PostgreSQL flexible server"
   description   = "Enable 'require_secure_transport' on 'PostgreSQL flexible servers'."
-  query         = query.postgres_sql_ssl_enabled
+  query         = query.postgres_sql_flexible_server_ssl_enabled
   documentation = file("./cis_v300/docs/cis_v300_5_2_1.md")
 
   tags = merge(local.cis_v300_5_2_common_tags, {
@@ -187,11 +187,53 @@ control "cis_v300_5_2_1" {
 control "cis_v300_5_2_2" {
   title         = "5.2.2 Ensure server parameter 'log_checkpoints' is set to 'ON' for PostgreSQL flexible Server"
   description   = "Enable 'log_checkpoints' on 'PostgreSQL Servers'."
-  query         = query.postgres_db_server_log_checkpoints_on
+  query         = query.postgres_flexible_server_log_checkpoints_on
   documentation = file("./cis_v300/docs/cis_v300_5_2_2.md")
 
   tags = merge(local.cis_v300_5_2_common_tags, {
     cis_item_id = "5.2.2"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/PostgreSQL"
+  })
+}
+
+control "cis_v300_5_2_3" {
+  title         = "5.2.3 Ensure server parameter 'connection_throttle.enable' is set to 'ON' for PostgreSQL flexible Server"
+  description   = "Enable connection_throttling on PostgreSQL flexible Servers."
+  query         = query.postgres_flexible_server_connection_throttling_on
+  documentation = file("./cis_v300/docs/cis_v300_5_2_3.md")
+
+  tags = merge(local.cis_v300_5_2_common_tags, {
+    cis_item_id = "5.2.3"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/PostgreSQL"
+  })
+}
+
+control "cis_v300_5_2_4" {
+  title         = "5.2.4 Ensure Server Parameter 'logfiles.retention_days' is greater than 3 days for PostgreSQL flexible Server"
+  description   = "Ensure logfiles.retention_days on PostgreSQL flexible Servers is set to an appropriate value."
+  query         = query.postgres_flexible_server_log_retention_days_3
+  documentation = file("./cis_v300/docs/cis_v300_5_2_4.md")
+
+  tags = merge(local.cis_v300_5_2_common_tags, {
+    cis_item_id = "5.2.4"
+    cis_level   = "1"
+    cis_type    = "automated"
+    service     = "Azure/PostgreSQL"
+  })
+}
+
+control "cis_v300_5_2_5" {
+  title         = "5.2.5 Ensure 'Allow public access from any Azure service within Azure to this server' for PostgreSQL flexible server is disabled"
+  description   = "Disable access from Azure services to PostgreSQL flexible server."
+  query         = query.postgres_db_server_allow_access_to_azure_services_disabled
+  documentation = file("./cis_v300/docs/cis_v300_5_2_5.md")
+
+  tags = merge(local.cis_v300_5_2_common_tags, {
+    cis_item_id = "5.2.5"
     cis_level   = "1"
     cis_type    = "automated"
     service     = "Azure/PostgreSQL"
@@ -220,48 +262,6 @@ control "cis_v300_5_2_7" {
 
   tags = merge(local.cis_v300_5_2_common_tags, {
     cis_item_id = "5.2.7"
-    cis_level   = "1"
-    cis_type    = "automated"
-    service     = "Azure/PostgreSQL"
-  })
-}
-
-control "cis_v300_5_2_3" {
-  title         = "5.2.3 Ensure server parameter 'connection_throttle.enable' is set to 'ON' for PostgreSQL flexible Server"
-  description   = "Enable connection_throttling on PostgreSQL flexible Servers."
-  query         = query.postgres_db_server_connection_throttling_on
-  documentation = file("./cis_v300/docs/cis_v300_5_2_3.md")
-
-  tags = merge(local.cis_v300_5_2_common_tags, {
-    cis_item_id = "5.2.3"
-    cis_level   = "1"
-    cis_type    = "automated"
-    service     = "Azure/PostgreSQL"
-  })
-}
-
-control "cis_v300_5_2_4" {
-  title         = "5.2.4 Ensure Server Parameter 'logfiles.retention_days' is greater than 3 days for PostgreSQL flexible Server"
-  description   = "Ensure logfiles.retention_days on PostgreSQL flexible Servers is set to an appropriate value."
-  query         = query.postgres_db_server_log_retention_days_3
-  documentation = file("./cis_v300/docs/cis_v300_5_2_4.md")
-
-  tags = merge(local.cis_v300_5_2_common_tags, {
-    cis_item_id = "5.2.4"
-    cis_level   = "1"
-    cis_type    = "automated"
-    service     = "Azure/PostgreSQL"
-  })
-}
-
-control "cis_v300_5_2_5" {
-  title         = "5.2.5 Ensure 'Allow public access from any Azure service within Azure to this server' for PostgreSQL flexible server is disabled"
-  description   = "ble access from Azure services to PostgreSQL flexible server."
-  query         = query.postgres_db_server_allow_access_to_azure_services_disabled
-  documentation = file("./cis_v300/docs/cis_v300_5_2_5.md")
-
-  tags = merge(local.cis_v300_5_2_common_tags, {
-    cis_item_id = "5.2.5"
     cis_level   = "1"
     cis_type    = "automated"
     service     = "Azure/PostgreSQL"
@@ -301,7 +301,7 @@ benchmark "cis_v300_5_3" {
 control "cis_v300_5_3_1" {
   title         = "5.3.1 Ensure server parameter 'require_secure_transport' is set to 'ON' for MySQL flexible server"
   description   = "Enable require_secure_transport on MySQL flexible servers."
-  query         = query.mysql_ssl_enabled
+  query         = query.mysql_flexible_server_ssl_enabled
   documentation = file("./cis_v300/docs/cis_v300_5_3_1.md")
 
   tags = merge(local.cis_v300_5_3_common_tags, {
@@ -315,7 +315,7 @@ control "cis_v300_5_3_1" {
 control "cis_v300_5_3_2" {
   title         = "5.3.2 Ensure server parameter 'tls_version' is set to 'TLSv1.2' (or higher) for MySQL flexible server"
   description   = "Ensure tls_version on MySQL flexible servers is set to use TLS version 1.2 or higher."
-  query         = query.mysql_server_min_tls_1_2
+  query         = query.mysql_flexible_server_min_tls_1_2
   documentation = file("./cis_v300/docs/cis_v300_5_3_2.md")
 
   tags = merge(local.cis_v300_5_3_common_tags, {
@@ -329,7 +329,7 @@ control "cis_v300_5_3_2" {
 control "cis_v300_5_3_3" {
   title         = "5.3.3 Ensure server parameter 'audit_log_enabled' is set to 'ON' for MySQL flexible Server"
   description   = "Enable audit_log_enabled on MySQL flexible Servers."
-  query         = query.mysql_server_audit_logging_enabled
+  query         = query.mysql_flexible_server_audit_logging_enabled
   documentation = file("./cis_v300/docs/cis_v300_5_3_3.md")
 
   tags = merge(local.cis_v300_5_3_common_tags, {
@@ -343,7 +343,7 @@ control "cis_v300_5_3_3" {
 control "cis_v300_5_3_4" {
   title         = "5.3.4 Ensure server parameter 'audit_log_events' has 'CONNECTION' set for MySQL flexible Server"
   description   = "Set audit_log_enabled to include CONNECTION on MySQL flexible servers."
-  query         = query.mysql_server_audit_logging_events_connection_set
+  query         = query.mysql_flexible_server_audit_logging_events_connection_set
   documentation = file("./cis_v300/docs/cis_v300_5_3_4.md")
 
   tags = merge(local.cis_v300_5_3_common_tags, {

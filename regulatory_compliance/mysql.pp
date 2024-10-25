@@ -480,9 +480,9 @@ query "mysql_flexible_server_min_tls_1_2" {
         when a.id is not null then s.title || ' minimum TLS version set to TLSv1.2,TLSv1.3.'
         else s.title || ' minimum TLS version not set to TLSv1.2,TLSv1.3.'
       end as reason
-      -- ${local.tag_dimensions_sql}
-      -- ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      -- ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_flexible_server as s
       left join tls_version as a on s.id = a.id,
@@ -514,9 +514,9 @@ query "mysql_flexible_server_audit_logging_enabled" {
         when a.id is not null then s.title || ' audit logging enabled.'
         else s.title || ' audit logging disabled.'
       end as reason
-      -- ${local.tag_dimensions_sql}
-      -- ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      -- ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_flexible_server as s
       left join audit_log_enabled as a on s.id = a.id,
@@ -548,9 +548,9 @@ query "mysql_flexible_server_audit_logging_events_connection_set" {
         when a.id is not null then s.title || ' server parameter audit_log_events has connection set.'
         else s.title || ' server parameter audit_log_events connection not set.'
       end as reason
-      -- ${local.tag_dimensions_sql}
-      -- ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
-      -- ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_flexible_server as s
       left join audit_log_events as a on s.id = a.id,

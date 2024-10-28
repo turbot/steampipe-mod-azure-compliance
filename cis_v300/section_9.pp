@@ -59,7 +59,7 @@ control "cis_v300_9_2" {
 control "cis_v300_9_3" {
   title         = "9.3 Ensure 'FTP State' is set to 'FTPS Only' or 'Disabled'"
   description   = "By default, App Services can be deployed over FTP. If FTP is required for an essential deployment workflow, FTPS should be required for FTP login for all App Services. If FTPS is not expressly required for the App, the recommended setting is Disabled."
-  query         = query.appservice_web_app_ftps_enabled
+  query         = query.appservice_ftp_deployment_disabled
   documentation = file("./cis_v300/docs/cis_v300_9_3.md")
 
   tags = merge(local.cis_v300_9_common_tags, {
@@ -101,7 +101,7 @@ control "cis_v300_9_5" {
 control "cis_v300_9_6" {
   title         = "9.6 Ensure that 'Basic Authentication' is 'Disabled'"
   description   = "Basic Authentication provides the ability to create identities and authentication for an App Service without a centralized Identity Provider. For a more effective, capable, and secure solution for Identity, Authentication, Authorization, and Accountability, a centralized Identity Provider such as Entra ID is strongly advised."
-  query         = query.appservice_web_app_register_with_active_directory_enabled
+  query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_9_6.md")
 
   tags = merge(local.cis_v300_9_common_tags, {

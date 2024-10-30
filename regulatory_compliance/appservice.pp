@@ -1648,7 +1648,7 @@ query "appservice_ftp_deployment_disabled" {
           when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then name || ' FTP deployments enabled.'
           else name || ' FTP deployments disabled.'
         end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "wa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "wa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from

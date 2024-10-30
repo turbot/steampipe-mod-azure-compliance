@@ -73,7 +73,7 @@ powerpipe benchmark list
 Run a benchmark:
 
 ```sh
-powerpipe benchmark run azure_compliance.benchmark.cis_v200
+powerpipe benchmark run azure_compliance.benchmark.cis_v300
 ```
 
 Different output formats are also available, for more information please see
@@ -93,7 +93,7 @@ vi powerpipe.ppvars
 Alternatively you can pass variables on the command line:
 
 ```sh
-powerpipe benchmark run azure_compliance.benchmark.cis_v200 --var 'tag_dimensions=["Environment", "Owner"]'
+powerpipe benchmark run azure_compliance.benchmark.cis_v300 --var 'tag_dimensions=["Environment", "Owner"]'
 ```
 
 Or through environment variables:
@@ -101,7 +101,7 @@ Or through environment variables:
 ```sh
 export PP_VAR_common_dimensions='["subscription_id", "connection_name", "resource_group"]'
 export PP_VAR_tag_dimensions='["Environment", "Owner"]'
-powerpipe benchmark run azure_compliance.benchmark.cis_v200
+powerpipe benchmark run azure_compliance.benchmark.cis_v300
 ```
 
 ## Open Source & Contributing

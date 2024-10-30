@@ -242,7 +242,7 @@ query "keyvault_logging_enabled" {
         when l.key_vault_name not like concat('%', v.name, '%') then v.name || ' logging not enabled.'
         else v.name || ' logging enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -374,7 +374,7 @@ query "keyvault_vault_private_link_used" {
         then a.name || ' using private link.'
         else a.name || ' private link not enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -491,7 +491,7 @@ query "keyvault_rbac_enabled" {
         when enable_rbac_authorization then name || ' has RBAC enabled.'
         else name || ' have RBAC disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -525,7 +525,7 @@ query "keyvault_with_non_rbac_key_expiration_set" {
         when not enabled then ' disabled.'
         else ' expiration date set to ' || to_char(expires_at, 'DD-Mon-YYYY') || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -551,7 +551,7 @@ query "keyvault_vault_recoverable" {
         when not purge_protection_enabled then name || ' "do not purge" not enabled.'
         else name || ' "soft delete" and "do not purge" enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -585,7 +585,7 @@ query "keyvault_with_non_rbac_secret_expiration_set" {
         when not enabled then ' disabled.'
         else ' expiration date set to ' || to_char(expires_at, 'DD-Mon-YYYY') || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kvs.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvs.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -620,7 +620,7 @@ query "keyvault_with_rbac_key_expiration_set" {
         when not enabled then ' disabled.'
         else ' expiration date set to ' || to_char(expires_at, 'DD-Mon-YYYY') || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -655,7 +655,7 @@ query "keyvault_with_rbac_secret_expiration_set" {
         when not enabled then ' disabled.'
         else ' expiration date set to ' || to_char(expires_at, 'DD-Mon-YYYY') || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kvs.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvs.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

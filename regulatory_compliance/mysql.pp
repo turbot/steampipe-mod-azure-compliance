@@ -424,3 +424,138 @@ query "mysql_server_min_tls_1_2" {
       sub.subscription_id = s.subscription_id;
   EOQ
 }
+
+query "mysql_flexible_server_ssl_enabled" {
+  sql = <<-EOQ
+    with ssl_enabled as(
+      select
+        id
+      from
+        azure_mysql_flexible_server,
+        jsonb_array_elements(flexible_server_configurations) as config
+      where
+        config ->> 'Name' = 'require_secure_transport' and config -> 'ConfigurationProperties' ->> 'value' = 'ON'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' SSL connection enabled.'
+        else s.title || ' SSL connection disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_flexible_server as s
+      left join ssl_enabled as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_flexible_server_min_tls_1_2" {
+  sql = <<-EOQ
+    with tls_version as(
+      select
+        id
+      from
+        azure_mysql_flexible_server,
+        jsonb_array_elements(flexible_server_configurations) as config
+      where
+        config ->> 'Name' = 'tls_version'
+        and config -> 'ConfigurationProperties' ->> 'value' = 'TLSv1.2,TLSv1.3'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' minimum TLS version set to TLSv1.2,TLSv1.3.'
+        else s.title || ' minimum TLS version not set to TLSv1.2,TLSv1.3.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_flexible_server as s
+      left join tls_version as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_flexible_server_audit_logging_enabled" {
+  sql = <<-EOQ
+    with audit_log_enabled as(
+      select
+        id
+      from
+        azure_mysql_flexible_server,
+        jsonb_array_elements(flexible_server_configurations) as config
+      where
+        config ->> 'Name' = 'audit_log_enabled'
+        and config -> 'ConfigurationProperties' ->> 'value' = 'ON'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' audit logging enabled.'
+        else s.title || ' audit logging disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_flexible_server as s
+      left join audit_log_enabled as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "mysql_flexible_server_audit_logging_events_connection_set" {
+  sql = <<-EOQ
+    with audit_log_events as(
+      select
+        id
+      from
+        azure_mysql_flexible_server,
+        jsonb_array_elements(flexible_server_configurations) as config
+      where
+        config ->> 'Name' = 'audit_log_events'
+        and config -> 'ConfigurationProperties' ->> 'value' = 'CONNECTION'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' server parameter audit_log_events has connection set.'
+        else s.title || ' server parameter audit_log_events connection not set.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_mysql_flexible_server as s
+      left join audit_log_events as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}

@@ -887,6 +887,22 @@ control "compute_windows_vm_secure_boot_enabled" {
   })
 }
 
+control "compute_disk_public_access_disabled" {
+  title       = "Ensure that 'Disk Network Access' is NOT set to 'Enable public access from all networks'"
+  description = "Virtual Machine Disks and snapshots can be configured to allow access from different network resources."
+  query       = query.compute_disk_public_access_disabled
+
+  tags = local.regulatory_compliance_compute_common_tags
+}
+
+control "compute_disk_data_access_auth_mode_enabled" {
+  title       = "Ensure that 'Enable Data Access Authentication Mode' is 'Checked'"
+  description = "Data Access Authentication Mode provides a method of uploading or exporting Virtual Machine Disks."
+  query       = query.compute_disk_data_access_auth_mode_enabled
+
+  tags = local.regulatory_compliance_compute_common_tags
+}
+
 query "compute_os_and_data_disk_encrypted_with_cmk" {
   sql = <<-EOQ
     select
@@ -899,7 +915,7 @@ query "compute_os_and_data_disk_encrypted_with_cmk" {
         when encryption_type = 'EncryptionAtRestWithCustomerKey' then disk.name || ' encrypted with CMK.'
         else disk.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -986,7 +1002,7 @@ query "compute_unattached_disk_encrypted_with_cmk" {
         when encryption_type = 'EncryptionAtRestWithCustomerKey' then disk.name || ' encrypted with CMK.'
         else disk.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2573,7 +2589,7 @@ query "compute_vm_utilizing_managed_disk" {
         when managed_disk_id is null then vm.name || ' VM not utilizing managed disks.'
         else vm.name || ' VM utilizing managed disks.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2683,7 +2699,7 @@ query "compute_disk_unattached_encrypted_with_cmk" {
         or managed_by != ''
         or encryption_type = 'EncryptionAtRestWithCustomerKey'
         or encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys'
-         then 'ok'
+        then 'ok'
         else 'alarm'
       end as status,
       case
@@ -2774,5 +2790,51 @@ query "compute_windows_vm_secure_boot_enabled" {
         azure_subscription as sub
       where
         sub.subscription_id = a.subscription_id
+  EOQ
+}
+
+query "compute_disk_public_access_disabled" {
+  sql = <<-EOQ
+    select
+      disk.id as resource,
+      case
+        when network_access_policy in ('DenyAll','AllowPrivate') and public_network_access = 'Disabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when network_access_policy in ('DenyAll','AllowPrivate') and public_network_access = 'Disabled' then disk.name || ' network access disabled.'
+        else disk.name || ' network access enabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_disk disk,
+      azure_subscription sub
+    where
+      sub.subscription_id = disk.subscription_id;
+  EOQ
+}
+
+query "compute_disk_data_access_auth_mode_enabled" {
+  sql = <<-EOQ
+    select
+      disk.id as resource,
+      case
+        when data_access_auth_mode = 'AzureActiveDirectory' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when data_access_auth_mode = 'AzureActiveDirectory' then disk.name || ' data authentication mode enabled.'
+        else disk.name || ' data authentication mode disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_disk disk,
+      azure_subscription sub
+    where
+      sub.subscription_id = disk.subscription_id;
   EOQ
 }

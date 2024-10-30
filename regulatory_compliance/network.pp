@@ -478,7 +478,7 @@ query "network_security_group_rdp_access_restricted" {
           then sg.title || ' restricts RDP access from internet.'
         else sg.title || ' allows RDP access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -501,7 +501,7 @@ query "network_watcher_enabled" {
         else 'Network watcher enabled in ' || loc.name || '.'
       end as reason,
       loc.name
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "watcher.")}
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "loc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -679,7 +679,7 @@ query "network_virtual_network_gateway_no_basic_sku" {
         when g.sku_name = 'Basic' then g.title || ' using basic SKU.'
         else g.title || ' using ' || sku_name || ' SKU.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "g.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "g.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -702,7 +702,7 @@ query "network_lb_no_basic_sku" {
         when l.sku_name = 'Basic' then l.title || ' using basic SKU.'
         else l.title || ' using ' || sku_name || ' SKU.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "l.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "l.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -725,7 +725,7 @@ query "network_public_ip_no_basic_sku" {
         when i.sku_name = 'Basic' then i.title || ' using basic SKU.'
         else i.title || ' using ' || sku_name || ' SKU.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "i.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "i.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -820,7 +820,7 @@ query "network_security_group_https_access_restricted" {
         when nsg.sg_name is null then sg.title || ' restricts HTTPS access from internet.'
         else sg.title || ' allows HTTPS access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -865,7 +865,7 @@ query "network_security_group_ssh_access_restricted" {
           then sg.title || ' restricts SSH access from internet.'
         else sg.title || ' allows SSH access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -915,7 +915,7 @@ query "network_security_group_udp_service_restricted" {
           then sg.title || ' restricts UDP services from internet.'
         else sg.title || ' allows UDP services from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

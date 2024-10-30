@@ -234,7 +234,7 @@ query "postgresql_server_infrastructure_encryption_enabled" {
         when infrastructure_encryption = 'Enabled' then name || ' infrastructure encryption enabled.'
         else name || ' infrastructure encryption disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -365,7 +365,7 @@ query "postgres_db_server_log_connections_on" {
         when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then s.name || ' server parameter log_connections off.'
         else s.name || ' server parameter log_connections on.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -390,7 +390,7 @@ query "postgres_db_server_log_disconnections_on" {
         when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then name || ' server parameter log_disconnections off.'
         else name || ' server parameter log_disconnections on.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -475,7 +475,7 @@ query "postgres_db_server_allow_access_to_azure_services_disabled" {
         when a.id is not null then s.title || ' does not restrict access to azure services.'
         else s.title || ' restricts access to azure services.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -507,5 +507,129 @@ query "postgres_db_server_latest_tls_version" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_sql_flexible_server_ssl_enabled" {
+  sql = <<-EOQ
+    with ssl_enabled as(
+      select
+        id
+      from
+        azure_postgresql_flexible_server,
+        jsonb_array_elements(flexible_server_configurations) as config
+      where
+        config ->> 'Name' = 'require_secure_transport' and config -> 'ConfigurationProperties' ->> 'value' = 'on'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' SSL connection enabled.'
+        else s.title || ' SSL connection disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_flexible_server as s
+      left join ssl_enabled as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_flexible_server_log_checkpoints_on" {
+  sql = <<-EOQ
+    with log_checkpoints_on as(
+      select
+        id
+      from
+        azure_postgresql_flexible_server,
+        jsonb_array_elements(flexible_server_configurations) as config
+      where
+        config ->> 'Name' = 'log_checkpoints' and config -> 'ConfigurationProperties' ->> 'value' = 'on'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' server parameter log_checkpoints on.'
+        else s.title || ' server parameter log_checkpoints off.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_flexible_server as s
+      left join log_checkpoints_on as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_flexible_server_connection_throttling_on" {
+  sql = <<-EOQ
+    with connection_throttling_on as(
+      select
+        id
+      from
+        azure_postgresql_flexible_server,
+        jsonb_array_elements(flexible_server_configurations) as config
+      where
+        config ->> 'Name' = 'connection_throttle.enable' and config -> 'ConfigurationProperties' ->> 'value' = 'on'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.id is not null then s.title || ' server parameter connection_throttling on.'
+        else s.title || ' server parameter connection_throttling off.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_flexible_server as s
+      left join connection_throttling_on as a on s.id = a.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_flexible_server_log_retention_days_3" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when (config -> 'ConfigurationProperties' ->> 'value')::integer <= 3 then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when (config -> 'ConfigurationProperties' ->> 'value')::integer <= 3 then s.name || ' log files are retained for 3 days or lesser.'
+        else s.name || ' log files are retained for more than 3 days.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_flexible_server s,
+      jsonb_array_elements(flexible_server_configurations) as config,
+      azure_subscription sub
+    where
+      config ->> 'Name' = 'logfiles.retention_days'
+      and sub.subscription_id = s.subscription_id;
   EOQ
 }

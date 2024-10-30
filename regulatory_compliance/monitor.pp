@@ -1175,7 +1175,7 @@ query "monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
           then a.name || ' container insights-activity-logs encrypted with BYOK.'
         else a.name || ' container insights-activity-logs not encrypted with BYOK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

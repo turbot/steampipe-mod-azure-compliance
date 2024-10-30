@@ -1,8 +1,6 @@
 # Azure Compliance Mod for Powerpipe
 
-200+ checks covering industry defined security best practices for Azure. Includes full support for `CIS v1.3`,`CIS v1.4`,`CIS v1.5`,`CIS v2.0`,`CIS v2.1`,`HIPAA HITRUST 9.2`,`NIST SP 800-53`,` NIST SP 800-171` and `PCI DSS v3.2.1` compliance benchmarks across all your Azure subscriptions.
-
-**Includes full support for the CIS v1.3 Azure Benchmarks**.
+200+ checks covering industry defined security best practices for Azure. Includes full support for `CIS v1.3`,`CIS v1.4`,`CIS v1.5`,`CIS v2.0`,`CIS v2.1`,`CIS v3.0`,`HIPAA HITRUST 9.2`,`NIST SP 800-53`,` NIST SP 800-171` and `PCI DSS v3.2.1` compliance benchmarks across all your Azure subscriptions.
 
 Run checks in a dashboard:
 ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png)
@@ -75,7 +73,7 @@ powerpipe benchmark list
 Run a benchmark:
 
 ```sh
-powerpipe benchmark run azure_compliance.benchmark.cis_v200
+powerpipe benchmark run azure_compliance.benchmark.cis_v300
 ```
 
 Different output formats are also available, for more information please see
@@ -95,7 +93,7 @@ vi powerpipe.ppvars
 Alternatively you can pass variables on the command line:
 
 ```sh
-powerpipe benchmark run azure_compliance.benchmark.cis_v200 --var 'tag_dimensions=["Environment", "Owner"]'
+powerpipe benchmark run azure_compliance.benchmark.cis_v300 --var 'tag_dimensions=["Environment", "Owner"]'
 ```
 
 Or through environment variables:
@@ -103,7 +101,7 @@ Or through environment variables:
 ```sh
 export PP_VAR_common_dimensions='["subscription_id", "connection_name", "resource_group"]'
 export PP_VAR_tag_dimensions='["Environment", "Owner"]'
-powerpipe benchmark run azure_compliance.benchmark.cis_v200
+powerpipe benchmark run azure_compliance.benchmark.cis_v300
 ```
 
 ## Open Source & Contributing

@@ -243,7 +243,7 @@ query "storage_account_secure_transfer_required_enabled" {
         when not enable_https_traffic_only then sa.name || ' encryption in transit not enabled.'
         else sa.name || ' encryption in transit enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -266,7 +266,7 @@ query "storage_account_default_network_access_rule_denied" {
         when sa.network_rule_default_action = 'Allow' then name || ' allows traffic from all networks.'
         else name || ' allows traffic from specific networks.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -336,7 +336,7 @@ query "storage_account_uses_private_link" {
         when s.id is null then a.name || ' not uses private link.'
         else a.name || ' uses private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -360,7 +360,7 @@ query "storage_account_infrastructure_encryption_enabled" {
         when require_infrastructure_encryption then name || ' infrastructure encryption enabled.'
         else name || ' infrastructure encryption disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -383,7 +383,7 @@ query "storage_account_block_public_access" {
         when lower(sa.public_network_access) = 'disabled' then sa.name || ' not publicy accessible.'
         else sa.name || ' publicy accessible.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -452,7 +452,7 @@ query "storage_account_encryption_at_rest_using_cmk" {
         when sa.encryption_key_source = 'Microsoft.Storage' then sa.name || ' not encrypted with CMK.'
         else sa.name || ' encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -534,7 +534,7 @@ query "storage_account_blob_containers_public_access_private" {
           then account.name || ' container ' || container.name || ' doesn''t allow anonymous access.'
         else account.name || ' container ' || container.name || ' allows anonymous access.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "account.")}
       ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "container.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -565,7 +565,7 @@ query "storage_account_blob_service_logging_enabled" {
           ) || ' requests.'
         else name || ' blob service logging enabled for read, write, delete requests.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -594,7 +594,7 @@ query "storage_account_table_service_logging_enabled" {
             case when not table_logging_delete then 'delete' end
           ) || ' requests.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -619,7 +619,7 @@ query "storage_account_min_tls_1_2" {
         when minimum_tls_version = 'TLS1_2' then sa.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
         else sa.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -648,7 +648,7 @@ query "storage_account_queue_services_logging_enabled" {
             case when not queue_logging_delete then 'delete' end
           ) || ' requests.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -671,7 +671,7 @@ query "storage_account_soft_delete_enabled" {
         when not blob_soft_delete_enabled then sa.name || ' blobs soft delete disabled.'
         else sa.name || ' blobs soft delete enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -694,7 +694,7 @@ query "storage_account_trusted_microsoft_services_enabled" {
         when network_rule_bypass not like '%AzureServices%' then sa.name || ' trusted Microsoft services not enabled.'
         else sa.name || ' trusted Microsoft services enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

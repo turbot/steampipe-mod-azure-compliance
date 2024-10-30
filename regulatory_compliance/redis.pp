@@ -145,7 +145,7 @@ query "redis_cache_no_basic_sku" {
         when c.sku_name = 'Basic' then c.title || ' using basic SKU.'
         else c.title || ' using ' || sku_name || ' SKU.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

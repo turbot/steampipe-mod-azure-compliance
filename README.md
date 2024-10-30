@@ -1,13 +1,6 @@
 # Azure Compliance Mod for Powerpipe
 
-> [!IMPORTANT]
-> [Powerpipe](https://powerpipe.io) is now the preferred way to run this mod! [Migrating from Steampipe →](https://powerpipe.io/blog/migrating-from-steampipe)
->
-> All v0.x versions of this mod will work in both Steampipe and Powerpipe, but v1.0.0 onwards will be in Powerpipe format only.
-
 200+ checks covering industry defined security best practices for Azure. Includes full support for `CIS v1.3`,`CIS v1.4`,`CIS v1.5`,`CIS v2.0`,`CIS v2.1`,`CIS v3.0`,`HIPAA HITRUST 9.2`,`NIST SP 800-53`,` NIST SP 800-171` and `PCI DSS v3.2.1` compliance benchmarks across all your Azure subscriptions.
-
-**Includes full support for the CIS v1.3 Azure Benchmarks**.
 
 Run checks in a dashboard:
 ![image](https://raw.githubusercontent.com/turbot/steampipe-mod-azure-compliance/main/docs/azure_compliance_dashboard.png)

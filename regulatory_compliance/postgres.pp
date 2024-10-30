@@ -234,7 +234,7 @@ query "postgresql_server_infrastructure_encryption_enabled" {
         when infrastructure_encryption = 'Enabled' then name || ' infrastructure encryption enabled.'
         else name || ' infrastructure encryption disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -365,7 +365,7 @@ query "postgres_db_server_log_connections_on" {
         when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then s.name || ' server parameter log_connections off.'
         else s.name || ' server parameter log_connections on.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -390,7 +390,7 @@ query "postgres_db_server_log_disconnections_on" {
         when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then name || ' server parameter log_disconnections off.'
         else name || ' server parameter log_disconnections on.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -475,7 +475,7 @@ query "postgres_db_server_allow_access_to_azure_services_disabled" {
         when a.id is not null then s.title || ' does not restrict access to azure services.'
         else s.title || ' restricts access to azure services.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -531,7 +531,7 @@ query "postgres_sql_flexible_server_ssl_enabled" {
         when a.id is not null then s.title || ' SSL connection enabled.'
         else s.title || ' SSL connection disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -564,7 +564,7 @@ query "postgres_flexible_server_log_checkpoints_on" {
         when a.id is not null then s.title || ' server parameter log_checkpoints on.'
         else s.title || ' server parameter log_checkpoints off.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -597,7 +597,7 @@ query "postgres_flexible_server_connection_throttling_on" {
         when a.id is not null then s.title || ' server parameter connection_throttling on.'
         else s.title || ' server parameter connection_throttling off.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -621,7 +621,7 @@ query "postgres_flexible_server_log_retention_days_3" {
         when (config -> 'ConfigurationProperties' ->> 'value')::integer <= 3 then s.name || ' log files are retained for 3 days or lesser.'
         else s.name || ' log files are retained for more than 3 days.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

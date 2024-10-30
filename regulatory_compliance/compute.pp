@@ -915,7 +915,7 @@ query "compute_os_and_data_disk_encrypted_with_cmk" {
         when encryption_type = 'EncryptionAtRestWithCustomerKey' then disk.name || ' encrypted with CMK.'
         else disk.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1002,7 +1002,7 @@ query "compute_unattached_disk_encrypted_with_cmk" {
         when encryption_type = 'EncryptionAtRestWithCustomerKey' then disk.name || ' encrypted with CMK.'
         else disk.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2589,7 +2589,7 @@ query "compute_vm_utilizing_managed_disk" {
         when managed_disk_id is null then vm.name || ' VM not utilizing managed disks.'
         else vm.name || ' VM utilizing managed disks.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2805,7 +2805,7 @@ query "compute_disk_public_access_disabled" {
         when network_access_policy in ('DenyAll','AllowPrivate') and public_network_access = 'Disabled' then disk.name || ' network access disabled.'
         else disk.name || ' network access enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2828,7 +2828,7 @@ query "compute_disk_data_access_auth_mode_enabled" {
         when data_access_auth_mode = 'AzureActiveDirectory' then disk.name || ' data authentication mode enabled.'
         else disk.name || ' data authentication mode disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

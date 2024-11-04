@@ -229,7 +229,7 @@ control "cis_v300_5_2_4" {
 control "cis_v300_5_2_5" {
   title         = "5.2.5 Ensure 'Allow public access from any Azure service within Azure to this server' for PostgreSQL flexible server is disabled"
   description   = "Disable access from Azure services to PostgreSQL flexible server."
-  query         = query.postgres_db_server_allow_access_to_azure_services_disabled
+  query         = query.postgres_flexible_server_allow_access_to_azure_services_disabled
   documentation = file("./cis_v300/docs/cis_v300_5_2_5.md")
 
   tags = merge(local.cis_v300_5_2_common_tags, {

@@ -133,6 +133,38 @@ control "mysql_server_min_tls_1_2" {
   tags = local.regulatory_compliance_mysql_common_tags
 }
 
+control "mysql_flexible_server_ssl_enabled" {
+  title         = "Ensure server parameter 'require_secure_transport' is set to 'ON' for MySQL flexible server"
+  description   = "Enable require_secure_transport on MySQL flexible servers."
+  query         = query.mysql_flexible_server_ssl_enabled
+
+  tags = local.regulatory_compliance_mysql_common_tags
+}
+
+control "mysql_flexible_server_min_tls_1_2" {
+  title         = "Ensure server parameter 'tls_version' is set to 'TLSv1.2' (or higher) for MySQL flexible server"
+  description   = "Ensure tls_version on MySQL flexible servers is set to use TLS version 1.2 or higher."
+  query         = query.mysql_flexible_server_min_tls_1_2
+
+  tags = local.regulatory_compliance_mysql_common_tags
+}
+
+control "mysql_flexible_server_audit_logging_enabled" {
+  title         = "Ensure server parameter 'audit_log_enabled' is set to 'ON' for MySQL flexible Server"
+  description   = "Enable audit_log_enabled on MySQL flexible Servers."
+  query         = query.mysql_flexible_server_audit_logging_enabled
+
+  tags = local.regulatory_compliance_mysql_common_tags
+}
+
+control "mysql_flexible_server_audit_logging_events_connection_set" {
+  title         = "Ensure server parameter 'audit_log_events' has 'CONNECTION' set for MySQL flexible Server"
+  description   = "Set audit_log_enabled to include CONNECTION on MySQL flexible servers."
+  query         = query.mysql_flexible_server_audit_logging_events_connection_set
+
+  tags = local.regulatory_compliance_mysql_common_tags
+}
+
 query "mysql_ssl_enabled" {
   sql = <<-EOQ
     select

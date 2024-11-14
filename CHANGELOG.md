@@ -1,3 +1,26 @@
+## v1.2.0 [2024-11-14]
+
+_Dependencies_
+
+- Azure plugin `v1.1.0` or higher is now required. ([#290](https://github.com/turbot/steampipe-mod-azure-compliance/pull/290))
+
+_Enhancements_
+
+- Added the following controls to the `All Controls` benchmark: ([#290](https://github.com/turbot/steampipe-mod-azure-compliance/pull/290))
+  - `mysql_flexible_server_audit_logging_enabled`
+  - `mysql_flexible_server_audit_logging_events_connection_set`
+  - `mysql_flexible_server_min_tls_1_2`
+  - `mysql_flexible_server_ssl_enabled`
+  - `postgres_flexible_server_allow_access_to_azure_services_disabled`
+  - `postgres_flexible_server_connection_throttling_on`
+  - `postgres_flexible_server_log_checkpoints_on`
+  - `postgres_flexible_server_log_retention_days_3`
+  - `postgres_sql_flexible_server_ssl_enabled`
+
+_Bug fixes_
+
+- Fixed the `cis_v300_5_2_5` control to correctly use `postgres_flexible_server_allow_access_to_azure_services_disabled` query instead of `postgres_db_server_allow_access_to_azure_services_disabled` query. ([#290](https://github.com/turbot/steampipe-mod-azure-compliance/pull/290))
+
 ## v1.1.0 [2024-10-30]
 
 _What's new?_

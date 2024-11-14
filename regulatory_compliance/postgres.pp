@@ -153,6 +153,46 @@ control "postgres_db_server_allow_access_to_azure_services_disabled" {
   tags = local.regulatory_compliance_postgres_common_tags
 }
 
+control "postgres_flexible_server_allow_access_to_azure_services_disabled" {
+  title         = "Ensure 'Allow public access from any Azure service within Azure to this server' for PostgreSQL flexible server is disabled"
+  description   = "Disable access from Azure services to PostgreSQL flexible server."
+  query         = query.postgres_flexible_server_allow_access_to_azure_services_disabled
+
+  tags = local.regulatory_compliance_postgres_common_tags
+}
+
+control "postgres_sql_flexible_server_ssl_enabled" {
+  title         = "Ensure server parameter 'require_secure_transport' is set to 'ON' for PostgreSQL flexible server"
+  description   = "Enable 'require_secure_transport' on 'PostgreSQL flexible servers'."
+  query         = query.postgres_sql_flexible_server_ssl_enabled
+
+  tags = local.regulatory_compliance_postgres_common_tags
+}
+
+control "postgres_flexible_server_log_checkpoints_on" {
+  title         = "Ensure server parameter 'log_checkpoints' is set to 'ON' for PostgreSQL flexible Server"
+  description   = "Enable 'log_checkpoints' on 'PostgreSQL Servers'."
+  query         = query.postgres_flexible_server_log_checkpoints_on
+
+  tags = local.regulatory_compliance_postgres_common_tags
+}
+
+control "postgres_flexible_server_connection_throttling_on" {
+  title         = "Ensure server parameter 'connection_throttle.enable' is set to 'ON' for PostgreSQL flexible Server"
+  description   = "Enable connection_throttling on PostgreSQL flexible Servers."
+  query         = query.postgres_flexible_server_connection_throttling_on
+
+  tags = local.regulatory_compliance_postgres_common_tags
+}
+
+control "postgres_flexible_server_log_retention_days_3" {
+  title         = "Ensure Server Parameter 'logfiles.retention_days' is greater than 3 days for PostgreSQL flexible Server"
+  description   = "Ensure logfiles.retention_days on PostgreSQL flexible Servers is set to an appropriate value."
+  query         = query.postgres_flexible_server_log_retention_days_3
+
+  tags = local.regulatory_compliance_postgres_common_tags
+}
+
 query "postgres_db_server_geo_redundant_backup_enabled" {
   sql = <<-EOQ
     select
@@ -631,5 +671,39 @@ query "postgres_flexible_server_log_retention_days_3" {
     where
       config ->> 'Name' = 'logfiles.retention_days'
       and sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
+query "postgres_flexible_server_allow_access_to_azure_services_disabled" {
+  sql = <<-EOQ
+    with postgres_flexible_server_with_allow_access_to_azure_services as (
+      select
+        id
+      from
+        azure_postgresql_flexible_server,
+        jsonb_array_elements(firewall_rules) as r
+      where
+        r -> 'properties' ->> 'endIpAddress' = '0.0.0.0'
+        or r -> 'properties' ->> 'startIpAddress' = '0.0.0.0'
+    )
+    select
+      s.id as resource,
+      case
+        when a.id is not null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when a.id is not null then s.title || ' does not restrict access to azure services.'
+        else s.title || ' restricts access to azure services.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_flexible_server as s
+      left join postgres_flexible_server_with_allow_access_to_azure_services as a on a.id = s.id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = s.subscription_id;
   EOQ
 }

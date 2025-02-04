@@ -124,8 +124,8 @@ query "cosmosdb_account_with_firewall_rules" {
           public_network_access = 'Enabled'
           and is_virtual_network_filter_enabled = 'false'
           and jsonb_array_length(ip_rules) = 0
-          then a.name || ' not have firewall rules.'
-        else a.name || ' have firewall rules.'
+          then a.name || ' does not have firewall rules.'
+        else a.name || ' has firewall rules.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

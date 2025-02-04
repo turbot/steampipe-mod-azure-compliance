@@ -1000,7 +1000,7 @@ query "appservice_function_app_uses_managed_identity" {
           configuration -> 'properties' ->> 'xManagedServiceIdentityId' is not null
           or configuration -> 'properties' ->> 'managedServiceIdentityId' is not null
           then a.name || ' uses managed identity.'
-        else a.name || ' not uses managed identity'
+        else a.name || ' does not use managed identity'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

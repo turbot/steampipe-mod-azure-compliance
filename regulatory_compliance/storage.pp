@@ -69,7 +69,7 @@ control "storage_account_infrastructure_encryption_enabled" {
 }
 
 control "storage_account_block_public_access" {
-  title       = "Storage Account public access should be disallowed"
+  title       = "Storage account public access should be disallowed"
   description = "Anonymous public read access to containers and blobs in Azure Storage is a convenient way to share data but might present security risks. To prevent data breaches caused by undesired anonymous access, Microsoft recommends preventing public access to a storage account unless your scenario requires it."
   query       = query.storage_account_block_public_access
 

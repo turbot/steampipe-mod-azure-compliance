@@ -1000,7 +1000,7 @@ query "appservice_function_app_uses_managed_identity" {
           configuration -> 'properties' ->> 'xManagedServiceIdentityId' is not null
           or configuration -> 'properties' ->> 'managedServiceIdentityId' is not null
           then a.name || ' uses managed identity.'
-        else a.name || ' not uses managed identity'
+        else a.name || ' does not use managed identity'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -1270,7 +1270,7 @@ query "appservice_function_app_latest_http_version" {
       end as status,
       case
         when b.id is null then a.title || ' is not a linux function app.'
-        when configuration -> 'properties' ->> 'http20Enabled' = 'true' then a.name || ' using the latest HTTP version.'
+        when configuration -> 'properties' ->> 'http20Enabled' = 'true' then a.name || ' is using the latest HTTP version.'
         else a.name || ' not using latest HTTP version.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -1294,8 +1294,8 @@ query "appservice_web_app_latest_http_version" {
         else 'ok'
       end as status,
       case
-        when not (configuration -> 'properties' ->> 'http20Enabled') :: boolean then name || ' HTTP version not latest.'
-        else name || ' HTTP version is latest.'
+        when not (configuration -> 'properties' ->> 'http20Enabled') :: boolean then name || ' is not using the latest HTTP version.'
+        else name || ' HTTP version is the latest.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}

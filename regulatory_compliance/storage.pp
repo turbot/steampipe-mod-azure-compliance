@@ -380,8 +380,8 @@ query "storage_account_block_public_access" {
         else 'alarm'
       end as status,
       case
-        when lower(sa.public_network_access) = 'disabled' then sa.name || ' not publicy accessible.'
-        else sa.name || ' publicy accessible.'
+        when lower(sa.public_network_access) = 'disabled' then sa.name || ' not publicly accessible.'
+        else sa.name || ' publicly accessible.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}

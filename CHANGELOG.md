@@ -1,3 +1,9 @@
+## v1.2.1 [2024-04-14]
+
+_Bug fixes_
+
+- Fixed the naming of `Event Hubs` and `Recovery Services` service tags to match the naming conventions used in the Azure plugin. ([#298](https://github.com/turbot/steampipe-mod-azure-compliance/pull/298))
+
 ## v1.2.0 [2024-11-14]
 
 _Dependencies_

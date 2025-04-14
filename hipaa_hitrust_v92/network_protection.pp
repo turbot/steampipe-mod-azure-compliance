@@ -286,7 +286,7 @@ benchmark "hipaa_hitrust_v92_0863_09m2organizational" {
   ]
 
   tags = merge(local.hipaa_hitrust_v92_common_tags, {
-    service = "Azure/EventHub"
+    service = "Azure/EventHubs"
   })
 }
 

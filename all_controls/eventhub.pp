@@ -1,6 +1,6 @@
 locals {
   all_controls_eventhub_common_tags = merge(local.all_controls_common_tags, {
-    service = "Azure/EventHub"
+    service = "Azure/EventHubs"
   })
 }
 

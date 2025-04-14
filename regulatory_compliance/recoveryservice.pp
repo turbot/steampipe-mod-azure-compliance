@@ -1,6 +1,6 @@
 locals {
   regulatory_compliance_recoveryservice_common_tags = {
-    service = "Azure/RecoveryService"
+    service = "Azure/RecoveryServices"
   }
 }
 

@@ -1,6 +1,6 @@
 locals {
   all_controls_recoveryservice_common_tags = merge(local.all_controls_common_tags, {
-    service = "Azure/RecoveryService"
+    service = "Azure/RecoveryServices"
   })
 }
 

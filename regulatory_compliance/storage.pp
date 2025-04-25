@@ -231,6 +231,14 @@ control "storage_account_containing_vhd_os_disk_cmk_encrypted" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_encryption_at_rest_using_mmk" {
+  title       = "Storage accounts should use Microsoft-managed key for encryption"
+  description = "Use Microsoft-managed key to encrypt your storage account. Microsoft-managed key is the default and simplest option for encryption at rest."
+  query       = query.storage_account_encryption_at_rest_using_mmk
+
+    tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select
@@ -451,6 +459,29 @@ query "storage_account_encryption_at_rest_using_cmk" {
       case
         when sa.encryption_key_source = 'Microsoft.Storage' then sa.name || ' not encrypted with CMK.'
         else sa.name || ' encrypted with CMK.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_encryption_at_rest_using_mmk" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when sa.encryption_key_source = 'Microsoft.Storage' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sa.encryption_key_source = 'Microsoft.Storage' then sa.name || ' encrypted with MMK.'
+        else sa.name || ' not encrypted with MMK.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}

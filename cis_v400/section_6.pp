@@ -50,7 +50,7 @@ benchmark "cis_v400_6" {
 
   tags = merge(local.cis_v400_6_common_tags, {
     type    = "Benchmark"
-    service = "Azure/IAM"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -72,7 +72,7 @@ benchmark "cis_v400_6_1" {
 control "cis_v400_6_1_1" {
   title         = "6.1.1 Ensure that 'security defaults' is enabled in Microsoft Entra ID"
   description   = "Security defaults in Microsoft Entra ID make it easier to be secure and help protect your organization."
-  query         = query.manual_control
+  query         = query.ad_manual_control
   documentation = file("./cis_v400/docs/cis_v400_6_1_1.md")
 
   tags = merge(local.cis_v400_6_1_common_tags, {
@@ -133,7 +133,7 @@ benchmark "cis_v400_6_2" {
 control "cis_v400_6_2_1" {
   title         = "6.2.1 Ensure that 'trusted locations' are defined"
   description   = "Microsoft Entra ID Conditional Access allows an organization to configure `Named locations` and configure whether those locations are trusted or untrusted."
-  query         = query.manual_control
+  query         = query.ad_manual_control
   documentation = file("./cis_v400/docs/cis_v400_6_2_1.md")
 
   tags = merge(local.cis_v400_6_2_common_tags, {
@@ -147,7 +147,7 @@ control "cis_v400_6_2_1" {
 control "cis_v400_6_2_2" {
   title         = "6.2.2 Ensure that an exclusionary geographic Conditional Access policy is considered"
   description   = "Conditional Access Policies can be used to block access from geographic locations that are deemed out-of-scope for your organization or application."
-  query         = query.manual_control
+  query         = query.ad_manual_control
   documentation = file("./cis_v400/docs/cis_v400_6_2_2.md")
 
   tags = merge(local.cis_v400_6_2_common_tags, {
@@ -202,8 +202,8 @@ control "cis_v400_6_2_5" {
 
 control "cis_v400_6_2_6" {
   title         = "6.2.6 Ensure that multifactor authentication is required for Windows Azure Service Management API"
-  description   = "This recommendation ensures that users accessing the Windows Azure Service Management API (i."
-  query         = query.manual_control
+  description   = "This recommendation ensures that users accessing the Windows Azure Service Management API (i.e. Azure Powershell, Azure CLI, Azure Resource Manager API, etc.) are required to use multifactor authentication (MFA) credentials when accessing resources through the Windows Azure Service Management API."
+  query         = query.iam_conditional_access_mfa_enabled
   documentation = file("./cis_v400/docs/cis_v400_6_2_6.md")
 
   tags = merge(local.cis_v400_6_2_common_tags, {
@@ -216,8 +216,8 @@ control "cis_v400_6_2_6" {
 
 control "cis_v400_6_2_7" {
   title         = "6.2.7 Ensure that multifactor authentication is required to access Microsoft Admin Portals"
-  description   = "This recommendation ensures that users accessing Microsoft Admin Portals (i."
-  query         = query.manual_control
+  description   = "This recommendation ensures that users accessing Microsoft Admin Portals (i.e. Microsoft 365 Admin, Microsoft 365 Defender, Exchange Admin Center, Azure Portal, etc.) are required to use multifactor authentication (MFA) credentials when logging into an Admin Portal."
+  query         = query.iam_conditional_access_mfa_enabled_for_administrators
   documentation = file("./cis_v400/docs/cis_v400_6_2_7.md")
 
   tags = merge(local.cis_v400_6_2_common_tags, {
@@ -240,7 +240,7 @@ benchmark "cis_v400_6_3" {
 
   tags = merge(local.cis_v400_6_3_common_tags, {
     type    = "Benchmark"
-    service = "Azure/IAM"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -254,21 +254,21 @@ control "cis_v400_6_3_1" {
     cis_item_id = "6.3.1"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
 control "cis_v400_6_3_2" {
   title         = "6.3.2 Ensure that guest users are reviewed on a regular basis"
   description   = "Microsoft Entra ID has native and extended identity functionality allowing you to invite people from outside your organization to be guest users in your cloud account and sign in with their own work, school, or social identities."
-  query         = query.manual_control
+  query         = query.ad_guest_user_reviewed_monthly
   documentation = file("./cis_v400/docs/cis_v400_6_3_2.md")
 
   tags = merge(local.cis_v400_6_3_common_tags, {
     cis_item_id = "6.3.2"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -282,7 +282,7 @@ control "cis_v400_6_3_3" {
     cis_item_id = "6.3.3"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -296,21 +296,21 @@ control "cis_v400_6_3_4" {
     cis_item_id = "6.3.4"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
 control "cis_v400_6_4" {
   title         = "6.4 Ensure that 'Restrict non-admin users from creating tenants' is set to 'Yes'"
   description   = "Require administrators or appropriately delegated users to create new tenants."
-  query         = query.automated
+  query         = query.ad_manual_control
   documentation = file("./cis_v400/docs/cis_v400_6_4.md")
 
   tags = merge(local.cis_v400_6_common_tags, {
     cis_item_id = "6.4"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -324,7 +324,7 @@ control "cis_v400_6_5" {
     cis_item_id = "6.5"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -338,7 +338,7 @@ control "cis_v400_6_6" {
     cis_item_id = "6.6"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -352,7 +352,7 @@ control "cis_v400_6_7" {
     cis_item_id = "6.7"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -366,7 +366,7 @@ control "cis_v400_6_8" {
     cis_item_id = "6.8"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -380,7 +380,7 @@ control "cis_v400_6_9" {
     cis_item_id = "6.9"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -394,7 +394,7 @@ control "cis_v400_6_10" {
     cis_item_id = "6.10"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -408,7 +408,7 @@ control "cis_v400_6_11" {
     cis_item_id = "6.11"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -422,7 +422,7 @@ control "cis_v400_6_12" {
     cis_item_id = "6.12"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -436,49 +436,49 @@ control "cis_v400_6_13" {
     cis_item_id = "6.13"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
 control "cis_v400_6_14" {
   title         = "6.14 Ensure that 'Users can register applications' is set to 'No'"
   description   = "Require administrators or appropriately delegated users to register third-party applications."
-  query         = query.automated
+  query         = query.iam_user_not_allowed_to_register_application
   documentation = file("./cis_v400/docs/cis_v400_6_14.md")
 
   tags = merge(local.cis_v400_6_common_tags, {
     cis_item_id = "6.14"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
 control "cis_v400_6_15" {
   title         = "6.15 Ensure that 'Guest users access restrictions' is set to 'Guest user access is restricted to properties and memberships of their own directory objects'"
   description   = "Limit guest user permissions."
-  query         = query.automated
+  query         = query.ad_manual_control
   documentation = file("./cis_v400/docs/cis_v400_6_15.md")
 
   tags = merge(local.cis_v400_6_common_tags, {
     cis_item_id = "6.15"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
 control "cis_v400_6_16" {
   title         = "6.16 Ensure that 'Guest invite restrictions' is set to 'Only users assigned to specific admin roles can invite guest users'"
   description   = "Restrict invitations to users with specific administrative roles only."
-  query         = query.automated
+  query         = query.ad_manual_control
   documentation = file("./cis_v400/docs/cis_v400_6_16.md")
 
   tags = merge(local.cis_v400_6_common_tags, {
     cis_item_id = "6.16"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -492,7 +492,7 @@ control "cis_v400_6_17" {
     cis_item_id = "6.17"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -506,21 +506,21 @@ control "cis_v400_6_18" {
     cis_item_id = "6.18"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
 control "cis_v400_6_19" {
   title         = "6.19 Ensure that 'Users can create security groups in Azure portals, API or PowerShell' is set to 'No'"
   description   = "Restrict security group creation to administrators only."
-  query         = query.manual_control
+  query         = query.iam_user_not_allowed_to_create_security_group
   documentation = file("./cis_v400/docs/cis_v400_6_19.md")
 
   tags = merge(local.cis_v400_6_common_tags, {
     cis_item_id = "6.19"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -534,7 +534,7 @@ control "cis_v400_6_20" {
     cis_item_id = "6.20"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -548,7 +548,7 @@ control "cis_v400_6_21" {
     cis_item_id = "6.21"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -562,21 +562,21 @@ control "cis_v400_6_22" {
     cis_item_id = "6.22"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
 control "cis_v400_6_23" {
   title         = "6.23 Ensure that no custom subscription administrator roles exist"
   description   = "The principle of least privilege should be followed and only necessary privileges should be assigned instead of allowing full administrative access."
-  query         = query.automated
+  query         = query.iam_no_custom_subscription_owner_roles_created
   documentation = file("./cis_v400/docs/cis_v400_6_23.md")
 
   tags = merge(local.cis_v400_6_common_tags, {
     cis_item_id = "6.23"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -590,7 +590,7 @@ control "cis_v400_6_24" {
     cis_item_id = "6.24"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -604,20 +604,20 @@ control "cis_v400_6_25" {
     cis_item_id = "6.25"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
 control "cis_v400_6_26" {
   title         = "6.26 Ensure fewer than 5 users have global administrator assignment"
   description   = "This recommendation aims to maintain a balance between security and operational efficiency by ensuring that a minimum of 2 and a maximum of 4 users are assigned the Global Administrator role in Microsoft Entra ID."
-  query         = query.manual_control
+  query         = query.iam_global_administrator_max_5
   documentation = file("./cis_v400/docs/cis_v400_6_26.md")
 
   tags = merge(local.cis_v400_6_common_tags, {
     cis_item_id = "6.26"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/IAM"
+    service     = "Azure/ActiveDirectory"
   })
 }

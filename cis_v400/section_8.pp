@@ -27,7 +27,7 @@ benchmark "cis_v400_8" {
 control "cis_v400_8_1" {
   title         = "8.1 Ensure that RDP access from the Internet is evaluated and restricted"
   description   = "Network security groups should be periodically evaluated for port misconfigurations."
-  query         = query.automated
+  query         = query.network_security_group_rdp_access_restricted
   documentation = file("./cis_v400/docs/cis_v400_8_1.md")
 
   tags = merge(local.cis_v400_8_common_tags, {
@@ -41,7 +41,7 @@ control "cis_v400_8_1" {
 control "cis_v400_8_2" {
   title         = "8.2 Ensure that SSH access from the Internet is evaluated and restricted"
   description   = "Network security groups should be periodically evaluated for port misconfigurations."
-  query         = query.automated
+  query         = query.network_security_group_ssh_access_restricted
   documentation = file("./cis_v400/docs/cis_v400_8_2.md")
 
   tags = merge(local.cis_v400_8_common_tags, {
@@ -55,7 +55,7 @@ control "cis_v400_8_2" {
 control "cis_v400_8_3" {
   title         = "8.3 Ensure that UDP access from the Internet is evaluated and restricted"
   description   = "Network security groups should be periodically evaluated for port misconfigurations."
-  query         = query.automated
+  query         = query.network_security_group_udp_service_restricted
   documentation = file("./cis_v400/docs/cis_v400_8_3.md")
 
   tags = merge(local.cis_v400_8_common_tags, {
@@ -69,7 +69,7 @@ control "cis_v400_8_3" {
 control "cis_v400_8_4" {
   title         = "8.4 Ensure that HTTP(S) access from the Internet is evaluated and restricted"
   description   = "Network security groups should be periodically evaluated for port misconfigurations."
-  query         = query.automated
+  query         = query.network_security_group_https_access_restricted
   documentation = file("./cis_v400/docs/cis_v400_8_4.md")
 
   tags = merge(local.cis_v400_8_common_tags, {
@@ -83,7 +83,7 @@ control "cis_v400_8_4" {
 control "cis_v400_8_5" {
   title         = "8.5 Ensure that Network Security Group Flow Log retention period is 'greater than 90 days'"
   description   = "Network Security Group Flow Logs should be enabled and the retention period set to greater than or equal to 90 days."
-  query         = query.automated
+  query         = query.network_sg_flowlog_retention_period_greater_than_90
   documentation = file("./cis_v400/docs/cis_v400_8_5.md")
 
   tags = merge(local.cis_v400_8_common_tags, {
@@ -97,7 +97,7 @@ control "cis_v400_8_5" {
 control "cis_v400_8_6" {
   title         = "8.6 Ensure that Network Watcher is 'Enabled' for Azure Regions that are in use"
   description   = "Enable Network Watcher for physical regions in Azure subscriptions."
-  query         = query.automated
+  query         = query.network_watcher_enabled
   documentation = file("./cis_v400/docs/cis_v400_8_6.md")
 
   tags = merge(local.cis_v400_8_common_tags, {

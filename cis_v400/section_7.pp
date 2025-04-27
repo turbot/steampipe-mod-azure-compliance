@@ -89,7 +89,7 @@ control "cis_v400_7_1_1_1" {
 control "cis_v400_7_1_1_2" {
   title         = "7.1.1.2 Ensure Diagnostic Setting captures appropriate categories"
   description   = "The diagnostic setting should be configured to log the appropriate activities from the control/management plane."
-  query         = query.automated
+  query         = query.monitor_diagnostic_settings_captures_proper_categories
   documentation = file("./cis_v400/docs/cis_v400_7_1_1_2.md")
 
   tags = merge(local.cis_v400_7_1_1_common_tags, {
@@ -103,7 +103,7 @@ control "cis_v400_7_1_1_2" {
 control "cis_v400_7_1_1_3" {
   title         = "7.1.1.3 Ensure the storage account containing the container with activity logs is encrypted with Customer Managed Key (CMK)"
   description   = "Storage accounts with the activity log exports can be configured to use Customer Managed Keys (CMK)."
-  query         = query.automated
+  query         = query.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
   documentation = file("./cis_v400/docs/cis_v400_7_1_1_3.md")
 
   tags = merge(local.cis_v400_7_1_1_common_tags, {
@@ -117,7 +117,7 @@ control "cis_v400_7_1_1_3" {
 control "cis_v400_7_1_1_4" {
   title         = "7.1.1.4 Ensure that logging for Azure Key Vault is 'Enabled'"
   description   = "Enable AuditEvent logging for key vault instances to ensure interactions with key vaults are logged and available."
-  query         = query.automated
+  query         = query.keyvault_logging_enabled
   documentation = file("./cis_v400/docs/cis_v400_7_1_1_4.md")
 
   tags = merge(local.cis_v400_7_1_1_common_tags, {
@@ -238,7 +238,7 @@ benchmark "cis_v400_7_1_2" {
 control "cis_v400_7_1_2_1" {
   title         = "7.1.2.1 Ensure that Activity Log Alert exists for Create Policy Assignment"
   description   = "Create an activity log alert for the Create Policy Assignment event."
-  query         = query.automated
+  query         = query.monitor_log_alert_create_policy_assignment
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_1.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -252,7 +252,7 @@ control "cis_v400_7_1_2_1" {
 control "cis_v400_7_1_2_2" {
   title         = "7.1.2.2 Ensure that Activity Log Alert exists for Delete Policy Assignment"
   description   = "Create an activity log alert for the Delete Policy Assignment event."
-  query         = query.automated
+  query         = query.monitor_log_alert_delete_policy_assignment
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_2.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -266,7 +266,7 @@ control "cis_v400_7_1_2_2" {
 control "cis_v400_7_1_2_3" {
   title         = "7.1.2.3 Ensure that Activity Log Alert exists for Create or Update Network Security Group"
   description   = "Create an Activity Log Alert for the Create or Update Network Security Group event."
-  query         = query.automated
+  query         = query.monitor_log_alert_create_update_nsg
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_3.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -280,7 +280,7 @@ control "cis_v400_7_1_2_3" {
 control "cis_v400_7_1_2_4" {
   title         = "7.1.2.4 Ensure that Activity Log Alert exists for Delete Network Security Group"
   description   = "Create an activity log alert for the Delete Network Security Group event."
-  query         = query.automated
+  query         = query.monitor_log_alert_delete_nsg
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_4.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -294,7 +294,7 @@ control "cis_v400_7_1_2_4" {
 control "cis_v400_7_1_2_5" {
   title         = "7.1.2.5 Ensure that Activity Log Alert exists for Create or Update Security Solution"
   description   = "Create an activity log alert for the Create or Update Security Solution event."
-  query         = query.automated
+  query         = query.monitor_log_alert_create_update_security_solution
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_5.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -308,7 +308,7 @@ control "cis_v400_7_1_2_5" {
 control "cis_v400_7_1_2_6" {
   title         = "7.1.2.6 Ensure that Activity Log Alert exists for Delete Security Solution"
   description   = "Create an activity log alert for the Delete Security Solution event."
-  query         = query.automated
+  query         = query.monitor_log_alert_delete_security_solution
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_6.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -322,7 +322,7 @@ control "cis_v400_7_1_2_6" {
 control "cis_v400_7_1_2_7" {
   title         = "7.1.2.7 Ensure that Activity Log Alert exists for Create or Update SQL Server Firewall Rule"
   description   = "Create an activity log alert for the Create or Update SQL Server Firewall Rule event."
-  query         = query.automated
+  query         = query.monitor_log_alert_create_update_sql_servers_firewall_rule
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_7.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -336,7 +336,7 @@ control "cis_v400_7_1_2_7" {
 control "cis_v400_7_1_2_8" {
   title         = "7.1.2.8 Ensure that Activity Log Alert exists for Delete SQL Server Firewall Rule"
   description   = "Create an activity log alert for the \"Delete SQL Server Firewall Rule."
-  query         = query.automated
+  query         = query.monitor_log_alert_delete_sql_servers_firewall_rule
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_8.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -350,7 +350,7 @@ control "cis_v400_7_1_2_8" {
 control "cis_v400_7_1_2_9" {
   title         = "7.1.2.9 Ensure that Activity Log Alert exists for Create or Update Public IP Address rule"
   description   = "Create an activity log alert for the Create or Update Public IP Addresses rule."
-  query         = query.automated
+  query         = query.monitor_log_alert_create_update_public_ip_address
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_9.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -364,7 +364,7 @@ control "cis_v400_7_1_2_9" {
 control "cis_v400_7_1_2_10" {
   title         = "7.1.2.10 Ensure that Activity Log Alert exists for Delete Public IP Address rule"
   description   = "Create an activity log alert for the Delete Public IP Address rule."
-  query         = query.automated
+  query         = query.monitor_log_alert_delete_public_ip_address
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_10.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
@@ -405,7 +405,7 @@ benchmark "cis_v400_7_1_3" {
 control "cis_v400_7_1_3_1" {
   title         = "7.1.3.1 Ensure Application Insights are Configured"
   description   = "Application Insights within Azure act as an Application Performance Monitoring solution providing valuable data into how well an application performs and additional information when performing incident response."
-  query         = query.automated
+  query         = query.monitor_application_insights_configured
   documentation = file("./cis_v400/docs/cis_v400_7_1_3_1.md")
 
   tags = merge(local.cis_v400_7_1_3_common_tags, {

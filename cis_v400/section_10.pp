@@ -320,7 +320,7 @@ control "cis_v400_10_3_4" {
 
 control "cis_v400_10_3_5" {
   title         = "10.3.5 Ensure 'Allow Azure services on the trusted services list to access this storage account' is Enabled for Storage Account Access"
-  description   = "_NOTE:_ This recommendation assumes that the `Public network access` parameter is set to `Enabled from selected virtual networks and IP addresses`."
+  description   = "This recommendation assumes that the `Public network access` parameter is set to `Enabled from selected virtual networks and IP addresses`."
   query         = query.automated
   documentation = file("./cis_v400/docs/cis_v400_10_3_5.md")
 
@@ -335,7 +335,7 @@ control "cis_v400_10_3_5" {
 control "cis_v400_10_3_6" {
   title         = "10.3.6 Ensure Soft Delete is Enabled for Azure Containers and Blob Storage"
   description   = "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal."
-  query         = query.automated
+  query         = query.storage_account_soft_delete_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_6.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {
@@ -349,7 +349,7 @@ control "cis_v400_10_3_6" {
 control "cis_v400_10_3_7" {
   title         = "10.3.7 Ensure the 'Minimum TLS version' for storage accounts is set to 'Version 1.2'"
   description   = "In some cases, Azure Storage sets the minimum TLS version to be version 1."
-  query         = query.automated
+  query         = query.storage_account_min_tls_1_2
   documentation = file("./cis_v400/docs/cis_v400_10_3_7.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {
@@ -376,8 +376,8 @@ control "cis_v400_10_3_8" {
 
 control "cis_v400_10_3_9" {
   title         = "10.3.9 Ensure that 'Allow Blob Anonymous Access' is set to 'Disabled'"
-  description   = "The Azure Storage setting ‘Allow Blob Anonymous Access’ (aka \"allowBlobPublicAccess\") controls whether anonymous access is allowed for blob data in a storage account."
-  query         = query.automated
+  description   = "The Azure Storage setting 'Allow Blob Anonymous Access' (aka \"allowBlobPublicAccess\") controls whether anonymous access is allowed for blob data in a storage account."
+  query         = query.storage_account_blob_containers_public_access_private
   documentation = file("./cis_v400/docs/cis_v400_10_3_9.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {
@@ -419,7 +419,7 @@ control "cis_v400_10_3_11" {
 control "cis_v400_10_3_12" {
   title         = "10.3.12 Ensure Redundancy is set to 'geo-redundant storage (GRS)' on critical Azure Storage Accounts"
   description   = "Geo-redundant storage (GRS) in Azure replicates data three times within the primary region using locally redundant storage (LRS) and asynchronously copies it to a secondary region hundreds of miles away."
-  query         = query.automated
+  query         = query.storage_account_geo_redundant_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_12.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {

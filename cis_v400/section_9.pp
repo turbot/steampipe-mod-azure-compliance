@@ -103,7 +103,7 @@ benchmark "cis_v400_9_1_3" {
 control "cis_v400_9_1_3_1" {
   title         = "9.1.3.1 Ensure that Defender for Servers is set to 'On'"
   description   = "The Defender for Servers plan in Microsoft Defender for Cloud reduces security risk by providing actionable recommendations to improve and remediate machine security posture."
-  query         = query.automated
+  query         = query.security_center_defender_for_servers_enabled
   documentation = file("./cis_v400/docs/cis_v400_9_1_3_1.md")
 
   tags = merge(local.cis_v400_9_1_3_common_tags, {

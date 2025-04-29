@@ -857,3 +857,27 @@ query "securitycenter_container_image_scan_enabled" {
       right join azure_subscription sub on sub_assessment.subscription_id = sub.subscription_id;
   EOQ
 }
+
+query "security_center_defender_for_servers_enabled" {
+  sql = <<-EOQ
+    SELECT
+      p.id AS resource,
+      CASE
+        WHEN p.name = 'VirtualMachines' AND p.pricing_tier = 'Standard' THEN 'ok'
+        ELSE 'alarm'
+      END AS status,
+      CASE
+        WHEN p.name = 'VirtualMachines' AND p.pricing_tier = 'Standard' 
+          THEN 'Microsoft Defender for Servers is enabled with ' || p.pricing_tier || ' tier.'
+        WHEN p.name = 'VirtualMachines' 
+          THEN 'Microsoft Defender for Servers is disabled, current tier: ' || p.pricing_tier || '.'
+        ELSE 'Microsoft Defender for Servers pricing not found.'
+      END AS reason,
+      p.subscription_id,
+      p.cloud_environment
+    FROM
+      azure_security_center_subscription_pricing p
+    WHERE
+      p.name = 'VirtualMachines';
+  EOQ
+}

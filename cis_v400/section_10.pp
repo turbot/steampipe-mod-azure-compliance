@@ -1,5 +1,5 @@
 locals {
-  cis_v400_10_common_tags = merge(local.cis_v400_10_common_tags, {
+  cis_v400_10_common_tags = merge(local.cis_v400_common_tags, {
     cis_section_id = "10"
   })
 }
@@ -128,14 +128,14 @@ control "cis_v400_10_2_1" {
 control "cis_v400_10_2_2" {
   title         = "10.2.2 Ensure 'Versioning' is set to 'Enabled' on Azure Blob Storage storage accounts"
   description   = "Enabling blob versioning allows for the automatic retention of previous versions of objects."
-  query         = query.automated
+  query         = query.storage_account_blob_versioning_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_2_2.md")
 
   tags = merge(local.cis_v400_10_2_common_tags, {
     cis_item_id = "10.2.2"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 

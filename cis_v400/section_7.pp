@@ -1,5 +1,5 @@
 locals {
-  cis_v400_7_common_tags = merge(local.cis_v400_7_common_tags, {
+  cis_v400_7_common_tags = merge(local.cis_v400_common_tags, {
     cis_section_id = "7"
   })
 }

@@ -859,3 +859,43 @@ query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
       and vm.os_disk_vhd_uri like '%' || sa.name || '%';
   EOQ
 }
+
+query "storage_account_blob_versioning_enabled" {
+  sql = <<-EOQ
+    with storage_accounts as materialized (
+      select 
+        name as storage_account_name,
+        id,
+        resource_group
+      from 
+        azure_storage_account
+    ),
+    blob_services as materialized (
+      select 
+        storage_account_name,
+        is_versioning_enabled,
+        resource_group
+      from 
+        azure_storage_blob_service
+    )
+    select 
+      sa.id as resource,
+      case
+        when bs.is_versioning_enabled then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when bs.is_versioning_enabled then sa.storage_account_name || ' has blob versioning enabled.'
+        else sa.storage_account_name || ' has blob versioning disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from 
+      storage_accounts sa
+      left join blob_services bs on sa.storage_account_name = bs.storage_account_name
+      left join azure_subscription sub on sub.subscription_id = (split_part(sa.id, '/', 3))
+    order by
+      sa.storage_account_name;
+  EOQ
+}

@@ -221,7 +221,7 @@ control "user_access_administrator_role_restricted" {
   query       = query.user_access_administrator_role_restricted
 
   tags = merge(local.regulatory_compliance_iam_common_tags, {
-    nist_sp_800_53_rev_5 = ["AC-2", "AC-2(7)", "AC-6"]
+    nist_sp_800_53_rev_5 = "AC-2, AC-2(7), AC-6"
   })
 }
 

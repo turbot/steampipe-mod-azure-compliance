@@ -625,7 +625,7 @@ control "cis_v400_9_3_6" {
 control "cis_v400_9_3_7" {
   title         = "9.3.7 Ensure that Public Network Access when using Private Endpoint is disabled"
   description   = "When Private endpoint is configured on a Key Vault, connections from Azure resources within the same subnet will use its private IP address."
-  query         = query.automated
+  query         = query.keyvault_public_network_access_disabled
   documentation = file("./cis_v400/docs/cis_v400_9_3_7.md")
 
   tags = merge(local.cis_v400_9_3_common_tags, {

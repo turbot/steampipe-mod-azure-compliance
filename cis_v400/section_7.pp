@@ -378,7 +378,7 @@ control "cis_v400_7_1_2_10" {
 control "cis_v400_7_1_2_11" {
   title         = "7.1.2.11 Ensure that an Activity Log Alert exists for Service Health"
   description   = "Create an activity log alert for Service Health."
-  query         = query.automated
+  query         = query.monitor_log_alert_service_health
   documentation = file("./cis_v400/docs/cis_v400_7_1_2_11.md")
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {

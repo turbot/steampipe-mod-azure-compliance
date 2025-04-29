@@ -1,0 +1,49 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Regulatory Compliance Controls Structure
+
+Regulatory compliance controls are defined as HCL blocks that map to various regulatory frameworks (HIPAA, NIST, FedRAMP, etc.). See examples in [regulatory_compliance/monitor.pp](mdc:regulatory_compliance/monitor.pp) and [regulatory_compliance/keyvault.pp](mdc:regulatory_compliance/keyvault.pp).
+
+## Required Structure
+
+```hcl
+control "service_control_name" {
+  title       = "Clear descriptive title"
+  description = "Detailed description of what this control checks"
+  query       = query.control_query_name
+
+  tags = merge(local.regulatory_compliance_service_common_tags, {
+    framework1_name = "true"
+    framework2_name = "true"
+  })
+}
+```
+
+## Key Components:
+
+1. **Control Name**: Should be descriptive and follow the pattern `service_specific_check_name`
+
+2. **Required Fields**:
+   - `title` - Clear, action-oriented title
+   - `description` - Detailed explanation of the control's purpose
+   - `query` - Reference to the SQL query that implements the check
+
+3. **Tags Structure**:
+   - Uses service-specific common tags through merge
+   - Framework-specific tags are added as boolean flags:
+     - `hipaa_hitrust_v92`
+     - `fedramp_high`
+     - `nist_sp_800_171_rev_2`
+     - `nist_sp_800_53_rev_5`
+     - `rbi_itf_nbfc_v2017`
+
+4. **Organization**:
+   - Controls are grouped by service in separate files under `regulatory_compliance/`
+   - Each service has its own common tags defined in locals
+
+## Examples:
+
+See [regulatory_compliance/keyvault.pp](mdc:regulatory_compliance/keyvault.pp) for KeyVault controls and [regulatory_compliance/monitor.pp](mdc:regulatory_compliance/monitor.pp) for Monitor controls.

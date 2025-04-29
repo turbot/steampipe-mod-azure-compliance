@@ -236,7 +236,7 @@ control "storage_account_encryption_at_rest_using_mmk" {
   description = "Use Microsoft-managed key to encrypt your storage account. Microsoft-managed key is the default and simplest option for encryption at rest."
   query       = query.storage_account_encryption_at_rest_using_mmk
 
-    tags = local.regulatory_compliance_storage_common_tags
+  tags = local.regulatory_compliance_storage_common_tags
 }
 
 query "storage_account_secure_transfer_required_enabled" {

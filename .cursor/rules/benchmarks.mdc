@@ -1,0 +1,35 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Benchmarks Structure in This Codebase
+
+Benchmarks are defined as HCL blocks using the `benchmark` keyword. Each benchmark represents a compliance standard or section and groups related controls or sub-benchmarks. Benchmarks typically include:
+
+- `title` - Clear descriptive name
+- `description` (optional) - Detailed explanation for non-CIS benchmarks
+- `documentation` - Reference to detailed documentation file (commonly used in CIS benchmarks)
+- `children` - List of controls or sub-benchmarks
+- `tags` - Metadata for categorization and filtering
+
+Different compliance standards structure their benchmarks differently:
+
+1. CIS Benchmarks:
+   - Organized by service or CIS section numbers
+   - Use documentation blocks extensively
+   - Example: [cis_v400/section_10.pp](mdc:cis_v400/section_10.pp) shows storage-related benchmarks
+
+2. PCI DSS Benchmarks:
+   - Organized by PCI DSS requirements
+   - Include detailed requirement descriptions
+   - Focus on specific security controls
+   - Example: See requirement_3.pp for payment data security benchmarks
+
+3. NIST Benchmarks:
+   - Organized by NIST control families
+   - Include control-specific descriptions
+   - Focus on specific security objectives
+   - Example: See mp.pp for media protection benchmarks
+
+Benchmarks reference their children (controls or sub-benchmarks) by name, and use tags for metadata and filtering. Tags vary by compliance standard but help in organizing and querying the controls.

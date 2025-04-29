@@ -799,45 +799,6 @@ query "securitycenter_wdatp_integration" {
   EOQ
 }
 
-query "securitycenter_azure_defender_on_for_containers" {
-  sql = <<-EOQ
-    select
-      sub_pricing.id as resource,
-      case
-        when pricing_tier = 'Standard' then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when pricing_tier = 'Standard' then 'Azure Defender on for Containers.'
-        else 'Azure Defender off for Containers.'
-      end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_security_center_subscription_pricing sub_pricing
-      right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id
-    where
-      name = 'Containers';
-  EOQ
-}
-
-query "securitycenter_pricing_standard" {
-  sql = <<-EOQ
-    select
-      sub_pricing.id as resource,
-      case
-        when pricing_tier = 'Standard' then 'ok'
-        else 'alarm'
-      end as status,
-      sub_pricing.name || ' is using ' || pricing_tier || ' pricing tier.' as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_security_center_subscription_pricing sub_pricing
-      right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id;
-  EOQ
-}
-
 query "securitycenter_container_image_scan_enabled" {
   sql = <<-EOQ
     select
@@ -860,57 +821,57 @@ query "securitycenter_container_image_scan_enabled" {
 
 query "security_center_defender_for_servers_enabled" {
   sql = <<-EOQ
-    SELECT
-      p.id AS resource,
-      CASE
-        WHEN p.name = 'VirtualMachines' AND p.pricing_tier = 'Standard' THEN 'ok'
-        ELSE 'alarm'
-      END AS status,
-      CASE
-        WHEN p.name = 'VirtualMachines' AND p.pricing_tier = 'Standard' 
-          THEN 'Microsoft Defender for Servers is enabled with ' || p.pricing_tier || ' tier.'
-        WHEN p.name = 'VirtualMachines' 
-          THEN 'Microsoft Defender for Servers is disabled, current tier: ' || p.pricing_tier || '.'
-        ELSE 'Microsoft Defender for Servers pricing not found.'
-      END AS reason,
+    select
+      p.id as resource,
+      case
+        when p.name = 'VirtualMachines' and p.pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.name = 'VirtualMachines' and p.pricing_tier = 'Standard' 
+          then 'Microsoft Defender for Servers is enabled with ' || p.pricing_tier || ' tier.'
+        when p.name = 'VirtualMachines' 
+          then 'Microsoft Defender for Servers is disabled, current tier: ' || p.pricing_tier || '.'
+        else 'Microsoft Defender for Servers pricing not found.'
+      end as reason,
       p.subscription_id,
       p.cloud_environment
-    FROM
+    from
       azure_security_center_subscription_pricing p
-    WHERE
+    where
       p.name = 'VirtualMachines';
   EOQ
 }
 
 query "security_center_attack_path_alerts_enabled" {
   sql = <<-EOQ
-    WITH contact_info AS (
-      SELECT
+    with contact_info as (
+      select
         subscription_id,
-        COUNT(*) FILTER (WHERE alert_notifications = 'On') AS notification_alert_count
-      FROM
+        count(*) filter (where alert_notifications = 'On') as notification_alert_count
+      from
         azure_security_center_contact
-      GROUP BY
+      group by
         subscription_id
     )
-    SELECT
-      c.id AS resource,
-      CASE
-        WHEN c.name = 'AttackPath' AND c.enabled AND ci.notification_alert_count > 0 THEN 'ok'
-        ELSE 'alarm'
-      END AS status,
-      CASE
-        WHEN c.name = 'AttackPath' AND c.enabled AND ci.notification_alert_count > 0 THEN 'Attack path notifications are enabled.'
-        WHEN c.name = 'AttackPath' AND NOT c.enabled THEN 'Attack path notifications are disabled.'
-        WHEN ci.notification_alert_count = 0 THEN 'Security alert notifications are disabled.'
-        ELSE 'Attack path notifications not configured.'
-      END AS reason,
+    select
+      c.id as resource,
+      case
+        when c.name = 'AttackPath' and c.enabled and ci.notification_alert_count > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when c.name = 'AttackPath' and c.enabled and ci.notification_alert_count > 0 then 'Attack path notifications are enabled.'
+        when c.name = 'AttackPath' and not c.enabled then 'Attack path notifications are disabled.'
+        when ci.notification_alert_count = 0 then 'Security alert notifications are disabled.'
+        else 'Attack path notifications not configured.'
+      end as reason,
       c.subscription_id,
       c.cloud_environment
-    FROM
+    from
       azure_security_center_setting c
-      LEFT JOIN contact_info ci ON c.subscription_id = ci.subscription_id
-    WHERE
+      left join contact_info ci on c.subscription_id = ci.subscription_id
+    where
       c.name = 'AttackPath';
   EOQ
 }

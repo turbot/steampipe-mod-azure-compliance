@@ -275,7 +275,7 @@ control "cis_v400_6_3_2" {
 control "cis_v400_6_3_3" {
   title         = "6.3.3 Ensure that use of the 'User Access Administrator' role is restricted"
   description   = "The User Access Administrator role grants the ability to view all resources and manage access assignments at any subscription or management group level within the tenant."
-  query         = query.automated
+  query         = query.iam_user_access_administrator_role_restricted
   documentation = file("./cis_v400/docs/cis_v400_6_3_3.md")
 
   tags = merge(local.cis_v400_6_3_common_tags, {

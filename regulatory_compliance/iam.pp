@@ -215,14 +215,12 @@ control "iam_user_no_built_in_contributor_role" {
   tags = local.regulatory_compliance_iam_common_tags
 }
 
-control "user_access_administrator_role_restricted" {
+control "iam_user_access_administrator_role_restricted" {
   title       = "Use of the 'User Access Administrator' role should be restricted"
   description = "The User Access Administrator role grants the ability to view all resources and manage access assignments at any subscription or management group level within the tenant. Due to its high privilege level, this role assignment should be removed immediately after completing the necessary changes at the root scope to minimize security risks."
-  query       = query.user_access_administrator_role_restricted
+  query       = query.iam_user_access_administrator_role_restricted
 
-  tags = merge(local.regulatory_compliance_iam_common_tags, {
-    nist_sp_800_53_rev_5 = "AC-2, AC-2(7), AC-6"
-  })
+  tags = local.regulatory_compliance_iam_common_tags
 }
 
 query "iam_subscription_owner_more_than_1" {
@@ -888,7 +886,6 @@ query "iam_user_access_administrator_role_restricted" {
         when r.role_name is not null then ra.subscription_id || ' has User Access Administrator role assigned at scope ' || ra.scope
         else 'No User Access Administrator role assignments found.'
       end as reason
-      ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ra.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

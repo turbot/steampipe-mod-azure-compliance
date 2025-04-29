@@ -799,6 +799,45 @@ query "securitycenter_wdatp_integration" {
   EOQ
 }
 
+query "securitycenter_azure_defender_on_for_containers" {
+  sql = <<-EOQ
+    select
+      sub_pricing.id as resource,
+      case
+        when pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when pricing_tier = 'Standard' then 'Azure Defender on for Containers.'
+        else 'Azure Defender off for Containers.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_subscription_pricing sub_pricing
+      right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id
+    where
+      name = 'Containers';
+  EOQ
+}
+
+query "securitycenter_pricing_standard" {
+  sql = <<-EOQ
+    select
+      sub_pricing.id as resource,
+      case
+        when pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      sub_pricing.name || ' is using ' || pricing_tier || ' pricing tier.' as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_subscription_pricing sub_pricing
+      right join azure_subscription sub on sub_pricing.subscription_id = sub.subscription_id;
+  EOQ
+}
+
 query "securitycenter_container_image_scan_enabled" {
   sql = <<-EOQ
     select

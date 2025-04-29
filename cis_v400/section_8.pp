@@ -125,7 +125,7 @@ control "cis_v400_8_7" {
 control "cis_v400_8_8" {
   title         = "8.8 Ensure that virtual network flow log retention days is set to greater than or equal to 90"
   description   = "Ensure that virtual network flow logs are retained for greater than or equal to 90 days."
-  query         = query.automated
+  query         = query.network_watcher_flow_log_retention_90_days
   documentation = file("./cis_v400/docs/cis_v400_8_8.md")
 
   tags = merge(local.cis_v400_8_common_tags, {

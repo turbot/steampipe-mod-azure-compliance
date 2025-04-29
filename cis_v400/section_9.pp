@@ -450,7 +450,7 @@ control "cis_v400_9_1_14" {
 control "cis_v400_9_1_15" {
   title         = "9.1.15 Ensure that 'Notify about attack paths with the following risk level (or higher)' is enabled"
   description   = "Enables emailing attack paths to the subscription owner or other designated security contact."
-  query         = query.automated
+  query         = query.security_center_attack_path_alerts_enabled
   documentation = file("./cis_v400/docs/cis_v400_9_1_15.md")
 
   tags = merge(local.cis_v400_9_1_common_tags, {

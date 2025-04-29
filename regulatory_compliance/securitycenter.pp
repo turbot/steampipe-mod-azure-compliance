@@ -881,3 +881,36 @@ query "security_center_defender_for_servers_enabled" {
       p.name = 'VirtualMachines';
   EOQ
 }
+
+query "security_center_attack_path_alerts_enabled" {
+  sql = <<-EOQ
+    WITH contact_info AS (
+      SELECT
+        subscription_id,
+        COUNT(*) FILTER (WHERE alert_notifications = 'On') AS notification_alert_count
+      FROM
+        azure_security_center_contact
+      GROUP BY
+        subscription_id
+    )
+    SELECT
+      c.id AS resource,
+      CASE
+        WHEN c.name = 'AttackPath' AND c.enabled AND ci.notification_alert_count > 0 THEN 'ok'
+        ELSE 'alarm'
+      END AS status,
+      CASE
+        WHEN c.name = 'AttackPath' AND c.enabled AND ci.notification_alert_count > 0 THEN 'Attack path notifications are enabled.'
+        WHEN c.name = 'AttackPath' AND NOT c.enabled THEN 'Attack path notifications are disabled.'
+        WHEN ci.notification_alert_count = 0 THEN 'Security alert notifications are disabled.'
+        ELSE 'Attack path notifications not configured.'
+      END AS reason,
+      c.subscription_id,
+      c.cloud_environment
+    FROM
+      azure_security_center_setting c
+      LEFT JOIN contact_info ci ON c.subscription_id = ci.subscription_id
+    WHERE
+      c.name = 'AttackPath';
+  EOQ
+}

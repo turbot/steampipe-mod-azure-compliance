@@ -36,7 +36,7 @@ benchmark "cis_v400_10" {
 
   tags = merge(local.cis_v400_10_common_tags, {
     type    = "Benchmark"
-    service = "Azure/S3"
+    service = "Azure/Storage"
   })
 }
 
@@ -58,42 +58,42 @@ benchmark "cis_v400_10_1" {
 control "cis_v400_10_1_1" {
   title         = "10.1.1 Ensure soft delete for Azure File Shares is Enabled"
   description   = "Azure Files offers soft delete for file shares, allowing you to easily recover your data when it is mistakenly deleted by an application or another storage account user."
-  query         = query.automated
+  query         = query.storage_account_file_share_soft_delete_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_1_1.md")
 
   tags = merge(local.cis_v400_10_1_common_tags, {
     cis_item_id = "10.1.1"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/General"
+    service     = "Azure/Storage"
   })
 }
 
 control "cis_v400_10_1_2" {
   title         = "10.1.2 Ensure 'SMB protocol version' is set to 'SMB 3.1.1' or higher for SMB file shares"
   description   = "Ensure that SMB file shares are configured to use the latest supported SMB protocol version."
-  query         = query.automated
+  query         = query.manual_control
   documentation = file("./cis_v400/docs/cis_v400_10_1_2.md")
 
   tags = merge(local.cis_v400_10_1_common_tags, {
     cis_item_id = "10.1.2"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/General"
+    service     = "Azure/Storage"
   })
 }
 
 control "cis_v400_10_1_3" {
   title         = "10.1.3 Ensure 'SMB channel encryption' is set to 'AES-256-GCM' or higher for SMB file shares"
   description   = "Implement SMB channel encryption with AES-256-GCM for SMB file shares to ensure data confidentiality and integrity in transit."
-  query         = query.automated
+  query         = query.manual_control
   documentation = file("./cis_v400/docs/cis_v400_10_1_3.md")
 
   tags = merge(local.cis_v400_10_1_common_tags, {
     cis_item_id = "10.1.3"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/General"
+    service     = "Azure/Storage"
   })
 }
 
@@ -107,21 +107,21 @@ benchmark "cis_v400_10_2" {
 
   tags = merge(local.cis_v400_10_2_common_tags, {
     type    = "Benchmark"
-    service = "Azure/S3"
+    service = "Azure/Storage"
   })
 }
 
 control "cis_v400_10_2_1" {
   title         = "10.2.1 Ensure that soft delete for blobs on Azure Blob Storage storage accounts is Enabled"
   description   = "Blobs in Azure storage accounts may contain sensitive or personal data, such as ePHI or financial information."
-  query         = query.automated
+  query         = query.storage_account_blob_soft_delete_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_2_1.md")
 
   tags = merge(local.cis_v400_10_2_common_tags, {
     cis_item_id = "10.2.1"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 
@@ -159,7 +159,7 @@ benchmark "cis_v400_10_3" {
 
   tags = merge(local.cis_v400_10_3_common_tags, {
     type    = "Benchmark"
-    service = "Azure/S3"
+    service = "Azure/Storage"
   })
 }
 
@@ -209,14 +209,14 @@ control "cis_v400_10_3_1_2" {
 control "cis_v400_10_3_1_3" {
   title         = "10.3.1.3 Ensure 'Allow storage account key access' for Azure Storage Accounts is 'Disabled'"
   description   = "Every secure request to an Azure Storage account must be authorized."
-  query         = query.automated
+  query         = query.manual_control
   documentation = file("./cis_v400/docs/cis_v400_10_3_1_3.md")
 
   tags = merge(local.cis_v400_10_3_1_common_tags, {
     cis_item_id = "10.3.1.3"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/General"
+    service     = "Azure/Storage"
   })
 }
 
@@ -238,21 +238,21 @@ benchmark "cis_v400_10_3_2" {
 control "cis_v400_10_3_2_1" {
   title         = "10.3.2.1 Ensure Private Endpoints are used to access Storage Accounts"
   description   = "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data located over a network via an encrypted Private Link."
-  query         = query.automated
+  query         = query.storage_account_private_endpoint_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_2_1.md")
 
   tags = merge(local.cis_v400_10_3_2_common_tags, {
     cis_item_id = "10.3.2.1"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Storage"
   })
 }
 
 control "cis_v400_10_3_2_2" {
   title         = "10.3.2.2 Ensure that 'Public Network Access' is 'Disabled' for storage accounts"
   description   = "Disallowing public network access for a storage account overrides the public access settings for individual containers in that storage account for Azure Resource Manager Deployment Model storage accounts."
-  query         = query.automated
+  query         = query.manual_control
   documentation = file("./cis_v400/docs/cis_v400_10_3_2_2.md")
 
   tags = merge(local.cis_v400_10_3_2_common_tags, {
@@ -266,7 +266,7 @@ control "cis_v400_10_3_2_2" {
 control "cis_v400_10_3_2_3" {
   title         = "10.3.2.3 Ensure default network access rule for storage accounts is set to deny"
   description   = "Restricting default network access helps to provide a new layer of security, since storage accounts accept connections from clients on any network."
-  query         = query.automated
+  query         = query.manual_control
   documentation = file("./cis_v400/docs/cis_v400_10_3_2_3.md")
 
   tags = merge(local.cis_v400_10_3_2_common_tags, {
@@ -293,7 +293,7 @@ benchmark "cis_v400_10_3_3" {
 control "cis_v400_10_3_3_1" {
   title         = "10.3.3.1 Ensure that 'Default to Microsoft Entra authorization in the Azure portal' is set to 'Enabled'"
   description   = "When this property is enabled, the Azure portal authorizes requests to blobs, files, queues, and tables with Microsoft Entra ID by default."
-  query         = query.automated
+  query         = query.manual_control
   documentation = file("./cis_v400/docs/cis_v400_10_3_3_1.md")
 
   tags = merge(local.cis_v400_10_3_3_common_tags, {
@@ -307,28 +307,28 @@ control "cis_v400_10_3_3_1" {
 control "cis_v400_10_3_4" {
   title         = "10.3.4 Ensure that 'Secure transfer required' is set to 'Enabled'"
   description   = "Enable data encryption in transit."
-  query         = query.automated
+  query         = query.storage_account_secure_transfer_required_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_4.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {
     cis_item_id = "10.3.4"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 
 control "cis_v400_10_3_5" {
   title         = "10.3.5 Ensure 'Allow Azure services on the trusted services list to access this storage account' is Enabled for Storage Account Access"
   description   = "This recommendation assumes that the `Public network access` parameter is set to `Enabled from selected virtual networks and IP addresses`."
-  query         = query.automated
+  query         = query.storage_account_trusted_microsoft_services_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_5.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {
     cis_item_id = "10.3.5"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 
@@ -342,7 +342,7 @@ control "cis_v400_10_3_6" {
     cis_item_id = "10.3.6"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 
@@ -356,21 +356,21 @@ control "cis_v400_10_3_7" {
     cis_item_id = "10.3.7"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 
 control "cis_v400_10_3_8" {
   title         = "10.3.8 Ensure 'Cross Tenant Replication' is not enabled"
   description   = "Cross Tenant Replication in Azure allows data to be replicated across multiple Azure tenants."
-  query         = query.automated
+  query         = query.manual_control
   documentation = file("./cis_v400/docs/cis_v400_10_3_8.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {
     cis_item_id = "10.3.8"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 
@@ -384,7 +384,7 @@ control "cis_v400_10_3_9" {
     cis_item_id = "10.3.9"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 
@@ -398,7 +398,7 @@ control "cis_v400_10_3_10" {
     cis_item_id = "10.3.10"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 
@@ -412,7 +412,7 @@ control "cis_v400_10_3_11" {
     cis_item_id = "10.3.11"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 
@@ -426,7 +426,7 @@ control "cis_v400_10_3_12" {
     cis_item_id = "10.3.12"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/S3"
+    service     = "Azure/Storage"
   })
 }
 

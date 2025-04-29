@@ -899,3 +899,77 @@ query "storage_account_blob_versioning_enabled" {
       sa.storage_account_name;
   EOQ
 }
+
+query "storage_account_file_share_soft_delete_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when file_soft_delete_enabled and file_soft_delete_retention_days between 1 and 365 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when not file_soft_delete_enabled then name || ' file share soft delete disabled.'
+        when file_soft_delete_retention_days < 1 or file_soft_delete_retention_days > 365 
+          then name || ' file share soft delete retention days (' || file_soft_delete_retention_days || ') not between 1 and 365.'
+        else name || ' file share soft delete enabled with ' || file_soft_delete_retention_days || ' days retention.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_blob_soft_delete_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when blob_soft_delete_enabled and blob_soft_delete_retention_days between 7 and 365 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when not blob_soft_delete_enabled then name || ' blob soft delete disabled.'
+        when blob_soft_delete_retention_days < 7 or blob_soft_delete_retention_days > 365 
+          then name || ' blob soft delete retention days (' || blob_soft_delete_retention_days || ') not between 7 and 365.'
+        else name || ' blob soft delete enabled with ' || blob_soft_delete_retention_days || ' days retention.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_private_endpoint_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when private_endpoint_connections is not null and jsonb_array_length(private_endpoint_connections) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when private_endpoint_connections is null then name || ' has no private endpoint connections configured.'
+        when jsonb_array_length(private_endpoint_connections) = 0 then name || ' has no private endpoint connections.'
+        else name || ' has ' || jsonb_array_length(private_endpoint_connections) || ' private endpoint connection(s).'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}

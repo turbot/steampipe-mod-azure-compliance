@@ -886,7 +886,7 @@ query "iam_user_access_administrator_role_restricted" {
         when r.role_name is not null then ra.subscription_id || ' has User Access Administrator role assigned at scope ' || ra.scope
         else 'No User Access Administrator role assignments found.'
       end as reason
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ra.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "ra.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_role_assignment ra

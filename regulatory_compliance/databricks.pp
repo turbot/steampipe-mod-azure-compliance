@@ -79,11 +79,11 @@ query "databricks_workspace_user_sync_configured" {
     select
       a.id as resource,
       case
-        when provisioning_state -> 'Failed' then 'alarm'
+        when provisioning_state = 'Failed' then 'alarm'
         else 'ok'
       end as status,
       case
-        when provisioning_state -> 'Failed' then a.name || ' has a failed provisioning state.'
+        when provisioning_state = 'Failed' then a.name || ' has a failed provisioning state.'
         else a.name || ' has a successful provisioning state.'
       end as reason
       ${local.tag_dimensions_sql}

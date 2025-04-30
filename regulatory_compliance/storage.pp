@@ -1065,3 +1065,26 @@ query "storage_account_cross_tenant_replication_disabled" {
       sub.subscription_id = sa.subscription_id;
   EOQ
 }
+
+query "storage_account_shared_key_access_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when allow_shared_key_access then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when allow_shared_key_access then sa.name || ' shared key access is enabled.'
+        else sa.name || ' shared key access is disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}

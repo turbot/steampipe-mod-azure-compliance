@@ -209,7 +209,7 @@ control "cis_v400_10_3_1_2" {
 control "cis_v400_10_3_1_3" {
   title         = "10.3.1.3 Ensure 'Allow storage account key access' for Azure Storage Accounts is 'Disabled'"
   description   = "Every secure request to an Azure Storage account must be authorized."
-  query         = query.manual_control
+  query         = query.storage_account_shared_key_access_disabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_1_3.md")
 
   tags = merge(local.cis_v400_10_3_1_common_tags, {

@@ -973,3 +973,95 @@ query "storage_account_private_endpoint_enabled" {
       sub.subscription_id = sa.subscription_id;
   EOQ
 }
+
+query "storage_account_public_network_access_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when public_network_access = 'Disabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when public_network_access = 'Disabled' then sa.name || ' public network access is disabled.'
+        else sa.name || ' public network access is enabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_default_network_access_deny" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when network_rule_default_action = 'Deny' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when network_rule_default_action = 'Deny' then sa.name || ' default network access rule set to deny.'
+        else sa.name || ' default network access rule not set to deny.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_default_to_oauth_authentication" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when default_to_oauth_authentication then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when default_to_oauth_authentication then sa.name || ' default to Microsoft Entra authorization is enabled.'
+        else sa.name || ' default to Microsoft Entra authorization is disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_cross_tenant_replication_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when allow_cross_tenant_replication then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when allow_cross_tenant_replication then sa.name || ' cross tenant replication is enabled.'
+        else sa.name || ' cross tenant replication is disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}

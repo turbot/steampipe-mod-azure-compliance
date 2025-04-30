@@ -252,7 +252,7 @@ control "cis_v400_10_3_2_1" {
 control "cis_v400_10_3_2_2" {
   title         = "10.3.2.2 Ensure that 'Public Network Access' is 'Disabled' for storage accounts"
   description   = "Disallowing public network access for a storage account overrides the public access settings for individual containers in that storage account for Azure Resource Manager Deployment Model storage accounts."
-  query         = query.manual_control
+  query         = query.storage_account_public_network_access_disabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_2_2.md")
 
   tags = merge(local.cis_v400_10_3_2_common_tags, {
@@ -266,7 +266,7 @@ control "cis_v400_10_3_2_2" {
 control "cis_v400_10_3_2_3" {
   title         = "10.3.2.3 Ensure default network access rule for storage accounts is set to deny"
   description   = "Restricting default network access helps to provide a new layer of security, since storage accounts accept connections from clients on any network."
-  query         = query.manual_control
+  query         = query.storage_account_default_network_access_deny
   documentation = file("./cis_v400/docs/cis_v400_10_3_2_3.md")
 
   tags = merge(local.cis_v400_10_3_2_common_tags, {
@@ -293,7 +293,7 @@ benchmark "cis_v400_10_3_3" {
 control "cis_v400_10_3_3_1" {
   title         = "10.3.3.1 Ensure that 'Default to Microsoft Entra authorization in the Azure portal' is set to 'Enabled'"
   description   = "When this property is enabled, the Azure portal authorizes requests to blobs, files, queues, and tables with Microsoft Entra ID by default."
-  query         = query.manual_control
+  query         = query.storage_account_default_to_oauth_authentication
   documentation = file("./cis_v400/docs/cis_v400_10_3_3_1.md")
 
   tags = merge(local.cis_v400_10_3_3_common_tags, {
@@ -363,7 +363,7 @@ control "cis_v400_10_3_7" {
 control "cis_v400_10_3_8" {
   title         = "10.3.8 Ensure 'Cross Tenant Replication' is not enabled"
   description   = "Cross Tenant Replication in Azure allows data to be replicated across multiple Azure tenants."
-  query         = query.manual_control
+  query         = query.storage_account_cross_tenant_replication_disabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_8.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {

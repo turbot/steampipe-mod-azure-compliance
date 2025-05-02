@@ -29,12 +29,8 @@ benchmark "nist_csf_v2_gv_oc" {
 benchmark "nist_csf_v2_gv_oc_01" {
   title       = "GV.OC-01"
   description = "The organizational mission is understood and informs cybersecurity risk management."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_oc_02" {
@@ -43,8 +39,6 @@ benchmark "nist_csf_v2_gv_oc_02" {
   children = [
     control.iam_no_custom_subscription_owner_roles_created,
     control.iam_subscription_owner_max_3,
-
-
   ]
   tags = local.nist_csf_v2_common_tags
 }
@@ -66,23 +60,15 @@ benchmark "nist_csf_v2_gv_oc_03" {
 benchmark "nist_csf_v2_gv_oc_04" {
   title       = "GV.OC-04"
   description = "Critical objectives, capabilities, and services that external stakeholders depend on or expect from the organization are understood and communicated."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_oc_05" {
   title       = "GV.OC-05"
   description = "Outcomes, capabilities, and services that the organization depends on are understood and communicated."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 # Risk Management Strategy (GV.RM)
@@ -104,79 +90,50 @@ benchmark "nist_csf_v2_gv_rm" {
 benchmark "nist_csf_v2_gv_rm_01" {
   title       = "GV.RM-01"
   description = "Risk management objectives are established and agreed to by organizational stakeholders."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_rm_02" {
   title       = "GV.RM-02"
   description = "Risk appetite and risk tolerance statements are established, communicated, and maintained."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_rm_03" {
   title       = "GV.RM-03"
   description = "Cybersecurity risk management activities and outcomes are included in enterprise risk management processes."
-  children = [
-
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_rm_04" {
   title       = "GV.RM-04"
   description = "Strategic direction that describes appropriate risk response options is established and communicated."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_rm_05" {
   title       = "GV.RM-05"
   description = "Lines of communication across the organization are established for cybersecurity risks, including risks from suppliers and other third parties."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_rm_06" {
   title       = "GV.RM-06"
   description = "A standardized method for calculating, documenting, categorizing, and prioritizing cybersecurity risks is established and communicated."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_rm_07" {
   title       = "GV.RM-07"
   description = "Strategic opportunities (i.e., positive risks) are characterized and are included in organizational cybersecurity risk discussions."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 # Roles, Responsibilities, and Authorities (GV.RR)
@@ -217,12 +174,8 @@ benchmark "nist_csf_v2_gv_rr_02" {
 benchmark "nist_csf_v2_gv_rr_03" {
   title       = "GV.RR-03"
   description = "Adequate resources are allocated commensurate with the cybersecurity risk strategy, roles, responsibilities, and policies."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_rr_04" {
@@ -249,23 +202,15 @@ benchmark "nist_csf_v2_gv_po" {
 benchmark "nist_csf_v2_gv_po_01" {
   title       = "GV.PO-01"
   description = "Policy for managing cybersecurity risks is established based on organizational context, cybersecurity strategy, and priorities and is communicated and enforced."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_po_02" {
   title       = "GV.PO-02"
   description = "Policy for managing cybersecurity risks is reviewed, updated, communicated, and enforced to reflect changes in requirements, threats, technology, and organizational mission."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 # Oversight (GV.OV)
@@ -283,34 +228,22 @@ benchmark "nist_csf_v2_gv_ov" {
 benchmark "nist_csf_v2_gv_ov_01" {
   title       = "GV.OV-01"
   description = "Cybersecurity risk management strategy outcomes are reviewed to inform and adjust strategy and direction."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_ov_02" {
   title       = "GV.OV-02"
   description = "The cybersecurity risk management strategy is reviewed and adjusted to ensure coverage of organizational requirements and risks."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_ov_03" {
   title       = "GV.OV-03"
   description = "Organizational cybersecurity risk management performance is evaluated and reviewed for adjustments needed."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 # Cybersecurity Supply Chain Risk Management (GV.SC)
@@ -335,12 +268,8 @@ benchmark "nist_csf_v2_gv_sc" {
 benchmark "nist_csf_v2_gv_sc_01" {
   title       = "GV.SC-01"
   description = "A cybersecurity supply chain risk management program, strategy, objectives, policies, and processes are established and agreed to by organizational stakeholders."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_sc_02" {
@@ -357,87 +286,55 @@ benchmark "nist_csf_v2_gv_sc_02" {
 benchmark "nist_csf_v2_gv_sc_03" {
   title       = "GV.SC-03"
   description = "Cybersecurity supply chain risk management is integrated into cybersecurity and enterprise risk management, risk assessment, and improvement processes."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_sc_04" {
   title       = "GV.SC-04"
   description = "Suppliers are known and prioritized by criticality."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_sc_05" {
   title       = "GV.SC-05"
   description = "Requirements to address cybersecurity risks in supply chains are established, prioritized, and integrated into contracts and other types of agreements with suppliers and other relevant third parties."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_sc_06" {
   title       = "GV.SC-06"
   description = "Planning and due diligence are performed to reduce risks before entering into formal supplier or other third-party relationships."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_sc_07" {
   title       = "GV.SC-07"
   description = "The risks posed by a supplier, their products and services, and other third parties are understood, recorded, prioritized, assessed, responded to, and monitored over the course of the relationship."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_sc_08" {
   title       = "GV.SC-08"
   description = "Relevant suppliers and other third parties are included in incident planning, response, and recovery activities."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_sc_09" {
   title       = "GV.SC-09"
   description = "Supply chain security practices are integrated into cybersecurity and enterprise risk management programs, and their performance is monitored throughout the technology product and service life cycle."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_sc_10" {
   title       = "GV.SC-10"
   description = "Cybersecurity supply chain risk management plans include provisions for activities that occur after the conclusion of a partnership or service agreement."
-  children = [
-
-
-
-  ]
-  tags = local.nist_csf_v2_common_tags
+  children    = []
+  tags        = local.nist_csf_v2_common_tags
 } 

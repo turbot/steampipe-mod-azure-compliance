@@ -25,7 +25,6 @@ benchmark "nist_csf_v2_rc_rp_01" {
   title       = "RC.RP-01"
   description = "The recovery portion of the incident response plan is executed once initiated from the incident response process."
   children = [
-
     control.sql_database_long_term_geo_redundant_backup_enabled,
     control.storage_account_geo_redundant_enabled
   ]
@@ -35,7 +34,6 @@ benchmark "nist_csf_v2_rc_rp_02" {
   title       = "RC.RP-02"
   description = "Recovery actions are selected, scoped, prioritized, and performed."
   children = [
-
     control.sql_database_long_term_geo_redundant_backup_enabled,
     control.storage_account_geo_redundant_enabled
   ]
@@ -45,7 +43,6 @@ benchmark "nist_csf_v2_rc_rp_03" {
   title       = "RC.RP-03"
   description = "The integrity of backups and other restoration assets is verified before using them for restoration."
   children = [
-
     control.sql_database_long_term_geo_redundant_backup_enabled,
     control.storage_account_geo_redundant_enabled
   ]
@@ -55,7 +52,6 @@ benchmark "nist_csf_v2_rc_rp_04" {
   title       = "RC.RP-04"
   description = "Critical mission functions and cybersecurity risk management are considered to establish post-incident operational norms."
   children = [
-
     control.sql_database_long_term_geo_redundant_backup_enabled
   ]
 }
@@ -64,7 +60,6 @@ benchmark "nist_csf_v2_rc_rp_05" {
   title       = "RC.RP-05"
   description = "The integrity of restored assets is verified, systems and services are restored, and normal operating status is confirmed."
   children = [
-
     control.sql_database_long_term_geo_redundant_backup_enabled
   ]
 }

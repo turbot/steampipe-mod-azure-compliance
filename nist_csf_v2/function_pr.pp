@@ -30,10 +30,6 @@ benchmark "nist_csf_v2_pr_aa_01" {
   children = [
     control.iam_no_custom_subscription_owner_roles_created,
     control.iam_subscription_owner_max_3,
-
-
-
-
   ]
 }
 
@@ -43,7 +39,6 @@ benchmark "nist_csf_v2_pr_aa_02" {
   children = [
     control.iam_no_custom_subscription_owner_roles_created,
     control.iam_subscription_owner_max_3,
-
   ]
 }
 
@@ -54,7 +49,6 @@ benchmark "nist_csf_v2_pr_aa_03" {
     control.iam_no_custom_subscription_owner_roles_created,
     control.iam_subscription_owner_max_3,
     control.storage_account_secure_transfer_required_enabled,
-
   ]
 }
 
@@ -74,9 +68,6 @@ benchmark "nist_csf_v2_pr_aa_05" {
   children = [
     control.iam_no_custom_subscription_owner_roles_created,
     control.iam_subscription_owner_max_3,
-
-
-
   ]
 }
 
@@ -84,8 +75,6 @@ benchmark "nist_csf_v2_pr_aa_06" {
   title       = "PR.AA-06"
   description = "Physical access to assets is managed, monitored, and enforced commensurate with risk."
   children = [
-
-
   ]
 }
 
@@ -103,8 +92,6 @@ benchmark "nist_csf_v2_pr_at_01" {
   title       = "PR.AT-01"
   description = "Personnel are provided with awareness and training so that they possess the knowledge and skills to perform general tasks with cybersecurity risks in mind."
   children = [
-
-
   ]
 }
 
@@ -112,8 +99,6 @@ benchmark "nist_csf_v2_pr_at_02" {
   title       = "PR.AT-02"
   description = "Individuals in specialized roles are provided with awareness and training so that they possess the knowledge and skills to perform relevant tasks with cybersecurity risks in mind."
   children = [
-
-
   ]
 }
 
@@ -133,11 +118,6 @@ benchmark "nist_csf_v2_pr_ds_01" {
   title       = "PR.DS-01"
   description = "The confidentiality, integrity, and availability of data-at-rest are protected."
   children = [
-
-
-
-
-
     control.storage_account_encryption_at_rest_using_cmk
   ]
 }
@@ -157,10 +137,6 @@ benchmark "nist_csf_v2_pr_ds_10" {
   title       = "PR.DS-10"
   description = "The confidentiality, integrity, and availability of data-in-use are protected."
   children = [
-
-
-
-
   ]
 }
 
@@ -168,7 +144,6 @@ benchmark "nist_csf_v2_pr_ds_11" {
   title       = "PR.DS-11"
   description = "Backups of data are created, protected, maintained, and tested."
   children = [
-
     control.sql_database_long_term_geo_redundant_backup_enabled,
     control.storage_account_geo_redundant_enabled
   ]
@@ -192,7 +167,6 @@ benchmark "nist_csf_v2_pr_ps_01" {
   title       = "PR.PS-01"
   description = "Configuration management practices are established and applied."
   children = [
-
     control.compute_vm_system_updates_installed,
     control.monitor_log_profile_enabled_for_all_regions
   ]
@@ -212,7 +186,6 @@ benchmark "nist_csf_v2_pr_ps_03" {
   title       = "PR.PS-03"
   description = "Hardware is maintained, replaced, and removed commensurate with risk."
   children = [
-
     control.compute_vm_system_updates_installed,
     control.monitor_log_profile_enabled_for_all_regions
   ]
@@ -222,8 +195,6 @@ benchmark "nist_csf_v2_pr_ps_04" {
   title       = "PR.PS-04"
   description = "Log records are generated and made available for continuous monitoring."
   children = [
-
-
     control.monitor_log_profile_enabled_for_all_regions
   ]
 }
@@ -232,9 +203,7 @@ benchmark "nist_csf_v2_pr_ps_05" {
   title       = "PR.PS-05"
   description = "Installation and execution of unauthorized software are prevented."
   children = [
-
     control.compute_vm_system_updates_installed,
-
   ]
 }
 
@@ -242,7 +211,6 @@ benchmark "nist_csf_v2_pr_ps_06" {
   title       = "PR.PS-06"
   description = "Secure software development practices are integrated, and their performance is monitored throughout the software development life cycle."
   children = [
-
     control.compute_vm_system_updates_installed,
     control.monitor_log_profile_enabled_for_all_regions
   ]
@@ -266,7 +234,6 @@ benchmark "nist_csf_v2_pr_ir_01" {
   children = [
     control.network_security_group_subnet_associated,
     control.network_watcher_enabled,
-
     control.storage_account_default_network_access_rule_denied
   ]
 }
@@ -275,7 +242,6 @@ benchmark "nist_csf_v2_pr_ir_02" {
   title       = "PR.IR-02"
   description = "The organization's technology assets are protected from environmental threats."
   children = [
-
     control.compute_vm_system_updates_installed,
     control.monitor_log_profile_enabled_for_all_regions
   ]
@@ -285,7 +251,6 @@ benchmark "nist_csf_v2_pr_ir_03" {
   title       = "PR.IR-03"
   description = "Mechanisms are implemented to achieve resilience requirements in normal and adverse situations."
   children = [
-
     control.sql_database_long_term_geo_redundant_backup_enabled,
     control.storage_account_geo_redundant_enabled
   ]
@@ -295,7 +260,6 @@ benchmark "nist_csf_v2_pr_ir_04" {
   title       = "PR.IR-04"
   description = "Adequate resource capacity to ensure availability is maintained."
   children = [
-
     control.monitor_log_profile_enabled_for_all_regions
   ]
 } 

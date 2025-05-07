@@ -18,7 +18,6 @@ benchmark "nist_csf_v2_id_am" {
     benchmark.nist_csf_v2_id_am_01,
     benchmark.nist_csf_v2_id_am_02,
     benchmark.nist_csf_v2_id_am_03,
-    benchmark.nist_csf_v2_id_am_04,
     benchmark.nist_csf_v2_id_am_05,
     benchmark.nist_csf_v2_id_am_07,
     benchmark.nist_csf_v2_id_am_08
@@ -67,13 +66,6 @@ benchmark "nist_csf_v2_id_am_03" {
   tags = local.nist_csf_v2_common_tags
 }
 
-benchmark "nist_csf_v2_id_am_04" {
-  title       = "ID.AM-04"
-  description = "Inventories of services provided by suppliers are maintained."
-  children    = []
-  tags        = local.nist_csf_v2_common_tags
-}
-
 benchmark "nist_csf_v2_id_am_05" {
   title       = "ID.AM-05"
   description = "Assets are prioritized based on classification, criticality, resources, and impact on the mission."
@@ -115,15 +107,11 @@ benchmark "nist_csf_v2_id_ra" {
   description = "The cybersecurity risk to the organization, assets, and individuals is understood by the organization."
   children = [
     benchmark.nist_csf_v2_id_ra_01,
-    benchmark.nist_csf_v2_id_ra_02,
     benchmark.nist_csf_v2_id_ra_03,
-    benchmark.nist_csf_v2_id_ra_04,
     benchmark.nist_csf_v2_id_ra_05,
     benchmark.nist_csf_v2_id_ra_06,
-    benchmark.nist_csf_v2_id_ra_07,
     benchmark.nist_csf_v2_id_ra_08,
-    benchmark.nist_csf_v2_id_ra_09,
-    benchmark.nist_csf_v2_id_ra_10
+    benchmark.nist_csf_v2_id_ra_09
   ]
 
   tags = local.nist_csf_v2_common_tags
@@ -137,14 +125,6 @@ benchmark "nist_csf_v2_id_ra_01" {
     control.sql_server_azure_defender_enabled,
     control.securitycenter_azure_defender_on_for_sqldb,
     control.securitycenter_azure_defender_on_for_sqlservervm
-  ]
-  tags = local.nist_csf_v2_common_tags
-}
-
-benchmark "nist_csf_v2_id_ra_02" {
-  title       = "ID.RA-02"
-  description = "Cyber threat intelligence is received from information sharing forums and sources."
-  children = [
   ]
   tags = local.nist_csf_v2_common_tags
 }
@@ -187,14 +167,6 @@ benchmark "nist_csf_v2_id_ra_06" {
   tags = local.nist_csf_v2_common_tags
 }
 
-benchmark "nist_csf_v2_id_ra_07" {
-  title       = "ID.RA-07"
-  description = "Changes and exceptions are managed, assessed for risk impact, recorded, and tracked."
-  children = [
-  ]
-  tags = local.nist_csf_v2_common_tags
-}
-
 benchmark "nist_csf_v2_id_ra_08" {
   title       = "ID.RA-08"
   description = "Processes for receiving, analyzing, and responding to vulnerability disclosures are established."
@@ -213,34 +185,14 @@ benchmark "nist_csf_v2_id_ra_09" {
   ]
   tags = local.nist_csf_v2_common_tags
 }
-
-benchmark "nist_csf_v2_id_ra_10" {
-  title       = "ID.RA-10"
-  description = "Critical suppliers are assessed prior to acquisition."
-  children = [
-  ]
-  tags = local.nist_csf_v2_common_tags
-}
-
 # Improvement (ID.IM)
 benchmark "nist_csf_v2_id_im" {
   title       = "Improvement (ID.IM)"
   description = "Improvements to organizational cybersecurity risk management processes, procedures and activities are identified across all CSF Functions."
   children = [
-    benchmark.nist_csf_v2_id_im_01,
-    benchmark.nist_csf_v2_id_im_02,
-    benchmark.nist_csf_v2_id_im_03,
-    benchmark.nist_csf_v2_id_im_04
+    benchmark.nist_csf_v2_id_im_02
   ]
 
-  tags = local.nist_csf_v2_common_tags
-}
-
-benchmark "nist_csf_v2_id_im_01" {
-  title       = "ID.IM-01"
-  description = "Improvements are identified from evaluations."
-  children = [
-  ]
   tags = local.nist_csf_v2_common_tags
 }
 
@@ -252,19 +204,3 @@ benchmark "nist_csf_v2_id_im_02" {
   ]
   tags = local.nist_csf_v2_common_tags
 }
-
-benchmark "nist_csf_v2_id_im_03" {
-  title       = "ID.IM-03"
-  description = "Improvements are identified from execution of operational processes, procedures, and activities."
-  children = [
-  ]
-  tags = local.nist_csf_v2_common_tags
-}
-
-benchmark "nist_csf_v2_id_im_04" {
-  title       = "ID.IM-04"
-  description = "Incident response plans and other cybersecurity plans that affect operations are established, communicated, maintained, and improved."
-  children = [
-  ]
-  tags = local.nist_csf_v2_common_tags
-} 

@@ -19,8 +19,7 @@ benchmark "nist_csf_v2_pr_aa" {
     benchmark.nist_csf_v2_pr_aa_02,
     benchmark.nist_csf_v2_pr_aa_03,
     benchmark.nist_csf_v2_pr_aa_04,
-    benchmark.nist_csf_v2_pr_aa_05,
-    benchmark.nist_csf_v2_pr_aa_06
+    benchmark.nist_csf_v2_pr_aa_05
   ]
 }
 
@@ -76,13 +75,6 @@ benchmark "nist_csf_v2_pr_aa_05" {
   ]
 }
 
-benchmark "nist_csf_v2_pr_aa_06" {
-  title       = "PR.AA-06"
-  description = "Physical access to assets is managed, monitored, and enforced commensurate with risk."
-  children = [
-  ]
-}
-
 # Awareness and Training (PR.AT)
 benchmark "nist_csf_v2_pr_at" {
   title       = "Awareness and Training (PR.AT)"
@@ -114,7 +106,6 @@ benchmark "nist_csf_v2_pr_ds" {
   children = [
     benchmark.nist_csf_v2_pr_ds_01,
     benchmark.nist_csf_v2_pr_ds_02,
-    benchmark.nist_csf_v2_pr_ds_10,
     benchmark.nist_csf_v2_pr_ds_11
   ]
 }
@@ -140,13 +131,6 @@ benchmark "nist_csf_v2_pr_ds_02" {
     control.storage_account_secure_transfer_required_enabled,
     control.appservice_api_app_use_https,
     control.appservice_function_app_only_https_accessible
-  ]
-}
-
-benchmark "nist_csf_v2_pr_ds_10" {
-  title       = "PR.DS-10"
-  description = "The confidentiality, integrity, and availability of data-in-use are protected."
-  children = [
   ]
 }
 

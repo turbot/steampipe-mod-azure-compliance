@@ -26,7 +26,9 @@ benchmark "nist_csf_v2_rs_ma_01" {
   title       = "RS.MA-01"
   description = "The incident response plan is executed in coordination with relevant third parties once an incident is declared."
   children = [
-    control.securitycenter_automatic_provisioning_monitoring_agent_on
+    control.securitycenter_automatic_provisioning_monitoring_agent_on,
+    control.securitycenter_email_configured,
+    control.securitycenter_security_alerts_to_owner_enabled
   ]
 }
 
@@ -86,7 +88,10 @@ benchmark "nist_csf_v2_rs_an_06" {
   title       = "RS.AN-06"
   description = "Actions performed during an investigation are recorded, and the records' integrity and provenance are preserved."
   children = [
-    control.securitycenter_automatic_provisioning_monitoring_agent_on
+    control.securitycenter_automatic_provisioning_monitoring_agent_on,
+    control.monitor_log_profile_retention_365_days,
+    control.monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok,
+    control.sql_server_auditing_storage_account_destination_retention_90_days
   ]
 }
 

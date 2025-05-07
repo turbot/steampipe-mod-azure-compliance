@@ -44,7 +44,9 @@ benchmark "nist_csf_v2_rc_rp_03" {
   description = "The integrity of backups and other restoration assets is verified before using them for restoration."
   children = [
     control.sql_database_long_term_geo_redundant_backup_enabled,
-    control.storage_account_geo_redundant_enabled
+    control.storage_account_geo_redundant_enabled,
+    control.keyvault_firewall_enabled,
+    control.keyvault_vault_private_link_used
   ]
 }
 
@@ -86,7 +88,9 @@ benchmark "nist_csf_v2_rc_co_03" {
   title       = "RC.CO-03"
   description = "Recovery activities and progress in restoring operational capabilities are communicated to designated internal and external stakeholders."
   children = [
-    control.securitycenter_notify_alerts_configured
+    control.securitycenter_notify_alerts_configured,
+    control.securitycenter_email_configured,
+    control.securitycenter_security_alerts_to_owner_enabled
   ]
 }
 

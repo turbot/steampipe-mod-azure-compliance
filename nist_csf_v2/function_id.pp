@@ -44,6 +44,9 @@ benchmark "nist_csf_v2_id_am_02" {
     control.compute_vm_guest_configuration_installed,
     control.compute_vm_system_updates_installed,
     control.compute_vm_vulnerability_assessment_solution_enabled,
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
+    control.compute_vm_log_analytics_agent_installed,
+    control.compute_vm_scale_set_log_analytics_agent_installed
   ]
   tags = local.nist_csf_v2_common_tags
 }
@@ -57,6 +60,9 @@ benchmark "nist_csf_v2_id_am_03" {
     control.network_security_group_diagnostic_setting_deployed,
     control.network_security_group_subnet_associated,
     control.network_watcher_enabled,
+    control.network_sg_flowlog_enabled,
+    control.network_watcher_flow_log_enabled,
+    control.network_watcher_flow_log_traffic_analytics_enabled
   ]
   tags = local.nist_csf_v2_common_tags
 }
@@ -128,6 +134,9 @@ benchmark "nist_csf_v2_id_ra_01" {
   description = "Vulnerabilities in assets are identified, validated, and recorded."
   children = [
     control.compute_vm_vulnerability_assessment_solution_enabled,
+    control.sql_server_azure_defender_enabled,
+    control.securitycenter_azure_defender_on_for_sqldb,
+    control.securitycenter_azure_defender_on_for_sqlservervm
   ]
   tags = local.nist_csf_v2_common_tags
 }
@@ -145,6 +154,8 @@ benchmark "nist_csf_v2_id_ra_03" {
   description = "Internal and external threats to the organization are identified and recorded."
   children = [
     control.network_watcher_enabled,
+    control.securitycenter_azure_defender_on_for_resource_manager,
+    control.securitycenter_azure_defender_on_for_opensource_relational_db
   ]
   tags = local.nist_csf_v2_common_tags
 }

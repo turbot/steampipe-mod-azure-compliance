@@ -30,6 +30,11 @@ benchmark "nist_csf_v2_pr_aa_01" {
   children = [
     control.iam_no_custom_subscription_owner_roles_created,
     control.iam_subscription_owner_max_3,
+    control.iam_deprecated_account,
+    control.iam_deprecated_account_with_owner_roles,
+    control.iam_external_user_with_owner_role,
+    control.iam_external_user_with_read_permission,
+    control.iam_external_user_with_write_permission
   ]
 }
 
@@ -118,7 +123,10 @@ benchmark "nist_csf_v2_pr_ds_01" {
   title       = "PR.DS-01"
   description = "The confidentiality, integrity, and availability of data-at-rest are protected."
   children = [
-    control.storage_account_encryption_at_rest_using_cmk
+    control.storage_account_encryption_at_rest_using_cmk,
+    control.app_configuration_encryption_enabled,
+    control.app_service_environment_internal_encryption_enabled,
+    control.automation_account_variable_encryption_enabled
   ]
 }
 
@@ -129,7 +137,9 @@ benchmark "nist_csf_v2_pr_ds_02" {
     control.appservice_api_app_latest_tls_version,
     control.appservice_function_app_latest_tls_version,
     control.appservice_web_app_latest_tls_version,
-    control.storage_account_secure_transfer_required_enabled
+    control.storage_account_secure_transfer_required_enabled,
+    control.appservice_api_app_use_https,
+    control.appservice_function_app_only_https_accessible
   ]
 }
 
@@ -168,7 +178,9 @@ benchmark "nist_csf_v2_pr_ps_01" {
   description = "Configuration management practices are established and applied."
   children = [
     control.compute_vm_system_updates_installed,
-    control.monitor_log_profile_enabled_for_all_regions
+    control.monitor_log_profile_enabled_for_all_regions,
+    control.compute_windows_vm_secure_boot_enabled,
+    control.compute_vm_guest_configuration_with_system_assigned_managed_identity
   ]
 }
 
@@ -195,7 +207,11 @@ benchmark "nist_csf_v2_pr_ps_04" {
   title       = "PR.PS-04"
   description = "Log records are generated and made available for continuous monitoring."
   children = [
-    control.monitor_log_profile_enabled_for_all_regions
+    control.monitor_log_profile_enabled_for_all_regions,
+    control.application_insights_block_log_ingestion_and_querying_from_public,
+    control.application_insights_linked_to_log_analytics_workspace,
+    control.log_analytics_workspace_block_log_ingestion_and_querying_from_public,
+    control.log_analytics_workspace_block_non_azure_ingestion
   ]
 }
 

@@ -39,6 +39,10 @@ benchmark "nist_csf_v2_gv_oc_02" {
   children = [
     control.iam_no_custom_subscription_owner_roles_created,
     control.iam_subscription_owner_max_3,
+    control.iam_external_user_with_owner_role,
+    control.iam_external_user_with_read_permission,
+    control.iam_external_user_with_write_permission,
+    control.iam_subscription_owner_more_than_1
   ]
   tags = local.nist_csf_v2_common_tags
 }
@@ -50,9 +54,11 @@ benchmark "nist_csf_v2_gv_oc_03" {
     control.appservice_api_app_latest_tls_version,
     control.appservice_function_app_latest_tls_version,
     control.appservice_web_app_latest_tls_version,
-
     control.monitor_log_profile_enabled_for_all_regions,
-    control.storage_account_secure_transfer_required_enabled
+    control.storage_account_secure_transfer_required_enabled,
+    control.appservice_api_app_use_https,
+    control.appservice_function_app_only_https_accessible,
+    control.keyvault_secret_expiration_set
   ]
   tags = local.nist_csf_v2_common_tags
 }
@@ -104,8 +110,14 @@ benchmark "nist_csf_v2_gv_rm_02" {
 benchmark "nist_csf_v2_gv_rm_03" {
   title       = "GV.RM-03"
   description = "Cybersecurity risk management activities and outcomes are included in enterprise risk management processes."
-  children    = []
-  tags        = local.nist_csf_v2_common_tags
+  children = [
+    control.securitycenter_azure_defender_on_for_appservice,
+    control.securitycenter_azure_defender_on_for_keyvault,
+    control.securitycenter_azure_defender_on_for_server,
+    control.securitycenter_azure_defender_on_for_sqldb,
+    control.securitycenter_azure_defender_on_for_storage
+  ]
+  tags = local.nist_csf_v2_common_tags
 }
 
 benchmark "nist_csf_v2_gv_rm_04" {
@@ -155,7 +167,9 @@ benchmark "nist_csf_v2_gv_rr_01" {
   children = [
     control.iam_no_custom_subscription_owner_roles_created,
     control.iam_subscription_owner_max_3,
-
+    control.iam_deprecated_account,
+    control.iam_deprecated_account_with_owner_roles,
+    control.iam_no_custom_role
   ]
   tags = local.nist_csf_v2_common_tags
 }

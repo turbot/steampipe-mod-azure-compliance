@@ -24,7 +24,10 @@ benchmark "nist_csf_v2_de_cm_01" {
   title       = "DE.CM-01"
   description = "Networks and network services are monitored to find potentially adverse events."
   children = [
-    control.securitycenter_automatic_provisioning_monitoring_agent_on
+    control.securitycenter_automatic_provisioning_monitoring_agent_on,
+    control.network_sg_flowlog_enabled,
+    control.network_watcher_flow_log_enabled,
+    control.network_watcher_flow_log_traffic_analytics_enabled
   ]
 }
 
@@ -40,7 +43,9 @@ benchmark "nist_csf_v2_de_cm_03" {
   title       = "DE.CM-03"
   description = "Personnel activity and technology usage are monitored to find potentially adverse events."
   children = [
-    control.securitycenter_automatic_provisioning_monitoring_agent_on
+    control.securitycenter_automatic_provisioning_monitoring_agent_on,
+    control.compute_vm_network_traffic_data_collection_linux_agent_installed,
+    control.compute_vm_network_traffic_data_collection_windows_agent_installed
   ]
 }
 
@@ -78,7 +83,9 @@ benchmark "nist_csf_v2_de_ae_02" {
   title       = "DE.AE-02"
   description = "Potentially adverse events are analyzed to better understand associated activities."
   children = [
-    control.securitycenter_automatic_provisioning_monitoring_agent_on
+    control.securitycenter_automatic_provisioning_monitoring_agent_on,
+    control.securitycenter_email_configured,
+    control.securitycenter_security_alerts_to_owner_enabled
   ]
 }
 

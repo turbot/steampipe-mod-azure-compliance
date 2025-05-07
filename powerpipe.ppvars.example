@@ -1,3 +1,6 @@
 # Dimensions
 common_dimensions = ["resource_group", "subscription"]
 tag_dimensions    = []
+
+# Resource group filter example
+# resource_group_filter = ["my-resource-group-1", "my-resource-group-2"]

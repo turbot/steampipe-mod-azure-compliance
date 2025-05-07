@@ -28,6 +28,12 @@ variable "tag_dimensions" {
   default = []
 }
 
+variable "resource_group_filter" {
+  type        = list(string)
+  description = "A list of resource group names to filter all queries. If empty, no resource group filtering is applied."
+  default     = [""]
+}
+
 locals {
   # Local internal variable to build the SQL select clause for common
   # dimensions using a table name qualifier if required. Do not edit directly.
@@ -57,6 +63,12 @@ locals {
   # dimensions. Do not edit directly.
   tag_dimensions_qualifier_sql = <<-EOQ
   %{~for dim in var.tag_dimensions},  __QUALIFIER__tags ->> '${dim}' as "${replace(dim, "\"", "\"\"")}"%{endfor~}
+  EOQ
+
+  resource_group_filter_sql = <<-EOQ
+  %{~if length(var.resource_group_filter) > 0}
+    and resource_group in (${join(", ", [for rg in var.resource_group_filter : "'${rg}'"])})
+  %{endif~}
   EOQ
 }
 

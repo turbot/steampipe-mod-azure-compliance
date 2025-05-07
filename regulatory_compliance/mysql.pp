@@ -134,33 +134,33 @@ control "mysql_server_min_tls_1_2" {
 }
 
 control "mysql_flexible_server_ssl_enabled" {
-  title         = "Ensure server parameter 'require_secure_transport' is set to 'ON' for MySQL flexible server"
-  description   = "Enable require_secure_transport on MySQL flexible servers."
-  query         = query.mysql_flexible_server_ssl_enabled
+  title       = "Ensure server parameter 'require_secure_transport' is set to 'ON' for MySQL flexible server"
+  description = "Enable require_secure_transport on MySQL flexible servers."
+  query       = query.mysql_flexible_server_ssl_enabled
 
   tags = local.regulatory_compliance_mysql_common_tags
 }
 
 control "mysql_flexible_server_min_tls_1_2" {
-  title         = "Ensure server parameter 'tls_version' is set to 'TLSv1.2' (or higher) for MySQL flexible server"
-  description   = "Ensure tls_version on MySQL flexible servers is set to use TLS version 1.2 or higher."
-  query         = query.mysql_flexible_server_min_tls_1_2
+  title       = "Ensure server parameter 'tls_version' is set to 'TLSv1.2' (or higher) for MySQL flexible server"
+  description = "Ensure tls_version on MySQL flexible servers is set to use TLS version 1.2 or higher."
+  query       = query.mysql_flexible_server_min_tls_1_2
 
   tags = local.regulatory_compliance_mysql_common_tags
 }
 
 control "mysql_flexible_server_audit_logging_enabled" {
-  title         = "Ensure server parameter 'audit_log_enabled' is set to 'ON' for MySQL flexible Server"
-  description   = "Enable audit_log_enabled on MySQL flexible Servers."
-  query         = query.mysql_flexible_server_audit_logging_enabled
+  title       = "Ensure server parameter 'audit_log_enabled' is set to 'ON' for MySQL flexible Server"
+  description = "Enable audit_log_enabled on MySQL flexible Servers."
+  query       = query.mysql_flexible_server_audit_logging_enabled
 
   tags = local.regulatory_compliance_mysql_common_tags
 }
 
 control "mysql_flexible_server_audit_logging_events_connection_set" {
-  title         = "Ensure server parameter 'audit_log_events' has 'CONNECTION' set for MySQL flexible Server"
-  description   = "Set audit_log_enabled to include CONNECTION on MySQL flexible servers."
-  query         = query.mysql_flexible_server_audit_logging_events_connection_set
+  title       = "Ensure server parameter 'audit_log_events' has 'CONNECTION' set for MySQL flexible Server"
+  description = "Set audit_log_enabled to include CONNECTION on MySQL flexible servers."
+  query       = query.mysql_flexible_server_audit_logging_events_connection_set
 
   tags = local.regulatory_compliance_mysql_common_tags
 }
@@ -184,7 +184,8 @@ query "mysql_ssl_enabled" {
       azure_mysql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -207,7 +208,8 @@ query "mysql_db_server_geo_redundant_backup_enabled" {
       azure_mysql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -241,7 +243,8 @@ query "mssql_managed_instance_encryption_at_rest_using_cmk" {
       left join encryption_protector as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -275,7 +278,8 @@ query "mssql_managed_instance_vulnerability_assessment_enabled" {
       left join vulnerability_assessments as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -298,7 +302,8 @@ query "mysql_server_public_network_access_disabled" {
       azure_mysql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -321,7 +326,8 @@ query "mysql_server_infrastructure_encryption_enabled" {
       azure_mysql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -344,7 +350,10 @@ query "mysql_server_private_link_used" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_server a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -378,7 +387,8 @@ query "mysql_server_encrypted_at_rest_using_cmk" {
       left join mysql_server_encrypted as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -403,7 +413,8 @@ query "mysql_server_audit_logging_enabled" {
       azure_subscription sub
     where
       config ->> 'Name' = 'audit_log_enabled'
-      and sub.subscription_id = s.subscription_id;
+      and sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -428,7 +439,8 @@ query "mysql_server_audit_logging_events_connection_set" {
       azure_subscription sub
     where
       config ->> 'Name' = 'audit_log_events'
-      and sub.subscription_id = s.subscription_id;
+      and sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -453,7 +465,8 @@ query "mysql_server_min_tls_1_2" {
       azure_mysql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -486,7 +499,8 @@ query "mysql_flexible_server_ssl_enabled" {
       left join ssl_enabled as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -520,7 +534,8 @@ query "mysql_flexible_server_min_tls_1_2" {
       left join tls_version as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -554,7 +569,8 @@ query "mysql_flexible_server_audit_logging_enabled" {
       left join audit_log_enabled as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -588,6 +604,7 @@ query "mysql_flexible_server_audit_logging_events_connection_set" {
       left join audit_log_events as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }

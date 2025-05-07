@@ -68,7 +68,8 @@ query "synapse_workspace_private_link_used" {
       azure_synapse_workspace as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -104,7 +105,8 @@ query "synapse_workspace_vulnerability_assessment_enabled" {
     left join synapse_workspace as s on s.id = a.id,
     azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -127,7 +129,8 @@ query "synapse_workspace_encryption_at_rest_using_cmk" {
       azure_synapse_workspace as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -150,6 +153,7 @@ query "synapse_workspace_data_exfiltration_protection_enabled" {
       azure_synapse_workspace as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }

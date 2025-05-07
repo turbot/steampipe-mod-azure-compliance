@@ -31,7 +31,7 @@ variable "tag_dimensions" {
 variable "resource_group_filter" {
   type        = list(string)
   description = "A list of resource group names to filter all queries. If empty, no resource group filtering is applied."
-  default     = [""]
+  default     = []
 }
 
 locals {
@@ -65,9 +65,9 @@ locals {
   %{~for dim in var.tag_dimensions},  __QUALIFIER__tags ->> '${dim}' as "${replace(dim, "\"", "\"\"")}"%{endfor~}
   EOQ
 
-  resource_group_filter_sql = <<-EOQ
+  resource_group_filter_qualifier_sql = <<-EOQ
   %{~if length(var.resource_group_filter) > 0}
-    and resource_group in (${join(", ", [for rg in var.resource_group_filter : "'${rg}'"])})
+    and __QUALIFIER__resource_group in (${join(", ", [for rg in var.resource_group_filter : "'${rg}'"])})
   %{endif~}
   EOQ
 }
@@ -80,4 +80,5 @@ locals {
   common_dimensions_subscription_sql    = replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "")
   common_dimensions_subscription_id_sql = replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "")
   tag_dimensions_sql                    = replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "")
+  resource_group_filter_sql             = replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "")
 }

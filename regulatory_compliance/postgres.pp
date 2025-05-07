@@ -154,41 +154,41 @@ control "postgres_db_server_allow_access_to_azure_services_disabled" {
 }
 
 control "postgres_flexible_server_allow_access_to_azure_services_disabled" {
-  title         = "Ensure 'Allow public access from any Azure service within Azure to this server' for PostgreSQL flexible server is disabled"
-  description   = "Disable access from Azure services to PostgreSQL flexible server."
-  query         = query.postgres_flexible_server_allow_access_to_azure_services_disabled
+  title       = "Ensure 'Allow public access from any Azure service within Azure to this server' for PostgreSQL flexible server is disabled"
+  description = "Disable access from Azure services to PostgreSQL flexible server."
+  query       = query.postgres_flexible_server_allow_access_to_azure_services_disabled
 
   tags = local.regulatory_compliance_postgres_common_tags
 }
 
 control "postgres_sql_flexible_server_ssl_enabled" {
-  title         = "Ensure server parameter 'require_secure_transport' is set to 'ON' for PostgreSQL flexible server"
-  description   = "Enable 'require_secure_transport' on 'PostgreSQL flexible servers'."
-  query         = query.postgres_sql_flexible_server_ssl_enabled
+  title       = "Ensure server parameter 'require_secure_transport' is set to 'ON' for PostgreSQL flexible server"
+  description = "Enable 'require_secure_transport' on 'PostgreSQL flexible servers'."
+  query       = query.postgres_sql_flexible_server_ssl_enabled
 
   tags = local.regulatory_compliance_postgres_common_tags
 }
 
 control "postgres_flexible_server_log_checkpoints_on" {
-  title         = "Ensure server parameter 'log_checkpoints' is set to 'ON' for PostgreSQL flexible Server"
-  description   = "Enable 'log_checkpoints' on 'PostgreSQL Servers'."
-  query         = query.postgres_flexible_server_log_checkpoints_on
+  title       = "Ensure server parameter 'log_checkpoints' is set to 'ON' for PostgreSQL flexible Server"
+  description = "Enable 'log_checkpoints' on 'PostgreSQL Servers'."
+  query       = query.postgres_flexible_server_log_checkpoints_on
 
   tags = local.regulatory_compliance_postgres_common_tags
 }
 
 control "postgres_flexible_server_connection_throttling_on" {
-  title         = "Ensure server parameter 'connection_throttle.enable' is set to 'ON' for PostgreSQL flexible Server"
-  description   = "Enable connection_throttling on PostgreSQL flexible Servers."
-  query         = query.postgres_flexible_server_connection_throttling_on
+  title       = "Ensure server parameter 'connection_throttle.enable' is set to 'ON' for PostgreSQL flexible Server"
+  description = "Enable connection_throttling on PostgreSQL flexible Servers."
+  query       = query.postgres_flexible_server_connection_throttling_on
 
   tags = local.regulatory_compliance_postgres_common_tags
 }
 
 control "postgres_flexible_server_log_retention_days_3" {
-  title         = "Ensure Server Parameter 'logfiles.retention_days' is greater than 3 days for PostgreSQL flexible Server"
-  description   = "Ensure logfiles.retention_days on PostgreSQL flexible Servers is set to an appropriate value."
-  query         = query.postgres_flexible_server_log_retention_days_3
+  title       = "Ensure Server Parameter 'logfiles.retention_days' is greater than 3 days for PostgreSQL flexible Server"
+  description = "Ensure logfiles.retention_days on PostgreSQL flexible Servers is set to an appropriate value."
+  query       = query.postgres_flexible_server_log_retention_days_3
 
   tags = local.regulatory_compliance_postgres_common_tags
 }
@@ -212,7 +212,8 @@ query "postgres_db_server_geo_redundant_backup_enabled" {
       azure_postgresql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -235,7 +236,8 @@ query "postgres_sql_ssl_enabled" {
       azure_postgresql_server s,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -258,7 +260,8 @@ query "postgresql_server_public_network_access_disabled" {
       azure_postgresql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -281,7 +284,8 @@ query "postgresql_server_infrastructure_encryption_enabled" {
       azure_postgresql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -305,7 +309,10 @@ query "postgres_server_private_link_used" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_server a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")}
   EOQ
 }
 
@@ -339,7 +346,8 @@ query "postgres_sql_server_encrypted_at_rest_using_cmk" {
       left join pgql_server_encrypted as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -364,7 +372,8 @@ query "postgres_db_server_connection_throttling_on" {
       azure_subscription sub
     where
       config ->> 'Name' = 'connection_throttling'
-      and sub.subscription_id = s.subscription_id;
+      and sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -389,7 +398,8 @@ query "postgres_db_server_log_checkpoints_on" {
       azure_subscription sub
     where
       config ->> 'Name' = 'log_checkpoints'
-      and sub.subscription_id = s.subscription_id;
+      and sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -414,7 +424,8 @@ query "postgres_db_server_log_connections_on" {
       azure_subscription sub
     where
       config ->> 'Name' = 'log_connections'
-      and sub.subscription_id = s.subscription_id;
+      and sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -439,7 +450,8 @@ query "postgres_db_server_log_disconnections_on" {
       azure_subscription sub
     where
       config ->> 'Name' = 'log_disconnections'
-      and sub.subscription_id = s.subscription_id;
+      and sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -464,7 +476,8 @@ query "postgres_db_server_log_duration_on" {
       azure_subscription sub
     where
       config ->> 'Name' = 'log_duration'
-      and sub.subscription_id = s.subscription_id;
+      and sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -489,7 +502,8 @@ query "postgres_db_server_log_retention_days_3" {
       azure_subscription sub
     where
       config ->> 'Name' = 'log_retention_days'
-      and sub.subscription_id = s.subscription_id;
+      and sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -523,7 +537,8 @@ query "postgres_db_server_allow_access_to_azure_services_disabled" {
       left join postgres_db_with_allow_access_to_azure_services as a on a.id = s.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -546,7 +561,8 @@ query "postgres_db_server_latest_tls_version" {
       azure_postgresql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -579,7 +595,8 @@ query "postgres_sql_flexible_server_ssl_enabled" {
       left join ssl_enabled as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -612,7 +629,8 @@ query "postgres_flexible_server_log_checkpoints_on" {
       left join log_checkpoints_on as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -645,7 +663,8 @@ query "postgres_flexible_server_connection_throttling_on" {
       left join connection_throttling_on as a on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -670,7 +689,8 @@ query "postgres_flexible_server_log_retention_days_3" {
       azure_subscription sub
     where
       config ->> 'Name' = 'logfiles.retention_days'
-      and sub.subscription_id = s.subscription_id;
+      and sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -704,6 +724,7 @@ query "postgres_flexible_server_allow_access_to_azure_services_disabled" {
       left join postgres_flexible_server_with_allow_access_to_azure_services as a on a.id = s.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }

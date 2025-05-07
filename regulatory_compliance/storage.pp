@@ -250,7 +250,8 @@ query "storage_account_secure_transfer_required_enabled" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -273,7 +274,8 @@ query "storage_account_default_network_access_rule_denied" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -311,7 +313,8 @@ query "storage_account_use_virtual_service_endpoint" {
       left join storage_account_subnet as s on a.id = s.storage_account_id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")}
   EOQ
 }
 
@@ -344,7 +347,8 @@ query "storage_account_uses_private_link" {
       left join storage_account_connection as s on a.id = s.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")}
   EOQ
 }
 
@@ -367,7 +371,8 @@ query "storage_account_infrastructure_encryption_enabled" {
       azure_storage_account as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -390,7 +395,8 @@ query "storage_account_block_public_access" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -413,7 +419,8 @@ query "storage_account_restrict_network_access" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -436,7 +443,8 @@ query "storage_account_geo_redundant_enabled" {
       azure_storage_account as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -459,7 +467,8 @@ query "storage_account_encryption_at_rest_using_cmk" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -482,7 +491,8 @@ query "storage_account_uses_azure_resource_manager" {
       azure_storage_account as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -517,7 +527,8 @@ query "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
       storage_account_encryption_scope as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -540,7 +551,8 @@ query "storage_account_blob_containers_public_access_private" {
     from
       azure_storage_container container
       join azure_storage_account account on container.account_name = account.name
-      join azure_subscription sub on sub.subscription_id = account.subscription_id;
+      join azure_subscription sub on sub.subscription_id = account.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "account.")}
   EOQ
 }
 
@@ -572,7 +584,8 @@ query "storage_account_blob_service_logging_enabled" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -601,7 +614,8 @@ query "storage_account_table_service_logging_enabled" {
       azure_storage_account as sa,
       azure_subscription as sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -626,7 +640,8 @@ query "storage_account_min_tls_1_2" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -655,7 +670,8 @@ query "storage_account_queue_services_logging_enabled" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -678,7 +694,8 @@ query "storage_account_soft_delete_enabled" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -701,7 +718,8 @@ query "storage_account_trusted_microsoft_services_enabled" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -735,7 +753,8 @@ query "storage_account_blobs_logging_enabled" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -766,7 +785,8 @@ query "storage_account_tables_logging_enabled" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -797,7 +817,8 @@ query "storage_account_queues_logging_enabled" {
       azure_storage_account sa,
       azure_subscription sub
     where
-      sub.subscription_id = sa.subscription_id;
+      sub.subscription_id = sa.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }
 
@@ -825,6 +846,7 @@ query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
       azure_subscription sub
     where
       sub.subscription_id = sa.subscription_id
-      and vm.os_disk_vhd_uri like '%' || sa.name || '%';
+      and vm.os_disk_vhd_uri like '%' || sa.name || '%'
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sa.")}
   EOQ
 }

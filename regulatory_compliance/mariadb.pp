@@ -67,7 +67,8 @@ query "mariadb_server_geo_redundant_backup_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mariadb_server as s
-      join azure_subscription as sub on sub.subscription_id = s.subscription_id;
+      join azure_subscription as sub on sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -90,7 +91,8 @@ query "mariadb_server_public_network_access_disabled" {
       azure_mariadb_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }
 
@@ -116,7 +118,8 @@ query "mariadb_server_private_link_used" {
       azure_mariadb_server a,
       azure_subscription sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")}
   EOQ
 }
 
@@ -139,6 +142,7 @@ query "mariadb_server_ssl_enabled" {
       azure_mariadb_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")}
   EOQ
 }

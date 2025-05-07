@@ -254,7 +254,8 @@ query "sql_server_and_databases_va_enabled" {
       jsonb_array_elements(server_vulnerability_assessment) assessment,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -277,7 +278,8 @@ query "sql_server_transparent_data_encryption_enabled" {
       azure_sql_database db,
       azure_subscription sub
     where
-      sub.subscription_id = db.subscription_id;
+      sub.subscription_id = db.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "db.")};
   EOQ
 }
 
@@ -301,7 +303,8 @@ query "sql_server_auditing_on" {
       jsonb_array_elements(server_audit_policy) audit,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -333,7 +336,8 @@ query "sql_server_use_virtual_service_endpoint" {
       left join sql_server_subnet as s on a.name = s.name,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -357,7 +361,8 @@ query "sql_server_tde_protector_cmk_encrypted" {
       jsonb_array_elements(encryption_protector) encryption,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -387,7 +392,8 @@ query "sql_database_long_term_geo_redundant_backup_enabled" {
       azure_subscription sub
     where
       sub.subscription_id = s.subscription_id
-      and s.name <> 'master';
+      and s.name <> 'master'
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -425,7 +431,8 @@ query "sql_database_vulnerability_findings_resolved" {
       azure_subscription as sub
     where
       a.name <> 'master'
-      and sub.subscription_id = a.subscription_id;
+      and sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -449,7 +456,8 @@ query "sql_database_transparent_data_encryption_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-      and s.name <> 'master';
+      and s.name <> 'master'
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -485,7 +493,8 @@ query "sql_server_azure_defender_enabled" {
       left join sql_server_policy as s on a.name = s.name,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -518,7 +527,8 @@ query "sql_server_azure_ad_authentication_enabled" {
       left join sever_with_ad_admin as s on a.id = s.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -541,7 +551,8 @@ query "sql_db_public_network_access_disabled" {
       azure_sql_server as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -574,7 +585,8 @@ query "sql_server_uses_private_link" {
       left join sql_server_private_connection as c on c.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -617,7 +629,8 @@ query "sql_server_auditing_storage_account_destination_retention_90_days" {
       left join sql_server as s on s.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -644,7 +657,8 @@ query "sql_database_allow_internet_access" {
       azure_sql_server s,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -667,7 +681,8 @@ query "sql_db_active_directory_admin_configured" {
       azure_sql_server s,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -691,7 +706,8 @@ query "sql_server_atp_enabled" {
       jsonb_array_elements(server_security_alert_policy) security,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -717,7 +733,8 @@ query "sql_server_auditing_retention_period_90" {
       jsonb_array_elements(server_audit_policy) audit,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -758,7 +775,8 @@ query "sql_server_va_setting_periodic_scan_enabled" {
       jsonb_array_elements(server_vulnerability_assessment) assessment,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -799,7 +817,8 @@ query "sql_server_va_setting_reports_notify_admins" {
       jsonb_array_elements(server_vulnerability_assessment) assessment,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -840,7 +859,8 @@ query "sql_server_va_setting_scan_reports_configured" {
       jsonb_array_elements(server_vulnerability_assessment) assessment,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -873,6 +893,7 @@ query "sql_server_threat_detection_all_enabled" {
       left join threat_detection_disabled as t on t.id = s.id,
       azure_subscription sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }

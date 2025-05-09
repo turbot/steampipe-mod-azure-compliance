@@ -16,8 +16,7 @@ benchmark "nist_csf_v2_gv_oc" {
   description = "The circumstances — mission, stakeholder expectations, dependencies, and legal, regulatory, and contractual requirements — surrounding the organization's cybersecurity risk management decisions are understood."
   children = [
     benchmark.nist_csf_v2_gv_oc_02,
-    benchmark.nist_csf_v2_gv_oc_03,
-    benchmark.nist_csf_v2_gv_oc_05
+    benchmark.nist_csf_v2_gv_oc_03
   ]
   tags = local.nist_csf_v2_common_tags
 }
@@ -50,13 +49,6 @@ benchmark "nist_csf_v2_gv_oc_03" {
     control.keyvault_secret_expiration_set
   ]
   tags = local.nist_csf_v2_common_tags
-}
-
-benchmark "nist_csf_v2_gv_oc_05" {
-  title       = "GV.OC-05"
-  description = "Outcomes, capabilities, and services that the organization depends on are understood and communicated."
-  children    = []
-  tags        = local.nist_csf_v2_common_tags
 }
 
 # Risk Management Strategy (GV.RM)

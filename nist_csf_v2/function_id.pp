@@ -109,7 +109,6 @@ benchmark "nist_csf_v2_id_ra" {
     benchmark.nist_csf_v2_id_ra_01,
     benchmark.nist_csf_v2_id_ra_03,
     benchmark.nist_csf_v2_id_ra_05,
-    benchmark.nist_csf_v2_id_ra_06,
     benchmark.nist_csf_v2_id_ra_08,
     benchmark.nist_csf_v2_id_ra_09
   ]
@@ -155,14 +154,6 @@ benchmark "nist_csf_v2_id_ra_05" {
   children = [
     control.compute_vm_vulnerability_assessment_solution_enabled,
     control.network_watcher_enabled,
-  ]
-  tags = local.nist_csf_v2_common_tags
-}
-
-benchmark "nist_csf_v2_id_ra_06" {
-  title       = "ID.RA-06"
-  description = "Risk responses are chosen, prioritized, planned, tracked, and communicated."
-  children = [
   ]
   tags = local.nist_csf_v2_common_tags
 }

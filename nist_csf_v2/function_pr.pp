@@ -3,7 +3,6 @@ benchmark "nist_csf_v2_pr" {
   description = "Safeguards to manage the organization's cybersecurity risks are used."
   children = [
     benchmark.nist_csf_v2_pr_aa,
-    benchmark.nist_csf_v2_pr_at,
     benchmark.nist_csf_v2_pr_ds,
     benchmark.nist_csf_v2_pr_ps,
     benchmark.nist_csf_v2_pr_ir
@@ -27,13 +26,13 @@ benchmark "nist_csf_v2_pr_aa_01" {
   title       = "PR.AA-01"
   description = "Identities and credentials for authorized users, services, and hardware are managed by the organization."
   children = [
-    control.iam_no_custom_subscription_owner_roles_created,
-    control.iam_subscription_owner_max_3,
     control.iam_deprecated_account,
     control.iam_deprecated_account_with_owner_roles,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
-    control.iam_external_user_with_write_permission
+    control.iam_external_user_with_write_permission,
+    control.iam_no_custom_subscription_owner_roles_created,
+    control.iam_subscription_owner_max_3
   ]
 }
 
@@ -75,30 +74,6 @@ benchmark "nist_csf_v2_pr_aa_05" {
   ]
 }
 
-# Awareness and Training (PR.AT)
-benchmark "nist_csf_v2_pr_at" {
-  title       = "Awareness and Training (PR.AT)"
-  description = "The organization's personnel are provided with cybersecurity awareness and training so that they can perform their cybersecurity-related tasks."
-  children = [
-    benchmark.nist_csf_v2_pr_at_01,
-    benchmark.nist_csf_v2_pr_at_02
-  ]
-}
-
-benchmark "nist_csf_v2_pr_at_01" {
-  title       = "PR.AT-01"
-  description = "Personnel are provided with awareness and training so that they possess the knowledge and skills to perform general tasks with cybersecurity risks in mind."
-  children = [
-  ]
-}
-
-benchmark "nist_csf_v2_pr_at_02" {
-  title       = "PR.AT-02"
-  description = "Individuals in specialized roles are provided with awareness and training so that they possess the knowledge and skills to perform relevant tasks with cybersecurity risks in mind."
-  children = [
-  ]
-}
-
 # Data Security (PR.DS)
 benchmark "nist_csf_v2_pr_ds" {
   title       = "Data Security (PR.DS)"
@@ -114,10 +89,10 @@ benchmark "nist_csf_v2_pr_ds_01" {
   title       = "PR.DS-01"
   description = "The confidentiality, integrity, and availability of data-at-rest are protected."
   children = [
-    control.storage_account_encryption_at_rest_using_cmk,
     control.app_configuration_encryption_enabled,
     control.app_service_environment_internal_encryption_enabled,
-    control.automation_account_variable_encryption_enabled
+    control.automation_account_variable_encryption_enabled,
+    control.storage_account_encryption_at_rest_using_cmk,
   ]
 }
 
@@ -191,11 +166,11 @@ benchmark "nist_csf_v2_pr_ps_04" {
   title       = "PR.PS-04"
   description = "Log records are generated and made available for continuous monitoring."
   children = [
-    control.monitor_log_profile_enabled_for_all_regions,
     control.application_insights_block_log_ingestion_and_querying_from_public,
     control.application_insights_linked_to_log_analytics_workspace,
     control.log_analytics_workspace_block_log_ingestion_and_querying_from_public,
-    control.log_analytics_workspace_block_non_azure_ingestion
+    control.log_analytics_workspace_block_non_azure_ingestion,
+    control.monitor_log_profile_enabled_for_all_regions
   ]
 }
 

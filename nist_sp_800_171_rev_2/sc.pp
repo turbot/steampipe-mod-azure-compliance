@@ -73,8 +73,8 @@ benchmark "nist_sp_800_171_rev_2_3_13_10" {
   children = [
     control.batch_account_encrypted_with_cmk,
     control.cognitive_account_encrypted_with_cmk,
-    control.compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed,
     control.compute_os_and_data_disk_encrypted_with_cmk,
+    control.compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed,
     control.container_instance_container_group_encrypted_using_cmk,
     control.container_registry_encrypted_with_cmk,
     control.cosmosdb_account_encryption_at_rest_using_cmk,

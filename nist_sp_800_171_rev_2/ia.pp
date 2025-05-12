@@ -1,6 +1,6 @@
 benchmark "nist_sp_800_171_rev_2_3_5" {
   title       = "3.5 Identification and Authentication"
-  description = "This family of requirements ensures only authenticated users can access the organization’s network or systems. The 11 requirements cover password and authentication procedures and policy, alongside the reliable identification of users. Requirements ensure the distinction between privileged and non-privileged accounts is reflected in network access."
+  description = "This family of requirements ensures only authenticated users can access the organization's network or systems. The 11 requirements cover password and authentication procedures and policy, alongside the reliable identification of users. Requirements ensure the distinction between privileged and non-privileged accounts is reflected in network access."
   children = [
     benchmark.nist_sp_800_171_rev_2_3_5_1,
     benchmark.nist_sp_800_171_rev_2_3_5_2,

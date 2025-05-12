@@ -857,3 +857,60 @@ query "securitycenter_container_image_scan_enabled" {
       right join azure_subscription sub on sub_assessment.subscription_id = sub.subscription_id;
   EOQ
 }
+
+query "security_center_defender_for_servers_enabled" {
+  sql = <<-EOQ
+    select
+      p.id as resource,
+      case
+        when p.name = 'VirtualMachines' and p.pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.name = 'VirtualMachines' and p.pricing_tier = 'Standard' 
+          then 'Microsoft Defender for Servers is enabled with ' || p.pricing_tier || ' tier.'
+        when p.name = 'VirtualMachines' 
+          then 'Microsoft Defender for Servers is disabled, current tier: ' || p.pricing_tier || '.'
+        else 'Microsoft Defender for Servers pricing not found.'
+      end as reason,
+      p.subscription_id,
+      p.cloud_environment
+    from
+      azure_security_center_subscription_pricing p
+    where
+      p.name = 'VirtualMachines';
+  EOQ
+}
+
+query "security_center_attack_path_alerts_enabled" {
+  sql = <<-EOQ
+    with contact_info as (
+      select
+        subscription_id,
+        count(*) filter (where alert_notifications = 'On') as notification_alert_count
+      from
+        azure_security_center_contact
+      group by
+        subscription_id
+    )
+    select
+      c.id as resource,
+      case
+        when c.name = 'AttackPath' and c.enabled and ci.notification_alert_count > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when c.name = 'AttackPath' and c.enabled and ci.notification_alert_count > 0 then 'Attack path notifications are enabled.'
+        when c.name = 'AttackPath' and not c.enabled then 'Attack path notifications are disabled.'
+        when ci.notification_alert_count = 0 then 'Security alert notifications are disabled.'
+        else 'Attack path notifications not configured.'
+      end as reason,
+      c.subscription_id,
+      c.cloud_environment
+    from
+      azure_security_center_setting c
+      left join contact_info ci on c.subscription_id = ci.subscription_id
+    where
+      c.name = 'AttackPath';
+  EOQ
+}

@@ -215,6 +215,14 @@ control "iam_user_no_built_in_contributor_role" {
   tags = local.regulatory_compliance_iam_common_tags
 }
 
+control "iam_user_access_administrator_role_restricted" {
+  title       = "Use of the 'User Access Administrator' role should be restricted"
+  description = "The User Access Administrator role grants the ability to view all resources and manage access assignments at any subscription or management group level within the tenant. Due to its high privilege level, this role assignment should be removed immediately after completing the necessary changes at the root scope to minimize security risks."
+  query       = query.iam_user_access_administrator_role_restricted
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
 query "iam_subscription_owner_more_than_1" {
   sql = <<-EOQ
     with owner_roles as (
@@ -853,5 +861,38 @@ query "iam_global_administrator_max_5" {
       azuread_directory_role
     where
       display_name = 'Global Administrator'
+  EOQ
+}
+
+query "iam_user_access_administrator_role_restricted" {
+  sql = <<-EOQ
+    with user_access_admin_role as (
+      select
+        id,
+        role_name,
+        subscription_id
+      from
+        azure_role_definition
+      where
+        role_name = 'User Access Administrator'
+    )
+    select
+      ra.id as resource,
+      case
+        when r.role_name is not null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when r.role_name is not null then ra.subscription_id || ' has User Access Administrator role assigned at scope ' || ra.scope
+        else 'No User Access Administrator role assignments found.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "ra.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_role_assignment ra
+      left join user_access_admin_role r on ra.role_definition_id = r.id
+      left join azure_subscription sub on sub.subscription_id = ra.subscription_id
+    where
+      r.role_name is not null;
   EOQ
 }

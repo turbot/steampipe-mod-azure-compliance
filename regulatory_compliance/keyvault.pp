@@ -689,3 +689,29 @@ query "keyvault_firewall_enabled" {
       sub.subscription_id = kv.subscription_id;
   EOQ
 }
+
+query "keyvault_public_network_access_disabled" {
+  sql = <<-EOQ
+    select
+      v.id as resource,
+      case
+        when jsonb_array_length(v.private_endpoint_connections) > 0 
+          and v.network_acls ->> 'defaultAction' = 'Deny' then 'ok'
+        when jsonb_array_length(v.private_endpoint_connections) = 0 then 'skip'
+        else 'alarm'
+      end as status,
+      case
+        when jsonb_array_length(v.private_endpoint_connections) > 0 
+          and v.network_acls ->> 'defaultAction' = 'Deny' 
+          then v.name || ' public network access is disabled with private endpoint.'
+        when jsonb_array_length(v.private_endpoint_connections) = 0 
+          then v.name || ' has no private endpoints configured.'
+        else v.name || ' public network access is enabled with private endpoint.'
+      end as reason,
+      v.subscription_id,
+      v.resource_group,
+      v.region
+    from
+      azure_key_vault v;
+  EOQ
+}

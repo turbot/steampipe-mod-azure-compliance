@@ -1,3 +1,14 @@
+## v1.3.0 [2025-05-12]
+
+_Dependencies_
+
+- Azure plugin `v1.4.0` or higher is now required.
+
+_What's new?_
+
+- Added CIS v4.0.0 benchmark (`powerpipe benchmark run azure_compliance.benchmark.cis_v400`). ([#300](https://github.com/turbot/steampipe-mod-azure-compliance/pull/300))
+- Added NIST CSF v2.0 benchmark (`powerpipe benchmark run azure_compliance.benchmark.nist_csf_v2`). ([#302](https://github.com/turbot/steampipe-mod-azure-compliance/pull/302))
+
 ## v1.2.1 [2024-04-14]
 
 _Bug fixes_

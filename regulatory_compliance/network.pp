@@ -110,7 +110,7 @@ control "network_ddos_enabled" {
 
 control "network_virtual_network_gateway_no_basic_sku" {
   title       = "Virtual network gateways should use standard SKUs as a minimum"
-  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
+  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU's do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
   query       = query.network_virtual_network_gateway_no_basic_sku
 
   tags = local.regulatory_compliance_network_common_tags
@@ -118,7 +118,7 @@ control "network_virtual_network_gateway_no_basic_sku" {
 
 control "network_lb_no_basic_sku" {
   title       = "Network load balancers should use standard SKUs as a minimum"
-  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
+  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU's do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
   query       = query.network_lb_no_basic_sku
 
   tags = local.regulatory_compliance_network_common_tags
@@ -126,7 +126,7 @@ control "network_lb_no_basic_sku" {
 
 control "network_public_ip_no_basic_sku" {
   title       = "Network public IPs should use standard SKUs as a minimum"
-  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU’s do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
+  description = "The use of Basic or Free SKUs in Azure whilst cost effective have significant limitations in terms of what can be monitored and what support can be realized from Microsoft. Typically, these SKU's do not have a service SLA and Microsoft will usually refuse to provide support for them. Consequently Basic/Free SKUs should never be used for production workloads."
   query       = query.network_public_ip_no_basic_sku
 
   tags = local.regulatory_compliance_network_common_tags
@@ -2151,5 +2151,26 @@ query "application_gateway_waf_uses_specified_mode" {
     from
       azure_application_gateway as ag
       join azure_subscription as sub on sub.subscription_id = ag.subscription_id;
+  EOQ
+}
+
+query "network_watcher_flow_log_retention_90_days" {
+  sql = <<-EOQ
+    SELECT
+      fl.id AS resource,
+      CASE
+        WHEN fl.enabled AND (fl.retention_policy_days >= 90 OR fl.retention_policy_days = 0) THEN 'ok'
+        ELSE 'alarm'
+      END AS status,
+      CASE
+        WHEN NOT fl.enabled THEN fl.name || ' flow log is not enabled.'
+        WHEN fl.retention_policy_days = 0 THEN fl.name || ' flow log retention is set to indefinite.'
+        WHEN fl.retention_policy_days >= 90 THEN fl.name || ' flow log retention is set to ' || fl.retention_policy_days || ' days.'
+        ELSE fl.name || ' flow log retention is set to ' || fl.retention_policy_days || ' days.'
+      END AS reason,
+      fl.subscription_id,
+      fl.region
+    FROM
+      azure_network_watcher_flow_log fl;
   EOQ
 }

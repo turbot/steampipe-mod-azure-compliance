@@ -1342,3 +1342,51 @@ query "log_analytics_workspace_block_non_azure_ingestion" {
       left join azure_subscription sub on sub.subscription_id = w.subscription_id;
   EOQ
 }
+
+query "monitor_log_alert_service_health" {
+  sql = <<-EOQ
+    with alert_rule as (
+      select
+        alert.id as alert_id,
+        alert.name as alert_name,
+        alert.enabled,
+        alert.location,
+        alert.subscription_id
+      from
+        azure_log_alert as alert,
+        jsonb_array_elements_text(scopes) as sc
+      where
+        alert.location = 'global'
+        and alert.enabled
+        and sc = '/subscriptions/' || alert.subscription_id
+        and (
+          (
+            alert.condition -> 'allOf' @> '[{"field":"category", "equals":"ServiceHealth"}]'
+          )
+          or
+          (
+            alert.condition -> 'allOf' @> '[{"field":"category", "equals":"ResourceHealth"}]'
+          )
+        )
+    )
+    select
+      sub.subscription_id as resource,
+      case
+        when count(a.subscription_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when count(a.subscription_id) > 0 then 'Activity log alert exists for Service Health events.'
+        else 'Activity log alert does not exist for Service Health events.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription sub
+      left join alert_rule a on sub.subscription_id = a.subscription_id
+    group by
+      sub._ctx,
+      sub.subscription_id,
+      sub.display_name;
+  EOQ
+}

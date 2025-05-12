@@ -231,6 +231,86 @@ control "storage_account_containing_vhd_os_disk_cmk_encrypted" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_encryption_at_rest_using_mmk" {
+  title       = "Storage accounts should use Microsoft-managed key for encryption"
+  description = "Use Microsoft-managed key to encrypt your storage account. Microsoft-managed key is the default and simplest option for encryption at rest."
+  query       = query.storage_account_encryption_at_rest_using_mmk
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_blob_versioning_enabled" {
+  title       = "Blob versioning should be enabled for storage accounts"
+  description = "Ensure that blob versioning is enabled to allow automatic retention of previous versions of objects, which helps recover data in case of accidental deletion or overwrite."
+  query       = query.storage_account_blob_versioning_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_file_share_soft_delete_enabled" {
+  title       = "Soft delete for Azure File Shares should be enabled"
+  description = "Enable soft delete for Azure File Shares to allow recovery of data that is mistakenly deleted by an application or user."
+  query       = query.storage_account_file_share_soft_delete_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_blob_soft_delete_enabled" {
+  title       = "Soft delete for blobs should be enabled"
+  description = "Enable soft delete for blobs to protect against accidental or malicious deletion of blob data."
+  query       = query.storage_account_blob_soft_delete_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_private_endpoint_enabled" {
+  title       = "Private endpoints should be used to access storage accounts"
+  description = "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data over a private network."
+  query       = query.storage_account_private_endpoint_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_public_network_access_disabled" {
+  title       = "Public network access should be disabled for storage accounts"
+  description = "Disabling public network access for a storage account helps prevent unauthorized access from the public internet."
+  query       = query.storage_account_public_network_access_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_default_network_access_deny" {
+  title       = "Default network access rule for storage accounts should be set to deny"
+  description = "Restricting default network access provides an additional layer of security by only allowing connections from explicitly allowed networks."
+  query       = query.storage_account_default_network_access_deny
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_default_to_oauth_authentication" {
+  title       = "Default to Microsoft Entra authorization should be enabled for storage accounts"
+  description = "Enable default Microsoft Entra (Azure AD) authorization for storage accounts to improve identity and access management."
+  query       = query.storage_account_default_to_oauth_authentication
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_cross_tenant_replication_disabled" {
+  title       = "Cross tenant replication should be disabled for storage accounts"
+  description = "Disabling cross tenant replication helps prevent data from being replicated across multiple Azure tenants, reducing the risk of data leakage."
+  query       = query.storage_account_cross_tenant_replication_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_shared_key_access_disabled" {
+  title       = "Shared key access should be disabled for storage accounts"
+  description = "Disabling shared key access ensures that only Azure AD identities can access storage accounts, improving security."
+  query       = query.storage_account_shared_key_access_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select
@@ -451,6 +531,29 @@ query "storage_account_encryption_at_rest_using_cmk" {
       case
         when sa.encryption_key_source = 'Microsoft.Storage' then sa.name || ' not encrypted with CMK.'
         else sa.name || ' encrypted with CMK.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_encryption_at_rest_using_mmk" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when sa.encryption_key_source = 'Microsoft.Storage' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when sa.encryption_key_source = 'Microsoft.Storage' then sa.name || ' encrypted with MMK.'
+        else sa.name || ' not encrypted with MMK.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
@@ -826,5 +929,234 @@ query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
     where
       sub.subscription_id = sa.subscription_id
       and vm.os_disk_vhd_uri like '%' || sa.name || '%';
+  EOQ
+}
+
+query "storage_account_blob_versioning_enabled" {
+  sql = <<-EOQ
+    with storage_accounts as materialized (
+      select 
+        name as storage_account_name,
+        id,
+        resource_group
+      from 
+        azure_storage_account
+    ),
+    blob_services as materialized (
+      select 
+        storage_account_name,
+        is_versioning_enabled,
+        resource_group
+      from 
+        azure_storage_blob_service
+    )
+    select 
+      sa.id as resource,
+      case
+        when bs.is_versioning_enabled then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when bs.is_versioning_enabled then sa.storage_account_name || ' has blob versioning enabled.'
+        else sa.storage_account_name || ' has blob versioning disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from 
+      storage_accounts sa
+      left join blob_services bs on sa.storage_account_name = bs.storage_account_name
+      left join azure_subscription sub on sub.subscription_id = (split_part(sa.id, '/', 3))
+    order by
+      sa.storage_account_name;
+  EOQ
+}
+
+query "storage_account_file_share_soft_delete_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when file_soft_delete_enabled and file_soft_delete_retention_days between 1 and 365 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when not file_soft_delete_enabled then name || ' file share soft delete disabled.'
+        when file_soft_delete_retention_days < 1 or file_soft_delete_retention_days > 365 
+          then name || ' file share soft delete retention days (' || file_soft_delete_retention_days || ') not between 1 and 365.'
+        else name || ' file share soft delete enabled with ' || file_soft_delete_retention_days || ' days retention.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_blob_soft_delete_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when blob_soft_delete_enabled and blob_soft_delete_retention_days between 7 and 365 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when not blob_soft_delete_enabled then name || ' blob soft delete disabled.'
+        when blob_soft_delete_retention_days < 7 or blob_soft_delete_retention_days > 365 
+          then name || ' blob soft delete retention days (' || blob_soft_delete_retention_days || ') not between 7 and 365.'
+        else name || ' blob soft delete enabled with ' || blob_soft_delete_retention_days || ' days retention.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_private_endpoint_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when private_endpoint_connections is not null and jsonb_array_length(private_endpoint_connections) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when private_endpoint_connections is null then name || ' has no private endpoint connections configured.'
+        when jsonb_array_length(private_endpoint_connections) = 0 then name || ' has no private endpoint connections.'
+        else name || ' has ' || jsonb_array_length(private_endpoint_connections) || ' private endpoint connection(s).'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_public_network_access_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when public_network_access = 'Disabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when public_network_access = 'Disabled' then sa.name || ' public network access is disabled.'
+        else sa.name || ' public network access is enabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_default_network_access_deny" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when network_rule_default_action = 'Deny' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when network_rule_default_action = 'Deny' then sa.name || ' default network access rule set to deny.'
+        else sa.name || ' default network access rule not set to deny.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_default_to_oauth_authentication" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when default_to_oauth_authentication then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when default_to_oauth_authentication then sa.name || ' default to Microsoft Entra authorization is enabled.'
+        else sa.name || ' default to Microsoft Entra authorization is disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_cross_tenant_replication_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when allow_cross_tenant_replication then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when allow_cross_tenant_replication then sa.name || ' cross tenant replication is enabled.'
+        else sa.name || ' cross tenant replication is disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_shared_key_access_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when allow_shared_key_access then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when allow_shared_key_access then sa.name || ' shared key access is enabled.'
+        else sa.name || ' shared key access is disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
   EOQ
 }

@@ -20,6 +20,7 @@ benchmark "all_controls" {
     benchmark.all_controls_containerregistry,
     benchmark.all_controls_cosmosdb,
     benchmark.all_controls_databoxedge,
+    benchmark.all_controls_databricks,
     benchmark.all_controls_datafactory,
     benchmark.all_controls_datalakeanalytics,
     benchmark.all_controls_datalakestore,

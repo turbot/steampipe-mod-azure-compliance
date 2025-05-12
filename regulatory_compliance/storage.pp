@@ -239,6 +239,78 @@ control "storage_account_encryption_at_rest_using_mmk" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_blob_versioning_enabled" {
+  title       = "Blob versioning should be enabled for storage accounts"
+  description = "Ensure that blob versioning is enabled to allow automatic retention of previous versions of objects, which helps recover data in case of accidental deletion or overwrite."
+  query       = query.storage_account_blob_versioning_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_file_share_soft_delete_enabled" {
+  title       = "Soft delete for Azure File Shares should be enabled"
+  description = "Enable soft delete for Azure File Shares to allow recovery of data that is mistakenly deleted by an application or user."
+  query       = query.storage_account_file_share_soft_delete_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_blob_soft_delete_enabled" {
+  title       = "Soft delete for blobs should be enabled"
+  description = "Enable soft delete for blobs to protect against accidental or malicious deletion of blob data."
+  query       = query.storage_account_blob_soft_delete_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_private_endpoint_enabled" {
+  title       = "Private endpoints should be used to access storage accounts"
+  description = "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data over a private network."
+  query       = query.storage_account_private_endpoint_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_public_network_access_disabled" {
+  title       = "Public network access should be disabled for storage accounts"
+  description = "Disabling public network access for a storage account helps prevent unauthorized access from the public internet."
+  query       = query.storage_account_public_network_access_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_default_network_access_deny" {
+  title       = "Default network access rule for storage accounts should be set to deny"
+  description = "Restricting default network access provides an additional layer of security by only allowing connections from explicitly allowed networks."
+  query       = query.storage_account_default_network_access_deny
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_default_to_oauth_authentication" {
+  title       = "Default to Microsoft Entra authorization should be enabled for storage accounts"
+  description = "Enable default Microsoft Entra (Azure AD) authorization for storage accounts to improve identity and access management."
+  query       = query.storage_account_default_to_oauth_authentication
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_cross_tenant_replication_disabled" {
+  title       = "Cross tenant replication should be disabled for storage accounts"
+  description = "Disabling cross tenant replication helps prevent data from being replicated across multiple Azure tenants, reducing the risk of data leakage."
+  query       = query.storage_account_cross_tenant_replication_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_shared_key_access_disabled" {
+  title       = "Shared key access should be disabled for storage accounts"
+  description = "Disabling shared key access ensures that only Azure AD identities can access storage accounts, improving security."
+  query       = query.storage_account_shared_key_access_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select

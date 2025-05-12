@@ -20,6 +20,7 @@ benchmark "all_controls_activedirectory" {
     control.iam_subscription_owner_max_3,
     control.iam_subscription_owner_more_than_1,
     control.iam_subscriptions_with_custom_roles_no_overly_permissive,
+    control.iam_user_access_administrator_role_restricted,
     control.iam_user_no_built_in_contributor_role,
     control.iam_user_not_allowed_to_create_security_group,
     control.iam_user_not_allowed_to_create_tenants,

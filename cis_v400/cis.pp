@@ -11,7 +11,6 @@ benchmark "cis_v400" {
   documentation = file("./cis_v400/docs/cis_overview.md")
 
   children = [
-    benchmark.cis_v400_1,
     benchmark.cis_v400_10,
     benchmark.cis_v400_2,
     benchmark.cis_v400_3,

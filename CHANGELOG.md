@@ -2,8 +2,8 @@
 
 _Bug fixes_
 
-- Fixed the ordering of control `cis_v400_10` in the `cis_v400` benchmark. ([#305](https://github.com/turbot/steampipe-mod-azure-compliance/pull/305))
-- Fixed an issue where control `nist_csf_v2_id_ra_04` was missing from the `nist_csf_v2` benchmark. ([#305](https://github.com/turbot/steampipe-mod-azure-compliance/pull/305))
+- Fixed the ordering of sub-benchmark `cis_v400_10` in the `cis_v400` benchmark. ([#305](https://github.com/turbot/steampipe-mod-azure-compliance/pull/305))
+- Fixed an issue where sub-benchmark `nist_csf_v2_id_ra_04` was missing from the `nist_csf_v2` benchmark. ([#305](https://github.com/turbot/steampipe-mod-azure-compliance/pull/305))
 
 ## v1.3.0 [2025-05-12]
 

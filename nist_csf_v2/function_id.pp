@@ -108,6 +108,7 @@ benchmark "nist_csf_v2_id_ra" {
   children = [
     benchmark.nist_csf_v2_id_ra_01,
     benchmark.nist_csf_v2_id_ra_03,
+    benchmark.nist_csf_v2_id_ra_04,
     benchmark.nist_csf_v2_id_ra_05,
     benchmark.nist_csf_v2_id_ra_08,
     benchmark.nist_csf_v2_id_ra_09

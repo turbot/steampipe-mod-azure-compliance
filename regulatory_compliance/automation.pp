@@ -43,6 +43,9 @@ query "automation_account_variable_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_automation_variable as a,
-      azure_subscription as sub;
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

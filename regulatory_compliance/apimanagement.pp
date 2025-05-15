@@ -38,7 +38,10 @@ query "apimanagement_service_with_virtual_network" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_api_management a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -59,6 +62,9 @@ query "apimanagement_service_client_certificate_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_api_management a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

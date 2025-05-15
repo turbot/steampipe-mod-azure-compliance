@@ -23,7 +23,7 @@ control "stream_analytics_job_encrypted_with_cmk" {
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_streamanalytics_common_tags, {
-    nist_sp_800_53_rev_5  = "true"
+    nist_sp_800_53_rev_5 = "true"
   })
 }
 
@@ -74,6 +74,7 @@ query "stream_analytics_job_logging_enabled" {
       left join logging_details as l on v.name = l.job_name,
       azure_subscription as sub
     where
-      sub.subscription_id = v.subscription_id;
+      sub.subscription_id = v.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "v.")};
   EOQ
 }

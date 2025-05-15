@@ -64,6 +64,7 @@ query "datalake_analytics_account_logging_enabled" {
       left join logging_details as l on a.account_id = l.account_id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

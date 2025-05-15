@@ -1228,6 +1228,7 @@ query "compute_vm_jit_access_protected" {
         azure_subscription sub
       where
         vm.subscription_id = sub.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")}
     )
     select
       distinct vm.vm_id as resource,
@@ -1249,7 +1250,8 @@ query "compute_vm_jit_access_protected" {
       azure_subscription as sub
       left join compute on true
     where
-      jit.subscription_id = sub.subscription_id;
+      jit.subscription_id = sub.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 

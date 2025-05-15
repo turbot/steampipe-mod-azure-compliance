@@ -47,7 +47,8 @@ query "healthcare_fhir_azure_api_encrypted_at_rest_with_cmk" {
       azure_healthcare_service as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -70,6 +71,9 @@ query "healthcare_fhir_uses_private_link" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_healthcare_service a,
-      azure_subscription sub;
+      azure_subscription sub
+    where
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

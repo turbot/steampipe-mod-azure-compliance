@@ -39,6 +39,7 @@ query "hpc_cache_encrypted_with_cmk" {
       azure_hpc_cache as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

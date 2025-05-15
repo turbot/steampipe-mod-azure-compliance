@@ -73,7 +73,8 @@ query "redis_cache_ssl_enabled" {
       azure_redis_cache as redis,
       azure_subscription as sub
     where
-      sub.subscription_id = redis.subscription_id;
+      sub.subscription_id = redis.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "redis.")};
   EOQ
 }
 
@@ -106,7 +107,8 @@ query "redis_cache_uses_private_link" {
       left join redis_private_connection as c on c.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -129,7 +131,8 @@ query "redis_cache_in_virtual_network" {
       azure_redis_cache as redis,
       azure_subscription as sub
     where
-      sub.subscription_id = redis.subscription_id;
+      sub.subscription_id = redis.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "redis.")};
   EOQ
 }
 
@@ -152,7 +155,8 @@ query "redis_cache_no_basic_sku" {
       azure_redis_cache as c,
       azure_subscription as sub
     where
-      sub.subscription_id = c.subscription_id;
+      sub.subscription_id = c.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "c.")};
   EOQ
 }
 
@@ -176,6 +180,7 @@ query "redis_cache_min_tls_1_2" {
       azure_redis_cache as c,
       azure_subscription sub
     where
-      sub.subscription_id = c.subscription_id;
+      sub.subscription_id = c.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "c.")};
   EOQ
 }

@@ -62,7 +62,7 @@ query "recovery_service_vault_uses_managed_identity" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -86,7 +86,7 @@ query "recovery_service_vault_uses_private_link" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -110,6 +110,6 @@ query "recovery_service_vault_uses_private_link_for_backup" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }

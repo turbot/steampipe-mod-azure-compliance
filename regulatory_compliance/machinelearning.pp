@@ -46,6 +46,7 @@ query "machine_learning_workspace_encrypted_with_cmk" {
       azure_machine_learning_workspace c,
       azure_subscription sub
     where
-      sub.subscription_id = c.subscription_id;
+      sub.subscription_id = c.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "c.")};
   EOQ
 }

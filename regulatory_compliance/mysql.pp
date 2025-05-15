@@ -185,7 +185,7 @@ query "mysql_ssl_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -209,7 +209,7 @@ query "mysql_db_server_geo_redundant_backup_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -244,7 +244,7 @@ query "mssql_managed_instance_encryption_at_rest_using_cmk" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -279,7 +279,7 @@ query "mssql_managed_instance_vulnerability_assessment_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -303,7 +303,7 @@ query "mysql_server_public_network_access_disabled" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -327,7 +327,7 @@ query "mysql_server_infrastructure_encryption_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -353,7 +353,7 @@ query "mysql_server_private_link_used" {
       azure_subscription sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -388,7 +388,7 @@ query "mysql_server_encrypted_at_rest_using_cmk" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -414,7 +414,7 @@ query "mysql_server_audit_logging_enabled" {
     where
       config ->> 'Name' = 'audit_log_enabled'
       and sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -440,7 +440,7 @@ query "mysql_server_audit_logging_events_connection_set" {
     where
       config ->> 'Name' = 'audit_log_events'
       and sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -466,7 +466,7 @@ query "mysql_server_min_tls_1_2" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -500,7 +500,7 @@ query "mysql_flexible_server_ssl_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -535,7 +535,7 @@ query "mysql_flexible_server_min_tls_1_2" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -570,7 +570,7 @@ query "mysql_flexible_server_audit_logging_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -605,6 +605,6 @@ query "mysql_flexible_server_audit_logging_events_connection_set" {
       azure_subscription as sub
     where
       sub.subscription_id = s.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }

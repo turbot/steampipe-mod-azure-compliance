@@ -48,6 +48,6 @@ query "storage_sync_private_link_used" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

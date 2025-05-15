@@ -300,7 +300,8 @@ query "monitor_log_profile_enabled_for_all_categories" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_log_profile as p
-      left join azure_subscription sub on sub.subscription_id = p.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = p.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "p.")};
   EOQ
 }
 
@@ -376,7 +377,8 @@ query "monitor_log_profile_enabled_for_all_regions" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_log_profile as p
-      left join azure_subscription sub on sub.subscription_id = p.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = p.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "p.")};
   EOQ
 }
 
@@ -384,11 +386,13 @@ query "log_profile_enabled_for_all_subscription" {
   sql = <<-EOQ
     with log_profiles as (
       select
-        subscription_id
+        subscription_id,
+        resource_group
       from
         azure_log_profile
       group by
-        subscription_id
+        subscription_id,
+        resource_group
     )
     select
       sub.id as resource,
@@ -404,7 +408,8 @@ query "log_profile_enabled_for_all_subscription" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription as sub
-      left join log_profiles as i on i.subscription_id = sub.subscription_id;
+      left join log_profiles as i on i.subscription_id = sub.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "i.")};
   EOQ
 }
 
@@ -413,11 +418,13 @@ query "monitor_application_insights_configured" {
     with application_insights as (
       select
         subscription_id,
+        resource_group,
         count(*) as no_application_insight
       from
         azure_application_insight
       group by
-        subscription_id
+        subscription_id,
+        resource_group
     )
     select
       sub.id as resource,
@@ -433,7 +440,8 @@ query "monitor_application_insights_configured" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription as sub
-      left join application_insights as i on i.subscription_id = sub.subscription_id;
+      left join application_insights as i on i.subscription_id = sub.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "i.")};
   EOQ
 }
 
@@ -481,7 +489,8 @@ query "monitor_diagnostic_settings_captures_proper_categories" {
       enabled_settings sett,
       azure_subscription sub
     where
-      sub.subscription_id = sett.subscription_id;
+      sub.subscription_id = sett.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sett.")};
   EOQ
 }
 
@@ -1158,7 +1167,8 @@ query "monitor_logs_storage_container_insights_operational_logs_encrypted_with_b
     where
       c.name = 'insights-operational-logs'
       and c.account_name = a.name
-      and sub.subscription_id = a.subscription_id;
+      and sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1185,7 +1195,8 @@ query "monitor_logs_storage_container_insights_activity_logs_encrypted_with_byok
     where
       c.name = 'insights-activity-logs'
       and c.account_name = a.name
-      and sub.subscription_id = a.subscription_id;
+      and sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1209,7 +1220,8 @@ query "monitor_logs_storage_container_insights_operational_logs_not_public_acces
       azure_subscription sub
     where
       name = 'insights-operational-logs'
-      and sub.subscription_id = sc.subscription_id;
+      and sub.subscription_id = sc.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sc.")};
   EOQ
 }
 
@@ -1233,7 +1245,8 @@ query "monitor_logs_storage_container_insights_activity_logs_not_public_accessib
       azure_subscription sub
     where
       name = 'insights-activity-logs'
-      and sub.subscription_id = sc.subscription_id;
+      and sub.subscription_id = sc.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sc.")};
   EOQ
 }
 
@@ -1255,7 +1268,8 @@ query "monitor_log_profile_retention_365_days" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_log_profile as p
-      left join azure_subscription sub on sub.subscription_id = p.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = p.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "p.")};
   EOQ
 }
 
@@ -1276,7 +1290,8 @@ query "application_insights_linked_to_log_analytics_workspace" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_application_insight as a
-      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1297,7 +1312,8 @@ query "application_insights_block_log_ingestion_and_querying_from_public" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_application_insight as a
-      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1318,7 +1334,8 @@ query "log_analytics_workspace_block_log_ingestion_and_querying_from_public" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_log_analytics_workspace as w
-      left join azure_subscription sub on sub.subscription_id = w.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = w.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "w.")};
   EOQ
 }
 
@@ -1339,6 +1356,7 @@ query "log_analytics_workspace_block_non_azure_ingestion" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_log_analytics_workspace as w
-      left join azure_subscription sub on sub.subscription_id = w.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = w.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "w.")};
   EOQ
 }

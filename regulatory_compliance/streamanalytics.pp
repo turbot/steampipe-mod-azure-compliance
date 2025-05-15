@@ -75,6 +75,6 @@ query "stream_analytics_job_logging_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = v.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "v.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "v.")};
   EOQ
 }

@@ -113,7 +113,7 @@ query "servicebus_namespace_logging_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = v.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "v.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "v.")};
   EOQ
 }
 
@@ -142,7 +142,7 @@ query "servicebus_name_space_private_link_used" {
       azure_subscription sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -168,7 +168,7 @@ query "servicebus_premium_namespace_cmk_encrypted" {
       azure_subscription sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -214,7 +214,7 @@ query "servicebus_use_virtual_service_endpoint" {
       left join service_bus on true
     where
       sub.subscription_id = bus.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "bus.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "bus.")};
   EOQ
 }
 
@@ -240,7 +240,7 @@ query "servicebus_namespace_azure_ad_authentication_enabled" {
       azure_subscription sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -270,6 +270,6 @@ query "servicebus_namespace_no_overly_permissive_network_access" {
       azure_subscription sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

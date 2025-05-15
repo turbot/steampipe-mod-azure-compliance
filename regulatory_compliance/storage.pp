@@ -938,6 +938,9 @@ query "storage_account_blob_versioning_enabled" {
       select 
         name as storage_account_name,
         id,
+        _ctx,
+        region,
+        subscription_id,
         resource_group
       from 
         azure_storage_account

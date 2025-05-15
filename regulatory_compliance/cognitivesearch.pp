@@ -116,7 +116,8 @@ query "search_service_logging_enabled" {
       left join logging_details as l on v.name = l.search_service_name,
       azure_subscription as sub
     where
-      sub.subscription_id = v.subscription_id;
+      sub.subscription_id = v.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "v.")};
   EOQ
 }
 
@@ -139,7 +140,8 @@ query "search_service_uses_sku_supporting_private_link" {
       azure_search_service as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -162,7 +164,8 @@ query "search_service_public_network_access_disabled" {
       azure_search_service as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -195,7 +198,8 @@ query "search_service_uses_private_link" {
       left join search_service_connection as c on c.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -218,7 +222,8 @@ query "search_service_uses_managed_identity" {
       azure_search_service as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -238,6 +243,7 @@ query "search_service_replica_count_3" {
       azure_search_service as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }

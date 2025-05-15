@@ -79,7 +79,7 @@ query "cognitive_service_local_auth_disabled" {
       azure_subscription sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -124,7 +124,8 @@ query "cognitive_account_private_link_used" {
       left join cognitive_account_connections as c on b.id = c.id,
       azure_subscription as sub
     where
-      sub.subscription_id = b.subscription_id;
+      sub.subscription_id = b.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "b.")};
   EOQ
 }
 
@@ -147,7 +148,8 @@ query "cognitive_account_public_network_access_disabled" {
       azure_cognitive_account as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -180,7 +182,8 @@ query "cognitive_account_restrict_public_access" {
       left join account_with_public_access_restricted as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -215,6 +218,7 @@ query "cognitive_account_encrypted_with_cmk" {
       left join cognitive_account_cmk as c on c.id = s.id,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }

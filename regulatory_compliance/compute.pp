@@ -924,7 +924,7 @@ query "compute_os_and_data_disk_encrypted_with_cmk" {
     where
       disk_state = 'Attached'
       and sub.subscription_id = disk.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
   EOQ
 }
 
@@ -949,7 +949,7 @@ query "compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed" {
     where
       disk_state = 'Attached'
       and sub.subscription_id = disk.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
   EOQ
 }
 
@@ -989,7 +989,7 @@ query "compute_vm_restrict_remote_connection_from_accounts_without_password_linu
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1014,7 +1014,7 @@ query "compute_unattached_disk_encrypted_with_cmk" {
     where
       disk_state != 'Attached'
       and sub.subscription_id = disk.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
   EOQ
 }
 
@@ -1064,7 +1064,7 @@ query "compute_vm_attached_with_network" {
       azure_subscription sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1102,7 +1102,7 @@ query "compute_vm_remote_access_restricted_all_ports" {
       azure_compute_virtual_machine as vm
       left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
       join azure_subscription as sub on sub.subscription_id = vm.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 
@@ -1210,7 +1210,7 @@ query "compute_vm_tcp_udp_access_restricted_internet" {
     azure_compute_virtual_machine as vm
     left join virtual_machines_with_access as m on lower(m.virtual_machine_id) = lower(vm.id)
     join azure_subscription as sub on sub.subscription_id = vm.subscription_id
-  ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
+    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 
@@ -1251,7 +1251,7 @@ query "compute_vm_jit_access_protected" {
       left join compute on true
     where
       jit.subscription_id = sub.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 
@@ -1288,7 +1288,7 @@ query "compute_vm_log_analytics_agent_installed" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1327,7 +1327,7 @@ query "compute_vm_log_analytics_agent_installed_windows" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1362,7 +1362,7 @@ query "compute_vm_malware_agent_installed" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1399,7 +1399,7 @@ query "compute_vm_scale_set_log_analytics_agent_installed" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1433,7 +1433,7 @@ query "compute_vm_disaster_recovery_enabled" {
       azure_subscription sub
     where
       sub.subscription_id = vm.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 
@@ -1471,7 +1471,7 @@ query "compute_vm_malware_agent_automatic_upgrade_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1509,7 +1509,7 @@ query "compute_vm_scale_set_logging_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1547,7 +1547,7 @@ query "compute_vm_network_traffic_data_collection_windows_agent_installed" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1585,7 +1585,7 @@ query "compute_vm_network_traffic_data_collection_linux_agent_installed" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1609,7 +1609,7 @@ query "compute_vm_uses_azure_resource_manager" {
       azure_subscription as sub
     where
       sub.subscription_id = vm.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 
@@ -1633,7 +1633,7 @@ query "compute_vm_system_updates_installed" {
       azure_subscription as sub
     where
       sub.subscription_id = vm.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 
@@ -1680,7 +1680,7 @@ query "compute_vm_vulnerability_assessment_solution_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1719,7 +1719,7 @@ query "compute_vm_guest_configuration_with_user_and_system_assigned_managed_iden
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1756,7 +1756,7 @@ query "compute_vm_passwords_stored_using_reversible_encryption_windows" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1793,7 +1793,7 @@ query "compute_vm_account_with_password_linux" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1830,7 +1830,7 @@ query "compute_vm_ssh_key_authentication_linux" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1869,7 +1869,7 @@ query "compute_vm_guest_configuration_installed_linux" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1904,7 +1904,7 @@ query "compute_vm_guest_configuration_installed" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1944,7 +1944,7 @@ query "arc_compute_machine_linux_log_analytics_agent_installed" {
     azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1983,7 +1983,7 @@ query "compute_vm_guest_configuration_installed_windows" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2020,7 +2020,7 @@ query "compute_vm_restrict_previous_24_passwords_resuse_windows" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2057,7 +2057,7 @@ query "compute_vm_max_password_age_70_days_windows" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2094,7 +2094,7 @@ query "compute_vm_min_password_age_1_day_windows" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2131,7 +2131,7 @@ query "compute_vm_password_complexity_setting_enabled_windows" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2168,7 +2168,7 @@ query "compute_vm_min_password_length_14_windows" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2202,7 +2202,7 @@ query "compute_disk_access_uses_private_link" {
       azure_subscription as sub
     where
       sub.subscription_id = b.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "b.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "b.")};
   EOQ
 }
 
@@ -2277,7 +2277,7 @@ query "arc_compute_machine_windows_log_analytics_agent_installed" {
     azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2314,7 +2314,7 @@ query "compute_vm_guest_configuration_with_system_assigned_managed_identity" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2354,7 +2354,7 @@ query "compute_vm_windows_defender_exploit_guard_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2397,7 +2397,7 @@ query "compute_vm_secure_communication_protocols_configured" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2422,6 +2422,7 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
         azure_subscription as sub
       where
         sub.subscription_id = a.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")}
     )
     union
     (
@@ -2443,6 +2444,7 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
         azure_subscription as sub
       where
         sub.subscription_id = a.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")}
     )
   EOQ
 }
@@ -2483,7 +2485,7 @@ query "compute_vm_meet_security_baseline_requirements_linux" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2523,7 +2525,7 @@ query "compute_vm_meet_security_baseline_requirements_windows" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2560,7 +2562,7 @@ query "compute_vm_guest_configuration_with_no_managed_identity" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2616,7 +2618,7 @@ query "compute_vm_remote_access_restricted" {
       azure_compute_virtual_machine as vm
       left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
       join azure_subscription as sub on sub.subscription_id = vm.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 
@@ -2640,7 +2642,7 @@ query "compute_vm_utilizing_managed_disk" {
       azure_subscription as sub
     where
       sub.subscription_id = vm.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 
@@ -2681,7 +2683,7 @@ query "compute_vm_data_and_os_disk_uses_managed_disk" {
       azure_subscription as sub
     where
       sub.subscription_id = vm.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "vm.")};
   EOQ
 }
 
@@ -2707,7 +2709,7 @@ query "compute_vm_scale_set_automatic_upgrade_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2733,7 +2735,7 @@ query "compute_vm_scale_set_ssh_key_authentication_linux" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2766,7 +2768,7 @@ query "compute_disk_unattached_encrypted_with_cmk" {
     where
       disk_state != 'Attached'
       and sub.subscription_id = disk.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
   EOQ
 }
 
@@ -2790,7 +2792,7 @@ query "compute_vm_scale_set_uses_managed_disks" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2814,7 +2816,7 @@ query "compute_vm_scale_set_boot_diagnostics_enabled" {
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2840,7 +2842,7 @@ query "compute_windows_vm_secure_boot_enabled" {
         azure_subscription as sub
       where
         sub.subscription_id = a.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -2864,7 +2866,7 @@ query "compute_disk_public_access_disabled" {
       azure_subscription sub
     where
       sub.subscription_id = disk.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
   EOQ
 }
 
@@ -2888,6 +2890,6 @@ query "compute_disk_data_access_auth_mode_enabled" {
       azure_subscription sub
     where
       sub.subscription_id = disk.subscription_id
-    ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "disk.")};
   EOQ
 }

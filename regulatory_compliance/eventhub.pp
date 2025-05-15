@@ -98,7 +98,8 @@ query "eventhub_namespace_logging_enabled" {
       left join logging_details as l on v.name = l.namespace_name,
       azure_subscription as sub
     where
-      sub.subscription_id = v.subscription_id;
+      sub.subscription_id = v.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "v.")};
   EOQ
 }
 
@@ -131,7 +132,8 @@ query "eventhub_namespace_use_virtual_service_endpoint" {
       left join eventhub_namesapce_with_virtual_network as c on c.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -166,7 +168,8 @@ query "eventhub_namespace_private_link_used" {
       left join eventhub_service_connection as c on c.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -189,6 +192,7 @@ query "eventhub_namespace_cmk_encryption_enabled" {
       azure_eventhub_namespace as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

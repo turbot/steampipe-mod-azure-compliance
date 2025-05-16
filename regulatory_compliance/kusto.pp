@@ -76,7 +76,8 @@ query "kusto_cluster_encrypted_at_rest_with_cmk" {
       azure_kusto_cluster as kv,
       azure_subscription as sub
     where
-      sub.subscription_id = kv.subscription_id;
+      sub.subscription_id = kv.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "kv.")};
   EOQ
 }
 
@@ -99,7 +100,8 @@ query "kusto_cluster_disk_encryption_enabled" {
       azure_kusto_cluster as kv,
       azure_subscription as sub
     where
-      sub.subscription_id = kv.subscription_id;
+      sub.subscription_id = kv.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "kv.")};
   EOQ
 }
 
@@ -122,7 +124,8 @@ query "kusto_cluster_double_encryption_enabled" {
       azure_kusto_cluster as kv,
       azure_subscription as sub
     where
-      sub.subscription_id = kv.subscription_id;
+      sub.subscription_id = kv.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "kv.")};
   EOQ
 }
 
@@ -142,6 +145,7 @@ query "kusto_cluster_sku_with_sla" {
       azure_kusto_cluster as kv,
       azure_subscription as sub
     where
-      sub.subscription_id = kv.subscription_id;
+      sub.subscription_id = kv.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "kv.")};
   EOQ
 }

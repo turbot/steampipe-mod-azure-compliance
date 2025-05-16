@@ -103,7 +103,8 @@ query "cosmosdb_use_virtual_service_endpoint" {
       left join cosmosdb_with_virtual_network as c on c.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -134,7 +135,8 @@ query "cosmosdb_account_with_firewall_rules" {
       azure_cosmosdb_account as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -167,7 +169,8 @@ query "cosmosdb_account_uses_private_link" {
       left join cosmosdb_private_connection as c on c.id = a.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -190,7 +193,8 @@ query "cosmosdb_account_encryption_at_rest_using_cmk" {
       azure_cosmosdb_account as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -213,7 +217,8 @@ query "cosmosdb_account_key_based_metadata_write_access_disabled" {
       azure_cosmosdb_account as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -240,7 +245,8 @@ query "cosmosdb_account_virtual_network_filter_enabled" {
       azure_cosmosdb_account as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -263,6 +269,7 @@ query "cosmosdb_account_uses_aad_and_rbac" {
       azure_cosmosdb_account as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

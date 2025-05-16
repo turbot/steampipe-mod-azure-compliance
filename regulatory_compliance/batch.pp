@@ -84,7 +84,8 @@ query "batch_account_logging_enabled" {
       left join logging_details as l on v.name = l.account_name,
       azure_subscription as sub
     where
-      sub.subscription_id = v.subscription_id;
+      sub.subscription_id = v.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "v.")};
   EOQ
 }
 
@@ -107,7 +108,8 @@ query "batch_account_encrypted_with_cmk" {
       azure_batch_account as batch,
       azure_subscription as sub
     where
-      sub.subscription_id = batch.subscription_id;
+      sub.subscription_id = batch.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "batch.")};
   EOQ
 }
 
@@ -130,6 +132,7 @@ query "batch_account_identity_provider_enabled" {
       azure_batch_account as b,
       azure_subscription as sub
     where
-      sub.subscription_id = b.subscription_id;
+      sub.subscription_id = b.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "b.")};
   EOQ
 }

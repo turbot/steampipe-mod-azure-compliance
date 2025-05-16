@@ -58,7 +58,8 @@ query "container_instance_container_group_encrypted_using_cmk" {
       azure_container_group as cg,
       azure_subscription as sub
     where
-      sub.subscription_id = cg.subscription_id;
+      sub.subscription_id = cg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "cg.")};
   EOQ
 }
 
@@ -81,7 +82,8 @@ query "container_instance_container_group_in_virtual_network" {
       azure_container_group as cg,
       azure_subscription as sub
     where
-      sub.subscription_id = cg.subscription_id;
+      sub.subscription_id = cg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "cg.")};
   EOQ
 }
 
@@ -104,7 +106,8 @@ query "container_instance_container_group_identity_provider_enabled" {
       azure_container_group as cg,
       azure_subscription as sub
     where
-      sub.subscription_id = cg.subscription_id;
+      sub.subscription_id = cg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "cg.")};
   EOQ
 }
 
@@ -138,6 +141,7 @@ query "container_instance_container_group_secured_environment_variable" {
       left join not_secured_environment_variable_container_group as g on g.id = cg.id,
       azure_subscription as sub
     where
-      sub.subscription_id = cg.subscription_id;
+      sub.subscription_id = cg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "cg.")};
   EOQ
 }

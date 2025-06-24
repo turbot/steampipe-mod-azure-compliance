@@ -86,7 +86,7 @@ control "cis_v130_3_4" {
 control "cis_v130_3_5" {
   title         = "3.5 Ensure that 'Public access level' is set to Private for blob containers"
   description   = "Disable anonymous access to blob containers and disallow blob public access on storage account."
-  query         = query.storage_account_blob_containers_public_access_private
+  query         = query.storage_account_blob_containers_public_access_disabled
   documentation = file("./cis_v130/docs/cis_v130_3_5.md")
 
   tags = merge(local.cis_v130_3_common_tags, {

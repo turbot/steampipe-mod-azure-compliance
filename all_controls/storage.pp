@@ -8,7 +8,7 @@ benchmark "all_controls_storage" {
   title       = "Storage"
   description = "This section contains recommendations for configuring Storage resources."
   children = [
-    control.storage_account_blob_containers_public_access_private,
+    control.storage_account_blob_containers_public_access_disabled,
     control.storage_account_blob_service_logging_enabled,
     control.storage_account_blob_soft_delete_enabled,
     control.storage_account_blob_versioning_enabled,

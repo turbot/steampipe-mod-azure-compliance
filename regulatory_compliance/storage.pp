@@ -143,10 +143,18 @@ control "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
   })
 }
 
-control "storage_account_blob_containers_public_access_private" {
+control "storage_account_blob_containers_public_access_disabled" {
   title       = "Ensure that 'Public access level' is set to Private for blob containers"
   description = "Disable anonymous access to blob containers and disallow blob public access on storage account."
-  query       = query.storage_account_blob_containers_public_access_private
+  query       = query.storage_account_blob_containers_public_access_disabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_blob_public_access_disabled" {
+  title       = "Ensure that 'Allow Blob Anonymous Access' is set to 'Disabled' for storage accounts"
+  description = "Disable anonymous access to blob containers and disallow blob public access on storage account."
+  query       = query.storage_account_blob_public_access_disabled
 
   tags = local.regulatory_compliance_storage_common_tags
 }
@@ -624,7 +632,7 @@ query "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
   EOQ
 }
 
-query "storage_account_blob_containers_public_access_private" {
+query "storage_account_blob_containers_public_access_disabled" {
   sql = <<-EOQ
     select
       container.id as resource,
@@ -644,6 +652,29 @@ query "storage_account_blob_containers_public_access_private" {
       azure_storage_container container
       join azure_storage_account account on container.account_name = account.name
       join azure_subscription sub on sub.subscription_id = account.subscription_id;
+  EOQ
+}
+
+query "storage_account_blob_public_access_disabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when not sa.allow_blob_public_access then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when not sa.allow_blob_public_access then sa.name || ' blob public access disabled.'
+        else sa.name || ' blob public access enabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
   EOQ
 }
 

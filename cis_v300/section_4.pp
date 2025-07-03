@@ -260,7 +260,7 @@ control "cis_v300_4_16" {
 control "cis_v300_4_17" {
   title         = "4.17 Ensure that `Allow Blob Anonymous Access` is set to `Disabled`"
   description   = "The Azure Storage setting 'Allow Blob Anonymous Access' (aka 'allowBlobPublicAccess') controls whether anonymous access is allowed for blob data in a storage account. When this property is set to True, it enables public read access to blob data, which can be convenient for sharing data but may carry security risks. When set to False, it disallows public access to blob data, providing a more secure storage environment."
-  query         = query.storage_account_blob_containers_public_access_private
+  query         = query.storage_account_blob_public_access_disabled
   documentation = file("./cis_v300/docs/cis_v300_4_17.md")
 
   tags = merge(local.cis_v300_4_common_tags, {

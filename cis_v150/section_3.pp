@@ -118,7 +118,7 @@ control "cis_v150_3_6" {
 control "cis_v150_3_7" {
   title         = "3.7 Ensure that 'Public access level' is disabled for storage accounts with blob containers"
   description   = "Disallowing public access for a storage account overrides the public access settings for individual containers in that storage account."
-  query         = query.storage_account_blob_containers_public_access_private
+  query         = query.storage_account_blob_containers_public_access_disabled
   documentation = file("./cis_v150/docs/cis_v150_3_7.md")
 
   tags = merge(local.cis_v150_3_common_tags, {

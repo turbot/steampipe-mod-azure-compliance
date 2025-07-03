@@ -1,3 +1,15 @@
+## v1.4.0 [2025-07-03]
+
+_Enhancements_
+
+- Added control `storage_account_blob_public_access_disabled` to the `All Controls` benchmark to enforce that public access to blob containers is disabled. ([#309](https://github.com/turbot/steampipe-mod-azure-compliance/issues/309))
+
+_Bug fixes_
+
+- Renamed the query `storage_account_blob_containers_public_access_private` to `storage_account_blob_containers_public_access_disabled` for clarity and better alignment with the actual condition being checked. ([#309](https://github.com/turbot/steampipe-mod-azure-compliance/issues/309))
+- Fixed the `securitycenter_container_image_scan_enabled` query to include the common dimensions (`resource_group`, `subscription`). ([#308](https://github.com/turbot/steampipe-mod-azure-compliance/issues/308))
+- Fixed the `storage_account_blob_versioning_enabled` query by adding the missing common dimensions (`resource_group`, `subscription`). ([#307](https://github.com/turbot/steampipe-mod-azure-compliance/issues/307))
+
 ## v1.3.1 [2025-05-13]
 
 _Bug fixes_

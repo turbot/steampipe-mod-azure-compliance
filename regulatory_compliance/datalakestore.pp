@@ -46,7 +46,8 @@ query "datalake_store_account_encryption_enabled" {
       azure_data_lake_store as b,
       azure_subscription as sub
     where
-      sub.subscription_id = b.subscription_id;
+      sub.subscription_id = b.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "b.")};
   EOQ
 }
 
@@ -97,6 +98,7 @@ query "datalake_store_account_logging_enabled" {
       left join logging_details as l on a.account_id = l.account_id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

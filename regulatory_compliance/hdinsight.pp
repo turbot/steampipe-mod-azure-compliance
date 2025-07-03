@@ -61,7 +61,8 @@ query "hdinsight_cluster_encryption_at_host_enabled" {
       azure_hdinsight_cluster as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -86,7 +87,8 @@ query "hdinsight_cluster_encrypted_at_rest_with_cmk" {
       azure_hdinsight_cluster as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -111,6 +113,7 @@ query "hdinsight_cluster_encryption_in_transit_enabled" {
       azure_hdinsight_cluster as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

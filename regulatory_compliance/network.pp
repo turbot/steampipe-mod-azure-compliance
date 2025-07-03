@@ -439,7 +439,8 @@ query "network_security_group_remote_access_restricted" {
     from
       azure_network_security_group as sg
       left join network_sg as nsg on nsg.sg_name = sg.name
-      join azure_subscription as sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription as sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -484,7 +485,8 @@ query "network_security_group_rdp_access_restricted" {
     from
       azure_network_security_group sg
       left join network_sg nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -507,7 +509,8 @@ query "network_watcher_enabled" {
     from
       azure_location loc
       left join azure_network_watcher watcher on watcher.region = loc.name
-      join azure_subscription sub on sub.subscription_id = loc.subscription_id;
+      join azure_subscription sub on sub.subscription_id = loc.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "watcher.")}
   EOQ
 }
 
@@ -529,7 +532,8 @@ query "network_security_group_subnet_associated" {
     from
       azure_network_security_group as sg
       join azure_subscription as sub on sub.subscription_id = sg.subscription_id
-      left join jsonb_array_elements(subnets) as subnet on true;
+      left join jsonb_array_elements(subnets) as subnet on true
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -551,7 +555,8 @@ query "network_security_group_not_configured_gateway_subnets" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subnet as subnet
-      join azure_subscription as sub on sub.subscription_id = subnet.subscription_id;
+      join azure_subscription as sub on sub.subscription_id = subnet.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "subnet.")}
   EOQ
 }
 
@@ -575,7 +580,8 @@ query "network_watcher_in_regions_with_virtual_network" {
     from
       azure_virtual_network as a
       left join azure_network_watcher as b on a.region = b.region
-      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")}
   EOQ
 }
 
@@ -611,7 +617,8 @@ query "network_security_group_diagnostic_setting_deployed" {
       left join logging_details as l on a.name = l.nsg_name,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")}
   EOQ
 }
 
@@ -632,7 +639,8 @@ query "application_gateway_waf_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_application_gateway as ag
-      join azure_subscription as sub on sub.subscription_id = ag.subscription_id;
+      join azure_subscription as sub on sub.subscription_id = ag.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "ag.")}
   EOQ
 }
 
@@ -663,7 +671,8 @@ query "network_ddos_enabled" {
     from
       azure_virtual_network as a
       left join application_gateway_subnet as b on a.name = b.vn_name
-      join azure_subscription sub on sub.subscription_id = a.subscription_id;
+      join azure_subscription sub on sub.subscription_id = a.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")}
   EOQ
 }
 
@@ -686,7 +695,8 @@ query "network_virtual_network_gateway_no_basic_sku" {
       azure_virtual_network_gateway as g,
       azure_subscription as sub
     where
-      sub.subscription_id = g.subscription_id;
+      sub.subscription_id = g.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "g.")}
   EOQ
 }
 
@@ -709,7 +719,8 @@ query "network_lb_no_basic_sku" {
       azure_lb as l,
       azure_subscription as sub
     where
-      sub.subscription_id = l.subscription_id;
+      sub.subscription_id = l.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "l.")}
   EOQ
 }
 
@@ -732,7 +743,8 @@ query "network_public_ip_no_basic_sku" {
       azure_public_ip as i,
       azure_subscription as sub
     where
-      sub.subscription_id = i.subscription_id;
+      sub.subscription_id = i.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "i.")}
   EOQ
 }
 
@@ -767,7 +779,8 @@ query "network_bastion_host_min_1" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_subscription as sub
-      left join bastion_hosts as i on i.subscription_id = sub.subscription_id;
+      left join bastion_hosts as i on i.subscription_id = sub.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "i.")}
   EOQ
 }
 
@@ -826,7 +839,8 @@ query "network_security_group_https_access_restricted" {
     from
       azure_network_security_group sg
       left join network_sg nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -871,7 +885,8 @@ query "network_security_group_ssh_access_restricted" {
     from
       azure_network_security_group sg
       left join network_sg nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -921,7 +936,8 @@ query "network_security_group_udp_service_restricted" {
     from
       azure_network_security_group sg
       left join network_sg nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -946,7 +962,8 @@ query "network_sg_flowlog_retention_period_greater_than_90" {
     from
       azure_network_security_group sg
       left join azure_network_watcher_flow_log fl on sg.id = fl.target_resource_id
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -979,7 +996,8 @@ query "network_network_peering_connected" {
     from
       azure_virtual_network as n
       left join disconnected_network_peering as p on p.vn_id = n.id
-      join azure_subscription sub on sub.subscription_id = n.subscription_id;
+      join azure_subscription sub on sub.subscription_id = n.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "n.")}
   EOQ
 }
 
@@ -1031,7 +1049,8 @@ query "network_security_group_restrict_inbound_udp_port_445" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1083,7 +1102,8 @@ query "network_security_group_restrict_inbound_tcp_port_20" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1135,7 +1155,8 @@ query "network_security_group_restrict_inbound_tcp_port_21" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1189,7 +1210,8 @@ query "network_security_group_restrict_inbound_icmp_port" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1243,7 +1265,8 @@ query "network_security_group_restrict_inbound_tcp_port_4333" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1297,7 +1320,8 @@ query "network_security_group_restrict_inbound_tcp_port_3306" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1351,7 +1375,8 @@ query "network_security_group_restrict_inbound_tcp_port_53" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1405,7 +1430,8 @@ query "network_security_group_restrict_inbound_udp_port_53" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1459,7 +1485,8 @@ query "network_security_group_restrict_inbound_udp_port_137" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1513,7 +1540,8 @@ query "network_security_group_restrict_inbound_udp_port_138" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1567,7 +1595,8 @@ query "network_security_group_restrict_inbound_tcp_port_5432" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1621,7 +1650,8 @@ query "network_security_group_restrict_inbound_tcp_port_25" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1675,7 +1705,8 @@ query "network_security_group_restrict_inbound_tcp_port_1433" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1729,7 +1760,8 @@ query "network_security_group_restrict_inbound_udp_port_1434" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1783,7 +1815,8 @@ query "network_security_group_restrict_inbound_tcp_port_23" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1837,7 +1870,8 @@ query "network_security_group_restrict_inbound_tcp_port_5500" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1891,7 +1925,8 @@ query "network_security_group_restrict_inbound_tcp_port_5900" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1945,7 +1980,8 @@ query "network_security_group_restrict_inbound_tcp_port_135" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -1999,7 +2035,8 @@ query "network_security_group_restrict_inbound_tcp_port_445" {
     from
       azure_network_security_group sg
       left join unrestricted_inbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -2043,7 +2080,8 @@ query "network_security_group_outbound_access_restricted" {
     from
       azure_network_security_group sg
       left join unrestricted_outbound nsg on nsg.sg_name = sg.name
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -2064,7 +2102,8 @@ query "network_sg_flowlog_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_security_group as sg
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -2087,7 +2126,8 @@ query "network_lb_diagnostics_logs_enabled" {
       azure_lb as l,
       azure_subscription as sub
     where
-      sub.subscription_id = l.subscription_id;
+      sub.subscription_id = l.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "l.")}
   EOQ
 }
 
@@ -2108,7 +2148,8 @@ query "network_watcher_flow_log_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_watcher_flow_log as sg
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -2129,7 +2170,8 @@ query "network_watcher_flow_log_traffic_analytics_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_network_watcher_flow_log as sg
-      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "sg.")}
   EOQ
 }
 
@@ -2150,7 +2192,8 @@ query "application_gateway_waf_uses_specified_mode" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_application_gateway as ag
-      join azure_subscription as sub on sub.subscription_id = ag.subscription_id;
+      join azure_subscription as sub on sub.subscription_id = ag.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "ag.")}
   EOQ
 }
 

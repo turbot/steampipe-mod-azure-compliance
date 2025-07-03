@@ -37,6 +37,7 @@ query "spring_cloud_service_network_injection_enabled" {
       azure_spring_cloud_service as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

@@ -485,7 +485,8 @@ query "appservice_web_app_use_https" {
       azure_app_service_web_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -508,7 +509,8 @@ query "appservice_web_app_incoming_client_cert_on" {
       azure_app_service_web_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -533,7 +535,8 @@ query "appservice_web_app_remote_debugging_disabled" {
       azure_app_service_web_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -556,7 +559,8 @@ query "appservice_function_app_remote_debugging_disabled" {
       azure_app_service_function_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -579,7 +583,8 @@ query "appservice_function_app_latest_tls_version" {
       azure_app_service_function_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -602,7 +607,8 @@ query "appservice_web_app_latest_tls_version" {
       azure_app_service_web_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -625,7 +631,8 @@ query "appservice_function_app_only_https_accessible" {
       azure_app_service_function_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -648,7 +655,8 @@ query "appservice_web_app_use_virtual_service_endpoint" {
       azure_app_service_web_app as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -688,7 +696,8 @@ query "appservice_api_app_use_https" {
       left join all_api_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -713,7 +722,8 @@ query "appservice_api_app_remote_debugging_disabled" {
       azure_app_service_web_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -753,7 +763,8 @@ query "appservice_api_app_latest_tls_version" {
       left join all_api_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -787,7 +798,8 @@ query "appservice_web_app_diagnostic_logs_enabled" {
       azure_app_service_web_app as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -811,7 +823,8 @@ query "appservice_web_app_cors_no_star" {
       azure_app_service_web_app as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -835,7 +848,8 @@ query "appservice_function_app_cors_no_star" {
       azure_app_service_function_app as b,
       azure_subscription as sub
     where
-      sub.subscription_id = b.subscription_id;
+      sub.subscription_id = b.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "b.")};
   EOQ
 }
 
@@ -875,7 +889,8 @@ query "appservice_api_app_cors_no_star" {
       left join all_api_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -920,7 +935,8 @@ query "appservice_web_app_uses_managed_identity" {
       left join all_web_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -965,7 +981,8 @@ query "appservice_api_app_uses_managed_identity" {
       left join all_api_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1010,7 +1027,8 @@ query "appservice_function_app_uses_managed_identity" {
       left join all_function_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1050,7 +1068,8 @@ query "appservice_api_app_client_certificates_on" {
       left join all_api_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1090,7 +1109,8 @@ query "appservice_web_app_client_certificates_on" {
       left join all_web_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1113,7 +1133,8 @@ query "appservice_function_app_client_certificates_on" {
       azure_app_service_function_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -1153,7 +1174,8 @@ query "appservice_api_app_ftps_enabled" {
       left join all_api_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1193,7 +1215,8 @@ query "appservice_function_app_ftps_enabled" {
       left join all_function_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1233,7 +1256,8 @@ query "appservice_web_app_ftps_enabled" {
       left join all_web_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1281,7 +1305,8 @@ query "appservice_function_app_latest_http_version" {
       left join all_function_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1304,7 +1329,8 @@ query "appservice_web_app_latest_http_version" {
       azure_app_service_web_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -1338,7 +1364,8 @@ query "app_service_environment_internal_encryption_enabled" {
       left join app_service_environment as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1388,7 +1415,8 @@ query "appservice_function_app_latest_java_version" {
       left join all_function_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1438,7 +1466,8 @@ query "appservice_web_app_latest_java_version" {
       left join all_web_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1488,7 +1517,8 @@ query "appservice_web_app_latest_php_version" {
       left join all_web_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1538,7 +1568,8 @@ query "appservice_function_app_latest_python_version" {
       left join all_function_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1588,7 +1619,8 @@ query "appservice_web_app_latest_python_version" {
       left join all_web_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1613,7 +1645,8 @@ query "appservice_authentication_enabled" {
       azure_app_service_web_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -1637,6 +1670,7 @@ query "appservice_ftp_deployment_disabled" {
         azure_subscription sub
       where
         sub.subscription_id = fa.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "fa.")}
     union
       select
         wa.id as resource,
@@ -1655,7 +1689,8 @@ query "appservice_ftp_deployment_disabled" {
         azure_app_service_web_app as wa,
         azure_subscription as sub
       where
-        sub.subscription_id = wa.subscription_id;
+        sub.subscription_id = wa.subscription_id
+        ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "wa.")};
   EOQ
 }
 
@@ -1678,7 +1713,8 @@ query "appservice_web_app_register_with_active_directory_enabled" {
       azure_app_service_web_app as app,
       azure_subscription as sub
     where
-      sub.subscription_id = app.subscription_id;
+      sub.subscription_id = app.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "app.")};
   EOQ
 }
 
@@ -1720,7 +1756,8 @@ query "appservice_web_app_latest_dotnet_framework_version" {
       left join all_linux_web_app as b on a.id = b.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1743,7 +1780,8 @@ query "appservice_web_app_failed_request_tracing_enabled" {
       azure_app_service_web_app as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1766,7 +1804,8 @@ query "appservice_web_app_http_logs_enabled" {
       azure_app_service_web_app as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1787,7 +1826,8 @@ query "appservice_web_app_worker_more_than_one" {
       jsonb_array_elements(apps) as p,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1810,7 +1850,8 @@ query "appservice_web_app_slot_use_https" {
       azure_app_service_web_app_slot as s,
       azure_subscription as sub
     where
-      sub.subscription_id = s.subscription_id;
+      sub.subscription_id = s.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "s.")};
   EOQ
 }
 
@@ -1833,7 +1874,8 @@ query "appservice_web_app_always_on" {
       azure_app_service_web_app as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1854,13 +1896,14 @@ query "appservice_plan_minimum_sku" {
       azure_app_service_plan as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
 query "appservice_web_app_health_check_enabled" {
   sql = <<-EOQ
-   select
+    select
       a.id as resource,
       case
         when configuration -> 'properties' ->> 'healthCheckPath' is not null then 'ok'
@@ -1877,7 +1920,8 @@ query "appservice_web_app_health_check_enabled" {
       azure_app_service_web_app as a,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -1900,7 +1944,8 @@ query "appservice_function_app_authentication_on" {
       azure_app_service_function_app fa,
       azure_subscription sub
     where
-      sub.subscription_id = fa.subscription_id;
+      sub.subscription_id = fa.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "fa.")};
   EOQ
 }
 
@@ -1934,6 +1979,7 @@ query "appservice_function_app_restrict_public_acces" {
       left join public_function_app as p on p.id = fa.id,
       azure_subscription sub
     where
-      sub.subscription_id = fa.subscription_id;
+      sub.subscription_id = fa.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "fa.")};
   EOQ
 }

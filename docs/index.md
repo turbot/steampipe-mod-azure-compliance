@@ -103,6 +103,32 @@ export PP_VAR_tag_dimensions='["Environment", "Owner"]'
 powerpipe benchmark run azure_compliance.benchmark.cis_v300
 ```
 
+### Resource Group Filtering
+
+You can use the `resource_group_filter` variable to limit benchmark results to specific resource groups. When specified, only resources in the listed resource groups will be included in the benchmark results. This is useful for focusing your compliance checks on specific parts of your Azure environment.
+
+You can configure this filter in your vars file:
+
+```sh
+# In powerpipe.ppvars
+resource_group_filter = ["my-resource-group", "another-resource-group"]
+```
+
+Or pass it on the command line:
+
+```sh
+powerpipe benchmark run azure_compliance.benchmark.cis_v300 --var 'resource_group_filter=["my-resource-group"]'
+```
+
+Or through environment variables:
+
+```sh
+export PP_VAR_resource_group_filter='["my-resource-group", "another-resource-group"]'
+powerpipe benchmark run azure_compliance.benchmark.cis_v300
+```
+
+If `resource_group_filter` is empty (the default), no resource group filtering is applied.
+
 ## Open Source & Contributing
 
 This repository is published under the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0). Please see our [code of conduct](https://github.com/turbot/.github/blob/main/CODE_OF_CONDUCT.md). We look forward to collaborating with you!

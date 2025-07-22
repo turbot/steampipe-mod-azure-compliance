@@ -83,7 +83,8 @@ query "iot_hub_logging_enabled" {
       left join logging_details as l on a.id = l.id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }
 
@@ -110,6 +111,7 @@ query "iot_hub_private_link_used" {
       jsonb_array_elements(private_endpoint_connections) as pec,
       azure_subscription sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

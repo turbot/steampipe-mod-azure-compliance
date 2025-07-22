@@ -46,6 +46,7 @@ query "frontdoor_waf_enabled" {
       left join frontdoor_with_waf as c on c.front_door_id = a.front_door_id,
       azure_subscription as sub
     where
-      sub.subscription_id = a.subscription_id;
+      sub.subscription_id = a.subscription_id
+      ${replace(local.resource_group_filter_qualifier_sql, "__QUALIFIER__", "a.")};
   EOQ
 }

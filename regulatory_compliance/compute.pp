@@ -887,6 +887,14 @@ control "compute_windows_vm_secure_boot_enabled" {
   })
 }
 
+control "compute_vm_trust_launch_enabled" {
+  title       = "Ensure Trusted Launch is enabled on Virtual Machines"
+  description = "When Secure Boot and vTPM are enabled together, they provide a strong foundation for protecting your VM from boot attacks. For example, if an attacker attempts to replace the bootloader with a malicious version, Secure Boot will prevent the VM from booting."
+  query       = query.compute_vm_trust_launch_enabled
+
+  tags = local.regulatory_compliance_compute_common_tags
+}
+
 control "compute_disk_public_access_disabled" {
   title       = "Ensure that 'Disk Network Access' is NOT set to 'Enable public access from all networks'"
   description = "Virtual Machine Disks and snapshots can be configured to allow access from different network resources."
@@ -2838,3 +2846,31 @@ query "compute_disk_data_access_auth_mode_enabled" {
       sub.subscription_id = disk.subscription_id;
   EOQ
 }
+
+query "compute_vm_trust_launch_enabled" {
+  sql = <<-EOQ
+    select
+      vm.id as resource,
+      case
+        when (security_profile ->> 'securityType') is null or (security_profile ->> 'securityType') <> 'TrustedLaunch' then 'skip'
+        when (security_profile -> 'uefiSettings' -> 'secureBootEnabled')::bool
+          and (security_profile -> 'uefiSettings' -> 'vTpmEnabled')::bool then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (security_profile ->> 'securityType') is null or (security_profile ->> 'securityType') <> 'TrustedLaunch' then vm.name || ' not using trust launch security type.'
+        when (security_profile -> 'uefiSettings' -> 'secureBootEnabled')::bool
+          and (security_profile -> 'uefiSettings' -> 'vTpmEnabled')::bool then vm.name || ' trusted launch enabled.'
+        else vm.name || ' trusted launch disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine vm,
+      azure_subscription sub
+    where
+      sub.subscription_id = vm.subscription_id;
+  EOQ
+}
+

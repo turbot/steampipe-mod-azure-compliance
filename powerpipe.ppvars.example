@@ -1,3 +1,9 @@
 # Dimensions
 common_dimensions = ["resource_group", "subscription"]
 tag_dimensions    = []
+
+# Appservice
+appservice_web_app_latest_php_version    = "PHP|8.4"
+appservice_web_app_latest_python_version = "PYTHON|3.13"
+appservice_web_app_latest_java_version   = "JAVA|21-java21"
+

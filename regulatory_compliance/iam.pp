@@ -850,7 +850,7 @@ query "iam_global_administrator_max_5" {
     select
       t.tenant_id as resource,
       case
-        when jsonb_array_length(member_ids) <= 5 then 'ok'
+        when jsonb_array_length(member_ids) >= 2 and jsonb_array_length(member_ids) < 5 then 'ok'
         else 'alarm'
       end as status,
       t.title || ' has ' ||  (jsonb_array_length(member_ids)) || ' users with global administrator assignment.'  as reason,

@@ -1,3 +1,32 @@
+## v1.5.0 [2025-07-30]
+
+_Enhancements_
+
+- Added new automated queries for CIS controls across multiple versions:
+  - `cis_v150_1_2_1` - CIS v1.5.0 control automation
+  - `cis_v200_1_2_1` - CIS v2.0.0 control automation
+  - `cis_v200_5_1_7` - CIS v2.0.0 control automation
+  - `cis_v210_1_2_1` - CIS v2.1.0 control automation
+  - `cis_v210_5_1_6` - CIS v2.1.0 control automation
+  - `cis_v210_7_9` - CIS v2.1.0 control automation
+  - `cis_v300_2_2_1` - CIS v3.0.0 trusted locations validation
+  - `cis_v300_4_16` - CIS v3.0.0 control automation
+  - `cis_v300_6_1_6` - CIS v3.0.0 control automation
+  - `cis_v300_8_11` - CIS v3.0.0 control automation
+- Added controls `compute_vm_trust_launch_enabled` and `iam_conditional_access_trusted_location_configured` to the `All Controls` benchmark. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
+
+- Added variable support for App Service controls to improve configurability:
+  - `appservice_web_app_latest_php_version` - Configurable PHP version validation for web app
+  - `appservice_web_app_latest_python_version` - Configurable Python version validation for web app
+  - `appservice_web_app_latest_java_version` - Configurable Java version validation for web app
+  - `appservice_function_app_latest_python_version` - Configurable Python version validation for function app
+  - `appservice_function_app_latest_java_version` - Configurable Java version validation for function app
+
+_Bug fixes_
+
+- Fixed `cis_v300_3_1_4_2` control by updating query reference and marking as manual. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
+- Fixed query `appservice_function_app_latest_java_version` to correctly check results for both Linux and Windows operating systems. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
+
 ## v1.4.0 [2025-07-03]
 
 _Enhancements_

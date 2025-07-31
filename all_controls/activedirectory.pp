@@ -10,8 +10,9 @@ benchmark "all_controls_activedirectory" {
   children = [
     control.ad_guest_user_reviewed_monthly,
     control.iam_conditional_access_mfa_enabled,
-    control.iam_deprecated_account,
+    control.iam_conditional_access_trusted_location_configured,
     control.iam_deprecated_account_with_owner_roles,
+    control.iam_deprecated_account,
     control.iam_external_user_with_owner_role,
     control.iam_external_user_with_read_permission,
     control.iam_external_user_with_write_permission,

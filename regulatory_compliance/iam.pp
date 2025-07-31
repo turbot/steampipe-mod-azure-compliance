@@ -223,6 +223,14 @@ control "iam_user_access_administrator_role_restricted" {
   tags = local.regulatory_compliance_iam_common_tags
 }
 
+control "iam_conditional_access_trusted_location_configured" {
+  title       = "Ensure trusted locations are defined"
+  description = "Microsoft Entra ID Conditional Access allows an organization to configure Named locations and configure whether those locations are trusted or untrusted. These settings provide organizations the means to specify Geographical locations for use in conditional access policies, or define actual IP addresses and IP ranges and whether or not those IP addresses and/or ranges are trusted by the organization."
+  query       = query.iam_conditional_access_trusted_location_configured
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
 query "iam_subscription_owner_more_than_1" {
   sql = <<-EOQ
     with owner_roles as (
@@ -894,5 +902,24 @@ query "iam_user_access_administrator_role_restricted" {
       left join azure_subscription sub on sub.subscription_id = ra.subscription_id
     where
       r.role_name is not null;
+  EOQ
+}
+
+query "iam_conditional_access_trusted_location_configured" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case
+        when (location_info -> 'IsTrusted')::bool then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (location_info -> 'IsTrusted')::bool then title || ' trusted location configured.'
+        else title || ' trusted location not configured.'
+      end as reason,
+      tenant_id
+      ${local.common_dimensions_subscription_id_sql}
+    from
+      azuread_conditional_access_named_location;
   EOQ
 }

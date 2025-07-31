@@ -1,6 +1,6 @@
 ## v1.5.0 [2025-07-31]
 
-Enhancements_
+_Enhancements_
 
 - Added new automated  queries for the following CIS controls: ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
   - `cis_v150_1_2_1`
@@ -22,6 +22,7 @@ Enhancements_
 
 _Bug fixes_
 
+- Fixed the `iam_global_administrator_max_5` query to correctly check for a minimum of 2 and a maximum of 5 administrators. ([#318](https://github.com/turbot/steampipe-mod-azure-compliance/pull/318))
 - Fixed `cis_v300_3_1_4_2` control by removing the invalid query reference and marking it as manual. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
 - Fixed `appservice_function_app_latest_java_version` query to correctly check results for both Linux and Windows operating system web app. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
 - Fixed `appservice_web_app_latest_java_version` query to correctly check results for both Linux and Windows operating system function app. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))

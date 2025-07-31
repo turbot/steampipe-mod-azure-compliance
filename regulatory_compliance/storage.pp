@@ -319,6 +319,14 @@ control "storage_account_shared_key_access_disabled" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_key_rotation_reminder_enabled" {
+  title         = "Ensure that 'Enable key rotation reminders' is enabled for each Storage Account"
+  description   = "Access Keys authenticate application access requests to data contained in Storage Accounts. A periodic rotation of these keys is recommended to ensure that potentially compromised keys cannot result in a long-term exploitable credential. The 'Rotation Reminder' is an automatic reminder feature for a manual procedure, the default vaule id 90 days."
+  query         = query.storage_account_key_rotation_reminder_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select
@@ -966,25 +974,25 @@ query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
 query "storage_account_blob_versioning_enabled" {
   sql = <<-EOQ
     with storage_accounts as materialized (
-      select 
+      select
         name as storage_account_name,
         id,
         _ctx,
         region,
         subscription_id,
         resource_group
-      from 
+      from
         azure_storage_account
     ),
     blob_services as materialized (
-      select 
+      select
         storage_account_name,
         is_versioning_enabled,
         resource_group
-      from 
+      from
         azure_storage_blob_service
     )
-    select 
+    select
       sa.id as resource,
       case
         when bs.is_versioning_enabled then 'ok'
@@ -997,7 +1005,7 @@ query "storage_account_blob_versioning_enabled" {
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from 
+    from
       storage_accounts sa
       left join blob_services bs on sa.storage_account_name = bs.storage_account_name
       left join azure_subscription sub on sub.subscription_id = (split_part(sa.id, '/', 3))
@@ -1016,7 +1024,7 @@ query "storage_account_file_share_soft_delete_enabled" {
       end as status,
       case
         when not file_soft_delete_enabled then name || ' file share soft delete disabled.'
-        when file_soft_delete_retention_days < 1 or file_soft_delete_retention_days > 365 
+        when file_soft_delete_retention_days < 1 or file_soft_delete_retention_days > 365
           then name || ' file share soft delete retention days (' || file_soft_delete_retention_days || ') not between 1 and 365.'
         else name || ' file share soft delete enabled with ' || file_soft_delete_retention_days || ' days retention.'
       end as reason
@@ -1041,7 +1049,7 @@ query "storage_account_blob_soft_delete_enabled" {
       end as status,
       case
         when not blob_soft_delete_enabled then name || ' blob soft delete disabled.'
-        when blob_soft_delete_retention_days < 7 or blob_soft_delete_retention_days > 365 
+        when blob_soft_delete_retention_days < 7 or blob_soft_delete_retention_days > 365
           then name || ' blob soft delete retention days (' || blob_soft_delete_retention_days || ') not between 7 and 365.'
         else name || ' blob soft delete enabled with ' || blob_soft_delete_retention_days || ' days retention.'
       end as reason
@@ -1192,5 +1200,30 @@ query "storage_account_shared_key_access_disabled" {
       azure_subscription sub
     where
       sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_key_rotation_reminder_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when key_policy is null then 'alarm'
+        when key_policy ->> 'keyExpirationPeriodInDays' = '90' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when key_policy is null then sa.name || ' key rotation reminder disabled.'
+        else sa.name || ' key rotation reminder enabled for ' || (key_policy ->> 'keyExpirationPeriodInDays') || ' days.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+
   EOQ
 }

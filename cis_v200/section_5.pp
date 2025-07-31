@@ -137,7 +137,7 @@ control "cis_v200_5_1_6" {
 control "cis_v200_5_1_7" {
   title         = "5.1.7 Ensure that logging for Azure AppService 'HTTP logs' is enabled"
   description   = "Enable AppServiceHTTPLogs diagnostic log category for Azure App Service instances to ensure all http requests are captured and centrally logged."
-  query         = query.manual_control
+  query         = query.appservice_web_app_diagnostic_log_category_http_log_enabled
   documentation = file("./cis_v200/docs/cis_v200_5_1_7.md")
 
   tags = merge(local.cis_v200_5_1_common_tags, {

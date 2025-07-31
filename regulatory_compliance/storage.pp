@@ -706,11 +706,13 @@ query "storage_account_blob_service_logging_enabled" {
     select
       sa.id as resource,
       case
+        when lower(sku_tier) = 'premium' and kind in ('StorageV2', 'FileStorage') then 'skip'
         when default_blob_diagnostic_settings is null then 'alarm'
         when ls.read_enabled and ls.write_enabled and ls.delete_enabled then 'ok'
         else 'alarm'
       end as status,
       case
+        when lower(sku_tier) = 'premium' and kind in ('StorageV2', 'FileStorage') then sa.name || ' is premium ' || kind || ' storage account.'
         when default_blob_diagnostic_settings is null then sa.name || ' blob service logging disabled for read, write, delete requests.'
         when ls.read_enabled and ls.write_enabled and ls.delete_enabled then sa.name || ' blob service logging enabled for read, write, delete requests.'
         else sa.name || ' blob service logging missing for: ' ||
@@ -758,11 +760,13 @@ query "storage_account_table_service_logging_enabled" {
     select
       sa.id as resource,
       case
+        when lower(sku_tier) = 'premium' then 'skip'
         when default_table_diagnostic_settings is null then 'alarm'
         when ls.read_enabled and ls.write_enabled and ls.delete_enabled then 'ok'
         else 'alarm'
       end as status,
       case
+        when lower(sku_tier) = 'premium' then sa.name || ' is premium ' || kind || ' storage account.'
         when default_table_diagnostic_settings is null then sa.name || ' table service logging disabled for read, write, delete requests.'
         when ls.read_enabled and ls.write_enabled and ls.delete_enabled then sa.name || ' table service logging enabled for read, write, delete requests.'
         else sa.name || ' table service logging missing for: ' ||
@@ -835,11 +839,13 @@ query "storage_account_queue_services_logging_enabled" {
     select
       sa.id as resource,
       case
+        when lower(sku_tier) = 'premium' then 'skip'
         when default_queue_diagnostic_settings is null then 'alarm'
         when ls.read_enabled and ls.write_enabled and ls.delete_enabled then 'ok'
         else 'alarm'
       end as status,
       case
+        when lower(sku_tier) = 'premium' then sa.name || ' is premium ' || kind || ' storage account.'
         when default_queue_diagnostic_settings is null then sa.name || ' queue service logging disabled for read, write, delete requests.'
         when ls.read_enabled and ls.write_enabled and ls.delete_enabled then sa.name || ' queue service logging enabled for read, write, delete requests.'
         else sa.name || ' queue service logging missing for: ' ||
@@ -1170,12 +1176,14 @@ query "storage_account_blob_service_classic_logging_enabled" {
     select
       sa.id as resource,
       case
+        when lower(sku_tier) = 'premium' and kind in ('StorageV2', 'FileStorage') then 'skip'
         when not (sa.blob_service_logging ->> 'Read') :: boolean
         or not (sa.blob_service_logging ->> 'Write') :: boolean
         or not (sa.blob_service_logging ->> 'Delete') :: boolean then 'alarm'
         else 'ok'
       end as status,
       case
+        when lower(sku_tier) = 'premium' and kind in ('StorageV2', 'FileStorage') then sa.name || ' is premium ' || kind || ' storage account.'
         when not (sa.blob_service_logging ->> 'Read') :: boolean
         or not (sa.blob_service_logging ->> 'Write') :: boolean
         or not (sa.blob_service_logging ->> 'Delete') :: boolean then name || ' blob service logging not enabled for ' ||
@@ -1202,10 +1210,12 @@ query "storage_account_table_service_classic_logging_enabled" {
     select
       sa.id as resource,
       case
+        when lower(sku_tier) = 'premium' then 'skip'
         when table_logging_write and table_logging_read and table_logging_delete then 'ok'
         else 'alarm'
       end as status,
       case
+        when lower(sku_tier) = 'premium' then sa.name || ' is premium ' || kind || ' storage account.'
         when table_logging_write and table_logging_read and table_logging_delete
           then sa.name || ' table service logging enabled for read, write, delete requests.'
         else sa.name || ' table service logging not enabled for: ' ||
@@ -1231,10 +1241,12 @@ query "storage_account_queue_service_classic_logging_enabled" {
     select
       sa.id as resource,
       case
+        when lower(sku_tier) = 'premium' then 'skip'
         when queue_logging_read and queue_logging_write and queue_logging_delete then 'ok'
         else 'alarm'
       end as status,
       case
+        when lower(sku_tier) = 'premium' then sa.name || ' is premium ' || kind || ' storage account.'
         when queue_logging_read and queue_logging_write and queue_logging_delete
           then sa.name || ' queue service logging enabled for read, write, delete requests.'
         else sa.name || ' queue service logging not enabled for: ' ||

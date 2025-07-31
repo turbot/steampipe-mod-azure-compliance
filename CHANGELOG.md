@@ -1,8 +1,8 @@
-## v1.5.0 [2025-07-30]
+## v1.5.0 [2025-07-31]
 
 Enhancements_
 
-- Added new automated  queries for below CIS controls: ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
+- Added new automated  queries for the following CIS controls: ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
   - `cis_v150_1_2_1`
   - `cis_v200_1_2_1`
   - `cis_v200_5_1_7`
@@ -22,9 +22,9 @@ Enhancements_
 
 _Bug fixes_
 
-- Fixed `cis_v300_3_1_4_2` control by updating query reference and marking as manual. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
-- Fixed query `appservice_function_app_latest_java_version` to correctly check results for both linux and windows operating system web app. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
-- Fixed query `appservice_web_app_latest_java_version` to correctly check results for both linux and windows operating system function app. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
+- Fixed `cis_v300_3_1_4_2` control by removing the invalid query reference and marking it as manual. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
+- Fixed `appservice_function_app_latest_java_version` query to correctly check results for both Linux and Windows operating system web app. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
+- Fixed `appservice_web_app_latest_java_version` query to correctly check results for both Linux and Windows operating system function app. ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
 
 ## v1.4.0 [2025-07-03]
 

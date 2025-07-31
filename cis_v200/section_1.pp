@@ -143,7 +143,7 @@ benchmark "cis_v200_1_2" {
 control "cis_v200_1_2_1" {
   title         = "1.2.1 Ensure Trusted Locations Are Defined"
   description   = "Azure Active Directory Conditional Access allows an organization to configure Named locations and configure whether those locations are trusted or untrusted. These settings provide organizations the means to specify Geographical locations for use in conditional access policies, or define actual IP addresses and IP ranges and whether or not those IP addresses and/or ranges are trusted by the organization."
-  query         = query.ad_manual_control
+  query         = query.iam_conditional_access_trusted_location_configured
   documentation = file("./cis_v200/docs/cis_v200_1_2_1.md")
 
   tags = merge(local.cis_v200_1_2_common_tags, {

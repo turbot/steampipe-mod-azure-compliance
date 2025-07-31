@@ -219,7 +219,7 @@ control "cis_v300_3_1_4_1" {
 control "cis_v300_3_1_4_2" {
   title         = "3.1.4.2 Ensure that 'Agentless discovery for Kubernetes' component status 'On'"
   description   = "Enable automatic discovery and configuration scanning of the Microsoft Kubernetes clusters."
-  query         = query.securitycenter_azure_defender_on_for_containers
+  query         = query.manual_control
   documentation = file("./cis_v300/docs/cis_v300_3_1_4_2.md")
 
   tags = merge(local.cis_v300_3_1_common_tags, {

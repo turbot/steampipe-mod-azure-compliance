@@ -4,6 +4,36 @@ locals {
   }
 }
 
+variable "appservice_web_app_latest_php_version" {
+  type        = string
+  description = "AppService web app latest PHP version."
+  default     = "PHP|8.4"
+}
+
+variable "appservice_web_app_latest_python_version" {
+  type        = string
+  description = "AppService web app latest python version."
+  default     = "PYTHON|3.13"
+}
+
+variable "appservice_function_app_latest_python_version" {
+  type        = string
+  description = "AppService function app latest python version."
+  default     = "Python|3.12"
+}
+
+variable "appservice_web_app_latest_java_version" {
+  type        = string
+  description = "AppService web app latest java version."
+  default     = "21"
+}
+
+variable "appservice_function_app_latest_java_version" {
+  type        = string
+  description = "AppService function app latest java version."
+  default     = "21"
+}
+
 control "appservice_web_app_use_https" {
   title       = "Web Application should only be accessible over HTTPS"
   description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
@@ -1344,52 +1374,32 @@ query "app_service_environment_internal_encryption_enabled" {
 
 query "appservice_function_app_latest_java_version" {
   sql = <<-EOQ
-    with all_function_app as (
-      select
-        id
-      from
-        azure_app_service_function_app
-      where
-        exists (
-          select
-          from
-            unnest(regexp_split_to_array(kind, ',')) elem
-          where
-            elem like 'functionapp%'
-        )
-        and
-        exists (
-          select
-          from
-            unnest(regexp_split_to_array(kind, ',')) elem
-          where
-            elem = 'linux'
-        )
-    )
     select
       a.id as resource,
       case
-        when b.id is null then 'skip'
-        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' and configuration -> 'properties' ->> 'javaVersion' is null then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%' || $1 or  configuration -> 'properties' ->>  'javaVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
-        when b.id is null then a.title || ' is not of linux kind.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' then a.name || ' not using JAVA version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then a.name || ' using the latest JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' and configuration -> 'properties' ->> 'javaVersion' is null then a.name || ' not using JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%' || $1 or  configuration -> 'properties' ->>  'javaVersion' = $1 then a.name || ' using the latest JAVA version.'
         else a.name || ' not using latest JAVA version.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_app_service_function_app as a
-      left join all_function_app as b on a.id = b.id,
+      azure_app_service_function_app as a,
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_function_app_latest_java_version" {
+    description = "AppService function app latest java version."
+    default     = var.appservice_function_app_latest_java_version
+  }
 }
 
 query "appservice_web_app_latest_java_version" {
@@ -1407,27 +1417,19 @@ query "appservice_web_app_latest_java_version" {
           where
             elem like 'app%'
         )
-        and
-        exists (
-          select
-          from
-            unnest(regexp_split_to_array(kind, ',')) elem
-          where
-            elem = 'linux'
-        )
     )
     select
       a.id as resource,
       case
         when b.id is null then 'skip'
-        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' and configuration -> 'properties' ->> 'javaContainer' is null then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%' || $1 or  configuration -> 'properties' ->>  'javaVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
         when b.id is null then a.title || ' is ' || a.kind || ' kind.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' then a.name ||  ' not using JAVA version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then a.name || ' using the latest JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' and configuration -> 'properties' ->> 'javaContainer' is null then a.name ||  ' not using JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%' || $1 or  configuration -> 'properties' ->>  'javaVersion' = $1  then a.name || ' using the latest JAVA version.'
         else a.name || ' not using latest JAVA version.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -1440,6 +1442,11 @@ query "appservice_web_app_latest_java_version" {
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_web_app_latest_java_version" {
+    description = "AppService web app latest java version."
+    default     = var.appservice_web_app_latest_java_version
+  }
 }
 
 query "appservice_web_app_latest_php_version" {
@@ -1471,13 +1478,13 @@ query "appservice_web_app_latest_php_version" {
       case
         when b.id is null then 'skip'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PHP%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PHP|8.0' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
         when b.id is null then a.title || ' is ' || a.kind || ' kind.'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PHP%' then a.name ||  ' not using php version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PHP|8.0' then a.name || ' using the latest php version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then a.name || ' using the latest php version.'
         else a.name || ' not using latest php version.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -1490,6 +1497,11 @@ query "appservice_web_app_latest_php_version" {
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_web_app_latest_php_version" {
+    description = "AppService web app latest PHP version."
+    default     = var.appservice_web_app_latest_php_version
+  }
 }
 
 query "appservice_function_app_latest_python_version" {
@@ -1521,13 +1533,13 @@ query "appservice_function_app_latest_python_version" {
       case
         when b.id is null then 'skip'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Python%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'Python|3.9' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
         when b.id is null then a.title || ' is ' || a.kind || ' kind.'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Python%' then a.name || ' not using python version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'Python|3.9' then a.name || ' using the latest python version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then a.name || ' using the latest python version.'
         else a.name || ' not using latest python version.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -1540,6 +1552,11 @@ query "appservice_function_app_latest_python_version" {
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_function_app_latest_python_version" {
+    description = "AppService function app latest python version."
+    default     = var.appservice_function_app_latest_python_version
+  }
 }
 
 query "appservice_web_app_latest_python_version" {
@@ -1571,13 +1588,13 @@ query "appservice_web_app_latest_python_version" {
       case
         when b.id is null then 'skip'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PYTHON%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PYTHON|3.9' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
         when b.id is null then a.title || ' is not of linux kind.'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PYTHON%' then a.name ||  ' not using python version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PYTHON|3.9' then a.name || ' using the latest python version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then a.name || ' using the latest python version.'
         else a.name || ' not using latest python version.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -1590,6 +1607,11 @@ query "appservice_web_app_latest_python_version" {
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_web_app_latest_python_version" {
+    description = "AppService web app latest python version."
+    default     = var.appservice_web_app_latest_python_version
+  }
 }
 
 # Non-Config rule query

@@ -140,7 +140,7 @@ control "cis_v210_7_8" {
 control "cis_v210_7_9" {
   title         = "7.9 Ensure Trusted Launch is enabled on Virtual Machines"
   description   = "When Secure Boot and vTPM are enabled together, they provide a strong foundation for protecting your VM from boot attacks. For example, if an attacker attempts to replace the bootloader with a malicious version, Secure Boot will prevent the VM from booting."
-  query         = query.manual_control
+  query         = query.compute_vm_trust_launch_enabled
   documentation = file("./cis_v210/docs/cis_v210_7_9.md")
 
   tags = merge(local.cis_v210_7_common_tags, {

@@ -1553,7 +1553,7 @@ query "appservice_function_app_latest_python_version" {
       sub.subscription_id = a.subscription_id;
   EOQ
 
-   param "appservice_function_app_latest_python_version" {
+  param "appservice_function_app_latest_python_version" {
     description = "AppService function app latest python version."
     default     = var.appservice_function_app_latest_python_version
   }

@@ -55,6 +55,7 @@ benchmark "all_controls_compute" {
     control.compute_vm_ssh_key_authentication_linux,
     control.compute_vm_system_updates_installed,
     control.compute_vm_tcp_udp_access_restricted_internet,
+    control.compute_vm_trust_launch_enabled,
     control.compute_vm_uses_azure_resource_manager,
     control.compute_vm_utilizing_managed_disk,
     control.compute_vm_vulnerability_assessment_solution_enabled,

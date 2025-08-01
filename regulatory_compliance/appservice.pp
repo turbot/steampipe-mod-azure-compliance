@@ -4,6 +4,36 @@ locals {
   }
 }
 
+variable "appservice_web_app_latest_php_version" {
+  type        = string
+  description = "AppService web app latest PHP version."
+  default     = "PHP|8.4"
+}
+
+variable "appservice_web_app_latest_python_version" {
+  type        = string
+  description = "AppService web app latest python version."
+  default     = "PYTHON|3.13"
+}
+
+variable "appservice_function_app_latest_python_version" {
+  type        = string
+  description = "AppService function app latest python version."
+  default     = "Python|3.12"
+}
+
+variable "appservice_web_app_latest_java_version" {
+  type        = string
+  description = "AppService web app latest java version."
+  default     = "21"
+}
+
+variable "appservice_function_app_latest_java_version" {
+  type        = string
+  description = "AppService function app latest java version."
+  default     = "21"
+}
+
 control "appservice_web_app_use_https" {
   title       = "Web Application should only be accessible over HTTPS"
   description = "Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
@@ -462,6 +492,14 @@ control "appservice_function_app_restrict_public_acces" {
   title       = "App Service function apps public access should be restricted"
   description = "Anonymous public read access to function app in Azure App Service is a convenient way to share data but might present security risks. To prevent data breaches caused by undesired anonymous access, Microsoft recommends preventing public access to a function app unless your scenario requires it."
   query       = query.appservice_function_app_restrict_public_acces
+
+  tags = local.regulatory_compliance_appservice_common_tags
+}
+
+control "appservice_web_app_diagnostic_log_category_http_log_enabled" {
+  title         = "Ensure that logging for Azure AppService 'HTTP logs' is enabled"
+  description   = "Enable AppServiceHTTPLogs diagnostic log category for Azure App Service instances to ensure all http requests are captured and centrally logged."
+  query         = query.appservice_web_app_diagnostic_log_category_http_log_enabled
 
   tags = local.regulatory_compliance_appservice_common_tags
 }
@@ -1344,52 +1382,32 @@ query "app_service_environment_internal_encryption_enabled" {
 
 query "appservice_function_app_latest_java_version" {
   sql = <<-EOQ
-    with all_function_app as (
-      select
-        id
-      from
-        azure_app_service_function_app
-      where
-        exists (
-          select
-          from
-            unnest(regexp_split_to_array(kind, ',')) elem
-          where
-            elem like 'functionapp%'
-        )
-        and
-        exists (
-          select
-          from
-            unnest(regexp_split_to_array(kind, ',')) elem
-          where
-            elem = 'linux'
-        )
-    )
     select
       a.id as resource,
       case
-        when b.id is null then 'skip'
-        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' and configuration -> 'properties' ->> 'javaVersion' is null then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%' || $1 or  configuration -> 'properties' ->>  'javaVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
-        when b.id is null then a.title || ' is not of linux kind.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' then a.name || ' not using JAVA version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then a.name || ' using the latest JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Java%' and configuration -> 'properties' ->> 'javaVersion' is null then a.name || ' not using JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%' || $1 or  configuration -> 'properties' ->>  'javaVersion' = $1 then a.name || ' using the latest JAVA version.'
         else a.name || ' not using latest JAVA version.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_app_service_function_app as a
-      left join all_function_app as b on a.id = b.id,
+      azure_app_service_function_app as a,
       azure_subscription as sub
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_function_app_latest_java_version" {
+    description = "AppService function app latest java version."
+    default     = var.appservice_function_app_latest_java_version
+  }
 }
 
 query "appservice_web_app_latest_java_version" {
@@ -1407,27 +1425,19 @@ query "appservice_web_app_latest_java_version" {
           where
             elem like 'app%'
         )
-        and
-        exists (
-          select
-          from
-            unnest(regexp_split_to_array(kind, ',')) elem
-          where
-            elem = 'linux'
-        )
     )
     select
       a.id as resource,
       case
         when b.id is null then 'skip'
-        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' and configuration -> 'properties' ->> 'javaContainer' is null then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%' || $1 or  configuration -> 'properties' ->>  'javaVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
         when b.id is null then a.title || ' is ' || a.kind || ' kind.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' then a.name ||  ' not using JAVA version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' like '%11' then a.name || ' using the latest JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' not like 'JAVA%' and configuration -> 'properties' ->> 'javaContainer' is null then a.name ||  ' not using JAVA version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' like '%' || $1 or  configuration -> 'properties' ->>  'javaVersion' = $1  then a.name || ' using the latest JAVA version.'
         else a.name || ' not using latest JAVA version.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -1440,6 +1450,11 @@ query "appservice_web_app_latest_java_version" {
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_web_app_latest_java_version" {
+    description = "AppService web app latest java version."
+    default     = var.appservice_web_app_latest_java_version
+  }
 }
 
 query "appservice_web_app_latest_php_version" {
@@ -1471,13 +1486,13 @@ query "appservice_web_app_latest_php_version" {
       case
         when b.id is null then 'skip'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PHP%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PHP|8.0' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
         when b.id is null then a.title || ' is ' || a.kind || ' kind.'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PHP%' then a.name ||  ' not using php version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PHP|8.0' then a.name || ' using the latest php version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then a.name || ' using the latest php version.'
         else a.name || ' not using latest php version.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -1490,6 +1505,11 @@ query "appservice_web_app_latest_php_version" {
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_web_app_latest_php_version" {
+    description = "AppService web app latest PHP version."
+    default     = var.appservice_web_app_latest_php_version
+  }
 }
 
 query "appservice_function_app_latest_python_version" {
@@ -1521,13 +1541,13 @@ query "appservice_function_app_latest_python_version" {
       case
         when b.id is null then 'skip'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Python%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'Python|3.9' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
         when b.id is null then a.title || ' is ' || a.kind || ' kind.'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'Python%' then a.name || ' not using python version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'Python|3.9' then a.name || ' using the latest python version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then a.name || ' using the latest python version.'
         else a.name || ' not using latest python version.'
       end as reason
       ${local.tag_dimensions_sql}
@@ -1540,6 +1560,11 @@ query "appservice_function_app_latest_python_version" {
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_function_app_latest_python_version" {
+    description = "AppService function app latest python version."
+    default     = var.appservice_function_app_latest_python_version
+  }
 }
 
 query "appservice_web_app_latest_python_version" {
@@ -1571,13 +1596,13 @@ query "appservice_web_app_latest_python_version" {
       case
         when b.id is null then 'skip'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PYTHON%' then 'ok'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PYTHON|3.9' then 'ok'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then 'ok'
         else 'alarm'
       end as status,
       case
         when b.id is null then a.title || ' is not of linux kind.'
         when configuration -> 'properties' ->> 'linuxFxVersion' not like 'PYTHON%' then a.name ||  ' not using python version.'
-        when configuration -> 'properties' ->> 'linuxFxVersion' = 'PYTHON|3.9' then a.name || ' using the latest python version.'
+        when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then a.name || ' using the latest python version.'
         else a.name || ' not using latest python version.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -1590,6 +1615,11 @@ query "appservice_web_app_latest_python_version" {
     where
       sub.subscription_id = a.subscription_id;
   EOQ
+
+  param "appservice_web_app_latest_python_version" {
+    description = "AppService web app latest python version."
+    default     = var.appservice_web_app_latest_python_version
+  }
 }
 
 # Non-Config rule query
@@ -1935,5 +1965,39 @@ query "appservice_function_app_restrict_public_acces" {
       azure_subscription sub
     where
       sub.subscription_id = fa.subscription_id;
+  EOQ
+}
+
+query "appservice_web_app_diagnostic_log_category_http_log_enabled" {
+  sql = <<-EOQ
+    with diagnostic_settings_http_logs as (
+      select
+        distinct id
+      from
+        azure_app_service_web_app,
+        jsonb_array_elements(diagnostic_settings) as ds,
+        jsonb_array_elements(ds -> 'properties' -> 'logs') as log
+      where
+        log ->> 'category' = 'AppServiceHTTPLogs'
+        and (log -> 'enabled')::bool
+
+    )
+    select
+      a.id as resource,
+      case
+        when ds.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when ds.id is not null then a.name || ' HTTP logs for diagnostic log category enabled.'
+        else a.name || ' HTTP logs for diagnostic log category disabled.'
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_service_web_app as a
+      left join diagnostic_settings_http_logs as ds on ds.id = a.id
+      left join  azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

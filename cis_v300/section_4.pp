@@ -64,7 +64,7 @@ control "cis_v300_4_2" {
 control "cis_v300_4_3" {
   title         = "4.3 Ensure that 'Enable key rotation reminders' is enabled for each Storage Account"
   description   = "Access Keys authenticate application access requests to data contained in Storage Accounts. A periodic rotation of these keys is recommended to ensure that potentially compromised keys cannot result in a long-term exploitable credential. The 'Rotation Reminder' is an automatic reminder feature for a manual procedure."
-  query         = query.manual_control
+  query         = query.storage_account_key_rotation_reminder_enabled
   documentation = file("./cis_v300/docs/cis_v300_4_3.md")
 
   tags = merge(local.cis_v300_4_common_tags, {
@@ -246,7 +246,7 @@ control "cis_v300_4_15" {
 control "cis_v300_4_16" {
   title         = "4.16 Ensure 'Cross Tenant Replication' is not enabled"
   description   = "Cross Tenant Replication in Azure allows data to be replicated across multiple Azure tenants. While this feature can be beneficial for data sharing and availability, it also poses a significant security risk if not properly managed. Unauthorized data access, data leakage, and compliance violations are potential risks. Disabling Cross Tenant Replication ensures that data is not inadvertently replicated across different tenant boundaries without explicit authorization."
-  query         = query.manual_control
+  query         = query.storage_account_cross_tenant_replication_disabled
   documentation = file("./cis_v300/docs/cis_v300_4_16.md")
 
   tags = merge(local.cis_v300_4_common_tags, {

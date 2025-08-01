@@ -246,7 +246,7 @@ control "cis_v300_4_15" {
 control "cis_v300_4_16" {
   title         = "4.16 Ensure 'Cross Tenant Replication' is not enabled"
   description   = "Cross Tenant Replication in Azure allows data to be replicated across multiple Azure tenants. While this feature can be beneficial for data sharing and availability, it also poses a significant security risk if not properly managed. Unauthorized data access, data leakage, and compliance violations are potential risks. Disabling Cross Tenant Replication ensures that data is not inadvertently replicated across different tenant boundaries without explicit authorization."
-  query         = query.manual_control
+  query         = query.storage_account_cross_tenant_replication_disabled
   documentation = file("./cis_v300/docs/cis_v300_4_16.md")
 
   tags = merge(local.cis_v300_4_common_tags, {

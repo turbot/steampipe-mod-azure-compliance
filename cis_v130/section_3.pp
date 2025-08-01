@@ -58,7 +58,7 @@ control "cis_v130_3_2" {
 control "cis_v130_3_3" {
   title         = "3.3 Ensure Storage logging is enabled for Queue service for read, write, and delete requests"
   description   = "The Storage Queue service stores messages that may be read by any client who has access to the storage account. A queue can contain an unlimited number of messages, each of which can be up to 64KB in size using version 2011-08-18 or newer. Storage Logging happens server-side and allows details for both successful and failed requests to be recorded in the storage account. These logs allow users to see the details of read, write, and delete operations against the queues. Storage Logging log entries contain the following information about individual requests: Timing information such as start time, end-to-end latency, and server latency, authentication details , concurrency information and the sizes of the request and response messages."
-  query         = query.storage_account_queue_services_logging_enabled
+  query         = query.storage_account_queue_service_classic_logging_enabled
   documentation = file("./cis_v130/docs/cis_v130_3_3.md")
 
   tags = merge(local.cis_v130_3_common_tags, {
@@ -156,7 +156,7 @@ control "cis_v130_3_9" {
 control "cis_v130_3_10" {
   title         = "3.10 Ensure Storage logging is enabled for Blob service for read, write, and delete requests"
   description   = "The Storage Blob service provides scalable, cost-efficient objective storage in the cloud. Storage Logging happens server-side and allows details for both successful and failed requests to be recorded in the storage account. These logs allow users to see the details of read, write, and delete operations against the blobs. Storage Logging log entries contain the following information about individual requests: Timing information such as start time, end-to-end latency, and server latency, authentication details , concurrency information and the sizes of the request and response messages."
-  query         = query.storage_account_blob_service_logging_enabled
+  query         = query.storage_account_blob_service_classic_logging_enabled
   documentation = file("./cis_v130/docs/cis_v130_3_10.md")
 
   tags = merge(local.cis_v130_3_common_tags, {
@@ -170,7 +170,7 @@ control "cis_v130_3_10" {
 control "cis_v130_3_11" {
   title         = "3.11 Ensure Storage logging is enabled for Table service for read, write, and delete requests"
   description   = "The Storage Table storage is a service that stores structure NoSQL data in the cloud, providing a key/attribute store with a schema less design. Storage Logging happens server- side and allows details for both successful and failed requests to be recorded in the storage account. These logs allow users to see the details of read, write, and delete operations against the tables. Storage Logging log entries contain the following information about individual requests: Timing information such as start time, end-to-end latency, and server latency, authentication details , concurrency information and the sizes of the request and response messages."
-  query         = query.manual_control
+  query         = query.storage_account_table_service_classic_logging_enabled
   documentation = file("./cis_v130/docs/cis_v130_3_11.md")
 
   tags = merge(local.cis_v130_3_common_tags, {

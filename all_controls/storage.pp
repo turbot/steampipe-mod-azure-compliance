@@ -26,6 +26,7 @@ benchmark "all_controls_storage" {
     control.storage_account_file_share_soft_delete_enabled,
     control.storage_account_geo_redundant_enabled,
     control.storage_account_infrastructure_encryption_enabled,
+    control.storage_account_key_rotation_reminder_enabled,
     control.storage_account_min_tls_1_2,
     control.storage_account_private_endpoint_enabled,
     control.storage_account_public_network_access_disabled,

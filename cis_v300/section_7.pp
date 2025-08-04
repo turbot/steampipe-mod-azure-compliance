@@ -68,7 +68,7 @@ control "cis_v300_7_3" {
 control "cis_v300_7_4" {
   title         = "7.4 Ensure that HTTP(S) access from the Internet is evaluated and restricted"
   description   = "Network security groups should be periodically evaluated for port misconfigurations. Where certain ports and protocols may be exposed to the Internet, they should be evaluated for necessity and restricted wherever they are not explicitly required and narrowly configured."
-  query         = query.network_security_group_https_access_restricted
+  query         = query.network_security_group_https_port_80_443_access_restricted
   documentation = file("./cis_v300/docs/cis_v300_7_4.md")
 
   tags = merge(local.cis_v300_7_common_tags, {

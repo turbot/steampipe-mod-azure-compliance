@@ -108,7 +108,7 @@ control "cis_v300_6_1_4" {
 control "cis_v300_6_1_5" {
   title         = "6.1.5 Ensure that Network Security Group Flow logs are captured and sent to Log Analytics"
   description   = "Ensure that network flow logs are captured and fed into a central log analytics workspace."
-  query         = query.manual_control
+  query         = query.nsg_network_watcher_flow_log_send_to_log_analytics
   documentation = file("./cis_v300/docs/cis_v300_6_1_5.md")
 
   tags = merge(local.cis_v300_6_1_common_tags, {
@@ -122,7 +122,7 @@ control "cis_v300_6_1_5" {
 control "cis_v300_6_1_6" {
   title         = "6.1.6 Ensure that logging for Azure AppService 'HTTP logs' is enabled"
   description   = "Enable AppServiceHTTPLogs diagnostic log category for Azure App Service instances to ensure all http requests are captured and centrally logged."
-  query         = query.appservice_web_app_diagnostic_logs_enabled
+  query         = query.appservice_web_app_diagnostic_log_category_http_log_enabled
   documentation = file("./cis_v300/docs/cis_v300_6_1_6.md")
 
   tags = merge(local.cis_v300_6_1_common_tags, {

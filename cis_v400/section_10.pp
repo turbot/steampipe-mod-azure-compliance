@@ -181,7 +181,7 @@ benchmark "cis_v400_10_3_1" {
 control "cis_v400_10_3_1_1" {
   title         = "10.3.1.1 Ensure that 'Enable key rotation reminders' is enabled for each Storage Account"
   description   = "Access Keys authenticate application access requests to data contained in Storage Accounts."
-  query         = query.manual_control
+  query         = query.storage_account_key_rotation_reminder_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_1_1.md")
 
   tags = merge(local.cis_v400_10_3_1_common_tags, {

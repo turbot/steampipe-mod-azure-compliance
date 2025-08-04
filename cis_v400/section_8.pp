@@ -69,7 +69,7 @@ control "cis_v400_8_3" {
 control "cis_v400_8_4" {
   title         = "8.4 Ensure that HTTP(S) access from the Internet is evaluated and restricted"
   description   = "Network security groups should be periodically evaluated for port misconfigurations."
-  query         = query.network_security_group_https_access_restricted
+  query         = query.network_security_group_https_port_80_443_access_restricted
   documentation = file("./cis_v400/docs/cis_v400_8_4.md")
 
   tags = merge(local.cis_v400_8_common_tags, {
@@ -125,7 +125,7 @@ control "cis_v400_8_7" {
 control "cis_v400_8_8" {
   title         = "8.8 Ensure that virtual network flow log retention days is set to greater than or equal to 90"
   description   = "Ensure that virtual network flow logs are retained for greater than or equal to 90 days."
-  query         = query.network_watcher_flow_log_retention_90_days
+  query         = query.network_virtual_network_watcher_flow_log_retention_90_days
   documentation = file("./cis_v400/docs/cis_v400_8_8.md")
 
   tags = merge(local.cis_v400_8_common_tags, {

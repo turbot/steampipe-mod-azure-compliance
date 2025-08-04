@@ -216,41 +216,52 @@ query "keyvault_purge_protection_enabled" {
 
 query "keyvault_logging_enabled" {
   sql = <<-EOQ
-    with logging_details as (
+    with audit_logging_details as (
       select
-        name as key_vault_name
+        id
       from
         azure_key_vault,
         jsonb_array_elements(diagnostic_settings) setting,
         jsonb_array_elements(setting -> 'properties' -> 'logs') log
       where
         diagnostic_settings is not null
-        and setting -> 'properties' ->> 'storageAccountId' <> ''
-        and (log ->> 'enabled') :: boolean
-        and log ->> 'category' = 'AuditEvent'
-        and (log -> 'retentionPolicy') :: JSONB ? 'days'
+        and log -> 'categoryGroup' = '"audit"'
+        and (log -> 'enabled')::bool = true
+    ),
+    alllogs_logging_details as (
+      select
+        id
+      from
+        azure_key_vault,
+        jsonb_array_elements(diagnostic_settings) setting,
+        jsonb_array_elements(setting -> 'properties' -> 'logs') log
+      where
+        diagnostic_settings is not null
+        and log -> 'categoryGroup' = '"allLogs"'
+        and (log -> 'enabled')::bool = true
     )
     select
       v.id as resource,
       case
         when v.diagnostic_settings is null then 'alarm'
-        when l.key_vault_name not like concat('%', v.name, '%') then 'alarm'
-        else 'ok'
+        when audit.id is not null  and alllogs.id is not null then 'ok'
+        else 'alarm'
       end as status,
       case
         when v.diagnostic_settings is null then v.name || ' logging not enabled.'
-        when l.key_vault_name not like concat('%', v.name, '%') then v.name || ' logging not enabled.'
-        else v.name || ' logging enabled.'
+        when audit.id is not null  and alllogs.id is not null then v.name || ' logging enabled.'
+        when audit.id is null then v.name || ' logging not enabled for audit category group.'
+        when alllogs.id is null then v.name || ' logging not enabled for allLogs category group.'
+        else v.name || ' logging not enabled.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault v,
-      logging_details l,
+      azure_key_vault v
+      left join audit_logging_details as audit on audit.id = v.id
+      left join alllogs_logging_details as alllogs on alllogs.id = v.id,
       azure_subscription sub
-    where
-      sub.subscription_id = v.subscription_id;
   EOQ
 }
 
@@ -695,23 +706,26 @@ query "keyvault_public_network_access_disabled" {
     select
       v.id as resource,
       case
-        when jsonb_array_length(v.private_endpoint_connections) > 0 
+        when jsonb_array_length(v.private_endpoint_connections) > 0
           and v.network_acls ->> 'defaultAction' = 'Deny' then 'ok'
         when jsonb_array_length(v.private_endpoint_connections) = 0 then 'skip'
         else 'alarm'
       end as status,
       case
-        when jsonb_array_length(v.private_endpoint_connections) > 0 
-          and v.network_acls ->> 'defaultAction' = 'Deny' 
+        when jsonb_array_length(v.private_endpoint_connections) > 0
+          and v.network_acls ->> 'defaultAction' = 'Deny'
           then v.name || ' public network access is disabled with private endpoint.'
-        when jsonb_array_length(v.private_endpoint_connections) = 0 
+        when jsonb_array_length(v.private_endpoint_connections) = 0
           then v.name || ' has no private endpoints configured.'
         else v.name || ' public network access is enabled with private endpoint.'
-      end as reason,
-      v.subscription_id,
-      v.resource_group,
-      v.region
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault v;
+      azure_key_vault v,
+      azure_subscription sub
+    where
+      sub.subscription_id = v.subscription_id;
   EOQ
 }

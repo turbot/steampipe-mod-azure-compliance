@@ -321,7 +321,7 @@ control "storage_account_queue_service_classic_logging_enabled" {
 
 control "storage_account_key_rotation_reminder_enabled" {
   title         = "Ensure that 'Enable key rotation reminders' is enabled for each Storage Account"
-  description   = "Access Keys authenticate application access requests to data contained in Storage Accounts. A periodic rotation of these keys is recommended to ensure that potentially compromised keys cannot result in a long-term exploitable credential. The 'Rotation Reminder' is an automatic reminder feature for a manual procedure, the default vaule id 90 days."
+  description   = "Access Keys authenticate application access requests to data contained in Storage Accounts. A periodic rotation of these keys is recommended to ensure that potentially compromised keys cannot result in a long-term exploitable credential. The 'Rotation Reminder' is an automatic reminder feature for a manual procedure, the default value is 90 days."
   query         = query.storage_account_key_rotation_reminder_enabled
 
   tags = local.regulatory_compliance_storage_common_tags

@@ -49,7 +49,8 @@ benchmark "all_controls_network" {
     control.network_watcher_enabled,
     control.network_watcher_flow_log_enabled,
     control.network_watcher_flow_log_traffic_analytics_enabled,
-    control.network_watcher_in_regions_with_virtual_network
+    control.network_watcher_in_regions_with_virtual_network,
+    control.nsg_network_watcher_flow_log_send_to_log_analytics
   ]
 
   tags = merge(local.all_controls_network_common_tags, {

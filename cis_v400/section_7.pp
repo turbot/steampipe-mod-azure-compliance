@@ -131,7 +131,7 @@ control "cis_v400_7_1_1_4" {
 control "cis_v400_7_1_1_5" {
   title         = "7.1.1.5 Ensure that Network Security Group Flow logs are captured and sent to Log Analytics"
   description   = "Ensure that network flow logs are captured and fed into a central log analytics workspace."
-  query         = query.manual_control
+  query         = query.nsg_network_watcher_flow_log_send_to_log_analytics
   documentation = file("./cis_v400/docs/cis_v400_7_1_1_5.md")
 
   tags = merge(local.cis_v400_7_1_1_common_tags, {

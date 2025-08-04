@@ -1,8 +1,38 @@
+## v2.0.0 [2025-08-04]
+
+_Breaking changes_
+
+- Renamed the following queries to align with their focus on classic logging for the respective service types: ([#322](https://github.com/turbot/steampipe-mod-azure-compliance/pull/322))
+  - `storage_account_blobs_logging_enabled` to `storage_account_blob_service_classic_logging_enabled`
+  - `storage_account_queues_logging_enabled ` to `storage_account_queue_service_classic_logging_enabled`
+  - `storage_account_tables_logging_enabled ` to `storage_account_table_service_classic_logging_enabled`
+
+_Dependencies_
+
+- Azure plugin `v1.5.1` or higher is now required.
+
+_Enhancements_
+
+- Added new automated queries for the following CIS controls: ([#323](https://github.com/turbot/steampipe-mod-azure-compliance/pull/323))
+  - `cis_v150_3_3`
+  - `cis_v200_3_3`
+  - `cis_v200_5_1_7`
+  - `cis_v210_5_1_6`
+  - `cis_v300_4_3`
+  - `cis_v300_6_1_6`
+  - `cis_v400_10_3_1_1`
+  - `cis_v400_7_1_1_6`
+- Added `appservice_web_app_diagnostic_log_category_http_log_enabled` and `storage_account_key_rotation_reminder_enabled` controls to the `All Controls` benchmark. ([#323](https://github.com/turbot/steampipe-mod-azure-compliance/pull/323))
+
+_Bug fixes_
+
+- Fixed `keyvault_logging_enabled` query to correctly verify logging for Azure Key Vaults. ([#320](https://github.com/turbot/steampipe-mod-azure-compliance/pull/320))
+
 ## v1.5.0 [2025-07-31]
 
 _Enhancements_
 
-- Added new automated  queries for the following CIS controls: ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
+- Added new automated queries for the following CIS controls: ([#317](https://github.com/turbot/steampipe-mod-azure-compliance/pull/317))
   - `cis_v150_1_2_1`
   - `cis_v200_1_2_1`
   - `cis_v200_5_1_7`

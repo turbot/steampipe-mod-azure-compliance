@@ -51,7 +51,7 @@ benchmark "cis_v400_10_1" {
 
   tags = merge(local.cis_v400_10_1_common_tags, {
     type    = "Benchmark"
-    service = "Azure/General"
+    service = "Azure/Storage"
   })
 }
 
@@ -174,7 +174,7 @@ benchmark "cis_v400_10_3_1" {
 
   tags = merge(local.cis_v400_10_3_1_common_tags, {
     type    = "Benchmark"
-    service = "Azure/General"
+    service = "Azure/Storage"
   })
 }
 
@@ -188,7 +188,7 @@ control "cis_v400_10_3_1_1" {
     cis_item_id = "10.3.1.1"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/General"
+    service     = "Azure/Storage"
   })
 }
 
@@ -202,7 +202,7 @@ control "cis_v400_10_3_1_2" {
     cis_item_id = "10.3.1.2"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/General"
+    service     = "Azure/Storage"
   })
 }
 
@@ -238,7 +238,7 @@ benchmark "cis_v400_10_3_2" {
 control "cis_v400_10_3_2_1" {
   title         = "10.3.2.1 Ensure Private Endpoints are used to access Storage Accounts"
   description   = "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data located over a network via an encrypted Private Link."
-  query         = query.storage_account_private_endpoint_enabled
+  query         = query.storage_account_uses_private_link
   documentation = file("./cis_v400/docs/cis_v400_10_3_2_1.md")
 
   tags = merge(local.cis_v400_10_3_2_common_tags, {
@@ -259,7 +259,7 @@ control "cis_v400_10_3_2_2" {
     cis_item_id = "10.3.2.2"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Storage"
   })
 }
 
@@ -273,7 +273,7 @@ control "cis_v400_10_3_2_3" {
     cis_item_id = "10.3.2.3"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Storage"
   })
 }
 
@@ -300,7 +300,7 @@ control "cis_v400_10_3_3_1" {
     cis_item_id = "10.3.3.1"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/IAM"
+    service     = "Azure/Storage"
   })
 }
 
@@ -335,7 +335,7 @@ control "cis_v400_10_3_5" {
 control "cis_v400_10_3_6" {
   title         = "10.3.6 Ensure Soft Delete is Enabled for Azure Containers and Blob Storage"
   description   = "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal."
-  query         = query.storage_account_soft_delete_enabled
+  query         = query.storage_account_blob_and_container_soft_delete_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_6.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {

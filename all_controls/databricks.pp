@@ -10,7 +10,7 @@ benchmark "all_controls_databricks" {
   children = [
     control.databricks_workspace_cmk_configured,
     control.databricks_workspace_deployed_in_custom_vnet,
-    control.databricks_workspace_user_sync_configured
+    control.databricks_workspace_subnet_with_nsg_configured,
   ]
 
   tags = merge(local.all_controls_databoxedge_common_tags, {

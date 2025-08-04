@@ -28,7 +28,6 @@ benchmark "all_controls_storage" {
     control.storage_account_infrastructure_encryption_enabled,
     control.storage_account_key_rotation_reminder_enabled,
     control.storage_account_min_tls_1_2,
-    control.storage_account_private_endpoint_enabled,
     control.storage_account_public_network_access_disabled,
     control.storage_account_queue_service_classic_logging_enabled,
     control.storage_account_queue_services_logging_enabled,
@@ -41,7 +40,8 @@ benchmark "all_controls_storage" {
     control.storage_account_trusted_microsoft_services_enabled,
     control.storage_account_use_virtual_service_endpoint,
     control.storage_account_uses_azure_resource_manager,
-    control.storage_account_uses_private_link
+    control.storage_account_uses_private_link,
+    control.storage_account_blob_and_container_soft_delete_enabled,
   ]
 
   tags = merge(local.all_controls_storage_common_tags, {

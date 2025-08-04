@@ -133,7 +133,7 @@ benchmark "cis_v400_6_2" {
 control "cis_v400_6_2_1" {
   title         = "6.2.1 Ensure that 'trusted locations' are defined"
   description   = "Microsoft Entra ID Conditional Access allows an organization to configure `Named locations` and configure whether those locations are trusted or untrusted."
-  query         = query.ad_manual_control
+  query         = query.iam_conditional_access_trusted_location_configured
   documentation = file("./cis_v400/docs/cis_v400_6_2_1.md")
 
   tags = merge(local.cis_v400_6_2_common_tags, {

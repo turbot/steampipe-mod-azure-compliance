@@ -391,6 +391,14 @@ control "application_gateway_waf_uses_specified_mode" {
   })
 }
 
+control "nsg_network_watcher_flow_log_send_to_log_analytics" {
+  title         = "Ensure that Network Security Group Flow logs are captured and sent to Log Analytics"
+  description   = "Ensure that network flow logs are captured and fed into a central log analytics workspace."
+  query         = query.nsg_network_watcher_flow_log_send_to_log_analytics
+
+ tags = local.regulatory_compliance_network_common_tags
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (
@@ -807,6 +815,68 @@ query "network_security_group_https_access_restricted" {
             dport like '%-%'
             and split_part(dport, '-', 1) :: integer <= 80
             and split_part(dport, '-', 2) :: integer >= 80
+          )
+        )
+    )
+    select
+      sg.id resource,
+      case
+        when nsg.sg_name is null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg.sg_name is null then sg.title || ' restricts HTTPS access from internet.'
+        else sg.title || ' allows HTTPS access from internet.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_security_group sg
+      left join network_sg nsg on nsg.sg_name = sg.name
+      join azure_subscription sub on sub.subscription_id = sg.subscription_id;
+  EOQ
+}
+
+query "network_security_group_https_port_80_443_access_restricted" {
+  sql = <<-EOQ
+    with network_sg as (
+      select distinct
+        name sg_name
+      from
+        azure_network_security_group nsg,
+        jsonb_array_elements(security_rules) sg,
+        jsonb_array_elements_text(sg -> 'properties' -> 'destinationPortRanges' || (sg -> 'properties' -> 'destinationPortRange') :: jsonb) dport,
+        jsonb_array_elements_text(sg -> 'properties' -> 'sourceAddressPrefixes' || (sg -> 'properties' -> 'sourceAddressPrefix') :: jsonb) sip
+      where
+        sg -> 'properties' ->> 'access' = 'Allow'
+        and sg -> 'properties' ->> 'direction' = 'Inbound'
+        and sg -> 'properties' ->> 'protocol' ilike 'TCP'
+        and sip in
+        (
+          '*',
+          '0.0.0.0',
+          '0.0.0.0/0',
+          'Internet',
+          'any',
+          '<nw>/0',
+          '/0'
+        )
+        and
+        (
+          dport in
+          (
+            '80',
+            '443',
+            '*'
+          )
+          or
+          (
+            dport like '%-%'
+            and split_part(dport, '-', 1) :: integer <= 80
+            and split_part(dport, '-', 2) :: integer >= 80
+            and split_part(dport, '-', 1) :: integer <= 443
+            and split_part(dport, '-', 2) :: integer >= 443
           )
         )
     )
@@ -2143,7 +2213,7 @@ query "application_gateway_waf_uses_specified_mode" {
       end as status,
       case
         when (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') in ('Prevention','Detection') then ag.name || ' WAF mode is set to ' || (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') || '.'
-        else ag.name || ' WAF mode is not set to Prevention or Detection mode.' 
+        else ag.name || ' WAF mode is not set to Prevention or Detection mode.'
       end as reason
       ${local.tag_dimensions_sql}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
@@ -2154,23 +2224,58 @@ query "application_gateway_waf_uses_specified_mode" {
   EOQ
 }
 
-query "network_watcher_flow_log_retention_90_days" {
+query "network_virtual_network_watcher_flow_log_retention_90_days" {
   sql = <<-EOQ
-    SELECT
-      fl.id AS resource,
-      CASE
-        WHEN fl.enabled AND (fl.retention_policy_days >= 90 OR fl.retention_policy_days = 0) THEN 'ok'
-        ELSE 'alarm'
-      END AS status,
-      CASE
-        WHEN NOT fl.enabled THEN fl.name || ' flow log is not enabled.'
-        WHEN fl.retention_policy_days = 0 THEN fl.name || ' flow log retention is set to indefinite.'
-        WHEN fl.retention_policy_days >= 90 THEN fl.name || ' flow log retention is set to ' || fl.retention_policy_days || ' days.'
-        ELSE fl.name || ' flow log retention is set to ' || fl.retention_policy_days || ' days.'
-      END AS reason,
-      fl.subscription_id,
-      fl.region
-    FROM
-      azure_network_watcher_flow_log fl;
+    select
+      fl.id as resource,
+      case
+        when target_resource_id not like '%/Microsoft.Network/virtualNetworks/%' then 'skip'
+        when fl.enabled and (fl.retention_policy_days >= 90 or fl.retention_policy_days = 0) then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when target_resource_id not like '%/Microsoft.Network/virtualNetworks/%' then fl.name || ' is not virtaul network flow log.'
+        when not fl.enabled then fl.name || ' flow log is not enabled.'
+        when fl.retention_policy_days = 0 then fl.name || ' flow log retention is set to indefinite.'
+        when fl.retention_policy_days >= 90 then fl.name || ' flow log retention is set to ' || fl.retention_policy_days || ' days.'
+        else fl.name || ' flow log retention is set to ' || fl.retention_policy_days || ' days.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "fl.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fl.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_network_watcher_flow_log as fl
+      join azure_subscription sub on sub.subscription_id = fl.subscription_id;
+  EOQ
+}
+
+query "nsg_network_watcher_flow_log_send_to_log_analytics" {
+  sql = <<-EOQ
+    with nsg_network_watcher_flow_log as (
+      select
+        subscription_id,
+        count(*) as nsg_flow_log_count
+      from
+        azure_network_watcher_flow_log
+      where
+        traffic_analytics -> 'workspaceId' is not null
+        and target_resource_id like '%/Microsoft.Network/networkSecurityGroups/%'
+      group by
+        subscription_id
+    )
+    select
+      sub.id resource,
+      case
+        when nsg_flow_log_count > 0  then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when nsg_flow_log_count > 0 then sub.display_name || ' has ' || nsg_flow_log_count || ' NSG flow log(s) captured and sent to log analytics.'
+        else sub.display_name || ' has no NSG flow log captured and sent to log analytics.'
+      end as reason
+      ${local.common_dimensions_subscription_sql}
+    from
+      azure_subscription as sub
+      left join nsg_network_watcher_flow_log as nsg_flow_log on nsg_flow_log.subscription_id = sub.subscription_id;
   EOQ
 }

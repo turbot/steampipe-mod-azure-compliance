@@ -718,11 +718,14 @@ query "keyvault_public_network_access_disabled" {
         when jsonb_array_length(v.private_endpoint_connections) = 0
           then v.name || ' has no private endpoints configured.'
         else v.name || ' public network access is enabled with private endpoint.'
-      end as reason,
-      v.subscription_id,
-      v.resource_group,
-      v.region
+      end as reason
+      ${local.tag_dimensions_sql}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault v;
+      azure_key_vault v,
+      azure_subscription sub
+    where
+      sub.subscription_id = v.subscription_id;
   EOQ
 }

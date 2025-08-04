@@ -2,7 +2,7 @@
 
 _Breaking changes_
 
-- Renamed the following queries to align with their focus on classic logging for the respective service types: ([#322](https://github.com/turbot/steampipe-mod-azure-compliance/pull/322))
+- Renamed the following controls to align with their focus on classic logging for the respective service types: ([#322](https://github.com/turbot/steampipe-mod-azure-compliance/pull/322))
   - `storage_account_blobs_logging_enabled` to `storage_account_blob_service_classic_logging_enabled`
   - `storage_account_queues_logging_enabled ` to `storage_account_queue_service_classic_logging_enabled`
   - `storage_account_tables_logging_enabled ` to `storage_account_table_service_classic_logging_enabled`

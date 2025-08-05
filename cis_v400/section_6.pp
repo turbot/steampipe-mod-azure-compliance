@@ -65,7 +65,7 @@ benchmark "cis_v400_6_1" {
 
   tags = merge(local.cis_v400_6_1_common_tags, {
     type    = "Benchmark"
-    service = "Azure/SecurityCenter"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -79,7 +79,7 @@ control "cis_v400_6_1_1" {
     cis_item_id = "6.1.1"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/SecurityCenter"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -93,7 +93,7 @@ control "cis_v400_6_1_2" {
     cis_item_id = "6.1.2"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/SecurityCenter"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -107,7 +107,7 @@ control "cis_v400_6_1_3" {
     cis_item_id = "6.1.3"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/SecurityCenter"
+    service     = "Azure/ActiveDirectory"
   })
 }
 

@@ -231,7 +231,6 @@ benchmark "cis_v400_10_3_2" {
 
   tags = merge(local.cis_v400_10_3_2_common_tags, {
     type    = "Benchmark"
-    service = "Azure/VPC"
   })
 }
 
@@ -286,7 +285,6 @@ benchmark "cis_v400_10_3_3" {
 
   tags = merge(local.cis_v400_10_3_3_common_tags, {
     type    = "Benchmark"
-    service = "Azure/IAM"
   })
 }
 

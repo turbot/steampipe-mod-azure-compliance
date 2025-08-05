@@ -160,14 +160,11 @@ benchmark "cis_v400_2_2_1" {
   })
 }
 
-
 benchmark "cis_v400_2_2_1_1" {
   title         = "2.2.1.1 Ensure public network access is Disabled"
   description   = "Disable public network access to prevent exposure to the internet and reduce the risk of unauthorized access."
   documentation = file("./cis_v400/docs/cis_v400_2_2_1_1.md")
   children = [
-    control.sql_db_public_network_access_disabled,
-    control.search_service_public_network_access_disabled,
     control.cognitive_account_public_network_access_disabled,
     control.container_registry_public_network_access_disabled,
     control.data_factory_public_network_access_disabled,
@@ -175,7 +172,9 @@ benchmark "cis_v400_2_2_1_1" {
     control.mariadb_server_public_network_access_disabled,
     control.mysql_server_public_network_access_disabled,
     control.postgresql_server_public_network_access_disabled,
-    control.storage_account_public_network_access_disabled,
+    control.search_service_public_network_access_disabled,
+    control.sql_db_public_network_access_disabled,
+    control.storage_account_public_network_access_disabled
   ]
 
   tags = merge(local.cis_v400_2_2_1_common_tags, {
@@ -190,11 +189,11 @@ benchmark "cis_v400_2_2_1_2" {
   description   = "Restricting default network access provides a foundational level of security to networked resources."
   documentation = file("./cis_v400/docs/cis_v400_2_2_1_2.md")
   children = [
-    control.storage_account_default_network_access_rule_denied,
     control.cognitive_account_restrict_public_access,
     control.compute_disk_public_access_disabled,
     control.container_registry_restrict_public_access,
-    control.servicebus_namespace_no_overly_permissive_network_access
+    control.servicebus_namespace_no_overly_permissive_network_access,
+    control.storage_account_default_network_access_rule_denied
   ]
 
   tags = merge(local.cis_v400_2_2_1_common_tags, {
@@ -221,16 +220,14 @@ benchmark "cis_v400_2_2_2_1" {
   description   = "Use private endpoints to allow clients and services to securely access data located over a network via an encrypted Private Link."
   documentation = file("./cis_v400/docs/cis_v400_2_2_2_1.md")
   children = [
-    control.storage_account_uses_private_link,
     control.app_configuration_private_link_used,
-    control.search_service_uses_private_link,
     control.cognitive_account_private_link_used,
     control.compute_disk_access_uses_private_link,
     control.container_registry_uses_private_link,
     control.cosmosdb_account_uses_private_link,
     control.data_factory_uses_private_link,
-    control.eventgrid_topic_private_link_used,
     control.eventgrid_domain_private_link_used,
+    control.eventgrid_topic_private_link_used,
     control.eventhub_namespace_private_link_used,
     control.healthcare_fhir_uses_private_link,
     control.iot_hub_private_link_used,
@@ -240,11 +237,13 @@ benchmark "cis_v400_2_2_2_1" {
     control.postgres_server_private_link_used,
     control.recovery_service_vault_uses_private_link,
     control.redis_cache_uses_private_link,
+    control.search_service_uses_private_link,
     control.servicebus_name_space_private_link_used,
     control.signalr_service_private_link_used,
     control.sql_server_uses_private_link,
+    control.storage_account_uses_private_link,
     control.storage_sync_private_link_used,
-    control.synapse_workspace_private_link_used,
+    control.synapse_workspace_private_link_used
   ]
 
  tags = merge(local.cis_v400_2_2_2_common_tags, {

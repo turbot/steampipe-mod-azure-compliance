@@ -52,7 +52,6 @@ benchmark "cis_v400_9" {
 
   tags = merge(local.cis_v400_9_common_tags, {
     type    = "Benchmark"
-    service = "Azure/SecurityCenter"
   })
 }
 
@@ -653,7 +652,7 @@ control "cis_v400_9_3_8" {
 control "cis_v400_9_3_9" {
   title         = "9.3.9 Ensure automatic key rotation is enabled within Azure Key Vault"
   description   = "Automated cryptographic key rotation in Key Vault allows users to configure Key Vault to automatically generate a new key version at a specified frequency."
-  query         = query.manual_control
+  query         = query.keyvault_key_automatic_rotation_enabled
   documentation = file("./cis_v400/docs/cis_v400_9_3_9.md")
 
   tags = merge(local.cis_v400_9_3_common_tags, {

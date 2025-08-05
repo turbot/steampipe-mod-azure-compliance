@@ -124,7 +124,7 @@ control "cis_v200_8_7" {
 control "cis_v200_8_8" {
   title         = "8.8 Ensure Automatic Key Rotation is Enabled Within Azure Key Vault for the Supported Services"
   description   = "Automatic Key Rotation is available in Public Preview. The currently supported applications are Key Vault, Managed Disks, and Storage accounts accessing keys within Key Vault. The number of supported applications will incrementally increased."
-  query         = query.manual_control
+  query         = query.keyvault_key_automatic_rotation_enabled
   documentation = file("./cis_v200/docs/cis_v200_8_8.md")
 
   tags = merge(local.cis_v200_8_common_tags, {

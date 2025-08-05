@@ -129,7 +129,7 @@ control "cis_v400_3_1_6" {
 control "cis_v400_3_1_7" {
   title         = "3.1.7 Ensure that diagnostic log delivery is configured for Azure Databricks"
   description   = "Azure Databricks Diagnostic Logging provides insights into system operations, user activities, and security events within a Databricks workspace."
-  query         = query.manual_control
+  query         = query.databricks_workspace_diagnostic_log_delivery_configured
   documentation = file("./cis_v400/docs/cis_v400_3_1_7.md")
 
   tags = merge(local.cis_v400_3_1_common_tags, {

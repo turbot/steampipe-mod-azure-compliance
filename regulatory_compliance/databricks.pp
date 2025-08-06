@@ -176,7 +176,7 @@ query "databricks_workspace_diagnostic_log_delivery_configured" {
         when dsa.sqlpermissions_logs_enabled = 0 then w.name || ' diagnostic logging is missing required category: sqlPermissions.'
         else w.name || ' diagnostic logging is properly configured with required categories and destinations.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

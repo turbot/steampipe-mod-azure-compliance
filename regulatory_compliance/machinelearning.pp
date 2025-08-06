@@ -39,7 +39,7 @@ query "machine_learning_workspace_encrypted_with_cmk" {
         when encryption ->> 'status' = 'Enabled' then c.name || ' encrypted with CMK.'
         else c.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

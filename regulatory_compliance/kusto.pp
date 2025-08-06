@@ -69,7 +69,7 @@ query "kusto_cluster_encrypted_at_rest_with_cmk" {
         then name || ' encrypted at rest with CMK.'
         else name || ' not encrypted at rest with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -92,7 +92,7 @@ query "kusto_cluster_disk_encryption_enabled" {
         when enable_disk_encryption then name || ' disk encryption enabled.'
         else name || ' disk encryption disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -115,7 +115,7 @@ query "kusto_cluster_double_encryption_enabled" {
         when enable_double_encryption then name || ' double encryption enabled.'
         else name || ' double encryption disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -135,7 +135,7 @@ query "kusto_cluster_sku_with_sla" {
         else 'ok'
       end as status,
       name || ' using ' || sku_name || ' SKU tier.' as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

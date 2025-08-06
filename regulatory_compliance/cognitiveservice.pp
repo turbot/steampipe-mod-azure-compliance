@@ -71,7 +71,7 @@ query "cognitive_service_local_auth_disabled" {
         when disable_local_auth then a.name || ' account local authentication enabled.'
         else a.name || ' account local authentication disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -113,7 +113,7 @@ query "cognitive_account_private_link_used" {
         when c.id is not null then b.name || ' uses private link.'
         else b.name || ' not uses private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -137,7 +137,7 @@ query "cognitive_account_public_network_access_disabled" {
         when public_network_access = 'Enabled' then name || ' public network access enabled.'
         else name || ' public network access disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -169,7 +169,7 @@ query "cognitive_account_restrict_public_access" {
         when b.id is not null then a.name || ' publicly accessible.'
         else a.name || ' publicly not accessible.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -204,7 +204,7 @@ query "cognitive_account_encrypted_with_cmk" {
         when c.id is not null and encryption ->> 'keySource' = 'Microsoft.KeyVault' then name || ' encrypted with CMK.'
         else name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

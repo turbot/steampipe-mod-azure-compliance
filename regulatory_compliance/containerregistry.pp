@@ -120,7 +120,7 @@ query "container_registry_encrypted_with_cmk" {
         when encryption ->> 'status' = 'enabled' then a.name || ' encrypted with CMK.'
         else a.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -143,7 +143,7 @@ query "container_registry_restrict_public_access" {
         when network_rule_set ->> 'defaultAction' = 'Deny' then a.name || ' publicly not accessible.'
         else a.name || ' publicly accessible.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -177,7 +177,7 @@ query "container_registry_use_virtual_service_endpoint" {
         when s.name is null then a.name || ' not configured with virtual service endpoint.'
         else a.name || ' configured with virtual service endpoint.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -210,7 +210,7 @@ query "container_registry_uses_private_link" {
         when c.id is null then a.name || ' not uses private link.'
         else a.name || ' uses private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -234,7 +234,7 @@ query "container_registry_admin_user_disabled" {
         when admin_user_enabled then a.name || ' admin user enabled.'
         else a.name || ' admin user disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -257,7 +257,7 @@ query "container_registry_quarantine_policy_enabled" {
         when policies -> 'quarantinePolicy' ->>  'status' = 'enabled'  then a.name || ' quarantine policy enabled.'
         else a.name || ' quarantine policy  disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -280,7 +280,7 @@ query "container_registry_retention_policy_enabled" {
         when policies -> 'retentionPolicy' ->> 'status' = 'enabled' then a.name || ' retention policy enabled.'
         else a.name || ' retention policy disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -317,7 +317,7 @@ query "container_registry_geo_replication_enabled" {
         when c.geo_replication_count > 1 then a.name || ' ' || c.geo_replication_count || ' geo replication configured.'
         else a.name || ' geo replication not configured.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -341,7 +341,7 @@ query "container_registry_public_network_access_disabled" {
         when public_network_access = 'Enabled' then a.name || ' public network access enabled.'
         else a.name || ' public network access disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -364,7 +364,7 @@ query "container_registry_trust_policy_enabled" {
         when policies -> 'trustPolicy' ->> 'status' = 'enabled' then a.name || ' trust policy enabled.'
         else a.name || ' trust policy disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

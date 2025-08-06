@@ -203,7 +203,7 @@ query "keyvault_purge_protection_enabled" {
         when purge_protection_enabled then name || ' purge protection enabled.'
         else name || ' purge protection disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -289,7 +289,7 @@ query "keyvault_vault_use_virtual_service_endpoint" {
         when s.name is null then a.name || ' not configured with virtual service endpoint.'
         else a.name || ' configured with virtual service endpoint.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -313,7 +313,7 @@ query "keyvault_managed_hms_purge_protection_enabled" {
         when enable_purge_protection then name || ' purge protection enabled.'
         else name || ' purge protection disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -353,7 +353,7 @@ query "keyvault_managed_hms_logging_enabled" {
           then v.name || ' logging not enabled.'
         else v.name || ' logging enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -408,7 +408,7 @@ query "keyvault_vault_public_network_access_disabled" {
         when network_acls is null or network_acls ->> 'defaultAction' != 'Deny' then a.name || ' public network access enabled.'
         else a.name || ' public network access disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -431,7 +431,7 @@ query "keyvault_key_expiration_set" {
         when not enabled then ' disabled.'
         else ' expiration date set to ' || to_char(expires_at, 'DD-Mon-YYYY') || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -456,7 +456,7 @@ query "keyvault_secret_expiration_set" {
         when not enabled then ' disabled.'
         else ' expiration date set to ' || to_char(expires_at, 'DD-Mon-YYYY') || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kvs.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvs.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -479,7 +479,7 @@ query "keyvault_soft_delete_enabled" {
         when soft_delete_enabled then name || ' soft delete enabled.'
         else name || ' soft delete disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -690,7 +690,7 @@ query "keyvault_firewall_enabled" {
         when jsonb_array_length(network_acls -> 'ipRules') > 0 then name || ' firewall enabled.'
         else name || ' firewall disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -719,7 +719,7 @@ query "keyvault_public_network_access_disabled" {
           then v.name || ' has no private endpoints configured.'
         else v.name || ' public network access is enabled with private endpoint.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

@@ -54,7 +54,7 @@ query "hdinsight_cluster_encryption_at_host_enabled" {
         when disk_encryption_properties -> 'encryptionAtHost' = 'true' then a.name || ' uses encryption at host to encrypt data at rest.'
         else a.name || ' not uses encryption at host to encrypt data at rest.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -79,7 +79,7 @@ query "hdinsight_cluster_encrypted_at_rest_with_cmk" {
         when disk_encryption_properties -> 'keyName' is not null then a.name || ' encrypted with CMK.'
         else a.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -104,7 +104,7 @@ query "hdinsight_cluster_encryption_in_transit_enabled" {
         when encryption_in_transit_properties -> 'isEncryptionInTransitEnabled' = 'true' then a.name || ' encryption in transit enabled.'
         else a.name || ' encryption in transit disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

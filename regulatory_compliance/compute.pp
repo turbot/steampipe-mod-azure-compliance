@@ -947,7 +947,7 @@ query "compute_os_and_data_disk_encrypted_with_cmk_and_platform_managed" {
         when encryption_type = 'EncryptionAtRestWithPlatformAndCustomerKeys' then disk.name || ' encrypted with both platform-managed and customer-managed keys.'
         else disk.name || ' not encrypted with both platform-managed and customer-managed keys.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -986,7 +986,7 @@ query "compute_vm_restrict_remote_connection_from_accounts_without_password_linu
         when m.id is not null then a.name || ' restrict remote connections from accounts without passwords.'
         else a.name || ' allows remote connections from accounts without passwords.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1059,7 +1059,7 @@ query "compute_vm_attached_with_network" {
         when b.vm_id is null then a.title || ' not attached with virtual network.'
         else a.name || ' attached with virtual network ' || b.title || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1098,7 +1098,7 @@ query "compute_vm_remote_access_restricted_all_ports" {
         when sg.sg_name is null then vm.title || ' restricts remote access from internet.'
         else vm.title || ' allows remote access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1205,7 +1205,7 @@ query "compute_vm_tcp_udp_access_restricted_internet" {
     end as reason,
     vm.resource_group as resource_group,
     sub.display_name as subscription
-    ${local.tag_dimensions_sql}
+    ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
     ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
     ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
   from
@@ -1240,7 +1240,7 @@ query "compute_vm_jit_access_protected" {
         when lower(vms ->> 'id') = lower(vm.id) then vm.name || ' JIT protected.'
         else vm.name || ' not JIT protected.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1278,7 +1278,7 @@ query "compute_vm_log_analytics_agent_installed" {
         when b.vm_id is not null then a.title || ' have log analytics agent installed.'
         else a.title || ' log analytics agent not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1316,7 +1316,7 @@ query "compute_vm_log_analytics_agent_installed_windows" {
         when b.vm_id is not null then a.title || ' have log analytics agent installed.'
         else a.title || ' log analytics agent not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1350,7 +1350,7 @@ query "compute_vm_malware_agent_installed" {
         when b.vm_id is not null then a.title || ' IaaSAntimalware extension installed.'
         else a.title || ' IaaSAntimalware extension not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1386,7 +1386,7 @@ query "compute_vm_scale_set_log_analytics_agent_installed" {
         when b.vm_id is not null then a.title || ' have log analytics agent installed.'
         else a.title || ' log analytics agent not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1419,7 +1419,7 @@ query "compute_vm_disaster_recovery_enabled" {
         when l.source_id is null then vm.title || ' disaster recovery disabled.'
         else vm.title || ' disaster recovery enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1456,7 +1456,7 @@ query "compute_vm_malware_agent_automatic_upgrade_enabled" {
         when b.vm_id is not null then a.title || ' automatic update of Microsoft Antimalware protection signatures enabled.'
         else a.title || ' automatic update of Microsoft Antimalware protection signatures not enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1493,7 +1493,7 @@ query "compute_vm_scale_set_logging_enabled" {
         when b.vm_id is not null then a.title || ' automatic update of Microsoft Antimalware protection signatures enabled.'
         else a.title || ' automatic update of Microsoft Antimalware protection signatures not enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1530,7 +1530,7 @@ query "compute_vm_network_traffic_data_collection_windows_agent_installed" {
         when b.vm_id is not null then a.title || ' have data collection agent installed.'
         else a.title || ' data collection agent not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1567,7 +1567,7 @@ query "compute_vm_network_traffic_data_collection_linux_agent_installed" {
         when b.vm_id is not null then a.title || ' have data collection agent installed.'
         else a.title || ' data collection agent not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1591,7 +1591,7 @@ query "compute_vm_uses_azure_resource_manager" {
         when resource_group is not null then vm.title || ' uses azure resource manager.'
         else vm.title || ' not uses azure resource manager.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1614,7 +1614,7 @@ query "compute_vm_system_updates_installed" {
         when enable_automatic_updates then vm.title || ' automatic system updates enabled.'
         else vm.title || ' automatic system updates disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1659,7 +1659,7 @@ query "compute_vm_vulnerability_assessment_solution_enabled" {
         when b.vm_id is not null then a.title || ' have vulnerability assessment solution enabled.'
         else a.title || ' have vulnerability assessment solution disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1697,7 +1697,7 @@ query "compute_vm_guest_configuration_with_user_and_system_assigned_managed_iden
         when string_to_array(identity ->> 'type' , ', ') @> array['UserAssigned', 'SystemAssigned'] then a.title || ' guest configuration extension installed with user and system assigned managed identity.'
         else a.title || ' guest configuration extension not installed with user and system assigned managed identity.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1733,7 +1733,7 @@ query "compute_vm_passwords_stored_using_reversible_encryption_windows" {
         when b.vm_id is not null then a.title || ' store passwords using reversible encryption.'
         else a.title || ' not store passwords using reversible encryption'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1769,7 +1769,7 @@ query "compute_vm_account_with_password_linux" {
         when b.vm_id is not null then a.title || ' have accounts with passwords.'
         else a.title || ' does not have have accounts with passwords.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1805,7 +1805,7 @@ query "compute_vm_ssh_key_authentication_linux" {
         when b.vm_id is not null then a.title || ' have SSH keys authentication.'
         else a.title || ' does not have SSH keys authentication.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1843,7 +1843,7 @@ query "compute_vm_guest_configuration_installed_linux" {
         when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
         else a.title || ' guest configuration extension not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1877,7 +1877,7 @@ query "compute_vm_guest_configuration_installed" {
         when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
         else a.title || ' guest configuration extension not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1916,7 +1916,7 @@ query "arc_compute_machine_linux_log_analytics_agent_installed" {
         when m.id is not null then a.name || ' log analytics extension installed.'
         else a.name || ' log analytics extension not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1954,7 +1954,7 @@ query "compute_vm_guest_configuration_installed_windows" {
         when b.vm_id is not null then a.title || ' have guest configuration extension installed.'
         else a.title || ' guest configuration extension not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1990,7 +1990,7 @@ query "compute_vm_restrict_previous_24_passwords_resuse_windows" {
         when b.vm_id is not null then a.title || ' enforce password history.'
         else a.title || ' doest not enforce password history.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2026,7 +2026,7 @@ query "compute_vm_max_password_age_70_days_windows" {
         when b.vm_id is not null then a.title || ' maximum password age is 70 days.'
         else a.title || ' maximum password age is not 70 days.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2062,7 +2062,7 @@ query "compute_vm_min_password_age_1_day_windows" {
         when b.vm_id is not null then a.title || ' minimum password age is 1 day.'
         else a.title || ' minimum password age is not 1 day.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2098,7 +2098,7 @@ query "compute_vm_password_complexity_setting_enabled_windows" {
         when b.vm_id is not null then a.title || ' password complexity setting enabled.'
         else a.title || ' password complexity setting disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2134,7 +2134,7 @@ query "compute_vm_min_password_length_14_windows" {
         when b.vm_id is not null then a.title || ' minimum password length is 14 characters.'
         else a.title || ' minimum password length is not 14 characters.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2167,7 +2167,7 @@ query "compute_disk_access_uses_private_link" {
         when c.id is null then b.name || ' not uses private link.'
         else b.name || ' uses private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2189,6 +2189,7 @@ query "network_interface_ip_forwarding_disabled" {
         _ctx,
         region,
         subscription_id,
+        tags,
         b ->> 'id' as nic_id
       from
         azure_compute_virtual_machine as c,
@@ -2204,7 +2205,7 @@ query "network_interface_ip_forwarding_disabled" {
         when i.enable_ip_forwarding then v.vm_name || ' using ' || i.name || ' network interface enabled with IP forwarding.'
         else v.vm_name || ' using ' || i.name || ' network interface disabled with IP forwarding.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2241,7 +2242,7 @@ query "arc_compute_machine_windows_log_analytics_agent_installed" {
         when m.id is not null then a.name || ' log analytics extension installed.'
         else a.name || ' log analytics extension not installed.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2277,7 +2278,7 @@ query "compute_vm_guest_configuration_with_system_assigned_managed_identity" {
         when b.vm_id is not null and string_to_array(identity ->> 'type' , ', ') @> array['SystemAssigned'] then a.title || ' guest configuration extension installed with system-assigned managed identity.'
         else a.title || ' guest configuration extension not installed with system-assigned managed identity.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2316,7 +2317,7 @@ query "compute_vm_windows_defender_exploit_guard_enabled" {
         when m.id is not null then a.name || ' windows defender exploit guard enabled.'
         else a.name || ' windows defender exploit guard disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2358,7 +2359,7 @@ query "compute_vm_secure_communication_protocols_configured" {
         when m.id is not null then a.name || ' configured to use secure communication protocols.'
         else a.name || ' not configured to use secure communication protocols.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2383,7 +2384,7 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
           when security_profile -> 'encryptionAtHost' = 'true' then a.name || ' encryption at host enabled.'
           else a.name || ' encryption at host disabled.'
         end as reason
-        ${local.tag_dimensions_sql}
+        ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
         ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
         ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from
@@ -2404,7 +2405,7 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
           when virtual_machine_security_profile -> 'encryptionAtHost' = 'true' then a.name || ' encryption at host enabled.'
           else a.name || ' encryption at host disabled.'
         end as reason
-        ${local.tag_dimensions_sql}
+        ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
         ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
         ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from
@@ -2443,7 +2444,7 @@ query "compute_vm_meet_security_baseline_requirements_linux" {
         when m.id is not null then a.name || ' meet requirements for azure compute security baseline.'
         else a.name || ' does not meet requirements for azure compute security baseline.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2482,7 +2483,7 @@ query "compute_vm_meet_security_baseline_requirements_windows" {
         when m.id is not null then a.name || ' meet requirements for azure compute security baseline.'
         else a.name || ' does not meet requirements for azure compute security baseline.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2518,7 +2519,7 @@ query "compute_vm_guest_configuration_with_no_managed_identity" {
         when b.vm_id is not null and identity ->> 'type' is not null then a.title || ' guest configuration extension installed with ' || (identity ->> 'type') || ' managed identity.'
         else a.title || ' guest configuration extension not installed with managed identity.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2575,7 +2576,7 @@ query "compute_vm_remote_access_restricted" {
         when sg.sg_name is null then vm.title || ' restricts remote access from internet.'
         else vm.title || ' allows remote access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2636,7 +2637,7 @@ query "compute_vm_data_and_os_disk_uses_managed_disk" {
         when d.count > 0 then vm.name || ' not utilizing managed disks for data disk.'
         else vm.name || ' utilizing managed disks for both data and OS disk.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2662,7 +2663,7 @@ query "compute_vm_scale_set_automatic_upgrade_enabled" {
         when upgrade_policy ->> 'mode' = 'Automatic' then a.title || ' automatic update enabled.'
         else a.title || ' automatic update disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2687,7 +2688,7 @@ query "compute_vm_scale_set_ssh_key_authentication_linux" {
         when virtual_machine_os_profile -> 'linuxConfiguration' ->> 'disablePasswordAuthentication' = 'true' then a.title || ' has SSK key authentication enabled.'
         else a.title || ' has password authentication enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2718,7 +2719,7 @@ query "compute_disk_unattached_encrypted_with_cmk" {
         then disk.name || ' attached and encrypted with ADE/CMK.'
         else disk.name || ' unattached and encrypted with default encryption key.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2742,7 +2743,7 @@ query "compute_vm_scale_set_uses_managed_disks" {
         when virtual_machine_storage_profile -> 'osDisk' -> 'osType' -> 'vhdContainers' != null then a.title || ' utilising managed disks.'
         else a.title || ' not utilising managed disks.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2765,7 +2766,7 @@ query "compute_vm_scale_set_boot_diagnostics_enabled" {
         when (virtual_machine_diagnostics_profile -> 'bootDiagnostics' ->> 'enabled') :: boolean then a.title || ' boot diagnostics enabled.'
         else a.title || ' boot diagnostics disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2790,7 +2791,7 @@ query "compute_windows_vm_secure_boot_enabled" {
           when security_profile ->> 'securityType' in ('TrustedLaunch','ConfidentialVM') and security_profile ->> 'uefiSettings' is not null and security_profile -> 'uefiSettings' ->> 'secureBootEnabled' = 'true' then a.title || ' secure boot enabled.'
           else a.title || ' secure boot disabled.'
         end as reason
-        ${local.tag_dimensions_sql}
+        ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
         ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
         ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from

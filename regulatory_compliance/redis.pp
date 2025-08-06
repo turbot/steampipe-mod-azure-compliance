@@ -66,7 +66,7 @@ query "redis_cache_ssl_enabled" {
         when enable_non_ssl_port then redis.name || ' secure connections disabled.'
         else redis.name || ' secure connections enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -98,7 +98,7 @@ query "redis_cache_uses_private_link" {
         when c.id is null then a.name || ' not uses private link.'
         else a.name || ' uses private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -122,7 +122,7 @@ query "redis_cache_in_virtual_network" {
         when subnet_id is not null then redis.name || ' in virtual network.'
         else redis.name || ' not in virtual network.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -169,7 +169,7 @@ query "redis_cache_min_tls_1_2" {
         when minimum_tls_version is null then c.name || ' minimum TLS version not set.'
         else c.name || ' minimum TLS version set to ' || minimum_tls_version || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

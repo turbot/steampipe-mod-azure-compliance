@@ -317,7 +317,7 @@ query "kubernetes_instance_rbac_enabled" {
         else name || ' role based access control disabled.'
       end as reason,
       enable_rbac
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -340,7 +340,7 @@ query "kubernetes_cluster_add_on_azure_policy_enabled" {
         when addon_profiles -> 'azurepolicy' ->> 'enabled' = 'true' then name || ' add on azure policy enabled.'
         else name || ' add on azure policy disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -363,7 +363,7 @@ query "kubernetes_cluster_authorized_ip_range_defined" {
         when api_server_access_profile -> 'AuthorizedIPRanges' is not null then c.title || ' authorized IP ranges defined.'
         else c.title || ' authorized IP ranges not defined.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -386,7 +386,7 @@ query "kubernetes_cluster_os_and_data_disks_encrypted_with_cmk" {
         when disk_encryption_set_id is not null then c.name || ' os and data diska encrypted with CMK.'
         else c.name || ' os and data diska not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -421,7 +421,7 @@ query "kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host
         when s.id is not null then a.name || ' encrypted at host.'
         else a.name || ' not encrypted at host.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -453,7 +453,7 @@ query "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
           or a.kubernetes_version ~ '1.([0-9]|10).[0-9]{1,2}' then a.name || ' not upgraded to a non-vulnerable Kubernetes version.'
         else a.name || ' upgraded to a non-vulnerable Kubernetes version.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -476,7 +476,7 @@ query "kubernetes_cluster_restrict_public_access" {
         when api_server_access_profile ->> 'enablePrivateCluster' = 'true' then c.name || ' not publicly accessible.'
         else c.name || ' publicly accessibe.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -499,7 +499,7 @@ query "kubernetes_cluster_addon_azure_policy_enabled" {
         when addon_profiles -> 'azurepolicy' ->> 'enabled' = 'true' then c.name || ' addon azure policy enabled .'
         else c.name || ' addon azure policy disabled .'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -533,7 +533,7 @@ query "kubernetes_cluster_node_restrict_public_access" {
         when n.id is null then c.name || ' has no public node.'
         else c.name || ' has public node.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -557,7 +557,7 @@ query "kubernetes_cluster_sku_standard" {
         when sku ->> 'tier' = 'Paid' then c.name || ' uses standard SKU tier.'
         else c.name || ' uses free SKU tier.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -580,7 +580,7 @@ query "kubernetes_cluster_upgrade_channel" {
         when auto_upgrade_profile ->> 'upgradeChannel' = 'none' then c.name || ' upgrade channel not configured.'
         else c.name || ' upgrade channel configured.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -603,7 +603,7 @@ query "kubernetes_cluster_logging_enabled" {
         when addon_profiles -> 'omsAgent' ->> 'enabled' = 'true' and addon_profiles -> 'omsAgent' ->> 'config' is not null  then c.name || ' logging enabled.'
         else c.name || ' logging disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -626,7 +626,7 @@ query "kubernetes_cluster_key_vault_secret_rotation_enabled" {
         when addon_profiles -> 'azureKeyvaultSecretsProvider' -> 'config' ->> 'enableSecretRotation' = 'true' then c.name || ' key vault secret rotation enabled.'
         else c.name || ' key vault secret rotation disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -658,7 +658,7 @@ query "kubernetes_cluster_max_pod_50" {
         when n.id is not null then c.name || ' nodes have less than 50 pods.'
         else c.name || ' nodes have greater than 50 pods.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -682,7 +682,7 @@ query "kubernetes_cluster_network_policy_enabled" {
         when network_profile ->> 'networkPolicy' is not null then c.name || ' network policy enabled.'
         else c.name || ' network policy disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -705,7 +705,7 @@ query "kubernetes_cluster_network_plugin_azure" {
         when network_profile ->> 'networkPlugin' = 'azure' then c.name || ' Azure CNI networking enabled.'
         else c.name || ' Azure CNI networking disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -728,7 +728,7 @@ query "kubernetes_cluster_http_application_routing_disabled" {
         when addon_profiles -> 'httpApplicationRouting'  ->> 'enabled' = 'true' then c.name || ' HTTP application routing enabled.'
         else c.name || ' HTTP application routing disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

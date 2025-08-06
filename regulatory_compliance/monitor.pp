@@ -295,7 +295,7 @@ query "monitor_log_profile_enabled_for_all_categories" {
         when p.categories @> '["Write", "Action", "Delete"]' then p.name || ' collects logs for categories write, delete and action'
         else p.name || ' does not collects logs for all categories.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -371,7 +371,7 @@ query "monitor_log_profile_enabled_for_all_regions" {
         "norwayeast", "norwaywest", "southafricanorth", "southafricawest", "southcentralus", "southeastasia", "southindia", "switzerlandnorth", "switzerlandwest", "uaecentral", "uaenorth", "uksouth", "ukwest", "westcentralus", "westeurope", "westindia", "westus", "westus2", "westus3"]' then p.name || ' collect activity logs from all regions.'
         else p.name || ' not collect activity logs from all regions.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1148,7 +1148,7 @@ query "monitor_logs_storage_container_insights_operational_logs_encrypted_with_b
           then a.name || ' container insights-operational-logs encrypted with BYOK.'
         else a.name || ' container insights-operational-logs not encrypted with BYOK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1250,7 +1250,7 @@ query "monitor_log_profile_retention_365_days" {
         when p.retention_policy ->> 'enabled' = 'false' then p.name || ' retention policy disabled.'
         else p.name || ' retention is set to ' || (p.retention_policy ->> 'days') || ' day(s).'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1271,7 +1271,7 @@ query "application_insights_linked_to_log_analytics_workspace" {
         when type = 'microsoft.insights/components' and workspace_resource_id is not null then a.name || ' linked to log analytics workspace.'
         else a.name || ' not linked to log analytics workspace.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1292,7 +1292,7 @@ query "application_insights_block_log_ingestion_and_querying_from_public" {
         when type = 'microsoft.insights/components' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then a.name || ' allows log ingestion and querying from public network.'
         else a.name || ' does not allow log ingestion and querying from public network.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1313,7 +1313,7 @@ query "log_analytics_workspace_block_log_ingestion_and_querying_from_public" {
         when type = 'Microsoft.OperationalInsights/workspaces' and public_network_access_for_ingestion = 'Enabled' and public_network_access_for_query = 'Enabled' then w.name || ' workspace allows log ingestion and querying from public network.'
         else w.name || ' workspace does not allow log ingestion and querying from public network.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1334,7 +1334,7 @@ query "log_analytics_workspace_block_non_azure_ingestion" {
         when type = 'Microsoft.OperationalInsights/workspaces' and disable_local_auth = 'true' then w.name || ' workspace allows non-Azure log ingestion.'
         else w.name || ' workspace does not allow non-Azure log ingestion.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

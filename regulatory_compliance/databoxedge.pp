@@ -48,7 +48,7 @@ query "databox_edge_device_double_encryption_enabled" {
         when sku_name = any (ARRAY ['TEA_1Node', 'TEA_1Node_UPS', 'TEA_1Node_Heater', 'TEA_1Node_UPS_Heater', 'TEA_4Node_Heater', 'TEA_4Node_UPS_Heater', 'TMA', 'EdgePR_Base', 'EdgePR_Base_UPS', 'EdgeMR_Mini']) then a.name || ' double encryption enabled.'
         else a.name || ' double encryption disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

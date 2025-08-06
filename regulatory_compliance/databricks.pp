@@ -24,7 +24,7 @@ query "databricks_workspace_deployed_in_custom_vnet" {
         when parameters -> 'customVirtualNetworkId' is not null then a.name || ' is deployed in a customer-managed virtual network.'
         else a.name || ' is not deployed in a customer-managed virtual network.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -55,7 +55,7 @@ query "databricks_workspace_cmk_configured" {
         when parameters -> 'customerManagedKeyId' is not null then a.name || ' has a customer-managed key configured.'
         else a.name || ' does not have a customer-managed key configured.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -86,7 +86,7 @@ query "databricks_workspace_user_sync_configured" {
         when provisioning_state = 'Failed' then a.name || ' has a failed provisioning state.'
         else a.name || ' has a successful provisioning state.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

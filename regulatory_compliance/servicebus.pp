@@ -104,7 +104,7 @@ query "servicebus_namespace_logging_enabled" {
         when l.namespace_name is null then v.name || ' logging not enabled.'
         else v.name || ' logging enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -133,7 +133,7 @@ query "servicebus_name_space_private_link_used" {
         then a.name || ' using private link.'
         else a.name || ' not using private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -156,7 +156,7 @@ query "servicebus_premium_namespace_cmk_encrypted" {
         when encryption -> 'keySource' = '"Microsoft.KeyVault"' then a.name || ' encrypted using CMK.'
         else a.name || ' not encrypted using CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -198,7 +198,7 @@ query "servicebus_use_virtual_service_endpoint" {
         when bus.name != service_bus.name then bus.name || ' configured with virtual service endpoint.'
         else bus.name || ' not configured with virtual service endpoint.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "bus.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "bus.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -224,7 +224,7 @@ query "servicebus_namespace_azure_ad_authentication_enabled" {
         and not disable_local_auth then a.name || ' namespace not configured with Azure AD authentication.'
         else a.name || ' namespace configured with Azure AD authentication.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -251,7 +251,7 @@ query "servicebus_namespace_no_overly_permissive_network_access" {
         and network_rule_set -> 'properties' ->> 'publicNetworkAccess' = 'Enabled' then a.name || ' namespace configured with overly permissive network access.'
         else a.name || ' namespace not configured with overly permissive network access.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

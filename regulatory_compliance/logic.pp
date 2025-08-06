@@ -66,7 +66,7 @@ query "logic_app_workflow_logging_enabled" {
         when l.workflow_id is not null then a.name || ' logging enabled.'
         else a.name || ' logging disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

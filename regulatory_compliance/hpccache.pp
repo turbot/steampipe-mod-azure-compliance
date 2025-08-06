@@ -32,7 +32,7 @@ query "hpc_cache_encrypted_with_cmk" {
           and a.encryption_settings -> 'keyEncryptionKey' -> 'sourceVault' ->> 'id' is not null then a.name || ' encrypted with CMK.'
         else a.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

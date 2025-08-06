@@ -1,3 +1,9 @@
+## v2.0.1 [2025-08-06]
+
+_Bug fixes_
+
+- Fixed the compliance queries to prevent ambiguous `tag` column references when joining multiple Azure tables. ([#330](https://github.com/turbot/steampipe-mod-azure-compliance/pull/330))
+
 ## v2.0.0 [2025-08-04]
 
 _Breaking changes_

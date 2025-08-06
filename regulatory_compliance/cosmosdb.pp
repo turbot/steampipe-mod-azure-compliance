@@ -95,7 +95,7 @@ query "cosmosdb_use_virtual_service_endpoint" {
         when c.id is null then a.name || ' not configured with virtual network service endpoint.'
         else a.name || ' configured with virtual network service endpoint.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -127,7 +127,7 @@ query "cosmosdb_account_with_firewall_rules" {
           then a.name || ' does not have firewall rules.'
         else a.name || ' has firewall rules.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -183,7 +183,7 @@ query "cosmosdb_account_encryption_at_rest_using_cmk" {
         when key_vault_key_uri is not null then a.name || ' encrypted at rest using CMK.'
         else a.name || ' not encrypted at rest using CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -206,7 +206,7 @@ query "cosmosdb_account_key_based_metadata_write_access_disabled" {
         when disable_key_based_metadata_write_access then a.name || ' key based metadata write_access disabled.'
         else a.name || ' key based metadata write_access enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -256,7 +256,7 @@ query "cosmosdb_account_uses_aad_and_rbac" {
         when disable_local_auth then a.name || ' is using AAD and RBAC.'
         else a.name || ' is not using AAD and RBAC.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

@@ -40,7 +40,7 @@ query "databricks_workspace_deployed_in_custom_vnet" {
         when parameters -> 'customVirtualNetworkId' is not null then a.name || ' is deployed in a customer-managed virtual network.'
         else a.name || ' is not deployed in a customer-managed virtual network.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -71,7 +71,7 @@ query "databricks_workspace_cmk_configured" {
         when parameters -> 'customerManagedKeyId' is not null then a.name || ' has a customer-managed key configured.'
         else a.name || ' does not have a customer-managed key configured.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -126,7 +126,7 @@ query "databricks_workspace_subnet_with_nsg_configured" {
         when nsg.id is null then a.name || ' subnets are configured with network security group.'
         else a.name || ' subnets are not configured with network security group.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

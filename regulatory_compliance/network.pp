@@ -441,7 +441,7 @@ query "network_security_group_remote_access_restricted" {
         when nsg.sg_name is null then sg.title || ' restricts remote access from internet.'
         else sg.title || ' allows remote access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -531,7 +531,7 @@ query "network_security_group_subnet_associated" {
         when subnets is null then name || ' not associated with subnet.'
         else name || ' associated with ' || split_part(rtrim((subnet -> 'id') :: text, '"'), '/subnets/',2) || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -611,7 +611,7 @@ query "network_security_group_diagnostic_setting_deployed" {
         when l.nsg_name is null then a.name || ' logging not enabled.'
         else a.name || ' logging enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -635,7 +635,7 @@ query "application_gateway_waf_enabled" {
         when web_application_firewall_configuration is not null then ag.name || ' WAF enabled.'
         else ag.name || ' WAF disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -665,7 +665,7 @@ query "network_ddos_enabled" {
         when b.vn_name is not null and enable_ddos_protection::bool then a.name || ' DDoS protection enabled.'
         else a.name || ' DDoS protection disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1043,7 +1043,7 @@ query "network_network_peering_connected" {
         when p.vn_id is not null then n.title || ' has network peering in disconnected state.'
         else n.title || ' has network peering in connected state.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "n.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "n.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1095,7 +1095,7 @@ query "network_security_group_restrict_inbound_udp_port_445" {
         when nsg.sg_name is null then sg.title || ' restricts UDP port 445 access from internet.'
         else sg.title || ' allows UDP port 445 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1147,7 +1147,7 @@ query "network_security_group_restrict_inbound_tcp_port_20" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 20 access from internet.'
         else sg.title || ' allows TCP port 20 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1199,7 +1199,7 @@ query "network_security_group_restrict_inbound_tcp_port_21" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 21 access from internet.'
         else sg.title || ' allows TCP port 21 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1253,7 +1253,7 @@ query "network_security_group_restrict_inbound_icmp_port" {
         when nsg.sg_name is null then sg.title || ' restricts ICMP access from internet.'
         else sg.title || ' allows ICMP access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1307,7 +1307,7 @@ query "network_security_group_restrict_inbound_tcp_port_4333" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 4333 access from internet.'
         else sg.title || ' allows TCP port 4333 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1361,7 +1361,7 @@ query "network_security_group_restrict_inbound_tcp_port_3306" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 3306 access from internet.'
         else sg.title || ' allows TCP port 3306 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1415,7 +1415,7 @@ query "network_security_group_restrict_inbound_tcp_port_53" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 53 access from internet.'
         else sg.title || ' allows TCP port 53 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1469,7 +1469,7 @@ query "network_security_group_restrict_inbound_udp_port_53" {
         when nsg.sg_name is null then sg.title || ' restricts UDP port 53 access from internet.'
         else sg.title || ' allows UDP port 53 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1523,7 +1523,7 @@ query "network_security_group_restrict_inbound_udp_port_137" {
         when nsg.sg_name is null then sg.title || ' restricts UDP port 137 access from internet.'
         else sg.title || ' allows UDP port 137 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1577,7 +1577,7 @@ query "network_security_group_restrict_inbound_udp_port_138" {
         when nsg.sg_name is null then sg.title || ' restricts UDP port 138 access from internet.'
         else sg.title || ' allows UDP port 138 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1631,7 +1631,7 @@ query "network_security_group_restrict_inbound_tcp_port_5432" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 5432 access from internet.'
         else sg.title || ' allows TCP port 5432 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1685,7 +1685,7 @@ query "network_security_group_restrict_inbound_tcp_port_25" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 25 access from internet.'
         else sg.title || ' allows TCP port 25 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1739,7 +1739,7 @@ query "network_security_group_restrict_inbound_tcp_port_1433" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 1433 access from internet.'
         else sg.title || ' allows TCP port 1433 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1793,7 +1793,7 @@ query "network_security_group_restrict_inbound_udp_port_1434" {
         when nsg.sg_name is null then sg.title || ' restricts UDP port 1434 access from internet.'
         else sg.title || ' allows UDP port 1434 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1847,7 +1847,7 @@ query "network_security_group_restrict_inbound_tcp_port_23" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 23 access from internet.'
         else sg.title || ' allows TCP port 23 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1901,7 +1901,7 @@ query "network_security_group_restrict_inbound_tcp_port_5500" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 5500 access from internet.'
         else sg.title || ' allows TCP port 5500 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1955,7 +1955,7 @@ query "network_security_group_restrict_inbound_tcp_port_5900" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 5900 access from internet.'
         else sg.title || ' allows TCP port 5900 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2009,7 +2009,7 @@ query "network_security_group_restrict_inbound_tcp_port_135" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 135 access from internet.'
         else sg.title || ' allows TCP port 135 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2063,7 +2063,7 @@ query "network_security_group_restrict_inbound_tcp_port_445" {
         when nsg.sg_name is null then sg.title || ' restricts TCP port 445 access from internet.'
         else sg.title || ' allows TCP port 445 access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2107,7 +2107,7 @@ query "network_security_group_outbound_access_restricted" {
         when nsg.sg_name is null then sg.title || ' restricts outbound access from internet.'
         else sg.title || ' allows outbound access from internet.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2150,7 +2150,7 @@ query "network_lb_diagnostics_logs_enabled" {
         when jsonb_array_length(diagnostic_settings) > 0 then l.title || ' diagnostics logs enabled.'
         else l.title || 'diagnostics logs disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "l.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "l.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -2215,7 +2215,7 @@ query "application_gateway_waf_uses_specified_mode" {
         when (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') in ('Prevention','Detection') then ag.name || ' WAF mode is set to ' || (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') || '.'
         else ag.name || ' WAF mode is not set to Prevention or Detection mode.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

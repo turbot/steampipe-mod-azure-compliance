@@ -245,7 +245,7 @@ query "sql_server_and_databases_va_enabled" {
         when security -> 'properties' ->> 'state' = 'Disabled' then s.name || ' VA setting disabled.'
         else s.name || ' VA setting enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -270,7 +270,7 @@ query "sql_server_transparent_data_encryption_enabled" {
         when transparent_data_encryption ->> 'status' = 'Disabled' then db.name || ' transparent data encryption off.'
         else db.name || ' transparent data encryption on.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "db.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "db.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -325,7 +325,7 @@ query "sql_server_use_virtual_service_endpoint" {
         when s.name is null then a.name || ' not configured with virtual service endpoint.'
         else a.name || ' configured with virtual service endpoint.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -379,7 +379,7 @@ query "sql_database_long_term_geo_redundant_backup_enabled" {
           then s.title || ' long-term geo-redundant backup enabled.'
           else s.title || ' long-term geo-redundant backup disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -416,7 +416,7 @@ query "sql_database_vulnerability_findings_resolved" {
         when s.database_id is not null then a.name || ' vulnerability findings resolved.'
         else a.title || ' vulnerability findings not resolved.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -477,7 +477,7 @@ query "sql_server_azure_defender_enabled" {
         when s.name is null then a.name || 'sql azure defender disabled.'
         else a.name || ' sql azure defender enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -510,7 +510,7 @@ query "sql_server_azure_ad_authentication_enabled" {
         when s.id is not null then a.name || ' azure AD authentication enabled.'
         else a.name || ' azure AD authentication disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -566,7 +566,7 @@ query "sql_server_uses_private_link" {
         when c.id is null then a.name || ' not uses private link.'
         else a.name || ' uses private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -609,7 +609,7 @@ query "sql_server_auditing_storage_account_destination_retention_90_days" {
         when s.retentionDays::Integer >= 90 then a.name || ' auditing to storage account destination configured with 90 days retention or higher.'
         else a.name || ' auditing to storage account destination not configured with 90 days retention or higher.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -683,7 +683,7 @@ query "sql_server_atp_enabled" {
         when security -> 'properties' ->> 'state' = 'Disabled' then s.name || ' Azure defender disabled.'
         else s.name || ' Azure defender enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -749,7 +749,7 @@ query "sql_server_va_setting_periodic_scan_enabled" {
           then s.name || ' VA setting periodic recurring scans disabled.'
         else s.name || ' VA setting periodic recurring scans enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -790,7 +790,7 @@ query "sql_server_va_setting_reports_notify_admins" {
           then s.name || ' VA setting not configured to send email notifications to subscription admins and owners.'
         else s.name || ' VA setting configured to send email notifications to subscription admins and owners.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -831,7 +831,7 @@ query "sql_server_va_setting_scan_reports_configured" {
         then s.name || ' VA scan reports and alerts not configured send email.'
         else s.name || ' VA scan reports and alerts configured to send email.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -865,7 +865,7 @@ query "sql_server_threat_detection_all_enabled" {
         when t.id is null then name || ' threat detection enabled for all.'
         else  name || ' threat detection not enabled for all.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

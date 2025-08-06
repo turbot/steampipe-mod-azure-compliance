@@ -51,7 +51,7 @@ query "container_instance_container_group_encrypted_using_cmk" {
         when encryption_properties ->> 'keyName' is not null and encryption_properties ->> 'vaultBaseUrl' is not null then cg.title || ' encrypted with CMK.'
         else cg.title || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -74,7 +74,7 @@ query "container_instance_container_group_in_virtual_network" {
         when subnet_ids is not null then cg.title || ' in virtual network.'
         else cg.title || ' not in virtual network.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -97,7 +97,7 @@ query "container_instance_container_group_identity_provider_enabled" {
         when identity is null then cg.name || ' identity provider disabled.'
         else cg.name || ' identity provider enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -130,7 +130,7 @@ query "container_instance_container_group_secured_environment_variable" {
         when g.id is not null then cg.name || ' have unsecured environment variable.'
         else cg.name || ' have secured environment variable.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

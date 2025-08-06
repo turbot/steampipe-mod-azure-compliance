@@ -77,7 +77,7 @@ query "eventgrid_domain_private_link_used" {
         then a.name || ' using private link.'
         else a.name || ' not using private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -103,7 +103,7 @@ query "eventgrid_topic_private_link_used" {
         then a.name || ' using private link.'
         else a.name || ' not using private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -124,7 +124,7 @@ query "eventgrid_domain_restrict_public_access" {
         when public_network_access = 'Enabled' then a.name || ' publicly accessible.'
         else a.name || ' not publicly accessible.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -145,7 +145,7 @@ query "eventgrid_domain_identity_provider_enabled" {
         when identity_type = 'None' then a.name || ' identity provider disabled.'
         else a.name || ' identity provider enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -166,7 +166,7 @@ query "eventgrid_topic_local_auth_enabled" {
         when disable_local_auth then a.name || ' local authentication disabled.'
         else a.name || ' local authentication enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -187,7 +187,7 @@ query "eventgrid_topic_identity_provider_enabled" {
         when identity ->> 'type' = 'None' then a.name || ' identity provider disabled.'
         else a.name || ' identity provider enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

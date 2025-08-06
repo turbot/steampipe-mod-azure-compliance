@@ -33,7 +33,7 @@ query "apimanagement_service_with_virtual_network" {
         else 'alarm'
       end as status,
       a.name || ' Virtual network is set to '  ||  virtual_network_type as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -54,7 +54,7 @@ query "apimanagement_service_client_certificate_enabled" {
         when enable_client_certificate then a.name || ' client certificate enabled.'
         else a.name || ' client certificate disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

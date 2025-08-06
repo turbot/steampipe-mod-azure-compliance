@@ -327,6 +327,22 @@ control "storage_account_blob_and_container_soft_delete_enabled" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_file_share_smb_protocol_version_3_1_1" {
+  title         = "Ensure 'SMB protocol version' is set to 'SMB 3.1.1' or higher for SMB file shares"
+  description   = "Ensure that SMB file shares are configured to use the latest supported SMB protocol version."
+  query         = query.storage_account_file_share_smb_protocol_version_3_1_1
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_file_share_smb_channel_encryption_aes_256_gcm" {
+  title         = "Ensure 'SMB channel encryption' is set to 'AES-256-GCM' or higher for SMB file shares"
+  description   = "Implement SMB channel encryption with AES-256-GCM for SMB file shares to ensure data confidentiality and integrity in transit."
+  query         = query.storage_account_file_share_smb_channel_encryption_aes_256_gcm
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select
@@ -1305,6 +1321,54 @@ query "storage_account_blob_and_container_soft_delete_enabled" {
     from
       azure_storage_account sa,
       azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_file_share_smb_protocol_version_3_1_1" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when f -> 'properties' -> 'protocolSettings' -> 'smb' ->> 'versions' = 'SMB3.1.1;' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when f -> 'properties' -> 'protocolSettings' -> 'smb' ->> 'versions' = 'SMB3.1.1;' then sa.name || ' file share SMB protocol version set to SMB 3.1.1.'
+        else sa.name || ' file share SMB protocol version not set to SMB 3.1.1.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as sa,
+      jsonb_array_elements(file_services) as f,
+      azure_subscription as sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_file_share_smb_channel_encryption_aes_256_gcm" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when f -> 'properties' -> 'protocolSettings' -> 'smb' ->> 'channelEncryption' = 'AES-256-GCM;' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when f -> 'properties' -> 'protocolSettings' -> 'smb' ->> 'channelEncryption' = 'AES-256-GCM;' then sa.name || ' file share SMB channel encryption set to AES-256-GCM.'
+        else sa.name || ' file share SMB channel encryption not set to AES-256-GCM.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as sa,
+      jsonb_array_elements(file_services) as f,
+      azure_subscription as sub
     where
       sub.subscription_id = sa.subscription_id;
   EOQ

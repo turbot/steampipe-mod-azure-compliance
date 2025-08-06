@@ -155,6 +155,7 @@ query "databricks_workspace_diagnostic_log_delivery_configured" {
     select
       w.id as resource,
       case
+        when w.sku ->> 'name' in ('standard', 'trial') then 'skip'
         when w.diagnostic_settings is null or jsonb_array_length(w.diagnostic_settings) = 0  then 'alarm'
         when dsa.clusters_logs_enabled = 0 then 'alarm'
         when dsa.accounts_logs_enabled = 0 then 'alarm'
@@ -165,6 +166,7 @@ query "databricks_workspace_diagnostic_log_delivery_configured" {
         else 'ok'
       end as status,
       case
+        when w.sku ->> 'name' in ('standard', 'trial') then w.name || ' is on the ' || (w.sku -> 'name') || ' pricing tier.'
         when w.diagnostic_settings is null or jsonb_array_length(w.diagnostic_settings) = 0 then w.name || ' has no diagnostic settings configured.'
         when dsa.clusters_logs_enabled = 0 then w.name || ' diagnostic logging is missing required category: clusters.'
         when dsa.accounts_logs_enabled = 0 then w.name || ' diagnostic logging is missing required category: accounts.'

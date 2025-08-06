@@ -72,7 +72,7 @@ control "cis_v400_10_1_1" {
 control "cis_v400_10_1_2" {
   title         = "10.1.2 Ensure 'SMB protocol version' is set to 'SMB 3.1.1' or higher for SMB file shares"
   description   = "Ensure that SMB file shares are configured to use the latest supported SMB protocol version."
-  query         = query.manual_control
+  query         = query.storage_account_file_share_smb_protocol_version_3_1_1
   documentation = file("./cis_v400/docs/cis_v400_10_1_2.md")
 
   tags = merge(local.cis_v400_10_1_common_tags, {
@@ -86,7 +86,7 @@ control "cis_v400_10_1_2" {
 control "cis_v400_10_1_3" {
   title         = "10.1.3 Ensure 'SMB channel encryption' is set to 'AES-256-GCM' or higher for SMB file shares"
   description   = "Implement SMB channel encryption with AES-256-GCM for SMB file shares to ensure data confidentiality and integrity in transit."
-  query         = query.manual_control
+  query         = query.storage_account_file_share_smb_channel_encryption_aes_256_gcm
   documentation = file("./cis_v400/docs/cis_v400_10_1_3.md")
 
   tags = merge(local.cis_v400_10_1_common_tags, {

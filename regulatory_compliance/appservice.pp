@@ -539,7 +539,7 @@ query "appservice_web_app_incoming_client_cert_on" {
         when not client_cert_enabled then name || ' incoming client certificates set to off.'
         else name || ' incoming client certificates set to on.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -587,7 +587,7 @@ query "appservice_function_app_remote_debugging_disabled" {
         when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then name || ' remote debugging disabled.'
         else name || ' remote debugging enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -610,7 +610,7 @@ query "appservice_function_app_latest_tls_version" {
         when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then name || ' not using the latest version of TLS encryption.'
         else name || ' using the latest version of TLS encryption.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -656,7 +656,7 @@ query "appservice_function_app_only_https_accessible" {
         when https_only then name || ' https-only accessible enabled.'
         else name || ' https-only accessible disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -679,7 +679,7 @@ query "appservice_web_app_use_virtual_service_endpoint" {
         when vnet_connection -> 'properties' -> 'vnetResourceId' is not null then a.name || ' configured with virtual network service endpoint.'
         else a.name || ' not configured with virtual network service endpoint.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -718,7 +718,7 @@ query "appservice_api_app_use_https" {
         when not https_only then a.name || ' does not redirect all HTTP traffic to HTTPS.'
         else a.name || ' redirects all HTTP traffic to HTTPS.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -744,7 +744,7 @@ query "appservice_api_app_remote_debugging_disabled" {
         when configuration -> 'properties' ->> 'remoteDebuggingEnabled' = 'false' then name || ' remote debugging disabled.'
         else name || ' remote debugging enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -783,7 +783,7 @@ query "appservice_api_app_latest_tls_version" {
         when configuration -> 'properties' ->> 'minTlsVersion' < '1.2' then a.name || ' not using the latest version of TLS encryption.'
         else a.name || ' using the latest version of TLS encryption.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -818,7 +818,7 @@ query "appservice_web_app_diagnostic_logs_enabled" {
           -- case when not ((a.configuration-> 'properties' -> 'requestTracingEnabled')::bool) then 'request_tracing_enabled' end
           -- ) || '.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -842,7 +842,7 @@ query "appservice_web_app_cors_no_star" {
           then a.name || ' CORS allow all domains to access the application.'
         else a.name || ' CORS does not all domains to access the application.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -866,7 +866,7 @@ query "appservice_function_app_cors_no_star" {
           then b.name || ' CORS allow all domains to access the application.'
         else b.name || ' CORS does not all domains to access the application.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -905,7 +905,7 @@ query "appservice_api_app_cors_no_star" {
         when configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]' then a.name || ' CORS allow all domains to access the application.'
         else a.name || ' CORS does not all domains to access the application.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -950,7 +950,7 @@ query "appservice_web_app_uses_managed_identity" {
           then a.name || ' uses managed identity.'
         else a.name || ' not uses managed identity'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -995,7 +995,7 @@ query "appservice_api_app_uses_managed_identity" {
           then a.name || ' uses managed identity.'
         else a.name || ' not uses managed identity'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1040,7 +1040,7 @@ query "appservice_function_app_uses_managed_identity" {
           then a.name || ' uses managed identity.'
         else a.name || ' does not use managed identity'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1080,7 +1080,7 @@ query "appservice_api_app_client_certificates_on" {
         when client_cert_enabled then a.name || ' client certificate enabled.'
         else a.name || ' client certificate disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1120,7 +1120,7 @@ query "appservice_web_app_client_certificates_on" {
         when client_cert_enabled then a.name || ' client certificate enabled.'
         else a.name || ' client certificate disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1144,7 +1144,7 @@ query "appservice_function_app_client_certificates_on" {
         when client_cert_enabled then app.name || ' client certificate enabled.'
         else app.name || ' client certificate disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "app.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1183,7 +1183,7 @@ query "appservice_api_app_ftps_enabled" {
         when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then a.name || ' FTPS disabled.'
         else a.name || ' FTPS enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1223,7 +1223,7 @@ query "appservice_function_app_ftps_enabled" {
         when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then a.name || ' FTPS disabled.'
         else a.name || ' FTPS enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1263,7 +1263,7 @@ query "appservice_web_app_ftps_enabled" {
         when configuration -> 'properties' ->> 'ftpsState' = 'AllAllowed' then a.name || ' FTPS disabled.'
         else a.name || ' FTPS enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1311,7 +1311,7 @@ query "appservice_function_app_latest_http_version" {
         when configuration -> 'properties' ->> 'http20Enabled' = 'true' then a.name || ' is using the latest HTTP version.'
         else a.name || ' not using latest HTTP version.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1368,7 +1368,7 @@ query "app_service_environment_internal_encryption_enabled" {
         when b.id is not null then a.title || ' internal encryption enabled.'
         else a.name || ' internal encryption disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1394,7 +1394,7 @@ query "appservice_function_app_latest_java_version" {
         when configuration -> 'properties' ->> 'linuxFxVersion' like '%' || $1 or  configuration -> 'properties' ->>  'javaVersion' = $1 then a.name || ' using the latest JAVA version.'
         else a.name || ' not using latest JAVA version.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1550,7 +1550,7 @@ query "appservice_function_app_latest_python_version" {
         when configuration -> 'properties' ->> 'linuxFxVersion' = $1 then a.name || ' using the latest python version.'
         else a.name || ' not using latest python version.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1742,7 +1742,7 @@ query "appservice_web_app_latest_dotnet_framework_version" {
         when b.id is not null and configuration -> 'properties' ->> 'linuxFxVersion' in ('DOTNETCORE|6.0', 'DOTNETCORE|7.0') then a.name || ' using latest dotnet vframework ersion.'
         else a.name || ' not using latest dotnet framework version.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1766,7 +1766,7 @@ query "appservice_web_app_failed_request_tracing_enabled" {
         when diagnostic_logs_configuration -> 'properties' -> 'failedRequestsTracing' ->> 'enabled' = 'true' then a.name || ' failed requests tracing enabled.'
         else a.name || ' failed requests tracing disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1789,7 +1789,7 @@ query "appservice_web_app_http_logs_enabled" {
         when configuration -> 'properties' ->> 'httpLoggingEnabled' = 'true' then a.name || ' HTTP logs enabled.'
         else a.name || ' HTTP logs disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1809,7 +1809,7 @@ query "appservice_web_app_worker_more_than_one" {
         else 'alarm'
       end as status,
         a.name || ' has ' || (p -> 'SiteProperties' -> 'siteConfig' ->> 'numberOfWorkers') || ' no of worker(s).' as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1833,7 +1833,7 @@ query "appservice_web_app_slot_use_https" {
         when https_only then name || ' https-only accessible enabled.'
         else name || ' https-only accessible disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1856,7 +1856,7 @@ query "appservice_web_app_always_on" {
         when configuration -> 'properties' ->> 'alwaysOn' = 'true' then a.name || ' alwaysOn is enabled.'
         else a.name || ' alwaysOn is disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1877,7 +1877,7 @@ query "appservice_plan_minimum_sku" {
         else 'ok'
       end as status,
       a.name || ' is of ' || sku_family || ' SKU family.'  as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1900,7 +1900,7 @@ query "appservice_web_app_health_check_enabled" {
         when configuration -> 'properties' ->> 'healthCheckPath' is not null then a.name || ' health check enabled.'
         else a.name || ' health check disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1923,7 +1923,7 @@ query "appservice_function_app_authentication_on" {
         when auth_settings -> 'properties' ->> 'enabled' = 'true' then name || ' authentication enabled.'
         else name || ' authentication disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1956,7 +1956,7 @@ query "appservice_function_app_restrict_public_acces" {
         when p.id is null then name || ' not publicly accessible.'
         else name || ' publicly accessible.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "fa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1992,7 +1992,7 @@ query "appservice_web_app_diagnostic_log_category_http_log_enabled" {
         when ds.id is not null then a.name || ' HTTP logs for diagnostic log category enabled.'
         else a.name || ' HTTP logs for diagnostic log category disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

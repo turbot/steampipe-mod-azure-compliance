@@ -90,7 +90,7 @@ query "eventhub_namespace_logging_enabled" {
         when l.namespace_name is null then v.name || ' logging not enabled.'
         else v.name || ' logging enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -123,7 +123,7 @@ query "eventhub_namespace_use_virtual_service_endpoint" {
         when c.id is null then a.name || ' not configured with virtual network service endpoint.'
         else a.name || ' configured with virtual network service endpoint.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -158,7 +158,7 @@ query "eventhub_namespace_private_link_used" {
         when c.id is null then a.name || ' not uses private link.'
         else a.name || ' uses private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -182,7 +182,7 @@ query "eventhub_namespace_cmk_encryption_enabled" {
         when encryption ->> 'keySource' = 'Microsoft.KeyVault' then a.name || ' CMK encryption enabled.'
         else a.name || ' CMK encryption disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

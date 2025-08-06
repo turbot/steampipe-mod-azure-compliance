@@ -76,7 +76,7 @@ query "batch_account_logging_enabled" {
         when l.account_name is null then v.name || ' logging not enabled.'
         else v.name || ' logging enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -100,7 +100,7 @@ query "batch_account_encrypted_with_cmk" {
         when encryption ->> 'keySource' = 'Microsoft.KeyVault' then batch.name || ' encrypted with CMK.'
         else batch.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "batch.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "batch.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -123,7 +123,7 @@ query "batch_account_identity_provider_enabled" {
         when identity ->> 'type' = 'None' then b.name || ' identity provider disabled.'
         else b.name || ' identity provider enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "b.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

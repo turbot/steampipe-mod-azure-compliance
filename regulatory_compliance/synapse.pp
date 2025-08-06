@@ -61,7 +61,7 @@ query "synapse_workspace_private_link_used" {
         when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]' then a.name || ' uses private link.'
         else a.name || ' not uses private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -96,7 +96,7 @@ query "synapse_workspace_vulnerability_assessment_enabled" {
         when s.id is not null then a.name || ' vulnerability assessment enabled.'
         else a.name || ' vulnerability assessment disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -120,7 +120,7 @@ query "synapse_workspace_encryption_at_rest_using_cmk" {
         when encryption -> 'CmkKey' ->> 'name' is not null then s.title || ' encrypted with CMK.'
         else s.title || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -143,7 +143,7 @@ query "synapse_workspace_data_exfiltration_protection_enabled" {
         when managed_virtual_network_settings ->> 'preventDataExfiltration' = 'true' then s.title || ' data exfiltration protection enabled.'
         else s.title || ' data exfiltration protection disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

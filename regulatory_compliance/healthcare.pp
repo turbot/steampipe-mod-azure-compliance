@@ -40,7 +40,7 @@ query "healthcare_fhir_azure_api_encrypted_at_rest_with_cmk" {
         when cosmos_db_configuration -> 'keyVaultKeyUri' is not null then a.name || ' encrypted with CMK.'
         else a.name || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -65,7 +65,7 @@ query "healthcare_fhir_uses_private_link" {
         when private_endpoint_connections @> '[{"privateLinkServiceConnectionState": "Approved"}]'::jsonb then a.name || ' using private link.'
         else a.name || ' not using private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

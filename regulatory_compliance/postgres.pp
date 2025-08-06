@@ -205,7 +205,7 @@ query "postgres_db_server_geo_redundant_backup_enabled" {
         when geo_redundant_backup = 'Enabled' then name || ' Geo-redundant backup enabled.'
         else name || ' Geo-redundant backup disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -228,7 +228,7 @@ query "postgres_sql_ssl_enabled" {
         when ssl_enforcement = 'Disabled' then name || ' SSL connection disabled.'
         else name || ' SSL connection enabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -251,7 +251,7 @@ query "postgresql_server_public_network_access_disabled" {
         when public_network_access = 'Enabled' then name || ' public network access enabled.'
         else name || ' public network access disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -300,7 +300,7 @@ query "postgres_server_private_link_used" {
         when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
         else a.name || ' not using private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -331,7 +331,7 @@ query "postgres_sql_server_encrypted_at_rest_using_cmk" {
         when a.id is not null then s.title || ' encrypted with CMK.'
         else s.title || ' not encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -355,7 +355,7 @@ query "postgres_db_server_connection_throttling_on" {
         when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then s.name || ' server parameter connection_throttling off.'
         else s.name || ' server parameter connection_throttling on.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -380,7 +380,7 @@ query "postgres_db_server_log_checkpoints_on" {
         when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then s.name || ' server parameter log_checkpoints off.'
         else s.name || ' server parameter log_checkpoints on.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -455,7 +455,7 @@ query "postgres_db_server_log_duration_on" {
         when lower(config -> 'ConfigurationProperties' ->> 'value') != 'on' then name || ' server parameter log_duration off.'
         else name || ' server parameter log_duration on.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -480,7 +480,7 @@ query "postgres_db_server_log_retention_days_3" {
         when (config -> 'ConfigurationProperties' ->> 'value')::integer <= 3 then s.name || ' log files are retained for 3 days or lesser.'
         else s.name || ' log files are retained for more than 3 days.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -539,7 +539,7 @@ query "postgres_db_server_latest_tls_version" {
         when minimal_tls_version = 'TLS1_2' then name || ' uses the latest version of TLS encryption.'
         else name || ' does not use the latest version of TLS encryption.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

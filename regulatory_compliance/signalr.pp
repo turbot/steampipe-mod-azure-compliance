@@ -47,7 +47,7 @@ query "signalr_service_private_link_used" {
         when c.id is null then a.name || ' not uses private link.'
         else a.name || ' uses private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -68,7 +68,7 @@ query "signalr_service_no_free_tier_sku" {
         else 'ok'
       end as status,
       a.name || ' is of ' || (sku ->>'tier' )|| ' tier.' as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

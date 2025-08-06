@@ -399,7 +399,7 @@ query "storage_account_use_virtual_service_endpoint" {
         when s.storage_account_id is null then a.name || ' not configured with virtual service endpoint.'
         else a.name || ' configured with virtual service endpoint.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -502,7 +502,7 @@ query "storage_account_restrict_network_access" {
         when network_rule_default_action = 'Deny' then sa.name || ' blocks network access.'
         else sa.name || ' allows network access.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -525,7 +525,7 @@ query "storage_account_geo_redundant_enabled" {
         when sku_name = any(ARRAY ['Standard_GRS', 'Standard_RAGRS', 'Standard_GZRS', 'Standard_RAGZRS']) then name || ' geo-redundant enabled.'
         else name || ' geo-redundant disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -594,7 +594,7 @@ query "storage_account_uses_azure_resource_manager" {
         when resource_group is not null then s.title || ' uses azure resource manager.'
         else s.title || ' not uses azure resource manager.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -933,9 +933,8 @@ query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
         and vm.os_disk_vhd_uri is not null then sa.name || ' storage account containing VHD OS disk not encrypted with CMK.'
         else sa.name || ' storage account containing VHD OS disk encrypted with CMK.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_account sa,
@@ -956,7 +955,8 @@ query "storage_account_blob_versioning_enabled" {
         _ctx,
         region,
         subscription_id,
-        resource_group
+        resource_group,
+        tags
       from
         azure_storage_account
     ),
@@ -1004,7 +1004,7 @@ query "storage_account_file_share_soft_delete_enabled" {
           then name || ' file share soft delete retention days (' || file_soft_delete_retention_days || ') not between 1 and 365.'
         else name || ' file share soft delete enabled with ' || file_soft_delete_retention_days || ' days retention.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1029,7 +1029,7 @@ query "storage_account_blob_soft_delete_enabled" {
           then name || ' blob soft delete retention days (' || blob_soft_delete_retention_days || ') not between 7 and 365.'
         else name || ' blob soft delete enabled with ' || blob_soft_delete_retention_days || ' days retention.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -1053,7 +1053,7 @@ query "storage_account_private_endpoint_enabled" {
         when jsonb_array_length(private_endpoint_connections) = 0 then name || ' has no private endpoint connections.'
         else name || ' has ' || jsonb_array_length(private_endpoint_connections) || ' private endpoint connection(s).'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

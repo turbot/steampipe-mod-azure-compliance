@@ -62,7 +62,7 @@ query "mariadb_server_geo_redundant_backup_enabled" {
         when s.geo_redundant_backup_enabled = 'Enabled' then s.title || ' geo-redundant backup enabled.'
         else s.title || ' geo-redundant backup disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+     ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -83,7 +83,7 @@ query "mariadb_server_public_network_access_disabled" {
         when public_network_access = 'Enabled' then name || ' public network access enabled.'
         else name || ' public network access disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -109,7 +109,7 @@ query "mariadb_server_private_link_used" {
         when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private link.'
         else a.name || ' not using private link.'
       end as reason
-      ${local.tag_dimensions_sql}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
@@ -132,7 +132,7 @@ query "mariadb_server_ssl_enabled" {
         when ssl_enforcement = 'Enabled' then name || ' SSL connection enabled.'
         else name || ' SSL connection disabled.'
       end as reason
-      ${local.tag_dimensions_sql}
+     ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

@@ -20,7 +20,7 @@ benchmark "cis_v400_8" {
 
   tags = merge(local.cis_v400_8_common_tags, {
     type    = "Benchmark"
-    service = "Azure/VPC"
+    service = "Azure/Network"
   })
 }
 
@@ -34,7 +34,7 @@ control "cis_v400_8_1" {
     cis_item_id = "8.1"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Network"
   })
 }
 
@@ -48,7 +48,7 @@ control "cis_v400_8_2" {
     cis_item_id = "8.2"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Network"
   })
 }
 
@@ -62,7 +62,7 @@ control "cis_v400_8_3" {
     cis_item_id = "8.3"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Network"
   })
 }
 
@@ -76,7 +76,7 @@ control "cis_v400_8_4" {
     cis_item_id = "8.4"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Network"
   })
 }
 
@@ -90,7 +90,7 @@ control "cis_v400_8_5" {
     cis_item_id = "8.5"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Network"
   })
 }
 
@@ -104,7 +104,7 @@ control "cis_v400_8_6" {
     cis_item_id = "8.6"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Network"
   })
 }
 
@@ -118,7 +118,7 @@ control "cis_v400_8_7" {
     cis_item_id = "8.7"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/VPC"
+    service     = "Azure/Network"
   })
 }
 
@@ -132,6 +132,6 @@ control "cis_v400_8_8" {
     cis_item_id = "8.8"
     cis_level   = "2"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Network"
   })
 }

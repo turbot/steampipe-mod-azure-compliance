@@ -459,7 +459,7 @@ query "iam_deprecated_account" {
   sql = <<-EOQ
     with disabled_users as (
       select
-      distinct
+        distinct
         u.display_name,
         u.account_enabled,
         u.user_principal_name,
@@ -491,9 +491,9 @@ query "iam_deprecated_account" {
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      distinct_tenant as t,
       azuread_user as u
-      left join disabled_users as d on d.id = u.id;
+      left join disabled_users as d on d.id = u.id
+      left join distinct_tenant as t on t.tenant_id = u.tenant_id
   EOQ
 }
 
@@ -613,7 +613,9 @@ query "iam_conditional_access_mfa_enabled_for_administrators" {
     with distinct_tenant as (
       select
         u.id,
-        tenant_id
+        tenant_id,
+        a.subscription_id,
+        u._ctx
       from
         azuread_user as u
         left join azure_role_assignment as a on a.principal_id = u.id
@@ -907,6 +909,14 @@ query "iam_user_access_administrator_role_restricted" {
 
 query "iam_conditional_access_trusted_location_configured" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
     select
       id as resource,
       case
@@ -917,9 +927,10 @@ query "iam_conditional_access_trusted_location_configured" {
         when (location_info -> 'IsTrusted')::bool then title || ' trusted location configured.'
         else title || ' trusted location not configured.'
       end as reason,
-      tenant_id
-      ${local.common_dimensions_subscription_id_sql}
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
+      distinct_tenant as t,
       azuread_conditional_access_named_location;
   EOQ
 }

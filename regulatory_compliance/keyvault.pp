@@ -191,6 +191,14 @@ control "keyvault_with_rbac_secret_expiration_set" {
   tags = local.regulatory_compliance_keyvault_common_tags
 }
 
+control "keyvault_key_automatic_rotation_enabled" {
+  title         = "Ensure automatic key rotation is enabled within Azure Key Vault"
+  description   = "Automated cryptographic key rotation in Key Vault allows users to configure Key Vault to automatically generate a new key version at a specified frequency."
+  query         = query.keyvault_key_automatic_rotation_enabled
+
+  tags = local.regulatory_compliance_keyvault_common_tags
+}
+
 query "keyvault_purge_protection_enabled" {
   sql = <<-EOQ
     select
@@ -729,3 +737,37 @@ query "keyvault_public_network_access_disabled" {
       sub.subscription_id = v.subscription_id;
   EOQ
 }
+
+query "keyvault_key_automatic_rotation_enabled" {
+  sql = <<-EOQ
+    with key_rotation_policy as (
+      select
+        id
+      from
+        azure_key_vault_key,
+        jsonb_array_elements(rotation_policy -> 'lifetimeActions') as lifetimeActions
+      where
+        lifetimeActions -> 'action' ->> 'type' = 'Rotate'
+        and lifetimeActions -> 'trigger' -> 'timeAfterCreate' is not null
+    )
+    select
+      kvk.id as resource,
+      case
+        when p.id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.id is not null then vault_name || ' key ' || kvk.name || ' automatic rotation enabled.'
+        else vault_name || ' key ' || kvk.name || ' automatic rotation disabled.'
+      end as reason
+      -- ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
+     --  ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
+     -- ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_key_vault_key kvk
+      left join key_rotation_policy as p on p.id = kvk.id
+      left join  azure_subscription sub on sub.subscription_id = kvk.subscription_id;
+  EOQ
+}
+
+

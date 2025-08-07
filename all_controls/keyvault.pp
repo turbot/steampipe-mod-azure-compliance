@@ -24,7 +24,8 @@ benchmark "all_controls_keyvault" {
     control.keyvault_with_non_rbac_key_expiration_set,
     control.keyvault_with_non_rbac_secret_expiration_set,
     control.keyvault_with_rbac_key_expiration_set,
-    control.keyvault_with_rbac_secret_expiration_set
+    control.keyvault_with_rbac_secret_expiration_set,
+    control.keyvault_key_automatic_rotation_enabled,
   ]
 
   tags = merge(local.all_controls_keyvault_common_tags, {

@@ -25,7 +25,7 @@ variable "tag_dimensions" {
   # A list of tag names to include as dimensions for resources that support
   # tags (e.g. "department", "environment"). Default to empty since tag names are
   # a personal choice
-  default = []
+  default = [" "]
 }
 
 locals {

@@ -396,7 +396,15 @@ control "nsg_network_watcher_flow_log_send_to_log_analytics" {
   description   = "Ensure that network flow logs are captured and fed into a central log analytics workspace."
   query         = query.nsg_network_watcher_flow_log_send_to_log_analytics
 
- tags = local.regulatory_compliance_network_common_tags
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_https_port_80_443_access_restricted" {
+  title         = "Ensure that HTTP(S) access from the Internet is evaluated and restricted"
+  description   = "Network security groups should be periodically evaluated for port misconfigurations. Where certain ports and protocols may be exposed to the Internet, they should be evaluated for necessity and restricted wherever they are not explicitly required and narrowly configured."
+  query         = query.network_security_group_https_port_80_443_access_restricted
+
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 query "network_security_group_remote_access_restricted" {

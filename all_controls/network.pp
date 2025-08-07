@@ -17,6 +17,7 @@ benchmark "all_controls_network" {
     control.network_public_ip_no_basic_sku,
     control.network_security_group_diagnostic_setting_deployed,
     control.network_security_group_https_access_restricted,
+    control.network_security_group_https_port_80_443_access_restricted,
     control.network_security_group_not_configured_gateway_subnets,
     control.network_security_group_outbound_access_restricted,
     control.network_security_group_rdp_access_restricted,

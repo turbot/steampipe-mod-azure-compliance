@@ -256,6 +256,27 @@ query "postgresql_server_public_network_access_disabled" {
   EOQ
 }
 
+query "postgresql_flexible_server_public_network_access_disabled" {
+  sql = <<-EOQ
+    select
+      s.id as resource,
+      case
+        when public_network_access = 'Enabled' then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when public_network_access = 'Enabled' then name || ' public network access enabled.'
+        else name || ' public network access disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_postgresql_flexible_server as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
+  EOQ
+}
+
 query "postgresql_server_infrastructure_encryption_enabled" {
   sql = <<-EOQ
     select
@@ -307,7 +328,7 @@ query "postgres_sql_server_encrypted_at_rest_using_cmk" {
       select
         distinct i.id as id
       from
-        azure_mysql_server as i,
+        azure_postgresql_server as i,
         jsonb_array_elements(server_keys) a
         where
           a ->> 'serverKeyType' = 'AzureKeyVault'

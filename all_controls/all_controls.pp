@@ -27,6 +27,7 @@ benchmark "all_controls" {
     benchmark.all_controls_eventgrid,
     benchmark.all_controls_eventhub,
     benchmark.all_controls_frontdoor,
+    benchmark.all_controls_function_app,
     benchmark.all_controls_hdinsight,
     benchmark.all_controls_healthcare,
     benchmark.all_controls_hpccache,

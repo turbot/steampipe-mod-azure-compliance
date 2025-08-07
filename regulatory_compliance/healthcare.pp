@@ -71,3 +71,26 @@ query "healthcare_fhir_uses_private_link" {
       left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
+
+query "cors_should_not_allow_every_domain_to_access_your_api_for_fhir" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when origins is null then 'info'
+        when origins @> '["*"]'::jsonb then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when origins is null then a.name || ' no CORS origins defined.'
+        when origins @> '["*"]'::jsonb then a.name || ' allows every domain to access your API for FHIR.'
+        else a.name || ' does not allow every domain to access your API for FHIR.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_healthcare_service a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
+  EOQ
+}

@@ -127,3 +127,26 @@ query "batch_account_identity_provider_enabled" {
       left join azure_subscription sub on b.subscription_id = sub.subscription_id;
   EOQ
 }
+
+query "private_endpoint_connections_on_batch_accounts_should_be_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when public_network_access = 'Enabled' and private_endpoint_connections is null then 'alarm'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when public_network_access = 'Enabled' and private_endpoint_connections is null then ' using public networks.'
+        when private_endpoint_connections @> '[{"privateLinkServiceConnectionStateStatus": "Approved"}]'::jsonb then a.name || ' using private endpoint.'
+        else a.name || ' not using private endpoint.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_batch_account a
+      left join azure_subscription sub on a.subscription_id = sub.subscription_id;
+  EOQ
+}

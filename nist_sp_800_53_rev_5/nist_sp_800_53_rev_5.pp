@@ -6,7 +6,7 @@ locals {
 }
 
 benchmark "nist_sp_800_53_rev_5" {
-  title       = "NIST SP 800-53 Revision 5"
+  title       = "Azure NIST SP 800-53 Revision 5"
   description = "NIST SP 800-53 Revision 5 represents a multi-year effort to develop the next generation of security and privacy controls needed to strengthen and support the U.S. federal government."
   documentation = file("./nist_sp_800_53_rev_5/docs/nist_sp_800_53_rev_5_overview.md")
 

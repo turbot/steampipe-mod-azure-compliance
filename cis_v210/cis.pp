@@ -6,7 +6,7 @@ locals {
 }
 
 benchmark "cis_v210" {
-  title         = "CIS v2.1.0"
+  title         = "Azure CIS v2.1.0"
   description   = "The CIS Microsoft Azure Foundations Security Benchmark provides prescriptive guidance for establishing a secure baseline configuration for Microsoft Azure."
   documentation = file("./cis_v210/docs/cis_overview.md")
 

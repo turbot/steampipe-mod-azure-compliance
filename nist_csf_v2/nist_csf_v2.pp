@@ -6,7 +6,7 @@ locals {
 }
 
 benchmark "nist_csf_v2" {
-  title         = "NIST CSF v2.0"
+  title         = "Azure NIST CSF v2.0"
   description   = "The NIST Cybersecurity Framework (CSF) v2.0 provides a comprehensive framework for managing cybersecurity risk in Azure environments."
   documentation = file("./nist_csf_v2/docs/nist_csf_v2_overview.md")
 
@@ -20,4 +20,4 @@ benchmark "nist_csf_v2" {
   ]
 
   tags = local.nist_csf_v2_common_tags
-} 
+}

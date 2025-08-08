@@ -6,7 +6,7 @@ locals {
 }
 
 benchmark "rbi_itf_nbfc_v2017" {
-  title         = "Reserve Bank of India - IT Framework for NBFC Regulatory Compliance"
+  title         = "Azure Reserve Bank of India - IT Framework for NBFC Regulatory Compliance"
   documentation = file("./rbi_itf_nbfc_v2017/docs/rbi_itf_nbfc_v2017_overview.md")
 
   children = [

@@ -6,7 +6,7 @@ locals {
 }
 
 benchmark "hipaa_hitrust_v92" {
-  title       = "HIPAA HITRUST 9.2"
+  title       = "Azure HIPAA HITRUST 9.2"
   description = "The HIPAA HITRUST 9.2 provides a combined set of predefined compliance and security best-practice checks for Health Insurance Portability and Accountability Act."
   children = [
     benchmark.hipaa_hitrust_v92_privilege_management,

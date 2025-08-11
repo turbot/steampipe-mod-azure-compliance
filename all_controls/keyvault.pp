@@ -9,6 +9,7 @@ benchmark "all_controls_keyvault" {
   description = "This section contains recommendations for configuring Key Vault resources."
   children = [
     control.keyvault_firewall_enabled,
+    control.keyvault_key_automatic_rotation_enabled,
     control.keyvault_key_expiration_set,
     control.keyvault_logging_enabled,
     control.keyvault_managed_hms_logging_enabled,

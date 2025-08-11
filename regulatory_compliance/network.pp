@@ -396,7 +396,15 @@ control "nsg_network_watcher_flow_log_send_to_log_analytics" {
   description   = "Ensure that network flow logs are captured and fed into a central log analytics workspace."
   query         = query.nsg_network_watcher_flow_log_send_to_log_analytics
 
- tags = local.regulatory_compliance_network_common_tags
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "network_security_group_https_port_80_443_access_restricted" {
+  title         = "Ensure that HTTP(S) access from the Internet is evaluated and restricted"
+  description   = "Network security groups should be periodically evaluated for port misconfigurations. Where certain ports and protocols may be exposed to the Internet, they should be evaluated for necessity and restricted wherever they are not explicitly required and narrowly configured."
+  query         = query.network_security_group_https_port_80_443_access_restricted
+
+  tags = local.regulatory_compliance_network_common_tags
 }
 
 query "network_security_group_remote_access_restricted" {
@@ -2277,5 +2285,36 @@ query "nsg_network_watcher_flow_log_send_to_log_analytics" {
     from
       azure_subscription as sub
       left join nsg_network_watcher_flow_log as nsg_flow_log on nsg_flow_log.subscription_id = sub.subscription_id;
+  EOQ
+}
+
+query "network_virtual_network_watcher_flow_log_send_to_log_analytics" {
+  sql = <<-EOQ
+    with virtual_network_watcher_flow_log as (
+      select
+        subscription_id,
+        count(*) as vn_flow_log_count
+      from
+        azure_network_watcher_flow_log
+      where
+        traffic_analytics -> 'workspaceId' is not null
+        and target_resource_id like '%/Microsoft.Network/virtualNetworks/%'
+      group by
+        subscription_id
+    )
+    select
+      sub.id resource,
+      case
+        when vn_flow_log_count > 0  then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when vn_flow_log_count > 0 then sub.display_name || ' has ' || vn_flow_log_count || ' virtual network flow log(s) captured and sent to log analytics.'
+        else sub.display_name || ' has no virtual network flow log captured and sent to log analytics.'
+      end as reason
+      ${local.common_dimensions_subscription_sql}
+    from
+      azure_subscription as sub
+      left join virtual_network_watcher_flow_log as vn_flow_log on vn_flow_log.subscription_id = sub.subscription_id;
   EOQ
 }

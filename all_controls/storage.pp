@@ -8,11 +8,12 @@ benchmark "all_controls_storage" {
   title       = "Storage"
   description = "This section contains recommendations for configuring Storage resources."
   children = [
+    control.storage_account_blob_and_container_soft_delete_enabled,
     control.storage_account_blob_containers_public_access_disabled,
     control.storage_account_blob_public_access_disabled,
+    control.storage_account_blob_service_classic_logging_enabled,
     control.storage_account_blob_service_logging_enabled,
     control.storage_account_blob_soft_delete_enabled,
-    control.storage_account_blob_service_classic_logging_enabled,
     control.storage_account_blob_versioning_enabled,
     control.storage_account_block_public_access,
     control.storage_account_containing_vhd_os_disk_cmk_encrypted,
@@ -23,12 +24,13 @@ benchmark "all_controls_storage" {
     control.storage_account_encryption_at_rest_using_cmk,
     control.storage_account_encryption_at_rest_using_mmk,
     control.storage_account_encryption_scopes_encrypted_at_rest_with_cmk,
+    control.storage_account_file_share_smb_channel_encryption_aes_256_gcm,
+    control.storage_account_file_share_smb_protocol_version_3_1_1,
     control.storage_account_file_share_soft_delete_enabled,
     control.storage_account_geo_redundant_enabled,
     control.storage_account_infrastructure_encryption_enabled,
     control.storage_account_key_rotation_reminder_enabled,
     control.storage_account_min_tls_1_2,
-    control.storage_account_private_endpoint_enabled,
     control.storage_account_public_network_access_disabled,
     control.storage_account_queue_service_classic_logging_enabled,
     control.storage_account_queue_services_logging_enabled,

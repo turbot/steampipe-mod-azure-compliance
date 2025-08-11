@@ -51,7 +51,7 @@ benchmark "cis_v400_10_1" {
 
   tags = merge(local.cis_v400_10_1_common_tags, {
     type    = "Benchmark"
-    service = "Azure/General"
+    service = "Azure/Storage"
   })
 }
 
@@ -72,7 +72,7 @@ control "cis_v400_10_1_1" {
 control "cis_v400_10_1_2" {
   title         = "10.1.2 Ensure 'SMB protocol version' is set to 'SMB 3.1.1' or higher for SMB file shares"
   description   = "Ensure that SMB file shares are configured to use the latest supported SMB protocol version."
-  query         = query.manual_control
+  query         = query.storage_account_file_share_smb_protocol_version_3_1_1
   documentation = file("./cis_v400/docs/cis_v400_10_1_2.md")
 
   tags = merge(local.cis_v400_10_1_common_tags, {
@@ -86,7 +86,7 @@ control "cis_v400_10_1_2" {
 control "cis_v400_10_1_3" {
   title         = "10.1.3 Ensure 'SMB channel encryption' is set to 'AES-256-GCM' or higher for SMB file shares"
   description   = "Implement SMB channel encryption with AES-256-GCM for SMB file shares to ensure data confidentiality and integrity in transit."
-  query         = query.manual_control
+  query         = query.storage_account_file_share_smb_channel_encryption_aes_256_gcm
   documentation = file("./cis_v400/docs/cis_v400_10_1_3.md")
 
   tags = merge(local.cis_v400_10_1_common_tags, {
@@ -174,7 +174,7 @@ benchmark "cis_v400_10_3_1" {
 
   tags = merge(local.cis_v400_10_3_1_common_tags, {
     type    = "Benchmark"
-    service = "Azure/General"
+    service = "Azure/Storage"
   })
 }
 
@@ -188,7 +188,7 @@ control "cis_v400_10_3_1_1" {
     cis_item_id = "10.3.1.1"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/General"
+    service     = "Azure/Storage"
   })
 }
 
@@ -202,7 +202,7 @@ control "cis_v400_10_3_1_2" {
     cis_item_id = "10.3.1.2"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/General"
+    service     = "Azure/Storage"
   })
 }
 
@@ -231,14 +231,13 @@ benchmark "cis_v400_10_3_2" {
 
   tags = merge(local.cis_v400_10_3_2_common_tags, {
     type    = "Benchmark"
-    service = "Azure/VPC"
   })
 }
 
 control "cis_v400_10_3_2_1" {
   title         = "10.3.2.1 Ensure Private Endpoints are used to access Storage Accounts"
   description   = "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data located over a network via an encrypted Private Link."
-  query         = query.storage_account_private_endpoint_enabled
+  query         = query.storage_account_uses_private_link
   documentation = file("./cis_v400/docs/cis_v400_10_3_2_1.md")
 
   tags = merge(local.cis_v400_10_3_2_common_tags, {
@@ -259,7 +258,7 @@ control "cis_v400_10_3_2_2" {
     cis_item_id = "10.3.2.2"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Storage"
   })
 }
 
@@ -273,7 +272,7 @@ control "cis_v400_10_3_2_3" {
     cis_item_id = "10.3.2.3"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/VPC"
+    service     = "Azure/Storage"
   })
 }
 
@@ -286,7 +285,6 @@ benchmark "cis_v400_10_3_3" {
 
   tags = merge(local.cis_v400_10_3_3_common_tags, {
     type    = "Benchmark"
-    service = "Azure/IAM"
   })
 }
 
@@ -300,7 +298,7 @@ control "cis_v400_10_3_3_1" {
     cis_item_id = "10.3.3.1"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/IAM"
+    service     = "Azure/Storage"
   })
 }
 
@@ -335,7 +333,7 @@ control "cis_v400_10_3_5" {
 control "cis_v400_10_3_6" {
   title         = "10.3.6 Ensure Soft Delete is Enabled for Azure Containers and Blob Storage"
   description   = "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal."
-  query         = query.storage_account_soft_delete_enabled
+  query         = query.storage_account_blob_and_container_soft_delete_enabled
   documentation = file("./cis_v400/docs/cis_v400_10_3_6.md")
 
   tags = merge(local.cis_v400_10_3_common_tags, {

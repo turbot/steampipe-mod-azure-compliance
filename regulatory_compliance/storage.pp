@@ -247,14 +247,6 @@ control "storage_account_blob_soft_delete_enabled" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
-control "storage_account_private_endpoint_enabled" {
-  title       = "Private endpoints should be used to access storage accounts"
-  description = "Use private endpoints for your Azure Storage accounts to allow clients and services to securely access data over a private network."
-  query       = query.storage_account_private_endpoint_enabled
-
-  tags = local.regulatory_compliance_storage_common_tags
-}
-
 control "storage_account_public_network_access_disabled" {
   title       = "Public network access should be disabled for storage accounts"
   description = "Disabling public network access for a storage account helps prevent unauthorized access from the public internet."
@@ -323,6 +315,30 @@ control "storage_account_key_rotation_reminder_enabled" {
   title         = "Ensure that 'Enable key rotation reminders' is enabled for each Storage Account"
   description   = "Access Keys authenticate application access requests to data contained in Storage Accounts. A periodic rotation of these keys is recommended to ensure that potentially compromised keys cannot result in a long-term exploitable credential. The 'Rotation Reminder' is an automatic reminder feature for a manual procedure, the default value is 90 days."
   query         = query.storage_account_key_rotation_reminder_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_blob_and_container_soft_delete_enabled" {
+  title         = "Ensure Soft Delete is Enabled for Azure Containers and Blob Storage"
+  description   = "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal."
+  query         = query.storage_account_blob_and_container_soft_delete_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_file_share_smb_protocol_version_3_1_1" {
+  title         = "Ensure 'SMB protocol version' is set to 'SMB 3.1.1' or higher for SMB file shares"
+  description   = "Ensure that SMB file shares are configured to use the latest supported SMB protocol version."
+  query         = query.storage_account_file_share_smb_protocol_version_3_1_1
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
+control "storage_account_file_share_smb_channel_encryption_aes_256_gcm" {
+  title         = "Ensure 'SMB channel encryption' is set to 'AES-256-GCM' or higher for SMB file shares"
+  description   = "Implement SMB channel encryption with AES-256-GCM for SMB file shares to ensure data confidentiality and integrity in transit."
+  query         = query.storage_account_file_share_smb_channel_encryption_aes_256_gcm
 
   tags = local.regulatory_compliance_storage_common_tags
 }
@@ -415,32 +431,39 @@ query "storage_account_uses_private_link" {
   sql = <<-EOQ
     with storage_account_connection as (
       select
-        distinct a.id
+        a.id,
+        a.name,
+        count(*) as total_connections,
+        count(case when connection -> 'properties' -> 'privateLinkServiceConnectionState' ->> 'status' = 'Approved' then 1 end) as approved_connections,
+        count(case when connection -> 'properties' -> 'privateLinkServiceConnectionState' ->> 'status' != 'Approved' then 1 end) as non_approved_connections
       from
         azure_storage_account as a,
         jsonb_array_elements(private_endpoint_connections) as connection
       where
-        connection -> 'properties' -> 'privateLinkServiceConnectionState' ->> 'status' = 'Approved'
+        private_endpoint_connections is not null
+        and jsonb_array_length(private_endpoint_connections) > 0
+      group by
+        a.id, a.name
     )
     select
       distinct a.id as resource,
       case
-        when s.id is null then 'alarm'
-        else 'ok'
+        when jsonb_array_length(private_endpoint_connections) = 0 then 'alarm'
+        when s.approved_connections > 0 and s.non_approved_connections = 0 then 'ok'
+        when s.non_approved_connections > 0 then 'alarm'
       end as status,
       case
-        when s.id is null then a.name || ' not uses private link.'
-        else a.name || ' uses private link.'
+        when jsonb_array_length(private_endpoint_connections) = 0 then a.name || ' not uses private link.'
+        when s.approved_connections > 0 and s.non_approved_connections = 0 then a.name || ' uses approved private link(s).'
+        else a.name || ' has non approved private link(s).'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_account as a
-      left join storage_account_connection as s on a.id = s.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join storage_account_connection as s on a.id = s.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -948,26 +971,6 @@ query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
 
 query "storage_account_blob_versioning_enabled" {
   sql = <<-EOQ
-    with storage_accounts as materialized (
-      select
-        name as storage_account_name,
-        id,
-        _ctx,
-        region,
-        subscription_id,
-        resource_group,
-        tags
-      from
-        azure_storage_account
-    ),
-    blob_services as materialized (
-      select
-        storage_account_name,
-        is_versioning_enabled,
-        resource_group
-      from
-        azure_storage_blob_service
-    )
     select
       sa.id as resource,
       case
@@ -975,30 +978,38 @@ query "storage_account_blob_versioning_enabled" {
         else 'alarm'
       end as status,
       case
-        when bs.is_versioning_enabled then sa.storage_account_name || ' has blob versioning enabled.'
-        else sa.storage_account_name || ' has blob versioning disabled.'
+        when bs.is_versioning_enabled then sa.name || ' has blob versioning enabled.'
+        else sa.name || ' has blob versioning disabled.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      storage_accounts sa
-      left join blob_services bs on sa.storage_account_name = bs.storage_account_name
-      left join azure_subscription sub on sub.subscription_id = (split_part(sa.id, '/', 3))
-    order by
-      sa.storage_account_name;
+      azure_storage_account as sa
+      left join azure_storage_blob_service as bs on sa.name = bs.storage_account_name
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id
   EOQ
 }
 
 query "storage_account_file_share_soft_delete_enabled" {
   sql = <<-EOQ
+    with storage_account_with_file_share as (
+      select
+        distinct storage_account_name,
+        subscription_id,
+        resource_group
+      from
+        azure_storage_share_file
+    )
     select
       sa.id as resource,
       case
+        when fs.storage_account_name is null then 'skip'
         when file_soft_delete_enabled and file_soft_delete_retention_days between 1 and 365 then 'ok'
         else 'alarm'
       end as status,
       case
+        when fs.storage_account_name is null then name || ' does not have file share.'
         when not file_soft_delete_enabled then name || ' file share soft delete disabled.'
         when file_soft_delete_retention_days < 1 or file_soft_delete_retention_days > 365
           then name || ' file share soft delete retention days (' || file_soft_delete_retention_days || ') not between 1 and 365.'
@@ -1008,10 +1019,9 @@ query "storage_account_file_share_soft_delete_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join storage_account_with_file_share as fs on sa.name = fs.storage_account_name and sa.subscription_id = fs.subscription_id and sa.resource_group = fs.resource_group
+      left join azure_subscription sub on  sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1028,30 +1038,6 @@ query "storage_account_blob_soft_delete_enabled" {
         when blob_soft_delete_retention_days < 7 or blob_soft_delete_retention_days > 365
           then name || ' blob soft delete retention days (' || blob_soft_delete_retention_days || ') not between 7 and 365.'
         else name || ' blob soft delete enabled with ' || blob_soft_delete_retention_days || ' days retention.'
-      end as reason
-      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
-    from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
-  EOQ
-}
-
-query "storage_account_private_endpoint_enabled" {
-  sql = <<-EOQ
-    select
-      sa.id as resource,
-      case
-        when private_endpoint_connections is not null and jsonb_array_length(private_endpoint_connections) > 0 then 'ok'
-        else 'alarm'
-      end as status,
-      case
-        when private_endpoint_connections is null then name || ' has no private endpoint connections configured.'
-        when jsonb_array_length(private_endpoint_connections) = 0 then name || ' has no private endpoint connections.'
-        else name || ' has ' || jsonb_array_length(private_endpoint_connections) || ' private endpoint connection(s).'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
@@ -1296,6 +1282,93 @@ query "storage_account_key_rotation_reminder_enabled" {
       azure_subscription sub
     where
       sub.subscription_id = sa.subscription_id;
+  EOQ
+}
 
+query "storage_account_blob_and_container_soft_delete_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when
+          blob_soft_delete_enabled and blob_container_soft_delete_enabled
+          and blob_soft_delete_retention_days between 7 and 365
+          and blob_container_soft_delete_retention_days between 7 and 365 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when
+          blob_soft_delete_enabled and blob_container_soft_delete_enabled
+          and blob_soft_delete_retention_days between 7 and 365
+          and blob_container_soft_delete_retention_days between 7 and 365 then
+          sa.name || ' soft delete is enabled for azure containers and blob storage with retention days: blob=' || blob_soft_delete_retention_days || ', container=' || blob_container_soft_delete_retention_days || '.'
+        when
+          (not blob_soft_delete_enabled or blob_soft_delete_enabled is null) and (not blob_container_soft_delete_enabled or  blob_container_soft_delete_enabled is null) then sa.name || ' blob and azure container soft delete disabled.'
+        when
+          (not blob_soft_delete_enabled or blob_soft_delete_enabled is null) then sa.name || ' blob soft delete disabled.'
+        when
+          (not blob_container_soft_delete_enabled  or blob_container_soft_delete_enabled is null) then sa.name || ' azure container soft delete disabled.'
+        when
+          blob_soft_delete_retention_days < 7 or blob_soft_delete_retention_days > 365 then sa.name || ' blob soft delete retention days (' || blob_soft_delete_retention_days::text || ') is not between 7 and 365 days.'
+        when
+          blob_container_soft_delete_retention_days < 7 or blob_container_soft_delete_retention_days > 365 then
+          sa.name || ' azure container soft delete retention days (' || blob_container_soft_delete_retention_days::text || ') is not between 7 and 365 days.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa,
+      azure_subscription sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_file_share_smb_protocol_version_3_1_1" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when f -> 'properties' -> 'protocolSettings' -> 'smb' ->> 'versions' = 'SMB3.1.1;' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when f -> 'properties' -> 'protocolSettings' -> 'smb' ->> 'versions' = 'SMB3.1.1;' then sa.name || ' file share SMB protocol version set to SMB 3.1.1.'
+        else sa.name || ' file share SMB protocol version not set to SMB 3.1.1.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as sa,
+      jsonb_array_elements(file_services) as f,
+      azure_subscription as sub
+    where
+      sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_file_share_smb_channel_encryption_aes_256_gcm" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when f -> 'properties' -> 'protocolSettings' -> 'smb' ->> 'channelEncryption' = 'AES-256-GCM;' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when f -> 'properties' -> 'protocolSettings' -> 'smb' ->> 'channelEncryption' = 'AES-256-GCM;' then sa.name || ' file share SMB channel encryption set to AES-256-GCM.'
+        else sa.name || ' file share SMB channel encryption not set to AES-256-GCM.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account as sa,
+      jsonb_array_elements(file_services) as f,
+      azure_subscription as sub
+    where
+      sub.subscription_id = sa.subscription_id;
   EOQ
 }

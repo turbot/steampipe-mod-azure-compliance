@@ -19,7 +19,6 @@ benchmark "cis_v400_4" {
 
   tags = merge(local.cis_v400_4_common_tags, {
     type    = "Benchmark"
-    service = "Azure/General"
   })
 }
 

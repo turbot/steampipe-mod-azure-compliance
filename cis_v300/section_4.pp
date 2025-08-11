@@ -162,7 +162,7 @@ control "cis_v300_4_9" {
 control "cis_v300_4_10" {
   title         = "4.10 Ensure Soft Delete is Enabled for Azure Containers and Blob Storage"
   description   = "The Azure Storage blobs contain data like ePHI or Financial, which can be secret or personal. Data that is erroneously modified or deleted by an application or other storage account user will cause data loss or unavailability."
-  query         = query.storage_account_soft_delete_enabled
+  query         = query.storage_account_blob_and_container_soft_delete_enabled
   documentation = file("./cis_v300/docs/cis_v300_4_10.md")
 
   tags = merge(local.cis_v300_4_common_tags, {

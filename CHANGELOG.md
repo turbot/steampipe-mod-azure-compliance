@@ -1,3 +1,32 @@
+## v2.1.0 [2025-08-11]
+
+_Dependencies_
+
+- Azure plugin v1.6.0 or higher is now required.
+
+_Enhancements_
+
+- Updated all top-level benchmark titles to include `Azure` for clearer cloud provider identification. ([#334](https://github.com/turbot/steampipe-mod-azure-compliance/pull/334))
+- Added the following controls to `All Azure Compliance Controls`: ([#328](https://github.com/turbot/steampipe-mod-azure-compliance/pull/328))
+  - `databricks_workspace_diagnostic_log_delivery_configured`
+  - `databricks_workspace_subnet_with_nsg_configured`
+  - `keyvault_key_automatic_rotation_enabled`
+  - `network_security_group_https_port_80_443_access_restricted`
+  - `storage_account_blob_and_container_soft_delete_enabled`
+  - `storage_account_file_share_smb_channel_encryption_aes_256_gcm`
+  - `storage_account_file_share_smb_protocol_version_3_1_1`
+- Added new automated query implementations for the following CIS controls: ([#328](https://github.com/turbot/steampipe-mod-azure-compliance/pull/328))
+  - `cis_v400_10_1_2`
+  - `cis_v400_10_1_3`
+  - `cis_v400_3_1_7`
+  - `cis_v400_6_2_1`
+  - `cis_v400_7_1_1_7`
+  - `cis_v400_9_3_9`
+
+_Bug Fixes_
+
+- Fixed several CIS controls to use the correct Azure service tags. ([#328](https://github.com/turbot/steampipe-mod-azure-compliance/pull/328))
+
 ## v2.0.1 [2025-08-06]
 
 _Bug fixes_

@@ -6,7 +6,7 @@ locals {
 }
 
 benchmark "nist_sp_800_171_rev_2" {
-  title         = "NIST SP 800-171 Revision 2"
+  title         = "Azure NIST SP 800-171 Revision 2"
   description   = "NIST SP 800-171 Revision 2 signifies a significant endeavor to enhance cybersecurity practices, specifically tailored for organizations engaging with the U.S. federal government."
   documentation = file("./nist_sp_800_171_rev_2/docs/nist_sp_800_171_rev_2_overview.md")
 

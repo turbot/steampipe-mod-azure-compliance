@@ -28,8 +28,7 @@ benchmark "cis_v400_7" {
   ]
 
   tags = merge(local.cis_v400_7_common_tags, {
-    type    = "Benchmark"
-    service = "Azure/General"
+    type = "Benchmark"
   })
 }
 
@@ -45,8 +44,7 @@ benchmark "cis_v400_7_1" {
   ]
 
   tags = merge(local.cis_v400_7_1_common_tags, {
-    type    = "Benchmark"
-    service = "Azure/CloudTrail"
+    type = "Benchmark"
   })
 }
 
@@ -159,7 +157,7 @@ control "cis_v400_7_1_1_6" {
 control "cis_v400_7_1_1_7" {
   title         = "7.1.1.7 Ensure that virtual network flow logs are captured and sent to Log Analytics"
   description   = "Ensure that virtual network flow logs are captured and fed into a central log analytics workspace."
-  query         = query.manual_control
+  query         = query.network_virtual_network_watcher_flow_log_send_to_log_analytics
   documentation = file("./cis_v400/docs/cis_v400_7_1_1_7.md")
 
   tags = merge(local.cis_v400_7_1_1_common_tags, {
@@ -231,7 +229,7 @@ benchmark "cis_v400_7_1_2" {
 
   tags = merge(local.cis_v400_7_1_2_common_tags, {
     type    = "Benchmark"
-    service = "Azure/CloudWatch"
+    service = "Azure/Monitor"
   })
 }
 
@@ -245,7 +243,7 @@ control "cis_v400_7_1_2_1" {
     cis_item_id = "7.1.2.1"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -259,7 +257,7 @@ control "cis_v400_7_1_2_2" {
     cis_item_id = "7.1.2.2"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -273,7 +271,7 @@ control "cis_v400_7_1_2_3" {
     cis_item_id = "7.1.2.3"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -287,7 +285,7 @@ control "cis_v400_7_1_2_4" {
     cis_item_id = "7.1.2.4"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -301,7 +299,7 @@ control "cis_v400_7_1_2_5" {
     cis_item_id = "7.1.2.5"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -315,7 +313,7 @@ control "cis_v400_7_1_2_6" {
     cis_item_id = "7.1.2.6"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -329,7 +327,7 @@ control "cis_v400_7_1_2_7" {
     cis_item_id = "7.1.2.7"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -343,7 +341,7 @@ control "cis_v400_7_1_2_8" {
     cis_item_id = "7.1.2.8"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -357,7 +355,7 @@ control "cis_v400_7_1_2_9" {
     cis_item_id = "7.1.2.9"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -371,7 +369,7 @@ control "cis_v400_7_1_2_10" {
     cis_item_id = "7.1.2.10"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -385,7 +383,7 @@ control "cis_v400_7_1_2_11" {
     cis_item_id = "7.1.2.11"
     cis_level   = "1"
     cis_type    = "automated"
-    service     = "Azure/CloudWatch"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -426,7 +424,7 @@ control "cis_v400_7_1_4" {
     cis_item_id = "7.1.4"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/CloudTrail"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -440,7 +438,7 @@ control "cis_v400_7_1_5" {
     cis_item_id = "7.1.5"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/CloudTrail"
+    service     = "Azure/Monitor"
   })
 }
 
@@ -454,6 +452,5 @@ control "cis_v400_7_2" {
     cis_item_id = "7.2"
     cis_level   = "2"
     cis_type    = "manual"
-    service     = "Azure/General"
   })
 }

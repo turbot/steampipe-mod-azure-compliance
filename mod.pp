@@ -6,6 +6,7 @@ mod "azure_compliance" {
   documentation = file("./docs/index.md")
   icon          = "/images/mods/turbot/azure-compliance.svg"
   categories    = ["azure", "cis", "compliance", "public cloud", "security"]
+  database      = var.database
 
   opengraph {
     title       = "Powerpipe Mod for Azure Compliance"
@@ -15,7 +16,7 @@ mod "azure_compliance" {
 
   require {
     plugin "azure" {
-      min_version = "1.5.1"
+      min_version = "1.6.0"
     }
     plugin "azuread" {
       min_version = "0.0.3"

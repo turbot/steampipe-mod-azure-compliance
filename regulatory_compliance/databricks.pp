@@ -145,7 +145,7 @@ query "databricks_workspace_diagnostic_log_delivery_configured" {
         (select count(*) from jsonb_array_elements(diagnostic_settings) as ds where ds -> 'properties' -> 'logs' @> '[{"category": "accounts", "enabled": true}]') as accounts_logs_enabled,
         (select count(*) from jsonb_array_elements(diagnostic_settings) as ds where ds -> 'properties' -> 'logs' @> '[{"category": "jobs", "enabled": true}]') as jobs_logs_enabled,
         (select count(*) from jsonb_array_elements(diagnostic_settings) as ds where ds -> 'properties' -> 'logs' @> '[{"category": "notebook", "enabled": true}]') as notebook_logs_enabled,
-        (select count(*) from jsonb_array_elements(diagnostic_settings) as ds where ds -> 'properties' -> 'logs' @> '[{"category": "workspace", "enabled": true}]') as worksapce_logs_enabled,
+        (select count(*) from jsonb_array_elements(diagnostic_settings) as ds where ds -> 'properties' -> 'logs' @> '[{"category": "workspace", "enabled": true}]') as workspace_logs_enabled,
         (select count(*) from jsonb_array_elements(diagnostic_settings) as ds where ds -> 'properties' -> 'logs' @> '[{"category": "sqlPermissions", "enabled": true}]') as sqlpermissions_logs_enabled
       from
         azure_databricks_workspace
@@ -161,7 +161,7 @@ query "databricks_workspace_diagnostic_log_delivery_configured" {
         when dsa.accounts_logs_enabled = 0 then 'alarm'
         when dsa.jobs_logs_enabled = 0 then 'alarm'
         when dsa.notebook_logs_enabled = 0 then 'alarm'
-        when dsa.worksapce_logs_enabled = 0 then 'alarm'
+        when dsa.workspace_logs_enabled = 0 then 'alarm'
         when dsa.sqlpermissions_logs_enabled = 0 then 'alarm'
         else 'ok'
       end as status,
@@ -172,7 +172,7 @@ query "databricks_workspace_diagnostic_log_delivery_configured" {
         when dsa.accounts_logs_enabled = 0 then w.name || ' diagnostic logging is missing required category: accounts.'
         when dsa.jobs_logs_enabled = 0 then w.name || ' diagnostic logging is missing required category: jobs.'
         when dsa.notebook_logs_enabled = 0 then w.name || ' diagnostic logging is missing required category: notebook.'
-        when dsa.worksapce_logs_enabled = 0 then w.name || ' diagnostic logging is missing required category: workspace.'
+        when dsa.workspace_logs_enabled = 0 then w.name || ' diagnostic logging is missing required category: workspace.'
         when dsa.sqlpermissions_logs_enabled = 0 then w.name || ' diagnostic logging is missing required category: sqlPermissions.'
         else w.name || ' diagnostic logging is properly configured with required categories and destinations.'
       end as reason

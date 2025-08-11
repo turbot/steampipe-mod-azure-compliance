@@ -1309,10 +1309,10 @@ query "storage_account_blob_and_container_soft_delete_enabled" {
         when
           (not blob_container_soft_delete_enabled  or blob_container_soft_delete_enabled is null) then sa.name || ' azure container soft delete disabled.'
         when
-          blob_soft_delete_retention_days < 7 or blob_soft_delete_retention_days > 365 then sa.name || ' blob soft delete retention days (' || COALESCE(blob_soft_delete_retention_days::text, 'null') || ') is not between 7 and 365 days.'
+          blob_soft_delete_retention_days < 7 or blob_soft_delete_retention_days > 365 then sa.name || ' blob soft delete retention days (' || blob_soft_delete_retention_days::text || ') is not between 7 and 365 days.'
         when
           blob_container_soft_delete_retention_days < 7 or blob_container_soft_delete_retention_days > 365 then
-          sa.name || ' azure container soft delete retention days (' || COALESCE(blob_container_soft_delete_retention_days::text, 'null') || ') is not between 7 and 365 days.'
+          sa.name || ' azure container soft delete retention days (' || blob_container_soft_delete_retention_days::text || ') is not between 7 and 365 days.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}

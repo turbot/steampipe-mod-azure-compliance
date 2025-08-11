@@ -107,7 +107,6 @@ benchmark "cis_v400_2_1_1_2_1" {
   title         = "2.1.1.2.1 Ensure Critical Data is Encrypted with Customer Managed Keys (CMK)"
   description   = "Customer Managed Keys introduce additional depth to security by providing a means to manage access control for encryption keys."
   children = [
-    control.storage_account_encryption_at_rest_using_cmk,
     control.batch_account_encrypted_with_cmk,
     control.cognitive_account_encrypted_with_cmk,
     control.compute_os_and_data_disk_encrypted_with_cmk,
@@ -124,7 +123,8 @@ benchmark "cis_v400_2_1_1_2_1" {
     control.mysql_server_encrypted_at_rest_using_cmk,
     control.servicebus_premium_namespace_cmk_encrypted,
     control.sql_server_tde_protector_cmk_encrypted,
-    control.synapse_workspace_encryption_at_rest_using_cmk,
+    control.storage_account_encryption_at_rest_using_cmk,
+    control.synapse_workspace_encryption_at_rest_using_cmk
   ]
 
    tags = merge(local.cis_v400_2_1_1_2_common_tags, {

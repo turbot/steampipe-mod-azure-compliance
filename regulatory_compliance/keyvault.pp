@@ -760,9 +760,9 @@ query "keyvault_key_automatic_rotation_enabled" {
         when p.id is not null then vault_name || ' key ' || kvk.name || ' automatic rotation enabled.'
         else vault_name || ' key ' || kvk.name || ' automatic rotation disabled.'
       end as reason
-      -- ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
-     --  ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
-     -- ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_key_vault_key kvk
       left join key_rotation_policy as p on p.id = kvk.id

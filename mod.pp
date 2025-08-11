@@ -6,6 +6,7 @@ mod "azure_compliance" {
   documentation = file("./docs/index.md")
   icon          = "/images/mods/turbot/azure-compliance.svg"
   categories    = ["azure", "cis", "compliance", "public cloud", "security"]
+  database      = var.database
 
   opengraph {
     title       = "Powerpipe Mod for Azure Compliance"

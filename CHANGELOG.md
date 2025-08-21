@@ -22,6 +22,7 @@ _Enhancements_
   - `cis_v400_6_2_1`
   - `cis_v400_7_1_1_7`
   - `cis_v400_9_3_9`
+- Added `database` variable to configure the Steampipe database connection string, defaulting to `connection.steampipe.default`. ([#335](https://github.com/turbot/steampipe-mod-azure-compliance/pull/335))
 
 _Bug Fixes_
 

@@ -94,9 +94,7 @@ query "datalake_store_account_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_data_lake_store as a
-      left join logging_details as l on a.account_id = l.account_id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join logging_details as l on a.account_id = l.account_id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

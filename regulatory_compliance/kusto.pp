@@ -73,10 +73,8 @@ query "kusto_cluster_encrypted_at_rest_with_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kusto_cluster as kv,
-      azure_subscription as sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_kusto_cluster as kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }
 
@@ -96,10 +94,8 @@ query "kusto_cluster_disk_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kusto_cluster as kv,
-      azure_subscription as sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_kusto_cluster as kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }
 
@@ -119,10 +115,8 @@ query "kusto_cluster_double_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kusto_cluster as kv,
-      azure_subscription as sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_kusto_cluster as kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }
 
@@ -139,9 +133,7 @@ query "kusto_cluster_sku_with_sla" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kusto_cluster as kv,
-      azure_subscription as sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_kusto_cluster as kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }

@@ -215,10 +215,8 @@ query "keyvault_purge_protection_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault as kv,
-      azure_subscription as sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_key_vault as kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }
 
@@ -268,8 +266,8 @@ query "keyvault_logging_enabled" {
     from
       azure_key_vault v
       left join audit_logging_details as audit on audit.id = v.id
-      left join alllogs_logging_details as alllogs on alllogs.id = v.id,
-      azure_subscription sub
+      left join alllogs_logging_details as alllogs on alllogs.id = v.id
+      left join azure_subscription as sub on sub.subscription_id = v.subscription_id;
   EOQ
 }
 
@@ -302,10 +300,8 @@ query "keyvault_vault_use_virtual_service_endpoint" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_key_vault as a
-      left join keyvault_vault_subnet as s on a.name = s.name,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join keyvault_vault_subnet as s on a.name = s.name
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -325,10 +321,8 @@ query "keyvault_managed_hms_purge_protection_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault_managed_hardware_security_module as kv,
-      azure_subscription as sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_key_vault_managed_hardware_security_module as kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }
 
@@ -397,8 +391,8 @@ query "keyvault_vault_private_link_used" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault a,
-      azure_subscription sub;
+      azure_key_vault a
+     left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -420,8 +414,8 @@ query "keyvault_vault_public_network_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault a,
-      azure_subscription sub;
+      azure_key_vault a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -443,10 +437,8 @@ query "keyvault_key_expiration_set" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault_key kvk,
-      azure_subscription sub
-    where
-      sub.subscription_id = kvk.subscription_id;
+      azure_key_vault_key kvk
+      left join azure_subscription as sub on sub.subscription_id = kvk.subscription_id;
   EOQ
 }
 
@@ -468,10 +460,8 @@ query "keyvault_secret_expiration_set" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kvs.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault_secret as kvs,
-      azure_subscription as sub
-    where
-      sub.subscription_id = kvs.subscription_id;
+      azure_key_vault_secret as kvs
+      left join azure_subscription as sub on sub.subscription_id = kvs.subscription_id;
   EOQ
 }
 
@@ -491,10 +481,8 @@ query "keyvault_soft_delete_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault as kv,
-      azure_subscription as sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_key_vault as kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }
 
@@ -514,10 +502,8 @@ query "keyvault_rbac_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault as kv,
-      azure_subscription as sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_key_vault as kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }
 
@@ -549,10 +535,8 @@ query "keyvault_with_non_rbac_key_expiration_set" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_key_vault_key kvk
-      left join non_rbac_vault as v on v.name = kvk.vault_name,
-      azure_subscription sub
-    where
-      sub.subscription_id = kvk.subscription_id;
+      left join non_rbac_vault as v on v.name = kvk.vault_name
+      left join azure_subscription as sub on sub.subscription_id = kvk.subscription_id;
   EOQ
 }
 
@@ -574,10 +558,8 @@ query "keyvault_vault_recoverable" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault kv,
-      azure_subscription sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_key_vault kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }
 
@@ -609,10 +591,8 @@ query "keyvault_with_non_rbac_secret_expiration_set" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_key_vault_secret kvs
-      left join non_rbac_vault as v on v.name = kvs.vault_name,
-      azure_subscription sub
-    where
-      sub.subscription_id = kvs.subscription_id;
+      left join non_rbac_vault as v on v.name = kvs.vault_name
+      left join azure_subscription as sub on sub.subscription_id = kvs.subscription_id;
   EOQ
 }
 
@@ -644,10 +624,8 @@ query "keyvault_with_rbac_key_expiration_set" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_key_vault_key kvk
-      left join rbac_vault as v on v.name = kvk.vault_name,
-      azure_subscription sub
-    where
-      sub.subscription_id = kvk.subscription_id;
+      left join rbac_vault as v on v.name = kvk.vault_name
+      left join azure_subscription as sub on sub.subscription_id = kvk.subscription_id;
   EOQ
 }
 
@@ -679,10 +657,8 @@ query "keyvault_with_rbac_secret_expiration_set" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_key_vault_secret kvs
-      left join rbac_vault as v on v.name = kvs.vault_name,
-      azure_subscription sub
-    where
-      sub.subscription_id = kvs.subscription_id;
+      left join rbac_vault as v on v.name = kvs.vault_name
+      left join azure_subscription as sub on sub.subscription_id = kvs.subscription_id;
   EOQ
 }
 
@@ -702,10 +678,8 @@ query "keyvault_firewall_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kv.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault kv,
-      azure_subscription sub
-    where
-      sub.subscription_id = kv.subscription_id;
+      azure_key_vault kv
+      left join azure_subscription as sub on sub.subscription_id = kv.subscription_id;
   EOQ
 }
 
@@ -731,10 +705,8 @@ query "keyvault_public_network_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "v.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_key_vault v,
-      azure_subscription sub
-    where
-      sub.subscription_id = v.subscription_id;
+      azure_key_vault v
+      left join azure_subscription as sub on sub.subscription_id = v.subscription_id;
   EOQ
 }
 
@@ -766,7 +738,7 @@ query "keyvault_key_automatic_rotation_enabled" {
     from
       azure_key_vault_key kvk
       left join key_rotation_policy as p on p.id = kvk.id
-      left join  azure_subscription sub on sub.subscription_id = kvk.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = kvk.subscription_id;
   EOQ
 }
 

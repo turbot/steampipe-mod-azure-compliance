@@ -65,10 +65,8 @@ query "synapse_workspace_private_link_used" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_synapse_workspace as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_synapse_workspace as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -100,11 +98,9 @@ query "synapse_workspace_vulnerability_assessment_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-    azure_synapse_workspace as a
-    left join synapse_workspace as s on s.id = a.id,
-    azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_synapse_workspace as a
+      left join synapse_workspace as s on s.id = a.id
+      left join  azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -124,10 +120,8 @@ query "synapse_workspace_encryption_at_rest_using_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_synapse_workspace as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_synapse_workspace as s
+      left join  azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -147,9 +141,7 @@ query "synapse_workspace_data_exfiltration_protection_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_synapse_workspace as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_synapse_workspace as s
+      left join  azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }

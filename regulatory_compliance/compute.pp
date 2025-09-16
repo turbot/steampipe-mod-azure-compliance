@@ -2247,10 +2247,8 @@ query "arc_compute_machine_windows_log_analytics_agent_installed" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
     azure_hybrid_compute_machine as a
-    left join compute_machine as m on m.id = a.id,
-    azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+    left join compute_machine as m on m.id = a.id
+    left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2283,10 +2281,8 @@ query "compute_vm_guest_configuration_with_system_assigned_managed_identity" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
-      left join gc_installed_vm as b on a.vm_id = b.vm_id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join gc_installed_vm as b on a.vm_id = b.vm_id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2322,10 +2318,8 @@ query "compute_vm_windows_defender_exploit_guard_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
-      left join compute_machine as m on m.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join compute_machine as m on m.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2364,10 +2358,8 @@ query "compute_vm_secure_communication_protocols_configured" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
-      left join compute_machine as m on m.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join compute_machine as m on m.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2388,10 +2380,8 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
         ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
         ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from
-        azure_compute_virtual_machine as a,
-        azure_subscription as sub
-      where
-        sub.subscription_id = a.subscription_id
+        azure_compute_virtual_machine as a
+        left join azure_subscription as sub on sub.subscription_id = a.subscription_id
     )
     union
     (
@@ -2409,10 +2399,8 @@ query "compute_vm_and_sacle_set_encryption_at_host_enabled" {
         ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
         ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from
-        azure_compute_virtual_machine_scale_set as a,
-        azure_subscription as sub
-      where
-        sub.subscription_id = a.subscription_id
+        azure_compute_virtual_machine_scale_set as a
+        left join azure_subscription as sub on sub.subscription_id = a.subscription_id
     )
   EOQ
 }
@@ -2449,10 +2437,8 @@ query "compute_vm_meet_security_baseline_requirements_linux" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
-      left join compute_machine as m on m.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join compute_machine as m on m.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2488,10 +2474,8 @@ query "compute_vm_meet_security_baseline_requirements_windows" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
-      left join compute_machine as m on m.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join compute_machine as m on m.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2524,10 +2508,8 @@ query "compute_vm_guest_configuration_with_no_managed_identity" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as a
-      left join gc_installed_vm as b on a.vm_id = b.vm_id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join gc_installed_vm as b on a.vm_id = b.vm_id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2582,7 +2564,7 @@ query "compute_vm_remote_access_restricted" {
     from
       azure_compute_virtual_machine as vm
       left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
-      join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
+      left join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
   EOQ
 }
 
@@ -2602,10 +2584,8 @@ query "compute_vm_utilizing_managed_disk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_compute_virtual_machine as vm,
-      azure_subscription as sub
-    where
-      sub.subscription_id = vm.subscription_id;
+      azure_compute_virtual_machine as vm
+      left join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
   EOQ
 }
 
@@ -2642,10 +2622,8 @@ query "compute_vm_data_and_os_disk_uses_managed_disk" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm
-      left join data_disk_with_no_managed_disk as d on d.vm_id = vm.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = vm.subscription_id;
+      left join data_disk_with_no_managed_disk as d on d.vm_id = vm.id
+      left join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
   EOQ
 }
 
@@ -2667,10 +2645,8 @@ query "compute_vm_scale_set_automatic_upgrade_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_compute_virtual_machine_scale_set as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_compute_virtual_machine_scale_set as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2692,10 +2668,8 @@ query "compute_vm_scale_set_ssh_key_authentication_linux" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_compute_virtual_machine_scale_set as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_compute_virtual_machine_scale_set as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2723,11 +2697,10 @@ query "compute_disk_unattached_encrypted_with_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_compute_disk disk,
-      azure_subscription sub
+      azure_compute_disk disk
+      left join azure_subscription as sub on sub.subscription_id = disk.subscription_id
     where
-      disk_state != 'Attached'
-      and sub.subscription_id = disk.subscription_id;
+      disk_state != 'Attached';
   EOQ
 }
 
@@ -2747,10 +2720,8 @@ query "compute_vm_scale_set_uses_managed_disks" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_compute_virtual_machine_scale_set as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_compute_virtual_machine_scale_set as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2770,10 +2741,8 @@ query "compute_vm_scale_set_boot_diagnostics_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_compute_virtual_machine_scale_set as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_compute_virtual_machine_scale_set as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2795,10 +2764,8 @@ query "compute_windows_vm_secure_boot_enabled" {
         ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
         ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from
-        azure_compute_virtual_machine as a,
-        azure_subscription as sub
-      where
-        sub.subscription_id = a.subscription_id
+        azure_compute_virtual_machine as a
+        left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -2818,10 +2785,8 @@ query "compute_disk_public_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_compute_disk disk,
-      azure_subscription sub
-    where
-      sub.subscription_id = disk.subscription_id;
+      azure_compute_disk disk
+      left join azure_subscription as sub on sub.subscription_id = disk.subscription_id;
   EOQ
 }
 
@@ -2841,10 +2806,8 @@ query "compute_disk_data_access_auth_mode_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_compute_disk disk,
-      azure_subscription sub
-    where
-      sub.subscription_id = disk.subscription_id;
+      azure_compute_disk disk
+      left join azure_subscription as sub on sub.subscription_id = disk.subscription_id;
   EOQ
 }
 
@@ -2868,10 +2831,8 @@ query "compute_vm_trust_launch_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "vm.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_compute_virtual_machine vm,
-      azure_subscription sub
-    where
-      sub.subscription_id = vm.subscription_id;
+      azure_compute_virtual_machine vm
+      left join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
   EOQ
 }
 

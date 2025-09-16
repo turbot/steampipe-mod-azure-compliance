@@ -209,10 +209,8 @@ query "postgres_db_server_geo_redundant_backup_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_postgresql_server as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -232,10 +230,8 @@ query "postgres_sql_ssl_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server s,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_postgresql_server s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -255,10 +251,8 @@ query "postgresql_server_public_network_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_postgresql_server as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -278,10 +272,8 @@ query "postgresql_server_infrastructure_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_postgresql_server as s
+     left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -304,8 +296,8 @@ query "postgres_server_private_link_used" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server a,
-      azure_subscription sub;
+      azure_postgresql_server a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -336,10 +328,8 @@ query "postgres_sql_server_encrypted_at_rest_using_cmk" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_server as s
-      left join pgql_server_encrypted as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join pgql_server_encrypted as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -359,12 +349,11 @@ query "postgres_db_server_connection_throttling_on" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server s,
-      jsonb_array_elements(server_configurations) config,
-      azure_subscription sub
+      azure_postgresql_server s
+      cross join lateral jsonb_array_elements(server_configurations) config
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id
     where
-      config ->> 'Name' = 'connection_throttling'
-      and sub.subscription_id = s.subscription_id;
+      config ->> 'Name' = 'connection_throttling';
   EOQ
 }
 
@@ -384,12 +373,11 @@ query "postgres_db_server_log_checkpoints_on" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server s,
-      jsonb_array_elements(server_configurations) config,
-      azure_subscription sub
+      azure_postgresql_server s
+      cross join lateral jsonb_array_elements(server_configurations) config
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id
     where
-      config ->> 'Name' = 'log_checkpoints'
-      and sub.subscription_id = s.subscription_id;
+      config ->> 'Name' = 'log_checkpoints';
   EOQ
 }
 
@@ -409,12 +397,11 @@ query "postgres_db_server_log_connections_on" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server s,
-      jsonb_array_elements(server_configurations) config,
-      azure_subscription sub
+      azure_postgresql_server s
+      cross join lateral jsonb_array_elements(server_configurations) config
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id
     where
-      config ->> 'Name' = 'log_connections'
-      and sub.subscription_id = s.subscription_id;
+      config ->> 'Name' = 'log_connections';
   EOQ
 }
 
@@ -434,12 +421,11 @@ query "postgres_db_server_log_disconnections_on" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server s,
-      jsonb_array_elements(server_configurations) config,
-      azure_subscription sub
+      azure_postgresql_server s
+      cross join lateral jsonb_array_elements(server_configurations) config
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id
     where
-      config ->> 'Name' = 'log_disconnections'
-      and sub.subscription_id = s.subscription_id;
+      config ->> 'Name' = 'log_disconnections';
   EOQ
 }
 
@@ -459,12 +445,11 @@ query "postgres_db_server_log_duration_on" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server s,
-      jsonb_array_elements(server_configurations) config,
-      azure_subscription sub
+      azure_postgresql_server s
+      cross join lateral jsonb_array_elements(server_configurations) config
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id
     where
-      config ->> 'Name' = 'log_duration'
-      and sub.subscription_id = s.subscription_id;
+      config ->> 'Name' = 'log_duration';
   EOQ
 }
 
@@ -484,12 +469,11 @@ query "postgres_db_server_log_retention_days_3" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server s,
-      jsonb_array_elements(server_configurations) as config,
-      azure_subscription sub
+      azure_postgresql_server s
+      cross join lateral jsonb_array_elements(server_configurations) as config
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id
     where
-      config ->> 'Name' = 'log_retention_days'
-      and sub.subscription_id = s.subscription_id;
+      config ->> 'Name' = 'log_retention_days';
   EOQ
 }
 
@@ -520,10 +504,8 @@ query "postgres_db_server_allow_access_to_azure_services_disabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_server as s
-      left join postgres_db_with_allow_access_to_azure_services as a on a.id = s.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join postgres_db_with_allow_access_to_azure_services as a on a.id = s.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -543,10 +525,8 @@ query "postgres_db_server_latest_tls_version" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_postgresql_server as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -576,10 +556,8 @@ query "postgres_sql_flexible_server_ssl_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_flexible_server as s
-      left join ssl_enabled as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join ssl_enabled as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -609,10 +587,8 @@ query "postgres_flexible_server_log_checkpoints_on" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_flexible_server as s
-      left join log_checkpoints_on as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join log_checkpoints_on as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -642,10 +618,8 @@ query "postgres_flexible_server_connection_throttling_on" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_flexible_server as s
-      left join connection_throttling_on as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join connection_throttling_on as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -665,12 +639,11 @@ query "postgres_flexible_server_log_retention_days_3" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_postgresql_flexible_server s,
-      jsonb_array_elements(flexible_server_configurations) as config,
-      azure_subscription sub
+      azure_postgresql_flexible_server s
+      cross join lateral jsonb_array_elements(flexible_server_configurations) as config
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id
     where
-      config ->> 'Name' = 'logfiles.retention_days'
-      and sub.subscription_id = s.subscription_id;
+      config ->> 'Name' = 'logfiles.retention_days';
   EOQ
 }
 
@@ -701,9 +674,7 @@ query "postgres_flexible_server_allow_access_to_azure_services_disabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_flexible_server as s
-      left join postgres_flexible_server_with_allow_access_to_azure_services as a on a.id = s.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join postgres_flexible_server_with_allow_access_to_azure_services as a on a.id = s.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }

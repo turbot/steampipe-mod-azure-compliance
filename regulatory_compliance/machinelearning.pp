@@ -43,9 +43,7 @@ query "machine_learning_workspace_encrypted_with_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_machine_learning_workspace c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_machine_learning_workspace c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }

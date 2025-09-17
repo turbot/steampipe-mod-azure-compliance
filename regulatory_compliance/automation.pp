@@ -43,6 +43,6 @@ query "automation_account_variable_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_automation_variable as a
-      left join azure_subscription sub on lower(a.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on a.subscription_id = sub.subscription_id;
   EOQ
 }

@@ -114,7 +114,7 @@ query "search_service_logging_enabled" {
     from
       azure_search_service as v
       left join logging_details as l on v.name = l.search_service_name
-      left join azure_subscription sub on lower(v.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on v.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -135,7 +135,7 @@ query "search_service_uses_sku_supporting_private_link" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_search_service as s
-      left join azure_subscription sub on lower(s.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on s.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -156,7 +156,7 @@ query "search_service_public_network_access_disabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_search_service as s
-      left join azure_subscription sub on lower(s.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on s.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -187,7 +187,7 @@ query "search_service_uses_private_link" {
     from
       azure_search_service as a
       left join search_service_connection as c on c.id = a.id
-      left join azure_subscription sub on lower(a.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on a.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -208,7 +208,7 @@ query "search_service_uses_managed_identity" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_search_service as s
-      left join azure_subscription sub on lower(s.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on s.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -226,6 +226,6 @@ query "search_service_replica_count_3" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_search_service as s
-      left join azure_subscription sub on lower(s.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on s.subscription_id = sub.subscription_id;
   EOQ
 }

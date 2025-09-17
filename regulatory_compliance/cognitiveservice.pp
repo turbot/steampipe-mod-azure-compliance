@@ -76,7 +76,7 @@ query "cognitive_service_local_auth_disabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_cognitive_account a
-      left join azure_subscription sub on lower(a.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on a.subscription_id = sub.subscription_id;
   EOQ
 }
 

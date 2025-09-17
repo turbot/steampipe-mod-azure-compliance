@@ -521,7 +521,7 @@ query "appservice_web_app_use_https" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as app
-      left join azure_subscription sub on lower(app.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on app.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -542,7 +542,7 @@ query "appservice_web_app_incoming_client_cert_on" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as app
-      left join azure_subscription sub on lower(app.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on app.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -565,7 +565,7 @@ query "appservice_web_app_remote_debugging_disabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as app
-      left join azure_subscription sub on lower(app.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on app.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -586,7 +586,7 @@ query "appservice_function_app_remote_debugging_disabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_function_app as app
-      left join azure_subscription sub on lower(app.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on app.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -607,7 +607,7 @@ query "appservice_function_app_latest_tls_version" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_function_app as app
-      left join azure_subscription sub on lower(app.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on app.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -628,7 +628,7 @@ query "appservice_web_app_latest_tls_version" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as app
-      left join azure_subscription sub on lower(app.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on app.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -649,7 +649,7 @@ query "appservice_function_app_only_https_accessible" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_function_app as app
-      left join azure_subscription sub on lower(app.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on app.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -670,7 +670,7 @@ query "appservice_web_app_use_virtual_service_endpoint" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
-      left join azure_subscription sub on lower(a.subscription_id) = lower(sub.subscription_id);
+      left join azure_subscription sub on a.subscription_id = sub.subscription_id;
   EOQ
 }
 
@@ -708,7 +708,7 @@ query "appservice_api_app_use_https" {
     from
       azure_app_service_web_app as a
       left join all_api_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -731,7 +731,7 @@ query "appservice_api_app_remote_debugging_disabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as app
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(app.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = app.subscription_id;
   EOQ
 }
 
@@ -769,7 +769,7 @@ query "appservice_api_app_latest_tls_version" {
     from
       azure_app_service_web_app as a
       left join all_api_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -801,7 +801,7 @@ query "appservice_web_app_diagnostic_logs_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -809,7 +809,6 @@ query "appservice_web_app_cors_no_star" {
   sql = <<-EOQ
     select
       a.id as resource,
-      sub.subscription_id,
       case
         when configuration -> 'properties' -> 'cors' -> 'allowedOrigins' @> '["*"]' then 'alarm'
         else 'ok'
@@ -824,7 +823,7 @@ query "appservice_web_app_cors_no_star" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
-      left join azure_subscription as sub on lower(sub.subscription_id)= lower(a.subscription_id)
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -846,7 +845,7 @@ query "appservice_function_app_cors_no_star" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_function_app as b
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(b.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = b.subscription_id;
   EOQ
 }
 
@@ -884,7 +883,7 @@ query "appservice_api_app_cors_no_star" {
     from
       azure_app_service_web_app as a
       left join all_api_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -927,7 +926,7 @@ query "appservice_web_app_uses_managed_identity" {
     from
       azure_app_service_web_app as a
       left join all_web_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -970,7 +969,7 @@ query "appservice_api_app_uses_managed_identity" {
     from
       azure_app_service_web_app as a
       left join all_api_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1013,7 +1012,7 @@ query "appservice_function_app_uses_managed_identity" {
     from
       azure_app_service_function_app as a
       left join all_function_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1051,7 +1050,7 @@ query "appservice_api_app_client_certificates_on" {
     from
       azure_app_service_web_app as a
       left join all_api_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1089,7 +1088,7 @@ query "appservice_web_app_client_certificates_on" {
     from
       azure_app_service_web_app as a
       left join all_web_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1110,7 +1109,7 @@ query "appservice_function_app_client_certificates_on" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_function_app as app
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(app.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = app.subscription_id;
   EOQ
 }
 
@@ -1148,7 +1147,7 @@ query "appservice_api_app_ftps_enabled" {
     from
       azure_app_service_web_app as a
       left join all_api_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1186,7 +1185,7 @@ query "appservice_function_app_ftps_enabled" {
     from
       azure_app_service_function_app as a
       left join all_function_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1224,7 +1223,7 @@ query "appservice_web_app_ftps_enabled" {
     from
       azure_app_service_web_app as a
       left join all_web_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1270,7 +1269,7 @@ query "appservice_function_app_latest_http_version" {
     from
       azure_app_service_function_app as a
       left join all_function_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1291,7 +1290,7 @@ query "appservice_web_app_latest_http_version" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as app
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(app.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = app.subscription_id;
   EOQ
 }
 
@@ -1323,7 +1322,7 @@ query "app_service_environment_internal_encryption_enabled" {
     from
       azure_app_service_environment as a
       left join app_service_environment as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1346,7 +1345,7 @@ query "appservice_function_app_latest_java_version" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_function_app as a
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 
   param "appservice_function_app_latest_java_version" {
@@ -1391,7 +1390,7 @@ query "appservice_web_app_latest_java_version" {
     from
       azure_app_service_web_app as a
       left join all_web_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 
   param "appservice_web_app_latest_java_version" {
@@ -1444,7 +1443,7 @@ query "appservice_web_app_latest_php_version" {
     from
       azure_app_service_web_app as a
       left join all_web_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 
   param "appservice_web_app_latest_php_version" {
@@ -1497,7 +1496,7 @@ query "appservice_function_app_latest_python_version" {
     from
       azure_app_service_function_app as a
       left join all_function_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 
   param "appservice_function_app_latest_python_version" {
@@ -1550,7 +1549,7 @@ query "appservice_web_app_latest_python_version" {
     from
       azure_app_service_web_app as a
       left join all_web_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 
   param "appservice_web_app_latest_python_version" {
@@ -1578,7 +1577,7 @@ query "appservice_authentication_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as app
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(app.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = app.subscription_id;
   EOQ
 }
 
@@ -1618,7 +1617,7 @@ query "appservice_ftp_deployment_disabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
       from
         azure_app_service_web_app as wa
-        left join azure_subscription as sub on lower(sub.subscription_id) = lower(wa.subscription_id);
+        left join azure_subscription as sub on sub.subscription_id = wa.subscription_id;
   EOQ
 }
 
@@ -1639,7 +1638,7 @@ query "appservice_web_app_register_with_active_directory_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as app
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(app.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = app.subscription_id;
   EOQ
 }
 
@@ -1679,7 +1678,7 @@ query "appservice_web_app_latest_dotnet_framework_version" {
     from
       azure_app_service_web_app as a
       left join all_linux_web_app as b on a.id = b.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1700,7 +1699,7 @@ query "appservice_web_app_failed_request_tracing_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1721,7 +1720,7 @@ query "appservice_web_app_http_logs_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1740,7 +1739,7 @@ query "appservice_web_app_worker_more_than_one" {
     from
       azure_app_service_plan as a
       cross join lateral jsonb_array_elements(a.apps) as p
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1761,7 +1760,7 @@ query "appservice_web_app_slot_use_https" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app_slot as s
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(s.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -1782,7 +1781,7 @@ query "appservice_web_app_always_on" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1801,7 +1800,7 @@ query "appservice_plan_minimum_sku" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_plan as a
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1822,7 +1821,7 @@ query "appservice_web_app_health_check_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_web_app as a
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(a.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -1843,7 +1842,7 @@ query "appservice_function_app_authentication_on" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_app_service_function_app fa
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(fa.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = fa.subscription_id;
   EOQ
 }
 
@@ -1875,7 +1874,7 @@ query "appservice_function_app_restrict_public_acces" {
     from
       azure_app_service_function_app fa
       left join public_function_app as p on p.id = fa.id
-      left join azure_subscription as sub on lower(sub.subscription_id) = lower(fa.subscription_id);
+      left join azure_subscription as sub on sub.subscription_id = fa.subscription_id;
   EOQ
 }
 

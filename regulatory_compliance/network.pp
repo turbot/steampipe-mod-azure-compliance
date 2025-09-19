@@ -1129,7 +1129,7 @@ query "network_security_group_restrict_inbound_tcp_port_20" {
         and (sg -> 'properties' ->> 'protocol' ilike 'TCP' or sg -> 'properties' ->> 'protocol' = '*')
         and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', 'any', '<nw>/0', '/0')
         and (
-          dport in ('s', '*')
+          dport in ('20', '*')
           or (
             dport like '%-%'
             and split_part(dport, '-', 1) :: integer <= 20

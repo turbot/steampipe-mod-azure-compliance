@@ -52,10 +52,8 @@ query "signalr_service_private_link_used" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_signalr_service as a
-      left join signalr_service_connection as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join signalr_service_connection as c on c.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -72,9 +70,7 @@ query "signalr_service_no_free_tier_sku" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_signalr_service as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_signalr_service as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

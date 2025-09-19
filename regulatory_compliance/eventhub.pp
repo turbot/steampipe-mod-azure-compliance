@@ -95,10 +95,8 @@ query "eventhub_namespace_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_eventhub_namespace as v
-      left join logging_details as l on v.name = l.namespace_name,
-      azure_subscription as sub
-    where
-      sub.subscription_id = v.subscription_id;
+      left join logging_details as l on v.name = l.namespace_name
+      left join azure_subscription as sub on sub.subscription_id = v.subscription_id;
   EOQ
 }
 
@@ -128,10 +126,9 @@ query "eventhub_namespace_use_virtual_service_endpoint" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_eventhub_namespace as a
-      left join eventhub_namesapce_with_virtual_network as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join eventhub_namesapce_with_virtual_network as c on c.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
+
   EOQ
 }
 
@@ -163,10 +160,8 @@ query "eventhub_namespace_private_link_used" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_eventhub_namespace as a
-      left join eventhub_service_connection as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join eventhub_service_connection as c on c.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -186,9 +181,7 @@ query "eventhub_namespace_cmk_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_eventhub_namespace as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_eventhub_namespace as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

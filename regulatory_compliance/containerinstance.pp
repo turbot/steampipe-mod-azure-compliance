@@ -55,10 +55,8 @@ query "container_instance_container_group_encrypted_using_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_group as cg,
-      azure_subscription as sub
-    where
-      sub.subscription_id = cg.subscription_id;
+      azure_container_group as cg
+      left join azure_subscription as sub on sub.subscription_id = cg.subscription_id;
   EOQ
 }
 
@@ -78,10 +76,8 @@ query "container_instance_container_group_in_virtual_network" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_group as cg,
-      azure_subscription as sub
-    where
-      sub.subscription_id = cg.subscription_id;
+      azure_container_group as cg
+      left join azure_subscription as sub on sub.subscription_id = cg.subscription_id;
   EOQ
 }
 
@@ -101,10 +97,8 @@ query "container_instance_container_group_identity_provider_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "cg.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_group as cg,
-      azure_subscription as sub
-    where
-      sub.subscription_id = cg.subscription_id;
+      azure_container_group as cg
+      left join azure_subscription as sub on sub.subscription_id = cg.subscription_id;
   EOQ
 }
 
@@ -135,9 +129,7 @@ query "container_instance_container_group_secured_environment_variable" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_group as cg
-      left join not_secured_environment_variable_container_group as g on g.id = cg.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = cg.subscription_id;
+      left join not_secured_environment_variable_container_group as g on g.id = cg.id
+       left join azure_subscription as sub on sub.subscription_id = cg.subscription_id;
   EOQ
 }

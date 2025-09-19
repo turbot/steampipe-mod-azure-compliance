@@ -359,10 +359,8 @@ query "storage_account_secure_transfer_required_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription as sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -382,10 +380,8 @@ query "storage_account_default_network_access_rule_denied" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription as sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -420,10 +416,8 @@ query "storage_account_use_virtual_service_endpoint" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_account as a
-      left join storage_account_subnet as s on a.id = s.storage_account_id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join storage_account_subnet as s on a.id = s.storage_account_id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -483,10 +477,8 @@ query "storage_account_infrastructure_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_storage_account as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -506,10 +498,8 @@ query "storage_account_block_public_access" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription as sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -529,10 +519,8 @@ query "storage_account_restrict_network_access" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription as sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -552,10 +540,8 @@ query "storage_account_geo_redundant_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_storage_account as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -575,10 +561,8 @@ query "storage_account_encryption_at_rest_using_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription as sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -598,10 +582,8 @@ query "storage_account_encryption_at_rest_using_mmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription as sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -621,10 +603,8 @@ query "storage_account_uses_azure_resource_manager" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_storage_account as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -656,10 +636,8 @@ query "storage_account_encryption_scopes_encrypted_at_rest_with_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      storage_account_encryption_scope as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      storage_account_encryption_scope as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -681,8 +659,8 @@ query "storage_account_blob_containers_public_access_disabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_container container
-      join azure_storage_account account on container.account_name = account.name
-      join azure_subscription sub on sub.subscription_id = account.subscription_id;
+      left join azure_storage_account account on container.account_name = account.name
+      left join azure_subscription sub on sub.subscription_id = account.subscription_id;
   EOQ
 }
 
@@ -702,10 +680,8 @@ query "storage_account_blob_public_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -835,10 +811,8 @@ query "storage_account_min_tls_1_2" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -912,10 +886,8 @@ query "storage_account_soft_delete_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -935,10 +907,8 @@ query "storage_account_trusted_microsoft_services_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -960,12 +930,9 @@ query "storage_account_containing_vhd_os_disk_cmk_encrypted" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_compute_virtual_machine vm,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id
-      and vm.os_disk_vhd_uri like '%' || sa.name || '%';
+      azure_storage_account sa
+      left join azure_compute_virtual_machine vm on vm.os_disk_vhd_uri like '%' || sa.name || '%'
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1021,7 +988,7 @@ query "storage_account_file_share_soft_delete_enabled" {
     from
       azure_storage_account sa
       left join storage_account_with_file_share as fs on sa.name = fs.storage_account_name and sa.subscription_id = fs.subscription_id and sa.resource_group = fs.resource_group
-      left join azure_subscription sub on  sub.subscription_id = sa.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1043,10 +1010,8 @@ query "storage_account_blob_soft_delete_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account as sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1066,10 +1031,8 @@ query "storage_account_public_network_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1089,10 +1052,8 @@ query "storage_account_default_network_access_deny" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+     left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1112,10 +1073,8 @@ query "storage_account_default_to_oauth_authentication" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1135,10 +1094,8 @@ query "storage_account_cross_tenant_replication_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1158,10 +1115,8 @@ query "storage_account_shared_key_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1192,10 +1147,8 @@ query "storage_account_blob_service_classic_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1223,10 +1176,8 @@ query "storage_account_table_service_classic_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account as sa,
-      azure_subscription as sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account as sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1254,10 +1205,8 @@ query "storage_account_queue_service_classic_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+     left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1278,10 +1227,8 @@ query "storage_account_key_rotation_reminder_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1318,10 +1265,8 @@ query "storage_account_blob_and_container_soft_delete_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account sa,
-      azure_subscription sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account sa
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1341,11 +1286,9 @@ query "storage_account_file_share_smb_protocol_version_3_1_1" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account as sa,
-      jsonb_array_elements(file_services) as f,
-      azure_subscription as sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account as sa
+      cross join lateral jsonb_array_elements(file_services) as f
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 
@@ -1365,10 +1308,8 @@ query "storage_account_file_share_smb_channel_encryption_aes_256_gcm" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_account as sa,
-      jsonb_array_elements(file_services) as f,
-      azure_subscription as sub
-    where
-      sub.subscription_id = sa.subscription_id;
+      azure_storage_account as sa
+      cross join lateral jsonb_array_elements(file_services) as f
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }

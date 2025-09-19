@@ -71,9 +71,7 @@ query "stream_analytics_job_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_stream_analytics_job as v
-      left join logging_details as l on v.name = l.job_name,
-      azure_subscription as sub
-    where
-      sub.subscription_id = v.subscription_id;
+      left join logging_details as l on v.name = l.job_name
+      left join azure_subscription as sub on sub.subscription_id = v.subscription_id;
   EOQ
 }

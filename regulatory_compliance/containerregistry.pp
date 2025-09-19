@@ -273,7 +273,7 @@ query "container_registry_retention_policy_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_registry as a
-      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;;
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 

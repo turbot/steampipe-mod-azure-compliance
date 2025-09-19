@@ -273,7 +273,7 @@ query "postgresql_server_infrastructure_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_postgresql_server as s
-     left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 

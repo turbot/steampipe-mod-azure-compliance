@@ -70,10 +70,8 @@ query "redis_cache_ssl_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_redis_cache as redis,
-      azure_subscription as sub
-    where
-      sub.subscription_id = redis.subscription_id;
+      azure_redis_cache as redis
+      left join azure_subscription as sub on sub.subscription_id = redis.subscription_id;
   EOQ
 }
 
@@ -103,10 +101,8 @@ query "redis_cache_uses_private_link" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_redis_cache as a
-      left join redis_private_connection as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join redis_private_connection as c on c.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -126,10 +122,8 @@ query "redis_cache_in_virtual_network" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "redis.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_redis_cache as redis,
-      azure_subscription as sub
-    where
-      sub.subscription_id = redis.subscription_id;
+      azure_redis_cache as redis
+      left join azure_subscription as sub on sub.subscription_id = redis.subscription_id;
   EOQ
 }
 
@@ -149,10 +143,8 @@ query "redis_cache_no_basic_sku" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_redis_cache as c,
-      azure_subscription as sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_redis_cache as c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -173,9 +165,7 @@ query "redis_cache_min_tls_1_2" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_redis_cache as c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_redis_cache as c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }

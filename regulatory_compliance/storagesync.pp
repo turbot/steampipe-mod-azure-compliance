@@ -44,9 +44,7 @@ query "storage_sync_private_link_used" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_sync as a
-      left join storagesync_service_connection as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join storagesync_service_connection as c on c.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

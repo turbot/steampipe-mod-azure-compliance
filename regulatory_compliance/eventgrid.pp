@@ -81,8 +81,8 @@ query "eventgrid_domain_private_link_used" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_eventgrid_domain a,
-      azure_subscription sub;
+      azure_eventgrid_domain a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -107,8 +107,8 @@ query "eventgrid_topic_private_link_used" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_eventgrid_topic a,
-      azure_subscription sub;
+      azure_eventgrid_topic a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -128,8 +128,8 @@ query "eventgrid_domain_restrict_public_access" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_eventgrid_domain a,
-      azure_subscription sub;
+      azure_eventgrid_domain a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -149,8 +149,8 @@ query "eventgrid_domain_identity_provider_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_eventgrid_domain a,
-      azure_subscription sub;
+      azure_eventgrid_domain a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -170,8 +170,8 @@ query "eventgrid_topic_local_auth_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_eventgrid_domain a,
-      azure_subscription sub;
+      azure_eventgrid_domain a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -191,7 +191,7 @@ query "eventgrid_topic_identity_provider_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_eventgrid_topic a,
-      azure_subscription sub;
+      azure_eventgrid_topic a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

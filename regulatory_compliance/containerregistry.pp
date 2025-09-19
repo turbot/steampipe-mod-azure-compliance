@@ -124,10 +124,8 @@ query "container_registry_encrypted_with_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_registry as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_container_registry as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -147,10 +145,8 @@ query "container_registry_restrict_public_access" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_registry as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_container_registry as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -182,10 +178,8 @@ query "container_registry_use_virtual_service_endpoint" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_registry as a
-      left join container_registry_subnet as s on a.name = s.name,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join container_registry_subnet as s on a.name = s.name
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -215,10 +209,8 @@ query "container_registry_uses_private_link" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_registry as a
-      left join container_registry_private_connection as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join container_registry_private_connection as c on c.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -238,10 +230,8 @@ query "container_registry_admin_user_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_registry as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_container_registry as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -261,10 +251,8 @@ query "container_registry_quarantine_policy_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_registry as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_container_registry as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -284,10 +272,8 @@ query "container_registry_retention_policy_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_registry as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_container_registry as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -322,10 +308,8 @@ query "container_registry_geo_replication_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_container_registry as a
-      left join geo_replication_count as c on a.name = c.name and a.subscription_id = c.subscription_id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join geo_replication_count as c on a.name = c.name and a.subscription_id = c.subscription_id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -345,10 +329,8 @@ query "container_registry_public_network_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_registry as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_container_registry as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -368,9 +350,7 @@ query "container_registry_trust_policy_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_container_registry as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_container_registry as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

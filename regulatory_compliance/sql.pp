@@ -353,11 +353,9 @@ query "sql_server_tde_protector_cmk_encrypted" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_server s,
-      jsonb_array_elements(encryption_protector) encryption,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_sql_server s
+      cross join lateral jsonb_array_elements(encryption_protector) encryption
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -383,11 +381,10 @@ query "sql_database_long_term_geo_redundant_backup_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_database s,
-      azure_subscription sub
+      azure_sql_database s
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id
     where
-      sub.subscription_id = s.subscription_id
-      and s.name <> 'master';
+      s.name <> 'master';
   EOQ
 }
 
@@ -421,11 +418,10 @@ query "sql_database_vulnerability_findings_resolved" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_database as a
-      left join vulnerability_findings as s on a.id = s.database_id,
-      azure_subscription as sub
+      left join vulnerability_findings as s on a.id = s.database_id
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id
     where
-      a.name <> 'master'
-      and sub.subscription_id = a.subscription_id;
+      a.name <> 'master';
   EOQ
 }
 
@@ -445,11 +441,10 @@ query "sql_database_transparent_data_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_database as s,
-      azure_subscription as sub
+      azure_sql_database as s
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id
     where
-      sub.subscription_id = s.subscription_id
-      and s.name <> 'master';
+      s.name <> 'master';
   EOQ
 }
 
@@ -482,10 +477,8 @@ query "sql_server_azure_defender_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server as a
-      left join sql_server_policy as s on a.name = s.name,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join sql_server_policy as s on a.name = s.name
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -515,10 +508,8 @@ query "sql_server_azure_ad_authentication_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server as a
-      left join sever_with_ad_admin as s on a.id = s.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join sever_with_ad_admin as s on a.id = s.id
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -538,10 +529,8 @@ query "sql_db_public_network_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_sql_server as s
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -571,10 +560,8 @@ query "sql_server_uses_private_link" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server as a
-      left join sql_server_private_connection as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join sql_server_private_connection as c on c.id = a.id
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -614,10 +601,8 @@ query "sql_server_auditing_storage_account_destination_retention_90_days" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server as a
-      left join sql_server as s on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join sql_server as s on s.id = a.id
+      left join azure_subscription sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -641,10 +626,8 @@ query "sql_database_allow_internet_access" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_server s,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_sql_server s
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -664,10 +647,8 @@ query "sql_db_active_directory_admin_configured" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_server s,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_sql_server s
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -687,11 +668,9 @@ query "sql_server_atp_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_server s,
-      jsonb_array_elements(server_security_alert_policy) security,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_sql_server s
+      cross join lateral jsonb_array_elements(server_security_alert_policy) security
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -713,11 +692,9 @@ query "sql_server_auditing_retention_period_90" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_server s,
-      jsonb_array_elements(server_audit_policy) audit,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_sql_server s
+      cross join lateral jsonb_array_elements(server_audit_policy) audit
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -753,12 +730,10 @@ query "sql_server_va_setting_periodic_scan_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_server s,
-      jsonb_array_elements(server_security_alert_policy) security,
-      jsonb_array_elements(server_vulnerability_assessment) assessment,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_sql_server s
+      cross join lateral jsonb_array_elements(server_security_alert_policy) security
+      cross join lateral jsonb_array_elements(server_vulnerability_assessment) assessment
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -794,12 +769,10 @@ query "sql_server_va_setting_reports_notify_admins" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_server s,
-      jsonb_array_elements(server_security_alert_policy) security,
-      jsonb_array_elements(server_vulnerability_assessment) assessment,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_sql_server s
+      cross join lateral jsonb_array_elements(server_security_alert_policy) security
+      cross join lateral jsonb_array_elements(server_vulnerability_assessment) assessment
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -835,12 +808,10 @@ query "sql_server_va_setting_scan_reports_configured" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_sql_server s,
-      jsonb_array_elements(server_security_alert_policy) security,
-      jsonb_array_elements(server_vulnerability_assessment) assessment,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_sql_server s
+      cross join lateral jsonb_array_elements(server_security_alert_policy) security
+      cross join lateral jsonb_array_elements(server_vulnerability_assessment) assessment
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -870,9 +841,7 @@ query "sql_server_threat_detection_all_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_sql_server s
-      left join threat_detection_disabled as t on t.id = s.id,
-      azure_subscription sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join threat_detection_disabled as t on t.id = s.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }

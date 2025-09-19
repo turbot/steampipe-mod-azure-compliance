@@ -100,10 +100,8 @@ query "cosmosdb_use_virtual_service_endpoint" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_cosmosdb_account as a
-      left join cosmosdb_with_virtual_network as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join cosmosdb_with_virtual_network as c on c.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -131,10 +129,8 @@ query "cosmosdb_account_with_firewall_rules" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_cosmosdb_account as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_cosmosdb_account as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -164,10 +160,8 @@ query "cosmosdb_account_uses_private_link" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_cosmosdb_account as a
-      left join cosmosdb_private_connection as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join cosmosdb_private_connection as c on c.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -187,10 +181,8 @@ query "cosmosdb_account_encryption_at_rest_using_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_cosmosdb_account as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_cosmosdb_account as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -210,10 +202,8 @@ query "cosmosdb_account_key_based_metadata_write_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_cosmosdb_account as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_cosmosdb_account as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -237,10 +227,8 @@ query "cosmosdb_account_virtual_network_filter_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_cosmosdb_account as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_cosmosdb_account as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -260,9 +248,7 @@ query "cosmosdb_account_uses_aad_and_rbac" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_cosmosdb_account as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_cosmosdb_account as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

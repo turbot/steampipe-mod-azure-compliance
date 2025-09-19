@@ -58,10 +58,8 @@ query "recovery_service_vault_uses_managed_identity" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_recovery_services_vault as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_recovery_services_vault as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -81,10 +79,8 @@ query "recovery_service_vault_uses_private_link" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_recovery_services_vault as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_recovery_services_vault as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -104,9 +100,7 @@ query "recovery_service_vault_uses_private_link_for_backup" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_recovery_services_vault as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_recovery_services_vault as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }

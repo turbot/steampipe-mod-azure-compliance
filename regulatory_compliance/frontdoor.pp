@@ -43,9 +43,7 @@ query "frontdoor_waf_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_frontdoor as a
-      left join frontdoor_with_waf as c on c.front_door_id = a.front_door_id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join frontdoor_with_waf as c on c.front_door_id = a.front_door_id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

@@ -71,9 +71,7 @@ query "logic_app_workflow_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_logic_app_workflow as a
-      left join logging_details as l on a.id = l.workflow_id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join logging_details as l on a.id = l.workflow_id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

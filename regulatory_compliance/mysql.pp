@@ -181,10 +181,8 @@ query "mysql_ssl_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_mysql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_mysql_server as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -204,10 +202,8 @@ query "mysql_db_server_geo_redundant_backup_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_mysql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_mysql_server as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -238,10 +234,8 @@ query "mssql_managed_instance_encryption_at_rest_using_cmk" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mssql_managed_instance as s
-      left join encryption_protector as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join encryption_protector as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -272,10 +266,8 @@ query "mssql_managed_instance_vulnerability_assessment_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mssql_managed_instance as s
-      left join vulnerability_assessments as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join vulnerability_assessments as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -295,10 +287,8 @@ query "mysql_server_public_network_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_mysql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_mysql_server as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -318,10 +308,8 @@ query "mysql_server_infrastructure_encryption_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_mysql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_mysql_server as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -343,8 +331,8 @@ query "mysql_server_private_link_used" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_mysql_server a,
-      azure_subscription sub;
+      azure_mysql_server a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -375,10 +363,8 @@ query "mysql_server_encrypted_at_rest_using_cmk" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_server as s
-      left join mysql_server_encrypted as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join mysql_server_encrypted as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -398,12 +384,11 @@ query "mysql_server_audit_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_mysql_server as s,
-      jsonb_array_elements(server_configurations) config,
-      azure_subscription sub
+      azure_mysql_server as s
+      cross join lateral jsonb_array_elements(server_configurations) config
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id
     where
-      config ->> 'Name' = 'audit_log_enabled'
-      and sub.subscription_id = s.subscription_id;
+      config ->> 'Name' = 'audit_log_enabled';
   EOQ
 }
 
@@ -423,12 +408,11 @@ query "mysql_server_audit_logging_events_connection_set" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_mysql_server as s,
-      jsonb_array_elements(server_configurations) config,
-      azure_subscription sub
+      azure_mysql_server as s
+      cross join lateral jsonb_array_elements(server_configurations) config
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id
     where
-      config ->> 'Name' = 'audit_log_events'
-      and sub.subscription_id = s.subscription_id;
+      config ->> 'Name' = 'audit_log_events';
   EOQ
 }
 
@@ -450,10 +434,8 @@ query "mysql_server_min_tls_1_2" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "s.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_mysql_server as s,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      azure_mysql_server as s
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -483,10 +465,8 @@ query "mysql_flexible_server_ssl_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_flexible_server as s
-      left join ssl_enabled as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join ssl_enabled as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -517,10 +497,8 @@ query "mysql_flexible_server_min_tls_1_2" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_flexible_server as s
-      left join tls_version as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join tls_version as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -551,10 +529,8 @@ query "mysql_flexible_server_audit_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_flexible_server as s
-      left join audit_log_enabled as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join audit_log_enabled as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 
@@ -585,9 +561,7 @@ query "mysql_flexible_server_audit_logging_events_connection_set" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_mysql_flexible_server as s
-      left join audit_log_events as a on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = s.subscription_id;
+      left join audit_log_events as a on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = s.subscription_id;
   EOQ
 }

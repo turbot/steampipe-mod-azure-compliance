@@ -66,7 +66,7 @@ query "servicefabric_cluster_protection_level_as_encrypt_and_sign" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_service_fabric_cluster a,
-      azure_subscription sub;
+      azure_service_fabric_cluster a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

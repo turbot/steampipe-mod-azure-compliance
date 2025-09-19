@@ -321,10 +321,8 @@ query "kubernetes_instance_rbac_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster kc,
-      azure_subscription sub
-    where
-      sub.subscription_id = kc.subscription_id;
+      azure_kubernetes_cluster kc
+      left join azure_subscription as sub on sub.subscription_id = kc.subscription_id;
   EOQ
 }
 
@@ -344,10 +342,8 @@ query "kubernetes_cluster_add_on_azure_policy_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "kc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster kc,
-      azure_subscription sub
-    where
-      sub.subscription_id = kc.subscription_id;
+      azure_kubernetes_cluster kc
+      left join azure_subscription as sub on sub.subscription_id = kc.subscription_id;
   EOQ
 }
 
@@ -367,10 +363,8 @@ query "kubernetes_cluster_authorized_ip_range_defined" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster as c,
-      azure_subscription as sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster as c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -390,10 +384,8 @@ query "kubernetes_cluster_os_and_data_disks_encrypted_with_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -426,10 +418,8 @@ query "kubernetes_cluster_temp_disks_and_agent_node_pool_cache_encrypted_at_host
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_kubernetes_cluster as a
-      left join kubernetes_cluster as s on s.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join kubernetes_cluster as s on s.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -457,10 +447,8 @@ query "kubernetes_cluster_upgraded_with_non_vulnerable_version" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_kubernetes_cluster as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -480,10 +468,8 @@ query "kubernetes_cluster_restrict_public_access" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -503,10 +489,8 @@ query "kubernetes_cluster_addon_azure_policy_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -538,10 +522,8 @@ query "kubernetes_cluster_node_restrict_public_access" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_kubernetes_cluster c
-      left join public_node as n on n.id = c.id,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      left join public_node as n on n.id = c.id
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -561,10 +543,8 @@ query "kubernetes_cluster_sku_standard" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -584,10 +564,8 @@ query "kubernetes_cluster_upgrade_channel" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -607,10 +585,8 @@ query "kubernetes_cluster_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -630,10 +606,8 @@ query "kubernetes_cluster_key_vault_secret_rotation_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -663,10 +637,8 @@ query "kubernetes_cluster_max_pod_50" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_kubernetes_cluster c
-      left join max_node as n on n.id = c.id,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      left join max_node as n on n.id = c.id
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -686,10 +658,8 @@ query "kubernetes_cluster_network_policy_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -709,10 +679,8 @@ query "kubernetes_cluster_network_plugin_azure" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }
 
@@ -732,9 +700,7 @@ query "kubernetes_cluster_http_application_routing_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_kubernetes_cluster c,
-      azure_subscription sub
-    where
-      sub.subscription_id = c.subscription_id;
+      azure_kubernetes_cluster c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
   EOQ
 }

@@ -478,10 +478,8 @@ query "monitor_diagnostic_settings_captures_proper_categories" {
       ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "sett.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      enabled_settings sett,
-      azure_subscription sub
-    where
-      sub.subscription_id = sett.subscription_id;
+      enabled_settings sett
+      left join azure_subscription as sub on sub.subscription_id = sett.subscription_id;
   EOQ
 }
 
@@ -1205,11 +1203,10 @@ query "monitor_logs_storage_container_insights_operational_logs_not_public_acces
       ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "sc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_container sc,
-      azure_subscription sub
+      azure_storage_container sc
+      left join azure_subscription sub on sub.subscription_id = sc.subscription_id
     where
-      name = 'insights-operational-logs'
-      and sub.subscription_id = sc.subscription_id;
+      name = 'insights-operational-logs';
   EOQ
 }
 
@@ -1229,11 +1226,10 @@ query "monitor_logs_storage_container_insights_activity_logs_not_public_accessib
       ${replace(local.common_dimensions_global_qualifier_sql, "__QUALIFIER__", "sc.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_storage_container sc,
-      azure_subscription sub
+      azure_storage_container sc
+      left join azure_subscription sub on sub.subscription_id = sc.subscription_id
     where
-      name = 'insights-activity-logs'
-      and sub.subscription_id = sc.subscription_id;
+      name = 'insights-activity-logs';
   EOQ
 }
 

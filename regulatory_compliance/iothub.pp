@@ -80,10 +80,8 @@ query "iot_hub_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_iothub as a
-      left join logging_details as l on a.id = l.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join logging_details as l on a.id = l.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -106,10 +104,8 @@ query "iot_hub_private_link_used" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_iothub a,
-      jsonb_array_elements(private_endpoint_connections) as pec,
-      azure_subscription sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_iothub a
+      cross join lateral jsonb_array_elements(private_endpoint_connections) as pec
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

@@ -69,10 +69,8 @@ query "data_factory_uses_private_link" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_data_factory as a
-      left join data_factory_connection as c on c.id = a.id,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      left join data_factory_connection as c on c.id = a.id
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -92,10 +90,8 @@ query "data_factory_encrypted_with_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_data_factory as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_data_factory as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -115,10 +111,8 @@ query "data_factory_public_network_access_disabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_data_factory as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_data_factory as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -138,9 +132,7 @@ query "data_factory_uses_git_repository" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_data_factory as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_data_factory as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

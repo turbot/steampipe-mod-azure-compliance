@@ -109,10 +109,8 @@ query "servicebus_namespace_logging_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_servicebus_namespace as v
-      left join logging_details as l on v.name = l.namespace_name,
-      azure_subscription as sub
-    where
-      sub.subscription_id = v.subscription_id;
+      left join logging_details as l on v.name = l.namespace_name
+      left join azure_subscription as sub on sub.subscription_id = v.subscription_id;
   EOQ
 }
 
@@ -137,8 +135,8 @@ query "servicebus_name_space_private_link_used" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_servicebus_namespace a,
-      azure_subscription sub;
+      azure_servicebus_namespace a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -160,8 +158,8 @@ query "servicebus_premium_namespace_cmk_encrypted" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_servicebus_namespace a,
-      azure_subscription sub;
+      azure_servicebus_namespace a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -202,11 +200,9 @@ query "servicebus_use_virtual_service_endpoint" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "bus.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_servicebus_namespace as bus,
-      azure_subscription as sub
-      left join service_bus on true
-    where
-      sub.subscription_id = bus.subscription_id;
+      azure_servicebus_namespace as bus
+      left join azure_subscription as sub on sub.subscription_id = bus.subscription_id
+      left join service_bus on true;
   EOQ
 }
 
@@ -228,8 +224,8 @@ query "servicebus_namespace_azure_ad_authentication_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_servicebus_namespace a,
-      azure_subscription sub;
+      azure_servicebus_namespace a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -255,7 +251,7 @@ query "servicebus_namespace_no_overly_permissive_network_access" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_servicebus_namespace a,
-      azure_subscription sub;
+      azure_servicebus_namespace a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

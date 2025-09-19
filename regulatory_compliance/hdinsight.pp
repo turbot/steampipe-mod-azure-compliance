@@ -58,10 +58,8 @@ query "hdinsight_cluster_encryption_at_host_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_hdinsight_cluster as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_hdinsight_cluster as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -83,10 +81,8 @@ query "hdinsight_cluster_encrypted_at_rest_with_cmk" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_hdinsight_cluster as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_hdinsight_cluster as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 
@@ -108,9 +104,7 @@ query "hdinsight_cluster_encryption_in_transit_enabled" {
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
-      azure_hdinsight_cluster as a,
-      azure_subscription as sub
-    where
-      sub.subscription_id = a.subscription_id;
+      azure_hdinsight_cluster as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

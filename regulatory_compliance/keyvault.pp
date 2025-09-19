@@ -392,7 +392,7 @@ query "keyvault_vault_private_link_used" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_key_vault a
-     left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }
 

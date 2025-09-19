@@ -130,6 +130,6 @@ query "container_instance_container_group_secured_environment_variable" {
     from
       azure_container_group as cg
       left join not_secured_environment_variable_container_group as g on g.id = cg.id
-       left join azure_subscription as sub on sub.subscription_id = cg.subscription_id;
+      left join azure_subscription as sub on sub.subscription_id = cg.subscription_id;
   EOQ
 }

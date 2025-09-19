@@ -670,7 +670,7 @@ query "sql_server_atp_enabled" {
     from
       azure_sql_server s
       cross join lateral jsonb_array_elements(server_security_alert_policy) security
-      left join azure_subscription sub on sub.subscription_id = s.subscription_id
+      left join azure_subscription sub on sub.subscription_id = s.subscription_id;
   EOQ
 }
 

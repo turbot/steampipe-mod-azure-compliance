@@ -1053,7 +1053,7 @@ query "storage_account_default_network_access_deny" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_storage_account sa
-     left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }
 

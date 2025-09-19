@@ -1,3 +1,7 @@
+## v2.1.1 [2025-09-19]
+
+- Fixed queries to use `LEFT JOIN` instead of `INNER JOIN` to ensure results are returned correctly. ([#338](https://github.com/turbot/steampipe-mod-azure-compliance/pull/338))
+
 ## v2.1.0 [2025-08-11]
 
 _Dependencies_

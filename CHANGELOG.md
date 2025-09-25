@@ -1,3 +1,13 @@
+## v2.2.0 [2025-09-25]
+
+_Dependencies_
+
+- Azure plugin v1.8.0 or higher is now required.
+
+_Enhancements_
+
+- Updated the `kubernetes_cluster_sku_standard` query to report clusters using the `Free` SKU tier as `alarm`, ensuring consistency with the API response. ([#340](https://github.com/turbot/steampipe-mod-azure-compliance/pull/340))
+
 ## v2.1.1 [2025-09-19]
 
 - Fixed queries to use `LEFT JOIN` instead of `INNER JOIN` to ensure results are returned correctly. ([#338](https://github.com/turbot/steampipe-mod-azure-compliance/pull/338))

@@ -532,12 +532,12 @@ query "kubernetes_cluster_sku_standard" {
     select
       c.id as resource,
       case
-        when sku ->> 'tier' = 'Paid' then 'ok'
-        else 'alarm'
+        when sku ->> 'tier' = 'Free' then 'alarm'
+        else 'ok'
       end as status,
       case
-        when sku ->> 'tier' = 'Paid' then c.name || ' uses standard SKU tier.'
-        else c.name || ' uses free SKU tier.'
+        when sku ->> 'tier' = 'Free' then c.name || ' uses free SKU tier.'
+        else c.name || ' uses ' || (sku ->> 'tier') || ' SKU tier.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}

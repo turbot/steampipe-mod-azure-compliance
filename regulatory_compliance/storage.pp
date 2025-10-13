@@ -335,6 +335,14 @@ control "storage_account_file_share_smb_protocol_version_3_1_1" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_container_soft_delete_enabled" {
+  title         = "Ensure that soft delete for containers on Azure Blob Storage storage accounts is Enabled"
+  description   = Containers in Azure storage accounts may contain sensitive or personal data, such as ePHI or financial information. Data that is erroneously modified or deleted by an application or a user can lead to data loss or unavailability."
+  query         = query.storage_account_container_soft_delete_enabled
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 control "storage_account_file_share_smb_channel_encryption_aes_256_gcm" {
   title         = "Ensure 'SMB channel encryption' is set to 'AES-256-GCM' or higher for SMB file shares"
   description   = "Implement SMB channel encryption with AES-256-GCM for SMB file shares to ensure data confidentiality and integrity in transit."
@@ -1310,6 +1318,37 @@ query "storage_account_file_share_smb_channel_encryption_aes_256_gcm" {
     from
       azure_storage_account as sa
       cross join lateral jsonb_array_elements(file_services) as f
+      left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_container_soft_delete_enabled" {
+  sql = <<-EOQ
+    select
+      sa.id as resource,
+      case
+        when
+          blob_container_soft_delete_enabled
+          and blob_container_soft_delete_retention_days between 7 and 365 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when
+          blob_container_soft_delete_enabled
+          and blob_container_soft_delete_retention_days between 7 and 365 then
+          sa.name || ' container soft delete is enabled with retention days: ' || blob_container_soft_delete_retention_days || '.'
+        when
+          (not blob_container_soft_delete_enabled or blob_container_soft_delete_enabled is null) then
+          sa.name || ' container soft delete is disabled.'
+        when
+          blob_container_soft_delete_retention_days < 7 or blob_container_soft_delete_retention_days > 365 then
+          sa.name || ' container soft delete retention days (' || blob_container_soft_delete_retention_days::text || ') is not between 7 and 365 days.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "sa.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_storage_account sa
       left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
   EOQ
 }

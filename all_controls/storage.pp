@@ -16,6 +16,7 @@ benchmark "all_controls_storage" {
     control.storage_account_blob_soft_delete_enabled,
     control.storage_account_blob_versioning_enabled,
     control.storage_account_block_public_access,
+    control.storage_account_container_soft_delete_enabled,
     control.storage_account_containing_vhd_os_disk_cmk_encrypted,
     control.storage_account_cross_tenant_replication_disabled,
     control.storage_account_default_network_access_deny,

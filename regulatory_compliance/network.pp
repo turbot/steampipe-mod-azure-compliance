@@ -407,6 +407,22 @@ control "network_security_group_https_port_80_443_access_restricted" {
   tags = local.regulatory_compliance_network_common_tags
 }
 
+control "application_gateway_http2_enabled" {
+  title         = "Ensure 'HTTP2' is set to 'Enabled' on Azure Application Gateway"
+  description   = "HTTP/2 is a major revision of the HTTP network protocol and offers significant performance improvements over HTTP/1.1. Enabling HTTP/2 on Application Gateway can improve application performance and reduce latency."
+  query         = query.application_gateway_http2_enabled
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "application_gateway_min_tls_1_2" {
+  title         = "Ensure the SSL policy's 'Min protocol version' is set to 'TLSv1_2' or higher on Azure Application Gateway"
+  description   = "The TLS protocol secures transmission of data between servers and clients by encrypting the data stream. Vulnerabilities in older versions of TLS can lead to potential security risks. Setting the minimum TLS version to TLSv1_2 or higher ensures that only secure versions of the protocol are used."
+  query         = query.application_gateway_min_tls_1_2
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (
@@ -2306,5 +2322,47 @@ query "network_virtual_network_watcher_flow_log_send_to_log_analytics" {
     from
       azure_subscription as sub
       left join virtual_network_watcher_flow_log as vn_flow_log on vn_flow_log.subscription_id = sub.subscription_id;
+  EOQ
+}
+
+query "application_gateway_http2_enabled" {
+  sql = <<-EOQ
+    select
+      ag.id as resource,
+      case
+        when enable_http2 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when enable_http2 then ag.name || ' HTTP2 enabled.'
+        else ag.name || ' HTTP2 disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_application_gateway as ag
+      left join azure_subscription as sub on sub.subscription_id = ag.subscription_id;
+  EOQ
+}
+
+query "application_gateway_min_tls_1_2" {
+  sql = <<-EOQ
+    select
+      ag.id as resource,
+      case
+        when ssl_policy is null or ((ssl_policy ->> 'minProtocolVersion') in ('TLSv1_2' , 'TLSv1_3')) then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when ssl_policy is null then ag.name || ' minimum TLS version set to TLSv1_2.'
+        else ag.name || ' minimum TLS version set to ' || (ssl_policy ->> 'minProtocolVersion') || '.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_application_gateway ag
+      left join azure_subscription sub on sub.subscription_id = ag.subscription_id;
   EOQ
 }

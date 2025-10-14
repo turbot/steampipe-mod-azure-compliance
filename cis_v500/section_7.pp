@@ -189,7 +189,7 @@ control "cis_v500_7_11" {
 control "cis_v500_7_12" {
   title         = "7.12 Ensure the SSL policy's 'Min protocol version' is set to 'TLSv1_2' or higher on Azure Application Gateway"
   description   = "The TLS protocol secures transmission of data between servers and clients by encrypting the data stream. Vulnerabilities in older versions of TLS can lead to potential security risks. Setting the minimum TLS version to TLSv1_2 or higher ensures that only secure versions of the protocol are used."
-  query         = query.manual_control
+  query         = query.application_gateway_min_tls_1_2
   documentation = file("./cis_v500/docs/cis_v500_7_12.md")
 
   tags = merge(local.cis_v500_7_common_tags, {
@@ -203,7 +203,7 @@ control "cis_v500_7_12" {
 control "cis_v500_7_13" {
   title         = "7.13 Ensure 'HTTP2' is set to 'Enabled' on Azure Application Gateway"
   description   = "HTTP/2 is a major revision of the HTTP network protocol and offers significant performance improvements over HTTP/1.1. Enabling HTTP/2 on Application Gateway can improve application performance and reduce latency."
-  query         = query.manual_control
+  query         = query.application_gateway_http2_enabled
   documentation = file("./cis_v500/docs/cis_v500_7_13.md")
 
   tags = merge(local.cis_v500_7_common_tags, {

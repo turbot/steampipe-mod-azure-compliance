@@ -333,7 +333,7 @@ control "cis_v500_9_3_4" {
 }
 
 control "cis_v500_9_3_5" {
-  title         = "9.3.5 Ensure 'Allow Azure services on the trusted services list to access this storage account' is Enabled for Storage Account Access"
+  title         = "9.3.5  is Enabled for Storage Account Access"
   description   = "This recommendation assumes that the `Public network access` parameter is set to `Enabled from selected virtual networks and IP addresses`."
   query         = query.storage_account_trusted_microsoft_services_enabled
   documentation = file("./cis_v500/docs/cis_v500_9_3_5.md")

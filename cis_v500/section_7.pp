@@ -147,7 +147,7 @@ control "cis_v500_7_8" {
 control "cis_v500_7_9" {
   title         = "7.9 Ensure 'Authentication type' is set to 'Azure Active Directory' only for Azure VPN Gateway point-to-site configuration"
   description   = "VPN Gateway point-to-site connections should use Azure Active Directory authentication for enhanced security and centralized identity management."
-  query         = query.manual_control
+  query         = query.network_virtual_network_gateway_aad_only
   documentation = file("./cis_v500/docs/cis_v500_7_9.md")
 
   tags = merge(local.cis_v500_7_common_tags, {
@@ -217,7 +217,7 @@ control "cis_v500_7_13" {
 control "cis_v500_7_14" {
   title         = "7.14 Ensure request body inspection is enabled in Azure Web Application Firewall policy on Azure Application Gateway"
   description   = "Request body inspection allows WAF to inspect the body of HTTP requests for potential threats. Enabling this feature enhances security by detecting attacks that may be hidden in request payloads."
-  query         = query.manual_control
+  query         = query.web_application_firewall_policy_request_body_inspection_enabled
   documentation = file("./cis_v500/docs/cis_v500_7_14.md")
 
   tags = merge(local.cis_v500_7_common_tags, {
@@ -231,7 +231,7 @@ control "cis_v500_7_14" {
 control "cis_v500_7_15" {
   title         = "7.15 Ensure bot protection is enabled in Azure Web Application Firewall policy on Azure Application Gateway"
   description   = "Bot protection helps protect web applications from malicious bots that can scrape content, perform credential stuffing, or launch DDoS attacks. Enabling bot protection enhances application security."
-  query         = query.manual_control
+  query         = query.web_application_firewall_policy_bot_protection_enabled
   documentation = file("./cis_v500/docs/cis_v500_7_15.md")
 
   tags = merge(local.cis_v500_7_common_tags, {

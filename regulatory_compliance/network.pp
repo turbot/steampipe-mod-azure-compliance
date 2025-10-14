@@ -423,6 +423,30 @@ control "application_gateway_min_tls_1_2" {
   tags = local.regulatory_compliance_network_common_tags
 }
 
+control "network_virtual_network_gateway_aad_only" {
+  title         = "Ensure 'Authentication type' is set to 'Azure Active Directory' only for Azure VPN Gateway point-to-site configuration"
+  description   = "VPN Gateway point-to-site connections should use Azure Active Directory authentication for enhanced security and centralized identity management."
+  query         = query.network_virtual_network_gateway_aad_only
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "web_application_firewall_policy_bot_protection_enabled" {
+  title         = "Ensure bot protection is enabled in Azure Web Application Firewall policy on Azure Application Gateway"
+  description   = "Bot protection helps protect web applications from malicious bots that can scrape content, perform credential stuffing, or launch DDoS attacks. Enabling bot protection enhances application security."
+  query         = query.web_application_firewall_policy_bot_protection_enabled
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
+control "web_application_firewall_policy_request_body_inspection_enabled" {
+  title         = "Ensure request body inspection is enabled in Azure Web Application Firewall policy on Azure Application Gateway"
+  description   = "Request body inspection allows WAF to inspect the body of HTTP requests for potential threats. Enabling this feature enhances security by detecting attacks that may be hidden in request payloads."
+  query         = query.web_application_firewall_policy_request_body_inspection_enabled
+
+  tags = local.regulatory_compliance_network_common_tags
+}
+
 query "network_security_group_remote_access_restricted" {
   sql = <<-EOQ
     with network_sg as (
@@ -2364,5 +2388,90 @@ query "application_gateway_min_tls_1_2" {
     from
       azure_application_gateway ag
       left join azure_subscription sub on sub.subscription_id = ag.subscription_id;
+  EOQ
+}
+
+query "network_virtual_network_gateway_aad_only" {
+  sql = <<-EOQ
+    select
+      g.id as resource,
+      case
+        when vpn_client_configuration -> 'vpnAuthenticationTypes' @> '["AAD"]'::jsonb and jsonb_array_length(vpn_client_configuration -> 'vpnAuthenticationTypes') = 1 then 'ok'
+        when jsonb_array_length(vpn_client_configuration -> 'vpnAuthenticationTypes') < 1 then 'skip'
+        else 'alarm'
+      end as status,
+      case
+        when vpn_client_configuration -> 'vpnAuthenticationTypes' @> '["AAD"]'::jsonb
+         and jsonb_array_length(vpn_client_configuration -> 'vpnAuthenticationTypes') = 1 then g.name || ' VPN authentication type is set to only Azure Active Directory.'
+        when jsonb_array_length(vpn_client_configuration -> 'vpnAuthenticationTypes') < 1 then g.name || ' has no point-to-site configuration defined.'
+        else g.name || ' VPN authentication type is not restricted to only Azure Active Directory.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "g.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "g.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_virtual_network_gateway as g
+      left join azure_subscription as sub on g.subscription_id = sub.subscription_id;
+  EOQ
+}
+
+query "web_application_firewall_policy_bot_protection_enabled" {
+  sql = <<-EOQ
+    select
+      ag.id as resource,
+      case
+        when managed_rules -> 'managedRuleSets' @> '[{"ruleSetType": "Microsoft_BotManagerRuleSet"}]'::jsonb
+        and not exists (
+        select 1
+        from jsonb_array_elements((managed_rules -> 'managedRuleSets')::jsonb) as mrs,
+             jsonb_array_elements(coalesce(mrs -> 'ruleGroupOverrides', '[]'::jsonb)) as rgo,
+             jsonb_array_elements(coalesce(rgo -> 'rules', '[]'::jsonb)) as rule
+        where mrs ->> 'ruleSetType' = 'Microsoft_BotManagerRuleSet'
+          and lower(rule ->> 'state') = 'disabled'
+      )
+        then 'ok'
+        when managed_rules -> 'managedRuleSets' @> '[{"ruleSetType": "Microsoft_BotManagerRuleSet"}]'::jsonb then 'alarm'
+        else 'alarm'
+      end as status,
+    case
+      when managed_rules -> 'managedRuleSets' @> '[{"ruleSetType": "Microsoft_BotManagerRuleSet"}]'::jsonb
+      and not exists (
+        select 1
+        from jsonb_array_elements((managed_rules -> 'managedRuleSets')::jsonb) as mrs,
+             jsonb_array_elements(coalesce(mrs -> 'ruleGroupOverrides', '[]'::jsonb)) as rgo,
+             jsonb_array_elements(coalesce(rgo -> 'rules', '[]'::jsonb)) as rule
+        where mrs ->> 'ruleSetType' = 'Microsoft_BotManagerRuleSet'
+          and lower(rule ->> 'state') = 'disabled'
+      ) then ag.name || ' bot protection (Microsoft_BotManagerRuleSet) is enabled.'
+      when managed_rules -> 'managedRuleSets' @> '[{"ruleSetType": "Microsoft_BotManagerRuleSet"}]'::jsonb then ag.name || ' bot protection rule set found but one or more rules are disabled.'
+      else ag.name || ' does not have Microsoft_BotManagerRuleSet configured.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_web_application_firewall_policy ag
+      left join azure_subscription sub on sub.subscription_id = ag.subscription_id;
+  EOQ
+}
+
+query "web_application_firewall_policy_request_body_inspection_enabled" {
+  sql = <<-EOQ
+    select
+      p.id as resource,
+      case
+        when (policy_settings -> 'requestBodyCheck')::bool then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (policy_settings -> 'requestBodyCheck')::bool then p.name || ' request body inspection is enabled.'
+        else p.name || ' request body inspection is disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_web_application_firewall_policy as p
+      left join azure_subscription sub on sub.subscription_id = p.subscription_id;
   EOQ
 }

@@ -199,6 +199,14 @@ control "keyvault_key_automatic_rotation_enabled" {
   tags = local.regulatory_compliance_keyvault_common_tags
 }
 
+control "keyvault_certificate_validity_period_less_equal_12_months" {
+  title         = "Ensure certificate 'Validity Period (in months)' is less than or equal to '12'"
+  description   = "Restrict the validity period of certificates stored in Azure Key Vault to 12 months or less."
+  query         = query.keyvault_certificate_validity_period_less_equal_12_months
+
+  tags = local.regulatory_compliance_keyvault_common_tags
+}
+
 query "keyvault_purge_protection_enabled" {
   sql = <<-EOQ
     select
@@ -742,4 +750,20 @@ query "keyvault_key_automatic_rotation_enabled" {
   EOQ
 }
 
-
+query "keyvault_certificate_validity_period_less_equal_12_months" {
+  sql = <<-EOQ
+    select
+      c.id as resource,
+      case
+        when (x509_certificate_properties -> 'validity_months')::int <= 12 then 'ok'
+        else 'alarm'
+      end as status,
+      c.title || ' validity period is ' || (x509_certificate_properties -> 'validity_months') || ' month(s).' as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_key_vault_certificate as c
+      left join azure_subscription as sub on sub.subscription_id = c.subscription_id;
+  EOQ
+}

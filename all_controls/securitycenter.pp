@@ -31,7 +31,8 @@ benchmark "all_controls_securitycenter" {
     control.securitycenter_notify_alerts_configured,
     control.securitycenter_pricing_standard,
     control.securitycenter_security_alerts_to_owner_enabled,
-    control.securitycenter_wdatp_integration
+    control.securitycenter_wdatp_integration,
+    control.security_center_defender_for_api_enabled,
   ]
 
   tags = merge(local.all_controls_securitycenter_common_tags, {

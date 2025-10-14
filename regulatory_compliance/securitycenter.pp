@@ -262,6 +262,14 @@ control "securitycenter_container_image_scan_enabled" {
   tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
+control "security_center_defender_for_api_enabled" {
+  title         = "Ensure Microsoft Defender for APIs is set to 'On'"
+  description   = "Microsoft Defender for APIs offers full lifecycle protection, detection, and response coverage for APIs."
+  query         = query.security_center_defender_for_api_enabled
+
+  tags = local.regulatory_compliance_securitycenter_common_tags
+}
+
 query "securitycenter_automatic_provisioning_monitoring_agent_on" {
   sql = <<-EOQ
     select
@@ -867,9 +875,9 @@ query "security_center_defender_for_servers_enabled" {
         else 'alarm'
       end as status,
       case
-        when p.name = 'VirtualMachines' and p.pricing_tier = 'Standard' 
+        when p.name = 'VirtualMachines' and p.pricing_tier = 'Standard'
           then 'Microsoft Defender for Servers is enabled with ' || p.pricing_tier || ' tier.'
-        when p.name = 'VirtualMachines' 
+        when p.name = 'VirtualMachines'
           then 'Microsoft Defender for Servers is disabled, current tier: ' || p.pricing_tier || '.'
         else 'Microsoft Defender for Servers pricing not found.'
       end as reason,
@@ -912,5 +920,30 @@ query "security_center_attack_path_alerts_enabled" {
       left join contact_info ci on c.subscription_id = ci.subscription_id
     where
       c.name = 'AttackPath';
+  EOQ
+}
+
+query "security_center_defender_for_api_enabled" {
+  sql = <<-EOQ
+    select
+      p.id as resource,
+      case
+        when p.name = 'Api' and p.pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.name = 'Api' and p.pricing_tier = 'Standard'
+          then 'Microsoft Defender for APIs is enabled with ' || p.pricing_tier || ' tier.'
+        when p.name = 'Api'
+          then 'Microsoft Defender for APIs is disabled, current tier: ' || p.pricing_tier || '.'
+        else 'Microsoft Defender for APIs pricing not found.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_subscription_pricing p
+      right join azure_subscription sub on p.subscription_id = sub.subscription_id
+    where
+      p.name = 'Api';
   EOQ
 }

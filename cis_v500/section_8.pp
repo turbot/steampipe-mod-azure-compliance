@@ -133,7 +133,7 @@ benchmark "cis_v500_8_1_2" {
 control "cis_v500_8_1_2_1" {
   title         = "8.1.2.1 Ensure Microsoft Defender for APIs is set to 'On'"
   description   = "Microsoft Defender for APIs offers full lifecycle protection, detection, and response coverage for APIs."
-  query         = query.manual_control
+  query         = query.security_center_defender_for_api_enabled
   documentation = file("./cis_v500/docs/cis_v500_8_1_2_1.md")
 
   tags = merge(local.cis_v500_8_1_2_common_tags, {
@@ -456,7 +456,7 @@ control "cis_v500_8_1_9_1" {
 control "cis_v500_8_1_10" {
   title         = "8.1.10 Ensure that Microsoft Defender for Cloud is configured to check VM operating systems for updates"
   description   = "Ensure that the latest OS patches for all virtual machines are applied."
-  query         = query.securitycenter_automatic_provisioning_monitoring_agent_on
+  query         = query.manual_control
   documentation = file("./cis_v500/docs/cis_v500_8_1_10.md")
 
   tags = merge(local.cis_v500_8_1_common_tags, {
@@ -484,7 +484,7 @@ control "cis_v500_8_1_11" {
 control "cis_v500_8_1_12" {
   title         = "8.1.12 Ensure That 'All users with the following roles' is set to 'Owner'"
   description   = "Enable security alert emails to subscription owners."
-  query         = query.securitycenter_notify_alerts_configured
+  query         = query.securitycenter_security_alerts_to_owner_enabled
   documentation = file("./cis_v500/docs/cis_v500_8_1_12.md")
 
   tags = merge(local.cis_v500_8_1_common_tags, {
@@ -498,7 +498,7 @@ control "cis_v500_8_1_12" {
 control "cis_v500_8_1_13" {
   title         = "8.1.13 Ensure 'Additional email addresses' is Configured with a Security Contact Email"
   description   = "Microsoft Defender for Cloud emails the subscription owners whenever a high-severity alert is triggered for their subscription. You should provide a security contact email address as an additional email address."
-  query         = query.securitycenter_security_alerts_to_owner_enabled
+  query         = query.securitycenter_additional_email_configured
   documentation = file("./cis_v500/docs/cis_v500_8_1_13.md")
 
   tags = merge(local.cis_v500_8_1_common_tags, {
@@ -512,7 +512,7 @@ control "cis_v500_8_1_13" {
 control "cis_v500_8_1_14" {
   title         = "8.1.14 Ensure that 'Notify about alerts with the following severity (or higher)' is enabled"
   description   = "Enables emailing security alerts to the subscription owner or other designated security contact."
-  query         = query.manual_control
+  query         = query.securitycenter_notify_alerts_configured
   documentation = file("./cis_v500/docs/cis_v500_8_1_14.md")
 
   tags = merge(local.cis_v500_8_1_common_tags, {
@@ -604,7 +604,7 @@ benchmark "cis_v500_8_3" {
 control "cis_v500_8_3_1" {
   title         = "8.3.1 Ensure that the Expiration Date is set for all Keys in RBAC Key Vaults"
   description   = "Ensure that all Keys in Role Based Access Control (RBAC) Azure Key Vaults have an expiration date set."
-  query         = query.keyvault_rbac_key_expiration_set
+  query         = query.keyvault_with_rbac_key_expiration_set
   documentation = file("./cis_v500/docs/cis_v500_8_3_1.md")
 
   tags = merge(local.cis_v500_8_3_common_tags, {
@@ -618,7 +618,7 @@ control "cis_v500_8_3_1" {
 control "cis_v500_8_3_2" {
   title         = "8.3.2 Ensure that the Expiration Date is set for all Keys in Non-RBAC Key Vaults"
   description   = "Ensure that all Keys in Non Role Based Access Control (RBAC) Azure Key Vaults have an expiration date set."
-  query         = query.keyvault_non_rbac_key_expiration_set
+  query         = query.keyvault_with_non_rbac_key_expiration_set
   documentation = file("./cis_v500/docs/cis_v500_8_3_2.md")
 
   tags = merge(local.cis_v500_8_3_common_tags, {
@@ -632,7 +632,7 @@ control "cis_v500_8_3_2" {
 control "cis_v500_8_3_3" {
   title         = "8.3.3 Ensure that the Expiration Date is set for all Secrets in RBAC Key Vaults"
   description   = "Ensure that all Secrets in Role Based Access Control (RBAC) Azure Key Vaults have an expiration date set."
-  query         = query.keyvault_rbac_secret_expiration_set
+  query         = query.keyvault_with_rbac_secret_expiration_set
   documentation = file("./cis_v500/docs/cis_v500_8_3_3.md")
 
   tags = merge(local.cis_v500_8_3_common_tags, {
@@ -646,7 +646,7 @@ control "cis_v500_8_3_3" {
 control "cis_v500_8_3_4" {
   title         = "8.3.4 Ensure that the Expiration Date is set for all Secrets in Non-RBAC Key Vaults"
   description   = "Ensure that all Secrets in Non Role Based Access Control (RBAC) Azure Key Vaults have an expiration date set."
-  query         = query.keyvault_non_rbac_secret_expiration_set
+  query         = query.keyvault_with_non_rbac_secret_expiration_set
   documentation = file("./cis_v500/docs/cis_v500_8_3_4.md")
 
   tags = merge(local.cis_v500_8_3_common_tags, {
@@ -716,7 +716,7 @@ control "cis_v500_8_3_8" {
 control "cis_v500_8_3_9" {
   title         = "8.3.9 Ensure automatic key rotation is enabled within Azure Key Vault"
   description   = "Automated cryptographic key rotation in Key Vault allows users to configure Key Vault to automatically generate a new key version at a specified frequency. A key rotation policy can be defined for each individual key."
-  query         = query.keyvault_key_rotation_enabled
+  query         = query.keyvault_key_automatic_rotation_enabled
   documentation = file("./cis_v500/docs/cis_v500_8_3_9.md")
 
   tags = merge(local.cis_v500_8_3_common_tags, {
@@ -744,7 +744,7 @@ control "cis_v500_8_3_10" {
 control "cis_v500_8_3_11" {
   title         = "8.3.11 Ensure certificate 'Validity Period (in months)' is less than or equal to '12'"
   description   = "Restrict the validity period of certificates stored in Azure Key Vault to 12 months or less."
-  query         = query.keyvault_managed_hsmkey_expiration_set
+  query         = query.keyvault_certificate_validity_period_less_equal_12_months
   documentation = file("./cis_v500/docs/cis_v500_8_3_11.md")
 
   tags = merge(local.cis_v500_8_3_common_tags, {

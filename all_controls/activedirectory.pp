@@ -25,7 +25,11 @@ benchmark "all_controls_activedirectory" {
     control.iam_user_no_built_in_contributor_role,
     control.iam_user_not_allowed_to_create_security_group,
     control.iam_user_not_allowed_to_create_tenants,
-    control.iam_user_not_allowed_to_register_application
+    control.iam_user_not_allowed_to_register_application,
+    control.ad_security_defaults_policy_enabled,
+    control.ad_all_user_mfa_enabled,
+    control.ad_authorization_policy_user_consent_verified_publishers_selected_permissions,
+    control.ad_authorization_policy_guest_invite_restricted,
   ]
 
   tags = merge(local.all_controls_activedirectory_common_tags, {

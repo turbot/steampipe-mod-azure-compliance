@@ -74,7 +74,7 @@ benchmark "cis_v500_5_1" {
 control "cis_v500_5_1_1" {
   title         = "5.1.1 Ensure that 'security defaults' is enabled in Microsoft Entra ID"
   description   = "Security defaults in Microsoft Entra ID make it easier to be secure and help protect your organization. Security defaults contain preconfigured security settings for common attacks."
-  query         = query.ad_manual_control
+  query         = query.ad_security_defaults_policy_enabled
   documentation = file("./cis_v500/docs/cis_v500_5_1_1.md")
 
   tags = merge(local.cis_v500_5_1_common_tags, {
@@ -173,7 +173,7 @@ control "cis_v500_5_2_3" {
 control "cis_v500_5_2_4" {
   title         = "5.2.4 Ensure that a multifactor authentication policy exists for all users"
   description   = "A Conditional Access policy can be enabled to ensure that users are required to use Multifactor Authentication (MFA) to login."
-  query         = query.manual_control
+  query         = query.ad_all_user_mfa_enabled
   documentation = file("./cis_v500/docs/cis_v500_5_2_4.md")
 
   tags = merge(local.cis_v500_5_2_common_tags, {
@@ -308,7 +308,7 @@ control "cis_v500_5_3_4" {
 control "cis_v500_5_3_5" {
   title         = "5.3.5 Ensure disabled user accounts do not have read, write, or owner permissions"
   description   = "Ensure that any roles granting read, write, or owner permissions are removed from disabled Azure user accounts. While an automated assessment procedure exists for this recommendation, the assessment status remains manual. Removing role assignments from disabled user accounts depends on the context and requirements of each organization and environment."
-  query         = query.manual_control
+  query         = query.ad_disabled_user_no_role_assignments
   documentation = file("./cis_v500/docs/cis_v500_5_3_5.md")
 
   tags = merge(local.cis_v500_5_3_common_tags, {
@@ -347,7 +347,7 @@ control "cis_v500_5_3_7" {
 control "cis_v500_5_4" {
   title         = "5.4 Ensure that 'Restrict non-admin users from creating tenants' is set to 'Yes'"
   description   = "Require administrators or appropriately delegated users to create new tenants."
-  query         = query.ad_manual_control
+  query         = query.iam_user_not_allowed_to_create_tenants
   documentation = file("./cis_v500/docs/cis_v500_5_4.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -451,7 +451,7 @@ control "cis_v500_5_11" {
 control "cis_v500_5_12" {
   title         = "5.12 Ensure that 'User consent for applications' is set to 'Do not allow user consent'"
   description   = "Require administrators to provide consent for applications before use."
-  query         = query.manual_control
+  query         = query.ad_authorization_policy_user_consent_disallowed
   documentation = file("./cis_v500/docs/cis_v500_5_12.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -464,7 +464,7 @@ control "cis_v500_5_12" {
 control "cis_v500_5_13" {
   title         = "5.13 Ensure that 'User consent for applications' is set to 'Allow user consent for apps from verified publishers, for selected permissions'"
   description   = "Allow users to provide consent for selected permissions when a request is coming from a verified publisher."
-  query         = query.manual_control
+  query         = query.ad_authorization_policy_user_consent_verified_publishers_selected_permissions
   documentation = file("./cis_v500/docs/cis_v500_5_13.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -490,7 +490,7 @@ control "cis_v500_5_14" {
 control "cis_v500_5_15" {
   title         = "5.15 Ensure that 'Guest users access restrictions' is set to 'Guest user access is restricted to properties and memberships of their own directory objects'"
   description   = "Limit guest user permissions."
-  query         = query.ad_manual_control
+  query         = query.ad_authorization_policy_guest_user_access_restricted
   documentation = file("./cis_v500/docs/cis_v500_5_15.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -503,7 +503,7 @@ control "cis_v500_5_15" {
 control "cis_v500_5_16" {
   title         = "5.16 Ensure that 'Guest invite restrictions' is set to 'Only users assigned to specific admin roles [...]' or 'No one [..]'"
   description   = "Restrict invitations to either users with specific administrative roles or no one."
-  query         = query.manual_control
+  query         = query.ad_authorization_policy_guest_invite_restricted
   documentation = file("./cis_v500/docs/cis_v500_5_16.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -646,7 +646,7 @@ control "cis_v500_5_26" {
 control "cis_v500_5_27" {
   title         = "5.27 Ensure there are between 2 and 3 subscription owners"
   description   = "The Owner role in Azure grants full control over all resources in a subscription, including the ability to assign roles to others."
-  query         = query.iam_subscription_owner_max_3
+  query         = query.iam_subscription_owner_between_2_and_3
   documentation = file("./cis_v500/docs/cis_v500_5_27.md")
 
   tags = merge(local.cis_v500_5_common_tags, {

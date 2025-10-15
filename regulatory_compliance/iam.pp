@@ -231,6 +231,46 @@ control "iam_conditional_access_trusted_location_configured" {
   tags = local.regulatory_compliance_iam_common_tags
 }
 
+control "ad_security_defaults_policy_enabled" {
+  title         = "Ensure that 'security defaults' is enabled in Microsoft Entra ID"
+  description   = "Security defaults in Microsoft Entra ID make it easier to be secure and help protect your organization. Security defaults contain preconfigured security settings for common attacks."
+  query         = query.ad_security_defaults_policy_enabled
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
+control "ad_all_user_mfa_enabled" {
+  title         = "Ensure that a multifactor authentication policy exists for all users"
+  description   = "A Conditional Access policy can be enabled to ensure that users are required to use Multifactor Authentication (MFA) to login."
+  query         = query.ad_all_user_mfa_enabled
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
+control "ad_authorization_policy_user_consent_verified_publishers_selected_permissions" {
+  title         = "Ensure that 'User consent for applications' is set to 'Allow user consent for apps from verified publishers, for selected permissions'"
+  description   = "Allow users to provide consent for selected permissions when a request is coming from a verified publisher."
+  query         = query.ad_authorization_policy_user_consent_verified_publishers_selected_permissions
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
+control "ad_authorization_policy_guest_user_access_restricted" {
+  title         = "Ensure that 'Guest users access restrictions' is set to 'Guest user access is restricted to properties and memberships of their own directory objects'"
+  description   = "Limit guest user permissions."
+  query         = query.ad_authorization_policy_guest_user_access_restricted
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
+control "ad_authorization_policy_guest_invite_restricted" {
+  title         = "5.16 Ensure that 'Guest invite restrictions' is set to 'Only users assigned to specific admin roles [...]' or 'No one [..]'"
+  description   = "Restrict invitations to either users with specific administrative roles or no one."
+  query         = query.ad_authorization_policy_guest_invite_restricted
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
 query "iam_subscription_owner_more_than_1" {
   sql = <<-EOQ
     with owner_roles as (
@@ -934,3 +974,299 @@ query "iam_conditional_access_trusted_location_configured" {
       azuread_conditional_access_named_location;
   EOQ
 }
+
+query "ad_security_defaults_policy_enabled" {
+  sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
+    select
+      p.id as resource,
+      case
+        when (p.is_enabled)::bool then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (p.is_enabled)::bool then p.tenant_id || ' security defaults enabled.'
+        else p.tenant_id || ' security defaults enabled.'
+      end as reason,
+      t.tenant_id
+      -- ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      distinct_tenant as t,
+      azuread_security_defaults_policy as p;
+  EOQ
+}
+
+query "ad_all_user_mfa_enabled" {
+  sql = <<-EOQ
+    with role_template_ids as (
+      select
+        array_agg(role_template_id) as rid
+      from
+        azuread_directory_role
+    ),
+    policy_with_mfa as (
+      select
+        tenant_id,
+        count(p.*)
+      from
+        azuread_conditional_access_policy as p,
+        role_template_ids as a
+      where
+        p.built_in_controls ?& array['mfa']
+        and (p.users -> 'includeRoles')::jsonb ?| (a.rid)
+        and jsonb_array_length(p.users -> 'excludeUsers') < 1
+      group by
+        tenant_id
+    ),
+    tenant_list as (
+      select
+        distinct on (tenant_id) tenant_id,
+        _ctx,
+        id,
+        display_name
+      from
+        azuread_user
+    )
+    select
+      t.tenant_id as resource,
+      case
+        when (select count from policy_with_mfa where tenant_id = t.tenant_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (select count from policy_with_mfa where tenant_id = t.tenant_id) > 0 then t.tenant_id || ' has MFA enabled for all users.'
+        else t.tenant_id || ' has MFA disabled for all users.'
+      end as reason
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      tenant_list as t;
+  EOQ
+}
+
+query "ad_signin_risk_policy_mfa_enabled" {
+  sql = <<-EOQ
+    with block_legacy_authentication as (
+      select
+        tenant_id,
+        count(*)
+      from
+        azuread_conditional_access_policy
+      where
+        users->'includeUsers' ?& array['All']
+        and jsonb_array_length(users -> 'excludeUsers') = 0
+        and sign_in_risk_levels @> '["high","medium"]'::jsonb
+        and applications -> 'includeApplications' ?& array['All']
+        and jsonb_array_length(applications -> 'excludeApplications') = 0
+        and built_in_controls ?& array['mfa']
+        and state = 'enabled'
+      group by
+        tenant_id
+    ),
+    tenant_list as (
+      select
+        distinct on (tenant_id) tenant_id,
+        _ctx
+      from
+        azuread_user
+    )
+    select
+      t.tenant_id as resource,
+      case
+        when (select count from block_legacy_authentication where tenant_id = t.tenant_id) > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (select count from block_legacy_authentication where tenant_id = t.tenant_id) > 0 then t.tenant_id || ' has sign-in risk policies enabled.'
+        else t.tenant_id || ' has sign-in risk policies disabled.'
+      end as reason
+      -- ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      tenant_list as t;
+  EOQ
+}
+
+query "ad_disabled_user_no_role_assignments" {
+  sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    ), disabled_accounts_with_roles as (
+      select
+        distinct
+        u.display_name,
+        u.tenant_id,
+        u.id,
+        u.account_enabled,
+        u.user_principal_name
+      from
+        azuread_user as u
+        left join azure_role_assignment as a on a.principal_id = u.id
+      where
+      not u.account_enabled  and
+      a.principal_id is not null
+    )
+    select
+      u.user_principal_name as resource,
+      case
+        when u.account_enabled then 'skip'
+        when not u.account_enabled and d.display_name is not null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when u.account_enabled then u.display_name || ' is enabled account.'
+        when not u.account_enabled and d.display_name is not null then u.display_name || ' is disabled and has roles assigned.'
+        else u.display_name || ' account is disabled woth no roles assigned.'
+      end as reason,
+      u.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azuread_user as u
+      left join disabled_accounts_with_roles as d on u.id =  d.id
+      left join distinct_tenant as t on t.tenant_id = d.tenant_id
+  EOQ
+}
+
+query "iam_subscription_owner_between_2_and_3" {
+  sql = <<-EOQ
+    with owner_roles as (
+      select
+        d.role_name,
+        d.role_type,
+        d.name,
+        d.title,
+        d._ctx,
+        d.subscription_id
+      from
+        azure_role_definition as d
+        join azure_role_assignment as a on d.id = a.role_definition_id
+      where
+        d.role_name = 'Owner'
+    )
+    select
+      owner.subscription_id as resource,
+      case
+        when count(*) >= 2 and count(*) <= 3  then 'ok'
+        else 'alarm'
+      end as status,
+      count(*) || ' owner(s) associated.' as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "owner.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      owner_roles as owner,
+      azure_subscription as sub
+    where
+      sub.subscription_id =owner.subscription_id
+    group by
+      owner.subscription_id,
+      owner._ctx,
+      sub.display_name;
+  EOQ
+}
+
+query "ad_authorization_policy_user_consent_verified_publishers_selected_permissions" {
+  sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id, subscription_id, _ctx
+      from
+        azure_tenant
+    )
+    select
+      p.id as resource,
+      case
+        when (p.default_user_role_permissions -> 'permissionGrantPoliciesAssigned')::jsonb @> '["ManagePermissionGrantsForSelf.microsoft-user-default-low"]'::jsonb then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (p.default_user_role_permissions -> 'permissionGrantPoliciesAssigned')::jsonb @> '["ManagePermissionGrantsForSelf.microsoft-user-default-low"]'::jsonb then p.display_name || ' user consent limited to verified publishers for selected permissions.'
+        else p.display_name || ' user consent policy not set to verified publishers (LOW).'
+      end as reason,
+      t.tenant_id
+       -- ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+      from
+        distinct_tenant t
+        join azuread_authorization_policy p on p.tenant_id = t.tenant_id;
+  EOQ
+}
+
+query "ad_authorization_policy_user_consent_disallowed" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case when exists (
+          select 1
+          from jsonb_array_elements_text(
+                (default_user_role_permissions -> 'permissionGrantPoliciesAssigned')::jsonb
+              ) as pol(val)
+          where val like 'ManagePermissionGrantsForSelf.%'
+        ) then 'alarm'
+        else 'ok'
+      end as status,
+      case when exists (
+          select 1
+          from jsonb_array_elements_text(
+                (default_user_role_permissions -> 'permissionGrantPoliciesAssigned')::jsonb
+              ) as pol(val)
+          where val like 'ManagePermissionGrantsForSelf.%'
+        ) then tenant_id || ' user consent for applications allowed.'
+        else tenant_id || ' user consent for applications disallowed.'
+      end as reason,
+      tenant_id
+      -- ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+      from
+        azuread_authorization_policy
+  EOQ
+}
+
+query "ad_authorization_policy_guest_user_access_restricted" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case
+        when guest_user_role_id = '2af84b1e-32c8-42b7-82bc-daa82404023b' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when guest_user_role_id = '2af84b1e-32c8-42b7-82bc-daa82404023b' then  tenant_id || ' guest user access is restricted to properties and memberships of their own directory objects.'
+        else tenant_id || ' guest user access is not at most restrictive; guest_user_role_id=' || coalesce(guest_user_role_id, '<null>') || '.'
+      end as reason,
+      tenant_id
+      -- ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azuread_authorization_policy;
+  EOQ
+}
+
+query "ad_authorization_policy_guest_invite_restricted" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case
+        when allow_invites_from in ('adminsAndGuestInviters', 'none') then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when allow_invites_from = 'none'
+          then display_name || ' guest invitations disabled (no one).'
+        when allow_invites_from = 'adminsAndGuestInviters'
+          then display_name || ' guest invitations restricted to specific admin roles.'
+        else
+          display_name || ' guest invitations are too permissive: allow_invites_from=' || coalesce(allow_invites_from, '<null>') || '.'
+      end as reason,
+      tenant_id
+    from
+      azuread_authorization_policy;
+  EOQ
+}
+

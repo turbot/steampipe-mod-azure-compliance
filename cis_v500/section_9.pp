@@ -236,7 +236,6 @@ control "cis_v500_9_3_1_3" {
 
 benchmark "cis_v500_9_3_2" {
   title         = "9.3.2 Networking"
-  documentation = file("./cis_v500/docs/cis_v500_9_3_2.md")
   children = [
     control.cis_v500_9_3_2_1,
     control.cis_v500_9_3_2_2,
@@ -293,7 +292,6 @@ control "cis_v500_9_3_2_3" {
 
 benchmark "cis_v500_9_3_3" {
   title         = "9.3.3 Identity and Access Management"
-  documentation = file("./cis_v500/docs/cis_v500_9_3_3.md")
   children = [
     control.cis_v500_9_3_3_1
   ]

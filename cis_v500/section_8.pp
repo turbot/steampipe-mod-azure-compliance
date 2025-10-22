@@ -146,7 +146,6 @@ control "cis_v500_8_1_2_1" {
 
 benchmark "cis_v500_8_1_3" {
   title         = "8.1.3 Defender Plan: Servers"
-  documentation = file("./cis_v500/docs/cis_v500_8_1_3.md")
   children = [
     control.cis_v500_8_1_3_1,
     control.cis_v500_8_1_3_2,
@@ -233,7 +232,6 @@ control "cis_v500_8_1_3_5" {
 
 benchmark "cis_v500_8_1_4" {
   title         = "8.1.4 Defender Plan: Containers"
-  documentation = file("./cis_v500/docs/cis_v500_8_1_4.md")
   children = [
     control.cis_v500_8_1_4_1
   ]
@@ -260,7 +258,6 @@ control "cis_v500_8_1_4_1" {
 
 benchmark "cis_v500_8_1_5" {
   title         = "8.1.5 Defender Plan: Storage"
-  documentation = file("./cis_v500/docs/cis_v500_8_1_5.md")
   children = [
     control.cis_v500_8_1_5_1,
     control.cis_v500_8_1_5_2
@@ -302,7 +299,6 @@ control "cis_v500_8_1_5_2" {
 
 benchmark "cis_v500_8_1_6" {
   title         = "8.1.6 Defender Plan: App Service"
-  documentation = file("./cis_v500/docs/cis_v500_8_1_6.md")
   children = [
     control.cis_v500_8_1_6_1
   ]
@@ -329,7 +325,6 @@ control "cis_v500_8_1_6_1" {
 
 benchmark "cis_v500_8_1_7" {
   title         = "8.1.7 Defender Plan: Databases"
-  documentation = file("./cis_v500/docs/cis_v500_8_1_7.md")
   children = [
     control.cis_v500_8_1_7_1,
     control.cis_v500_8_1_7_2,
@@ -401,7 +396,6 @@ control "cis_v500_8_1_7_4" {
 
 benchmark "cis_v500_8_1_8" {
   title         = "8.1.8 Defender Plan: Key Vault"
-  documentation = file("./cis_v500/docs/cis_v500_8_1_8.md")
   children = [
     control.cis_v500_8_1_8_1
   ]
@@ -428,7 +422,6 @@ control "cis_v500_8_1_8_1" {
 
 benchmark "cis_v500_8_1_9" {
   title         = "8.1.9 Defender Plan: Resource Manager"
-  documentation = file("./cis_v500/docs/cis_v500_8_1_9.md")
   children = [
     control.cis_v500_8_1_9_1
   ]
@@ -553,7 +546,6 @@ control "cis_v500_8_1_16" {
 
 benchmark "cis_v500_8_2" {
   title         = "8.2 Microsoft Defender for IoT"
-  documentation = file("./cis_v500/docs/cis_v500_8_2.md")
   children = [
     control.cis_v500_8_2_1
   ]
@@ -757,7 +749,6 @@ control "cis_v500_8_3_11" {
 
 benchmark "cis_v500_8_4" {
   title         = "8.4 Azure Bastion"
-  documentation = file("./cis_v500/docs/cis_v500_8_4.md")
   children = [
     control.cis_v500_8_4_1
   ]

@@ -1270,3 +1270,204 @@ query "ad_authorization_policy_guest_invite_restricted" {
   EOQ
 }
 
+query "iam_subscription_policy_move_in_out_blocked" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case
+        when block_subscriptions_leaving_tenant = true  and block_subscriptions_into_tenant   = true
+        and coalesce(jsonb_array_length(exempted_principals::jsonb), 0) = 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when block_subscriptions_leaving_tenant = true and block_subscriptions_into_tenant  = true
+        and coalesce(jsonb_array_length(exempted_principals::jsonb), 0) = 0 then 'Subscription leaving/entering tenant: Permit no one (no exemptions).'
+        else
+          'Policy not at most restrictive: leaving='
+          || coalesce(block_subscriptions_leaving_tenant::text,'null')
+          || ', entering='
+          || coalesce(block_subscriptions_into_tenant::text,'null')
+          || ', exemptions='
+          || coalesce(jsonb_array_length(exempted_principals::jsonb), 0)
+          || '.'
+      end as reason
+    from
+      azure_subscription_tenant_policy;
+  EOQ
+}
+
+query "ad_require_mfa_for_device_join" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case
+        when multi_factor_auth_configuration = 'required' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when multi_factor_auth_configuration = 'required' then tenant_id || ' MFA is required for device registration.'
+        else
+          tenant_id || ' MFA is not required for device registration.'
+      end as reason,
+      tenant_id
+    from
+      azuread_device_registration_policy;
+  EOQ
+}
+
+query "ad_m365_group_creation_disabled" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case
+        when not (value)::bool then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when not (value)::bool then tenant_id || ' Microsoft 365 group creation is disabled.'
+        else
+          tenant_id || ' Microsoft 365 group creation is enabled.'
+      end as reason,
+      tenant_id
+    from
+      azuread_directory_setting
+    where
+      name = 'EnableGroupCreation';
+  EOQ
+}
+
+query "ad_custom_banned_password_enforced" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case
+        when (value)::bool then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (value)::bool then tenant_id || ' custom banned password list is enforced.'
+        else
+          tenant_id || ' custom banned password list is not enforced'
+      end as reason,
+      tenant_id
+    from
+      azuread_directory_setting
+    where
+      name = 'EnableBannedPasswordCheck';
+  EOQ
+}
+
+query "ad_lockout_duration_min_60_seconds" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case
+        when (value)::int >= 60 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (value)::int >= 60 then tenant_id || ' custom banned password list is enforced.'
+        else
+          tenant_id || ' custom banned password list is not enforced'
+      end as reason,
+      tenant_id
+    from
+      azuread_directory_setting
+    where
+      name = 'LockoutDurationInSeconds';
+  EOQ
+}
+
+query "ad_lockout_threshold_max_10" {
+  sql = <<-EOQ
+    select
+      id as resource,
+      case
+        when (value)::int <= 10 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when value is null then tenant_id || ' lockout threshold not configured.'
+        else tenant_id || 'lockout threshold set to ' ||  value || '.'
+      end as reason,
+      tenant_id
+    from
+      azuread_directory_setting
+    where
+      name = 'LockoutThreshold';
+  EOQ
+}
+
+query "ad_admin_portals_require_mfa" {
+  sql = <<-EOQ
+    with tenant_list as (
+      select distinct on (tenant_id) tenant_id, _ctx
+      from azuread_user
+    ),
+    conditional_access_policy as (
+      select
+        tenant_id,
+        count(*) as conditional_access_policy_count
+      from
+        azuread_conditional_access_policy
+      where
+        users -> 'includeUsers' ? 'All'
+        and applications -> 'includeApplications' ? 'MicrosoftAdminPortals'
+        and built_in_controls @> '[1]'::jsonb
+        and state = 'enabled'
+      group
+        by tenant_id
+    )
+    select
+      t.tenant_id as resource,
+      case
+        when conditional_access_policy_count > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when conditional_access_policy_count > 0 then t.tenant_id || ' has conditional cccess policy that requires MFA for All users (or admin roles) when accessing admin portals.'
+        else t.tenant_id || ' does not have a conditional access policy that requires MFA for All users (or admin roles) when accessing admin portals.'
+      end as reason
+      -- ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      tenant_list as t
+      left join conditional_access_policy as p on p.tenant_id = t.tenant_id;
+  EOQ
+}
+
+query "ad_mfa_service_mgmt_api" {
+  sql = <<-EOQ
+    with tenant_list as (
+      select distinct on (tenant_id) tenant_id, _ctx
+      from azuread_user
+    ),
+    conditional_access_policy as (
+      select
+        tenant_id,
+        count(*) as conditional_access_policy_count
+      from
+        azuread_conditional_access_policy
+      where
+        users -> 'includeUsers' ? 'All'
+        and applications -> 'includeApplications' ? '797f4846-ba00-4fd7-ba43-dac1f8f63013'
+        and built_in_controls @> '[1]'::jsonb
+        -- and state = 'enabled'
+      group
+        by tenant_id
+    )
+    select
+      t.tenant_id as resource,
+      case
+        when conditional_access_policy_count > 0 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when conditional_access_policy_count > 0 then t.tenant_id || ' has conditional access policy which requires MFA for the Service Management API.'
+        else t.tenant_id || ' does not have a conditional access policy which requires MFA for the Service Management API.'
+      end as reason
+      -- ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      tenant_list as t
+      left join conditional_access_policy as p on p.tenant_id = t.tenant_id;
+  EOQ
+}

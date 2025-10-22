@@ -24,7 +24,6 @@ benchmark "cis_v500_2" {
 
 benchmark "cis_v500_2_1" {
   title         = "2.1 Azure Databricks"
-  documentation = file("./cis_v500/docs/cis_v500_2_1.md")
   children = [
     control.cis_v500_2_1_1,
     control.cis_v500_2_1_2,

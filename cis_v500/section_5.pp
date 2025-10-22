@@ -199,7 +199,7 @@ control "cis_v500_5_2_5" {
 control "cis_v500_5_2_6" {
   title         = "5.2.6 Ensure that multifactor authentication is required for Windows Azure Service Management API"
   description   = "This recommendation ensures that users accessing the Windows Azure Service Management API (i.e. Azure Powershell, Azure CLI, Azure Resource Manager API, etc.) are required to use multi-factor authentication (MFA) credentials when accessing resources through the Windows Azure Service Management API."
-  query         = query.iam_conditional_access_mfa_enabled
+  query         = query.ad_mfa_service_mgmt_api
   documentation = file("./cis_v500/docs/cis_v500_5_2_6.md")
 
   tags = merge(local.cis_v500_5_2_common_tags, {
@@ -212,7 +212,7 @@ control "cis_v500_5_2_6" {
 control "cis_v500_5_2_7" {
   title         = "5.2.7 Ensure that multifactor authentication is required to access Microsoft Admin Portals"
   description   = "This recommendation ensures that users accessing Microsoft Admin Portals (i.e. Microsoft 365 Admin, Microsoft 365 Defender, Exchange Admin Center, Azure Portal, etc.) are required to use multi-factor authentication (MFA) credentials when logging into an Admin Portal."
-  query         = query.iam_conditional_access_mfa_enabled_for_administrators
+  query         = query.ad_admin_portals_require_mfa
   documentation = file("./cis_v500/docs/cis_v500_5_2_7.md")
 
   tags = merge(local.cis_v500_5_2_common_tags, {
@@ -373,7 +373,7 @@ control "cis_v500_5_5" {
 control "cis_v500_5_6" {
   title         = "5.6 Ensure that account 'Lockout threshold' is less than or equal to '10'"
   description   = "The account lockout threshold determines how many failed login attempts are permitted prior to placing the account in a locked-out state and initiating a variable lockout duration."
-  query         = query.manual_control
+  query         = query.ad_lockout_threshold_max_10
   documentation = file("./cis_v500/docs/cis_v500_5_6.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -386,7 +386,7 @@ control "cis_v500_5_6" {
 control "cis_v500_5_7" {
   title         = "5.7 Ensure that account 'Lockout duration in seconds' is greater than or equal to '60'"
   description   = "The account lockout duration value determines how long an account retains the status of lockout, and therefore how long before a user can continue to attempt to login after passing the lockout threshold."
-  query         = query.manual_control
+  query         = query.ad_lockout_duration_min_60_seconds
   documentation = file("./cis_v500/docs/cis_v500_5_7.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -399,7 +399,7 @@ control "cis_v500_5_7" {
 control "cis_v500_5_8" {
   title         = "5.8 Ensure that a 'Custom banned password list' is set to 'Enforce'"
   description   = "Microsoft Azure applies a default global banned password list to all user and admin accounts that are created and managed directly in Microsoft Entra ID. The Microsoft Entra password policy does not apply to user accounts that are synchronized from an on-premises Active Directory environment, unless Microsoft Entra ID Connect is used and EnforceCloudPasswordPolicyForPasswordSyncedUsers is enabled."
-  query         = query.manual_control
+  query         = query.ad_custom_banned_password_enforced
   documentation = file("./cis_v500/docs/cis_v500_5_8.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -568,7 +568,7 @@ control "cis_v500_5_20" {
 control "cis_v500_5_21" {
   title         = "5.21 Ensure that 'Users can create Microsoft 365 groups in Azure portals, API or PowerShell' is set to 'No'"
   description   = "Restrict Microsoft 365 group creation to administrators only."
-  query         = query.manual_control
+  query         = query.ad_m365_group_creation_disabled
   documentation = file("./cis_v500/docs/cis_v500_5_21.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -581,7 +581,7 @@ control "cis_v500_5_21" {
 control "cis_v500_5_22" {
   title         = "5.22 Ensure that 'Require Multifactor Authentication to register or join devices with Microsoft Entra' is set to 'Yes'"
   description   = "This recommendation is only relevant if your subscription is using Per-User MFA. If your organization is licensed to use Conditional Access, the preferred method of requiring MFA to join devices to Entra ID is to use a Conditional Access policy (see additional information below for link)."
-  query         = query.manual_control
+  query         = query.ad_require_mfa_for_device_join
   documentation = file("./cis_v500/docs/cis_v500_5_22.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -620,7 +620,7 @@ control "cis_v500_5_24" {
 control "cis_v500_5_25" {
   title         = "5.25 Ensure that 'Subscription leaving Microsoft Entra tenant' and 'Subscription entering Microsoft Entra tenant' is set to 'Permit no one'"
   description   = "Users who are set as subscription owners are able to make administrative changes to the subscriptions and move them into and out of Microsoft Entra ID."
-  query         = query.manual_control
+  query         = query.iam_subscription_policy_move_in_out_blocked
   documentation = file("./cis_v500/docs/cis_v500_5_25.md")
 
   tags = merge(local.cis_v500_5_common_tags, {

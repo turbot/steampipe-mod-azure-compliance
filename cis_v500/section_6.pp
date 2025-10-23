@@ -389,7 +389,6 @@ control "cis_v500_6_1_2_11" {
 
 benchmark "cis_v500_6_1_3" {
   title         = "6.1.3 Configuring Application Insights"
-  documentation = file("./cis_v500/docs/cis_v500_6_1_3.md")
   children = [
     control.cis_v500_6_1_3_1
   ]

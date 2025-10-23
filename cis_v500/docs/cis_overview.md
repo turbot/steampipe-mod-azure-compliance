@@ -12,11 +12,10 @@ The benchmark is organized into the following sections:
 - **Section 3:** Compute Services
 - **Section 4:** Database Services
 - **Section 5:** Identity Services
-- **Section 6:** Networking
-- **Section 7:** Virtual Machines
-- **Section 8:** Key Vault
-- **Section 9:** Microsoft Defender for Cloud
-- **Section 10:** Miscellaneous
+- **Section 6:** Management and Governance Services
+- **Section 7:** Networking Services
+- **Section 8:** Security Services
+- **Section 9:** Storage Services
 
 ## Getting Started
 
@@ -29,4 +28,3 @@ powerpipe benchmark run azure_compliance.benchmark.cis_v500
 ## Documentation
 
 For more information about the CIS Microsoft Azure Foundations Security Benchmark, please refer to the [official CIS documentation](https://www.cisecurity.org/benchmark/azure).
-

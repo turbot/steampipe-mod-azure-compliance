@@ -8,33 +8,6 @@ locals {
   cis_v500_8_1_common_tags = merge(local.cis_v500_8_common_tags, {
     cis_section_id = "8.1"
   })
-  cis_v500_8_1_1_common_tags = merge(local.cis_v500_8_common_tags, {
-    cis_section_id = "8.1.1"
-  })
-  cis_v500_8_1_2_common_tags = merge(local.cis_v500_8_common_tags, {
-    cis_section_id = "8.1.2"
-  })
-  cis_v500_8_1_3_common_tags = merge(local.cis_v500_8_common_tags, {
-    cis_section_id = "8.1.3"
-  })
-  cis_v500_8_1_4_common_tags = merge(local.cis_v500_8_common_tags, {
-    cis_section_id = "8.1.4"
-  })
-  cis_v500_8_1_5_common_tags = merge(local.cis_v500_8_common_tags, {
-    cis_section_id = "8.1.5"
-  })
-  cis_v500_8_1_6_common_tags = merge(local.cis_v500_8_common_tags, {
-    cis_section_id = "8.1.6"
-  })
-  cis_v500_8_1_7_common_tags = merge(local.cis_v500_8_common_tags, {
-    cis_section_id = "8.1.7"
-  })
-  cis_v500_8_1_8_common_tags = merge(local.cis_v500_8_common_tags, {
-    cis_section_id = "8.1.8"
-  })
-  cis_v500_8_1_9_common_tags = merge(local.cis_v500_8_common_tags, {
-    cis_section_id = "8.1.9"
-  })
   cis_v500_8_2_common_tags = merge(local.cis_v500_8_common_tags, {
     cis_section_id = "8.2"
   })
@@ -44,6 +17,37 @@ locals {
   cis_v500_8_4_common_tags = merge(local.cis_v500_8_common_tags, {
     cis_section_id = "8.4"
   })
+}
+
+locals {
+  cis_v500_8_1_1_common_tags = merge(local.cis_v500_8_1_common_tags, {
+    cis_section_id = "8.1.1"
+  })
+  cis_v500_8_1_2_common_tags = merge(local.cis_v500_8_1_common_tags, {
+    cis_section_id = "8.1.2"
+  })
+  cis_v500_8_1_3_common_tags = merge(local.cis_v500_8_1_common_tags, {
+    cis_section_id = "8.1.3"
+  })
+  cis_v500_8_1_4_common_tags = merge(local.cis_v500_8_1_common_tags, {
+    cis_section_id = "8.1.4"
+  })
+  cis_v500_8_1_5_common_tags = merge(local.cis_v500_8_1_common_tags, {
+    cis_section_id = "8.1.5"
+  })
+  cis_v500_8_1_6_common_tags = merge(local.cis_v500_8_1_common_tags, {
+    cis_section_id = "8.1.6"
+  })
+  cis_v500_8_1_7_common_tags = merge(local.cis_v500_8_1_common_tags, {
+    cis_section_id = "8.1.7"
+  })
+  cis_v500_8_1_8_common_tags = merge(local.cis_v500_8_1_common_tags, {
+    cis_section_id = "8.1.8"
+  })
+  cis_v500_8_1_9_common_tags = merge(local.cis_v500_8_1_common_tags, {
+    cis_section_id = "8.1.9"
+  })
+
 }
 
 benchmark "cis_v500_8" {
@@ -462,7 +466,7 @@ control "cis_v500_8_1_10" {
 
 control "cis_v500_8_1_11" {
   title         = "8.1.11 Ensure that Microsoft Cloud Security Benchmark policies are not set to 'Disabled'"
-  description   = "The Microsoft Cloud Security Benchmark (or "MCSB") is an Azure Policy Initiative containing many security policies to evaluate resource configuration against best practice recommendations. If a policy in the MCSB is set with effect type Disabled, it is not evaluated and may prevent administrators from being informed of valuable security recommendations."
+  description   = "The Microsoft Cloud Security Benchmark (or \"MCSB\") is an Azure Policy Initiative containing many security policies to evaluate resource configuration against best practice recommendations. If a policy in the MCSB is set with effect type Disabled, it is not evaluated and may prevent administrators from being informed of valuable security recommendations."
   query         = query.manual_control
   documentation = file("./cis_v500/docs/cis_v500_8_1_11.md")
 

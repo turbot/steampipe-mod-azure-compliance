@@ -760,7 +760,7 @@ query "keyvault_certificate_validity_period_less_equal_12_months" {
       end as status,
       c.title || ' validity period is ' || (x509_certificate_properties -> 'validity_months') || ' month(s).' as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
-      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "c.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "c.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_key_vault_certificate as c

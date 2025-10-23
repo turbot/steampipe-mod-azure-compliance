@@ -938,7 +938,7 @@ query "security_center_defender_for_api_enabled" {
           then 'Microsoft Defender for APIs is disabled, current tier: ' || p.pricing_tier || '.'
         else 'Microsoft Defender for APIs pricing not found.'
       end as reason
-      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub_pricing.")}
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "p.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_security_center_subscription_pricing p

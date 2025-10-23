@@ -8,13 +8,16 @@ locals {
   cis_v500_6_1_common_tags = merge(local.cis_v500_6_common_tags, {
     cis_section_id = "6.1"
   })
-  cis_v500_6_1_1_common_tags = merge(local.cis_v500_6_common_tags, {
+}
+
+locals {
+  cis_v500_6_1_1_common_tags = merge(local.cis_v500_6_1_common_tags, {
     cis_section_id = "6.1.1"
   })
-  cis_v500_6_1_2_common_tags = merge(local.cis_v500_6_common_tags, {
+  cis_v500_6_1_2_common_tags = merge(local.cis_v500_6_1_common_tags, {
     cis_section_id = "6.1.2"
   })
-  cis_v500_6_1_3_common_tags = merge(local.cis_v500_6_common_tags, {
+  cis_v500_6_1_3_common_tags = merge(local.cis_v500_6_1_common_tags, {
     cis_section_id = "6.1.3"
   })
 }
@@ -333,7 +336,7 @@ control "cis_v500_6_1_2_7" {
 
 control "cis_v500_6_1_2_8" {
   title         = "6.1.2.8 Ensure that Activity Log Alert exists for Delete SQL Server Firewall Rule"
-  description   = "Create an activity log alert for the "Delete SQL Server Firewall Rule.""
+  description   = "Create an activity log alert for the 'Delete SQL Server Firewall Rule.'"
   query         = query.monitor_log_alert_delete_sql_servers_firewall_rule
   documentation = file("./cis_v500/docs/cis_v500_6_1_2_8.md")
 
@@ -361,7 +364,7 @@ control "cis_v500_6_1_2_9" {
 
 control "cis_v500_6_1_2_10" {
   title         = "6.1.2.10 Ensure that Activity Log Alert exists for Delete Public IP Address rule"
-  description   = "Create an activity log alert for the Delete Public IP Address rule.."
+  description   = "Create an activity log alert for the Delete Public IP Address rule."
   query         = query.monitor_log_alert_delete_public_ip_address
   documentation = file("./cis_v500/docs/cis_v500_6_1_2_10.md")
 

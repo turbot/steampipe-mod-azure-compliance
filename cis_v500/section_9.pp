@@ -14,13 +14,16 @@ locals {
   cis_v500_9_3_common_tags = merge(local.cis_v500_9_common_tags, {
     cis_section_id = "9.3"
   })
-  cis_v500_9_3_1_common_tags = merge(local.cis_v500_9_common_tags, {
+}
+
+locals {
+  cis_v500_9_3_1_common_tags = merge(local.cis_v500_9_3_common_tags, {
     cis_section_id = "9.3.1"
   })
-  cis_v500_9_3_2_common_tags = merge(local.cis_v500_9_common_tags, {
+  cis_v500_9_3_2_common_tags = merge(local.cis_v500_9_3_common_tags, {
     cis_section_id = "9.3.2"
   })
-  cis_v500_9_3_3_common_tags = merge(local.cis_v500_9_common_tags, {
+  cis_v500_9_3_3_common_tags = merge(local.cis_v500_9_3_common_tags, {
     cis_section_id = "9.3.3"
   })
 }
@@ -128,7 +131,7 @@ control "cis_v500_9_2_1" {
 
 control "cis_v500_9_2_2" {
   title         = "9.2.2 Ensure that soft delete for containers on Azure Blob Storage storage accounts is Enabled"
-  description   = Containers in Azure storage accounts may contain sensitive or personal data, such as ePHI or financial information. Data that is erroneously modified or deleted by an application or a user can lead to data loss or unavailability."
+  description   = "Containers in Azure storage accounts may contain sensitive or personal data, such as ePHI or financial information. Data that is erroneously modified or deleted by an application or a user can lead to data loss or unavailability."
   query         = query.storage_account_container_soft_delete_enabled
   documentation = file("./cis_v500/docs/cis_v500_9_2_2.md")
 
@@ -142,7 +145,7 @@ control "cis_v500_9_2_2" {
 
 control "cis_v500_9_2_3" {
   title         = "9.2.3 Ensure 'Versioning' is set to 'Enabled' on Azure Blob Storage storage accounts"
-  description   = "Enabling blob versioning allows for the automatic retention of previous versions of objects. With blob versioning enabled, earlier versions of a blob are accessible for data recovery in the event of modifications or deletions.."
+  description   = "Enabling blob versioning allows for the automatic retention of previous versions of objects. With blob versioning enabled, earlier versions of a blob are accessible for data recovery in the event of modifications or deletions."
   query         = query.storage_account_blob_versioning_enabled
   documentation = file("./cis_v500/docs/cis_v500_9_2_3.md")
 
@@ -179,7 +182,6 @@ benchmark "cis_v500_9_3" {
 
 benchmark "cis_v500_9_3_1" {
   title         = "9.3.1 Secrets and Keys"
-  documentation = file("./cis_v500/docs/cis_v500_9_3_1.md")
   children = [
     control.cis_v500_9_3_1_1,
     control.cis_v500_9_3_1_2,
@@ -194,7 +196,7 @@ benchmark "cis_v500_9_3_1" {
 
 control "cis_v500_9_3_1_1" {
   title         = "9.3.1.1 Ensure that 'Enable key rotation reminders' is enabled for each Storage Account"
-  description   = "Access Keys authenticate application access requests to data contained in Storage Accounts. A periodic rotation of these keys is recommended to ensure that potentially compromised keys cannot result in a long-term exploitable credential. The "Rotation Reminder" is an automatic reminder feature for a manual procedure"
+  description   = "Access Keys authenticate application access requests to data contained in Storage Accounts. A periodic rotation of these keys is recommended to ensure that potentially compromised keys cannot result in a long-term exploitable credential. The 'Rotation Reminder' is an automatic reminder feature for a manual procedure"
   query         = query.storage_account_key_rotation_reminder_enabled
   documentation = file("./cis_v500/docs/cis_v500_9_3_1_1.md")
 
@@ -331,8 +333,7 @@ control "cis_v500_9_3_4" {
 }
 
 control "cis_v500_9_3_5" {
-  title         = "9.3.5  is Enabled for Storage Account Access"
-  description   = "This recommendation assumes that the `Public network access` parameter is set to `Enabled from selected virtual networks and IP addresses`."
+  title         = "9.3.5 Ensure 'Allow Azure services on the trusted services list to access this storage account' is Enabled for Storage Account Access"
   query         = query.storage_account_trusted_microsoft_services_enabled
   documentation = file("./cis_v500/docs/cis_v500_9_3_5.md")
 
@@ -374,7 +375,7 @@ control "cis_v500_9_3_7" {
 
 control "cis_v500_9_3_8" {
   title         = "9.3.8 Ensure that 'Allow Blob Anonymous Access' is set to 'Disabled'"
-  description   = "The Azure Storage setting ‘Allow Blob Anonymous Access’ (aka "allowBlobPublicAccess") controls whether anonymous access is allowed for blob data in a storage account. When this property is set to True, it enables public read access to blob data, which can be convenient for sharing data but may carry security risks. When set to False, it disallows public access to blob data, providing a more secure storage environment."
+  description   = "The Azure Storage setting 'Allow Blob Anonymous Access' (aka \"allowBlobPublicAccess\") controls whether anonymous access is allowed for blob data in a storage account. When this property is set to True, it enables public read access to blob data, which can be convenient for sharing data but may carry security risks. When set to False, it disallows public access to blob data, providing a more secure storage environment."
   query         = query.storage_account_blob_public_access_disabled
   documentation = file("./cis_v500/docs/cis_v500_9_3_8.md")
 

@@ -337,7 +337,7 @@ control "storage_account_file_share_smb_protocol_version_3_1_1" {
 
 control "storage_account_container_soft_delete_enabled" {
   title         = "Ensure that soft delete for containers on Azure Blob Storage storage accounts is Enabled"
-  description   = Containers in Azure storage accounts may contain sensitive or personal data, such as ePHI or financial information. Data that is erroneously modified or deleted by an application or a user can lead to data loss or unavailability."
+  description   = "Containers in Azure storage accounts may contain sensitive or personal data, such as ePHI or financial information. Data that is erroneously modified or deleted by an application or a user can lead to data loss or unavailability."
   query         = query.storage_account_container_soft_delete_enabled
 
   tags = local.regulatory_compliance_storage_common_tags

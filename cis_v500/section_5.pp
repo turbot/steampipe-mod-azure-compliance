@@ -55,8 +55,6 @@ benchmark "cis_v500_5" {
   })
 }
 
-// 5.1 Security Defaults (Per-User MFA)
-
 benchmark "cis_v500_5_1" {
   title         = "5.1 Security Defaults (Per-User MFA)"
   documentation = file("./cis_v500/docs/cis_v500_5_1.md")
@@ -158,8 +156,7 @@ control "cis_v500_5_2_2" {
 
 control "cis_v500_5_2_3" {
   title         = "5.2.3 Ensure that an exclusionary device code flow policy is considered"
-  description   = "Conditional Access Policies can be used to prevent the Device code authentication flow.
- evice code flow should be permitted only for users that regularly perform duties that explicitly require the use of Device Code to authenticate, such as utilizing Azure with PowerShell."
+  description   = "Conditional Access Policies can be used to prevent the Device code authentication flow. Device code flow should be permitted only for users that regularly perform duties that explicitly require the use of Device Code to authenticate, such as utilizing Azure with PowerShell."
   query         = query.manual_control
   documentation = file("./cis_v500/docs/cis_v500_5_2_3.md")
 
@@ -373,7 +370,7 @@ control "cis_v500_5_5" {
 control "cis_v500_5_6" {
   title         = "5.6 Ensure that account 'Lockout threshold' is less than or equal to '10'"
   description   = "The account lockout threshold determines how many failed login attempts are permitted prior to placing the account in a locked-out state and initiating a variable lockout duration."
-  query         = query.ad_lockout_threshold_max_10
+  query         = query.ad_account_lockout_threshold_max_10
   documentation = file("./cis_v500/docs/cis_v500_5_6.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -386,7 +383,7 @@ control "cis_v500_5_6" {
 control "cis_v500_5_7" {
   title         = "5.7 Ensure that account 'Lockout duration in seconds' is greater than or equal to '60'"
   description   = "The account lockout duration value determines how long an account retains the status of lockout, and therefore how long before a user can continue to attempt to login after passing the lockout threshold."
-  query         = query.ad_lockout_duration_min_60_seconds
+  query         = query.ad_account_duration_min_60_seconds
   documentation = file("./cis_v500/docs/cis_v500_5_7.md")
 
   tags = merge(local.cis_v500_5_common_tags, {
@@ -620,7 +617,7 @@ control "cis_v500_5_24" {
 control "cis_v500_5_25" {
   title         = "5.25 Ensure that 'Subscription leaving Microsoft Entra tenant' and 'Subscription entering Microsoft Entra tenant' is set to 'Permit no one'"
   description   = "Users who are set as subscription owners are able to make administrative changes to the subscriptions and move them into and out of Microsoft Entra ID."
-  query         = query.iam_subscription_policy_move_in_out_blocked
+  query         = query.manual_control
   documentation = file("./cis_v500/docs/cis_v500_5_25.md")
 
   tags = merge(local.cis_v500_5_common_tags, {

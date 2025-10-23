@@ -132,7 +132,7 @@ control "cis_v500_7_7" {
 
 control "cis_v500_7_8" {
   title         = "7.8 Ensure that virtual network flow log retention days is set to greater than or equal to 90"
-  description   = Ensure that virtual network flow logs are retained for greater than or equal to 90 days."
+  description   = "Ensure that virtual network flow logs are retained for greater than or equal to 90 days."
   query         = query.network_virtual_network_watcher_flow_log_retention_90_days
   documentation = file("./cis_v500/docs/cis_v500_7_8.md")
 
@@ -166,7 +166,7 @@ control "cis_v500_7_10" {
 
   tags = merge(local.cis_v500_7_common_tags, {
     cis_item_id = "7.10"
-    cis_level   = "1"
+    cis_level   = "2"
     cis_type    = "automated"
     service     = "Azure/Network"
   })
@@ -180,7 +180,7 @@ control "cis_v500_7_11" {
 
   tags = merge(local.cis_v500_7_common_tags, {
     cis_item_id = "7.11"
-    cis_level   = "2"
+    cis_level   = "1"
     cis_type    = "automated"
     service     = "Azure/Network"
   })
@@ -208,7 +208,7 @@ control "cis_v500_7_13" {
 
   tags = merge(local.cis_v500_7_common_tags, {
     cis_item_id = "7.13"
-    cis_level   = "2"
+    cis_level   = "1"
     cis_type    = "automated"
     service     = "Azure/Network"
   })
@@ -222,7 +222,7 @@ control "cis_v500_7_14" {
 
   tags = merge(local.cis_v500_7_common_tags, {
     cis_item_id = "7.14"
-    cis_level   = "1"
+    cis_level   = "2"
     cis_type    = "automated"
     service     = "Azure/Network"
   })

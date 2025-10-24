@@ -28,6 +28,14 @@ control "databricks_workspace_diagnostic_log_delivery_configured" {
   tags = local.regulatory_compliance_databricks_common_tags
 }
 
+control "databricks_workspace_no_public_ip_enabled" {
+  title         = "Ensure 'No Public IP' is set to 'Enabled'"
+  description   = "Enable secure cluster connectivity (also known as no public IP) on Azure Databricks workspaces to ensure that clusters do not have public IP addresses and communicate with the control plane over a secure connection."
+  query         = query.databricks_workspace_no_public_ip_enabled
+
+  tags = local.regulatory_compliance_databricks_common_tags
+}
+
 query "databricks_workspace_deployed_in_custom_vnet" {
   sql = <<-EOQ
     select
@@ -181,5 +189,26 @@ query "databricks_workspace_diagnostic_log_delivery_configured" {
       azure_databricks_workspace as w
       left join diagnostic_settings_analysis as dsa on dsa.id = w.id
       left join azure_subscription as sub on sub.subscription_id = w.subscription_id;
+  EOQ
+}
+
+query "databricks_workspace_no_public_ip_enabled" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when (parameters -> 'enableNoPublicIp' -> 'value')::bool then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (parameters -> 'enableNoPublicIp' -> 'value')::bool then a.name || ' no public IP enabled.'
+        else a.name || ' no public IP disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_databricks_workspace as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
   EOQ
 }

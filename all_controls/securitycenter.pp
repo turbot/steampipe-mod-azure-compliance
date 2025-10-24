@@ -8,6 +8,8 @@ benchmark "all_controls_securitycenter" {
   title       = "Security Center"
   description = "This section contains recommendations for configuring Security Center resources."
   children = [
+    control.security_center_defender_for_api_enabled,
+    control.security_center_defender_for_cloudposture_enabled,
     control.securitycenter_additional_email_configured,
     control.securitycenter_asc_default_setting_not_disabled,
     control.securitycenter_automatic_provisioning_monitoring_agent_on,

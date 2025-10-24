@@ -934,3 +934,4 @@ query "iam_conditional_access_trusted_location_configured" {
       azuread_conditional_access_named_location;
   EOQ
 }
+

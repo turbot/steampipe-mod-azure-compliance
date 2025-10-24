@@ -110,7 +110,7 @@ benchmark "cis_v500_8_1_1" {
 control "cis_v500_8_1_1_1" {
   title         = "8.1.1.1 Ensure Microsoft Defender CSPM is set to 'On'"
   description   = "Enable Microsoft Defender CSPM to continuously assess cloud resources for security misconfigurations, compliance risks, and exposure to threats."
-  query         = query.manual_control
+  query         = query.security_center_defender_for_cloudposture_enabled
   documentation = file("./cis_v500/docs/cis_v500_8_1_1_1.md")
 
   tags = merge(local.cis_v500_8_1_1_common_tags, {

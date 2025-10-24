@@ -270,6 +270,14 @@ control "security_center_defender_for_api_enabled" {
   tags = local.regulatory_compliance_securitycenter_common_tags
 }
 
+control "security_center_defender_for_cloudposture_enabled" {
+  title         = "Ensure Microsoft Defender CSPM is set to 'On'"
+  description   = "Enable Microsoft Defender CSPM to continuously assess cloud resources for security misconfigurations, compliance risks, and exposure to threats."
+  query         = query.security_center_defender_for_cloudposture_enabled
+
+  tags = local.regulatory_compliance_securitycenter_common_tags
+}
+
 query "securitycenter_automatic_provisioning_monitoring_agent_on" {
   sql = <<-EOQ
     select
@@ -945,5 +953,29 @@ query "security_center_defender_for_api_enabled" {
       right join azure_subscription sub on p.subscription_id = sub.subscription_id
     where
       p.name = 'Api';
+  EOQ
+}
+
+query "security_center_defender_for_cloudposture_enabled" {
+  sql = <<-EOQ
+    select
+      p.id as resource,
+      case
+        when p.pricing_tier = 'Standard' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.pricing_tier = 'Standard' then 'Microsoft Defender for CloudPosture is enabled with ' || p.pricing_tier || ' tier.'
+        when p.name = 'Api'
+          then 'Microsoft Defender for CloudPosture is disabled, current tier: ' || p.pricing_tier || '.'
+        else 'Microsoft Defender for CloudPosture pricing not found.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "p.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_security_center_subscription_pricing p
+      right join azure_subscription sub on p.subscription_id = sub.subscription_id
+    where
+      p.name = 'CloudPosture';
   EOQ
 }

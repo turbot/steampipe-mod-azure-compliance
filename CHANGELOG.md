@@ -1,3 +1,13 @@
+## v2.3.0 [2025-10-24]
+
+_Dependencies_
+
+- AzureAD plugin v1.8.0 or higher is now required. ([#344](https://github.com/turbot/steampipe-mod-azure-compliance/pull/344))
+
+_What's new?_
+
+- Added Azure CIS v5.0.0 benchmark (`powerpipe benchmark run azure_compliance.benchmark.cis_v500`). ([#344](https://github.com/turbot/steampipe-mod-azure-compliance/pull/344))
+
 ## v2.2.0 [2025-09-25]
 
 _Dependencies_

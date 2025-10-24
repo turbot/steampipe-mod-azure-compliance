@@ -602,7 +602,7 @@ query "ad_account_lockout_threshold_max_10" {
       end as status,
       case
         when value is null then t.display_name || ' lockout threshold not configured.'
-        else t.display_name || 'lockout threshold set to ' ||  value || '.'
+        else t.display_name || ' lockout threshold set to ' ||  value || '.'
       end as reason,
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}

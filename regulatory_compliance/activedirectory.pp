@@ -192,7 +192,7 @@ query "ad_security_defaults_policy_enabled" {
       end as status,
       case
         when (p.is_enabled)::bool then p.tenant_id || ' security defaults enabled.'
-        else p.tenant_id || ' security defaults enabled.'
+        else p.tenant_id || ' security defaults disabled.'
       end as reason,
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
@@ -283,7 +283,7 @@ query "ad_disabled_user_no_role_assignments" {
       case
         when u.account_enabled then u.display_name || ' is enabled account.'
         when not u.account_enabled and d.display_name is not null then u.display_name || ' is disabled and has roles assigned.'
-        else u.display_name || ' account is disabled woth no roles assigned.'
+        else u.display_name || ' account is disabled with no roles assigned.'
       end as reason,
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
@@ -569,9 +569,9 @@ query "ad_account_duration_min_60_seconds" {
         else 'alarm'
       end as status,
       case
-        when (value)::int >= 60 then t.display_name || ' custom banned password list is enforced.'
+        when (value)::int >= 60 then t.display_name || ' lockout duration is at least 60 seconds.'
         else
-          t.display_name || ' custom banned password list is not enforced'
+          t.display_name || ' lockout duration is less than 60 seconds.'
       end as reason,
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
@@ -646,7 +646,7 @@ query "ad_admin_portals_require_mfa" {
         else 'alarm'
       end as status,
       case
-        when conditional_access_policy_count > 0 then t.display_name || ' has conditional cccess policy that requires MFA for All users (or admin roles) when accessing admin portals.'
+        when conditional_access_policy_count > 0 then t.display_name || ' has conditional access policy that requires MFA for All users (or admin roles) when accessing admin portals.'
         else t.display_name || ' does not have a conditional access policy that requires MFA for All users (or admin roles) when accessing admin portals.'
       end as reason,
       t.tenant_id

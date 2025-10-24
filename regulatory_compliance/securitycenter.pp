@@ -966,8 +966,7 @@ query "security_center_defender_for_cloudposture_enabled" {
       end as status,
       case
         when p.pricing_tier = 'Standard' then 'Microsoft Defender for CloudPosture is enabled with ' || p.pricing_tier || ' tier.'
-        when p.name = 'Api'
-          then 'Microsoft Defender for CloudPosture is disabled, current tier: ' || p.pricing_tier || '.'
+        when p.name = 'CloudPosture' then 'Microsoft Defender for CloudPosture is disabled, current tier: ' || p.pricing_tier || '.'
         else 'Microsoft Defender for CloudPosture pricing not found.'
       end as reason
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "p.")}

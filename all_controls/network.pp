@@ -8,6 +8,7 @@ benchmark "all_controls_network" {
   title       = "Network"
   description = "This section contains recommendations for configuring Network resources."
   children = [
+    control.application_gateway_http2_enabled,
     control.application_gateway_waf_enabled,
     control.application_gateway_waf_uses_specified_mode,
     control.network_bastion_host_min_1,
@@ -51,7 +52,11 @@ benchmark "all_controls_network" {
     control.network_watcher_flow_log_enabled,
     control.network_watcher_flow_log_traffic_analytics_enabled,
     control.network_watcher_in_regions_with_virtual_network,
-    control.nsg_network_watcher_flow_log_send_to_log_analytics
+    control.nsg_network_watcher_flow_log_send_to_log_analytics,
+    control.application_gateway_min_tls_1_2,
+    control.network_virtual_network_gateway_aad_only,
+    control.web_application_firewall_policy_bot_protection_enabled,
+    control.web_application_firewall_policy_request_body_inspection_enabled,
   ]
 
   tags = merge(local.all_controls_network_common_tags, {

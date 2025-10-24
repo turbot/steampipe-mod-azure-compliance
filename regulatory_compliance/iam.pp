@@ -599,9 +599,9 @@ query "iam_conditional_access_mfa_enabled" {
       case
         when p.built_in_controls @> '["mfa"]' then p.display_name || ' MFA enabled.'
         else p.display_name || ' MFA disabled.'
-      end as reason
+      end as reason,
+      t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
-      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       distinct_tenant as t,
       azuread_conditional_access_policy as p;

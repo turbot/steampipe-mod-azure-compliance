@@ -678,7 +678,7 @@ query "ad_mfa_service_mgmt_api" {
         users -> 'includeUsers' ? 'All'
         and applications -> 'includeApplications' ? '797f4846-ba00-4fd7-ba43-dac1f8f63013'
         and built_in_controls @> '[1]'::jsonb
-        -- and state = 'enabled'
+        and state = 'enabled'
       group
         by tenant_id
     )

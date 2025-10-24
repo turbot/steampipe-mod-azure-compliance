@@ -193,8 +193,9 @@ query "ad_security_defaults_policy_enabled" {
       case
         when (p.is_enabled)::bool then p.tenant_id || ' security defaults enabled.'
         else p.tenant_id || ' security defaults enabled.'
-      end as reason
-     ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       azuread_security_defaults_policy as p;
@@ -240,8 +241,9 @@ query "ad_all_user_mfa_enabled" {
       case
         when (select count from policy_with_mfa where tenant_id = t.tenant_id) > 0 then t.tenant_id || ' has MFA enabled for all users.'
         else t.tenant_id || ' has MFA disabled for all users.'
-      end as reason
-      ${local.common_dimensions_tenant_sql}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       tenant_list as t;
   EOQ
@@ -282,8 +284,9 @@ query "ad_disabled_user_no_role_assignments" {
         when u.account_enabled then u.display_name || ' is enabled account.'
         when not u.account_enabled and d.display_name is not null then u.display_name || ' is disabled and has roles assigned.'
         else u.display_name || ' account is disabled woth no roles assigned.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azuread_user as u
       left join disabled_accounts_with_roles as d on u.id =  d.id
@@ -345,8 +348,9 @@ query "ad_authorization_policy_user_consent_verified_publishers_selected_permiss
       case
         when (p.default_user_role_permissions -> 'permissionGrantPoliciesAssigned')::jsonb @> '["ManagePermissionGrantsForSelf.microsoft-user-default-low"]'::jsonb then p.display_name || ' user consent limited to verified publishers for selected permissions.'
         else p.display_name || ' user consent policy not set to verified publishers (LOW).'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant t
       join azuread_authorization_policy p on p.tenant_id = t.tenant_id;
@@ -355,6 +359,15 @@ query "ad_authorization_policy_user_consent_verified_publishers_selected_permiss
 
 query "ad_authorization_policy_user_consent_disallowed" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
     select
       id as resource,
       case when exists (
@@ -372,17 +385,28 @@ query "ad_authorization_policy_user_consent_disallowed" {
                 (default_user_role_permissions -> 'permissionGrantPoliciesAssigned')::jsonb
               ) as pol(val)
           where val like 'ManagePermissionGrantsForSelf.%'
-        ) then tenant_id || ' user consent for applications allowed.'
-        else tenant_id || ' user consent for applications disallowed.'
-      end as reason
-      ${local.common_dimensions_tenant_sql}
+        ) then t.display_name || ' user consent for applications allowed.'
+        else t.display_name || ' user consent for applications disallowed.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
+      distinct_tenant as t,
       azuread_authorization_policy
   EOQ
 }
 
 query "ad_authorization_policy_guest_user_access_restricted" {
   sql = <<-EOQ
+     with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
     select
       id as resource,
       case
@@ -390,17 +414,28 @@ query "ad_authorization_policy_guest_user_access_restricted" {
         else 'alarm'
       end as status,
       case
-        when guest_user_role_id = '2af84b1e-32c8-42b7-82bc-daa82404023b' then  tenant_id || ' guest user access is restricted to properties and memberships of their own directory objects.'
-        else tenant_id || ' guest user access is not at most restrictive; guest_user_role_id=' || coalesce(guest_user_role_id, '<null>') || '.'
-      end as reason
-      ${local.common_dimensions_tenant_sql}
+        when guest_user_role_id = '2af84b1e-32c8-42b7-82bc-daa82404023b' then  t.display_name || ' guest user access is restricted to properties and memberships of their own directory objects.'
+        else t.display_name || ' guest user access is not at most restrictive; guest_user_role_id=' || coalesce(guest_user_role_id, '<null>') || '.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
+      distinct_tenant as t,
       azuread_authorization_policy;
   EOQ
 }
 
 query "ad_authorization_policy_guest_invite_restricted" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
     select
       id as resource,
       case
@@ -409,20 +444,31 @@ query "ad_authorization_policy_guest_invite_restricted" {
       end as status,
       case
         when allow_invites_from = 'none'
-          then display_name || ' guest invitations disabled (no one).'
+          then t.display_name || ' guest invitations disabled (no one).'
         when allow_invites_from = 'adminsAndGuestInviters'
-          then display_name || ' guest invitations restricted to specific admin roles.'
+          then t.display_name || ' guest invitations restricted to specific admin roles.'
         else
-          display_name || ' guest invitations are too permissive: allow_invites_from=' || coalesce(allow_invites_from, '<null>') || '.'
-      end as reason
-      ${local.common_dimensions_tenant_sql}
+          t.display_name || ' guest invitations are too permissive: allow_invites_from=' || coalesce(allow_invites_from, '<null>') || '.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
+      distinct_tenant as t,
       azuread_authorization_policy;
   EOQ
 }
 
 query "ad_require_mfa_for_device_join" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
     select
       id as resource,
       case
@@ -430,18 +476,29 @@ query "ad_require_mfa_for_device_join" {
         else 'alarm'
       end as status,
       case
-        when multi_factor_auth_configuration = 'required' then tenant_id || ' MFA is required for device registration.'
+        when multi_factor_auth_configuration = 'required' then t.display_name || ' MFA is required for device registration.'
         else
-          tenant_id || ' MFA is not required for device registration.'
-      end as reason
-      ${local.common_dimensions_tenant_sql}
+          t.display_name || ' MFA is not required for device registration.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
+      distinct_tenant as t,
       azuread_device_registration_policy;
   EOQ
 }
 
 query "ad_m365_group_creation_disabled" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
     select
       id as resource,
       case
@@ -449,12 +506,13 @@ query "ad_m365_group_creation_disabled" {
         else 'alarm'
       end as status,
       case
-        when not (value)::bool then tenant_id || ' Microsoft 365 group creation is disabled.'
-        else
-          tenant_id || ' Microsoft 365 group creation is enabled.'
-      end as reason
-      ${local.common_dimensions_tenant_sql}
+        when not (value)::bool then t.display_name || ' Microsoft 365 group creation is disabled.'
+        else t.display_name || ' Microsoft 365 group creation is enabled.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
+      distinct_tenant as t,
       azuread_directory_setting
     where
       name = 'EnableGroupCreation';
@@ -463,6 +521,15 @@ query "ad_m365_group_creation_disabled" {
 
 query "ad_custom_banned_password_enforced" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
     select
       id as resource,
       case
@@ -470,12 +537,14 @@ query "ad_custom_banned_password_enforced" {
         else 'alarm'
       end as status,
       case
-        when (value)::bool then tenant_id || ' custom banned password list is enforced.'
+        when (value)::bool then t.display_name || ' custom banned password list is enforced.'
         else
-          tenant_id || ' custom banned password list is not enforced'
-      end as reason
-      ${local.common_dimensions_tenant_sql}
+          t.display_name || ' custom banned password list is not enforced'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
+      distinct_tenant as t,
       azuread_directory_setting
     where
       name = 'EnableBannedPasswordCheck';
@@ -484,6 +553,15 @@ query "ad_custom_banned_password_enforced" {
 
 query "ad_account_duration_min_60_seconds" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
     select
       id as resource,
       case
@@ -491,12 +569,14 @@ query "ad_account_duration_min_60_seconds" {
         else 'alarm'
       end as status,
       case
-        when (value)::int >= 60 then tenant_id || ' custom banned password list is enforced.'
+        when (value)::int >= 60 then t.display_name || ' custom banned password list is enforced.'
         else
-          tenant_id || ' custom banned password list is not enforced'
-      end as reason
-      ${local.common_dimensions_tenant_sql}
+          t.display_name || ' custom banned password list is not enforced'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
+      distinct_tenant as t,
       azuread_directory_setting
     where
       name = 'LockoutDurationInSeconds';
@@ -505,6 +585,15 @@ query "ad_account_duration_min_60_seconds" {
 
 query "ad_account_lockout_threshold_max_10" {
   sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
     select
       id as resource,
       case
@@ -512,11 +601,13 @@ query "ad_account_lockout_threshold_max_10" {
         else 'alarm'
       end as status,
       case
-        when value is null then tenant_id || ' lockout threshold not configured.'
-        else tenant_id || 'lockout threshold set to ' ||  value || '.'
-      end as reason
-      ${local.common_dimensions_tenant_sql}
+        when value is null then t.display_name || ' lockout threshold not configured.'
+        else t.display_name || 'lockout threshold set to ' ||  value || '.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
+      distinct_tenant as t,
       azuread_directory_setting
     where
       name = 'LockoutThreshold';
@@ -525,9 +616,14 @@ query "ad_account_lockout_threshold_max_10" {
 
 query "ad_admin_portals_require_mfa" {
   sql = <<-EOQ
-    with tenant_list as (
-      select distinct on (tenant_id) tenant_id, _ctx
-      from azuread_user
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
     ),
     conditional_access_policy as (
       select
@@ -550,21 +646,27 @@ query "ad_admin_portals_require_mfa" {
         else 'alarm'
       end as status,
       case
-        when conditional_access_policy_count > 0 then t.tenant_id || ' has conditional cccess policy that requires MFA for All users (or admin roles) when accessing admin portals.'
-        else t.tenant_id || ' does not have a conditional access policy that requires MFA for All users (or admin roles) when accessing admin portals.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+        when conditional_access_policy_count > 0 then t.display_name || ' has conditional cccess policy that requires MFA for All users (or admin roles) when accessing admin portals.'
+        else t.display_name || ' does not have a conditional access policy that requires MFA for All users (or admin roles) when accessing admin portals.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      tenant_list as t
+      distinct_tenant as t
       left join conditional_access_policy as p on p.tenant_id = t.tenant_id;
   EOQ
 }
 
 query "ad_mfa_service_mgmt_api" {
   sql = <<-EOQ
-    with tenant_list as (
-      select distinct on (tenant_id) tenant_id, _ctx
-      from azuread_user
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        display_name,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
     ),
     conditional_access_policy as (
       select
@@ -587,12 +689,13 @@ query "ad_mfa_service_mgmt_api" {
         else 'alarm'
       end as status,
       case
-        when conditional_access_policy_count > 0 then t.tenant_id || ' has conditional access policy which requires MFA for the Service Management API.'
-        else t.tenant_id || ' does not have a conditional access policy which requires MFA for the Service Management API.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+        when conditional_access_policy_count > 0 then t.display_name || ' has conditional access policy which requires MFA for the Service Management API.'
+        else t.display_name || ' does not have a conditional access policy which requires MFA for the Service Management API.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
-      tenant_list as t
+      distinct_tenant as t
       left join conditional_access_policy as p on p.tenant_id = t.tenant_id;
   EOQ
 }

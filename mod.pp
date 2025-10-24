@@ -19,7 +19,7 @@ mod "azure_compliance" {
       min_version = "1.8.0"
     }
     plugin "azuread" {
-      min_version = "0.0.3"
+      min_version = "1.8.0"
     }
   }
 }

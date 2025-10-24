@@ -367,8 +367,9 @@ query "iam_deprecated_account_with_owner_roles" {
       case
         when not u.account_enabled then u.display_name || ' signing-in disabled state with ' || d.role_name || ' role.'
         else u.display_name || ' signing-in enabled.'
-      end as reason
-     ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       azuread_user as u
@@ -445,8 +446,9 @@ query "iam_external_user_with_owner_role" {
       case
         when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
         else a.display_name || ' is domain user with ' || a.role_name || ' role.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       all_owner_users as a;
@@ -485,8 +487,9 @@ query "iam_deprecated_account" {
       case
         when d.id is null then u.display_name || ' sign-in enabled.'
         else u.display_name || ' sign-in disabled.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       azuread_user as u
       left join disabled_users as d on d.id = u.id
@@ -526,8 +529,9 @@ query "iam_external_user_with_read_permission" {
       case
         when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
         else a.display_name || ' is domain user with ' || a.role_name || ' role.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       all_write_permission_users as a;
@@ -567,8 +571,9 @@ query "iam_external_user_with_write_permission" {
       case
         when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
         else a.display_name || ' is domain user with ' || a.role_name || ' role.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       all_write_permission_users as a;
@@ -626,8 +631,9 @@ query "iam_conditional_access_mfa_enabled_for_administrators" {
       case
         when p.built_in_controls @> '["mfa"]' then p.display_name || ' MFA enabled.'
         else p.display_name || ' MFA disabled.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       azuread_conditional_access_policy as p;
@@ -653,8 +659,9 @@ query "iam_user_not_allowed_to_create_security_group" {
       case
         when a.default_user_role_permissions ->> 'allowedToCreateSecurityGroups' = 'false' then a.display_name || ' does not allow user to create security groups.'
         else a.display_name || ' allows user to create security groups.'
-      end as reason
-     ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       azuread_authorization_policy as a;
@@ -680,8 +687,9 @@ query "iam_user_not_allowed_to_create_tenants" {
       case
         when a.default_user_role_permissions ->> 'allowedToCreateTenants' = 'true' then a.display_name || ' allows user to create tenants.'
         else a.display_name || ' restricts the user to create tenants.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       azuread_authorization_policy as a;
@@ -707,8 +715,9 @@ query "iam_user_not_allowed_to_register_application" {
       case
         when a.default_user_role_permissions ->> 'allowedToCreateApps' = 'false' then a.display_name || ' does not allow user to register applications.'
         else a.display_name || ' allows user to register applications.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       azuread_authorization_policy as a;
@@ -792,8 +801,9 @@ query "iam_user_no_built_in_contributor_role" {
       case
         when c.user_principal_name is not null then u.display_name || ' has contributor role assigned.'
         else u.display_name || ' does not have contributor role assigned.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       azuread_user as u left join all_contributor_permission_users as c on c.user_principal_name = u.user_principal_name;
@@ -827,8 +837,9 @@ query "iam_user_consent_to_apps_accessing_data_on_their_behalf_disabled" {
       case
         when a.tenant_id is null then a.display_name || ' user consent to apps accessing company data on their behalf disabled.'
         else a.display_name ||  ' user consent to apps accessing company data on their behalf enabled.'
-      end as reason
-     ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       authorization_policy_with_overly_permission as a;
@@ -852,8 +863,9 @@ query "iam_global_administrator_max_5" {
         when jsonb_array_length(member_ids) >= 2 and jsonb_array_length(member_ids) < 5 then 'ok'
         else 'alarm'
       end as status,
-      t.title || ' has ' ||  (jsonb_array_length(member_ids)) || ' users with global administrator assignment.'  as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      t.title || ' has ' ||  (jsonb_array_length(member_ids)) || ' users with global administrator assignment.'  as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       azuread_directory_role
@@ -914,8 +926,9 @@ query "iam_conditional_access_trusted_location_configured" {
       case
         when (location_info -> 'IsTrusted')::bool then title || ' trusted location configured.'
         else title || ' trusted location not configured.'
-      end as reason
-      ${replace(local.common_dimensions_tenant_qualifier_sql, "__QUALIFIER__", "t.")}
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
       azuread_conditional_access_named_location;

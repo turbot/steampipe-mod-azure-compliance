@@ -1103,8 +1103,13 @@ query "compute_vm_remote_access_restricted_all_ports" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm
-      left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
-      join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
+      left join network_sg as sg on exists (
+        select 1
+        from jsonb_array_elements(vm.network_interfaces) vm_ni,
+            jsonb_array_elements(sg.network_interfaces) sg_ni
+        where lower(vm_ni ->> 'id') = lower(sg_ni ->> 'id')
+      )
+      left join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
   EOQ
 }
 
@@ -2563,7 +2568,12 @@ query "compute_vm_remote_access_restricted" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_compute_virtual_machine as vm
-      left join network_sg as sg on sg.network_interfaces @> vm.network_interfaces
+      left join network_sg as sg on exists (
+        select 1
+        from jsonb_array_elements(vm.network_interfaces) vm_ni,
+            jsonb_array_elements(sg.network_interfaces) sg_ni
+        where lower(vm_ni ->> 'id') = lower(sg_ni ->> 'id')
+      )
       left join azure_subscription as sub on sub.subscription_id = vm.subscription_id;
   EOQ
 }

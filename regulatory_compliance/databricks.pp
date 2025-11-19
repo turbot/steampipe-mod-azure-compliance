@@ -36,6 +36,22 @@ control "databricks_workspace_no_public_ip_enabled" {
   tags = local.regulatory_compliance_databricks_common_tags
 }
 
+control "databricks_workspace_public_network_access_disabled" {
+  title         = "Ensure 'Allow Public Network Access' is set to 'Disabled'"
+  description   = "Disable public network access to prevent exposure to the internet and reduce the risk of unauthorized access. Use private endpoints to securely manage access within trusted networks."
+  query         = query.databricks_workspace_public_network_access_disabled
+
+  tags = local.regulatory_compliance_databricks_common_tags
+}
+
+control "databricks_workspace_uses_private_endpoint" {
+  title         = "Ensure private endpoints are used to access Azure Databricks workspaces"
+  description   = "Use private endpoints for Azure Databricks workspaces to allow clients and services to securely access data located over a network via an encrypted Private Link. To do this, the private endpoint uses an IP address from the VNet for each service. Network traffic between disparate services securely traverses encrypted over the VNet. This VNet can also link addressing space, extending your network and accessing resources on it. Similarly, it can be a tunnel through public networks to connect remote infrastructures together. This creates further security through segmenting network traffic and preventing outside sources from accessing it."
+  query         = query.databricks_workspace_uses_private_endpoint
+
+  tags = local.regulatory_compliance_databricks_common_tags
+}
+
 query "databricks_workspace_deployed_in_custom_vnet" {
   sql = <<-EOQ
     select
@@ -210,5 +226,57 @@ query "databricks_workspace_no_public_ip_enabled" {
     from
       azure_databricks_workspace as a
       left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "databricks_workspace_public_network_access_disabled" {
+  sql = <<-EOQ
+    select
+      w.id as resource,
+      case
+        when public_network_access = 'Disabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when public_network_access = 'Enabled' then name || ' public network access disabled.'
+        else name || ' public network access enabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_databricks_workspace as w
+      left join azure_subscription sub on sub.subscription_id = w.subscription_id;
+  EOQ
+}
+
+query "databricks_workspace_uses_private_endpoint" {
+  sql = <<-EOQ
+    with databricks_workspace_connection as (
+      select
+        distinct a.id
+      from
+        azure_databricks_workspace as a,
+        jsonb_array_elements(private_endpoint_connections) as connection
+      where
+        connection -> 'properties' -> 'privateLinkServiceConnectionState' ->> 'status' = 'Approved'
+    )
+    select
+      a.id as resource,
+      case
+        when c.id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when c.id is null then a.title || ' not uses private endpoint.'
+        else a.title || ' uses private endpoint.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_databricks_workspace as a
+      left join databricks_workspace_connection as c on c.id = a.id
+      left join azure_subscription sub on a.subscription_id = sub.subscription_id;
   EOQ
 }

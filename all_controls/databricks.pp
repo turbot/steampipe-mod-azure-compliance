@@ -11,8 +11,10 @@ benchmark "all_controls_databricks" {
     control.databricks_workspace_cmk_configured,
     control.databricks_workspace_deployed_in_custom_vnet,
     control.databricks_workspace_diagnostic_log_delivery_configured,
-    control.databricks_workspace_subnet_with_nsg_configured,
     control.databricks_workspace_no_public_ip_enabled,
+    control.databricks_workspace_public_network_access_disabled,
+    control.databricks_workspace_subnet_with_nsg_configured,
+    control.databricks_workspace_uses_private_endpoint
   ]
 
   tags = merge(local.all_controls_databoxedge_common_tags, {

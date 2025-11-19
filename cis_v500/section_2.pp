@@ -163,7 +163,7 @@ control "cis_v500_2_1_9" {
 control "cis_v500_2_1_10" {
   title         = "2.1.10 Ensure 'Allow Public Network Access' is set to 'Disabled'"
   description   = "Disable public network access to prevent exposure to the internet and reduce the risk of unauthorized access. Use private endpoints to securely manage access within trusted networks."
-  query         = query.manual_control
+  query         = query.databricks_workspace_public_network_access_disabled
   documentation = file("./cis_v500/docs/cis_v500_2_1_10.md")
 
   tags = merge(local.cis_v500_2_1_common_tags, {
@@ -176,7 +176,7 @@ control "cis_v500_2_1_10" {
 control "cis_v500_2_1_11" {
   title         = "2.1.11 Ensure private endpoints are used to access Azure Databricks workspaces"
   description   = "Use private endpoints for Azure Databricks workspaces to allow clients and services to securely access data located over a network via an encrypted Private Link. To do this, the private endpoint uses an IP address from the VNet for each service. Network traffic between disparate services securely traverses encrypted over the VNet. This VNet can also link addressing space, extending your network and accessing resources on it. Similarly, it can be a tunnel through public networks to connect remote infrastructures together. This creates further security through segmenting network traffic and preventing outside sources from accessing it."
-  query         = query.manual_control
+  query         = query.databricks_workspace_uses_private_endpoint
   documentation = file("./cis_v500/docs/cis_v500_2_1_11.md")
 
   tags = merge(local.cis_v500_2_1_common_tags, {

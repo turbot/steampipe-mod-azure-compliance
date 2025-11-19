@@ -617,7 +617,7 @@ control "cis_v500_5_24" {
 control "cis_v500_5_25" {
   title         = "5.25 Ensure that 'Subscription leaving Microsoft Entra tenant' and 'Subscription entering Microsoft Entra tenant' is set to 'Permit no one'"
   description   = "Users who are set as subscription owners are able to make administrative changes to the subscriptions and move them into and out of Microsoft Entra ID."
-  query         = query.manual_control
+  query         = query.iam_subscription_tenant_transfer_restricted
   documentation = file("./cis_v500/docs/cis_v500_5_25.md")
 
   tags = merge(local.cis_v500_5_common_tags, {

@@ -1,3 +1,10 @@
+## v2.3.1 [2025-11-19]
+
+_Bug fixes_
+
+- Fixed false positives in `compute_vm_remote_access_restricted_all_ports` and `compute_vm_remote_access_restricted` queries. ([#348](https://github.com/turbot/steampipe-mod-azure-compliance/pull/348))
+- Fixed typo in `network_virtual_network_watcher_flow_log_retention_90_days` query. ([#349](https://github.com/turbot/steampipe-mod-azure-compliance/pull/349)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+
 ## v2.3.0 [2025-10-24]
 
 _Dependencies_

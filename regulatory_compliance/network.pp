@@ -2272,7 +2272,7 @@ query "network_virtual_network_watcher_flow_log_retention_90_days" {
         else 'alarm'
       end as status,
       case
-        when target_resource_id not like '%/Microsoft.Network/virtualNetworks/%' then fl.name || ' is not virtaul network flow log.'
+        when target_resource_id not like '%/Microsoft.Network/virtualNetworks/%' then fl.name || ' is not virtual network flow log.'
         when not fl.enabled then fl.name || ' flow log is not enabled.'
         when fl.retention_policy_days = 0 then fl.name || ' flow log retention is set to indefinite.'
         when fl.retention_policy_days >= 90 then fl.name || ' flow log retention is set to ' || fl.retention_policy_days || ' days.'

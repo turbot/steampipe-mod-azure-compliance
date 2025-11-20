@@ -1224,7 +1224,7 @@ query "storage_account_key_rotation_reminder_enabled" {
       sa.id as resource,
       case
         when key_policy is null then 'alarm'
-        when key_policy ->> 'keyExpirationPeriodInDays' = '90' then 'ok'
+        when key_policy ->> 'keyExpirationPeriodInDays' <= '90' then 'ok'
         else 'alarm'
       end as status,
       case

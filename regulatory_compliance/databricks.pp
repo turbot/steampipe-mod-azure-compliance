@@ -238,7 +238,7 @@ query "databricks_workspace_public_network_access_disabled" {
         else 'alarm'
       end as status,
       case
-        when public_network_access = 'Enabled' then name || ' public network access disabled.'
+        when public_network_access = 'Disabled' then name || ' public network access disabled.'
         else name || ' public network access enabled.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "w.")}
@@ -268,7 +268,7 @@ query "databricks_workspace_uses_private_endpoint" {
         else 'ok'
       end as status,
       case
-        when c.id is null then a.title || ' not uses private endpoint.'
+        when c.id is null then a.title || ' does not use private endpoint.'
         else a.title || ' uses private endpoint.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

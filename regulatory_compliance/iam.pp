@@ -231,6 +231,14 @@ control "iam_conditional_access_trusted_location_configured" {
   tags = local.regulatory_compliance_iam_common_tags
 }
 
+control "iam_subscription_tenant_transfer_restricted" {
+  title         = "5.25 Ensure that 'Subscription leaving Microsoft Entra tenant' and 'Subscription entering Microsoft Entra tenant' is set to 'Permit no one'"
+  description   = "Users who are set as subscription owners are able to make administrative changes to the subscriptions and move them into and out of Microsoft Entra ID."
+  query         = query.iam_subscription_tenant_transfer_restricted
+
+  tags = local.regulatory_compliance_iam_common_tags
+}
+
 query "iam_subscription_owner_more_than_1" {
   sql = <<-EOQ
     with owner_roles as (
@@ -932,6 +940,27 @@ query "iam_conditional_access_trusted_location_configured" {
     from
       distinct_tenant as t,
       azuread_conditional_access_named_location;
+  EOQ
+}
+
+query "iam_subscription_tenant_transfer_restricted" {
+  sql = <<-EOQ
+    select
+      t.tenant_id as resource,
+      case
+        when (t.subscription_policy -> 'properties' -> 'blockSubscriptionsIntoTenant')::bool = true
+          and (t.subscription_policy -> 'properties' -> 'blockSubscriptionsLeavingTenant')::bool = true then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when (t.subscription_policy -> 'properties' -> 'blockSubscriptionsIntoTenant')::bool = true
+          and (t.subscription_policy -> 'properties' -> 'blockSubscriptionsLeavingTenant')::bool = true then t.display_name || ' subscription tenant transfer is restricted (Permit no one).'
+        else t.display_name || ' subscription tenant transfer is not restricted. Block subscriptions into tenant: ' || coalesce((t.subscription_policy -> 'properties' -> 'blockSubscriptionsIntoTenant')::text, 'false') || ', Block subscriptions leaving tenant: ' || coalesce((t.subscription_policy -> 'properties' -> 'blockSubscriptionsLeavingTenant')::text, 'false') || '.'
+      end as reason,
+      t.tenant_id
+      -- ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azure_tenant as t;
   EOQ
 }
 

@@ -332,10 +332,12 @@ query "securitycenter_security_alerts_to_owner_enabled" {
   sql = <<-EOQ
     with contact_info as (
       select
-        count(*) filter (where alerts_to_admins = 'On') as admin_alert_count,
+        count(*) as admin_alert_count,
         subscription_id
       from
         azure_security_center_contact
+      where
+        notifications_by_role @> '{"roles": ["Owner"]}' and notifications_by_role @> '{"state": "On"}'
       group by
         subscription_id
       limit 1

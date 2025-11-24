@@ -1,3 +1,24 @@
+## v2.4.0 [2025-11-24]
+
+_Dependencies_
+
+- Azure plugin v1.11.0 or higher is now required. ([#351](https://github.com/turbot/steampipe-mod-azure-compliance/pull/351))
+
+_Enhancements_
+
+- Added new automated query implementations for the following `CIS v5.0.0` controls: ([#351](https://github.com/turbot/steampipe-mod-azure-compliance/pull/351))
+  - `cis_v500_2_1_10` - Ensure 'Allow Public Network Access' is set to 'Disabled' for Databricks workspaces
+  - `cis_v500_2_1_11` - Ensure private endpoints are used to access Azure Databricks workspaces
+  - `cis_v500_5_25` - Ensure that 'Subscription leaving Microsoft Entra tenant' and 'Subscription entering Microsoft Entra tenant' is set to 'Permit no one'
+- Added the following controls to `All Azure Compliance Controls` benchmark: ([#351](https://github.com/turbot/steampipe-mod-azure-compliance/pull/351))
+  - `databricks_workspace_public_network_access_disabled`
+  - `databricks_workspace_uses_private_endpoint`
+  - `iam_subscription_tenant_transfer_restricted`
+
+_Bug fixes_
+
+- Fixed `securitycenter_security_alerts_to_owner_enabled` query to correctly check `notifications_by_role` column for Owner role instead of `alerts_to_admins` column. ([#352](https://github.com/turbot/steampipe-mod-azure-compliance/pull/352)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+
 ## v2.3.1 [2025-11-19]
 
 _Bug fixes_

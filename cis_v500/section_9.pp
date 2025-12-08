@@ -211,7 +211,7 @@ control "cis_v500_9_3_1_1" {
 control "cis_v500_9_3_1_2" {
   title         = "9.3.1.2 Ensure that Storage Account access keys are periodically regenerated"
   description   = "For increased security, regenerate storage account access keys periodically."
-  query         = query.manual_control
+  query         = query.storage_account_access_keys_periodically_regenerated
   documentation = file("./cis_v500/docs/cis_v500_9_3_1_2.md")
 
   tags = merge(local.cis_v500_9_3_1_common_tags, {

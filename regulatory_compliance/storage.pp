@@ -351,6 +351,14 @@ control "storage_account_file_share_smb_channel_encryption_aes_256_gcm" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_access_keys_periodically_regenerated" {
+  title         = "Ensure that Storage Account access keys are periodically regenerated"
+  description   = "For increased security, regenerate storage account access keys periodically."
+  query         = query.storage_account_access_keys_periodically_regenerated
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select
@@ -1237,6 +1245,48 @@ query "storage_account_key_rotation_reminder_enabled" {
     from
       azure_storage_account sa
       left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_access_keys_periodically_regenerated" {
+  sql = <<-EOQ
+    with storage_account_key_status as (
+      select
+        sa.id,
+        sa.name as storage_account_name,
+        sa.subscription_id,
+        sa._ctx,
+        sa.region,
+        sa.resource_group,
+        sa.tags,
+        key ->> 'KeyName'  as key_name,
+        (key ->> 'CreationTime')::timestamptz as last_rotated,
+        extract(
+          epoch
+          from (now() - (key ->> 'CreationTime')::timestamptz)
+        ) / 86400    as days_since_rotation
+      from
+        azure_storage_account as sa,
+        jsonb_array_elements(sa.access_keys) as key
+    )
+    select
+      saks.id as resource,
+      case
+        when saks.days_since_rotation > 90  then 'alarm'
+        else 'ok'
+      end as status,
+      format(
+        'Access key %s for storage account %s was last rotated %s days ago (on %s).',
+        key_name,
+        storage_account_name,
+        floor(days_since_rotation)::int,
+        last_rotated
+      ) as reason
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "saks.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      storage_account_key_status saks
+      left join azure_subscription sub on sub.subscription_id = saks.subscription_id;
   EOQ
 }
 

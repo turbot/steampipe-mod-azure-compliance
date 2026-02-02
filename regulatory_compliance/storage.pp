@@ -985,7 +985,7 @@ query "storage_account_file_share_soft_delete_enabled" {
       end as status,
       case
         when fs.storage_account_name is null then name || ' does not have file share.'
-        when not file_soft_delete_enabled then name || ' file share soft delete disabled.'
+        when not coalesce(file_soft_delete_enabled, false) then name || ' file share soft delete disabled.'
         when file_soft_delete_retention_days < 1 or file_soft_delete_retention_days > 365
           then name || ' file share soft delete retention days (' || file_soft_delete_retention_days || ') not between 1 and 365.'
         else name || ' file share soft delete enabled with ' || file_soft_delete_retention_days || ' days retention.'

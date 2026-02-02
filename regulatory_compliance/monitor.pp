@@ -283,6 +283,14 @@ control "application_insights_block_log_ingestion_and_querying_from_public" {
   })
 }
 
+control "monitor_diagnostic_settings_exists_for_subscription" {
+  title         = "Ensure that a 'Diagnostic Setting' exists for Subscription Activity Logs"
+  description   = "Enable Diagnostic settings for exporting activity logs. Diagnostic settings are available for each individual resource within a subscription. Settings should be configured for all appropriate resources for your environment."
+  query         = query.monitor_diagnostic_settings_exists_for_subscription
+
+  tags = local.regulatory_compliance_monitor_common_tags
+}
+
 query "monitor_log_profile_enabled_for_all_categories" {
   sql = <<-EOQ
     select
@@ -434,6 +442,32 @@ query "monitor_application_insights_configured" {
     from
       azure_subscription as sub
       left join application_insights as i on i.subscription_id = sub.subscription_id;
+  EOQ
+}
+
+query "monitor_diagnostic_settings_exists_for_subscription" {
+  sql = <<-EOQ
+    with subscription_diagnostic_settings as (
+      select
+        distinct subscription_id
+      from
+        azure_diagnostic_setting
+    )
+    select
+      sub.id as resource,
+      case
+        when d.subscription_id is null then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when d.subscription_id is null then sub.display_name || ' does not have a diagnostic setting for subscription activity logs.'
+        else sub.display_name || ' has a diagnostic setting for subscription activity logs.'
+      end as reason
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_subscription as sub
+      left join subscription_diagnostic_settings as d on d.subscription_id = sub.subscription_id;
   EOQ
 }
 

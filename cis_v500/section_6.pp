@@ -76,7 +76,7 @@ benchmark "cis_v500_6_1_1" {
 control "cis_v500_6_1_1_1" {
   title         = "6.1.1.1 Ensure that a 'Diagnostic Setting' exists for Subscription Activity Logs"
   description   = "Enable Diagnostic settings for exporting activity logs. Diagnostic settings are available for each individual resource within a subscription. Settings should be configured for all appropriate resources for your environment."
-  query         = query.manual_control
+  query         = query.monitor_diagnostic_settings_exists_for_subscription
   documentation = file("./cis_v500/docs/cis_v500_6_1_1_1.md")
 
   tags = merge(local.cis_v500_6_1_1_common_tags, {

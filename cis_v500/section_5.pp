@@ -85,7 +85,7 @@ control "cis_v500_5_1_1" {
 control "cis_v500_5_1_2" {
   title         = "5.1.2 Ensure that 'multifactor authentication' is 'enabled' for all users"
   description   = "Multifactor authentication requires an individual to present a minimum of two separate forms of authentication before access is granted. Multifactor authentication provides additional assurance that the individual attempting to gain access is who they claim to be. With multifactor authentication, an attacker would need to compromise at least two different authentication mechanisms, increasing the difficulty of compromise and thus reducing the risk."
-  query         = query.manual_control
+  query         = query.ad_user_mfa_enabled
   documentation = file("./cis_v500/docs/cis_v500_5_1_2.md")
 
   tags = merge(local.cis_v500_5_1_common_tags, {

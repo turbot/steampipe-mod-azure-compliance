@@ -1,3 +1,25 @@
+## v2.5.0 [2026-02-03]
+
+_Dependencies_
+
+- Azure plugin v1.12.0 or higher is now required. ([#359](https://github.com/turbot/steampipe-mod-azure-compliance/pull/359))
+
+_Enhancements_
+
+- Added new automated query implementations for the following `CIS v5.0.0` controls: ([#359](https://github.com/turbot/steampipe-mod-azure-compliance/pull/359))
+  - `cis_v500_5_1_2` - Ensure that `multifactor authentication` is `enabled` for all users
+  - `cis_v500_6_1_1_1` - Ensure that a `Diagnostic Setting` exists for Subscription Activity Logs
+  - `cis_v500_9_3_1_2` - Ensure that Storage Account access keys are periodically regenerated
+- Added the following controls to `All Azure Compliance Controls` benchmark: ([#359](https://github.com/turbot/steampipe-mod-azure-compliance/pull/359))
+  - `ad_user_mfa_enabled`
+  - `monitor_diagnostic_settings_exists_for_subscription`
+  - `storage_account_access_keys_periodically_regenerated`
+
+_Bug fixes_
+
+- Fixed `storage_account_access_keys_periodically_regenerated` query to correctly handle storage accounts without access keys. ([#362](https://github.com/turbot/steampipe-mod-azure-compliance/pull/362))
+- Fixed `storage_account_file_share_soft_delete_enabled` query to handle `null` values correctly. ([#360](https://github.com/turbot/steampipe-mod-azure-compliance/pull/360)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+
 ## v2.4.0 [2025-11-24]
 
 _Dependencies_

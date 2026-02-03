@@ -351,6 +351,14 @@ control "storage_account_file_share_smb_channel_encryption_aes_256_gcm" {
   tags = local.regulatory_compliance_storage_common_tags
 }
 
+control "storage_account_access_keys_periodically_regenerated" {
+  title         = "Ensure that Storage Account access keys are periodically regenerated"
+  description   = "For increased security, regenerate storage account access keys periodically."
+  query         = query.storage_account_access_keys_periodically_regenerated
+
+  tags = local.regulatory_compliance_storage_common_tags
+}
+
 query "storage_account_secure_transfer_required_enabled" {
   sql = <<-EOQ
     select
@@ -985,7 +993,7 @@ query "storage_account_file_share_soft_delete_enabled" {
       end as status,
       case
         when fs.storage_account_name is null then name || ' does not have file share.'
-        when not file_soft_delete_enabled then name || ' file share soft delete disabled.'
+        when not coalesce(file_soft_delete_enabled, false) then name || ' file share soft delete disabled.'
         when file_soft_delete_retention_days < 1 or file_soft_delete_retention_days > 365
           then name || ' file share soft delete retention days (' || file_soft_delete_retention_days || ') not between 1 and 365.'
         else name || ' file share soft delete enabled with ' || file_soft_delete_retention_days || ' days retention.'
@@ -1237,6 +1245,47 @@ query "storage_account_key_rotation_reminder_enabled" {
     from
       azure_storage_account sa
       left join azure_subscription sub on sub.subscription_id = sa.subscription_id;
+  EOQ
+}
+
+query "storage_account_access_keys_periodically_regenerated" {
+  sql = <<-EOQ
+    with storage_account_key_status as (
+      select
+        sa.id,
+        sa.name as storage_account_name,
+        sa.subscription_id,
+        sa._ctx,
+        sa.region,
+        sa.resource_group,
+        sa.tags,
+        key ->> 'KeyName'  as key_name,
+        (key ->> 'CreationTime')::timestamptz as last_rotated,
+        extract(
+          epoch
+          from (now() - (key ->> 'CreationTime')::timestamptz)
+        ) / 86400    as days_since_rotation
+      from
+        azure_storage_account as sa
+        left join lateral jsonb_array_elements(sa.access_keys) as key on true
+    )
+    select
+      saks.id as resource,
+      case
+        when saks.key_name is null then 'skip'
+        when saks.days_since_rotation > 90 then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when saks.key_name is null then saks.storage_account_name || ' has no access keys available.'
+        else saks.storage_account_name || ' ' || saks.key_name || ' last rotated ' || floor(saks.days_since_rotation)::int || ' days ago.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "saks.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "saks.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      storage_account_key_status saks
+      left join azure_subscription sub on sub.subscription_id = saks.subscription_id;
   EOQ
 }
 

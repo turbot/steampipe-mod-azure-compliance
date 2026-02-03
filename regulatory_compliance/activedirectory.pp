@@ -134,6 +134,14 @@ control "ad_mfa_service_mgmt_api" {
   tags = local.regulatory_compliance_activedirectory_common_tags
 }
 
+control "ad_user_mfa_enabled" {
+  title         = "Ensure that 'multifactor authentication' is 'enabled' for all users"
+  description   = "Multifactor authentication requires an individual to present a minimum of two separate forms of authentication before access is granted. Multifactor authentication provides additional assurance that the individual attempting to gain access is who they claim to be. With multifactor authentication, an attacker would need to compromise at least two different authentication mechanisms, increasing the difficulty of compromise and thus reducing the risk."
+  query         = query.ad_user_mfa_enabled
+
+  tags = local.regulatory_compliance_activedirectory_common_tags
+}
+
 query "ad_guest_user_reviewed_monthly" {
   sql = <<-EOQ
     with distinct_tenant as (
@@ -246,6 +254,36 @@ query "ad_all_user_mfa_enabled" {
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       tenant_list as t;
+  EOQ
+}
+
+query "ad_user_mfa_enabled" {
+  sql = <<-EOQ
+    with distinct_tenant as (
+      select
+        distinct tenant_id,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
+    select
+      r.user_principal_name as resource,
+      case
+        when not (r.is_mfa_registered = true) then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when not (r.is_mfa_registered = true) then r.user_display_name || ' (' || r.user_principal_name || ') does not have multifactor authentication enabled.'
+        else r.user_display_name || ' (' || r.user_principal_name || ') has multifactor authentication enabled.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      azuread_user_registration_details_report as r
+      left join distinct_tenant as t on t.tenant_id = r.tenant_id
+    where
+      r.user_principal_name is not null;
   EOQ
 }
 

@@ -23,6 +23,7 @@ benchmark "all_controls_activedirectory" {
     control.ad_mfa_service_mgmt_api,
     control.ad_require_mfa_for_device_join,
     control.ad_security_defaults_policy_enabled,
+    control.ad_user_mfa_enabled,
     control.iam_conditional_access_mfa_enabled,
     control.iam_conditional_access_trusted_location_configured,
     control.iam_deprecated_account_with_owner_roles,
@@ -41,7 +42,7 @@ benchmark "all_controls_activedirectory" {
     control.iam_user_no_built_in_contributor_role,
     control.iam_user_not_allowed_to_create_security_group,
     control.iam_user_not_allowed_to_create_tenants,
-    control.iam_user_not_allowed_to_register_application,
+    control.iam_user_not_allowed_to_register_application
   ]
 
   tags = merge(local.all_controls_activedirectory_common_tags, {

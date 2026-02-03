@@ -1266,22 +1266,21 @@ query "storage_account_access_keys_periodically_regenerated" {
           from (now() - (key ->> 'CreationTime')::timestamptz)
         ) / 86400    as days_since_rotation
       from
-        azure_storage_account as sa,
-        jsonb_array_elements(sa.access_keys) as key
+        azure_storage_account as sa
+        left join lateral jsonb_array_elements(sa.access_keys) as key on true
     )
     select
       saks.id as resource,
       case
-        when saks.days_since_rotation > 90  then 'alarm'
+        when saks.key_name is null then 'skip'
+        when saks.days_since_rotation > 90 then 'alarm'
         else 'ok'
       end as status,
-      format(
-        'Access key %s for storage account %s was last rotated %s days ago (on %s).',
-        key_name,
-        storage_account_name,
-        floor(days_since_rotation)::int,
-        last_rotated
-      ) as reason
+      case
+        when saks.key_name is null then saks.storage_account_name || ' has no access keys available.'
+        else saks.storage_account_name || ' ' || saks.key_name || ' last rotated ' || floor(saks.days_since_rotation)::int || ' days ago.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "saks.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "saks.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from

@@ -1,3 +1,9 @@
+## v2.5.1 [2026-03-18]
+
+_Bug fixes_
+
+- Fixed `network_ddos_enabled` query to correctly return the virtual network ID as the resource instead of the virtual network name. ([#365](https://github.com/turbot/steampipe-mod-azure-compliance/pull/365)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+
 ## v2.5.0 [2026-02-03]
 
 _Dependencies_

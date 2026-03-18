@@ -700,7 +700,7 @@ query "network_ddos_enabled" {
         jsonb_array_elements(gateway_ip_configurations) as c
     )
     select
-      a.name as resource,
+      a.id as resource,
       case
         when b.vn_name is null then 'ok'
         when b.vn_name is not null and enable_ddos_protection::bool then 'ok'

@@ -302,7 +302,8 @@ query "securitycenter_notify_alerts_configured" {
   sql = <<-EOQ
     with contact_info as (
       select
-        count(*) filter (where alert_notifications = 'On') as notification_alert_count,
+        count(*) filter (where notifications_by_role @> '{"state": "On"}') as notifications_on_count,
+        count(*) filter (where notifications_sources @> '[{"sourceType": "Alert", "minimalSeverity": "High"}]') as alert_severity_count,
         subscription_id
       from
         azure_security_center_contact
@@ -313,12 +314,13 @@ query "securitycenter_notify_alerts_configured" {
     select
       sub.subscription_id as resource,
       case
-        when notification_alert_count > 0 then 'ok'
+        when notifications_on_count > 0 and alert_severity_count > 0 then 'ok'
         else 'alarm'
       end as status,
       case
-        when notification_alert_count > 0 then '"Notify about alerts with the following severity" set to High.'
-        else '"Notify about alerts with the following severity" not set to High.'
+        when notifications_on_count > 0 and alert_severity_count > 0 then '"Notify about alerts with the following severity" set to High.'
+        when notifications_on_count > 0 then '"Notify about alerts with the following severity" not set to High.'
+        else 'Notifications state is not set to "On".'
       end as reason
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}

@@ -1,3 +1,9 @@
+## v2.5.2 [2026-05-28]
+
+_Bug fixes_
+
+- Fixed `securitycenter_notify_alerts_configured` query to use the non-deprecated `notifications_by_role` and `notifications_sources` columns instead of the deprecated `alert_notifications` column, which no longer returns data and caused false positives in the `CIS v5.0.0` 8.1.14 control. ([#369](https://github.com/turbot/steampipe-mod-azure-compliance/pull/369)) (Thanks [@KingBrewer](https://github.com/KingBrewer) for the contribution!)
+
 ## v2.5.1 [2026-03-18]
 
 _Bug fixes_

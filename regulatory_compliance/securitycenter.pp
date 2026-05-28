@@ -320,7 +320,7 @@ query "securitycenter_notify_alerts_configured" {
       case
         when notifications_on_count > 0 and alert_severity_count > 0 then '"Notify about alerts with the following severity" set to High.'
         when notifications_on_count > 0 then '"Notify about alerts with the following severity" not set to High.'
-        else 'Notifications state is not set to "On".'
+        else 'Notification state not set to "On".'
       end as reason
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "sub.")}
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}

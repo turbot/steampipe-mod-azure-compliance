@@ -1420,3 +1420,25 @@ query "monitor_log_alert_service_health" {
       sub.display_name;
   EOQ
 }
+
+query "activity_log_should_be_retained_for_at_least_one_year" {
+  sql = <<-EOQ
+    select
+      p.id as resource,
+      case
+        when p.retention_policy ->> 'enabled' = 'false' and (p.retention_policy ->> 'days')::int != 0 then 'alarm'
+        when p.retention_policy ->> 'enabled' = 'true' and (p.retention_policy ->> 'days')::int >= 365 then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when p.retention_policy ->> 'enabled' = 'false' and (p.retention_policy ->> 'days')::int != 0 then p.name || ' retention policy disabled.'
+        else p.name || ' retention is set to ' || (p.retention_policy ->> 'days') || ' day(s).'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "p.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_log_profile as p
+      left join azure_subscription sub on sub.subscription_id = p.subscription_id;
+  EOQ
+}

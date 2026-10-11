@@ -2376,10 +2376,12 @@ query "application_gateway_min_tls_1_2" {
       ag.id as resource,
       case
         when ssl_policy is null or ((ssl_policy ->> 'minProtocolVersion') in ('TLSv1_2' , 'TLSv1_3')) then 'ok'
+        when (ssl_policy ->> 'minProtocolVersion') is null and (ssl_policy ->> 'policyName') in ('AppGwSslPolicy20170401S', 'AppGwSslPolicy20220101', 'AppGwSslPolicy20220101S') then 'ok'
         else 'alarm'
       end as status,
       case
         when ssl_policy is null then ag.name || ' minimum TLS version set to TLSv1_2.'
+        when (ssl_policy ->> 'minProtocolVersion') is null then ag.name || ' uses predefined SSL policy ' || (ssl_policy ->> 'policyName') || '.'
         else ag.name || ' minimum TLS version set to ' || (ssl_policy ->> 'minProtocolVersion') || '.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}

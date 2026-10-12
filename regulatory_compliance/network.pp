@@ -674,11 +674,15 @@ query "application_gateway_waf_enabled" {
     select
       ag.id resource,
       case
-        when web_application_firewall_configuration is not null then 'ok'
+        when ag.firewall_policy is not null and lower(p.policy_settings ->> 'state') = 'disabled' then 'alarm'
+        when ag.firewall_policy is not null then 'ok'
+        when ag.web_application_firewall_configuration is not null then 'ok'
         else 'alarm'
       end as status,
       case
-        when web_application_firewall_configuration is not null then ag.name || ' WAF enabled.'
+        when ag.firewall_policy is not null and lower(p.policy_settings ->> 'state') = 'disabled' then ag.name || ' WAF policy disabled.'
+        when ag.firewall_policy is not null then ag.name || ' WAF enabled.'
+        when ag.web_application_firewall_configuration is not null then ag.name || ' WAF enabled.'
         else ag.name || ' WAF disabled.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
@@ -686,6 +690,7 @@ query "application_gateway_waf_enabled" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_application_gateway as ag
+      left join azure_web_application_firewall_policy as p on lower(p.id) = lower(ag.firewall_policy ->> 'id')
       left join azure_subscription as sub on sub.subscription_id = ag.subscription_id;
   EOQ
 }

@@ -47,7 +47,8 @@ benchmark "cis_v500_6_1" {
   ]
 
   tags = merge(local.cis_v500_6_1_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/Monitor"
   })
 }
 
@@ -454,5 +455,6 @@ control "cis_v500_6_2" {
     cis_item_id = "6.2"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ResourceManager"
   })
 }

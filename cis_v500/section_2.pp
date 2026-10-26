@@ -18,7 +18,8 @@ benchmark "cis_v500_2" {
   ]
 
   tags = merge(local.cis_v500_2_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/Databricks"
   })
 }
 
@@ -39,7 +40,8 @@ benchmark "cis_v500_2_1" {
   ]
 
   tags = merge(local.cis_v500_2_1_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/Databricks"
   })
 }
 
@@ -53,6 +55,7 @@ control "cis_v500_2_1_1" {
     cis_item_id = "2.1.1"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -66,6 +69,7 @@ control "cis_v500_2_1_2" {
     cis_item_id = "2.1.2"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -79,6 +83,7 @@ control "cis_v500_2_1_3" {
     cis_item_id = "2.1.3"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -92,6 +97,7 @@ control "cis_v500_2_1_4" {
     cis_item_id = "2.1.4"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -105,6 +111,7 @@ control "cis_v500_2_1_5" {
     cis_item_id = "2.1.5"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -118,6 +125,7 @@ control "cis_v500_2_1_6" {
     cis_item_id = "2.1.6"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -131,6 +139,7 @@ control "cis_v500_2_1_7" {
     cis_item_id = "2.1.7"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -144,6 +153,7 @@ control "cis_v500_2_1_8" {
     cis_item_id = "2.1.8"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -157,6 +167,7 @@ control "cis_v500_2_1_9" {
     cis_item_id = "2.1.9"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -170,6 +181,7 @@ control "cis_v500_2_1_10" {
     cis_item_id = "2.1.10"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/Databricks"
   })
 }
 
@@ -183,6 +195,7 @@ control "cis_v500_2_1_11" {
     cis_item_id = "2.1.11"
     cis_level   = "2"
     cis_type    = "automated"
+    service     = "Azure/Databricks"
   })
 }
 

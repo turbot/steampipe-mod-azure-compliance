@@ -132,7 +132,7 @@ control "cis_v140_1_7" {
     cis_item_id = "1.7"
     cis_level   = "1"
     cis_type    = "manual"
-    service     = "Azure/ActiveDirectoryM"
+    service     = "Azure/ActiveDirectory"
   })
 }
 

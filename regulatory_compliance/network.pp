@@ -674,16 +674,14 @@ query "application_gateway_waf_enabled" {
     select
       ag.id resource,
       case
-        when ag.firewall_policy is not null and lower(p.policy_settings ->> 'state') = 'disabled' then 'alarm'
-        when ag.firewall_policy is not null then 'ok'
-        when ag.web_application_firewall_configuration is not null then 'ok'
-        else 'alarm'
+        when ag.firewall_policy is null and not coalesce((ag.web_application_firewall_configuration ->> 'enabled')::boolean, false) then 'alarm'
+        when lower(p.policy_settings ->> 'state') = 'disabled' then 'alarm'
+        else 'ok'
       end as status,
       case
-        when ag.firewall_policy is not null and lower(p.policy_settings ->> 'state') = 'disabled' then ag.name || ' WAF policy disabled.'
-        when ag.firewall_policy is not null then ag.name || ' WAF enabled.'
-        when ag.web_application_firewall_configuration is not null then ag.name || ' WAF enabled.'
-        else ag.name || ' WAF disabled.'
+        when ag.firewall_policy is null and not coalesce((ag.web_application_firewall_configuration ->> 'enabled')::boolean, false) then ag.name || ' WAF disabled.'
+        when lower(p.policy_settings ->> 'state') = 'disabled' then ag.name || ' WAF policy disabled.'
+        else ag.name || ' WAF enabled.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
@@ -2251,11 +2249,12 @@ query "application_gateway_waf_uses_specified_mode" {
     select
       ag.id as resource,
       case
-        when (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') in ('Prevention','Detection') then 'ok'
+        when coalesce(p.policy_settings ->> 'mode', ag.web_application_firewall_configuration ->> 'firewallMode') in ('Prevention', 'Detection') then 'ok'
         else 'alarm'
       end as status,
       case
-        when (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') in ('Prevention','Detection') then ag.name || ' WAF mode is set to ' || (web_application_firewall_configuration::json -> 'PolicySettings' ->> 'mode') || '.'
+        when coalesce(p.policy_settings ->> 'mode', ag.web_application_firewall_configuration ->> 'firewallMode') in ('Prevention', 'Detection') then ag.name || ' WAF mode is set to ' || coalesce(p.policy_settings ->> 'mode', ag.web_application_firewall_configuration ->> 'firewallMode') || '.'
+        when ag.firewall_policy is not null and p.id is null then ag.name || ' WAF policy not found.'
         else ag.name || ' WAF mode is not set to Prevention or Detection mode.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "ag.")}
@@ -2263,6 +2262,7 @@ query "application_gateway_waf_uses_specified_mode" {
       ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
     from
       azure_application_gateway as ag
+      left join azure_web_application_firewall_policy as p on lower(p.id) = lower(ag.firewall_policy ->> 'id')
       left join azure_subscription as sub on sub.subscription_id = ag.subscription_id;
   EOQ
 }

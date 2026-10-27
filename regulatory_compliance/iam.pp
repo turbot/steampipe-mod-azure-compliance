@@ -122,6 +122,36 @@ control "iam_external_user_with_write_permission" {
   })
 }
 
+control "iam_disabled_user_with_write_permission" {
+  title       = "Disabled accounts with write permissions on Azure resources should be removed"
+  description = "Disabled accounts with write privileges should be removed from your subscription in order to prevent unmonitored access."
+  query       = query.iam_disabled_user_with_write_permission
+
+  tags = merge(local.regulatory_compliance_iam_common_tags, {
+    fedramp_high          = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
+    pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
+  })
+}
+
+control "iam_disabled_user_with_owner_permission" {
+  title       = "Disabled accounts with owner permissions on Azure resources should be removed"
+  description = "Disabled accounts with owner privileges should be removed from your subscription in order to prevent unmonitored access."
+  query       = query.iam_disabled_user_with_owner_permission
+
+  tags = merge(local.regulatory_compliance_iam_common_tags, {
+    fedramp_high          = "true"
+    hipaa_hitrust_v92     = "true"
+    nist_sp_800_171_rev_2 = "true"
+    nist_sp_800_53_rev_5  = "true"
+    pci_dss_v321          = "true"
+    rbi_itf_nbfc_v2017    = "true"
+  })
+}
+
 control "iam_user_with_write_permission_on_subscription_mfa_enabled" {
   title       = "Accounts with write permissions on Azure resources should be MFA enabled"
   description = "Multi-Factor Authentication (MFA) should be enabled for all subscription accounts with write privileges to prevent a breach of accounts or resources."
@@ -507,7 +537,7 @@ query "iam_deprecated_account" {
 
 query "iam_external_user_with_read_permission" {
   sql = <<-EOQ
-    with all_write_permission_users as (
+    with all_read_permission_users as (
       select
         distinct
         u.display_name,
@@ -542,7 +572,7 @@ query "iam_external_user_with_read_permission" {
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
     from
       distinct_tenant as t,
-      all_write_permission_users as a;
+      all_read_permission_users as a;
   EOQ
 }
 
@@ -579,6 +609,90 @@ query "iam_external_user_with_write_permission" {
       case
         when a.user_principal_name like '%EXT%' then a.display_name || ' is external user with ' || a.role_name || ' role.'
         else a.display_name || ' is domain user with ' || a.role_name || ' role.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      distinct_tenant as t,
+      all_write_permission_users as a;
+  EOQ
+}
+
+query "iam_disabled_user_with_write_permission" {
+  sql = <<-EOQ
+    with all_write_permission_users as (
+      select
+        distinct
+        u.display_name,
+        d.role_name,
+        u.account_enabled,
+        u.user_principal_name,
+        d.subscription_id
+      from
+        azuread_user as u
+        left join azure_role_assignment as a on a.principal_id = u.id
+        left join azure_role_definition as d on d.id = a.role_definition_id
+      where
+        d.role_name = any(array['Owner', 'Contributor'])
+    ), distinct_tenant as (
+      select
+        distinct tenant_id,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
+    select
+      a.user_principal_name as resource,
+      case
+        when a.account_enabled = false then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when a.account_enabled = false then a.display_name || ' is disabled with ' || a.role_name || ' role.'
+        else a.display_name || ' is enabled domain user with ' || a.role_name || ' role.'
+      end as reason,
+      t.tenant_id
+      ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}
+    from
+      distinct_tenant as t,
+      all_write_permission_users as a;
+  EOQ
+}
+
+query "iam_disabled_user_with_owner_permission" {
+  sql = <<-EOQ
+    with all_write_permission_users as (
+      select
+        distinct
+        u.display_name,
+        d.role_name,
+        u.account_enabled,
+        u.user_principal_name,
+        d.subscription_id
+      from
+        azuread_user as u
+        left join azure_role_assignment as a on a.principal_id = u.id
+        left join azure_role_definition as d on d.id = a.role_definition_id
+      where
+        d.role_name = 'Owner'
+    ), distinct_tenant as (
+      select
+        distinct tenant_id,
+        subscription_id,
+        _ctx
+      from
+        azure_tenant
+    )
+    select
+      a.user_principal_name as resource,
+      case
+        when a.account_enabled = false then 'alarm'
+        else 'ok'
+      end as status,
+      case
+        when a.account_enabled = false then a.display_name || ' is disabled with ' || a.role_name || ' role.'
+        else a.display_name || ' is enabled domain user with ' || a.role_name || ' role.'
       end as reason,
       t.tenant_id
       ${replace(local.common_dimensions_subscription_id_qualifier_sql, "__QUALIFIER__", "t.")}

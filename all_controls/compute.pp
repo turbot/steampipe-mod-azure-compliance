@@ -26,6 +26,7 @@ benchmark "all_controls_compute" {
     control.compute_vm_guest_configuration_installed_linux,
     control.compute_vm_guest_configuration_installed_windows,
     control.compute_vm_guest_configuration_with_no_managed_identity,
+    control.compute_vm_guest_configuration_with_azure_baseline_system_audit_policies_account_management,
     control.compute_vm_guest_configuration_with_system_assigned_managed_identity,
     control.compute_vm_guest_configuration_with_user_and_system_assigned_managed_identity,
     control.compute_vm_jit_access_protected,

@@ -740,6 +740,16 @@ control "compute_vm_guest_configuration_with_no_managed_identity" {
   })
 }
 
+control "compute_vm_guest_configuration_with_azure_baseline_system_audit_policies_account_management" {
+  title       = "Windows machines should meet requirements for 'System Audit Policies - Account Management'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'System Audit Policies - Account Management' for auditing application, security, and user group management, and other management events. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope. For details, visit https://aka.ms/gcpol."
+  query       = query.compute_vm_guest_configuration_with_azure_baseline_system_audit_policies_account_management
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    pci_dss_v401          = "true"
+  })
+}
+
 control "compute_vm_meet_security_options_requirement_windows" {
   title       = "Windows machines should meet requirements for 'Security Options - Recovery console'"
   description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Recovery console' for allowing floppy copy and access to all drives and folders. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope."
@@ -764,6 +774,16 @@ control "compute_vm_scale_set_system_updates_installed" {
 control "compute_vm_meet_security_options_network_access_requirement_windows" {
   title       = "Windows machines should meet requirements for 'Security Options - Network Access'"
   description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Network Access' for including access for anonymous users, local accounts, and remote access to the registry. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope. For details, visit https://aka.ms/gcpol."
+  query       = query.manual_control
+
+  tags = merge(local.regulatory_compliance_compute_common_tags, {
+    hipaa_hitrust_v92 = "true"
+  })
+}
+
+control "compute_vm_meet_security_options_network_security_requirement_windows" {
+  title       = "Windows machines should meet requirements for 'Security Options - Network Security'"
+  description = "Windows machines should have the specified Group Policy settings in the category 'Security Options - Network Security' for including Local System behavior, PKU2U, LAN Manager, LDAP client, and NTLM SSP. This policy requires that the Guest Configuration prerequisites have been deployed to the policy assignment scope. For details, visit https://aka.ms/gcpol."
   query       = query.manual_control
 
   tags = merge(local.regulatory_compliance_compute_common_tags, {
@@ -907,6 +927,14 @@ control "compute_disk_data_access_auth_mode_enabled" {
   title       = "Ensure that 'Enable Data Access Authentication Mode' is 'Checked'"
   description = "Data Access Authentication Mode provides a method of uploading or exporting Virtual Machine Disks."
   query       = query.compute_disk_data_access_auth_mode_enabled
+
+  tags = local.regulatory_compliance_compute_common_tags
+}
+
+control "compute_vm_configured_securely_mdvm" {
+  title       = "Machines should be configured securely (powered by MDVM)"
+  description = "Machines should be configured securely (powered by MDVM)"
+  query       = query.unimplemented_control
 
   tags = local.regulatory_compliance_compute_common_tags
 }
@@ -1085,7 +1113,7 @@ query "compute_vm_remote_access_restricted_all_ports" {
       where
         sg -> 'properties' ->> 'access' = 'Allow'
         and sg -> 'properties' ->> 'direction' = 'Inbound'
-        and sg -> 'properties' ->> 'protocol' in ('TCP','*')
+        and sg -> 'properties' ->> 'protocol' in ('TCP', '*')
         and sip in ('*', '0.0.0.0', '0.0.0.0/0', 'Internet', '<nw>/0', '/0')
     )
     select
@@ -1344,6 +1372,12 @@ query "compute_vm_malware_agent_installed" {
       where
         b ->> 'Publisher' = 'Microsoft.Azure.Security'
         and b ->> 'ExtensionType' = 'IaaSAntimalware'
+    ),
+    azure_compute_virtual_machine as materialized (
+      select
+        *
+      from
+        azure_compute_virtual_machine
     )
     select
       a.vm_id as resource,
@@ -1448,6 +1482,12 @@ query "compute_vm_malware_agent_automatic_upgrade_enabled" {
         b ->> 'Publisher' = 'Microsoft.Azure.Security'
         and b ->> 'ExtensionType' = 'IaaSAntimalware'
         and b ->> 'AutoUpgradeMinorVersion' = 'true'
+    ),
+    azure_compute_virtual_machine as materialized (
+      select
+        *
+      from
+        azure_compute_virtual_machine
     )
     select
       a.vm_id as resource,
@@ -1723,7 +1763,7 @@ query "compute_vm_passwords_stored_using_reversible_encryption_windows" {
         azure_compute_virtual_machine as a,
         jsonb_array_elements(guest_configuration_assignments) as b
       where
-        b -> 'guestConfiguration' ->> 'name'= 'StorePasswordsUsingReversibleEncryption'
+        b -> 'guestConfiguration' ->> 'name' = 'StorePasswordsUsingReversibleEncryption'
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
@@ -1735,8 +1775,8 @@ query "compute_vm_passwords_stored_using_reversible_encryption_windows" {
       end as status,
       case
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
-        when b.vm_id is not null then a.title || ' store passwords using reversible encryption.'
-        else a.title || ' not store passwords using reversible encryption'
+        when b.vm_id is not null then a.title || ' stores passwords using reversible encryption.'
+        else a.title || ' does not store passwords using reversible encryption.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -1759,7 +1799,7 @@ query "compute_vm_account_with_password_linux" {
         azure_compute_virtual_machine as a,
         jsonb_array_elements(guest_configuration_assignments) as b
       where
-        b -> 'guestConfiguration' ->> 'name'= 'PasswordPolicy_msid232'
+        b -> 'guestConfiguration' ->> 'name' = 'PasswordPolicy_msid232'
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
@@ -1795,7 +1835,7 @@ query "compute_vm_ssh_key_authentication_linux" {
         azure_compute_virtual_machine as a,
         jsonb_array_elements(guest_configuration_assignments) as b
       where
-        b -> 'guestConfiguration' ->> 'name'= 'LinuxNoPasswordForSSH'
+        b -> 'guestConfiguration' ->> 'name' = 'LinuxNoPasswordForSSH'
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
@@ -1835,6 +1875,13 @@ query "compute_vm_guest_configuration_installed_linux" {
         and b ->> 'ProvisioningState' = 'Succeeded'
         and b ->> 'ExtensionType' = 'ConfigurationforLinux'
         and b ->> 'Name' like '%AzurePolicyforLinux'
+    ),
+    azure_compute_virtual_machine as materialized (
+      select
+        *
+      from
+        azure_compute_virtual_machine
+      where os_type = 'Linux'
     )
     select
       a.vm_id as resource,
@@ -1871,6 +1918,12 @@ query "compute_vm_guest_configuration_installed" {
       where
         b ->> 'Publisher' = 'Microsoft.GuestConfiguration'
         and b ->> 'ProvisioningState' = 'Succeeded'
+    ),
+    azure_compute_virtual_machine as materialized (
+      select
+        *
+      from
+        azure_compute_virtual_machine
     )
     select
       a.vm_id as resource,
@@ -1980,7 +2033,7 @@ query "compute_vm_restrict_previous_24_passwords_resuse_windows" {
         azure_compute_virtual_machine as a,
         jsonb_array_elements(guest_configuration_assignments) as b
       where
-        b -> 'guestConfiguration' ->> 'name'= 'EnforcePasswordHistory'
+        b -> 'guestConfiguration' ->> 'name' = 'EnforcePasswordHistory'
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
@@ -1993,7 +2046,7 @@ query "compute_vm_restrict_previous_24_passwords_resuse_windows" {
       case
         when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
         when b.vm_id is not null then a.title || ' enforce password history.'
-        else a.title || ' doest not enforce password history.'
+        else a.title || ' does not enforce password history.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -2016,7 +2069,7 @@ query "compute_vm_max_password_age_70_days_windows" {
         azure_compute_virtual_machine as a,
         jsonb_array_elements(guest_configuration_assignments) as b
       where
-        b -> 'guestConfiguration' ->> 'name'= 'MaximumPasswordAge'
+        b -> 'guestConfiguration' ->> 'name' = 'MaximumPasswordAge'
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
@@ -2052,7 +2105,7 @@ query "compute_vm_min_password_age_1_day_windows" {
         azure_compute_virtual_machine as a,
         jsonb_array_elements(guest_configuration_assignments) as b
       where
-        b -> 'guestConfiguration' ->> 'name'= 'MinimumPasswordAge'
+        b -> 'guestConfiguration' ->> 'name' = 'MinimumPasswordAge'
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
@@ -2088,8 +2141,14 @@ query "compute_vm_password_complexity_setting_enabled_windows" {
         azure_compute_virtual_machine as a,
         jsonb_array_elements(guest_configuration_assignments) as b
       where
-        b -> 'guestConfiguration' ->> 'name'= 'PasswordMustMeetComplexityRequirements'
+        b -> 'guestConfiguration' ->> 'name' = 'PasswordMustMeetComplexityRequirements'
         and b ->> 'complianceStatus' = 'Compliant'
+    ),
+    azure_compute_virtual_machine as materialized (
+      select
+        *
+      from
+        azure_compute_virtual_machine
     )
     select
       a.vm_id as resource,
@@ -2124,7 +2183,7 @@ query "compute_vm_min_password_length_14_windows" {
         azure_compute_virtual_machine as a,
         jsonb_array_elements(guest_configuration_assignments) as b
       where
-        b -> 'guestConfiguration' ->> 'name'= 'MinimumPasswordLength'
+        b -> 'guestConfiguration' ->> 'name' = 'MinimumPasswordLength'
         and b ->> 'complianceStatus' = 'Compliant'
     )
     select
@@ -2518,6 +2577,78 @@ query "compute_vm_guest_configuration_with_no_managed_identity" {
   EOQ
 }
 
+query "compute_vm_guest_configuration_with_azure_baseline_system_audit_policies_account_management" {
+  sql = <<-EOQ
+    with vm_azure_baseline as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name' = 'AzureBaseline_SystemAuditPoliciesAccountManagement'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      a.vm_id as resource,
+      case
+        when a.os_type <> 'Windows' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type <> 'Windows' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' has AzureBaseline_SystemAuditPoliciesAccountManagement.'
+        else a.title || ' does not have AzureBaseline_SystemAuditPoliciesAccountManagement.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine as a
+      left join vm_azure_baseline as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "audit_linux_machines_passwd_file_permissions_0644" {
+  sql = <<-EOQ
+    with vm_file_permissions as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(guest_configuration_assignments) as b
+      where
+        b -> 'guestConfiguration' ->> 'name' = 'PasswordPolicy_msid121'
+        and b ->> 'complianceStatus' = 'Compliant'
+    )
+    select
+      a.vm_id as resource,
+      case
+        when a.os_type not ilike 'linux%' then 'skip'
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when a.os_type not ilike 'linux%' then a.title || ' is of ' || a.os_type || ' operating system.'
+        when b.vm_id is not null then a.title || ' has PasswordPolicy_msid121.'
+        else a.title || ' does not have PasswordPolicy_msid121.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine as a
+      left join vm_file_permissions as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
 # Non-Config rule query
 
 query "compute_vm_remote_access_restricted" {
@@ -2762,12 +2893,12 @@ query "compute_windows_vm_secure_boot_enabled" {
         a.id as resource,
         case
           when image_offer not like '%Windows%' or os_type not like 'Windows%' then 'skip'
-          when security_profile ->> 'securityType' in ('TrustedLaunch','ConfidentialVM') and security_profile ->> 'uefiSettings' is not null and security_profile -> 'uefiSettings' ->> 'secureBootEnabled' = 'true' then 'ok'
+          when security_profile ->> 'securityType' in ('TrustedLaunch', 'ConfidentialVM') and security_profile ->> 'uefiSettings' is not null and security_profile -> 'uefiSettings' ->> 'secureBootEnabled' = 'true' then 'ok'
           else 'alarm'
         end as status,
         case
           when image_offer not like '%Windows%' or os_type not like 'Windows%' then a.title || ' is not a windows VM.'
-          when security_profile ->> 'securityType' in ('TrustedLaunch','ConfidentialVM') and security_profile ->> 'uefiSettings' is not null and security_profile -> 'uefiSettings' ->> 'secureBootEnabled' = 'true' then a.title || ' secure boot enabled.'
+          when security_profile ->> 'securityType' in ('TrustedLaunch', 'ConfidentialVM') and security_profile ->> 'uefiSettings' is not null and security_profile -> 'uefiSettings' ->> 'secureBootEnabled' = 'true' then a.title || ' secure boot enabled.'
           else a.title || ' secure boot disabled.'
         end as reason
         ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
@@ -2784,11 +2915,11 @@ query "compute_disk_public_access_disabled" {
     select
       disk.id as resource,
       case
-        when network_access_policy in ('DenyAll','AllowPrivate') and public_network_access = 'Disabled' then 'ok'
+        when network_access_policy in ('DenyAll', 'AllowPrivate') and public_network_access = 'Disabled' then 'ok'
         else 'alarm'
       end as status,
       case
-        when network_access_policy in ('DenyAll','AllowPrivate') and public_network_access = 'Disabled' then disk.name || ' network access disabled.'
+        when network_access_policy in ('DenyAll', 'AllowPrivate') and public_network_access = 'Disabled' then disk.name || ' network access disabled.'
         else disk.name || ' network access enabled.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "disk.")}
@@ -2846,3 +2977,89 @@ query "compute_vm_trust_launch_enabled" {
   EOQ
 }
 
+query "audit_vms_that_do_not_use_managed_disks" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when virtual_machine_storage_profile -> 'osDisk' -> 'osType' -> 'vhdContainers' != null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when virtual_machine_storage_profile -> 'osDisk' -> 'osType' -> 'vhdContainers' != null then a.title || ' utilising managed disks.'
+        else a.title || ' not utilising managed disks.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine_scale_set as a
+      left join azure_subscription as sub on sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "dependency_agent_should_be_enabled_for_listed_virtual_machine_images" {
+  sql = <<-EOQ
+    with dependency_agent_installed as (
+      select
+        distinct a.vm_id
+      from
+        azure_compute_virtual_machine as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.Azure.Monitoring.DependencyAgent'
+    )
+    select
+      a.vm_id as resource,
+      case
+        when b.vm_id is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.vm_id is not null then a.title || ' has dependency agent installed.'
+        else a.title || ' does not have dependency agent installed.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine as a
+      left join dependency_agent_installed as b on a.vm_id = b.vm_id,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}
+
+query "dependency_agent_should_be_enabled_in_virtual_machine_scale_sets_for_listed_virtual_machine_images" {
+  sql = <<-EOQ
+    with dependency_agent_installed as (
+      select
+        distinct a.name
+      from
+        azure_compute_virtual_machine_scale_set as a,
+        jsonb_array_elements(extensions) as b
+      where
+        b ->> 'Publisher' = 'Microsoft.Azure.Monitoring.DependencyAgent'
+    )
+    select
+      a.name as resource,
+      case
+        when b.name is not null then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when b.name is not null then a.title || ' has dependency agent installed.'
+        else a.title || ' does not have dependency agent installed.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_compute_virtual_machine_scale_set as a
+      left join dependency_agent_installed as b on a.name = b.name,
+      azure_subscription as sub
+    where
+      sub.subscription_id = a.subscription_id;
+  EOQ
+}

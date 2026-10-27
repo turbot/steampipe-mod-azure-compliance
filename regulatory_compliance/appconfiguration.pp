@@ -32,6 +32,14 @@ control "app_configuration_encryption_enabled" {
   tags = local.regulatory_compliance_appconfiguration_common_tags
 }
 
+control "app_configuration_should_disable_public_network_access" {
+  title       = "App Configuration should disable public network access"
+  description = "Disable public network access to ensure App Configuration instances are reachable only through private endpoints such as Azure Private Link. This limits exposure to the public internet and reduces the risk of credential brute-force attacks."
+  query       = query.app_configuration_should_disable_public_network_access
+
+  tags = local.regulatory_compliance_appconfiguration_common_tags
+}
+
 query "app_configuration_private_link_used" {
   sql = <<-EOQ
     select
@@ -89,6 +97,27 @@ query "app_configuration_encryption_enabled" {
       case
         when encryption -> 'keyVaultProperties' ->> 'keyIdentifier' is not null then a.name ||  'encryption enabled.'
         else a.name || ' encryption disabled.'
+      end as reason
+      ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
+      ${replace(local.common_dimensions_qualifier_subscription_sql, "__QUALIFIER__", "sub.")}
+    from
+      azure_app_configuration a
+      left join azure_subscription sub on a.subscription_id = sub.subscription_id;
+  EOQ
+}
+
+query "app_configuration_should_disable_public_network_access" {
+  sql = <<-EOQ
+    select
+      a.id as resource,
+      case
+        when public_network_access = 'Disabled' then 'ok'
+        else 'alarm'
+      end as status,
+      case
+        when public_network_access = 'Disabled' then a.name || ' has public network access disabled.'
+        else a.name || ' has public network access enabled.'
       end as reason
       ${replace(local.tag_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}
       ${replace(local.common_dimensions_qualifier_sql, "__QUALIFIER__", "a.")}

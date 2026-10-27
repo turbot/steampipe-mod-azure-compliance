@@ -18,7 +18,8 @@ benchmark "cis_v500_3" {
   ]
 
   tags = merge(local.cis_v500_3_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/Compute"
   })
 }
 
@@ -30,7 +31,8 @@ benchmark "cis_v500_3_1" {
   ]
 
   tags = merge(local.cis_v500_3_1_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/Compute"
   })
 }
 
@@ -44,6 +46,7 @@ control "cis_v500_3_1_1" {
     cis_item_id = "3.1.1"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/Compute"
   })
 }
 

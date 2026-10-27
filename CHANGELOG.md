@@ -1,3 +1,15 @@
+## v2.5.3 [2026-10-26]
+
+_Bug fixes_
+
+- Added missing `service` tags to the `CIS v5.0.0` Analytics Services (section 2), Compute Services (section 3), and Management and Governance Services (section 6) benchmarks and controls.
+- Fixed the `application_gateway_min_tls_1_2` query to pass Application Gateways that use a predefined SSL policy with a minimum TLS version of 1.2 (`AppGwSslPolicy20170401S`, `AppGwSslPolicy20220101` or `AppGwSslPolicy20220101S`), removing false positives in the `CIS v5.0.0` 7.12 control. ([#376](https://github.com/turbot/steampipe-mod-azure-compliance/pull/376)) (Thanks [@blacksoxx](https://github.com/blacksoxx) for the contribution!)
+- Fixed the `application_gateway_waf_enabled` query to alarm for Application Gateways whose legacy WAF configuration is disabled.
+- Fixed the `application_gateway_waf_enabled` query to pass Application Gateways that use an attached WAF policy, removing false positives in the `CIS v5.0.0` 7.10 control. Gateways whose attached WAF policy is disabled now alarm. ([#378](https://github.com/turbot/steampipe-mod-azure-compliance/pull/378)) (Thanks [@cristianchiriac](https://github.com/cristianchiriac) for the contribution!)
+- Fixed the `application_gateway_waf_uses_specified_mode` query, which alarmed for every Application Gateway because it read a WAF mode key that doesn't exist. The query now checks the mode of the attached WAF policy, or of the legacy WAF configuration.
+- Fixed the `service` tag on the `CIS v1.3.0` 1.7 and `CIS v1.4.0` 1.7 controls from `Azure/ActiveDirectoryM` to `Azure/ActiveDirectory`.
+- Fixed the `service` tag on the `CIS v5.0.0` Identity Services (section 5) benchmarks and controls to `Azure/ActiveDirectory`. ([#377](https://github.com/turbot/steampipe-mod-azure-compliance/pull/377)) (Thanks [@blacksoxx](https://github.com/blacksoxx) for the contribution!)
+
 ## v2.5.2 [2026-05-28]
 
 _Bug fixes_

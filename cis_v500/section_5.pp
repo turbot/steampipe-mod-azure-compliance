@@ -51,7 +51,8 @@ benchmark "cis_v500_5" {
   ]
 
   tags = merge(local.cis_v500_5_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -65,7 +66,8 @@ benchmark "cis_v500_5_1" {
   ]
 
   tags = merge(local.cis_v500_5_1_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -79,6 +81,7 @@ control "cis_v500_5_1_1" {
     cis_item_id = "5.1.1"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -92,6 +95,7 @@ control "cis_v500_5_1_2" {
     cis_item_id = "5.1.2"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -105,6 +109,7 @@ control "cis_v500_5_1_3" {
     cis_item_id = "5.1.3"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -124,7 +129,8 @@ benchmark "cis_v500_5_2" {
   ]
 
   tags = merge(local.cis_v500_5_2_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -138,6 +144,7 @@ control "cis_v500_5_2_1" {
     cis_item_id = "5.2.1"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -151,6 +158,7 @@ control "cis_v500_5_2_2" {
     cis_item_id = "5.2.2"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -164,6 +172,7 @@ control "cis_v500_5_2_3" {
     cis_item_id = "5.2.3"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -177,6 +186,7 @@ control "cis_v500_5_2_4" {
     cis_item_id = "5.2.4"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -190,6 +200,7 @@ control "cis_v500_5_2_5" {
     cis_item_id = "5.2.5"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -203,6 +214,7 @@ control "cis_v500_5_2_6" {
     cis_item_id = "5.2.6"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -216,6 +228,7 @@ control "cis_v500_5_2_7" {
     cis_item_id = "5.2.7"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -229,6 +242,7 @@ control "cis_v500_5_2_8" {
     cis_item_id = "5.2.8"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -246,7 +260,8 @@ benchmark "cis_v500_5_3" {
   ]
 
   tags = merge(local.cis_v500_5_3_common_tags, {
-    type = "Benchmark"
+    type    = "Benchmark"
+    service = "Azure/ActiveDirectory"
   })
 }
 
@@ -260,6 +275,7 @@ control "cis_v500_5_3_1" {
     cis_item_id = "5.3.1"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -273,6 +289,7 @@ control "cis_v500_5_3_2" {
     cis_item_id = "5.3.2"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -286,6 +303,7 @@ control "cis_v500_5_3_3" {
     cis_item_id = "5.3.3"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -299,6 +317,7 @@ control "cis_v500_5_3_4" {
     cis_item_id = "5.3.4"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -312,6 +331,7 @@ control "cis_v500_5_3_5" {
     cis_item_id = "5.3.5"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -325,6 +345,7 @@ control "cis_v500_5_3_6" {
     cis_item_id = "5.3.6"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -338,6 +359,7 @@ control "cis_v500_5_3_7" {
     cis_item_id = "5.3.7"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -351,6 +373,7 @@ control "cis_v500_5_4" {
     cis_item_id = "5.4"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -364,6 +387,7 @@ control "cis_v500_5_5" {
     cis_item_id = "5.5"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -377,6 +401,7 @@ control "cis_v500_5_6" {
     cis_item_id = "5.6"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -390,6 +415,7 @@ control "cis_v500_5_7" {
     cis_item_id = "5.7"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -403,6 +429,7 @@ control "cis_v500_5_8" {
     cis_item_id = "5.8"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -416,6 +443,7 @@ control "cis_v500_5_9" {
     cis_item_id = "5.9"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -429,6 +457,7 @@ control "cis_v500_5_10" {
     cis_item_id = "5.10"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -442,6 +471,7 @@ control "cis_v500_5_11" {
     cis_item_id = "5.11"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -455,6 +485,7 @@ control "cis_v500_5_12" {
     cis_item_id = "5.12"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -468,6 +499,7 @@ control "cis_v500_5_13" {
     cis_item_id = "5.13"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -481,6 +513,7 @@ control "cis_v500_5_14" {
     cis_item_id = "5.14"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -494,6 +527,7 @@ control "cis_v500_5_15" {
     cis_item_id = "5.15"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -507,6 +541,7 @@ control "cis_v500_5_16" {
     cis_item_id = "5.16"
     cis_level   = "2"
     cis_type    = "automated"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -520,6 +555,7 @@ control "cis_v500_5_17" {
     cis_item_id = "5.17"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -533,6 +569,7 @@ control "cis_v500_5_18" {
     cis_item_id = "5.18"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -546,6 +583,7 @@ control "cis_v500_5_19" {
     cis_item_id = "5.19"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -559,6 +597,7 @@ control "cis_v500_5_20" {
     cis_item_id = "5.20"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -572,6 +611,7 @@ control "cis_v500_5_21" {
     cis_item_id = "5.21"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -585,6 +625,7 @@ control "cis_v500_5_22" {
     cis_item_id = "5.22"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -598,6 +639,7 @@ control "cis_v500_5_23" {
     cis_item_id = "5.23"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -611,6 +653,7 @@ control "cis_v500_5_24" {
     cis_item_id = "5.24"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -624,6 +667,7 @@ control "cis_v500_5_25" {
     cis_item_id = "5.25"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -637,6 +681,7 @@ control "cis_v500_5_26" {
     cis_item_id = "5.26"
     cis_level   = "1"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -650,6 +695,7 @@ control "cis_v500_5_27" {
     cis_item_id = "5.27"
     cis_level   = "1"
     cis_type    = "automated"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
@@ -663,6 +709,7 @@ control "cis_v500_5_28" {
     cis_item_id = "5.28"
     cis_level   = "2"
     cis_type    = "manual"
+    service     = "Azure/ActiveDirectory"
   })
 }
 
